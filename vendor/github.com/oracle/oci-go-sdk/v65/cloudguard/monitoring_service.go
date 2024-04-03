@@ -19,15 +19,15 @@ type MonitoringServiceEnum string
 
 // Set of constants representing the allowable values for MonitoringServiceEnum
 const (
-	MonitoringServiceWorkloadProtection MonitoringServiceEnum = "WORKLOAD_PROTECTION"
+	MonitoringServiceInstanceSecurity MonitoringServiceEnum = "INSTANCE_SECURITY"
 )
 
 var mappingMonitoringServiceEnum = map[string]MonitoringServiceEnum{
-	"WORKLOAD_PROTECTION": MonitoringServiceWorkloadProtection,
+	"INSTANCE_SECURITY": MonitoringServiceInstanceSecurity,
 }
 
 var mappingMonitoringServiceEnumLowerCase = map[string]MonitoringServiceEnum{
-	"workload_protection": MonitoringServiceWorkloadProtection,
+	"instance_security": MonitoringServiceInstanceSecurity,
 }
 
 // GetMonitoringServiceEnumValues Enumerates the set of values for MonitoringServiceEnum
@@ -42,7 +42,7 @@ func GetMonitoringServiceEnumValues() []MonitoringServiceEnum {
 // GetMonitoringServiceEnumStringValues Enumerates the set of values in String for MonitoringServiceEnum
 func GetMonitoringServiceEnumStringValues() []string {
 	return []string{
-		"WORKLOAD_PROTECTION",
+		"INSTANCE_SECURITY",
 	}
 }
 

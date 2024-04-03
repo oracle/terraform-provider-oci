@@ -102,33 +102,33 @@ type GetConditionMetadataTypeConditionMetadataTypeIdEnum string
 
 // Set of constants representing the allowable values for GetConditionMetadataTypeConditionMetadataTypeIdEnum
 const (
-	GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition           GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ActivityCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition           GetConditionMetadataTypeConditionMetadataTypeIdEnum = "SecurityCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition         GetConditionMetadataTypeConditionMetadataTypeIdEnum = "CloudGuardCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "WorkloadProtectionCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition             GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ThreatCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition         GetConditionMetadataTypeConditionMetadataTypeIdEnum = "FaActivityCondition"
-	GetConditionMetadataTypeConditionMetadataTypeIdContainercondition          GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ContainerCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition         GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ActivityCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition         GetConditionMetadataTypeConditionMetadataTypeIdEnum = "SecurityCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition       GetConditionMetadataTypeConditionMetadataTypeIdEnum = "CloudGuardCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdInstancesecuritycondition GetConditionMetadataTypeConditionMetadataTypeIdEnum = "InstanceSecurityCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition           GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ThreatCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition       GetConditionMetadataTypeConditionMetadataTypeIdEnum = "FaActivityCondition"
+	GetConditionMetadataTypeConditionMetadataTypeIdContainercondition        GetConditionMetadataTypeConditionMetadataTypeIdEnum = "ContainerCondition"
 )
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnum = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
-	"ActivityCondition":           GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition,
-	"SecurityCondition":           GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
-	"CloudGuardCondition":         GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
-	"WorkloadProtectionCondition": GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition,
-	"ThreatCondition":             GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
-	"FaActivityCondition":         GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
-	"ContainerCondition":          GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
+	"ActivityCondition":         GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition,
+	"SecurityCondition":         GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
+	"CloudGuardCondition":       GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
+	"InstanceSecurityCondition": GetConditionMetadataTypeConditionMetadataTypeIdInstancesecuritycondition,
+	"ThreatCondition":           GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
+	"FaActivityCondition":       GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
+	"ContainerCondition":        GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
 }
 
 var mappingGetConditionMetadataTypeConditionMetadataTypeIdEnumLowerCase = map[string]GetConditionMetadataTypeConditionMetadataTypeIdEnum{
-	"activitycondition":           GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition,
-	"securitycondition":           GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
-	"cloudguardcondition":         GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
-	"workloadprotectioncondition": GetConditionMetadataTypeConditionMetadataTypeIdWorkloadprotectioncondition,
-	"threatcondition":             GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
-	"faactivitycondition":         GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
-	"containercondition":          GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
+	"activitycondition":         GetConditionMetadataTypeConditionMetadataTypeIdActivitycondition,
+	"securitycondition":         GetConditionMetadataTypeConditionMetadataTypeIdSecuritycondition,
+	"cloudguardcondition":       GetConditionMetadataTypeConditionMetadataTypeIdCloudguardcondition,
+	"instancesecuritycondition": GetConditionMetadataTypeConditionMetadataTypeIdInstancesecuritycondition,
+	"threatcondition":           GetConditionMetadataTypeConditionMetadataTypeIdThreatcondition,
+	"faactivitycondition":       GetConditionMetadataTypeConditionMetadataTypeIdFaactivitycondition,
+	"containercondition":        GetConditionMetadataTypeConditionMetadataTypeIdContainercondition,
 }
 
 // GetGetConditionMetadataTypeConditionMetadataTypeIdEnumValues Enumerates the set of values for GetConditionMetadataTypeConditionMetadataTypeIdEnum
@@ -146,7 +146,7 @@ func GetGetConditionMetadataTypeConditionMetadataTypeIdEnumStringValues() []stri
 		"ActivityCondition",
 		"SecurityCondition",
 		"CloudGuardCondition",
-		"WorkloadProtectionCondition",
+		"InstanceSecurityCondition",
 		"ThreatCondition",
 		"FaActivityCondition",
 		"ContainerCondition",

@@ -43,6 +43,10 @@ type CreateRemotePeeringConnectionDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Indicates if the request is for global drg.
+	// If set to true, RPC created will be service RPC for global drg and will not be exposed to customers
+	IsServiceRpc *bool `mandatory:"false" json:"isServiceRpc"`
 }
 
 func (m CreateRemotePeeringConnectionDetails) String() string {

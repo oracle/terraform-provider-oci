@@ -140,6 +140,7 @@ const (
 	WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights           WorkRequestSummaryOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
 	WorkRequestSummaryOperationTypePurgeSqlCollectionLogs                    WorkRequestSummaryOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
 	WorkRequestSummaryOperationTypeRefreshViolations                         WorkRequestSummaryOperationTypeEnum = "REFRESH_VIOLATIONS"
+	WorkRequestSummaryOperationTypeCreateArchival                            WorkRequestSummaryOperationTypeEnum = "CREATE_ARCHIVAL"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicy                      WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY"
 	WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment           WorkRequestSummaryOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
 	WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment            WorkRequestSummaryOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
@@ -281,6 +282,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"PURGE_SQL_COLLECTION_LOGS":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
 	"REFRESH_VIOLATIONS":                            WorkRequestSummaryOperationTypeRefreshViolations,
+	"CREATE_ARCHIVAL":                               WorkRequestSummaryOperationTypeCreateArchival,
 	"UPDATE_SECURITY_POLICY":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"CHANGE_SECURITY_POLICY_COMPARTMENT":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"UPDATE_SECURITY_POLICY_DEPLOYMENT":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -422,6 +424,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"refresh_sql_collection_log_insights":           WorkRequestSummaryOperationTypeRefreshSqlCollectionLogInsights,
 	"purge_sql_collection_logs":                     WorkRequestSummaryOperationTypePurgeSqlCollectionLogs,
 	"refresh_violations":                            WorkRequestSummaryOperationTypeRefreshViolations,
+	"create_archival":                               WorkRequestSummaryOperationTypeCreateArchival,
 	"update_security_policy":                        WorkRequestSummaryOperationTypeUpdateSecurityPolicy,
 	"change_security_policy_compartment":            WorkRequestSummaryOperationTypeChangeSecurityPolicyCompartment,
 	"update_security_policy_deployment":             WorkRequestSummaryOperationTypeUpdateSecurityPolicyDeployment,
@@ -574,6 +577,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"REFRESH_SQL_COLLECTION_LOG_INSIGHTS",
 		"PURGE_SQL_COLLECTION_LOGS",
 		"REFRESH_VIOLATIONS",
+		"CREATE_ARCHIVAL",
 		"UPDATE_SECURITY_POLICY",
 		"CHANGE_SECURITY_POLICY_COMPARTMENT",
 		"UPDATE_SECURITY_POLICY_DEPLOYMENT",

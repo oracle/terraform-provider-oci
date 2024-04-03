@@ -279,24 +279,27 @@ type DedicatedAiClusterUnitShapeEnum string
 
 // Set of constants representing the allowable values for DedicatedAiClusterUnitShapeEnum
 const (
-	DedicatedAiClusterUnitShapeLargeCohere DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
-	DedicatedAiClusterUnitShapeSmallCohere DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
-	DedicatedAiClusterUnitShapeEmbedCohere DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
-	DedicatedAiClusterUnitShapeLlama270    DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
+	DedicatedAiClusterUnitShapeLargeCohere   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
+	DedicatedAiClusterUnitShapeSmallCohere   DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
+	DedicatedAiClusterUnitShapeEmbedCohere   DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
+	DedicatedAiClusterUnitShapeLlama270      DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
+	DedicatedAiClusterUnitShapeLargeCohereV2 DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
-	"LARGE_COHERE": DedicatedAiClusterUnitShapeLargeCohere,
-	"SMALL_COHERE": DedicatedAiClusterUnitShapeSmallCohere,
-	"EMBED_COHERE": DedicatedAiClusterUnitShapeEmbedCohere,
-	"LLAMA2_70":    DedicatedAiClusterUnitShapeLlama270,
+	"LARGE_COHERE":    DedicatedAiClusterUnitShapeLargeCohere,
+	"SMALL_COHERE":    DedicatedAiClusterUnitShapeSmallCohere,
+	"EMBED_COHERE":    DedicatedAiClusterUnitShapeEmbedCohere,
+	"LLAMA2_70":       DedicatedAiClusterUnitShapeLlama270,
+	"LARGE_COHERE_V2": DedicatedAiClusterUnitShapeLargeCohereV2,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
-	"large_cohere": DedicatedAiClusterUnitShapeLargeCohere,
-	"small_cohere": DedicatedAiClusterUnitShapeSmallCohere,
-	"embed_cohere": DedicatedAiClusterUnitShapeEmbedCohere,
-	"llama2_70":    DedicatedAiClusterUnitShapeLlama270,
+	"large_cohere":    DedicatedAiClusterUnitShapeLargeCohere,
+	"small_cohere":    DedicatedAiClusterUnitShapeSmallCohere,
+	"embed_cohere":    DedicatedAiClusterUnitShapeEmbedCohere,
+	"llama2_70":       DedicatedAiClusterUnitShapeLlama270,
+	"large_cohere_v2": DedicatedAiClusterUnitShapeLargeCohereV2,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -315,6 +318,7 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"SMALL_COHERE",
 		"EMBED_COHERE",
 		"LLAMA2_70",
+		"LARGE_COHERE_V2",
 	}
 }
 

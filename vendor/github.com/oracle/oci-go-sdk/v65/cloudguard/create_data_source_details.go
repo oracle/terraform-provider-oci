@@ -29,7 +29,7 @@ type CreateDataSourceDetails struct {
 	// Type of data source feed provider (LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
 
-	// Enablement status of data source. Default value is DISABLE
+	// Enablement status of data source.
 	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`

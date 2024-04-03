@@ -31,6 +31,9 @@ type ListRemotePeeringConnectionsRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// Indicates what type of RPC to list
+	RpcType ListRemotePeeringConnectionsRpcTypeEnum `mandatory:"false" contributesTo:"query" name:"rpcType" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -71,6 +74,9 @@ func (request ListRemotePeeringConnectionsRequest) RetryPolicy() *common.RetryPo
 // Not recommended for calling this function directly
 func (request ListRemotePeeringConnectionsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListRemotePeeringConnectionsRpcTypeEnum(string(request.RpcType)); !ok && request.RpcType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RpcType: %s. Supported values are: %s.", request.RpcType, strings.Join(GetListRemotePeeringConnectionsRpcTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -103,4 +109,50 @@ func (response ListRemotePeeringConnectionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListRemotePeeringConnectionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListRemotePeeringConnectionsRpcTypeEnum Enum with underlying type: string
+type ListRemotePeeringConnectionsRpcTypeEnum string
+
+// Set of constants representing the allowable values for ListRemotePeeringConnectionsRpcTypeEnum
+const (
+	ListRemotePeeringConnectionsRpcTypeInternalOnly ListRemotePeeringConnectionsRpcTypeEnum = "INTERNAL_ONLY"
+	ListRemotePeeringConnectionsRpcTypeCustomerOnly ListRemotePeeringConnectionsRpcTypeEnum = "CUSTOMER_ONLY"
+	ListRemotePeeringConnectionsRpcTypeAll          ListRemotePeeringConnectionsRpcTypeEnum = "ALL"
+)
+
+var mappingListRemotePeeringConnectionsRpcTypeEnum = map[string]ListRemotePeeringConnectionsRpcTypeEnum{
+	"INTERNAL_ONLY": ListRemotePeeringConnectionsRpcTypeInternalOnly,
+	"CUSTOMER_ONLY": ListRemotePeeringConnectionsRpcTypeCustomerOnly,
+	"ALL":           ListRemotePeeringConnectionsRpcTypeAll,
+}
+
+var mappingListRemotePeeringConnectionsRpcTypeEnumLowerCase = map[string]ListRemotePeeringConnectionsRpcTypeEnum{
+	"internal_only": ListRemotePeeringConnectionsRpcTypeInternalOnly,
+	"customer_only": ListRemotePeeringConnectionsRpcTypeCustomerOnly,
+	"all":           ListRemotePeeringConnectionsRpcTypeAll,
+}
+
+// GetListRemotePeeringConnectionsRpcTypeEnumValues Enumerates the set of values for ListRemotePeeringConnectionsRpcTypeEnum
+func GetListRemotePeeringConnectionsRpcTypeEnumValues() []ListRemotePeeringConnectionsRpcTypeEnum {
+	values := make([]ListRemotePeeringConnectionsRpcTypeEnum, 0)
+	for _, v := range mappingListRemotePeeringConnectionsRpcTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListRemotePeeringConnectionsRpcTypeEnumStringValues Enumerates the set of values in String for ListRemotePeeringConnectionsRpcTypeEnum
+func GetListRemotePeeringConnectionsRpcTypeEnumStringValues() []string {
+	return []string{
+		"INTERNAL_ONLY",
+		"CUSTOMER_ONLY",
+		"ALL",
+	}
+}
+
+// GetMappingListRemotePeeringConnectionsRpcTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListRemotePeeringConnectionsRpcTypeEnum(val string) (ListRemotePeeringConnectionsRpcTypeEnum, bool) {
+	enum, ok := mappingListRemotePeeringConnectionsRpcTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

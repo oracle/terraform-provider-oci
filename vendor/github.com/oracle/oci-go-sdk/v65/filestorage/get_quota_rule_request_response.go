@@ -17,18 +17,8 @@ type GetQuotaRuleRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
-	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
-	// identify a user or group to manage access control.
-	PrincipalId *int `mandatory:"true" contributesTo:"query" name:"principalId"`
-
-	// The type of the owner of this quota rule and usage.
-	PrincipalType GetQuotaRulePrincipalTypeEnum `mandatory:"true" contributesTo:"query" name:"principalType" omitEmpty:"true"`
-
-	// The flag is an identifier to tell whether the quota rule will be enforced.
-	// If `isHardQuota` is false, the quota rule will be enforced so the usage cannot exceed the hard quota limit.
-	// If `isHardQuota` is true, usage can exceed the soft quota limit. An alarm or notification will be sent to
-	// the customer, if the specific usage exceeds.
-	IsHardQuota *bool `mandatory:"true" contributesTo:"query" name:"isHardQuota"`
+	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.
+	QuotaRuleId *string `mandatory:"true" contributesTo:"path" name:"quotaRuleId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
@@ -77,9 +67,6 @@ func (request GetQuotaRuleRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request GetQuotaRuleRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingGetQuotaRulePrincipalTypeEnum(string(request.PrincipalType)); !ok && request.PrincipalType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrincipalType: %s. Supported values are: %s.", request.PrincipalType, strings.Join(GetGetQuotaRulePrincipalTypeEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -95,6 +82,9 @@ type GetQuotaRuleResponse struct {
 	// The QuotaRule instance
 	QuotaRule `presentIn:"body"`
 
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
+
 	// Unique Oracle-assigned identifier for the request. If
 	// you need to contact Oracle about a particular request,
 	// please provide the request ID.
@@ -108,58 +98,4 @@ func (response GetQuotaRuleResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response GetQuotaRuleResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// GetQuotaRulePrincipalTypeEnum Enum with underlying type: string
-type GetQuotaRulePrincipalTypeEnum string
-
-// Set of constants representing the allowable values for GetQuotaRulePrincipalTypeEnum
-const (
-	GetQuotaRulePrincipalTypeFileSystemLevel GetQuotaRulePrincipalTypeEnum = "FILE_SYSTEM_LEVEL"
-	GetQuotaRulePrincipalTypeDefaultGroup    GetQuotaRulePrincipalTypeEnum = "DEFAULT_GROUP"
-	GetQuotaRulePrincipalTypeDefaultUser     GetQuotaRulePrincipalTypeEnum = "DEFAULT_USER"
-	GetQuotaRulePrincipalTypeIndividualGroup GetQuotaRulePrincipalTypeEnum = "INDIVIDUAL_GROUP"
-	GetQuotaRulePrincipalTypeIndividualUser  GetQuotaRulePrincipalTypeEnum = "INDIVIDUAL_USER"
-)
-
-var mappingGetQuotaRulePrincipalTypeEnum = map[string]GetQuotaRulePrincipalTypeEnum{
-	"FILE_SYSTEM_LEVEL": GetQuotaRulePrincipalTypeFileSystemLevel,
-	"DEFAULT_GROUP":     GetQuotaRulePrincipalTypeDefaultGroup,
-	"DEFAULT_USER":      GetQuotaRulePrincipalTypeDefaultUser,
-	"INDIVIDUAL_GROUP":  GetQuotaRulePrincipalTypeIndividualGroup,
-	"INDIVIDUAL_USER":   GetQuotaRulePrincipalTypeIndividualUser,
-}
-
-var mappingGetQuotaRulePrincipalTypeEnumLowerCase = map[string]GetQuotaRulePrincipalTypeEnum{
-	"file_system_level": GetQuotaRulePrincipalTypeFileSystemLevel,
-	"default_group":     GetQuotaRulePrincipalTypeDefaultGroup,
-	"default_user":      GetQuotaRulePrincipalTypeDefaultUser,
-	"individual_group":  GetQuotaRulePrincipalTypeIndividualGroup,
-	"individual_user":   GetQuotaRulePrincipalTypeIndividualUser,
-}
-
-// GetGetQuotaRulePrincipalTypeEnumValues Enumerates the set of values for GetQuotaRulePrincipalTypeEnum
-func GetGetQuotaRulePrincipalTypeEnumValues() []GetQuotaRulePrincipalTypeEnum {
-	values := make([]GetQuotaRulePrincipalTypeEnum, 0)
-	for _, v := range mappingGetQuotaRulePrincipalTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetGetQuotaRulePrincipalTypeEnumStringValues Enumerates the set of values in String for GetQuotaRulePrincipalTypeEnum
-func GetGetQuotaRulePrincipalTypeEnumStringValues() []string {
-	return []string{
-		"FILE_SYSTEM_LEVEL",
-		"DEFAULT_GROUP",
-		"DEFAULT_USER",
-		"INDIVIDUAL_GROUP",
-		"INDIVIDUAL_USER",
-	}
-}
-
-// GetMappingGetQuotaRulePrincipalTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGetQuotaRulePrincipalTypeEnum(val string) (GetQuotaRulePrincipalTypeEnum, bool) {
-	enum, ok := mappingGetQuotaRulePrincipalTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

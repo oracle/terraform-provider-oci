@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// DataPoints The Aggregated Datapoints of the metric
+// DataPoints The aggregated datapoints of the metric.
 type DataPoints struct {
 
 	// The data point date and time in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
-	// Value of the metric
+	// The value of the metric.
 	Value *float64 `mandatory:"false" json:"value"`
 }
 

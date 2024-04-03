@@ -23,7 +23,7 @@ type AdhocQueryDetails struct {
 	Query *string `mandatory:"true" json:"query"`
 
 	// Target information in which adhoc query will be run
-	WlpAdhocQueryResources []WlpAdhocQueryResource `mandatory:"true" json:"wlpAdhocQueryResources"`
+	AdhocQueryResources []AdhocQueryResource `mandatory:"true" json:"adhocQueryResources"`
 }
 
 func (m AdhocQueryDetails) String() string {

@@ -11630,6 +11630,60 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 	return response, err
 }
 
+// ListSensitiveDataModelSensitiveTypes Gets a list of sensitive type Ids present in the specified sensitive data model.
+// A default retry strategy applies to this operation ListSensitiveDataModelSensitiveTypes()
+func (client DataSafeClient) ListSensitiveDataModelSensitiveTypes(ctx context.Context, request ListSensitiveDataModelSensitiveTypesRequest) (response ListSensitiveDataModelSensitiveTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveDataModelSensitiveTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveDataModelSensitiveTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveDataModelSensitiveTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveDataModelSensitiveTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveDataModelSensitiveTypesResponse")
+	}
+	return
+}
+
+// listSensitiveDataModelSensitiveTypes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveDataModelSensitiveTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/sensitiveTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveDataModelSensitiveTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModelSensitiveTypeCollection/ListSensitiveDataModelSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveDataModelSensitiveTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSensitiveDataModels Gets a list of sensitive data models based on the specified query parameters.
 // A default retry strategy applies to this operation ListSensitiveDataModels()
 func (client DataSafeClient) ListSensitiveDataModels(ctx context.Context, request ListSensitiveDataModelsRequest) (response ListSensitiveDataModelsResponse, err error) {

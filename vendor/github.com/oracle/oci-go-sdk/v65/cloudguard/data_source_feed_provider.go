@@ -19,18 +19,18 @@ type DataSourceFeedProviderEnum string
 
 // Set of constants representing the allowable values for DataSourceFeedProviderEnum
 const (
-	DataSourceFeedProviderLoggingquery      DataSourceFeedProviderEnum = "LOGGINGQUERY"
-	DataSourceFeedProviderWlpscheduledquery DataSourceFeedProviderEnum = "WLPSCHEDULEDQUERY"
+	DataSourceFeedProviderLoggingquery   DataSourceFeedProviderEnum = "LOGGINGQUERY"
+	DataSourceFeedProviderScheduledquery DataSourceFeedProviderEnum = "SCHEDULEDQUERY"
 )
 
 var mappingDataSourceFeedProviderEnum = map[string]DataSourceFeedProviderEnum{
-	"LOGGINGQUERY":      DataSourceFeedProviderLoggingquery,
-	"WLPSCHEDULEDQUERY": DataSourceFeedProviderWlpscheduledquery,
+	"LOGGINGQUERY":   DataSourceFeedProviderLoggingquery,
+	"SCHEDULEDQUERY": DataSourceFeedProviderScheduledquery,
 }
 
 var mappingDataSourceFeedProviderEnumLowerCase = map[string]DataSourceFeedProviderEnum{
-	"loggingquery":      DataSourceFeedProviderLoggingquery,
-	"wlpscheduledquery": DataSourceFeedProviderWlpscheduledquery,
+	"loggingquery":   DataSourceFeedProviderLoggingquery,
+	"scheduledquery": DataSourceFeedProviderScheduledquery,
 }
 
 // GetDataSourceFeedProviderEnumValues Enumerates the set of values for DataSourceFeedProviderEnum
@@ -46,7 +46,7 @@ func GetDataSourceFeedProviderEnumValues() []DataSourceFeedProviderEnum {
 func GetDataSourceFeedProviderEnumStringValues() []string {
 	return []string{
 		"LOGGINGQUERY",
-		"WLPSCHEDULEDQUERY",
+		"SCHEDULEDQUERY",
 	}
 }
 

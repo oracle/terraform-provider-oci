@@ -17,37 +17,37 @@ import (
 	"strings"
 )
 
-// PerformanceMetricsData The list of aggregated metrics for Managed Databases.
+// PerformanceMetricsData The list of Data Guard performance metrics for Managed Databases.
 type PerformanceMetricsData struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment where the Managed Database resides.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which the Managed Database resides.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// The Primary Database id of the Managed Database.
+	// The ID of the primary database.
 	PrimaryDbId *string `mandatory:"false" json:"primaryDbId"`
 
-	// The Primary Database unique name of the Managed Database.
+	// The primary database unique name of the Managed Database.
 	PrimaryDbUniqueName *string `mandatory:"false" json:"primaryDbUniqueName"`
 
-	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	// The database ID of the Managed Database. Every database had its own ID and that value is captured here.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// The Database unique name of the Managed Database.
+	// The database unique name of the Managed Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// The Deployment type of the Managed Database.
+	// The deployment type of the Managed Database.
 	DeploymentType *string `mandatory:"false" json:"deploymentType"`
 
-	// The Resource name of the Managed Database.
+	// The resource name of the Managed Database.
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// The Database role of the Managed Database.
+	// The database role of the Managed Database.
 	DbRole DbRoleEnum `mandatory:"false" json:"dbRole,omitempty"`
 
-	// List of metrics such as ApplyLag, TransportLag and RedoApplyRate for the Managed Databases.
+	// The list of Data Guard performance metrics such as ApplyLag, TransportLag and RedoApplyRate for the Managed Databases.
 	Metrics []PerformanceMetrics `mandatory:"false" json:"metrics"`
 }
 

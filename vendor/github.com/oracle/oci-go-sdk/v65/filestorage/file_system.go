@@ -250,6 +250,8 @@ const (
 	FileSystemQuotaEnforcementStateEnabled   FileSystemQuotaEnforcementStateEnum = "ENABLED"
 	FileSystemQuotaEnforcementStateDisabling FileSystemQuotaEnforcementStateEnum = "DISABLING"
 	FileSystemQuotaEnforcementStateDisabled  FileSystemQuotaEnforcementStateEnum = "DISABLED"
+	FileSystemQuotaEnforcementStateSyncing   FileSystemQuotaEnforcementStateEnum = "SYNCING"
+	FileSystemQuotaEnforcementStateFailed    FileSystemQuotaEnforcementStateEnum = "FAILED"
 )
 
 var mappingFileSystemQuotaEnforcementStateEnum = map[string]FileSystemQuotaEnforcementStateEnum{
@@ -257,6 +259,8 @@ var mappingFileSystemQuotaEnforcementStateEnum = map[string]FileSystemQuotaEnfor
 	"ENABLED":   FileSystemQuotaEnforcementStateEnabled,
 	"DISABLING": FileSystemQuotaEnforcementStateDisabling,
 	"DISABLED":  FileSystemQuotaEnforcementStateDisabled,
+	"SYNCING":   FileSystemQuotaEnforcementStateSyncing,
+	"FAILED":    FileSystemQuotaEnforcementStateFailed,
 }
 
 var mappingFileSystemQuotaEnforcementStateEnumLowerCase = map[string]FileSystemQuotaEnforcementStateEnum{
@@ -264,6 +268,8 @@ var mappingFileSystemQuotaEnforcementStateEnumLowerCase = map[string]FileSystemQ
 	"enabled":   FileSystemQuotaEnforcementStateEnabled,
 	"disabling": FileSystemQuotaEnforcementStateDisabling,
 	"disabled":  FileSystemQuotaEnforcementStateDisabled,
+	"syncing":   FileSystemQuotaEnforcementStateSyncing,
+	"failed":    FileSystemQuotaEnforcementStateFailed,
 }
 
 // GetFileSystemQuotaEnforcementStateEnumValues Enumerates the set of values for FileSystemQuotaEnforcementStateEnum
@@ -282,6 +288,8 @@ func GetFileSystemQuotaEnforcementStateEnumStringValues() []string {
 		"ENABLED",
 		"DISABLING",
 		"DISABLED",
+		"SYNCING",
+		"FAILED",
 	}
 }
 

@@ -21,19 +21,62 @@ import (
 type PiiEntity struct {
 
 	// The number of Unicode code points preceding this entity in the submitted text.
-	Offset *int `mandatory:"false" json:"offset"`
+	Offset *int `mandatory:"true" json:"offset"`
 
 	// Length of PII entity text.
-	Length *int `mandatory:"false" json:"length"`
+	Length *int `mandatory:"true" json:"length"`
 
 	// Entity text like name of person, Organization and so on.
-	Text *string `mandatory:"false" json:"text"`
+	Text *string `mandatory:"true" json:"text"`
 
-	// Type of PII entity text like PER, LOC.
-	Type *string `mandatory:"false" json:"type"`
+	// Entity type supported
+	// PERSON
+	// ADDRESS
+	// AGE
+	// DATE_TIME
+	// SSN_OR_TAXPAYER
+	// EMAIL
+	// PASSPORT_NUMBER_US
+	// TELEPHONE_NUMBER
+	// DRIVER_ID_US
+	// BANK_ACCOUNT_NUMBER
+	// BANK_SWIFT
+	// BANK_ROUTING
+	// CREDIT_DEBIT_NUMBER
+	// IP_ADDRESS
+	// MAC_ADDRESS
+	// COOKIE
+	// XSRF_TOKEN
+	// AUTH_BASIC
+	// AUTH_BEARER
+	// JSON_WEB_TOKEN
+	// PRIVATE_KEY
+	// PUBLIC_KEY
+	// OCI_OCID_USER
+	// OCI_OCID_TENANCY
+	// OCI_SMTP_USERNAME
+	// OCI_OCID_REFERENCE
+	// OCI_FINGERPRINT
+	// OCI_CREDENTIAL
+	// OCI_PRE_AUTH_REQUEST
+	// OCI_STORAGE_SIGNED_URL
+	// OCI_CUSTOMER_SECRET_KEY
+	// OCI_ACCESS_KEy
+	// MEDICAL_RECORD_NUMBER
+	// HEALTH_PLAN_ID
+	// URL
+	// CERTIFICATE_NUMBER
+	// FIN
+	// GUIDs
+	// VEHICLE_LICENSE_PLATE_US
+	// VEHICLE_IDENTIFIER_US
+	Type *string `mandatory:"true" json:"type"`
 
 	// Score or confidence for detected PII entity.
-	Score *float64 `mandatory:"false" json:"score"`
+	Score *float64 `mandatory:"true" json:"score"`
+
+	// Unique id of the entity.
+	Id *string `mandatory:"false" json:"id"`
 }
 
 func (m PiiEntity) String() string {

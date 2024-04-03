@@ -126,6 +126,12 @@ type AuditEventSummary struct {
 	// Unique name of the database associated to the peer target database.
 	DatabaseUniqueName *string `mandatory:"false" json:"databaseUniqueName"`
 
+	// Semicolon-seperated list of application context namespace, attribute, value information in (APPCTX_NSPACE,APPCTX_ATTRIBUTE=<value>) format.
+	ApplicationContexts *string `mandatory:"false" json:"applicationContexts"`
+
+	// Fine-grained auditing (FGA) policy name that generated this audit record.
+	FgaPolicyName *string `mandatory:"false" json:"fgaPolicyName"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -28,8 +28,8 @@ type GetPeerDatabaseMetricsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for which peer Database metrics are required. Not mandatory.
-	// In absence of this param, all the peer Databases metric will be returned.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for which peer database metrics are required.
+	// This is not a mandatory parameter and in its absence, all the peer database metrics are returned.
 	PeerDatabaseCompartmentId *string `mandatory:"false" contributesTo:"query" name:"peerDatabaseCompartmentId"`
 
 	// The time window used for metrics comparison.

@@ -21,9 +21,6 @@ type ResourceAdditionalDetails struct {
 
 	// Type of OS present in the resource
 	OsInfo *string `mandatory:"false" json:"osInfo"`
-
-	// WLP Recipe (free/paid) applied to the resource
-	WlpRecipe *string `mandatory:"false" json:"wlpRecipe"`
 }
 
 func (m ResourceAdditionalDetails) String() string {

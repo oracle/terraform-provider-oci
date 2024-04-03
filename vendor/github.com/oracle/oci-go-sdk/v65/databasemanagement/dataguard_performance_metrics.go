@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// DataguardPerformanceMetrics The summary of Primary Databases and their resource metrics for the Managed Databases.
+// DataguardPerformanceMetrics A summary of Data Guard performance metrics for Managed Databases.
 type DataguardPerformanceMetrics struct {
 
-	// A summary of Primary db and their resource metrics such as ApplyLag, TransportLag and RedoApplyRate for the Managed Databases.
+	// A summary of Data Guard performance metrics such as ApplyLag, TransportLag and RedoApplyRate, for Managed Databases.
 	MetricsData []PerformanceMetricsData `mandatory:"true" json:"metricsData"`
 }
 

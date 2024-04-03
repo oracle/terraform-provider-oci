@@ -51,8 +51,8 @@ func (m *serviceconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{
 
 	var err error
 	switch m.ServiceConfigurationType {
-	case "WORKLOAD_PROTECTION":
-		mm := WlpServiceConfiguration{}
+	case "INSTANCE_SECURITY":
+		mm := InstanceSecurityServiceConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// PeerDatabaseMetrics The summary of peer databases and their resource metrics for the Managed Databases.
+// PeerDatabaseMetrics The summary of resource usage metrics for the peer database.
 type PeerDatabaseMetrics struct {
 
-	// A summary of peer db and their resource metrics such as ApplyLag, TransportLag and RedoApplyRate for the Managed Databases.
+	// A list of resource usage metrics for the peer database.
 	PeerDbMetrics []DatabaseUsageMetrics `mandatory:"true" json:"peerDbMetrics"`
 }
 

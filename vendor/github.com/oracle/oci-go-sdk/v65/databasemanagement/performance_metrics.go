@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// PerformanceMetrics The database metric details.
+// PerformanceMetrics The Data Guard performance metric details.
 type PerformanceMetrics struct {
 
 	// The name of the metric.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The dimensions of the metric such as primary db id, primary db unique name etc.
+	// The dimensions of the Data Guard performance metrics, such as primary database ID, primary database unique name.
 	Dimensions *interface{} `mandatory:"false" json:"dimensions"`
 
-	// Metadata of the metric such as Unit etc
+	// The metadata of the metric, such as Unit.
 	Metadata *interface{} `mandatory:"false" json:"metadata"`
 
-	// The Aggregated Datapoints of the metric
+	// The aggregated datapoints of the metric.
 	Datapoints []DataPoints `mandatory:"false" json:"datapoints"`
 }
 

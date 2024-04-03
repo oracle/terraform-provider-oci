@@ -446,6 +446,64 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 	return response, err
 }
 
+// ChangeSavedQueryCompartment Moves the SavedQuery resource into a different compartment. When provided, If-Match is checked against etag values of the resource.
+func (client CloudGuardClient) ChangeSavedQueryCompartment(ctx context.Context, request ChangeSavedQueryCompartmentRequest) (response ChangeSavedQueryCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSavedQueryCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSavedQueryCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSavedQueryCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSavedQueryCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSavedQueryCompartmentResponse")
+	}
+	return
+}
+
+// changeSavedQueryCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) changeSavedQueryCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/savedQueries/{savedQueryId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSavedQueryCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/ChangeSavedQueryCompartment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSavedQueryCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSecurityRecipeCompartment Moves the security recipe (SecurityRecipe resource), identified by securityRecipeId,
 // from the current compartment to another compartment. When provided, `if-match` is checked
 // against `etag` values of the resource.
@@ -566,8 +624,8 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeWlpSavedQueryCompartment Moves the WlpSavedQuery resource into a different compartment. When provided, If-Match is checked against etag values of the resource.
-func (client CloudGuardClient) ChangeWlpSavedQueryCompartment(ctx context.Context, request ChangeWlpSavedQueryCompartmentRequest) (response ChangeWlpSavedQueryCompartmentResponse, err error) {
+// CreateAdhocQuery Creates a AdhocQuery resource.
+func (client CloudGuardClient) CreateAdhocQuery(ctx context.Context, request CreateAdhocQueryRequest) (response CreateAdhocQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -581,42 +639,42 @@ func (client CloudGuardClient) ChangeWlpSavedQueryCompartment(ctx context.Contex
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.changeWlpSavedQueryCompartment, policy)
+	ociResponse, err = common.Retry(ctx, request, client.createAdhocQuery, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeWlpSavedQueryCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = CreateAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = ChangeWlpSavedQueryCompartmentResponse{}
+				response = CreateAdhocQueryResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(ChangeWlpSavedQueryCompartmentResponse); ok {
+	if convertedResponse, ok := ociResponse.(CreateAdhocQueryResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeWlpSavedQueryCompartmentResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAdhocQueryResponse")
 	}
 	return
 }
 
-// changeWlpSavedQueryCompartment implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) changeWlpSavedQueryCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// createAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/wlpSavedQueries/{wlpSavedQueryId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/adhocQueries", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response ChangeWlpSavedQueryCompartmentResponse
+	var response CreateAdhocQueryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/ChangeWlpSavedQueryCompartment"
-		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeWlpSavedQueryCompartment", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/CreateAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateAdhocQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1032,6 +1090,64 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
+// CreateSavedQuery Creates a SavedQuery resource.
+func (client CloudGuardClient) CreateSavedQuery(ctx context.Context, request CreateSavedQueryRequest) (response CreateSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSavedQueryResponse")
+	}
+	return
+}
+
+// createSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/savedQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/CreateSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateSecurityRecipe Creates a security zone recipe (SecurityRecipe resource), using parameters
 // passed in a CreateSecurityRecipeDetails resource.
 func (client CloudGuardClient) CreateSecurityRecipe(ctx context.Context, request CreateSecurityRecipeRequest) (response CreateSecurityRecipeResponse, err error) {
@@ -1326,64 +1442,6 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// CreateWlpAdhocQuery Creates a WlpAdhocQuery resource.
-func (client CloudGuardClient) CreateWlpAdhocQuery(ctx context.Context, request CreateWlpAdhocQueryRequest) (response CreateWlpAdhocQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createWlpAdhocQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateWlpAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateWlpAdhocQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateWlpAdhocQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateWlpAdhocQueryResponse")
-	}
-	return
-}
-
-// createWlpAdhocQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createWlpAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/wlpAdhocQueries", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateWlpAdhocQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAdhocQuery/CreateWlpAdhocQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "CreateWlpAdhocQuery", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateWlpAgent Creates and registers a WLP agent for an
 // on-premise resource.
 func (client CloudGuardClient) CreateWlpAgent(ctx context.Context, request CreateWlpAgentRequest) (response CreateWlpAgentResponse, err error) {
@@ -1443,8 +1501,8 @@ func (client CloudGuardClient) createWlpAgent(ctx context.Context, request commo
 	return response, err
 }
 
-// CreateWlpSavedQuery Creates a WlpSavedQuery resource.
-func (client CloudGuardClient) CreateWlpSavedQuery(ctx context.Context, request CreateWlpSavedQueryRequest) (response CreateWlpSavedQueryResponse, err error) {
+// DeleteAdhocQuery Deletes a AdhocQuery resource identified by adhocQueryId.
+func (client CloudGuardClient) DeleteAdhocQuery(ctx context.Context, request DeleteAdhocQueryRequest) (response DeleteAdhocQueryResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -1458,42 +1516,42 @@ func (client CloudGuardClient) CreateWlpSavedQuery(ctx context.Context, request 
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.createWlpSavedQuery, policy)
+	ociResponse, err = common.Retry(ctx, request, client.deleteAdhocQuery, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateWlpSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = DeleteAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = CreateWlpSavedQueryResponse{}
+				response = DeleteAdhocQueryResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(CreateWlpSavedQueryResponse); ok {
+	if convertedResponse, ok := ociResponse.(DeleteAdhocQueryResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateWlpSavedQueryResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAdhocQueryResponse")
 	}
 	return
 }
 
-// createWlpSavedQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) createWlpSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// deleteAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/wlpSavedQueries", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/adhocQueries/{adhocQueryId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response CreateWlpSavedQueryResponse
+	var response DeleteAdhocQueryResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/CreateWlpSavedQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "CreateWlpSavedQuery", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/DeleteAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteAdhocQuery", apiReferenceLink)
 		return response, err
 	}
 
@@ -1940,6 +1998,64 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
+// DeleteSavedQuery Deletes a SavedQuery resource identified by savedQueryId.
+func (client CloudGuardClient) DeleteSavedQuery(ctx context.Context, request DeleteSavedQueryRequest) (response DeleteSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSavedQueryResponse")
+	}
+	return
+}
+
+// deleteSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/DeleteSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSecurityRecipe Deletes a security zone recipe, identified by securityRecipeId. The recipe can't be associated with an existing security zone.
 func (client CloudGuardClient) DeleteSecurityRecipe(ctx context.Context, request DeleteSecurityRecipeRequest) (response DeleteSecurityRecipeResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2313,64 +2429,6 @@ func (client CloudGuardClient) deleteWlpAgent(ctx context.Context, request commo
 	return response, err
 }
 
-// DeleteWlpSavedQuery Deletes a WlpSavedQuery resource identified by wlpSavedQueryId.
-func (client CloudGuardClient) DeleteWlpSavedQuery(ctx context.Context, request DeleteWlpSavedQueryRequest) (response DeleteWlpSavedQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.deleteWlpSavedQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteWlpSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteWlpSavedQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteWlpSavedQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteWlpSavedQueryResponse")
-	}
-	return
-}
-
-// deleteWlpSavedQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) deleteWlpSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/wlpSavedQueries/{wlpSavedQueryId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteWlpSavedQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/DeleteWlpSavedQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteWlpSavedQuery", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DetachDetectorRecipeDetectorRuleSightingTypeDataSource Detach the DetectorRecipeDetectorRuleSightingTypeDataSource resource identified by ID.
 func (client CloudGuardClient) DetachDetectorRecipeDetectorRuleSightingTypeDataSource(ctx context.Context, request DetachDetectorRecipeDetectorRuleSightingTypeDataSourceRequest) (response DetachDetectorRecipeDetectorRuleSightingTypeDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2476,6 +2534,111 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResponderExecution/ExecuteResponderExecution"
 		err = common.PostProcessServiceError(err, "CloudGuard", "ExecuteResponderExecution", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAdhocQuery Returns an adhoc query identified by adhocQueryId.
+func (client CloudGuardClient) GetAdhocQuery(ctx context.Context, request GetAdhocQueryRequest) (response GetAdhocQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdhocQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdhocQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdhocQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdhocQueryResponse")
+	}
+	return
+}
+
+// getAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdhocQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/GetAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetAdhocQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAdhocQueryResultContent Downloads the results for a given adhoc ID (from includes results from all monitoring regions).
+func (client CloudGuardClient) GetAdhocQueryResultContent(ctx context.Context, request GetAdhocQueryResultContentRequest) (response GetAdhocQueryResultContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdhocQueryResultContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdhocQueryResultContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdhocQueryResultContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdhocQueryResultContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdhocQueryResultContentResponse")
+	}
+	return
+}
+
+// getAdhocQueryResultContent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getAdhocQueryResultContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}/results/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdhocQueryResultContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQueryResultCollection/GetAdhocQueryResultContent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetAdhocQueryResultContent", apiReferenceLink)
 		return response, err
 	}
 
@@ -3385,6 +3548,59 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 	return response, err
 }
 
+// GetSavedQuery Returns a SavedQuery resource identified by savedQueryId.
+func (client CloudGuardClient) GetSavedQuery(ctx context.Context, request GetSavedQueryRequest) (response GetSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSavedQueryResponse")
+	}
+	return
+}
+
+// getSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/GetSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSecurityPolicy Returns a security zone policy (SecurityPolicy resource), identified by its unique ID
 // (securityPolicyId). When a policy is enabled in a security zone, then any action in
 // the zone that attempts to violate that policy is blocked.
@@ -3868,111 +4084,6 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 	return response, err
 }
 
-// GetWlpAdhocQuery Returns an adhoc query identified by wlpAdhocQueryId.
-func (client CloudGuardClient) GetWlpAdhocQuery(ctx context.Context, request GetWlpAdhocQueryRequest) (response GetWlpAdhocQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getWlpAdhocQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetWlpAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetWlpAdhocQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetWlpAdhocQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetWlpAdhocQueryResponse")
-	}
-	return
-}
-
-// getWlpAdhocQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getWlpAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAdhocQueries/{wlpAdhocQueryId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetWlpAdhocQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAdhocQuery/GetWlpAdhocQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "GetWlpAdhocQuery", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetWlpAdhocQueryResultContent Downloads the results for a given WLP adhoc ID (from includes results from all monitoring regions).
-func (client CloudGuardClient) GetWlpAdhocQueryResultContent(ctx context.Context, request GetWlpAdhocQueryResultContentRequest) (response GetWlpAdhocQueryResultContentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getWlpAdhocQueryResultContent, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetWlpAdhocQueryResultContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetWlpAdhocQueryResultContentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetWlpAdhocQueryResultContentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetWlpAdhocQueryResultContentResponse")
-	}
-	return
-}
-
-// getWlpAdhocQueryResultContent implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getWlpAdhocQueryResultContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAdhocQueries/{wlpAdhocQueryId}/results/content", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetWlpAdhocQueryResultContentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAdhocQueryResultCollection/GetWlpAdhocQueryResultContent"
-		err = common.PostProcessServiceError(err, "CloudGuard", "GetWlpAdhocQueryResultContent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetWlpAgent Returns a WlpAgent resource for an on-premise resource identified by wlpAgentId.
 func (client CloudGuardClient) GetWlpAgent(ctx context.Context, request GetWlpAgentRequest) (response GetWlpAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4026,59 +4137,6 @@ func (client CloudGuardClient) getWlpAgent(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetWlpSavedQuery Returns a WlpSavedQuery resource identified by wlpSavedQueryId.
-func (client CloudGuardClient) GetWlpSavedQuery(ctx context.Context, request GetWlpSavedQueryRequest) (response GetWlpSavedQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getWlpSavedQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetWlpSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetWlpSavedQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetWlpSavedQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetWlpSavedQueryResponse")
-	}
-	return
-}
-
-// getWlpSavedQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) getWlpSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpSavedQueries/{wlpSavedQueryId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetWlpSavedQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/GetWlpSavedQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "GetWlpSavedQuery", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetWorkRequest Returns details for a work request (WorkRequest resource) identified by workRequestId.
 func (client CloudGuardClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4125,6 +4183,125 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "CloudGuard", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdhocQueries Returns a list of all adhoc queries (AdhocQuery resources) for a compartment
+// identified by compartmentId. List is returned in a AdhocQueryCollection resource
+// with page of AdhocQuerySummary resources.
+// The ListAdhocQueries operation returns only the adhoc queries in 'compartmentId' passed.
+// The list does not include any subcompartments of the compartmentId passed.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListAdhocQueries on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+func (client CloudGuardClient) ListAdhocQueries(ctx context.Context, request ListAdhocQueriesRequest) (response ListAdhocQueriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdhocQueries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdhocQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdhocQueriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdhocQueriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdhocQueriesResponse")
+	}
+	return
+}
+
+// listAdhocQueries implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listAdhocQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdhocQueriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/ListAdhocQueries"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListAdhocQueries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdhocQueryResults Lists the results for a given adhoc ID (from includes results from all monitoring regions).
+func (client CloudGuardClient) ListAdhocQueryResults(ctx context.Context, request ListAdhocQueryResultsRequest) (response ListAdhocQueryResultsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdhocQueryResults, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdhocQueryResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdhocQueryResultsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdhocQueryResultsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdhocQueryResultsResponse")
+	}
+	return
+}
+
+// listAdhocQueryResults implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listAdhocQueryResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}/results", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdhocQueryResultsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQueryResultCollection/ListAdhocQueryResults"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListAdhocQueryResults", apiReferenceLink)
 		return response, err
 	}
 
@@ -5975,6 +6152,59 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 	return response, err
 }
 
+// ListSavedQueries Returns a list of saved queries run in a tenancy.
+func (client CloudGuardClient) ListSavedQueries(ctx context.Context, request ListSavedQueriesRequest) (response ListSavedQueriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSavedQueries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSavedQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSavedQueriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSavedQueriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSavedQueriesResponse")
+	}
+	return
+}
+
+// listSavedQueries implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSavedQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/savedQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSavedQueriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/ListSavedQueries"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSavedQueries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListSecurityPolicies Returns a list of security zone policies (SecurityPolicySummary resources),
 // identified by compartmentId.
 func (client CloudGuardClient) ListSecurityPolicies(ctx context.Context, request ListSecurityPoliciesRequest) (response ListSecurityPoliciesResponse, err error) {
@@ -6807,125 +7037,6 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 	return response, err
 }
 
-// ListWlpAdhocQueries Returns a list of all data sources (DataSource resources) for a compartment
-// identified by compartmentId. List is returned in a DataSourceCollection resource
-// with page of DataSourceSummary resources.
-// The ListAdhocQueries operation returns only the adhoc queries in 'compartmentId' passed.
-// The list does not include any subcompartments of the compartmentId passed.
-// The parameter `accessLevel` specifies whether to return only those compartments for which the
-// requestor has INSPECT permissions on at least one resource directly
-// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
-// Principal doesn't have access to even one of the child compartments. This is valid only when
-// `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform ListAdhocQueries on the
-// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
-// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
-func (client CloudGuardClient) ListWlpAdhocQueries(ctx context.Context, request ListWlpAdhocQueriesRequest) (response ListWlpAdhocQueriesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listWlpAdhocQueries, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListWlpAdhocQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListWlpAdhocQueriesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListWlpAdhocQueriesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListWlpAdhocQueriesResponse")
-	}
-	return
-}
-
-// listWlpAdhocQueries implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listWlpAdhocQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAdhocQueries", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListWlpAdhocQueriesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAdhocQuery/ListWlpAdhocQueries"
-		err = common.PostProcessServiceError(err, "CloudGuard", "ListWlpAdhocQueries", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListWlpAdhocQueryResults Lists the results for a given WLP adhoc ID (from includes results from all monitoring regions).
-func (client CloudGuardClient) ListWlpAdhocQueryResults(ctx context.Context, request ListWlpAdhocQueryResultsRequest) (response ListWlpAdhocQueryResultsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listWlpAdhocQueryResults, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListWlpAdhocQueryResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListWlpAdhocQueryResultsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListWlpAdhocQueryResultsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListWlpAdhocQueryResultsResponse")
-	}
-	return
-}
-
-// listWlpAdhocQueryResults implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listWlpAdhocQueryResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAdhocQueries/{wlpAdhocQueryId}/results", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListWlpAdhocQueryResultsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAdhocQueryResultCollection/ListWlpAdhocQueryResults"
-		err = common.PostProcessServiceError(err, "CloudGuard", "ListWlpAdhocQueryResults", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ListWlpAgents Returns a list of WLP agents in a compartment.
 func (client CloudGuardClient) ListWlpAgents(ctx context.Context, request ListWlpAgentsRequest) (response ListWlpAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6972,59 +7083,6 @@ func (client CloudGuardClient) listWlpAgents(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/ListWlpAgents"
 		err = common.PostProcessServiceError(err, "CloudGuard", "ListWlpAgents", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListWlpSavedQueries Returns a list of saved queries run in a tenancy.
-func (client CloudGuardClient) ListWlpSavedQueries(ctx context.Context, request ListWlpSavedQueriesRequest) (response ListWlpSavedQueriesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listWlpSavedQueries, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListWlpSavedQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListWlpSavedQueriesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListWlpSavedQueriesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListWlpSavedQueriesResponse")
-	}
-	return
-}
-
-// listWlpSavedQueries implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) listWlpSavedQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpSavedQueries", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListWlpSavedQueriesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/ListWlpSavedQueries"
-		err = common.PostProcessServiceError(err, "CloudGuard", "ListWlpSavedQueries", apiReferenceLink)
 		return response, err
 	}
 
@@ -8785,6 +8843,64 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 	return response, err
 }
 
+// UpdateSavedQuery Updates a saved query identified by savedQueryId.
+func (client CloudGuardClient) UpdateSavedQuery(ctx context.Context, request UpdateSavedQueryRequest) (response UpdateSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSavedQueryResponse")
+	}
+	return
+}
+
+// updateSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/UpdateSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateSecurityRecipe Updates a security zone recipe (SecurityRecipe resource), identified by securityRecipeId,
 // using parameters passed in an UpdateSecurityRecipeDetails resource.
 func (client CloudGuardClient) UpdateSecurityRecipe(ctx context.Context, request UpdateSecurityRecipeRequest) (response UpdateSecurityRecipeResponse, err error) {
@@ -9218,64 +9334,6 @@ func (client CloudGuardClient) updateWlpAgent(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/UpdateWlpAgent"
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateWlpAgent", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateWlpSavedQuery Updates a WLP saved query identified by wlpSavedQueryId.
-func (client CloudGuardClient) UpdateWlpSavedQuery(ctx context.Context, request UpdateWlpSavedQueryRequest) (response UpdateWlpSavedQueryResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.updateWlpSavedQuery, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateWlpSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateWlpSavedQueryResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateWlpSavedQueryResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateWlpSavedQueryResponse")
-	}
-	return
-}
-
-// updateWlpSavedQuery implements the OCIOperation interface (enables retrying operations)
-func (client CloudGuardClient) updateWlpSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/wlpSavedQueries/{wlpSavedQueryId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateWlpSavedQueryResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpSavedQuery/UpdateWlpSavedQuery"
-		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateWlpSavedQuery", apiReferenceLink)
 		return response, err
 	}
 

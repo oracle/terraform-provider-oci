@@ -79,6 +79,9 @@ type RemotePeeringConnection struct {
 
 	// If this RPC is peered, this value is the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the other RPC's tenancy.
 	PeerTenancyId *string `mandatory:"false" json:"peerTenancyId"`
+
+	// Indicates if the request is for global drg.
+	IsServiceRpc *bool `mandatory:"false" json:"isServiceRpc"`
 }
 
 func (m RemotePeeringConnection) String() string {

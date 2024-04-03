@@ -11584,6 +11584,60 @@ func (client VirtualNetworkClient) enableVnicWorker(ctx context.Context, request
 	return response, err
 }
 
+// EnqueueDeviceJob Enqueue a new devic sync job
+// A default retry strategy applies to this operation EnqueueDeviceJob()
+func (client VirtualNetworkClient) EnqueueDeviceJob(ctx context.Context, request EnqueueDeviceJobRequest) (response EnqueueDeviceJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.enqueueDeviceJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnqueueDeviceJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnqueueDeviceJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnqueueDeviceJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnqueueDeviceJobResponse")
+	}
+	return
+}
+
+// enqueueDeviceJob implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) enqueueDeviceJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/devices/{deviceName}/enqueue", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnqueueDeviceJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/EnqueueDeviceJobDetails/EnqueueDeviceJob"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "EnqueueDeviceJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // FinishPublicIpCapacityMigration Start a migration process on a provided public IP CIDR. This API is strictly for VCN IP team.
 func (client VirtualNetworkClient) FinishPublicIpCapacityMigration(ctx context.Context, request FinishPublicIpCapacityMigrationRequest) (response FinishPublicIpCapacityMigrationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11904,6 +11958,114 @@ func (client VirtualNetworkClient) getAllowedIkeIPSecParameters(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AllowedIkeIPSecParameters/GetAllowedIkeIPSecParameters"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllowedIkeIPSecParameters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAristaCrossConnectStatus Get Cross Connect Status of an edgePOP CrossConnect
+// A default retry strategy applies to this operation GetAristaCrossConnectStatus()
+func (client VirtualNetworkClient) GetAristaCrossConnectStatus(ctx context.Context, request GetAristaCrossConnectStatusRequest) (response GetAristaCrossConnectStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAristaCrossConnectStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAristaCrossConnectStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAristaCrossConnectStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAristaCrossConnectStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAristaCrossConnectStatusResponse")
+	}
+	return
+}
+
+// getAristaCrossConnectStatus implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getAristaCrossConnectStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/{crossConnectId}/status", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAristaCrossConnectStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/CrossConnectStatus/GetAristaCrossConnectStatus"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAristaCrossConnectStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAristaDeviceConfig Get Device Config from Arista
+// A default retry strategy applies to this operation GetAristaDeviceConfig()
+func (client VirtualNetworkClient) GetAristaDeviceConfig(ctx context.Context, request GetAristaDeviceConfigRequest) (response GetAristaDeviceConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAristaDeviceConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAristaDeviceConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAristaDeviceConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAristaDeviceConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAristaDeviceConfigResponse")
+	}
+	return
+}
+
+// getAristaDeviceConfig implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getAristaDeviceConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/devices/config/{deviceName}/{jobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAristaDeviceConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/GetAristaDeviceConfigDetails/GetAristaDeviceConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAristaDeviceConfig", apiReferenceLink)
 		return response, err
 	}
 
@@ -23083,6 +23245,60 @@ func (client VirtualNetworkClient) modifyVcnCidr(ctx context.Context, request co
 	return response, err
 }
 
+// PollNcpJob poll NCP job
+// A default retry strategy applies to this operation PollNcpJob()
+func (client VirtualNetworkClient) PollNcpJob(ctx context.Context, request PollNcpJobRequest) (response PollNcpJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.pollNcpJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PollNcpJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PollNcpJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PollNcpJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PollNcpJobResponse")
+	}
+	return
+}
+
+// pollNcpJob implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) pollNcpJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/edgePop/ncpJob/{jobId}/poll", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PollNcpJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PollNcpJobDetails/PollNcpJob"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "PollNcpJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveAdditionalRouteRules Remove route rules from a route table.
 func (client VirtualNetworkClient) RemoveAdditionalRouteRules(ctx context.Context, request RemoveAdditionalRouteRulesRequest) (response RemoveAdditionalRouteRulesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -27824,6 +28040,60 @@ func (client VirtualNetworkClient) updateRemotePeeringConnection(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/UpdateRemotePeeringConnection"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateRemotePeeringConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRemotePeeringConnectionInternal Update the peering connection to remote region
+// A default retry strategy applies to this operation UpdateRemotePeeringConnectionInternal()
+func (client VirtualNetworkClient) UpdateRemotePeeringConnectionInternal(ctx context.Context, request UpdateRemotePeeringConnectionInternalRequest) (response UpdateRemotePeeringConnectionInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRemotePeeringConnectionInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRemotePeeringConnectionInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRemotePeeringConnectionInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRemotePeeringConnectionInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRemotePeeringConnectionInternalResponse")
+	}
+	return
+}
+
+// updateRemotePeeringConnectionInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateRemotePeeringConnectionInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/remotePeeringConnections/{remotePeeringConnectionId}/actions/updateInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRemotePeeringConnectionInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/UpdateRemotePeeringConnectionInternalResponseDetails/UpdateRemotePeeringConnectionInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateRemotePeeringConnectionInternal", apiReferenceLink)
 		return response, err
 	}
 

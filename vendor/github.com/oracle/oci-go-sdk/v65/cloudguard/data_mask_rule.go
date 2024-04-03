@@ -52,7 +52,7 @@ type DataMaskRule struct {
 	// The current lifecycle state of the data mask rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Additional details on the substate of the lifecycle state
+	// Additional details on the substate of the lifecycle state [DEPRECATE]
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	// Locks associated with this resource.

@@ -4539,7 +4539,9 @@ func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, req
 	return response, err
 }
 
-// GetDataguardPerformanceMetrics Gets a summary of the data guard performance metrics such as ApplyLag, TransportLag and RedoApplyRate.
+// GetDataguardPerformanceMetrics Gets a historical summary of the Database Guard performance metrics for Managed Databases.
+// If the peerDatabaseCompartmentId is specified, then the metrics are only retrieved from the specified compartment.
+// If the peerDatabaseCompartmentId is not specified, then the metrics are retrieved from the compartment of the Managed Database specified by the ManagedDatabaseId.
 func (client DbManagementClient) GetDataguardPerformanceMetrics(ctx context.Context, request GetDataguardPerformanceMetricsRequest) (response GetDataguardPerformanceMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6206,10 +6208,9 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 	return response, err
 }
 
-// GetPeerDatabaseMetrics Gets a summary of the resource usage metrics such as ApplyLag, TransportLag and RedoApplyRate for each
-// peer Db metrics within a specific CDB. If compartmentId is specified, then the metrics for
-// each peer Db metrics (within the CDB) in the specified compartment are retrieved.
-// If compartmentId is not specified, then the metrics for all the PDBs within the CDB are retrieved.
+// GetPeerDatabaseMetrics Gets a comparative summary of the baseline and target values of the Data Guard performance metrics for Managed Databases.
+// If the peerDatabaseCompartmentId is specified, then the metrics are only retrieved from the specified compartment.
+// If the peerDatabaseCompartmentId is not specified, then the metrics are retrieved from the compartment of the Managed Database specified by the ManagedDatabaseId.
 func (client DbManagementClient) GetPeerDatabaseMetrics(ctx context.Context, request GetPeerDatabaseMetricsRequest) (response GetPeerDatabaseMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

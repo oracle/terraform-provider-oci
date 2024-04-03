@@ -19,7 +19,7 @@ import (
 // ReserveTargetNumDetails Details for creating a new replication target and resume snapshot num.
 type ReserveTargetNumDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication target id.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the replication id.
 	ReplicationId *string `mandatory:"false" json:"replicationId"`
 
 	// The resume snapshot num which represents point of replication continuinity.
