@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ImpactedResourceSummary Impacted Resource summary Definition.
+// ImpactedResourceSummary A summary of detailed information on a resource that’s been impacted by a detected problem.
 type ImpactedResourceSummary struct {
 
 	// Unique identifier for finding event

@@ -4,11 +4,10 @@
 
 // Email Delivery API
 //
-// API for the Email Delivery service. Use this API to send high-volume, application-generated
-// emails. For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
-//
-// **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
-// If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
+// Use the Email Delivery API to do the necessary set up to send high-volume and application-generated emails through the OCI Email Delivery service.
+// For more information, see Overview of the Email Delivery Service (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm).
+//  **Note:** Write actions (POST, UPDATE, DELETE) may take several minutes to propagate and be reflected by the API.
+//  If a subsequent read request fails to reflect your changes, wait a few minutes and try again.
 //
 
 package email
@@ -19,12 +18,12 @@ import (
 	"strings"
 )
 
-// EmailDomainSummary The properties that define a email domain.
-// A Email Domain contains configuration used to assert responsibility for emails sent from that domain.
+// EmailDomainSummary The properties that define an email domain.
+// An email domain contains configuration used to assert responsibility for emails sent from that domain.
 type EmailDomainSummary struct {
 
 	// The name of the email domain in the Internet Domain Name System (DNS).
-	// Example: `example.net`
+	// Example: `mydomain.example.com`
 	Name *string `mandatory:"true" json:"name"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain.
@@ -40,7 +39,7 @@ type EmailDomainSummary struct {
 	// that is adding the DKIM signature for this email domain.
 	ActiveDkimId *string `mandatory:"false" json:"activeDkimId"`
 
-	// The description of a email domain.
+	// The description of an email domain.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The time the email domain was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339)

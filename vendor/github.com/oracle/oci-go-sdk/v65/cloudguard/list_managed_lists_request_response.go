@@ -215,48 +215,54 @@ type ListManagedListsListTypeEnum string
 
 // Set of constants representing the allowable values for ListManagedListsListTypeEnum
 const (
-	ListManagedListsListTypeCidrBlock    ListManagedListsListTypeEnum = "CIDR_BLOCK"
-	ListManagedListsListTypeUsers        ListManagedListsListTypeEnum = "USERS"
-	ListManagedListsListTypeGroups       ListManagedListsListTypeEnum = "GROUPS"
-	ListManagedListsListTypeIpv4address  ListManagedListsListTypeEnum = "IPV4ADDRESS"
-	ListManagedListsListTypeIpv6address  ListManagedListsListTypeEnum = "IPV6ADDRESS"
-	ListManagedListsListTypeResourceOcid ListManagedListsListTypeEnum = "RESOURCE_OCID"
-	ListManagedListsListTypeRegion       ListManagedListsListTypeEnum = "REGION"
-	ListManagedListsListTypeCountry      ListManagedListsListTypeEnum = "COUNTRY"
-	ListManagedListsListTypeState        ListManagedListsListTypeEnum = "STATE"
-	ListManagedListsListTypeCity         ListManagedListsListTypeEnum = "CITY"
-	ListManagedListsListTypeTags         ListManagedListsListTypeEnum = "TAGS"
-	ListManagedListsListTypeGeneric      ListManagedListsListTypeEnum = "GENERIC"
+	ListManagedListsListTypeCidrBlock            ListManagedListsListTypeEnum = "CIDR_BLOCK"
+	ListManagedListsListTypeUsers                ListManagedListsListTypeEnum = "USERS"
+	ListManagedListsListTypeGroups               ListManagedListsListTypeEnum = "GROUPS"
+	ListManagedListsListTypeIpv4address          ListManagedListsListTypeEnum = "IPV4ADDRESS"
+	ListManagedListsListTypeIpv6address          ListManagedListsListTypeEnum = "IPV6ADDRESS"
+	ListManagedListsListTypeResourceOcid         ListManagedListsListTypeEnum = "RESOURCE_OCID"
+	ListManagedListsListTypeRegion               ListManagedListsListTypeEnum = "REGION"
+	ListManagedListsListTypeCountry              ListManagedListsListTypeEnum = "COUNTRY"
+	ListManagedListsListTypeState                ListManagedListsListTypeEnum = "STATE"
+	ListManagedListsListTypeCity                 ListManagedListsListTypeEnum = "CITY"
+	ListManagedListsListTypeTags                 ListManagedListsListTypeEnum = "TAGS"
+	ListManagedListsListTypeGeneric              ListManagedListsListTypeEnum = "GENERIC"
+	ListManagedListsListTypeFusionAppsRole       ListManagedListsListTypeEnum = "FUSION_APPS_ROLE"
+	ListManagedListsListTypeFusionAppsPermission ListManagedListsListTypeEnum = "FUSION_APPS_PERMISSION"
 )
 
 var mappingListManagedListsListTypeEnum = map[string]ListManagedListsListTypeEnum{
-	"CIDR_BLOCK":    ListManagedListsListTypeCidrBlock,
-	"USERS":         ListManagedListsListTypeUsers,
-	"GROUPS":        ListManagedListsListTypeGroups,
-	"IPV4ADDRESS":   ListManagedListsListTypeIpv4address,
-	"IPV6ADDRESS":   ListManagedListsListTypeIpv6address,
-	"RESOURCE_OCID": ListManagedListsListTypeResourceOcid,
-	"REGION":        ListManagedListsListTypeRegion,
-	"COUNTRY":       ListManagedListsListTypeCountry,
-	"STATE":         ListManagedListsListTypeState,
-	"CITY":          ListManagedListsListTypeCity,
-	"TAGS":          ListManagedListsListTypeTags,
-	"GENERIC":       ListManagedListsListTypeGeneric,
+	"CIDR_BLOCK":             ListManagedListsListTypeCidrBlock,
+	"USERS":                  ListManagedListsListTypeUsers,
+	"GROUPS":                 ListManagedListsListTypeGroups,
+	"IPV4ADDRESS":            ListManagedListsListTypeIpv4address,
+	"IPV6ADDRESS":            ListManagedListsListTypeIpv6address,
+	"RESOURCE_OCID":          ListManagedListsListTypeResourceOcid,
+	"REGION":                 ListManagedListsListTypeRegion,
+	"COUNTRY":                ListManagedListsListTypeCountry,
+	"STATE":                  ListManagedListsListTypeState,
+	"CITY":                   ListManagedListsListTypeCity,
+	"TAGS":                   ListManagedListsListTypeTags,
+	"GENERIC":                ListManagedListsListTypeGeneric,
+	"FUSION_APPS_ROLE":       ListManagedListsListTypeFusionAppsRole,
+	"FUSION_APPS_PERMISSION": ListManagedListsListTypeFusionAppsPermission,
 }
 
 var mappingListManagedListsListTypeEnumLowerCase = map[string]ListManagedListsListTypeEnum{
-	"cidr_block":    ListManagedListsListTypeCidrBlock,
-	"users":         ListManagedListsListTypeUsers,
-	"groups":        ListManagedListsListTypeGroups,
-	"ipv4address":   ListManagedListsListTypeIpv4address,
-	"ipv6address":   ListManagedListsListTypeIpv6address,
-	"resource_ocid": ListManagedListsListTypeResourceOcid,
-	"region":        ListManagedListsListTypeRegion,
-	"country":       ListManagedListsListTypeCountry,
-	"state":         ListManagedListsListTypeState,
-	"city":          ListManagedListsListTypeCity,
-	"tags":          ListManagedListsListTypeTags,
-	"generic":       ListManagedListsListTypeGeneric,
+	"cidr_block":             ListManagedListsListTypeCidrBlock,
+	"users":                  ListManagedListsListTypeUsers,
+	"groups":                 ListManagedListsListTypeGroups,
+	"ipv4address":            ListManagedListsListTypeIpv4address,
+	"ipv6address":            ListManagedListsListTypeIpv6address,
+	"resource_ocid":          ListManagedListsListTypeResourceOcid,
+	"region":                 ListManagedListsListTypeRegion,
+	"country":                ListManagedListsListTypeCountry,
+	"state":                  ListManagedListsListTypeState,
+	"city":                   ListManagedListsListTypeCity,
+	"tags":                   ListManagedListsListTypeTags,
+	"generic":                ListManagedListsListTypeGeneric,
+	"fusion_apps_role":       ListManagedListsListTypeFusionAppsRole,
+	"fusion_apps_permission": ListManagedListsListTypeFusionAppsPermission,
 }
 
 // GetListManagedListsListTypeEnumValues Enumerates the set of values for ListManagedListsListTypeEnum
@@ -283,6 +289,8 @@ func GetListManagedListsListTypeEnumStringValues() []string {
 		"CITY",
 		"TAGS",
 		"GENERIC",
+		"FUSION_APPS_ROLE",
+		"FUSION_APPS_PERMISSION",
 	}
 }
 

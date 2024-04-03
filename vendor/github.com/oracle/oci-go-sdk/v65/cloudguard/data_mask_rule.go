@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DataMaskRule Description of DataMaskRule.
+// DataMaskRule A data mask rule specifies the conditions in which the value for a sensitive data field in the UI is to be hidden or displayed when viewed by specified groups of users. The DataMaskRule object contains the parameters for a data mask rule.
 type DataMaskRule struct {
 
 	// Unique identifier that is immutable on creation

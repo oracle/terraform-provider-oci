@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DetectorRecipeDetectorRule Detector Recipe Rule
+// DetectorRecipeDetectorRule A DetectorRecipeDetectorRule object defines a single recipe rule in the collection for a DetectorRecipe object.
 type DetectorRecipeDetectorRule struct {
 
 	// The unique identifier of the detector rule.
@@ -100,48 +100,54 @@ type DetectorRecipeDetectorRuleManagedListTypesEnum string
 
 // Set of constants representing the allowable values for DetectorRecipeDetectorRuleManagedListTypesEnum
 const (
-	DetectorRecipeDetectorRuleManagedListTypesCidrBlock    DetectorRecipeDetectorRuleManagedListTypesEnum = "CIDR_BLOCK"
-	DetectorRecipeDetectorRuleManagedListTypesUsers        DetectorRecipeDetectorRuleManagedListTypesEnum = "USERS"
-	DetectorRecipeDetectorRuleManagedListTypesGroups       DetectorRecipeDetectorRuleManagedListTypesEnum = "GROUPS"
-	DetectorRecipeDetectorRuleManagedListTypesIpv4address  DetectorRecipeDetectorRuleManagedListTypesEnum = "IPV4ADDRESS"
-	DetectorRecipeDetectorRuleManagedListTypesIpv6address  DetectorRecipeDetectorRuleManagedListTypesEnum = "IPV6ADDRESS"
-	DetectorRecipeDetectorRuleManagedListTypesResourceOcid DetectorRecipeDetectorRuleManagedListTypesEnum = "RESOURCE_OCID"
-	DetectorRecipeDetectorRuleManagedListTypesRegion       DetectorRecipeDetectorRuleManagedListTypesEnum = "REGION"
-	DetectorRecipeDetectorRuleManagedListTypesCountry      DetectorRecipeDetectorRuleManagedListTypesEnum = "COUNTRY"
-	DetectorRecipeDetectorRuleManagedListTypesState        DetectorRecipeDetectorRuleManagedListTypesEnum = "STATE"
-	DetectorRecipeDetectorRuleManagedListTypesCity         DetectorRecipeDetectorRuleManagedListTypesEnum = "CITY"
-	DetectorRecipeDetectorRuleManagedListTypesTags         DetectorRecipeDetectorRuleManagedListTypesEnum = "TAGS"
-	DetectorRecipeDetectorRuleManagedListTypesGeneric      DetectorRecipeDetectorRuleManagedListTypesEnum = "GENERIC"
+	DetectorRecipeDetectorRuleManagedListTypesCidrBlock            DetectorRecipeDetectorRuleManagedListTypesEnum = "CIDR_BLOCK"
+	DetectorRecipeDetectorRuleManagedListTypesUsers                DetectorRecipeDetectorRuleManagedListTypesEnum = "USERS"
+	DetectorRecipeDetectorRuleManagedListTypesGroups               DetectorRecipeDetectorRuleManagedListTypesEnum = "GROUPS"
+	DetectorRecipeDetectorRuleManagedListTypesIpv4address          DetectorRecipeDetectorRuleManagedListTypesEnum = "IPV4ADDRESS"
+	DetectorRecipeDetectorRuleManagedListTypesIpv6address          DetectorRecipeDetectorRuleManagedListTypesEnum = "IPV6ADDRESS"
+	DetectorRecipeDetectorRuleManagedListTypesResourceOcid         DetectorRecipeDetectorRuleManagedListTypesEnum = "RESOURCE_OCID"
+	DetectorRecipeDetectorRuleManagedListTypesRegion               DetectorRecipeDetectorRuleManagedListTypesEnum = "REGION"
+	DetectorRecipeDetectorRuleManagedListTypesCountry              DetectorRecipeDetectorRuleManagedListTypesEnum = "COUNTRY"
+	DetectorRecipeDetectorRuleManagedListTypesState                DetectorRecipeDetectorRuleManagedListTypesEnum = "STATE"
+	DetectorRecipeDetectorRuleManagedListTypesCity                 DetectorRecipeDetectorRuleManagedListTypesEnum = "CITY"
+	DetectorRecipeDetectorRuleManagedListTypesTags                 DetectorRecipeDetectorRuleManagedListTypesEnum = "TAGS"
+	DetectorRecipeDetectorRuleManagedListTypesGeneric              DetectorRecipeDetectorRuleManagedListTypesEnum = "GENERIC"
+	DetectorRecipeDetectorRuleManagedListTypesFusionAppsRole       DetectorRecipeDetectorRuleManagedListTypesEnum = "FUSION_APPS_ROLE"
+	DetectorRecipeDetectorRuleManagedListTypesFusionAppsPermission DetectorRecipeDetectorRuleManagedListTypesEnum = "FUSION_APPS_PERMISSION"
 )
 
 var mappingDetectorRecipeDetectorRuleManagedListTypesEnum = map[string]DetectorRecipeDetectorRuleManagedListTypesEnum{
-	"CIDR_BLOCK":    DetectorRecipeDetectorRuleManagedListTypesCidrBlock,
-	"USERS":         DetectorRecipeDetectorRuleManagedListTypesUsers,
-	"GROUPS":        DetectorRecipeDetectorRuleManagedListTypesGroups,
-	"IPV4ADDRESS":   DetectorRecipeDetectorRuleManagedListTypesIpv4address,
-	"IPV6ADDRESS":   DetectorRecipeDetectorRuleManagedListTypesIpv6address,
-	"RESOURCE_OCID": DetectorRecipeDetectorRuleManagedListTypesResourceOcid,
-	"REGION":        DetectorRecipeDetectorRuleManagedListTypesRegion,
-	"COUNTRY":       DetectorRecipeDetectorRuleManagedListTypesCountry,
-	"STATE":         DetectorRecipeDetectorRuleManagedListTypesState,
-	"CITY":          DetectorRecipeDetectorRuleManagedListTypesCity,
-	"TAGS":          DetectorRecipeDetectorRuleManagedListTypesTags,
-	"GENERIC":       DetectorRecipeDetectorRuleManagedListTypesGeneric,
+	"CIDR_BLOCK":             DetectorRecipeDetectorRuleManagedListTypesCidrBlock,
+	"USERS":                  DetectorRecipeDetectorRuleManagedListTypesUsers,
+	"GROUPS":                 DetectorRecipeDetectorRuleManagedListTypesGroups,
+	"IPV4ADDRESS":            DetectorRecipeDetectorRuleManagedListTypesIpv4address,
+	"IPV6ADDRESS":            DetectorRecipeDetectorRuleManagedListTypesIpv6address,
+	"RESOURCE_OCID":          DetectorRecipeDetectorRuleManagedListTypesResourceOcid,
+	"REGION":                 DetectorRecipeDetectorRuleManagedListTypesRegion,
+	"COUNTRY":                DetectorRecipeDetectorRuleManagedListTypesCountry,
+	"STATE":                  DetectorRecipeDetectorRuleManagedListTypesState,
+	"CITY":                   DetectorRecipeDetectorRuleManagedListTypesCity,
+	"TAGS":                   DetectorRecipeDetectorRuleManagedListTypesTags,
+	"GENERIC":                DetectorRecipeDetectorRuleManagedListTypesGeneric,
+	"FUSION_APPS_ROLE":       DetectorRecipeDetectorRuleManagedListTypesFusionAppsRole,
+	"FUSION_APPS_PERMISSION": DetectorRecipeDetectorRuleManagedListTypesFusionAppsPermission,
 }
 
 var mappingDetectorRecipeDetectorRuleManagedListTypesEnumLowerCase = map[string]DetectorRecipeDetectorRuleManagedListTypesEnum{
-	"cidr_block":    DetectorRecipeDetectorRuleManagedListTypesCidrBlock,
-	"users":         DetectorRecipeDetectorRuleManagedListTypesUsers,
-	"groups":        DetectorRecipeDetectorRuleManagedListTypesGroups,
-	"ipv4address":   DetectorRecipeDetectorRuleManagedListTypesIpv4address,
-	"ipv6address":   DetectorRecipeDetectorRuleManagedListTypesIpv6address,
-	"resource_ocid": DetectorRecipeDetectorRuleManagedListTypesResourceOcid,
-	"region":        DetectorRecipeDetectorRuleManagedListTypesRegion,
-	"country":       DetectorRecipeDetectorRuleManagedListTypesCountry,
-	"state":         DetectorRecipeDetectorRuleManagedListTypesState,
-	"city":          DetectorRecipeDetectorRuleManagedListTypesCity,
-	"tags":          DetectorRecipeDetectorRuleManagedListTypesTags,
-	"generic":       DetectorRecipeDetectorRuleManagedListTypesGeneric,
+	"cidr_block":             DetectorRecipeDetectorRuleManagedListTypesCidrBlock,
+	"users":                  DetectorRecipeDetectorRuleManagedListTypesUsers,
+	"groups":                 DetectorRecipeDetectorRuleManagedListTypesGroups,
+	"ipv4address":            DetectorRecipeDetectorRuleManagedListTypesIpv4address,
+	"ipv6address":            DetectorRecipeDetectorRuleManagedListTypesIpv6address,
+	"resource_ocid":          DetectorRecipeDetectorRuleManagedListTypesResourceOcid,
+	"region":                 DetectorRecipeDetectorRuleManagedListTypesRegion,
+	"country":                DetectorRecipeDetectorRuleManagedListTypesCountry,
+	"state":                  DetectorRecipeDetectorRuleManagedListTypesState,
+	"city":                   DetectorRecipeDetectorRuleManagedListTypesCity,
+	"tags":                   DetectorRecipeDetectorRuleManagedListTypesTags,
+	"generic":                DetectorRecipeDetectorRuleManagedListTypesGeneric,
+	"fusion_apps_role":       DetectorRecipeDetectorRuleManagedListTypesFusionAppsRole,
+	"fusion_apps_permission": DetectorRecipeDetectorRuleManagedListTypesFusionAppsPermission,
 }
 
 // GetDetectorRecipeDetectorRuleManagedListTypesEnumValues Enumerates the set of values for DetectorRecipeDetectorRuleManagedListTypesEnum
@@ -168,6 +174,8 @@ func GetDetectorRecipeDetectorRuleManagedListTypesEnumStringValues() []string {
 		"CITY",
 		"TAGS",
 		"GENERIC",
+		"FUSION_APPS_ROLE",
+		"FUSION_APPS_PERMISSION",
 	}
 }
 

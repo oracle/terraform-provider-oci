@@ -18,40 +18,29 @@ import (
 	"strings"
 )
 
-// SuppressionSummary The full information representing a suppression.
-type SuppressionSummary struct {
+// Configuration Tenancy level customer email configuration details.
+type Configuration struct {
 
-	// The OCID for the compartment.
+	// The root compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) (same as the tenancy OCID)
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The email address of the suppression.
-	EmailAddress *string `mandatory:"true" json:"emailAddress"`
+	// Endpoint used to submit emails via the HTTP email submission API
+	HttpSubmitEndpoint *string `mandatory:"true" json:"httpSubmitEndpoint"`
 
-	// The unique OCID of the suppression.
-	Id *string `mandatory:"true" json:"id"`
-
-	// The reason that the email address was suppressed.
-	Reason SuppressionReasonEnum `mandatory:"false" json:"reason,omitempty"`
-
-	// The date and time a recipient's email address was added to the
-	// suppression list, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as
-	// defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
-	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+	// Endpoint used to submit emails via the standard SMTP submission protocol. Note that TLS 1.2 and standard SMTP authentication is required for submission.
+	SmtpSubmitEndpoint *string `mandatory:"true" json:"smtpSubmitEndpoint"`
 }
 
-func (m SuppressionSummary) String() string {
+func (m Configuration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m SuppressionSummary) ValidateEnumValue() (bool, error) {
+func (m Configuration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingSuppressionReasonEnum(string(m.Reason)); !ok && m.Reason != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Reason: %s. Supported values are: %s.", m.Reason, strings.Join(GetSuppressionReasonEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

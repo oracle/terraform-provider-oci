@@ -273,7 +273,7 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeDetectorRecipeCompartment Moves the DetectorRecipe from current compartment to another.
+// ChangeDetectorRecipeCompartment Moves the detector recipe (DetectorRecipe object), identified by detectorRecipeId, from the current compartment to another compartment.
 //
 // # See also
 //
@@ -335,7 +335,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeManagedListCompartment Moves the ManagedList from current compartment to another.
+// ChangeManagedListCompartment Moves the managed list (ManagedList object), identified by managedListId, from the current compartment to another compartment.
 //
 // # See also
 //
@@ -583,7 +583,7 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 	return response, err
 }
 
-// CreateDataMaskRule Creates a new Data Mask Rule Definition
+// CreateDataMaskRule Creates a new DataMaskRule object definition.
 //
 // # See also
 //
@@ -707,7 +707,7 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// CreateDetectorRecipe Creates a DetectorRecipe
+// CreateDetectorRecipe Creates a new DetectorRecipe object.
 //
 // # See also
 //
@@ -831,7 +831,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// CreateManagedList Creates a new ManagedList.
+// CreateManagedList Creates a new ManagedList object.
 //
 // # See also
 //
@@ -1265,7 +1265,7 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// DeleteDataMaskRule Deletes a DataMaskRule identified by dataMaskRuleId
+// DeleteDataMaskRule Deletes a DataMaskRule object, identified by dataMaskRuleId.
 //
 // # See also
 //
@@ -1384,7 +1384,7 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteDetectorRecipe Deletes a DetectorRecipe identified by detectorRecipeId
+// DeleteDetectorRecipe Deletes a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -1560,7 +1560,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRuleDataSource(ctx co
 	return response, err
 }
 
-// DeleteManagedList Deletes a managed list identified by managedListId
+// DeleteManagedList Deletes a managed list identified by managedListId.
 //
 // # See also
 //
@@ -2026,7 +2026,7 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	return response, err
 }
 
-// GetConditionMetadataType Returns ConditionType with its details.
+// GetConditionMetadataType Returns a ConditionMetatDataType object with its details.
 //
 // # See also
 //
@@ -2083,7 +2083,7 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 	return response, err
 }
 
-// GetConfiguration GET Cloud Guard Configuration Details for a Tenancy.
+// GetConfiguration Returns the configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
 //
 // # See also
 //
@@ -2140,7 +2140,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 	return response, err
 }
 
-// GetDataMaskRule Returns a DataMaskRule identified by DataMaskRuleId
+// GetDataMaskRule Returns a DataMaskRule object, identified by DataMaskRuleId.
 //
 // # See also
 //
@@ -2254,7 +2254,7 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 	return response, err
 }
 
-// GetDetector Returns a Detector identified by detectorId.
+// GetDetector Returns a Detector object, identified by detectorId.
 //
 // # See also
 //
@@ -2311,7 +2311,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetDetectorRecipe Returns a DetectorRecipe identified by detectorRecipeId
+// GetDetectorRecipe Returns a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -2368,7 +2368,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 	return response, err
 }
 
-// GetDetectorRecipeDetectorRule Get DetectorRule by identifier
+// GetDetectorRecipeDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
 //
 // # See also
 //
@@ -2425,7 +2425,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 	return response, err
 }
 
-// GetDetectorRule Returns a Detector Rule identified by detectorRuleId
+// GetDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
 //
 // # See also
 //
@@ -2482,7 +2482,7 @@ func (client CloudGuardClient) getDetectorRule(ctx context.Context, request comm
 	return response, err
 }
 
-// GetManagedList Returns a managed list identified by managedListId
+// GetManagedList Returns a managed list identified by managedListId.
 //
 // # See also
 //
@@ -2539,7 +2539,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 	return response, err
 }
 
-// GetProblem Returns a Problems response
+// GetProblem Returns the Problem object identified by a problemId.
 //
 // # See also
 //
@@ -3451,7 +3451,7 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListConditionMetadataTypes Returns a list of condition types.
+// ListConditionMetadataTypes Returns a list of ConditionMetadataType objects.
 //
 // # See also
 //
@@ -3508,7 +3508,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 	return response, err
 }
 
-// ListDataMaskRules Returns a list of all Data Mask Rules in the root 'compartmentId' passed.
+// ListDataMaskRules Returns a list of all DataMaskRule objects in the specified compartmentId (OCID) and its subcompartments.
 //
 // # See also
 //
@@ -3690,7 +3690,7 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDetectorRecipeDetectorRules Returns a list of DetectorRule associated with DetectorRecipe.
+// ListDetectorRecipeDetectorRules Returns a list of detector rules (DetectorRule objects) for a detector recipe (DetectorRecipe object), identified by detectorRecipeId.
 //
 // # See also
 //
@@ -3747,7 +3747,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 	return response, err
 }
 
-// ListDetectorRecipes Returns a list of all Detector Recipes in a compartment
+// ListDetectorRecipes Returns a list of all detector recipes (DetectorRecipe objects) in a compartment, identified by compartmentId.
 // The ListDetectorRecipes operation returns only the detector recipes in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -3815,7 +3815,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 	return response, err
 }
 
-// ListDetectorRules Returns a list of detector rules for the detectorId passed.
+// ListDetectorRules Returns a list of detector rules for the DetectorRecipe object identified by detectorId.
 //
 // # See also
 //
@@ -3872,7 +3872,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 	return response, err
 }
 
-// ListDetectors Returns detector catalog - list of detectors supported by Cloud Guard
+// ListDetectors Returns a detector catalog (DetectorCollection object) with a list of DetectorSummary objects.
 //
 // # See also
 //
@@ -3929,7 +3929,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	return response, err
 }
 
-// ListImpactedResources Returns a list of Impacted Resources for a CloudGuard Problem
+// ListImpactedResources Returns a list of impacted resources for a Cloud Guard problem with a specified problem ID.
 //
 // # See also
 //
@@ -3986,7 +3986,7 @@ func (client CloudGuardClient) listImpactedResources(ctx context.Context, reques
 	return response, err
 }
 
-// ListManagedListTypes Returns all ManagedList types supported by Cloud Guard
+// ListManagedListTypes Returns all managed list types (listType parameter) that Cloud Guard supports.
 //
 // # See also
 //
@@ -4043,7 +4043,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 	return response, err
 }
 
-// ListManagedLists Returns a list of ListManagedLists.
+// ListManagedLists Returns a list of all ManagedList objects in a compartment, identified by compartmentId.
 // The ListManagedLists operation returns only the managed lists in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return ManagedLists in only
@@ -4111,7 +4111,7 @@ func (client CloudGuardClient) listManagedLists(ctx context.Context, request com
 	return response, err
 }
 
-// ListPolicies Returns the list of global policy statements needed by Cloud Guard when enabling
+// ListPolicies Returns the list of global policy statements (policy attributes) needed to fully enable Cloud Guard.
 //
 // # See also
 //
@@ -4168,7 +4168,7 @@ func (client CloudGuardClient) listPolicies(ctx context.Context, request common.
 	return response, err
 }
 
-// ListProblemEndpoints Returns a list of endpoints associated with a cloud guard problem
+// ListProblemEndpoints Returns a list of endpoints associated with a problem, identified by problemId.
 //
 // # See also
 //
@@ -4282,7 +4282,7 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 	return response, err
 }
 
-// ListProblemHistories Returns a list of Actions done on CloudGuard Problem
+// ListProblemHistories Returns a list of actions taken on a Cloud Guard problem.
 //
 // # See also
 //
@@ -4339,7 +4339,7 @@ func (client CloudGuardClient) listProblemHistories(ctx context.Context, request
 	return response, err
 }
 
-// ListProblems Returns a list of all Problems identified by the Cloud Guard
+// ListProblems Returns a list of all Problems identified by Cloud Guard which are currently in the database and meet the filtering criteria.
 // The ListProblems operation returns only the problems in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -6166,7 +6166,7 @@ func (client CloudGuardClient) requestSecurityScores(ctx context.Context, reques
 	return response, err
 }
 
-// RequestSummarizedActivityProblems Returns the summary of Activity type problems identified by cloud guard, for a given set of dimensions.
+// RequestSummarizedActivityProblems Returns the summary of problems generated by OCI Activity Detector rules, identified by parameters specified.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -6234,7 +6234,7 @@ func (client CloudGuardClient) requestSummarizedActivityProblems(ctx context.Con
 	return response, err
 }
 
-// RequestSummarizedProblems Returns the number of problems identified by cloud guard, for a given set of dimensions.
+// RequestSummarizedProblems Returns the number of problems matching the key-value pairs in dimensionMap.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -6537,7 +6537,7 @@ func (client CloudGuardClient) requestSummarizedTopTrendResourceProfileRiskScore
 	return response, err
 }
 
-// RequestSummarizedTrendProblems Returns the number of problems identified by cloud guard, for a given time period.
+// RequestSummarizedTrendProblems Returns a ProblemTrendAggregationCollection resource for a compartment, identified by compartmentId, for the specified time period. The ProblemTrendAggregationCollection resource contains a list of ProblemTrendAggregation resources.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -6903,7 +6903,7 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 	return response, err
 }
 
-// TriggerResponder push the problem to responder
+// TriggerResponder Sends the problem identified by problemId to the responder engine, to be processed by rule that’s identified by responderRuleId, in the TriggerResponderDetails resource that’s passed.
 //
 // # See also
 //
@@ -6965,8 +6965,7 @@ func (client CloudGuardClient) triggerResponder(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateBulkProblemStatus Updates the statuses in bulk for a list of problems
-// The operation is atomic in nature
+// UpdateBulkProblemStatus Changes the status for all problems listed in the problemIds array, passed through the UpdateBulkProblemStatusDetails resource, from the current status to the status set in UpdateBulkProblemStatusDetails.
 //
 // # See also
 //
@@ -7023,7 +7022,7 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateConfiguration Enable/Disable Cloud Guard. The reporting region cannot be updated once created.
+// UpdateConfiguration Update configuration details for a Cloud Guard tenancy, identified by root compartment OCID. The reporting region cannot be updated once created.
 //
 // # See also
 //
@@ -7085,7 +7084,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDataMaskRule Updates a DataMaskRule identified by dataMaskRuleId
+// UpdateDataMaskRule Updates a data mask rule (DataMaskRule object) identified by dataMaskRuleId.
 //
 // # See also
 //
@@ -7204,7 +7203,7 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateDetectorRecipe Updates a detector recipe identified by detectorRecipeId
+// UpdateDetectorRecipe Updates a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -7266,7 +7265,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// UpdateDetectorRecipeDetectorRule Update the DetectorRule by identifier
+// UpdateDetectorRecipeDetectorRule Updates a detector rule (DetectorRule object) identified by detectorRuleId.
 //
 // # See also
 //
@@ -7323,7 +7322,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// UpdateManagedList Updates a managed list identified by managedListId
+// UpdateManagedList Updates a ManagedList object, identified by managedList.
 //
 // # See also
 //
@@ -7385,7 +7384,7 @@ func (client CloudGuardClient) updateManagedList(ctx context.Context, request co
 	return response, err
 }
 
-// UpdateProblemStatus updates the problem details
+// UpdateProblemStatus Changes the current status of the problem, identified by problemId, to the status specified in the UpdateProblemStatusDetails resource that you pass.
 //
 // # See also
 //

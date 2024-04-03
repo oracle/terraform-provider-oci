@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ProblemTrendAggregation Provides the dimensions and their corresponding time and count.
+// ProblemTrendAggregation Provides aggregated information on trends for counts of problems by specified parameters.
 type ProblemTrendAggregation struct {
 
 	// The key-value pairs of dimensions and their names.
