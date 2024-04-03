@@ -135,6 +135,10 @@ func (s *EmailSendersDataSourceCrud) SetData() error {
 
 		sender["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			sender["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			sender["time_created"] = r.TimeCreated.String()
 		}

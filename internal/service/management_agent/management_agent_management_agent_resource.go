@@ -371,7 +371,9 @@ func deleteManagementAgentManagementAgent(d *schema.ResourceData, m interface{})
 	sync.Client = m.(*client.OracleClients).ManagementAgentClient()
 	sync.DisableNotFoundRetries = true
 
-	return tfresource.DeleteResource(d, sync)
+	//Destroy does not remove the item from the Management Agent backend.. only removes from state
+	sync.VoidState()
+	return nil
 }
 
 type ManagementAgentManagementAgentResourceCrud struct {
@@ -514,6 +516,55 @@ func managementAgentWaitForWorkRequest(wId *string, entityType string, action oc
 	return identifier, nil
 }
 
+// Function to wait for a compute instance "host_id" (or instance ocid) to appear in agent list
+// When a compute is created with OCA plugin, it can take up to 10 minutes for the agent to appear in MACS
+// This function waits for the agent to appear.  Used with data source for "host_id" and "wait_for_host_id"
+func managementAgentWaitForInstanceAgent(hostId *string, compartmentId *string,
+	timeout time.Duration, disableFoundRetries bool, client *oci_management_agent.ManagementAgentClient) (*string, error) {
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "management_agent")
+	retryPolicy.ShouldRetryOperation = managementAgentWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_management_agent.ListManagementAgentsResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string("not found"),
+		},
+		Target: []string{
+			string("found"),
+		},
+		Refresh: func() (interface{}, string, error) {
+			request := oci_management_agent.ListManagementAgentsRequest{}
+			request.CompartmentId = compartmentId
+			request.HostId = hostId
+			request.RequestMetadata = oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			}
+
+			response, err := client.ListManagementAgents(context.Background(), request)
+
+			var state string
+			if len(response.Items) > 0 {
+				state = "found"
+			} else {
+				state = "not found"
+			}
+
+			return response, state, err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	if len(response.Items) > 0 {
+		return response.Items[0].Id, nil
+	} else {
+		return nil, nil
+	}
+
+}
+
 func getErrorFromManagementAgentManagementAgentWorkRequest(client *oci_management_agent.ManagementAgentClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_management_agent.ActionTypesEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_management_agent.ListWorkRequestErrorsRequest{
@@ -597,15 +648,20 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 
 	if deployPluginIds, ok := s.D.GetOkExists("deploy_plugins_id"); ok {
 		interfaces := deployPluginIds.([]interface{})
-		tmp := make([]string, len(interfaces))
+		var deployPluginsId []string
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(string)
+				if !contains(s.Res.PluginList, interfaces[i].(string)) {
+					deployPluginsId = append(deployPluginsId, interfaces[i].(string))
+				} else {
+					log.Printf("[INFO] deploy plugin %v already deployed on agent %v", interfaces[i].(string), agentId)
+				}
 			}
 		}
-		if len(tmp) != 0 || s.D.HasChange("deploy_plugins_id") {
+
+		if len(deployPluginsId) != 0 && s.D.HasChange("deploy_plugins_id") {
 			comparmtentId := response.CompartmentId
-			if err = s.deployPlugin(tmp, agentId, *comparmtentId); err != nil {
+			if err = s.deployPlugin(deployPluginsId, agentId, *comparmtentId); err != nil {
 				return err
 			}
 		}
@@ -613,6 +669,14 @@ func (s *ManagementAgentManagementAgentResourceCrud) Update() error {
 	return nil
 }
 
+func contains(s []oci_management_agent.ManagementAgentPluginDetails, str string) bool {
+	for _, v := range s {
+		if *v.PluginId == str {
+			return true
+		}
+	}
+	return false
+}
 func (s *ManagementAgentManagementAgentResourceCrud) Delete() error {
 	request := oci_management_agent.DeleteManagementAgentRequest{}
 
@@ -931,6 +995,10 @@ func (s *ManagementAgentManagementAgentResourceCrud) mapToMetricDimension(fieldK
 func (s *ManagementAgentManagementAgentResourceCrud) Create() error {
 	e := s.Get()
 	if e != nil {
+		return e
+	}
+
+	if e := s.SetData(); e != nil {
 		return e
 	}
 

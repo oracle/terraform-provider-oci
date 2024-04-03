@@ -31,6 +31,7 @@ data "oci_management_agent_management_agents" "test_management_agents" {
 	display_name = var.management_agent_display_name
 	gateway_id = oci_apigateway_gateway.test_gateway.id
 	host_id = oci_management_agent_host.test_host.id
+	wait_for_host_id = 10
 	install_type = var.management_agent_install_type
 	is_customer_deployed = var.management_agent_is_customer_deployed
 	platform_type = var.management_agent_platform_type
@@ -53,6 +54,7 @@ The following arguments are supported:
 * `display_name` - (Optional) Filter to return only Management Agents having the particular display name.
 * `gateway_id` - (Optional) Filter to return only results having the particular gatewayId.
 * `host_id` - (Optional) Filter to return only Management Agents having the particular agent host id.
+* `wait_for_host_id` - (Optional) When host_id argument is set, the data source will wait for the given period of time (in minutes) for this host_id to become available. This can be used when compute instance with Management Agent has been recently created.
 * `install_type` - (Optional) A filter to return either agents or gateway types depending upon install type selected by user. By default both install type will be returned.
 * `is_customer_deployed` - (Optional) true, if the agent image is manually downloaded and installed. false, if the agent is deployed as a plugin in Oracle Cloud Agent.
 * `platform_type` - (Optional) Array of PlatformTypes to return only results having the particular platform types. Example: ["LINUX"]

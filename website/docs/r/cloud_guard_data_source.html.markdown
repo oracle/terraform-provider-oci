@@ -52,6 +52,7 @@ resource "oci_cloud_guard_data_source" "test_data_source" {
 	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	status = var.data_source_status
 }
 ```
 
@@ -81,6 +82,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
+* `status` - (Optional) (Updatable) Status of DataSource. Default value is DISABLED.
 
 
 ** IMPORTANT **
