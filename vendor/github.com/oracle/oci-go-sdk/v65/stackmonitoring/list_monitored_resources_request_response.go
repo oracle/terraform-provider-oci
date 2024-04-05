@@ -27,6 +27,9 @@ type ListMonitoredResourcesRequest struct {
 	// A filter to return resources which were impacted as part of this work request identifier.
 	WorkRequestId *string `mandatory:"false" contributesTo:"query" name:"workRequestId"`
 
+	// A filter to return only resources with matching lifecycleState.
+	Status ListMonitoredResourcesStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
+
 	// The field to sort by. Only one sort order may be provided.
 	// Default order for timeCreated is descending. Default order for resources is ascending.
 	SortBy ListMonitoredResourcesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
@@ -84,6 +87,9 @@ func (request ListMonitoredResourcesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListMonitoredResourcesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListMonitoredResourcesStatusEnum(string(request.Status)); !ok && request.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", request.Status, strings.Join(GetListMonitoredResourcesStatusEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListMonitoredResourcesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMonitoredResourcesSortByEnumStringValues(), ",")))
 	}
@@ -125,6 +131,64 @@ func (response ListMonitoredResourcesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListMonitoredResourcesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListMonitoredResourcesStatusEnum Enum with underlying type: string
+type ListMonitoredResourcesStatusEnum string
+
+// Set of constants representing the allowable values for ListMonitoredResourcesStatusEnum
+const (
+	ListMonitoredResourcesStatusCreating ListMonitoredResourcesStatusEnum = "CREATING"
+	ListMonitoredResourcesStatusUpdating ListMonitoredResourcesStatusEnum = "UPDATING"
+	ListMonitoredResourcesStatusActive   ListMonitoredResourcesStatusEnum = "ACTIVE"
+	ListMonitoredResourcesStatusDeleting ListMonitoredResourcesStatusEnum = "DELETING"
+	ListMonitoredResourcesStatusDeleted  ListMonitoredResourcesStatusEnum = "DELETED"
+	ListMonitoredResourcesStatusFailed   ListMonitoredResourcesStatusEnum = "FAILED"
+)
+
+var mappingListMonitoredResourcesStatusEnum = map[string]ListMonitoredResourcesStatusEnum{
+	"CREATING": ListMonitoredResourcesStatusCreating,
+	"UPDATING": ListMonitoredResourcesStatusUpdating,
+	"ACTIVE":   ListMonitoredResourcesStatusActive,
+	"DELETING": ListMonitoredResourcesStatusDeleting,
+	"DELETED":  ListMonitoredResourcesStatusDeleted,
+	"FAILED":   ListMonitoredResourcesStatusFailed,
+}
+
+var mappingListMonitoredResourcesStatusEnumLowerCase = map[string]ListMonitoredResourcesStatusEnum{
+	"creating": ListMonitoredResourcesStatusCreating,
+	"updating": ListMonitoredResourcesStatusUpdating,
+	"active":   ListMonitoredResourcesStatusActive,
+	"deleting": ListMonitoredResourcesStatusDeleting,
+	"deleted":  ListMonitoredResourcesStatusDeleted,
+	"failed":   ListMonitoredResourcesStatusFailed,
+}
+
+// GetListMonitoredResourcesStatusEnumValues Enumerates the set of values for ListMonitoredResourcesStatusEnum
+func GetListMonitoredResourcesStatusEnumValues() []ListMonitoredResourcesStatusEnum {
+	values := make([]ListMonitoredResourcesStatusEnum, 0)
+	for _, v := range mappingListMonitoredResourcesStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListMonitoredResourcesStatusEnumStringValues Enumerates the set of values in String for ListMonitoredResourcesStatusEnum
+func GetListMonitoredResourcesStatusEnumStringValues() []string {
+	return []string{
+		"CREATING",
+		"UPDATING",
+		"ACTIVE",
+		"DELETING",
+		"DELETED",
+		"FAILED",
+	}
+}
+
+// GetMappingListMonitoredResourcesStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListMonitoredResourcesStatusEnum(val string) (ListMonitoredResourcesStatusEnum, bool) {
+	enum, ok := mappingListMonitoredResourcesStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListMonitoredResourcesSortByEnum Enum with underlying type: string

@@ -98,6 +98,9 @@ type SqlEndpoint struct {
 	// not allowed to be overwritten will cause a 400 status to be returned.
 	SparkAdvancedConfigurations map[string]string `mandatory:"false" json:"sparkAdvancedConfigurations"`
 
+	// The SQL Endpoint message displayed as a banner to provide user with any action items required on the resource.
+	BannerMessage *string `mandatory:"false" json:"bannerMessage"`
+
 	NetworkConfiguration SqlEndpointNetworkConfiguration `mandatory:"false" json:"networkConfiguration"`
 }
 
@@ -135,6 +138,7 @@ func (m *SqlEndpoint) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                 map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags                  map[string]map[string]interface{} `json:"systemTags"`
 		SparkAdvancedConfigurations map[string]string                 `json:"sparkAdvancedConfigurations"`
+		BannerMessage               *string                           `json:"bannerMessage"`
 		NetworkConfiguration        sqlendpointnetworkconfiguration   `json:"networkConfiguration"`
 		Id                          *string                           `json:"id"`
 		DisplayName                 *string                           `json:"displayName"`
@@ -178,6 +182,8 @@ func (m *SqlEndpoint) UnmarshalJSON(data []byte) (e error) {
 	m.SystemTags = model.SystemTags
 
 	m.SparkAdvancedConfigurations = model.SparkAdvancedConfigurations
+
+	m.BannerMessage = model.BannerMessage
 
 	nn, e = model.NetworkConfiguration.UnmarshalPolymorphicJSON(model.NetworkConfiguration.JsonData)
 	if e != nil {
