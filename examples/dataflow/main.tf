@@ -140,6 +140,7 @@ resource "oci_dataflow_invoke_run" "tf_invoke_run" {
   #freeform_tags   = var.invoke_run_freeform_tags}"
   #logs_bucket_uri = var.invoke_run_logs_bucket_uri}"
   #num_executors   = var.invoke_run_num_executors}"
+  #opc_parent_rpt_url   = var.invoke_run_opc_parent_rpt_url}"
 
   #parameters {
   #Required
