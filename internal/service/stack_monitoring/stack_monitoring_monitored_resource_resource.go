@@ -376,6 +376,14 @@ func StackMonitoringMonitoredResourceResource() *schema.Resource {
 			},
 
 			// Computed
+			"resource_category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"source_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -1007,6 +1015,10 @@ func (s *StackMonitoringMonitoredResourceResourceCrud) SetData() error {
 		properties = append(properties, MonitoredResourcePropertyToMap(item))
 	}
 	s.D.Set("properties", properties)
+
+	s.D.Set("resource_category", s.Res.ResourceCategory)
+
+	s.D.Set("source_type", s.Res.SourceType)
 
 	if s.Res.ResourceTimeZone != nil {
 		s.D.Set("resource_time_zone", *s.Res.ResourceTimeZone)

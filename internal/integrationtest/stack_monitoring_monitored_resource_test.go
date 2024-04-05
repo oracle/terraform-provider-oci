@@ -35,7 +35,8 @@ var (
 	StackMonitoringMonitoredResourceDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `terraformResource`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceDataSourceFilterRepresentation}}
+		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMonitoredResourceDataSourceFilterRepresentation},
+		"status":         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`}}
 	StackMonitoringMonitoredResourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_stack_monitoring_monitored_resource.test_monitored_resource.id}`}},
@@ -279,7 +280,7 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "name", "terraformResource"),
-
+				resource.TestCheckResourceAttr(datasourceName, "status", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "monitored_resource_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "monitored_resource_collection.0.items.#", "1"),
 			),
@@ -298,8 +299,8 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "license", "ENTERPRISE_EDITION"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "terraformResource"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "properties.#", "4"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.name", "osName"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "properties.0.value", "Linux"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "resource_category"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "source_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_time_zone", "en"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenant_id"),
@@ -321,6 +322,8 @@ func TestStackMonitoringMonitoredResourceResource_basic(t *testing.T) {
 				"additional_aliases",
 				"additional_credentials",
 				"external_resource_id",
+				"compartment_ids",
+				"lifecycle_states",
 			},
 			ResourceName: resourceName,
 		},
