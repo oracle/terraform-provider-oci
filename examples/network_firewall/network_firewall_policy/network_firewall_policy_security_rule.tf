@@ -45,12 +45,6 @@ variable "network_firewall_policy_security_rule_security_rule_priority_order" {
 }
 
 resource "oci_network_firewall_network_firewall_policy_security_rule" "test_network_firewall_policy_security_rule_allow" {
-  lifecycle {
-    # ignore changes to position
-    ignore_changes = [
-      position
-    ]
-  }
   #Required
   name                       = var.network_firewall_policy_security_rule_allow_name
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
@@ -73,12 +67,6 @@ resource "oci_network_firewall_network_firewall_policy_security_rule" "test_netw
 }
 
 resource "oci_network_firewall_network_firewall_policy_security_rule" "test_network_firewall_policy_security_rule_inspect" {
-  lifecycle {
-    # ignore changes to position
-    ignore_changes = [
-      position
-    ]
-  }
   #Required
   name                       = var.network_firewall_policy_security_rule_inspect_name
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
@@ -101,12 +89,6 @@ resource "oci_network_firewall_network_firewall_policy_security_rule" "test_netw
 }
 
 resource "oci_network_firewall_network_firewall_policy_security_rule" "test_network_firewall_policy_security_rule_empty_condition" {
-  lifecycle {
-    # ignore changes to position
-    ignore_changes = [
-      position
-    ]
-  }
   #Required
   name                       = var.network_firewall_policy_security_rule_empty_condition_name
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
