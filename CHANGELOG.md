@@ -1,3 +1,17 @@
+## 5.37.0 (Unreleased)
+
+### Added
+- Stack Monitoring: Extensibility support phase 2
+- Support for DNS-Aware Healthcheck Backend
+- Support for NLB Instantaneous Backend Failover
+- Support for DataFlow Composite Resource Principal Support
+- DataFlow Composite Resource Principal Support Optional Param Example
+### Bug Fix
+- Devops Deploy Deployment Execution Progress
+- Fix position issues with security/decryption rule during update
+- Network firewall policy fix for empty items in list network firewall policies
+- add logic to ensure object_name_filter is automatically set to null if target is multipart-uploads while creating object storage lifecycle policy
+
 ## 5.36.0 (Unreleased)
 
 ### Added
