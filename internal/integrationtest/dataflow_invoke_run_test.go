@@ -60,6 +60,7 @@ var (
 		"logs_bucket_uri":        acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_logs_bucket_uri}`},
 		"metastore_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.metastore_id}`},
 		"num_executors":          acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"opc_parent_rpt_url":     acctest.Representation{RepType: acctest.Optional, Create: `opcParentRptUrl`},
 		"parameters":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DataflowInvokeRunParametersRepresentation},
 		"type":                   acctest.Representation{RepType: acctest.Optional, Create: `BATCH`},
 		"warehouse_bucket_uri":   acctest.Representation{RepType: acctest.Optional, Create: `${var.dataflow_warehouse_bucket_uri}`},
@@ -187,6 +188,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
 				resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opc_parent_rpt_url", "opcParentRptUrl"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
@@ -243,6 +245,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
 				resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opc_parent_rpt_url", "opcParentRptUrl"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
@@ -293,6 +296,7 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "logs_bucket_uri"),
 				resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
 				resource.TestCheckResourceAttr(resourceName, "num_executors", "1"),
+				resource.TestCheckResourceAttr(resourceName, "opc_parent_rpt_url", "opcParentRptUrl"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.name", "name"),
 				resource.TestCheckResourceAttr(resourceName, "parameters.0.value", "value"),
@@ -416,6 +420,16 @@ func TestDataflowInvokeRunResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "warehouse_bucket_uri", warehouseBucketUri),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metastore_id", metastoreId),
 			),
+		},
+		// verify resource import
+		{
+			Config:            config + DataflowInvokeRunRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"opc_parent_rpt_url",
+			},
+			ResourceName: resourceName,
 		},
 	})
 }
