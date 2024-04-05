@@ -21,6 +21,7 @@ data "oci_stack_monitoring_monitored_resources" "test_monitored_resources" {
 
 	#Optional
 	name = var.monitored_resource_name
+	status = var.monitored_resource_status
 	work_request_id = oci_containerengine_work_request.test_work_request.id
 }
 ```
@@ -31,6 +32,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which data is listed.
 * `name` - (Optional) A filter to return resources that match exact resource name.
+* `status` - (Optional) A filter to return only resources with matching lifecycleState.
 * `work_request_id` - (Optional) A filter to return resources which were impacted as part of this work request identifier.
 
 
@@ -84,7 +86,9 @@ The following attributes are exported:
 * `properties` - List of monitored resource properties. 
 	* `name` - Property Name. 
 	* `value` - Property Value. 
+* `resource_category` - Resource Category to indicate the kind of resource type. 
 * `resource_time_zone` - Time zone in the form of tz database canonical zone ID.
+* `source_type` - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc. 
 * `state` - Lifecycle state of the monitored resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenant_id` - Tenancy Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 

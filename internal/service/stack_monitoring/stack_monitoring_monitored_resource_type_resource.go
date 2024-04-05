@@ -150,6 +150,16 @@ func StackMonitoringMonitoredResourceTypeResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"resource_category": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"source_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"state": {
@@ -292,6 +302,14 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) Create() error {
 		request.Name = &tmp
 	}
 
+	if resourceCategory, ok := s.D.GetOkExists("resource_category"); ok {
+		request.ResourceCategory = oci_stack_monitoring.ResourceCategoryEnum(resourceCategory.(string))
+	}
+
+	if sourceType, ok := s.D.GetOkExists("source_type"); ok {
+		request.SourceType = oci_stack_monitoring.SourceTypeEnum(sourceType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
 	response, err := s.Client.CreateMonitoredResourceType(context.Background(), request)
@@ -364,6 +382,14 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.MonitoredResourceTypeId = &tmp
 
+	if resourceCategory, ok := s.D.GetOkExists("resource_category"); ok {
+		request.ResourceCategory = oci_stack_monitoring.ResourceCategoryEnum(resourceCategory.(string))
+	}
+
+	if sourceType, ok := s.D.GetOkExists("source_type"); ok {
+		request.SourceType = oci_stack_monitoring.SourceTypeEnum(sourceType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
 	response, err := s.Client.UpdateMonitoredResourceType(context.Background(), request)
@@ -424,6 +450,10 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("resource_category", s.Res.ResourceCategory)
+
+	s.D.Set("source_type", s.Res.SourceType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -481,6 +511,10 @@ func MonitoredResourceTypeSummaryToMap(obj oci_stack_monitoring.MonitoredResourc
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["resource_category"] = string(obj.ResourceCategory)
+
+	result["source_type"] = string(obj.SourceType)
 
 	result["state"] = string(obj.LifecycleState)
 
