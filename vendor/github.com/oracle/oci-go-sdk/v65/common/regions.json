@@ -364,5 +364,11 @@
         "realmKey": "oc26",
         "regionIdentifier": "me-abudhabi-3",
         "realmDomainComponent": "oraclecloud26.com"
+    },
+    {
+        "regionKey": "dac",
+        "realmKey": "oc15",
+        "regionIdentifier": "ap-dcc-gazipur-1",
+        "realmDomainComponent": "oraclecloud15.com"
     }
 ]
