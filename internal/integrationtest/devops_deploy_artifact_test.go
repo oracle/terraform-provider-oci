@@ -35,7 +35,7 @@ var (
 		"deploy_artifact_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
 	}
 
-	DevopsDevopsDeployArtifactDataSourceRepresentation = map[string]interface{}{
+	DevopsDeployArtifactDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_deploy_artifact.test_deploy_artifact.id}`},
@@ -172,7 +172,7 @@ func TestDevopsDeployArtifactResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDeployArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, DevopsDeployArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

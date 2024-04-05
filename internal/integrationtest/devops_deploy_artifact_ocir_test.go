@@ -149,7 +149,7 @@ func TestDevopsDeployArtifactResource_ocir(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "test_deploy_artifacts", acctest.Optional, acctest.Update, DevopsDeployArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployOcirArtifactRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(

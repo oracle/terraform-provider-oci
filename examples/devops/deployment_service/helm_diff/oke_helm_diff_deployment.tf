@@ -4,15 +4,6 @@
 variable "tenancy_ocid" {
 }
 
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
 variable "compartment_ocid" {
 }
 
@@ -22,9 +13,6 @@ variable "region" {
 provider "oci" {
   region           = var.region
   tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
 }
 
 resource "random_string" "topicname" {
@@ -68,8 +56,8 @@ resource "oci_devops_deploy_artifact" "test_deploy_helm_artifact" {
   argument_substitution_mode = "NONE"
   deploy_artifact_source {
     deploy_artifact_source_type = "HELM_CHART"
-    chart_url = "iad.ocir.io/ax022wvgmjpq/fake"
-    deploy_artifact_version = "0.1"
+    chart_url = "oci://us-ashburn-1.ocir.io/idkxrdu9epyt/helm-test-chart"
+    deploy_artifact_version = "0.0.1"
   }
 }
 
@@ -88,13 +76,14 @@ resource "oci_devops_deploy_stage" "test_helm_deploy_stage" {
     #Required
     items {
       #Required
-      id = oci_devops_deploy_stage.test_oke_canary_traffic_shift_deploy_stage.id
+      id = oci_devops_deploy_pipeline.test_deploy_pipeline.id
     }
   }
   deploy_stage_type = "OKE_HELM_CHART_DEPLOYMENT"
   release_name = "release-name"
   purpose = "EXECUTE_HELM_UPGRADE"
   helm_chart_deploy_artifact_id = oci_devops_deploy_artifact.test_deploy_helm_artifact.id
+  oke_cluster_deploy_environment_id = oci_devops_deploy_environment.test_deploy_oke_environment.id
 }
 
 resource "oci_devops_deployment" "test_deployment" {

@@ -180,7 +180,7 @@ func TestDevopsDeployArtifactResource_helmattestation(t *testing.T) {
 
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "helm_chart_pubkey_artifacts", acctest.Optional, acctest.Update, DevopsDevopsDeployArtifactDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_devops_deploy_artifacts", "helm_chart_pubkey_artifacts", acctest.Optional, acctest.Update, DevopsDeployArtifactDataSourceRepresentation) +
 				compartmentIdVariableStr + DevopsDeployArtifactResourceDependencies +
 				//acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "helm_chart_pubkey_artifact", acctest.Optional, acctest.Update, deployHelmAttestationArtifactRepresentation),
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_deploy_artifact", "test_deploy_artifact", acctest.Optional, acctest.Update, deployHelmAttestationArtifactRepresentation),
