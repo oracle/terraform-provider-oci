@@ -102,6 +102,10 @@ func (s *StackMonitoringMonitoredResourceTypeDataSourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	s.D.Set("resource_category", s.Res.ResourceCategory)
+
+	s.D.Set("source_type", s.Res.SourceType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

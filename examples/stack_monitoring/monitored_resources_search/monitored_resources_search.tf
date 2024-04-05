@@ -60,4 +60,6 @@ resource "oci_stack_monitoring_monitored_resources_search" "test_monitored_resou
   name                                  = "terraformExample"
   resource_time_zone                    = "en"
   type                                  = "host"
+  source_type 							= "SM_MGMT_AGENT_MONITORED"
+  resource_category 					= "APPLICATION"
 }

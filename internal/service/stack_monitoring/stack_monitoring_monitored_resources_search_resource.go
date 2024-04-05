@@ -34,6 +34,14 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 			},
 
 			// Optional
+			"compartment_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"exclude_fields": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -68,8 +76,15 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 			"license": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 				ForceNew: true,
+			},
+			"lifecycle_states": {
+				Type:     schema.TypeList,
+				Optional: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"management_agent_id": {
 				Type:     schema.TypeString,
@@ -92,7 +107,17 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"resource_category": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
 			"resource_time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				ForceNew: true,
+			},
+			"source_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				ForceNew: true,
@@ -206,6 +231,14 @@ func StackMonitoringMonitoredResourcesSearchResource() *schema.Resource {
 								},
 							},
 						},
+						"resource_category": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -293,6 +326,19 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if compartmentIds, ok := s.D.GetOkExists("compartment_ids"); ok {
+		interfaces := compartmentIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("compartment_ids") {
+			request.CompartmentIds = tmp
+		}
+	}
+
 	if excludeFields, ok := s.D.GetOkExists("exclude_fields"); ok {
 		interfaces := excludeFields.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -338,6 +384,19 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) Create() error {
 		request.License = oci_stack_monitoring.LicenseTypeEnum(license.(string))
 	}
 
+	if lifecycleStates, ok := s.D.GetOkExists("lifecycle_states"); ok {
+		interfaces := lifecycleStates.([]interface{})
+		tmp := make([]oci_stack_monitoring.ResourceLifecycleStateEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_stack_monitoring.ResourceLifecycleStateEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("lifecycle_states") {
+			request.LifecycleStates = tmp
+		}
+	}
+
 	if managementAgentId, ok := s.D.GetOkExists("management_agent_id"); ok {
 		tmp := managementAgentId.(string)
 		request.ManagementAgentId = &tmp
@@ -357,9 +416,17 @@ func (s *StackMonitoringMonitoredResourcesSearchResourceCrud) Create() error {
 		request.PropertyEquals = tfresource.ObjectMapToStringMap(propertyEquals.(map[string]interface{}))
 	}
 
+	if resourceCategory, ok := s.D.GetOkExists("resource_category"); ok {
+		request.ResourceCategory = oci_stack_monitoring.ResourceCategoryEnum(resourceCategory.(string))
+	}
+
 	if resourceTimeZone, ok := s.D.GetOkExists("resource_time_zone"); ok {
 		tmp := resourceTimeZone.(string)
 		request.ResourceTimeZone = &tmp
+	}
+
+	if sourceType, ok := s.D.GetOkExists("source_type"); ok {
+		request.SourceType = oci_stack_monitoring.SourceTypeEnum(sourceType.(string))
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -468,6 +535,10 @@ func MonitoredResourceSummaryToMap(obj oci_stack_monitoring.MonitoredResourceSum
 		properties = append(properties, MonitoredResourcePropertyToMap(item))
 	}
 	result["properties"] = properties
+
+	result["resource_category"] = string(obj.ResourceCategory)
+
+	result["source_type"] = string(obj.SourceType)
 
 	result["state"] = string(obj.LifecycleState)
 

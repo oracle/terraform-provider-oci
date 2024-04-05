@@ -26,6 +26,8 @@ resource "oci_stack_monitoring_monitored_resource_type" "test_monitored_resource
   description = "This is a resource type created for terraform test"
   display_name = "Terraform Resource Type Example"
   metric_namespace = "oci_terraform_test"
+  source_type = "SM_MGMT_AGENT_MONITORED"
+  resource_category = "APPLICATION"
   freeform_tags = { "bar-key" = "test_monitored_resource_type.value" }
   metadata  {
     format = "SYSTEM_FORMAT"

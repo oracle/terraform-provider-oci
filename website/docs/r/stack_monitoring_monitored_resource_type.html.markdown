@@ -41,6 +41,8 @@ resource "oci_stack_monitoring_monitored_resource_type" "test_monitored_resource
 		valid_property_values = var.monitored_resource_type_metadata_valid_property_values
 	}
 	metric_namespace = var.monitored_resource_type_metric_namespace
+	resource_category = var.monitored_resource_type_resource_category
+	source_type = var.monitored_resource_type_source_type
 }
 ```
 
@@ -65,6 +67,8 @@ The following arguments are supported:
 	* `valid_property_values` - (Optional) (Updatable) List of valid values for the properties. This is useful when resource type wants to restrict only certain values for some properties. For instance for 'osType' property,  supported values can be restricted to be either Linux or Windows. Example: `{ "osType": "Linux,Windows,Solaris"}` 
 * `metric_namespace` - (Optional) (Updatable) Metric namespace for resource type.
 * `name` - (Required) A unique monitored resource type name. The name must be unique across tenancy.  Name can not be changed. 
+* `resource_category` - (Optional) (Updatable) Resource Category to indicate the kind of resource type. 
+* `source_type` - (Optional) (Updatable) Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc. 
 
 
 ** IMPORTANT **
@@ -92,6 +96,8 @@ The following attributes are exported:
 	* `valid_property_values` - List of valid values for the properties. This is useful when resource type wants to restrict only certain values for some properties. For instance for 'osType' property,  supported values can be restricted to be either Linux or Windows. Example: `{ "osType": "Linux,Windows,Solaris"}` 
 * `metric_namespace` - Metric namespace for resource type.
 * `name` - A unique monitored resource type name. The name must be unique across tenancy.  Name can not be changed. 
+* `resource_category` - Resource Category to indicate the kind of resource type. 
+* `source_type` - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc. 
 * `state` - Lifecycle state of the monitored resource type.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time when the monitored resource type was created, expressed in  [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. 

@@ -26,6 +26,10 @@ func StackMonitoringMonitoredResourcesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"status": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"work_request_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -77,6 +81,10 @@ func (s *StackMonitoringMonitoredResourcesDataSourceCrud) Get() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if status, ok := s.D.GetOkExists("status"); ok {
+		request.Status = oci_stack_monitoring.ListMonitoredResourcesStatusEnum(status.(string))
 	}
 
 	if workRequestId, ok := s.D.GetOkExists("work_request_id"); ok {

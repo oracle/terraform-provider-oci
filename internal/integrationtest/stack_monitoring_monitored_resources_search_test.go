@@ -24,6 +24,8 @@ var (
 
 	StackMonitoringMonitoredResourcesSearchRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"resource_category":   acctest.Representation{RepType: acctest.Optional, Create: `APPLICATION`},
+		"source_type":         acctest.Representation{RepType: acctest.Optional, Create: `SM_MGMT_AGENT_MONITORED`},
 		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_hostname_resource1}`},
 		"license":             acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`},
 		"management_agent_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.stack_mon_management_agent_id_resource1}`},
@@ -84,6 +86,8 @@ func TestStackMonitoringMonitoredResourcesSearchResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_monitored_resources_search", "test_monitored_resources_search", acctest.Optional, acctest.Create, StackMonitoringMonitoredResourcesSearchRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "resource_category", "APPLICATION"),
+				resource.TestCheckResourceAttr(resourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(resourceName, "host_name", hostname1),
 				resource.TestCheckResourceAttr(resourceName, "license", "STANDARD_EDITION"),
 				resource.TestCheckResourceAttrSet(resourceName, "items.#"),

@@ -27,7 +27,11 @@ resource "oci_stack_monitoring_monitored_resource_task" "test_monitored_resource
     namespace = "oci_terraform_namespace"
     type = "IMPORT_OCI_TELEMETRY_RESOURCES"
     source = "OCI_TELEMETRY_NATIVE"
-  }
+    console_path_prefix = "consolePathPrefix"
+    external_id_mapping = "id"
+    resource_group = "tf_group"
+    service_base_url = "http://test.com"
+}
 
   #Optional
   freeform_tags = { "bar-key" = "test_monitored_resource_task.value" }
