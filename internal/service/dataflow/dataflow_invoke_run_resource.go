@@ -219,6 +219,12 @@ func DataflowInvokeRunResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"opc_parent_rpt_url": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"parameters": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -589,6 +595,11 @@ func (s *DataflowInvokeRunResourceCrud) Create() error {
 	if numExecutors, ok := s.D.GetOkExists("num_executors"); ok {
 		tmp := numExecutors.(int)
 		request.NumExecutors = &tmp
+	}
+
+	if opcParentRptUrl, ok := s.D.GetOkExists("opc_parent_rpt_url"); ok {
+		tmp := opcParentRptUrl.(string)
+		request.OpcParentRptUrl = &tmp
 	}
 
 	if parameters, ok := s.D.GetOkExists("parameters"); ok {
