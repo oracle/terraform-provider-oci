@@ -82,8 +82,57 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"console_path_prefix": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"external_id_mapping": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"lifecycle_status_mappings_for_up_status": {
+							Type:     schema.TypeList,
+							Optional: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"resource_group": {
 							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"resource_name_filter": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"resource_name_mapping": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"resource_type_filter": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"resource_type_mapping": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"service_base_url": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+						"should_use_metrics_flow_for_status": {
+							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
@@ -509,6 +558,26 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToMonitoredResourc
 				details.AvailabilityProxyMetrics = tmp
 			}
 		}
+		if consolePathPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "console_path_prefix")); ok {
+			tmp := consolePathPrefix.(string)
+			details.ConsolePathPrefix = &tmp
+		}
+		if externalIdMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "external_id_mapping")); ok {
+			tmp := externalIdMapping.(string)
+			details.ExternalIdMapping = &tmp
+		}
+		if lifecycleStatusMappingsForUpStatus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lifecycle_status_mappings_for_up_status")); ok {
+			interfaces := lifecycleStatusMappingsForUpStatus.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "lifecycle_status_mappings_for_up_status")) {
+				details.LifecycleStatusMappingsForUpStatus = tmp
+			}
+		}
 		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
 			tmp := namespace.(string)
 			details.Namespace = &tmp
@@ -516,6 +585,30 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToMonitoredResourc
 		if resourceGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_group")); ok {
 			tmp := resourceGroup.(string)
 			details.ResourceGroup = &tmp
+		}
+		if resourceNameFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_name_filter")); ok {
+			tmp := resourceNameFilter.(string)
+			details.ResourceNameFilter = &tmp
+		}
+		if resourceNameMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_name_mapping")); ok {
+			tmp := resourceNameMapping.(string)
+			details.ResourceNameMapping = &tmp
+		}
+		if resourceTypeFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_type_filter")); ok {
+			tmp := resourceTypeFilter.(string)
+			details.ResourceTypeFilter = &tmp
+		}
+		if resourceTypeMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_type_mapping")); ok {
+			tmp := resourceTypeMapping.(string)
+			details.ResourceTypeMapping = &tmp
+		}
+		if serviceBaseUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_base_url")); ok {
+			tmp := serviceBaseUrl.(string)
+			details.ServiceBaseUrl = &tmp
+		}
+		if shouldUseMetricsFlowForStatus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_use_metrics_flow_for_status")); ok {
+			tmp := shouldUseMetricsFlowForStatus.(bool)
+			details.ShouldUseMetricsFlowForStatus = &tmp
 		}
 		if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 			details.Source = oci_stack_monitoring.ImportOciTelemetryResourcesTaskDetailsSourceEnum(source.(string))
@@ -539,12 +632,46 @@ func MonitoredResourceTaskDetailsToMap(obj *oci_stack_monitoring.MonitoredResour
 
 		result["availability_proxy_metrics"] = v.AvailabilityProxyMetrics
 
+		if v.ConsolePathPrefix != nil {
+			result["console_path_prefix"] = string(*v.ConsolePathPrefix)
+		}
+
+		if v.ExternalIdMapping != nil {
+			result["external_id_mapping"] = string(*v.ExternalIdMapping)
+		}
+
+		result["lifecycle_status_mappings_for_up_status"] = v.LifecycleStatusMappingsForUpStatus
+
 		if v.Namespace != nil {
 			result["namespace"] = string(*v.Namespace)
 		}
 
 		if v.ResourceGroup != nil {
 			result["resource_group"] = string(*v.ResourceGroup)
+		}
+
+		if v.ResourceNameFilter != nil {
+			result["resource_name_filter"] = string(*v.ResourceNameFilter)
+		}
+
+		if v.ResourceNameMapping != nil {
+			result["resource_name_mapping"] = string(*v.ResourceNameMapping)
+		}
+
+		if v.ResourceTypeFilter != nil {
+			result["resource_type_filter"] = string(*v.ResourceTypeFilter)
+		}
+
+		if v.ResourceTypeMapping != nil {
+			result["resource_type_mapping"] = string(*v.ResourceTypeMapping)
+		}
+
+		if v.ServiceBaseUrl != nil {
+			result["service_base_url"] = string(*v.ServiceBaseUrl)
+		}
+
+		if v.ShouldUseMetricsFlowForStatus != nil {
+			result["should_use_metrics_flow_for_status"] = bool(*v.ShouldUseMetricsFlowForStatus)
 		}
 
 		result["source"] = string(v.Source)

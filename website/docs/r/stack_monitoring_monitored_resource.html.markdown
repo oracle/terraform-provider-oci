@@ -226,7 +226,9 @@ The following attributes are exported:
 * `properties` - List of monitored resource properties. 
 	* `name` - Property Name. 
 	* `value` - Property Value. 
+* `resource_category` - Resource Category to indicate the kind of resource type. 
 * `resource_time_zone` - Time zone in the form of tz database canonical zone ID.
+* `source_type` - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc. 
 * `state` - Lifecycle state of the monitored resource.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenant_id` - Tenancy Identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 

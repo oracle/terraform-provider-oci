@@ -90,10 +90,12 @@ func NetworkFirewallNetworkFirewallPolicyDecryptionRuleResource() *schema.Resour
 						"after_rule": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
 						},
 						"before_rule": {
 							Type:     schema.TypeString,
 							Optional: true,
+							Computed: true,
 						},
 					},
 				},
@@ -196,7 +198,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Create(
 	if position, ok := s.D.GetOkExists("position"); ok {
 		if tmpList := position.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "position", 0)
-			tmp, err := s.mapToRulePosition(fieldKeyFormat)
+			tmp, err := s.mapToRulePositionCreate(fieldKeyFormat)
 			if err != nil {
 				return err
 			}
@@ -287,8 +289,7 @@ func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) Update(
 
 	if position, ok := s.D.GetOkExists("position"); ok {
 		if tmpList := position.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "position", 0)
-			tmp, err := s.mapToRulePosition(fieldKeyFormat)
+			tmp, err := s.mapToRulePositionUpdate()
 			if err != nil {
 				return err
 			}
@@ -446,19 +447,78 @@ func DecryptionRuleSummaryToMap(obj oci_network_firewall.DecryptionRuleSummary) 
 	return result
 }
 
-func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) mapToRulePosition(fieldKeyFormat string) (oci_network_firewall.RulePosition, error) {
+func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) mapToRulePositionUpdate() (oci_network_firewall.RulePosition, error) {
 	result := oci_network_firewall.RulePosition{}
 
-	if afterRule, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "after_rule")); ok {
-		tmp := afterRule.(string)
-		result.AfterRule = &tmp
+	if s.D.HasChange("position") {
+		oldPosition, newPosition := s.D.GetChange("position")
+
+		oldPositionMap := oldPosition.([]interface{})[0].(map[string]interface{})
+		oldBeforeRule := fmt.Sprintf("%v", oldPositionMap["before_rule"])
+		oldAfterRule := fmt.Sprintf("%v", oldPositionMap["after_rule"])
+
+		newPositionMap := newPosition.([]interface{})[0].(map[string]interface{})
+		newBeforeRule := fmt.Sprintf("%v", newPositionMap["before_rule"])
+		newAfterRule := fmt.Sprintf("%v", newPositionMap["after_rule"])
+
+		if newBeforeRule != oldBeforeRule && newAfterRule != oldAfterRule && newBeforeRule != "" && newAfterRule != "" {
+			return result, fmt.Errorf("rule position cannot be ambiguous, provide one of before_rule or after_rule rule positions")
+		}
+
+		if newBeforeRule != "" && newBeforeRule != oldBeforeRule {
+			result.BeforeRule = &newBeforeRule
+			return result, nil
+		}
+
+		if newAfterRule != "" && newAfterRule != oldAfterRule {
+			result.AfterRule = &newAfterRule
+			return result, nil
+		}
 	}
 
-	if beforeRule, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "before_rule")); ok {
+	err := s.Get()
+
+	if err == nil {
+		actualBeforePosition := s.Res.Position.BeforeRule
+		if actualBeforePosition != nil {
+			result.BeforeRule = actualBeforePosition
+			return result, nil
+		}
+
+		actualAfterPosition := s.Res.Position.BeforeRule
+		if actualAfterPosition != nil {
+			result.AfterRule = actualAfterPosition
+			return result, nil
+		}
+	}
+	return result, nil
+}
+
+func (s *NetworkFirewallNetworkFirewallPolicyDecryptionRuleResourceCrud) mapToRulePositionCreate(fieldKeyFormat string) (oci_network_firewall.RulePosition, error) {
+	result := oci_network_firewall.RulePosition{}
+
+	beforeRule, beforeRuleOk := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "before_rule"))
+	afterRule, afterRuleOk := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "after_rule"))
+
+	if beforeRule != "" && afterRule != "" {
+		return result, fmt.Errorf("rule position cannot be ambiguous, provide one of before_rule or after_rule rule positions")
+	}
+
+	if beforeRuleOk {
 		tmp := beforeRule.(string)
-		result.BeforeRule = &tmp
+		if beforeRule != "" {
+			result.BeforeRule = &tmp
+			return result, nil
+		}
 	}
 
+	if afterRuleOk {
+		tmp := afterRule.(string)
+		if afterRule != "" {
+			result.AfterRule = &tmp
+			return result, nil
+		}
+	}
 	return result, nil
 }
 

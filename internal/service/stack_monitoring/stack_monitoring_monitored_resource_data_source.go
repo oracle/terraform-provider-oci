@@ -126,9 +126,13 @@ func (s *StackMonitoringMonitoredResourceDataSourceCrud) SetData() error {
 	}
 	s.D.Set("properties", properties)
 
+	s.D.Set("resource_category", s.Res.ResourceCategory)
+
 	if s.Res.ResourceTimeZone != nil {
 		s.D.Set("resource_time_zone", *s.Res.ResourceTimeZone)
 	}
+
+	s.D.Set("source_type", s.Res.SourceType)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

@@ -51,6 +51,49 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 						},
 
 						// Optional
+						"dns": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"domain_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"query_class": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"query_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"rcodes": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"transport_protocol": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"interval_in_millis": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -176,6 +219,11 @@ func NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResource() *schema
 				Optional: true,
 				Computed: true,
 			},
+			"is_fail_open": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_preserve_source": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -265,6 +313,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
 		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
+	}
+
+	if isFailOpen, ok := s.D.GetOkExists("is_fail_open"); ok {
+		tmp := isFailOpen.(bool)
+		request.IsFailOpen = &tmp
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -465,6 +518,11 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
 
+	if isFailOpen, ok := s.D.GetOkExists("is_fail_open"); ok {
+		tmp := isFailOpen.(bool)
+		request.IsFailOpen = &tmp
+	}
+
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
 		tmp := isPreserveSource.(bool)
 		request.IsPreserveSource = &tmp
@@ -541,6 +599,10 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 	}
 
 	s.D.Set("ip_version", s.Res.IpVersion)
+
+	if s.Res.IsFailOpen != nil {
+		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
+	}
 
 	if s.Res.IsPreserveSource != nil {
 		s.D.Set("is_preserve_source", *s.Res.IsPreserveSource)
@@ -675,6 +737,10 @@ func BackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) map
 
 	result["ip_version"] = string(obj.IpVersion)
 
+	if obj.IsFailOpen != nil {
+		result["is_fail_open"] = bool(*obj.IsFailOpen)
+	}
+
 	if obj.IsPreserveSource != nil {
 		result["is_preserve_source"] = bool(*obj.IsPreserveSource)
 	}
@@ -688,8 +754,41 @@ func BackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) map
 	return result
 }
 
+func DnsHealthCheckRCodesToMap(obj oci_network_load_balancer.DnsHealthCheckRCodesEnum) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	return result
+}
+
+func DnsHealthCheckerDetailsToMap(obj *oci_network_load_balancer.DnsHealthCheckerDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DomainName != nil {
+		result["domain_name"] = string(*obj.DomainName)
+	}
+
+	result["query_class"] = string(obj.QueryClass)
+
+	result["query_type"] = string(obj.QueryType)
+
+	rcodes := make([]string, 0, 4)
+	for _, item := range obj.Rcodes {
+		rcodes = append(rcodes, string(item))
+	}
+
+	result["rcodes"] = rcodes
+
+	result["transport_protocol"] = string(obj.TransportProtocol)
+
+	return result
+}
+
 func HealthCheckerToMap(obj *oci_network_load_balancer.HealthChecker) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Dns != nil {
+		result["dns"] = []interface{}{DnsHealthCheckerDetailsToMap(obj.Dns)}
+	}
 
 	if obj.IntervalInMillis != nil {
 		result["interval_in_millis"] = int(*obj.IntervalInMillis)
@@ -792,6 +891,54 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 		if urlPath, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "url_path")); ok {
 			tmp := urlPath.(string)
 			result.UrlPath = &tmp
+		}
+	} else if protocol == "DNS" {
+		if dns, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns")); ok {
+			if tmpList := dns.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns"), 0)
+				tmp, err := s.mapToDnsHealthCheckerDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return result, fmt.Errorf("unable to convert dns, encountered error: %v", err)
+				}
+				result.Dns = &tmp
+			}
+		}
+	}
+
+	return result, nil
+}
+
+func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) mapToDnsHealthCheckerDetails(fieldKeyFormat string) (oci_network_load_balancer.DnsHealthCheckerDetails, error) {
+	result := oci_network_load_balancer.DnsHealthCheckerDetails{}
+
+	if domainName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "domain_name")); ok {
+		tmp := domainName.(string)
+		result.DomainName = &tmp
+	}
+
+	transportProtocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "transport_protocol"))
+	if ok {
+		result.TransportProtocol = oci_network_load_balancer.DnsHealthCheckTransportProtocolsEnum(transportProtocol.(string))
+	}
+
+	queryClass, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_class"))
+	if ok {
+		result.QueryClass = oci_network_load_balancer.DnsHealthCheckQueryClassesEnum(queryClass.(string))
+	}
+
+	queryType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query_type"))
+	if ok {
+		result.QueryType = oci_network_load_balancer.DnsHealthCheckQueryTypesEnum(queryType.(string))
+	}
+	rCodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "rcodes"))
+	if ok {
+		tmp := rCodes.([]interface{})
+		result.Rcodes = make([]oci_network_load_balancer.DnsHealthCheckRCodesEnum, 0, 4)
+		for _, v := range tmp {
+			rCode, ok := oci_network_load_balancer.GetMappingDnsHealthCheckRCodesEnum(v.(string))
+			if ok {
+				result.Rcodes = append(result.Rcodes, rCode)
+			}
 		}
 	}
 

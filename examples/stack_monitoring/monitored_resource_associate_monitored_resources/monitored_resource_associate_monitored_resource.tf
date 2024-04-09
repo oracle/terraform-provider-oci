@@ -24,7 +24,7 @@ provider "oci" {
 resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource1" {
 	#Required
 	compartment_id = var.compartment_ocid
-	name = "terraformExample"
+	name = "terraformAssocTestExample"
 	type = "host"
 
 	#Optional
@@ -52,7 +52,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource1" {
 resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource2" {
 	#Required
 	compartment_id = var.compartment_ocid
-	name = "terraformExample2"
+	name = "terraformAssocTestExample2"
 	type = "host"
 
 	#Optional

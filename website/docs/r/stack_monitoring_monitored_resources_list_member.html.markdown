@@ -50,10 +50,12 @@ The following attributes are exported:
 	* `host_name` - Monitored Resource Host Name. 
 	* `license` - License edition of the monitored resource.
 	* `parent_id` - Parent monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+	* `resource_category` - Resource Category to indicate the kind of resource type. 
 	* `resource_display_name` - Monitored resource display name.
 	* `resource_id` - Monitored resource identifier [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
 	* `resource_name` - Monitored Resource Name. 
 	* `resource_type` - Monitored Resource Type. 
+	* `source_type` - Source type to indicate if the resource is stack monitoring discovered, Oracle Cloud Infrastructure native resource, etc. 
 	* `state` - The current state of the Resource.
 	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 

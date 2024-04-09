@@ -87,6 +87,11 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 		s.D.Set("health_checker", nil)
 	}
 	s.D.Set("ip_version", s.Res.IpVersion)
+
+	if s.Res.IsFailOpen != nil {
+		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
+	}
+
 	if s.Res.IsPreserveSource != nil {
 		s.D.Set("is_preserve_source", *s.Res.IsPreserveSource)
 	}
