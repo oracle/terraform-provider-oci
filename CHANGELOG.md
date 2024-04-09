@@ -1,4 +1,4 @@
-## 5.37.0 (Unreleased)
+## 5.37.0 (April 09, 2024)
 
 ### Added
 - Stack Monitoring: Extensibility support phase 2
@@ -12,7 +12,7 @@
 - Network firewall policy fix for empty items in list network firewall policies
 - add logic to ensure object_name_filter is automatically set to null if target is multipart-uploads while creating object storage lifecycle policy
 
-## 5.36.0 (Unreleased)
+## 5.36.0 (April 09, 2024)
 
 ### Added
 - Support for Management Agent wait_for_host_id and prevent destroy resource
@@ -31,7 +31,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 Remove computed: true from the SecretContent.Name field. Manually add the logic to set both the name and content to null if nothing is provided.
 - Handle empty members in DR Protection Group
 
-## 5.36.0 (Unreleased)
+## 5.36.0 (April 09, 2024)
 
 ### Added
 - Support for Management Agent wait_for_host_id and prevent destroy resource
@@ -49,7 +49,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 ### Bug Fix
 - Handle empty members in DR Protection Group
 
-## 5.35.0 (Unreleased)
+## 5.35.0 (April 09, 2024)
 
 ### Added
 - Support for ADB-S: Refreshable Clones (Phase 2 with Automatic Refresh)
@@ -60,7 +60,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Alarms enhancements
 - Support for create_task API for Rest task
 
-## 5.35.0 (Unreleased)
+## 5.35.0 (April 09, 2024)
 
 
 ## 5.34.0 (March 19, 2024)
