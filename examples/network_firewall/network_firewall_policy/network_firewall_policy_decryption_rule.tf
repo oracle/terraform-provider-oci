@@ -42,9 +42,6 @@ variable "network_firewall_policy_decryption_rule_secret" {
 }
 
 resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_network_firewall_policy_decryption_rule_no_decryption" {
-  lifecycle {
-    ignore_changes = [position]
-  }
   #Required
   name                       = var.network_firewall_policy_decryption_rule_name_no_decrypt
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id
@@ -66,12 +63,6 @@ resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_ne
 }
 
 resource "oci_network_firewall_network_firewall_policy_decryption_rule" "test_network_firewall_policy_decryption_rule_with_decryption" {
-  lifecycle {
-    # ignore changes to position
-    ignore_changes = [
-      position
-    ]
-  }
   #Required
   name                       = var.network_firewall_policy_decryption_rule_name_decrypt
   network_firewall_policy_id = oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id

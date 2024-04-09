@@ -51,6 +51,12 @@ type MonitoredResourceMemberSummary struct {
 	// License edition of the monitored resource.
 	License LicenseTypeEnum `mandatory:"false" json:"license,omitempty"`
 
+	// Source type to indicate if the resource is stack monitoring discovered, OCI native resource, etc.
+	SourceType SourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
+
+	// Resource Category to indicate the kind of resource type.
+	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -79,6 +85,12 @@ func (m MonitoredResourceMemberSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLicenseTypeEnum(string(m.License)); !ok && m.License != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for License: %s. Supported values are: %s.", m.License, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingResourceCategoryEnum(string(m.ResourceCategory)); !ok && m.ResourceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", m.ResourceCategory, strings.Join(GetResourceCategoryEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

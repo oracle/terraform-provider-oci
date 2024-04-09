@@ -207,8 +207,8 @@ func TestNetworkFirewallNetworkFirewallPolicyResource_basic(t *testing.T) {
 				compartmentIdVariableStr + NetworkFirewallPolicyResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-
 				resource.TestCheckResourceAttr(datasourceName, "network_firewall_policy_summary_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "network_firewall_policy_summary_collection.0.items.#", "2"),
 			),
 		},
 		// verify singular datasource -step 6

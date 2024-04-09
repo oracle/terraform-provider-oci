@@ -405,7 +405,7 @@ func (client StackMonitoringClient) changeMonitoredResourceTaskCompartment(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/monitoredResourceTask/ChangeMonitoredResourceTaskCompartment"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MonitoredResourceTask/ChangeMonitoredResourceTaskCompartment"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeMonitoredResourceTaskCompartment", apiReferenceLink)
 		return response, err
 	}

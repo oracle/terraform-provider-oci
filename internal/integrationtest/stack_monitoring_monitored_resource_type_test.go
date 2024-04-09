@@ -60,14 +60,16 @@ var (
 
 	//Create uses this
 	StackMonitoringMonitoredResourceTypeRepresentation = map[string]interface{}{
-		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":             acctest.Representation{RepType: acctest.Required, Create: `terraform_test_restype`},
-		"description":      acctest.Representation{RepType: acctest.Optional, Create: `Created for terraform testing.`, Update: `description2`},
-		"display_name":     acctest.Representation{RepType: acctest.Optional, Create: `Terraform Resource Type`, Update: `displayName2`},
-		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"metadata":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceTypeMetadataRepresentation},
-		"metric_namespace": acctest.Representation{RepType: acctest.Optional, Create: `terraform_namespace`},
-		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreResourceTypeSensitiveDataRepresentation},
+		"resource_category": acctest.Representation{RepType: acctest.Optional, Create: `APPLICATION`},
+		"source_type":       acctest.Representation{RepType: acctest.Optional, Create: `SM_MGMT_AGENT_MONITORED`},
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":              acctest.Representation{RepType: acctest.Required, Create: `terraform_test_restype`},
+		"description":       acctest.Representation{RepType: acctest.Optional, Create: `Created for terraform testing.`, Update: `description2`},
+		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `Terraform Resource Type`, Update: `displayName2`},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"metadata":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMonitoredResourceTypeMetadataRepresentation},
+		"metric_namespace":  acctest.Representation{RepType: acctest.Optional, Create: `terraform_namespace`},
+		"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreResourceTypeSensitiveDataRepresentation},
 	}
 
 	StackMonitoringMonitoredResourceTypeMetadataRepresentation = map[string]interface{}{
@@ -147,6 +149,8 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.unique_property_sets.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_create.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_update.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_category", "APPLICATION"),
+				resource.TestCheckResourceAttr(resourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_property_values.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "metric_namespace", "terraform_namespace"),
 
@@ -181,6 +185,8 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.unique_property_sets.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_create.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_properties_for_update.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "resource_category", "APPLICATION"),
+				resource.TestCheckResourceAttr(resourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(resourceName, "metadata.0.valid_property_values.%", "2"),
 				resource.TestCheckResourceAttr(resourceName, "metric_namespace", "terraform_namespace"),
 
@@ -233,6 +239,8 @@ func TestStackMonitoringMonitoredResourceTypeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.unique_property_sets.0.properties.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.valid_properties_for_create.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.valid_properties_for_update.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_category", "APPLICATION"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_type", "SM_MGMT_AGENT_MONITORED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.0.valid_property_values.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metric_namespace", "terraform_namespace"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "terraform_test_restype"),

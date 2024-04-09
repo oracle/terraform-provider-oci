@@ -47,5 +47,6 @@ The following attributes are exported:
 	* `id` - The OCID of Discovery job
 	* `log_message` - Log message
 	* `log_type` - Type of log (INFO, WARNING, ERROR or SUCCESS)
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `time_created` - Time the Job log was created
 

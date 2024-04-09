@@ -50,6 +50,7 @@ var (
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `THREE_TUPLE`},
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+		"is_fail_open":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	NetworkLoadBalancerBackendSetHealthCheckerRepresentation = map[string]interface{}{
@@ -68,9 +69,11 @@ var (
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `FIVE_TUPLE`, Update: `TWO_TUPLE`},
 		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_fail_open":             acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	nlbHttpBackendSetHealthCheckerRepresentation = map[string]interface{}{
 		"protocol":            acctest.Representation{RepType: acctest.Required, Create: `HTTP`, Update: `HTTPS`},
+		"dns":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: nil},
 		"interval_in_millis":  acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
 		"port":                acctest.Representation{RepType: acctest.Optional, Create: `80`, Update: `8080`},
 		"response_body_regex": acctest.Representation{RepType: acctest.Optional, Create: `^(?i)(true)$`, Update: `^(?i)(false)$`},
@@ -78,6 +81,41 @@ var (
 		"return_code":         acctest.Representation{RepType: acctest.Optional, Create: `202`, Update: `204`},
 		"timeout_in_millis":   acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
 		"url_path":            acctest.Representation{RepType: acctest.Optional, Create: `/urlPath`, Update: `/urlPath2`},
+	}
+	NetworkLoadBalancerDnsBackendSetRepresentation = map[string]interface{}{
+		"health_checker":           acctest.RepresentationGroup{RepType: acctest.Required, Group: NlbDnsBackendSetHealthCheckerRepresentation},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_backend_set`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"policy":                   acctest.Representation{RepType: acctest.Required, Create: `THREE_TUPLE`, Update: `FIVE_TUPLE`},
+		"is_preserve_source":       acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+		"is_fail_open":             acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	}
+	NlbDnsBackendSetHealthCheckerRepresentation = map[string]interface{}{
+		"protocol":           acctest.Representation{RepType: acctest.Required, Create: `DNS`, Update: `DNS`},
+		"dns":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: NetworkLoadBalancerBackendSetHealthCheckerDnsRepresentation},
+		"interval_in_millis": acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
+		"port":               acctest.Representation{RepType: acctest.Optional, Create: `53`, Update: `8053`},
+		"retries":            acctest.Representation{RepType: acctest.Optional, Create: `3`, Update: `5`},
+		"timeout_in_millis":  acctest.Representation{RepType: acctest.Optional, Create: `10000`, Update: `30000`},
+	}
+	NetworkLoadBalancerBackendSetHealthCheckerDnsRepresentation = map[string]interface{}{
+		"domain_name":        acctest.Representation{RepType: acctest.Required, Create: `oracle.com`, Update: `example.com`},
+		"query_class":        acctest.Representation{RepType: acctest.Optional, Create: `IN`, Update: `CH`},
+		"query_type":         acctest.Representation{RepType: acctest.Optional, Create: `A`, Update: `TXT`},
+		"rcodes":             acctest.Representation{RepType: acctest.Optional, Create: []string{`NOERROR`}, Update: []string{`NOERROR`, `SERVFAIL`}},
+		"transport_protocol": acctest.Representation{RepType: acctest.Optional, Create: `UDP`, Update: `TCP`},
+	}
+
+	NetworkLoadBalancerNlbBackendRepresentation = map[string]interface{}{
+		"backend_set_name":         acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"ip_address":               acctest.Representation{RepType: acctest.Required, Create: `10.0.0.3`},
+		"is_backup":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_drain":                 acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_offline":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"name":                     acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"weight":                   acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
 
 	NetworkLoadBalancerBackendSetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -137,6 +175,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "80"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "TCP"),
@@ -148,6 +187,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", ""),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -213,6 +253,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
@@ -239,6 +280,8 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
@@ -257,11 +300,83 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			),
 		},
 
+		// Create with DNS health checker with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, NetworkLoadBalancerDnsBackendSetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.domain_name", "oracle.com"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.query_class", "IN"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.query_type", "A"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.rcodes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.rcodes.0", "NOERROR"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.transport_protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "53"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "DNS"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "3"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "10000"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "THREE_TUPLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// Update with DNS health checker
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, NetworkLoadBalancerDnsBackendSetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backends.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.domain_name", "example.com"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.query_class", "CH"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.query_type", "TXT"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.rcodes.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.rcodes.0", "NOERROR"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.rcodes.1", "SERVFAIL"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.dns.0.transport_protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.port", "8053"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "DNS"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "false"),
+				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "policy", "FIVE_TUPLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// Update with backends
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerBackendSetResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Update, NetworkLoadBalancerHttpBackendSetRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", acctest.Required, acctest.Create, NetworkLoadBalancerBackendSetRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_backend", "test_backend", acctest.Required, acctest.Create, NetworkLoadBalancerNlbBackendRepresentation) +
 				`data "oci_network_load_balancer_backend_sets" "test_backend_sets" {
 						depends_on = ["oci_network_load_balancer_backend_set.test_backend_set", "oci_network_load_balancer_backend.test_backend"]
 						network_load_balancer_id = "${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}"
@@ -281,6 +396,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.protocol", "HTTPS"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.response_body_regex", "^(?i)(false)$"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.retries", "5"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.return_code", "204"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
@@ -374,6 +490,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.url_path", "/urlPath2"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "TWO_TUPLE"),
@@ -412,7 +529,6 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backend_set_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "backends.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.interval_in_millis", "30000"),
@@ -426,6 +542,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.timeout_in_millis", "30000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "health_checker.0.url_path", "/urlPath2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_fail_open", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_backend_set"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "policy", "TWO_TUPLE"),
@@ -433,7 +550,7 @@ func TestNetworkLoadBalancerBackendSetResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + BackendSetRequiredOnlyResource,
+			Config:                  config + NetworkLoadBalancerBackendSetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},

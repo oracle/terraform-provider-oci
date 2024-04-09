@@ -51,7 +51,7 @@ var (
 	}
 	deployCommandSpecArtifactDeployArtifactSourceRepresentation = map[string]interface{}{
 		"deploy_artifact_source_type": acctest.Representation{RepType: acctest.Required, Create: `INLINE`},
-		"base64encoded_content":       acctest.Representation{RepType: acctest.Required, Create: base64_encode, Update: base64_encode_update},
+		"base64encoded_content":       acctest.Representation{RepType: acctest.Required, Create: " base64_encode", Update: "base64_encode_update"},
 	}
 
 	DevopsDeployCommandSpecArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
@@ -87,7 +87,7 @@ func TestDevopsDeployCommandSpecArtifactResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", base64_encode),
+				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", "base64_encode"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.deploy_artifact_source_type", "INLINE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_type", "COMMAND_SPEC"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
@@ -111,7 +111,7 @@ func TestDevopsDeployCommandSpecArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "NONE"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", base64_encode),
+				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", "base64_encode"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.deploy_artifact_source_type", "INLINE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_type", "COMMAND_SPEC"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
@@ -141,7 +141,7 @@ func TestDevopsDeployCommandSpecArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", base64_encode_update),
+				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.base64encoded_content", "base64_encode_update"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_source.0.deploy_artifact_source_type", "INLINE"),
 				resource.TestCheckResourceAttr(resourceName, "deploy_artifact_type", "COMMAND_SPEC"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
@@ -188,7 +188,7 @@ func TestDevopsDeployCommandSpecArtifactResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "argument_substitution_mode", "SUBSTITUTE_PLACEHOLDERS"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.0.base64encoded_content", base64_encode_update),
+				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.0.base64encoded_content", "base64_encode_update"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_source.0.deploy_artifact_source_type", "INLINE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deploy_artifact_type", "COMMAND_SPEC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
