@@ -460,5 +460,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "me-riyadh-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "xsp",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-singapore-2",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
