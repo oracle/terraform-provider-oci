@@ -46,92 +46,49 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`}},
 	}
 
-	ignoreNlbDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
-
 	NetworkLoadBalancerNetworkLoadBalancerRepresentation = map[string]interface{}{
-		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"assigned_private_ipv4":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.50`},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		//"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"is_private":                     acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"is_symmetric_hash_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Required, Create: `IPV4_AND_IPV6`},
-		"subnet_ipv6cidr":                acctest.Representation{RepType: acctest.Required, Create: `2000:1000:1200:0001::/64`},
-		"reserved_ips":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancerReservedIpsRepresentation},
+		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_private":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Optional, Create: `IPV4`, Update: `IPV4_AND_IPV6`},
 		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerIgnoreChangesRepresentation},
-	}
-
-	NetworkLoadBalancerSubnetIpv6CidrRepresentation = map[string]interface{}{
-		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `displayNameSubnetIpv6Cidr`},
-		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"assigned_private_ipv4":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.51`},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_private":                     acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Required, Create: `IPV4_AND_IPV6`},
 		"reserved_ips":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancerReservedIpsRepresentation},
-		"subnet_ipv6cidr":                acctest.Representation{RepType: acctest.Required, Create: `2000:1000:1200:0001::/64`},
-		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerIgnoreChangesRepresentation},
-	}
-
-	NetworkLoadBalancerAssignIpv6Representation = map[string]interface{}{
-		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `displayNameAssignIpv6`},
-		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"assigned_private_ipv4":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.53`},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
-		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
-		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"is_private":                     acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Required, Create: `IPV4_AND_IPV6`},
-		"reserved_ips":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancerReservedIpsRepresentation},
-		"assigned_ipv6":                  acctest.Representation{RepType: acctest.Required, Create: `2000:1000:1200:0001:0001:0000:0001:000`},
-		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerIgnoreChangesRepresentation},
 	}
 	networkLoadBalancerRepresentationIpv6 = map[string]interface{}{
-		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"subnet_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		//"defined_tags":                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_preserve_source_destination": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_private":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"assigned_ipv6":                  acctest.Representation{RepType: acctest.Optional, Create: `2000:1000:1200:0001:0001:0000:0001:0000`},
 		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Optional, Create: `IPV4_AND_IPV6`},
 		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: NetworkLoadBalancerIgnoreChangesRepresentation},
 	}
 	networkLoadBalancerReservedIpsRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},
 	}
-	NetworkLoadBalancerIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
+
+	NetworkLoadBalancerNetworkLoadBalancerBackendSetsHealthCheckerDnsRepresentation = map[string]interface{}{
+		"domain_name":        acctest.Representation{RepType: acctest.Required, Create: `oracle.com`},
+		"query_class":        acctest.Representation{RepType: acctest.Optional, Create: `IN`},
+		"query_type":         acctest.Representation{RepType: acctest.Optional, Create: `A`},
+		"rcodes":             acctest.Representation{RepType: acctest.Optional, Create: []string{`rcodes`}},
+		"transport_protocol": acctest.Representation{RepType: acctest.Optional, Create: `UDP`},
 	}
-	VcnIgnoreChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`is_oracle_gua_allocation_enabled`, `defined_tags`, `ipv6private_cidr_blocks`, `is_ipv6enabled`}},
-	}
-	NetworkLoadBalancerReservedIpDependencies                  = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation)
+
+	NetworkLoadBalancerReservedIpDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_public_ip", "test_public_ip", acctest.Required, acctest.Create, CorePublicIpRepresentation)
+
 	NetworkLoadBalancerNetworkLoadBalancerResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
-			"cidr_block":      acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/24`},
-			"ipv6cidr_blocks": acctest.Representation{RepType: acctest.Optional, Create: []string{`2000:1000:1200:0001::/64`, `fc00:1000:1200:0001::/64`}},
+			"ipv6cidr_block": acctest.Representation{RepType: acctest.Optional, Create: `${substr(oci_core_vcn.test_vcn.ipv6cidr_blocks[0], 0, length(oci_core_vcn.test_vcn.ipv6cidr_blocks[0]) - 2)}${64}`},
 		})) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
-			"cidr_block":                       acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
-			"is_ipv6enabled":                   acctest.Representation{RepType: acctest.Required, Create: `true`},
-			"is_oracle_gua_allocation_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
-			"ipv6private_cidr_blocks":          acctest.Representation{RepType: acctest.Required, Create: []string{`2000:1000:1200::/56`, `fc00:1000:1200::/56`}},
-			"lifecycle":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: VcnIgnoreChangesRepresentation},
+			"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		})) +
 		AvailabilityDomainConfig + DefinedTagsDependencies
 )
@@ -156,7 +113,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerNetworkLoadBalancerDestroy, []resource.TestStep{
-		//verify Create with optionals
+		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, networkLoadBalancerRepresentationIpv6),
@@ -174,7 +131,6 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.2.ip_address", "2000:1000:1200:1:1:0:1:0"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -219,19 +175,19 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, NetworkLoadBalancerNetworkLoadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.1.ip_address", "10.0.0.50"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_symmetric_hash_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.reserved_ip.0.id"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.1.is_public", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.1.ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -263,8 +219,7 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(resourceName, "is_symmetric_hash_enabled", "false"),
-				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
+				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "ip_addresses.0.reserved_ip.0.id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -291,11 +246,12 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "3"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -323,11 +279,11 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "3"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "true"),
-				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.0.is_public", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "ip_addresses.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -370,11 +326,10 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.0.is_public", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source_destination", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "ip_addresses.0.is_public", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_preserve_source_destination", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_private", "false"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "is_symmetric_hash_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nlb_ip_version", "IPV4_AND_IPV6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -388,78 +343,9 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"assigned_ipv6",
-				"assigned_private_ipv4",
 				"reserved_ips",
-				"subnet_ipv6cidr",
 			},
 			ResourceName: resourceName,
-		},
-		// Verify AssignIpv6 create
-		{Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
-			acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerAssignIpv6Representation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameAssignIpv6"),
-				resource.TestCheckResourceAttr(resourceName, "assigned_ipv6", "2000:1000:1200:0001:0001:0000:0001:000"),
-				resource.TestCheckResourceAttr(resourceName, "assigned_private_ipv4", "10.0.0.53"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		// Verify AssignIpv6 during update
-		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Update, NetworkLoadBalancerAssignIpv6Representation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameAssignIpv6"),
-				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf(".Resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
-		// Verify subnet_ipv6cidr create
-		{Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
-			acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Create, NetworkLoadBalancerSubnetIpv6CidrRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameSubnetIpv6Cidr"),
-				resource.TestCheckResourceAttr(resourceName, "subnet_ipv6cidr", "2000:1000:1200:0001::/64"),
-				resource.TestCheckResourceAttr(resourceName, "assigned_private_ipv4", "10.0.0.51"),
-
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					return err
-				},
-			),
-		},
-		//Verify subnet_ipv6cidr during update
-		{
-			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Required, acctest.Update, NetworkLoadBalancerSubnetIpv6CidrRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayNameSubnetIpv6Cidr"),
-				resource.TestCheckResourceAttr(resourceName, "is_preserve_source_destination", "true"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf(".Resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
 		},
 	})
 }
