@@ -58,6 +58,11 @@ func StackMonitoringDiscoveryJobLogsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -165,6 +170,10 @@ func DiscoveryJobLogSummaryToMap(obj oci_stack_monitoring.DiscoveryJobLogSummary
 	}
 
 	result["log_type"] = string(obj.LogType)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

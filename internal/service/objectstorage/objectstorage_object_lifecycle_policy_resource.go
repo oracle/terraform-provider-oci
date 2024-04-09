@@ -23,6 +23,10 @@ import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
 )
 
+const (
+	multipartUploads = "multipart-uploads"
+)
+
 func ObjectStorageObjectLifecyclePolicyResource() *schema.Resource {
 	return &schema.Resource{
 		Importer: &schema.ResourceImporter{
@@ -385,7 +389,15 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRul
 		result.Name = &tmp
 	}
 
-	if objectNameFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_name_filter")); ok {
+	isNotAMultipartUpload := true
+
+	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+		tmp := target.(string)
+		result.Target = &tmp
+		isNotAMultipartUpload = *(result.Target) != multipartUploads
+	}
+
+	if objectNameFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_name_filter")); ok && isNotAMultipartUpload {
 		if tmpList := objectNameFilter.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_name_filter"), 0)
 			tmp, err := s.mapToObjectNameFilter(fieldKeyFormatNextLevel)
@@ -394,11 +406,6 @@ func (s *ObjectStorageObjectLifecyclePolicyResourceCrud) mapToObjectLifecycleRul
 			}
 			result.ObjectNameFilter = &tmp
 		}
-	}
-
-	if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
-		tmp := target.(string)
-		result.Target = &tmp
 	}
 
 	if timeAmount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_amount")); ok {

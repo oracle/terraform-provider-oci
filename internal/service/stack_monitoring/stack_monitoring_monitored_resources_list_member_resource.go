@@ -84,6 +84,10 @@ func StackMonitoringMonitoredResourcesListMemberResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"resource_category": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"resource_display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -97,6 +101,10 @@ func StackMonitoringMonitoredResourcesListMemberResource() *schema.Resource {
 							Computed: true,
 						},
 						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"source_type": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -220,6 +228,8 @@ func MonitoredResourceMemberSummaryToMap(obj oci_stack_monitoring.MonitoredResou
 		result["parent_id"] = string(*obj.ParentId)
 	}
 
+	result["resource_category"] = string(obj.ResourceCategory)
+
 	if obj.ResourceDisplayName != nil {
 		result["resource_display_name"] = string(*obj.ResourceDisplayName)
 	}
@@ -235,6 +245,8 @@ func MonitoredResourceMemberSummaryToMap(obj oci_stack_monitoring.MonitoredResou
 	if obj.ResourceType != nil {
 		result["resource_type"] = string(*obj.ResourceType)
 	}
+
+	result["source_type"] = string(obj.SourceType)
 
 	result["state"] = string(obj.LifecycleState)
 

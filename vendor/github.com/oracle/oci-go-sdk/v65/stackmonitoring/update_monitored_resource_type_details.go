@@ -28,6 +28,12 @@ type UpdateMonitoredResourceTypeDetails struct {
 	// Metric namespace for resource type.
 	MetricNamespace *string `mandatory:"false" json:"metricNamespace"`
 
+	// Source type to indicate if the resource is stack monitoring discovered, OCI native resource, etc.
+	SourceType SourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
+
+	// Resource Category to indicate the kind of resource type.
+	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
+
 	Metadata ResourceTypeMetadataDetails `mandatory:"false" json:"metadata"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -49,6 +55,12 @@ func (m UpdateMonitoredResourceTypeDetails) String() string {
 func (m UpdateMonitoredResourceTypeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingResourceCategoryEnum(string(m.ResourceCategory)); !ok && m.ResourceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", m.ResourceCategory, strings.Join(GetResourceCategoryEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -58,12 +70,14 @@ func (m UpdateMonitoredResourceTypeDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateMonitoredResourceTypeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName     *string                           `json:"displayName"`
-		Description     *string                           `json:"description"`
-		MetricNamespace *string                           `json:"metricNamespace"`
-		Metadata        resourcetypemetadatadetails       `json:"metadata"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName      *string                           `json:"displayName"`
+		Description      *string                           `json:"description"`
+		MetricNamespace  *string                           `json:"metricNamespace"`
+		SourceType       SourceTypeEnum                    `json:"sourceType"`
+		ResourceCategory ResourceCategoryEnum              `json:"resourceCategory"`
+		Metadata         resourcetypemetadatadetails       `json:"metadata"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -76,6 +90,10 @@ func (m *UpdateMonitoredResourceTypeDetails) UnmarshalJSON(data []byte) (e error
 	m.Description = model.Description
 
 	m.MetricNamespace = model.MetricNamespace
+
+	m.SourceType = model.SourceType
+
+	m.ResourceCategory = model.ResourceCategory
 
 	nn, e = model.Metadata.UnmarshalPolymorphicJSON(model.Metadata.JsonData)
 	if e != nil {

@@ -53,6 +53,7 @@ resource "oci_dataflow_invoke_run" "test_invoke_run" {
 	max_duration_in_minutes = var.invoke_run_max_duration_in_minutes
 	metastore_id = var.metastore_id
 	num_executors = var.invoke_run_num_executors
+	opc_parent_rpt_url = var.invoke_run_opc_parent_rpt_url
 	parameters {
 		#Required
 		name = var.invoke_run_parameters_name
@@ -95,6 +96,7 @@ The following arguments are supported:
 * `max_duration_in_minutes` - (Optional) (Updatable) The maximum duration in minutes for which an Application should run. Data Flow Run would be terminated once it reaches this duration from the time it transitions to `IN_PROGRESS` state. 
 * `metastore_id` - (Optional) The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `num_executors` - (Optional) The number of executor VMs requested. 
+* `opc_parent_rpt_url` - (Optional) (Optional header param, required for Resource Principal version 3.0+) Parent resource control plane endpoint used to exchange for upper level resource principal token. 
 * `parameters` - (Optional) An array of name/value pairs used to fill placeholders found in properties like `Application.arguments`.  The name must be a string of one or more word characters (a-z, A-Z, 0-9, _).  The value can be a string of 0 or more characters of any kind. Example:  [ { name: "iterations", value: "10"}, { name: "input_file", value: "mydata.xml" }, { name: "variable_x", value: "${x}"} ] 
 	* `name` - (Required) The name of the parameter.  It must be a string of one or more word characters (a-z, A-Z, 0-9, _). Examples: "iterations", "input_file" 
 	* `value` - (Required) The value of the parameter. It must be a string of 0 or more characters of any kind. Examples: "" (empty string), "10", "mydata.xml", "${x}" 

@@ -41,6 +41,12 @@ type MonitoredResourceTypeSummary struct {
 	// Lifecycle state of the monitored resource type.
 	LifecycleState ResourceTypeLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Source type to indicate if the resource is stack monitoring discovered, OCI native resource, etc.
+	SourceType SourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
+
+	// Resource Category to indicate the kind of resource type.
+	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
+
 	Metadata ResourceTypeMetadataDetails `mandatory:"false" json:"metadata"`
 
 	// The date and time when the monitored resource type was created, expressed in
@@ -77,6 +83,12 @@ func (m MonitoredResourceTypeSummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingResourceTypeLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResourceTypeLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingResourceCategoryEnum(string(m.ResourceCategory)); !ok && m.ResourceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", m.ResourceCategory, strings.Join(GetResourceCategoryEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -86,19 +98,21 @@ func (m MonitoredResourceTypeSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName     *string                           `json:"displayName"`
-		Description     *string                           `json:"description"`
-		MetricNamespace *string                           `json:"metricNamespace"`
-		LifecycleState  ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
-		Metadata        resourcetypemetadatadetails       `json:"metadata"`
-		TimeCreated     *common.SDKTime                   `json:"timeCreated"`
-		TimeUpdated     *common.SDKTime                   `json:"timeUpdated"`
-		FreeformTags    map[string]string                 `json:"freeformTags"`
-		DefinedTags     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags      map[string]map[string]interface{} `json:"systemTags"`
-		Id              *string                           `json:"id"`
-		Name            *string                           `json:"name"`
-		CompartmentId   *string                           `json:"compartmentId"`
+		DisplayName      *string                           `json:"displayName"`
+		Description      *string                           `json:"description"`
+		MetricNamespace  *string                           `json:"metricNamespace"`
+		LifecycleState   ResourceTypeLifecycleStateEnum    `json:"lifecycleState"`
+		SourceType       SourceTypeEnum                    `json:"sourceType"`
+		ResourceCategory ResourceCategoryEnum              `json:"resourceCategory"`
+		Metadata         resourcetypemetadatadetails       `json:"metadata"`
+		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
+		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
+		FreeformTags     map[string]string                 `json:"freeformTags"`
+		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
+		Id               *string                           `json:"id"`
+		Name             *string                           `json:"name"`
+		CompartmentId    *string                           `json:"compartmentId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +127,10 @@ func (m *MonitoredResourceTypeSummary) UnmarshalJSON(data []byte) (e error) {
 	m.MetricNamespace = model.MetricNamespace
 
 	m.LifecycleState = model.LifecycleState
+
+	m.SourceType = model.SourceType
+
+	m.ResourceCategory = model.ResourceCategory
 
 	nn, e = model.Metadata.UnmarshalPolymorphicJSON(model.Metadata.JsonData)
 	if e != nil {

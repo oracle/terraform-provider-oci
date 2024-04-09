@@ -21,6 +21,18 @@ type SearchMonitoredResourcesDetails struct {
 	// Compartment Identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Multiple compartment identifiers OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	CompartmentIds []string `mandatory:"false" json:"compartmentIds"`
+
+	// Multiple lifecycle states filter.
+	LifecycleStates []ResourceLifecycleStateEnum `mandatory:"false" json:"lifecycleStates"`
+
+	// Source type filter.
+	SourceType SourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
+
+	// Resource category filter.
+	ResourceCategory ResourceCategoryEnum `mandatory:"false" json:"resourceCategory,omitempty"`
+
 	// A filter to return resources that match exact resource name.
 	Name *string `mandatory:"false" json:"name"`
 
@@ -113,6 +125,12 @@ func (m SearchMonitoredResourcesDetails) String() string {
 func (m SearchMonitoredResourcesDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSourceTypeEnum(string(m.SourceType)); !ok && m.SourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SourceType: %s. Supported values are: %s.", m.SourceType, strings.Join(GetSourceTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingResourceCategoryEnum(string(m.ResourceCategory)); !ok && m.ResourceCategory != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceCategory: %s. Supported values are: %s.", m.ResourceCategory, strings.Join(GetResourceCategoryEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingResourceLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetResourceLifecycleStateEnumStringValues(), ",")))
 	}
