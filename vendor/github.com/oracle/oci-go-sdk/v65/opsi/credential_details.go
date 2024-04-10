@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// CredentialDetails User credential details to connect to the database. This is supplied via the External Database Service.
+// CredentialDetails User credential details to connect to the database.
 type CredentialDetails interface {
 
 	// Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
@@ -65,6 +65,10 @@ func (m *credentialdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := CredentialByVault{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CREDENTIALS_BY_IAM":
+		mm := CredentialByIam{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for CredentialDetails: %s.", m.CredentialType)
 		return *m, nil
@@ -99,16 +103,19 @@ type CredentialDetailsCredentialTypeEnum string
 const (
 	CredentialDetailsCredentialTypeSource CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_SOURCE"
 	CredentialDetailsCredentialTypeVault  CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_VAULT"
+	CredentialDetailsCredentialTypeIam    CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_IAM"
 )
 
 var mappingCredentialDetailsCredentialTypeEnum = map[string]CredentialDetailsCredentialTypeEnum{
 	"CREDENTIALS_BY_SOURCE": CredentialDetailsCredentialTypeSource,
 	"CREDENTIALS_BY_VAULT":  CredentialDetailsCredentialTypeVault,
+	"CREDENTIALS_BY_IAM":    CredentialDetailsCredentialTypeIam,
 }
 
 var mappingCredentialDetailsCredentialTypeEnumLowerCase = map[string]CredentialDetailsCredentialTypeEnum{
 	"credentials_by_source": CredentialDetailsCredentialTypeSource,
 	"credentials_by_vault":  CredentialDetailsCredentialTypeVault,
+	"credentials_by_iam":    CredentialDetailsCredentialTypeIam,
 }
 
 // GetCredentialDetailsCredentialTypeEnumValues Enumerates the set of values for CredentialDetailsCredentialTypeEnum
@@ -125,6 +132,7 @@ func GetCredentialDetailsCredentialTypeEnumStringValues() []string {
 	return []string{
 		"CREDENTIALS_BY_SOURCE",
 		"CREDENTIALS_BY_VAULT",
+		"CREDENTIALS_BY_IAM",
 	}
 }
 

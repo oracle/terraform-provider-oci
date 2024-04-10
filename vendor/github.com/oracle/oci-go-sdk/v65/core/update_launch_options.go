@@ -28,6 +28,7 @@ type UpdateLaunchOptions struct {
 	// * `ISCSI` - ISCSI attached block storage device.
 	// * `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block
 	// storage volumes on platform images.
+	// * `NVME` - NVMe attached remote block storage device.
 	// Before you change the boot volume attachment type, detach all block volumes and VNICs except for
 	// the boot volume and the primary VNIC.
 	// If the instance is running when you change the boot volume attachment type, it will be rebooted.
@@ -90,16 +91,19 @@ type UpdateLaunchOptionsBootVolumeTypeEnum string
 const (
 	UpdateLaunchOptionsBootVolumeTypeIscsi           UpdateLaunchOptionsBootVolumeTypeEnum = "ISCSI"
 	UpdateLaunchOptionsBootVolumeTypeParavirtualized UpdateLaunchOptionsBootVolumeTypeEnum = "PARAVIRTUALIZED"
+	UpdateLaunchOptionsBootVolumeTypeNvme            UpdateLaunchOptionsBootVolumeTypeEnum = "NVME"
 )
 
 var mappingUpdateLaunchOptionsBootVolumeTypeEnum = map[string]UpdateLaunchOptionsBootVolumeTypeEnum{
 	"ISCSI":           UpdateLaunchOptionsBootVolumeTypeIscsi,
 	"PARAVIRTUALIZED": UpdateLaunchOptionsBootVolumeTypeParavirtualized,
+	"NVME":            UpdateLaunchOptionsBootVolumeTypeNvme,
 }
 
 var mappingUpdateLaunchOptionsBootVolumeTypeEnumLowerCase = map[string]UpdateLaunchOptionsBootVolumeTypeEnum{
 	"iscsi":           UpdateLaunchOptionsBootVolumeTypeIscsi,
 	"paravirtualized": UpdateLaunchOptionsBootVolumeTypeParavirtualized,
+	"nvme":            UpdateLaunchOptionsBootVolumeTypeNvme,
 }
 
 // GetUpdateLaunchOptionsBootVolumeTypeEnumValues Enumerates the set of values for UpdateLaunchOptionsBootVolumeTypeEnum
@@ -116,6 +120,7 @@ func GetUpdateLaunchOptionsBootVolumeTypeEnumStringValues() []string {
 	return []string{
 		"ISCSI",
 		"PARAVIRTUALIZED",
+		"NVME",
 	}
 }
 

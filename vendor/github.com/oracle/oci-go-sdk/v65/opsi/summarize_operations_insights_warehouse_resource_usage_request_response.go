@@ -14,7 +14,7 @@ import (
 // SummarizeOperationsInsightsWarehouseResourceUsageRequest wrapper for the SummarizeOperationsInsightsWarehouseResourceUsage operation
 type SummarizeOperationsInsightsWarehouseResourceUsageRequest struct {
 
-	// Unique Operations Insights Warehouse identifier
+	// Unique Ops Insights Warehouse identifier
 	OperationsInsightsWarehouseId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsWarehouseId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact

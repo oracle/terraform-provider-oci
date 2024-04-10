@@ -84,7 +84,7 @@ type ReportDefinition struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"false" json:"schedule"`
 
-	// Specifies the format of the report ( either .xls or .pdf )
+	// Specifies the format of the report ( either .xls or .pdf or .json)
 	ScheduledReportMimeType ReportDefinitionScheduledReportMimeTypeEnum `mandatory:"false" json:"scheduledReportMimeType,omitempty"`
 
 	// Specifies the limit on the number of rows in the report.
@@ -210,18 +210,21 @@ type ReportDefinitionScheduledReportMimeTypeEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionScheduledReportMimeTypeEnum
 const (
-	ReportDefinitionScheduledReportMimeTypePdf ReportDefinitionScheduledReportMimeTypeEnum = "PDF"
-	ReportDefinitionScheduledReportMimeTypeXls ReportDefinitionScheduledReportMimeTypeEnum = "XLS"
+	ReportDefinitionScheduledReportMimeTypePdf  ReportDefinitionScheduledReportMimeTypeEnum = "PDF"
+	ReportDefinitionScheduledReportMimeTypeXls  ReportDefinitionScheduledReportMimeTypeEnum = "XLS"
+	ReportDefinitionScheduledReportMimeTypeJson ReportDefinitionScheduledReportMimeTypeEnum = "JSON"
 )
 
 var mappingReportDefinitionScheduledReportMimeTypeEnum = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
-	"PDF": ReportDefinitionScheduledReportMimeTypePdf,
-	"XLS": ReportDefinitionScheduledReportMimeTypeXls,
+	"PDF":  ReportDefinitionScheduledReportMimeTypePdf,
+	"XLS":  ReportDefinitionScheduledReportMimeTypeXls,
+	"JSON": ReportDefinitionScheduledReportMimeTypeJson,
 }
 
 var mappingReportDefinitionScheduledReportMimeTypeEnumLowerCase = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
-	"pdf": ReportDefinitionScheduledReportMimeTypePdf,
-	"xls": ReportDefinitionScheduledReportMimeTypeXls,
+	"pdf":  ReportDefinitionScheduledReportMimeTypePdf,
+	"xls":  ReportDefinitionScheduledReportMimeTypeXls,
+	"json": ReportDefinitionScheduledReportMimeTypeJson,
 }
 
 // GetReportDefinitionScheduledReportMimeTypeEnumValues Enumerates the set of values for ReportDefinitionScheduledReportMimeTypeEnum
@@ -238,6 +241,7 @@ func GetReportDefinitionScheduledReportMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

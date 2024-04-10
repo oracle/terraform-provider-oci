@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -26,7 +26,7 @@ type OperationsInsightsWarehouse struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// User-friedly name of Operations Insights Warehouse that does not have to be unique.
+	// User-friedly name of Ops Insights Warehouse that does not have to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// Number of OCPUs allocated to OPSI Warehouse ADW.
@@ -50,10 +50,10 @@ type OperationsInsightsWarehouse struct {
 	// OCID of the dynamic group created for the warehouse
 	DynamicGroupId *string `mandatory:"false" json:"dynamicGroupId"`
 
-	// Tenancy Identifier of Operations Insights service
+	// Tenancy Identifier of Ops Insights service
 	OperationsInsightsTenancyId *string `mandatory:"false" json:"operationsInsightsTenancyId"`
 
-	// The time at which the ADW wallet was last rotated for the Operations Insights Warehouse. An RFC3339 formatted datetime string
+	// The time at which the ADW wallet was last rotated for the Ops Insights Warehouse. An RFC3339 formatted datetime string
 	TimeLastWalletRotated *common.SDKTime `mandatory:"false" json:"timeLastWalletRotated"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

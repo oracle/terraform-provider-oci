@@ -14,7 +14,7 @@ import (
 // CreateNewsReportRequest wrapper for the CreateNewsReport operation
 type CreateNewsReportRequest struct {
 
-	// Details for the news report that will be created in Operations Insights.
+	// Details for the news report that will be created in Ops Insights.
 	CreateNewsReportDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request that can be retried in case of a timeout or

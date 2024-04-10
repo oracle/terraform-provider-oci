@@ -39,7 +39,7 @@ type Report struct {
 	// Specifies a description of the report.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the format of report to be .xls or .pdf
+	// Specifies the format of report to be .xls or .pdf or .json
 	MimeType ReportMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
 	// The type of the audit report.
@@ -88,18 +88,21 @@ type ReportMimeTypeEnum string
 
 // Set of constants representing the allowable values for ReportMimeTypeEnum
 const (
-	ReportMimeTypePdf ReportMimeTypeEnum = "PDF"
-	ReportMimeTypeXls ReportMimeTypeEnum = "XLS"
+	ReportMimeTypePdf  ReportMimeTypeEnum = "PDF"
+	ReportMimeTypeXls  ReportMimeTypeEnum = "XLS"
+	ReportMimeTypeJson ReportMimeTypeEnum = "JSON"
 )
 
 var mappingReportMimeTypeEnum = map[string]ReportMimeTypeEnum{
-	"PDF": ReportMimeTypePdf,
-	"XLS": ReportMimeTypeXls,
+	"PDF":  ReportMimeTypePdf,
+	"XLS":  ReportMimeTypeXls,
+	"JSON": ReportMimeTypeJson,
 }
 
 var mappingReportMimeTypeEnumLowerCase = map[string]ReportMimeTypeEnum{
-	"pdf": ReportMimeTypePdf,
-	"xls": ReportMimeTypeXls,
+	"pdf":  ReportMimeTypePdf,
+	"xls":  ReportMimeTypeXls,
+	"json": ReportMimeTypeJson,
 }
 
 // GetReportMimeTypeEnumValues Enumerates the set of values for ReportMimeTypeEnum
@@ -116,6 +119,7 @@ func GetReportMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

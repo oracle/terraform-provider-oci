@@ -14,7 +14,7 @@ import (
 // DeleteOperationsInsightsWarehouseRequest wrapper for the DeleteOperationsInsightsWarehouse operation
 type DeleteOperationsInsightsWarehouseRequest struct {
 
-	// Unique Operations Insights Warehouse identifier
+	// Unique Ops Insights Warehouse identifier
 	OperationsInsightsWarehouseId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsWarehouseId"`
 
 	// Used for optimistic concurrency control. In the update or delete call for a resource, set the `if-match`

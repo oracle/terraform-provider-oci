@@ -3586,7 +3586,7 @@ func (client BdsClient) removeNodeReplaceConfiguration(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RemoveNodeReplaceConfiguration"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/NodeReplaceConfiguration/RemoveNodeReplaceConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "RemoveNodeReplaceConfiguration", apiReferenceLink)
 		return response, err
 	}

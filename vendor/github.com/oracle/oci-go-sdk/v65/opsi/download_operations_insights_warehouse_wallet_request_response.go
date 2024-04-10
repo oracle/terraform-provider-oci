@@ -15,7 +15,7 @@ import (
 // DownloadOperationsInsightsWarehouseWalletRequest wrapper for the DownloadOperationsInsightsWarehouseWallet operation
 type DownloadOperationsInsightsWarehouseWalletRequest struct {
 
-	// Unique Operations Insights Warehouse identifier
+	// Unique Ops Insights Warehouse identifier
 	OperationsInsightsWarehouseId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsWarehouseId"`
 
 	// The information to be updated.

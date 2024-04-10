@@ -216,6 +216,66 @@ func (client IdentityClient) activateMfaTotpDevice(ctx context.Context, request 
 	return response, err
 }
 
+// AddPolicyLock Add a resource lock to a tag namespace.
+// A default retry strategy applies to this operation AddPolicyLock()
+func (client IdentityClient) AddPolicyLock(ctx context.Context, request AddPolicyLockRequest) (response AddPolicyLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addPolicyLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddPolicyLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddPolicyLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddPolicyLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddPolicyLockResponse")
+	}
+	return
+}
+
+// addPolicyLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) addPolicyLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/policies/{policyId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddPolicyLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/AddPolicyLock"
+		err = common.PostProcessServiceError(err, "Identity", "AddPolicyLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddTagDefaultLock Add a resource lock to a tag default.
 // A default retry strategy applies to this operation AddTagDefaultLock()
 func (client IdentityClient) AddTagDefaultLock(ctx context.Context, request AddTagDefaultLockRequest) (response AddTagDefaultLockResponse, err error) {
@@ -802,6 +862,79 @@ func (client IdentityClient) cascadeDeleteTagNamespace(ctx context.Context, requ
 	return response, err
 }
 
+// CascadeDeleteZprTagNamespace Deletes the specified zpr tag namespace. This operation triggers a process that removes all of the zpr tags
+// defined in the specified zpr tag namespace from all resources in your tenancy and then deletes the zpr tag namespace.
+// After you start the delete operation:
+//   - New zpr tag key definitions cannot be created under the namespace.
+//   - The state of the zpr tag namespace changes to DELETING.
+//   - ZPR Tag removal from the resources begins.
+//
+// This process can take up to 48 hours depending on the number of zpr tag definitions in the namespace, the number of resources
+// that are tagged, and the locations of the regions in which those resources reside.
+// After all tags are removed, the state changes to DELETED. You cannot restore a deleted zpr tag namespace. After the deleted zpr tag namespace
+// changes its state to DELETED, you can use the name of the deleted zpr tag namespace again.
+// After you start this operation, you cannot start either the DeleteTag or the BulkDeleteTags operation until this process completes.
+// To delete a zpr tag namespace, you must first retire it. Use UpdateTagNamespace
+// to retire a zpr tag namespace.
+// A default retry strategy applies to this operation CascadeDeleteZprTagNamespace()
+func (client IdentityClient) CascadeDeleteZprTagNamespace(ctx context.Context, request CascadeDeleteZprTagNamespaceRequest) (response CascadeDeleteZprTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cascadeDeleteZprTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadeDeleteZprTagNamespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadeDeleteZprTagNamespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadeDeleteZprTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadeDeleteZprTagNamespaceResponse")
+	}
+	return
+}
+
+// cascadeDeleteZprTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) cascadeDeleteZprTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zprTagNamespaces/{zprTagNamespaceId}/actions/cascadeDelete", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadeDeleteZprTagNamespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/CascadeDeleteZprTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "CascadeDeleteZprTagNamespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeDomainCompartment (For tenancies that support identity domains) Moves the identity domain to a different compartment in the tenancy.
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
@@ -986,6 +1119,69 @@ func (client IdentityClient) changeTagNamespaceCompartment(ctx context.Context, 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/TagNamespace/ChangeTagNamespaceCompartment"
 		err = common.PostProcessServiceError(err, "Identity", "ChangeTagNamespaceCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeZprTagNamespaceCompartment Moves the specified zpr tag namespace to the specified compartment within the same tenancy.
+// To move the zpr tag namespace, you must have the manage tag-namespaces permission on both compartments.
+// For more information about IAM policies, see Details for IAM (https://docs.cloud.oracle.com/Content/Identity/policyreference/iampolicyreference.htm).
+// Moving a zpr tag namespace moves all the zpr tag key definitions contained in the zpr tag namespace.
+// A default retry strategy applies to this operation ChangeZprTagNamespaceCompartment()
+func (client IdentityClient) ChangeZprTagNamespaceCompartment(ctx context.Context, request ChangeZprTagNamespaceCompartmentRequest) (response ChangeZprTagNamespaceCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeZprTagNamespaceCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeZprTagNamespaceCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeZprTagNamespaceCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeZprTagNamespaceCompartmentResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeZprTagNamespaceCompartmentResponse")
+	}
+	return
+}
+
+// changeZprTagNamespaceCompartment implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) changeZprTagNamespaceCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zprTagNamespaces/{zprTagNamespaceId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeZprTagNamespaceCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/ChangeZprTagNamespaceCompartment"
+		err = common.PostProcessServiceError(err, "Identity", "ChangeZprTagNamespaceCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -2749,6 +2945,152 @@ func (client IdentityClient) createUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// CreateZprTag Creates a new zpr tag in the specified zpr tag namespace.
+// The zpr tag requires either the OCID or the name of the zpr tag namespace that will contain this
+// zpr tag definition.
+// You must specify a *name* for the tag, which must be unique across all tags in the zpr tag namespace
+// and cannot be changed. The name can contain any ASCII character except the space (_) or period (.) characters.
+// Names are case insensitive. That means, for example, "myTag" and "mytag" are not allowed in the same namespace.
+// If you specify a name that's already in use in the zpr tag namespace, a 409 error is returned.
+// The zpr tag must have a *description*. It does not have to be unique, and you can change it with
+// UpdateZprTag.
+// The zpr tag must have a value type, which is specified with a validator. Tags can use either a
+// static value or a list of possible values. Static values are entered by a user applying the tag
+// to a resource. Lists are created by you and the user must apply a value from the list. Lists
+// are validated.
+// * If no `validator` is set, the user applying the zpr tag to a resource can type in a static
+// value or leave the zpr tag value empty.
+// * If a `validator` is set, the user applying the zpr tag to a resource must select from a list
+// of values that you supply with EnumTagDefinitionValidator.
+// A default retry strategy applies to this operation CreateZprTag()
+func (client IdentityClient) CreateZprTag(ctx context.Context, request CreateZprTagRequest) (response CreateZprTagResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createZprTag, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateZprTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateZprTagResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateZprTagResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateZprTagResponse")
+	}
+	return
+}
+
+// createZprTag implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createZprTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zprTagNamespaces/{zprTagNamespaceId}/tags", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateZprTagResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTag/CreateZprTag"
+		err = common.PostProcessServiceError(err, "Identity", "CreateZprTag", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateZprTagNamespace Creates a new zpr tag namespace in the specified compartment.
+// You must specify the compartment ID in the request object (remember that the tenancy is simply the root
+// compartment).
+// You must also specify a *name* for the namespace, which must be unique across all namespaces in your tenancy
+// and cannot be changed. The name can contain any ASCII character except the space (_) or period (.).
+// Names are case insensitive. That means, for example, "myNamespace" and "mynamespace" are not allowed
+// in the same tenancy. Once you created a namespace, you cannot change the name.
+// If you specify a name that's already in use in the tenancy, a 409 error is returned.
+// You must also specify a *description* for the namespace.
+// It does not have to be unique, and you can change it with
+// UpdateTagNamespace.
+// A default retry strategy applies to this operation CreateZprTagNamespace()
+func (client IdentityClient) CreateZprTagNamespace(ctx context.Context, request CreateZprTagNamespaceRequest) (response CreateZprTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createZprTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateZprTagNamespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateZprTagNamespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateZprTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateZprTagNamespaceResponse")
+	}
+	return
+}
+
+// createZprTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) createZprTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zprTagNamespaces", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateZprTagNamespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/CreateZprTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "CreateZprTagNamespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeactivateDomain (For tenancies that support identity domains) Deactivates the specified identity domain. Identity domains must be in an ACTIVE
 // `lifecycleState` and have no active apps present in the domain or underlying Identity Cloud Service stripe. You cannot deactivate
 // the default identity domain.
@@ -3147,7 +3489,6 @@ func (client IdentityClient) deleteDbCredential(ctx context.Context, request com
 // the underlying IDCS stripe. You must also deactivate the identity domain, rendering the `lifecycleState` of the identity domain INACTIVE.
 // Furthermore, as the authenticated user performing the operation, you cannot be a member of the identity domain you are deleting.
 // Lastly, you cannot delete the default identity domain. A tenancy must always have at least the default identity domain.
-//
 // To track the progress of the request, submitting an HTTP GET on the /iamWorkRequests/{iamWorkRequestsId} endpoint retrieves
 // the operation's status.
 // A default retry strategy applies to this operation DeleteDomain()
@@ -4144,6 +4485,131 @@ func (client IdentityClient) deleteUser(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// DeleteZprTag Deletes the specified zpr tag definition. This operation triggers a process that removes the
+// zpr tag from all resources in your tenancy.
+// These things happen immediately:
+//   - If the zpr tag was a cost-tracking tag, it no longer counts against your 10 cost-tracking
+//     tags limit, whether you first disabled it or not.
+//   - If the zpr tag was used with dynamic groups, none of the rules that contain the zpr tag will
+//     be evaluated against the tag.
+//
+// When you start the delete operation, the state of the zpr tag changes to DELETING and zpr tag removal
+// from resources begins. This can take up to 48 hours depending on the number of resources that
+// were tagged as well as the regions in which those resources reside.
+// When all tags have been removed, the state changes to DELETED. You cannot restore a deleted tag. Once the deleted tag
+// changes its state to DELETED, you can use the same zpr tag name again.
+// After you start this operation, you cannot start either the BulkDeleteTags or the CascadeDeleteTagNamespace operation until this process completes.
+// To delete a tag, you must first retire it. Use UpdateZprTag
+// to retire a tag.
+// A default retry strategy applies to this operation DeleteZprTag()
+func (client IdentityClient) DeleteZprTag(ctx context.Context, request DeleteZprTagRequest) (response DeleteZprTagResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteZprTag, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteZprTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteZprTagResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteZprTagResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteZprTagResponse")
+	}
+	return
+}
+
+// deleteZprTag implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteZprTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zprTagNamespaces/{zprTagNamespaceId}/tags/{zprTagName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteZprTagResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTag/DeleteZprTag"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteZprTag", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteZprTagNamespace Deletes the specified zpr tag namespace. Only an emptyzpr tag namespace can be deleted with this operation. To use this operation
+// to delete a zpr tag namespace that containszpr tag definitions, first delete all of its zpr tag definitions.
+// Use DeleteTag to delete a zpr tag definition.
+// A default retry strategy applies to this operation DeleteZprTagNamespace()
+func (client IdentityClient) DeleteZprTagNamespace(ctx context.Context, request DeleteZprTagNamespaceRequest) (response DeleteZprTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteZprTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteZprTagNamespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteZprTagNamespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteZprTagNamespaceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteZprTagNamespaceResponse")
+	}
+	return
+}
+
+// deleteZprTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) deleteZprTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/zprTagNamespaces/{zprTagNamespaceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteZprTagNamespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/DeleteZprTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "DeleteZprTagNamespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableReplicationToRegion (For tenancies that support identity domains) Replicates the identity domain to a new region (provided that the region is the
 // tenancy home region or other region that the tenancy subscribes to). You can only replicate identity domains that are in an ACTIVE
 // `lifecycleState` and not currently updating or already replicating. You also can only trigger the replication of secondary identity domains.
@@ -4654,7 +5120,7 @@ func (client IdentityClient) getGroup(ctx context.Context, request common.OCIReq
 	return response, err
 }
 
-// GetIamWorkRequest Gets the details of a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
+// GetIamWorkRequest Gets the details of a specified IAM work request. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
 // A default retry strategy applies to this operation GetIamWorkRequest()
 func (client IdentityClient) GetIamWorkRequest(ctx context.Context, request GetIamWorkRequestRequest) (response GetIamWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5358,7 +5824,7 @@ func (client IdentityClient) getTagRule(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// GetTaggingWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
+// GetTaggingWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-work-request-id header
 // for any asynchronous operation in tagging service.
 // A default retry strategy applies to this operation GetTaggingWorkRequest()
 func (client IdentityClient) GetTaggingWorkRequest(ctx context.Context, request GetTaggingWorkRequestRequest) (response GetTaggingWorkRequestResponse, err error) {
@@ -5630,7 +6096,7 @@ func (client IdentityClient) getUserUIPasswordInformation(ctx context.Context, r
 	return response, err
 }
 
-// GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-workrequest-id header
+// GetWorkRequest Gets details on a specified work request. The workRequestID is returned in the opc-work-request-id header
 // for any asynchronous operation in the compartment service.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client IdentityClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
@@ -5678,6 +6144,114 @@ func (client IdentityClient) getWorkRequest(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "Identity", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetZprTag Gets the specified tag's information.
+// A default retry strategy applies to this operation GetZprTag()
+func (client IdentityClient) GetZprTag(ctx context.Context, request GetZprTagRequest) (response GetZprTagResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getZprTag, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetZprTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetZprTagResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetZprTagResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetZprTagResponse")
+	}
+	return
+}
+
+// getZprTag implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getZprTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zprTagNamespaces/{zprTagNamespaceId}/tags/{zprTagName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetZprTagResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTag/GetZprTag"
+		err = common.PostProcessServiceError(err, "Identity", "GetZprTag", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetZprTagNamespace Gets the specified zpr tag namespace's information.
+// A default retry strategy applies to this operation GetZprTagNamespace()
+func (client IdentityClient) GetZprTagNamespace(ctx context.Context, request GetZprTagNamespaceRequest) (response GetZprTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getZprTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetZprTagNamespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetZprTagNamespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetZprTagNamespaceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetZprTagNamespaceResponse")
+	}
+	return
+}
+
+// getZprTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) getZprTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zprTagNamespaces/{zprTagNamespaceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetZprTagNamespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/GetZprTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "GetZprTagNamespace", apiReferenceLink)
 		return response, err
 	}
 
@@ -6593,7 +7167,7 @@ func (client IdentityClient) listGroups(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// ListIamWorkRequestErrors Gets error details for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
+// ListIamWorkRequestErrors Gets error details for a specified IAM work request. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
 // A default retry strategy applies to this operation ListIamWorkRequestErrors()
 func (client IdentityClient) ListIamWorkRequestErrors(ctx context.Context, request ListIamWorkRequestErrorsRequest) (response ListIamWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6647,7 +7221,7 @@ func (client IdentityClient) listIamWorkRequestErrors(ctx context.Context, reque
 	return response, err
 }
 
-// ListIamWorkRequestLogs Gets logs for a specified IAM work request. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
+// ListIamWorkRequestLogs Gets logs for a specified IAM work request. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
 // A default retry strategy applies to this operation ListIamWorkRequestLogs()
 func (client IdentityClient) ListIamWorkRequestLogs(ctx context.Context, request ListIamWorkRequestLogsRequest) (response ListIamWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6701,7 +7275,7 @@ func (client IdentityClient) listIamWorkRequestLogs(ctx context.Context, request
 	return response, err
 }
 
-// ListIamWorkRequests Lists the IAM work requests in compartment. The workRequestID is returned in the opc-workrequest-id header for any asynchronous operation in the Identity and Access Management service.
+// ListIamWorkRequests Lists the IAM work requests in compartment. The workRequestID is returned in the opc-work-request-id header for any asynchronous operation in the Identity and Access Management service.
 // A default retry strategy applies to this operation ListIamWorkRequests()
 func (client IdentityClient) ListIamWorkRequests(ctx context.Context, request ListIamWorkRequestsRequest) (response ListIamWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8023,6 +8597,60 @@ func (client IdentityClient) listTenancies(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListTenancyCompartmentTree List compartment summary by tenant Id
+// A default retry strategy applies to this operation ListTenancyCompartmentTree()
+func (client IdentityClient) ListTenancyCompartmentTree(ctx context.Context, request ListTenancyCompartmentTreeRequest) (response ListTenancyCompartmentTreeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTenancyCompartmentTree, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTenancyCompartmentTreeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTenancyCompartmentTreeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTenancyCompartmentTreeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTenancyCompartmentTreeResponse")
+	}
+	return
+}
+
+// listTenancyCompartmentTree implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listTenancyCompartmentTree(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/tenancies/{tenancyId}/compartmentTree", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTenancyCompartmentTreeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/CompartmentSummary/ListTenancyCompartmentTree"
+		err = common.PostProcessServiceError(err, "Identity", "ListTenancyCompartmentTree", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListUserGroupMemberships Lists the `UserGroupMembership` objects in your tenancy. You must specify your tenancy's OCID
 // as the value for the compartment ID
 // (see Where to Get the Tenancy's OCID and User's OCID (https://docs.cloud.oracle.com/Content/API/Concepts/apisigningkey.htm#five)).
@@ -8195,6 +8823,114 @@ func (client IdentityClient) listWorkRequests(ctx context.Context, request commo
 	return response, err
 }
 
+// ListZprTagNamespaces Lists the zpr tag namespaces in the specified compartment.
+// A default retry strategy applies to this operation ListZprTagNamespaces()
+func (client IdentityClient) ListZprTagNamespaces(ctx context.Context, request ListZprTagNamespacesRequest) (response ListZprTagNamespacesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listZprTagNamespaces, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListZprTagNamespacesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListZprTagNamespacesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListZprTagNamespacesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListZprTagNamespacesResponse")
+	}
+	return
+}
+
+// listZprTagNamespaces implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listZprTagNamespaces(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zprTagNamespaces", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListZprTagNamespacesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespaceSummary/ListZprTagNamespaces"
+		err = common.PostProcessServiceError(err, "Identity", "ListZprTagNamespaces", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListZprTags Lists the tag definitions in the specified tag namespace.
+// A default retry strategy applies to this operation ListZprTags()
+func (client IdentityClient) ListZprTags(ctx context.Context, request ListZprTagsRequest) (response ListZprTagsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listZprTags, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListZprTagsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListZprTagsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListZprTagsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListZprTagsResponse")
+	}
+	return
+}
+
+// listZprTags implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) listZprTags(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/zprTagNamespaces/{zprTagNamespaceId}/tags", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListZprTagsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagCollection/ListZprTags"
+		err = common.PostProcessServiceError(err, "Identity", "ListZprTags", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MoveCompartment Move the compartment to a different parent compartment in the same tenancy. When you move a
 // compartment, all its contents (subcompartments and resources) are moved with it. Note that
 // the `CompartmentId` that you specify in the path is the compartment that you want to move.
@@ -8309,6 +9045,66 @@ func (client IdentityClient) recoverCompartment(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Compartment/RecoverCompartment"
 		err = common.PostProcessServiceError(err, "Identity", "RecoverCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemovePolicyLock Remove a resource lock to a policy
+// A default retry strategy applies to this operation RemovePolicyLock()
+func (client IdentityClient) RemovePolicyLock(ctx context.Context, request RemovePolicyLockRequest) (response RemovePolicyLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removePolicyLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemovePolicyLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemovePolicyLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemovePolicyLockResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemovePolicyLockResponse")
+	}
+	return
+}
+
+// removePolicyLock implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) removePolicyLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/policies/{policyId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemovePolicyLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/Policy/RemovePolicyLock"
+		err = common.PostProcessServiceError(err, "Identity", "RemovePolicyLock", apiReferenceLink)
 		return response, err
 	}
 
@@ -10102,6 +10898,122 @@ func (client IdentityClient) updateUserState(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/User/UpdateUserState"
 		err = common.PostProcessServiceError(err, "Identity", "UpdateUserState", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateZprTag Updates the specified zpr tag definition. You can update `description`, and `isRetired`.
+// A default retry strategy applies to this operation UpdateZprTag()
+func (client IdentityClient) UpdateZprTag(ctx context.Context, request UpdateZprTagRequest) (response UpdateZprTagResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateZprTag, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateZprTagResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateZprTagResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateZprTagResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateZprTagResponse")
+	}
+	return
+}
+
+// updateZprTag implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateZprTag(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zprTagNamespaces/{zprTagNamespaceId}/tags/{zprTagName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateZprTagResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTag/UpdateZprTag"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateZprTag", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateZprTagNamespace Updates the the specified zpr tag namespace. You can't update the namespace name.
+// Updating `isRetired` to 'true' retires the namespace and all the zpr tag definitions in the namespace. Reactivating a
+// namespace (changing `isRetired` from 'true' to 'false') does not reactivate zpr tag definitions.
+// To reactivate the zpr tag definitions, you must reactivate each one individually *after* you reactivate the namespace,
+// using UpdateTag. For more information about retiring zpr tag namespaces, see
+// Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
+// You can't add a namespace with the same name as a retired namespace in the same tenancy.
+// A default retry strategy applies to this operation UpdateZprTagNamespace()
+func (client IdentityClient) UpdateZprTagNamespace(ctx context.Context, request UpdateZprTagNamespaceRequest) (response UpdateZprTagNamespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateZprTagNamespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateZprTagNamespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateZprTagNamespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateZprTagNamespaceResponse); ok {
+		common.EcContext.UpdateEndOfWindow(time.Duration(240 * time.Second))
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateZprTagNamespaceResponse")
+	}
+	return
+}
+
+// updateZprTagNamespace implements the OCIOperation interface (enables retrying operations)
+func (client IdentityClient) updateZprTagNamespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/zprTagNamespaces/{zprTagNamespaceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateZprTagNamespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity/20160918/ZprTagNamespace/UpdateZprTagNamespace"
+		err = common.PostProcessServiceError(err, "Identity", "UpdateZprTagNamespace", apiReferenceLink)
 		return response, err
 	}
 

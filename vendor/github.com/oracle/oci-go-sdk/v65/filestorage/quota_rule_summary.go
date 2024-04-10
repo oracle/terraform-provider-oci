@@ -32,6 +32,9 @@ type QuotaRuleSummary struct {
 	// The usage value corresponds to this principal. The unit is Gigabyte.
 	UsageInGigabytes *int `mandatory:"true" json:"usageInGigabytes"`
 
+	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.
+	Id *string `mandatory:"false" json:"id"`
+
 	// The flag is an identifier to tell whether the quota rule will be enforced.
 	// If `isHardQuota` is false, the quota rule will be enforced so the usage cannot exceed the hard quota limit.
 	// If `isHardQuota` is true, usage can exceed the soft quota limit. An alarm or notification will be sent to

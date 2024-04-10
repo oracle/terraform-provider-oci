@@ -19,6 +19,9 @@ import (
 // QuotaRule A rule that can restrict the logical space that a user or group can consume in a file system.
 type QuotaRule struct {
 
+	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.
+	Id *string `mandatory:"true" json:"id"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file System.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 

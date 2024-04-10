@@ -20,16 +20,19 @@ type SqlFirewallAllowedSqlLifecycleStateEnum string
 const (
 	SqlFirewallAllowedSqlLifecycleStateActive  SqlFirewallAllowedSqlLifecycleStateEnum = "ACTIVE"
 	SqlFirewallAllowedSqlLifecycleStateDeleted SqlFirewallAllowedSqlLifecycleStateEnum = "DELETED"
+	SqlFirewallAllowedSqlLifecycleStateFailed  SqlFirewallAllowedSqlLifecycleStateEnum = "FAILED"
 )
 
 var mappingSqlFirewallAllowedSqlLifecycleStateEnum = map[string]SqlFirewallAllowedSqlLifecycleStateEnum{
 	"ACTIVE":  SqlFirewallAllowedSqlLifecycleStateActive,
 	"DELETED": SqlFirewallAllowedSqlLifecycleStateDeleted,
+	"FAILED":  SqlFirewallAllowedSqlLifecycleStateFailed,
 }
 
 var mappingSqlFirewallAllowedSqlLifecycleStateEnumLowerCase = map[string]SqlFirewallAllowedSqlLifecycleStateEnum{
 	"active":  SqlFirewallAllowedSqlLifecycleStateActive,
 	"deleted": SqlFirewallAllowedSqlLifecycleStateDeleted,
+	"failed":  SqlFirewallAllowedSqlLifecycleStateFailed,
 }
 
 // GetSqlFirewallAllowedSqlLifecycleStateEnumValues Enumerates the set of values for SqlFirewallAllowedSqlLifecycleStateEnum
@@ -46,6 +49,7 @@ func GetSqlFirewallAllowedSqlLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
 		"DELETED",
+		"FAILED",
 	}
 }
 

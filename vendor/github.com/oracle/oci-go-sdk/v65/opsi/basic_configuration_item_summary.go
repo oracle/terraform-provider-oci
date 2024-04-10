@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -20,7 +20,7 @@ import (
 
 // BasicConfigurationItemSummary Basic configuration item summary.
 // Value field contain the most preferred value for the specified scope (compartmentId), which could be from any of the ConfigurationItemValueSourceConfigurationType.
-// Default value field contains the default value from Operations Insights.
+// Default value field contains the default value from Ops Insights.
 type BasicConfigurationItemSummary struct {
 
 	// Name of configuration item.
@@ -32,7 +32,7 @@ type BasicConfigurationItemSummary struct {
 	// Value of configuration item.
 	DefaultValue *string `mandatory:"false" json:"defaultValue"`
 
-	// List of contexts in Operations Insights where this configuration item is applicable.
+	// List of contexts in Ops Insights where this configuration item is applicable.
 	ApplicableContexts []string `mandatory:"false" json:"applicableContexts"`
 
 	Metadata ConfigurationItemMetadata `mandatory:"false" json:"metadata"`

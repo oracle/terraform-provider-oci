@@ -14,7 +14,7 @@ import (
 // ChangeOperationsInsightsWarehouseCompartmentRequest wrapper for the ChangeOperationsInsightsWarehouseCompartment operation
 type ChangeOperationsInsightsWarehouseCompartmentRequest struct {
 
-	// Unique Operations Insights Warehouse identifier
+	// Unique Ops Insights Warehouse identifier
 	OperationsInsightsWarehouseId *string `mandatory:"true" contributesTo:"path" name:"operationsInsightsWarehouseId"`
 
 	// The information to be updated.

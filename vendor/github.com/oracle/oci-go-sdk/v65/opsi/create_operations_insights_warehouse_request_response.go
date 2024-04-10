@@ -14,7 +14,7 @@ import (
 // CreateOperationsInsightsWarehouseRequest wrapper for the CreateOperationsInsightsWarehouse operation
 type CreateOperationsInsightsWarehouseRequest struct {
 
-	// Details using which an Operations Insights Warehouse resource will be created in Operations Insights.
+	// Details using which an Ops Insights Warehouse resource will be created in Ops Insights.
 	CreateOperationsInsightsWarehouseDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request that can be retried in case of a timeout or

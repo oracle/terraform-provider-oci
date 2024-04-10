@@ -16288,7 +16288,7 @@ func (client DatabaseClient) listGiVersionMinorVersions(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiVersionSummary/ListGiVersionMinorVersions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/GiMinorVersionSummary/ListGiVersionMinorVersions"
 		err = common.PostProcessServiceError(err, "Database", "ListGiVersionMinorVersions", apiReferenceLink)
 		return response, err
 	}

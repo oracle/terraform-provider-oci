@@ -14,7 +14,7 @@ import (
 // CreateHostInsightRequest wrapper for the CreateHostInsight operation
 type CreateHostInsightRequest struct {
 
-	// Details for the host for which a Host Insight resource will be created in Operations Insights.
+	// Details for the host for which a Host Insight resource will be created in Ops Insights.
 	CreateHostInsightDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request that can be retried in case of a timeout or

@@ -167,6 +167,10 @@ type PrivateEndpoint struct {
 	FailoverState PrivateEndpointFailoverStateEnum `mandatory:"false" json:"failoverState,omitempty"`
 
 	ReverseConnectionConfiguration *ReverseConnectionConfiguration `mandatory:"false" json:"reverseConnectionConfiguration"`
+
+	// The Cluster Proximity Group OCID to be used for the PE ServiceVnic placement.
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	CpgId *string `mandatory:"false" json:"cpgId"`
 }
 
 func (m PrivateEndpoint) String() string {

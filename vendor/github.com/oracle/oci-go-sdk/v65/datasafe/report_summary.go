@@ -39,7 +39,7 @@ type ReportSummary struct {
 	// Description of the report.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the format of report to be .xls or .pdf.
+	// Specifies the format of report to be .xls or .pdf or .json.
 	MimeType ReportSummaryMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
 	// The type of the report.
@@ -84,18 +84,21 @@ type ReportSummaryMimeTypeEnum string
 
 // Set of constants representing the allowable values for ReportSummaryMimeTypeEnum
 const (
-	ReportSummaryMimeTypePdf ReportSummaryMimeTypeEnum = "PDF"
-	ReportSummaryMimeTypeXls ReportSummaryMimeTypeEnum = "XLS"
+	ReportSummaryMimeTypePdf  ReportSummaryMimeTypeEnum = "PDF"
+	ReportSummaryMimeTypeXls  ReportSummaryMimeTypeEnum = "XLS"
+	ReportSummaryMimeTypeJson ReportSummaryMimeTypeEnum = "JSON"
 )
 
 var mappingReportSummaryMimeTypeEnum = map[string]ReportSummaryMimeTypeEnum{
-	"PDF": ReportSummaryMimeTypePdf,
-	"XLS": ReportSummaryMimeTypeXls,
+	"PDF":  ReportSummaryMimeTypePdf,
+	"XLS":  ReportSummaryMimeTypeXls,
+	"JSON": ReportSummaryMimeTypeJson,
 }
 
 var mappingReportSummaryMimeTypeEnumLowerCase = map[string]ReportSummaryMimeTypeEnum{
-	"pdf": ReportSummaryMimeTypePdf,
-	"xls": ReportSummaryMimeTypeXls,
+	"pdf":  ReportSummaryMimeTypePdf,
+	"xls":  ReportSummaryMimeTypeXls,
+	"json": ReportSummaryMimeTypeJson,
 }
 
 // GetReportSummaryMimeTypeEnumValues Enumerates the set of values for ReportSummaryMimeTypeEnum
@@ -112,6 +115,7 @@ func GetReportSummaryMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

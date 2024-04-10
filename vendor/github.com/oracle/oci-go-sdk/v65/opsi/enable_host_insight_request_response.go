@@ -14,7 +14,7 @@ import (
 // EnableHostInsightRequest wrapper for the EnableHostInsight operation
 type EnableHostInsightRequest struct {
 
-	// Details for the host to be enabled in Operations Insights.
+	// Details for the host to be enabled in Ops Insights.
 	EnableHostInsightDetails `contributesTo:"body"`
 
 	// Unique host insight identifier

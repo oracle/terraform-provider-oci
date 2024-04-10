@@ -96,6 +96,10 @@ type CreatePrivateEndpointDetails struct {
 	// when primary provisioned availability domain fails.
 	// example: 'phx-ad-1'
 	FailoverDomain *string `mandatory:"false" json:"failoverDomain"`
+
+	// The Cluster Proximity Group OCID to be used for the PE ServiceVnic placement.
+	// Optional and valid only for Private Access to support ADB-S low latency support.
+	CpgId *string `mandatory:"false" json:"cpgId"`
 }
 
 func (m CreatePrivateEndpointDetails) String() string {

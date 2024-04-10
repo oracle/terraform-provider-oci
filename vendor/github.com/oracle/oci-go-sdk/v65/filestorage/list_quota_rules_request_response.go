@@ -21,12 +21,6 @@ type ListQuotaRulesRequest struct {
 	// identify a user or group to manage access control.
 	PrincipalId *int `mandatory:"true" contributesTo:"query" name:"principalId"`
 
-	// The flag is an identifier to tell whether the quota rule will be enforced.
-	// If `isHardQuota` is false, the quota rule will be enforced so the usage cannot exceed the hard quota limit.
-	// If `isHardQuota` is true, usage can exceed the soft quota limit. An alarm or notification will be sent to
-	// the customer, if the specific usage exceeds.
-	IsHardQuota *bool `mandatory:"true" contributesTo:"query" name:"isHardQuota"`
-
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
 	// 1 is the minimum, 1000 is the maximum.
@@ -51,10 +45,6 @@ type ListQuotaRulesRequest struct {
 	// If `areViolatorsOnly` is true, the list result will only display the quota and usage report for
 	// the users or groups that violate their quota rules.
 	AreViolatorsOnly *bool `mandatory:"false" contributesTo:"query" name:"areViolatorsOnly"`
-
-	// A user-friendly name. It does not have to be unique, and it is changeable.
-	// Example: `My resource`
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// The sort order to use, either 'asc' or 'desc', where 'asc' is
 	// ascending and 'desc' is descending. The default order is 'desc'
