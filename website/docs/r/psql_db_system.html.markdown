@@ -147,14 +147,14 @@ The following arguments are supported:
 	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`. 
 	* `selection` - (Required) In case of `INSERT`, selection is `instances`. In case of `REMOVE`, selection is `instances[?id == '${var.instance_id}']`.
 	* `value` - (Required when operation=INSERT) Specify instance details such as displayName, description or privateIp. Example: `{"displayName": "value"}`.
-* `shape` - (Required) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `VM.Standard.E4.Flex` 
+* `shape` - (Required) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `PostgreSQL.VM.Standard.E4.Flex.2.32GB`. Find more about the supported shapes [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/supported-shapes.htm).
 * `source` - (Optional) The source used to restore the database system.
 	* `backup_id` - (Required when source_type=BACKUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - (Applicable when source_type=BACKUP) Deprecated. Don't use.
-	* `source_type` - (Required) The source descriminator. 
+	* `source_type` - (Required) The source descriminator. Example: `{"source_type": "BACKUP"}`.
 * `storage_details` - (Required) (Updatable) Storage details of the database system.
 	* `availability_domain` - (Optional) Specifies the availability domain of AD-local storage. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
-	* `iops` - (Applicable when system_type=OCI_OPTIMIZED_STORAGE) (Updatable) Guaranteed input/output storage requests per second (IOPS) available to the database system.
+	* `iops` - (Applicable when system_type=OCI_OPTIMIZED_STORAGE) (Updatable) Guaranteed input/output storage requests per second (IOPS) available to the database system. Find more about the supported Peformance Tiers [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/performance-tiers.htm).
 	* `is_regionally_durable` - (Required) Specifies if the block volume used for the database system is regional or AD-local. If not specified, it will be set to false. If `isRegionallyDurable` is set to true, `availabilityDomain` should not be specified. If `isRegionallyDurable` is set to false, `availabilityDomain` must be specified. 
 	* `system_type` - (Required) Type of the database system.
 * `system_type` - (Optional) Type of the database system.
@@ -201,7 +201,7 @@ The following attributes are exported:
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
-* `shape` - The name of the shape for the database instance. Example: `VM.Standard.E4.Flex` 
+* `shape` - The name of the shape for the database instance. Example: `PostgreSQL.VM.Standard.E4.Flex.2.32GB`. 
 * `source` - The source used to restore the database system.
 	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - Deprecated. Don't use.
