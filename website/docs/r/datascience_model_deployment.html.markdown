@@ -35,6 +35,7 @@ resource "oci_datascience_model_deployment" "test_model_deployment" {
 					memory_in_gbs = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
 					ocpus = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
 				}
+				subnet_id = oci_core_subnet.test_subnet.id
 			}
 			model_id = oci_datascience_model.test_model.id
 
@@ -158,6 +159,7 @@ The following arguments are supported:
 				* `cpu_baseline` - (Optional) (Updatable) The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 				* `memory_in_gbs` - (Optional) (Updatable) A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
 				* `ocpus` - (Optional) (Updatable) A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the ocpu count to be specified with in the range of 1 to 64 ocpu. VM.Standard3.Flex OCPU range is between 1 to 32 ocpu and for VM.Optimized3.Flex OCPU range is 1 to 18 ocpu. 
+			* `subnet_id` - (Optional) (Updatable) A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress.
 		* `maximum_bandwidth_mbps` - (Optional) (Updatable) The maximum network bandwidth for the model deployment.
 		* `model_id` - (Required) (Updatable) The OCID of the model you want to deploy.
 		* `scaling_policy` - (Optional) (Updatable) The scaling policy to apply to each model of the deployment.
@@ -254,6 +256,7 @@ The following attributes are exported:
 				* `cpu_baseline` - The baseline OCPU utilization for a subcore burstable VM instance. If this attribute is left blank, it will default to `BASELINE_1_1`. The following values are supported: BASELINE_1_8 - baseline usage is 1/8 of an OCPU. BASELINE_1_2 - baseline usage is 1/2 of an OCPU. BASELINE_1_1 - baseline usage is an entire OCPU. This represents a non-burstable instance. 
 				* `memory_in_gbs` - A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the memory to be specified with in the range of 6 to 1024 GB. VM.Standard3.Flex memory range is between 6 to 512 GB and VM.Optimized3.Flex memory range is between 6 to 256 GB. 
 				* `ocpus` - A model-deployment instance of type VM.Standard.E3.Flex or VM.Standard.E4.Flex allows the ocpu count to be specified with in the range of 1 to 64 ocpu. VM.Standard3.Flex OCPU range is between 1 to 32 ocpu and for VM.Optimized3.Flex OCPU range is 1 to 18 ocpu. 
+			* `subnet_id` - A model deployment instance is provided with a VNIC for network access.  This specifies the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet to create a VNIC in.  The subnet should be in a VCN with a NAT/SGW gateway for egress. 
 		* `maximum_bandwidth_mbps` - The maximum network bandwidth for the model deployment.
 		* `model_id` - The OCID of the model you want to deploy.
 		* `scaling_policy` - The scaling policy to apply to each model of the deployment.
