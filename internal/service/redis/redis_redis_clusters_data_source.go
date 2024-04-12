@@ -126,7 +126,7 @@ func (s *RedisRedisClustersDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, RedisClusterSummaryToMap(item))
+		items = append(items, RedisClusterSummaryToMap(item, true))
 	}
 	redisCluster["items"] = items
 

@@ -98,6 +98,8 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 		s.D.Set("node_memory_in_gbs", *s.Res.NodeMemoryInGBs)
 	}
 
+	s.D.Set("nsg_ids", s.Res.NsgIds)
+
 	if s.Res.PrimaryEndpointIpAddress != nil {
 		s.D.Set("primary_endpoint_ip_address", *s.Res.PrimaryEndpointIpAddress)
 	}

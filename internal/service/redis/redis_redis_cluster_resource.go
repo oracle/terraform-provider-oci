@@ -73,6 +73,15 @@ func RedisRedisClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -258,6 +267,20 @@ func (s *RedisRedisClusterResourceCrud) Create() error {
 			tmp = float32(nodeMemoryInGBs.(float64))
 		}
 		request.NodeMemoryInGBs = &tmp
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
 	}
 
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok {
@@ -500,6 +523,25 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 		}
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		request := oci_redis.UpdateRedisClusterRequest{}
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+			err := s.updateRedisCluster(request)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok && s.D.HasChange("node_count") {
 		request := oci_redis.UpdateRedisClusterRequest{}
 		tmp := nodeCount.(int)
@@ -565,6 +607,12 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 	if s.Res.NodeMemoryInGBs != nil {
 		s.D.Set("node_memory_in_gbs", *s.Res.NodeMemoryInGBs)
 	}
+
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 	if s.Res.PrimaryEndpointIpAddress != nil {
 		s.D.Set("primary_endpoint_ip_address", *s.Res.PrimaryEndpointIpAddress)
@@ -635,7 +683,7 @@ func NodeCollectionToMap(obj *oci_redis.NodeCollection) map[string]interface{} {
 	return result
 }
 
-func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary) map[string]interface{} {
+func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
@@ -666,6 +714,16 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary) map[string]inte
 
 	if obj.NodeMemoryInGBs != nil {
 		result["node_memory_in_gbs"] = float32(*obj.NodeMemoryInGBs)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
 	}
 
 	if obj.PrimaryEndpointIpAddress != nil {
