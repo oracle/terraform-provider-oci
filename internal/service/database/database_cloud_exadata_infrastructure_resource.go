@@ -184,6 +184,14 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"skip_ru": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeBool,
+							},
+						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -851,6 +859,19 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+	}
+
+	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
+		interfaces := skipRu.([]interface{})
+		tmp := make([]bool, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(bool)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
+			result.SkipRu = tmp
+		}
 	}
 
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
