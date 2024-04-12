@@ -54,4 +54,3 @@ resource "oci_database_autonomous_vm_cluster" "autonomous_vm_cluster_2" {
 
 
 
-

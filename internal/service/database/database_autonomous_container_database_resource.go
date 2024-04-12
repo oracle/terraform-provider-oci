@@ -126,6 +126,12 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"db_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -283,6 +289,14 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+						},
+						"skip_ru": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeBool,
+							},
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -515,6 +529,13 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"list_one_off_patches": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"maintenance_window": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -589,6 +610,13 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 						"preference": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"skip_ru": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeBool,
+							},
 						},
 						"weeks_of_month": {
 							Type:     schema.TypeList,
@@ -801,6 +829,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+		tmp := databaseSoftwareImageId.(string)
+		request.DatabaseSoftwareImageId = &tmp
 	}
 
 	if dbName, ok := s.D.GetOkExists("db_name"); ok {
@@ -1205,6 +1238,8 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	s.D.Set("list_one_off_patches", s.Res.ListOneOffPatches)
+
 	if s.Res.MaintenanceWindow != nil {
 		s.D.Set("maintenance_window", []interface{}{MaintenanceWindowToMap(s.Res.MaintenanceWindow)})
 	} else {
@@ -1481,6 +1516,19 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) mapToMaintenanceWindow
 
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
+	}
+
+	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
+		interfaces := skipRu.([]interface{})
+		tmp := make([]bool, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(bool)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
+			result.SkipRu = tmp
+		}
 	}
 
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
