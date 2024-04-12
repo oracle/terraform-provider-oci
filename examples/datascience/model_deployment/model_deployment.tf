@@ -203,6 +203,10 @@ variable "model_deployment_model_deployment_configuration_details_environment_co
 variable "model_deployment_model_deployment_configuration_details_environment_configuration_details_server_port" {
 }
 
+# For Custom Egress
+variable "model_egress_id" {
+}
+
 # A model deployment resource configurations for creating a new model deployment with scaling policy type = FIXED SIZE
 resource "oci_datascience_model_deployment" "tf_model_deployment" {
   # Required
@@ -425,6 +429,66 @@ resource "oci_datascience_model_deployment" "tf_model_deployment_byoc" {
   //  freeform_tags = var.model_deployment_freeform_tag
 }
 
+# A model deployment resource configurations for creating a new model deployment with Custom Networking
+resource "oci_datascience_model_deployment" "tf_model_deployment_custom_networking" {
+  # Required
+  compartment_id = var.compartment_ocid
+  model_deployment_configuration_details {
+    # Required
+    deployment_type = var.model_deployment_model_deployment_configuration_details_deployment_type
+    model_configuration_details {
+      # Required
+      instance_configuration {
+        # Required
+        instance_shape_name = var.shape
+
+        #Optional
+        model_deployment_instance_shape_config_details {
+
+          #Optional
+          cpu_baseline  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline
+          memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
+          ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
+        }
+
+        # Required
+        subnet_id = oci_core_subnet.tf_subnet.id
+      }
+      model_id = var.model_egress_id
+
+      # Optional
+      bandwidth_mbps         = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+
+      scaling_policy {
+        # Required
+        instance_count = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_instance_count
+        policy_type    = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_policy_type
+      }
+    }
+  }
+  project_id = var.project_ocid
+
+  # Optional
+  category_log_details {
+
+    # Optional
+    access {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.access_log_id
+    }
+    predict {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.predict_log_id
+    }
+  }
+  # Optional
+  description   = var.model_deployment_description
+  display_name  = var.model_deployment_display_name
+}
+
 # The data resource for a list of model deployments in a specified compartment
 data "oci_datascience_model_deployments" "tf_model_deployments" {
   # Required
@@ -436,4 +500,15 @@ data "oci_datascience_model_deployments" "tf_model_deployments" {
   id           = oci_datascience_model_deployment.tf_model_deployment.id
   project_id   = var.project_ocid
   state        = var.model_deployment_state
+}
+
+resource "oci_core_subnet" "tf_subnet" {
+  cidr_block     = "10.0.0.0/22"
+  compartment_id = var.compartment_ocid
+  vcn_id         = oci_core_vcn.tf_vcn.id
+}
+
+resource "oci_core_vcn" "tf_vcn" {
+  cidr_block     = "10.0.0.0/16"
+  compartment_id = var.compartment_ocid
 }
