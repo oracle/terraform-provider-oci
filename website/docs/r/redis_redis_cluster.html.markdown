@@ -28,6 +28,7 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	nsg_ids = var.redis_cluster_nsg_ids
 }
 ```
 
@@ -41,6 +42,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `node_count` - (Required) (Updatable) The number of nodes in the Redis cluster.
 * `node_memory_in_gbs` - (Required) (Updatable) The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+* `nsg_ids` - (Optional) (Updatable) OCIDs of the NSGs to control access in the customer network
 * `software_version` - (Required) The Redis version that the cluster is running.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster's subnet.
 
@@ -65,6 +67,7 @@ The following attributes are exported:
 		* `private_endpoint_ip_address` - The private IP address of the API endpoint to access a specific node.
 * `node_count` - The number of nodes in the Redis cluster.
 * `node_memory_in_gbs` - The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+* `nsg_ids` - OCIDs of the NSGs to control access in the customer network
 * `primary_endpoint_ip_address` - The private IP address of the API endpoint for the Redis cluster's primary node.
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the Redis cluster's replica nodes.
