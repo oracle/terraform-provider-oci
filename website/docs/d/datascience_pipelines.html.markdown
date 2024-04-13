@@ -68,6 +68,7 @@ The following attributes are exported:
 		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 * `log_configuration_details` - The pipeline log configuration details.
 	* `enable_auto_log_creation` - If automatic on-behalf-of log object creation is enabled for pipeline runs.
@@ -85,12 +86,20 @@ The following attributes are exported:
 		* `command_line_arguments` - The command line arguments to set for step.
 		* `environment_variables` - Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - A time bound for the execution of the step.
+	* `step_container_configuration_details` - Container Details for a step in pipeline.
+		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - The type of container.
+		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - OCID of the container image signature
 	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	* `step_type` - The type of step.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
