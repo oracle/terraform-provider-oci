@@ -53,6 +53,19 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 			maximum_runtime_in_minutes = var.pipeline_run_step_override_details_step_configuration_details_maximum_runtime_in_minutes
 		}
 		step_name = var.pipeline_run_step_override_details_step_name
+
+		#Optional
+		step_container_configuration_details {
+			#Required
+			container_type = var.pipeline_run_step_override_details_step_container_configuration_details_container_type
+			image = var.pipeline_run_step_override_details_step_container_configuration_details_image
+
+			#Optional
+			cmd = var.pipeline_run_step_override_details_step_container_configuration_details_cmd
+			entrypoint = var.pipeline_run_step_override_details_step_container_configuration_details_entrypoint
+			image_digest = var.pipeline_run_step_override_details_step_container_configuration_details_image_digest
+			image_signature_id = oci_datascience_image_signature.test_image_signature.id
+		}
 	}
 	system_tags = var.pipeline_run_system_tags
 }
@@ -83,6 +96,13 @@ The following arguments are supported:
 		* `command_line_arguments` - (Optional) The command line arguments to set for step.
 		* `environment_variables` - (Optional) Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - (Optional) A time bound for the execution of the step.
+	* `step_container_configuration_details` - (Optional) Container Details for a step in pipeline.
+		* `cmd` - (Optional) The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - (Required) The type of container.
+		* `entrypoint` - (Optional) The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - (Optional) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - (Optional) OCID of the container image signature
 	* `step_name` - (Required) The name of the step.
 * `system_tags` - (Optional) Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
@@ -127,6 +147,13 @@ The following attributes are exported:
 		* `command_line_arguments` - The command line arguments to set for step.
 		* `environment_variables` - Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - A time bound for the execution of the step.
+	* `step_container_configuration_details` - Container Details for a step in pipeline.
+		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - The type of container.
+		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - OCID of the container image signature
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
 	* `job_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.

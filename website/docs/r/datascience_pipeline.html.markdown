@@ -37,6 +37,17 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			environment_variables = var.pipeline_step_details_step_configuration_details_environment_variables
 			maximum_runtime_in_minutes = var.pipeline_step_details_step_configuration_details_maximum_runtime_in_minutes
 		}
+		step_container_configuration_details {
+			#Required
+			container_type = var.pipeline_step_details_step_container_configuration_details_container_type
+			image = var.pipeline_step_details_step_container_configuration_details_image
+
+			#Optional
+			cmd = var.pipeline_step_details_step_container_configuration_details_cmd
+			entrypoint = var.pipeline_step_details_step_container_configuration_details_entrypoint
+			image_digest = var.pipeline_step_details_step_container_configuration_details_image_digest
+			image_signature_id = oci_datascience_image_signature.test_image_signature.id
+		}
 		step_infrastructure_configuration_details {
 
 			#Optional
@@ -48,6 +59,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 				ocpus = var.pipeline_step_details_step_infrastructure_configuration_details_shape_config_details_ocpus
 			}
 			shape_name = oci_core_shape.test_shape.name
+			subnet_id = oci_core_subnet.test_subnet.id
 		}
 	}
 
@@ -77,6 +89,7 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			memory_in_gbs = var.pipeline_infrastructure_configuration_details_shape_config_details_memory_in_gbs
 			ocpus = var.pipeline_infrastructure_configuration_details_shape_config_details_ocpus
 		}
+		subnet_id = oci_core_subnet.test_subnet.id
 	}
 	log_configuration_details {
 
@@ -103,12 +116,13 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) A short description of the pipeline.
 * `display_name` - (Optional) (Updatable) A user-friendly display name for the resource.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `infrastructure_configuration_details` - (Optional) The infrastructure configuration details of a pipeline or a step.
-	* `block_storage_size_in_gbs` - (Required) The size of the block storage volume to attach to the instance. 
-	* `shape_config_details` - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
-		* `memory_in_gbs` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-		* `ocpus` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
-	* `shape_name` - (Required) The shape used to launch the instance for all step runs in the pipeline.
+* `infrastructure_configuration_details` - (Optional) (Updatable) The infrastructure configuration details of a pipeline or a step.
+	* `block_storage_size_in_gbs` - (Required) (Updatable) The size of the block storage volume to attach to the instance. 
+	* `shape_config_details` - (Optional) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+		* `memory_in_gbs` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+		* `ocpus` - (Optional) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+	* `shape_name` - (Required) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - (Optional) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `log_configuration_details` - (Optional) (Updatable) The pipeline log configuration details.
 	* `enable_auto_log_creation` - (Optional) (Updatable) If automatic on-behalf-of log object creation is enabled for pipeline runs.
 	* `enable_logging` - (Optional) (Updatable) If customer logging is enabled for pipeline.
@@ -118,18 +132,26 @@ The following arguments are supported:
 * `step_details` - (Required) (Updatable) Array of step details for each step.
 	* `depends_on` - (Optional) The list of step names this current step depends on for execution.
 	* `description` - (Optional) (Updatable) A short description of the step.
-	* `is_artifact_uploaded` - (Applicable when step_type=CUSTOM_SCRIPT) A flag to indicate whether the artifact has been uploaded for this step or not.
+	* `is_artifact_uploaded` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) A flag to indicate whether the artifact has been uploaded for this step or not.
 	* `job_id` - (Required when step_type=ML_JOB) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job to be used as a step.
 	* `step_configuration_details` - (Optional) (Updatable) The configuration details of a step.
 		* `command_line_arguments` - (Optional) (Updatable) The command line arguments to set for step.
 		* `environment_variables` - (Optional) (Updatable) Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - (Optional) (Updatable) A time bound for the execution of the step.
-	* `step_infrastructure_configuration_details` - (Applicable when step_type=CUSTOM_SCRIPT) The infrastructure configuration details of a pipeline or a step.
-		* `block_storage_size_in_gbs` - (Required when step_type=CUSTOM_SCRIPT) The size of the block storage volume to attach to the instance. 
-		* `shape_config_details` - (Applicable when step_type=CUSTOM_SCRIPT) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
-			* `memory_in_gbs` - (Applicable when step_type=CUSTOM_SCRIPT) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
-			* `ocpus` - (Applicable when step_type=CUSTOM_SCRIPT) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
-		* `shape_name` - (Required when step_type=CUSTOM_SCRIPT) The shape used to launch the instance for all step runs in the pipeline.
+	* `step_container_configuration_details` - (Required when step_type=CONTAINER) Container Details for a step in pipeline.
+		* `cmd` - (Optional) The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - (Required) The type of container.
+		* `entrypoint` - (Optional) The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - (Optional) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - (Optional) OCID of the container image signature
+	* `step_infrastructure_configuration_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The infrastructure configuration details of a pipeline or a step.
+		* `block_storage_size_in_gbs` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The size of the block storage volume to attach to the instance. 
+		* `shape_config_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `shape_name` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - (Required) (Updatable) The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	* `step_type` - (Required) (Updatable) The type of step.
 
@@ -159,6 +181,7 @@ The following attributes are exported:
 		* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 		* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 	* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+	* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 * `log_configuration_details` - The pipeline log configuration details.
 	* `enable_auto_log_creation` - If automatic on-behalf-of log object creation is enabled for pipeline runs.
@@ -176,12 +199,20 @@ The following attributes are exported:
 		* `command_line_arguments` - The command line arguments to set for step.
 		* `environment_variables` - Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - A time bound for the execution of the step.
+	* `step_container_configuration_details` - Container Details for a step in pipeline.
+		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - The type of container.
+		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - OCID of the container image signature
 	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
 			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
 		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
+		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
 	* `step_type` - The type of step.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

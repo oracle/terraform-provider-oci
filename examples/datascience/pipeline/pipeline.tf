@@ -92,6 +92,10 @@ variable "pipeline_step_details_description" {
 }
 
 variable "pipeline_step_details_is_artifact_uploaded" {
+  default = true
+}
+
+variable "pipeline_container_step_details_is_artifact_uploaded" {
   default = false
 }
 
@@ -129,7 +133,9 @@ variable "pipeline_step_details_step_type" {
   default = "CUSTOM_SCRIPT"
 }
 
-
+variable "pipeline_step_details_step_type_container" {
+  default = "CONTAINER"
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -230,6 +236,65 @@ resource "oci_datascience_pipeline" "test_pipeline" {
   }
 }
 
+resource "oci_datascience_pipeline" "test_pipeline_byoc" {
+  #Required
+  compartment_id = var.compartment_ocid
+  project_id     = oci_datascience_project.pipeline.id
+  delete_related_pipeline_runs = true
+  step_details {
+    #Required
+    step_name = var.pipeline_step_details_step_name
+    step_type = var.pipeline_step_details_step_type_container
+
+    #Optional
+    depends_on           = var.pipeline_step_details_depends_on
+    description          = var.pipeline_step_details_description
+    is_artifact_uploaded = var.pipeline_step_details_is_artifact_uploaded
+
+    step_configuration_details {
+      #Optional
+      command_line_arguments     = var.pipeline_step_details_step_configuration_details_command_line_arguments
+      environment_variables      = var.pipeline_step_details_step_configuration_details_environment_variables
+      maximum_runtime_in_minutes = var.pipeline_step_details_step_configuration_details_maximum_runtime_in_minutes
+    }
+    step_infrastructure_configuration_details {
+      #Optional
+      block_storage_size_in_gbs = var.pipeline_step_details_step_infrastructure_configuration_details_block_storage_size_in_gbs
+      shape_name = "VM.Standard2.1"
+    }
+    step_container_configuration_details {
+      #Required
+      cmd = ["hello_world.py"]
+      container_type = "OCIR_CONTAINER"
+      entrypoint = ["python3"]
+      image = "iad.ocir.io/ociodscdev/nested-rp-public-python-sdk-1:1.0"
+      #Optional
+      image_digest = ""
+      image_signature_id = ""
+    }
+  }
+
+  #Optional
+  configuration_details {
+    #Required
+    type = var.pipeline_configuration_details_type
+
+    #Optional
+    command_line_arguments     = var.pipeline_configuration_details_command_line_arguments
+    environment_variables      = var.pipeline_configuration_details_environment_variables
+    maximum_runtime_in_minutes = var.pipeline_configuration_details_maximum_runtime_in_minutes
+  }
+  description   = var.pipeline_description
+  display_name  = var.pipeline_display_name
+
+  infrastructure_configuration_details {
+    #Required
+    block_storage_size_in_gbs = var.pipeline_infrastructure_configuration_details_block_storage_size_in_gbs
+    shape_name                = "VM.Standard2.1"
+  }
+}
+
+
 resource "oci_logging_log_group" "pipeline_run" {
   compartment_id = var.compartment_ocid
   display_name   = "pipeline_run"
@@ -252,6 +317,7 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
     maximum_runtime_in_minutes = 30
   }
   display_name  = "DisplayName1"
+  #Optional
   log_configuration_override_details {
 
     #Optional
@@ -271,5 +337,41 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
      maximum_runtime_in_minutes = 30
     }
     step_name = "stepName"
+  }
+}
+
+resource "oci_datascience_pipeline_run" "test_pipeline_run_byoc" {
+  #Required
+  compartment_id = var.compartment_ocid
+  pipeline_id    = oci_datascience_pipeline.test_pipeline_byoc.id
+  delete_related_job_runs = true
+
+  display_name  = "DisplayNameContainer"
+  #Optional
+  log_configuration_override_details {
+
+    #Optional
+    enable_auto_log_creation = false
+    enable_logging           = false
+//    log_group_id             = oci_logging_log_group.pipeline_run.id
+    # log_id                   = oci_logging_log.test_log.id
+  }
+  project_id = oci_datascience_project.pipeline.id
+  step_override_details {
+    #Required
+    step_configuration_details {
+
+      #Optional
+      command_line_arguments     = "CommandLineArgumentsStepOverride"
+      environment_variables      = {"environmentVariablesStepOverride":"environmentVariablesStepOverride"}
+      maximum_runtime_in_minutes = 30
+    }
+    step_name = "stepName"
+    step_container_configuration_details {
+      container_type = "OCIR_CONTAINER"
+      image = "iad.ocir.io/ociodscdev/nested-rp-public-python-sdk-1:1.0"
+      cmd = ["hello_world.py"]
+      entrypoint = ["python3"]
+    }
   }
 }
