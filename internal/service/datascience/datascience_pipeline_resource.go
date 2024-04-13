@@ -61,6 +61,7 @@ func DatasciencePipelineResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"CONTAINER",
 								"CUSTOM_SCRIPT",
 								"ML_JOB",
 							}, true),
@@ -127,11 +128,71 @@ func DatasciencePipelineResource() *schema.Resource {
 								},
 							},
 						},
-						"step_infrastructure_configuration_details": {
+						"step_container_configuration_details": {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"container_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OCIR_CONTAINER",
+										}, true),
+									},
+									"image": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"cmd": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"entrypoint": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"image_digest": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"image_signature_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"step_infrastructure_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -148,7 +209,6 @@ func DatasciencePipelineResource() *schema.Resource {
 										Type:     schema.TypeList,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 										MaxItems: 1,
 										MinItems: 1,
 										Elem: &schema.Resource{
@@ -160,13 +220,11 @@ func DatasciencePipelineResource() *schema.Resource {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 												"ocpus": {
 													Type:     schema.TypeFloat,
 													Optional: true,
 													Computed: true,
-													ForceNew: true,
 												},
 
 												// Computed
@@ -177,6 +235,11 @@ func DatasciencePipelineResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 										ForceNew: true,
+									},
+									"subnet_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
 									},
 
 									// Computed
@@ -309,7 +372,6 @@ func DatasciencePipelineResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -318,12 +380,10 @@ func DatasciencePipelineResource() *schema.Resource {
 						"block_storage_size_in_gbs": {
 							Type:     schema.TypeInt,
 							Required: true,
-							ForceNew: true,
 						},
 						"shape_name": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						// Optional
@@ -331,7 +391,6 @@ func DatasciencePipelineResource() *schema.Resource {
 							Type:     schema.TypeList,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							MaxItems: 1,
 							MinItems: 1,
 							Elem: &schema.Resource{
@@ -343,18 +402,20 @@ func DatasciencePipelineResource() *schema.Resource {
 										Type:     schema.TypeFloat,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 									"ocpus": {
 										Type:     schema.TypeFloat,
 										Optional: true,
 										Computed: true,
-										ForceNew: true,
 									},
 
 									// Computed
 								},
 							},
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Optional: true,
 						},
 
 						// Computed
@@ -554,6 +615,7 @@ func (s *DatasciencePipelineResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_datascience.PipelineLifecycleStateCreating),
 		string(oci_datascience.PipelineLifecycleStateActive),
+		string(oci_datascience.PipelineLifecycleStateFailed),
 	}
 }
 
@@ -567,186 +629,6 @@ func (s *DatasciencePipelineResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_datascience.PipelineLifecycleStateDeleted),
 	}
-}
-
-func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyFormat string) (oci_datascience.PipelineStepDetails, error) {
-	var baseObject oci_datascience.PipelineStepDetails
-	//discriminator
-	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
-	var stepType string
-	if ok {
-		stepType = stepTypeRaw.(string)
-	} else {
-		stepType = "" // default value
-	}
-	switch strings.ToLower(stepType) {
-	case strings.ToLower("CUSTOM_SCRIPT"):
-		details := oci_datascience.PipelineCustomScriptStepDetails{}
-		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
-			interfaces := dependsOn.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
-				details.DependsOn = tmp
-			}
-		}
-		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
-			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
-				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormat)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
-				}
-				details.StepInfrastructureConfigurationDetails = &tmp
-			}
-		}
-		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
-			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
-				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
-				}
-				details.StepConfigurationDetails = &tmp
-			}
-		}
-		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
-			tmp := stepName.(string)
-			details.StepName = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("ML_JOB"):
-		details := oci_datascience.PipelineMlJobStepDetails{}
-		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
-			interfaces := dependsOn.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
-				details.DependsOn = tmp
-			}
-		}
-		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if jobId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_id")); ok {
-			tmp := jobId.(string)
-			details.JobId = &tmp
-		}
-		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
-			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
-				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
-				}
-				details.StepConfigurationDetails = &tmp
-			}
-		}
-		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
-			tmp := stepName.(string)
-			details.StepName = &tmp
-		}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
-	}
-	return baseObject, nil
-}
-
-func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKeyFormat string) (oci_datascience.PipelineStepUpdateDetails, error) {
-	var baseObject oci_datascience.PipelineStepUpdateDetails
-	//discriminator
-	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
-	var stepType string
-	if ok {
-		stepType = stepTypeRaw.(string)
-	} else {
-		stepType = "" // default value
-	}
-	switch strings.ToLower(stepType) {
-	case strings.ToLower("CUSTOM_SCRIPT"):
-		details := oci_datascience.PipelineCustomScriptStepUpdateDetails{}
-		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
-			interfaces := dependsOn.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			// if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
-			// 	details.DependsOn = tmp
-			// }
-		}
-		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
-			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
-				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
-				}
-				details.StepConfigurationDetails = &tmp
-			}
-		}
-		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
-			tmp := stepName.(string)
-			details.StepName = &tmp
-		}
-		baseObject = details
-	case strings.ToLower("ML_JOB"):
-		details := oci_datascience.PipelineMlJobStepUpdateDetails{}
-		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
-			interfaces := dependsOn.([]interface{})
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			// if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
-			// 	details.DependsOn = tmp
-			// }
-		}
-		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
-			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
-				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
-				}
-				details.StepConfigurationDetails = &tmp
-			}
-		}
-		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
-			tmp := stepName.(string)
-			details.StepName = &tmp
-		}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
-	}
-	return baseObject, nil
 }
 
 func (s *DatasciencePipelineResourceCrud) Create() error {
@@ -1041,6 +923,17 @@ func (s *DatasciencePipelineResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if infrastructureConfigurationDetails, ok := s.D.GetOkExists("infrastructure_configuration_details"); ok {
+		if tmpList := infrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "infrastructure_configuration_details", 0)
+			tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.InfrastructureConfigurationDetails = &tmp
+		}
+	}
+
 	if logConfigurationDetails, ok := s.D.GetOkExists("log_configuration_details"); ok {
 		if tmpList := logConfigurationDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "log_configuration_details", 0)
@@ -1256,6 +1149,91 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineConfigurationDetails(fiel
 // 	return result
 // }
 
+func (s *DatasciencePipelineResourceCrud) mapToPipelineContainerConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineContainerConfigurationDetails, error) {
+	var baseObject oci_datascience.PipelineContainerConfigurationDetails
+	//discriminator
+	containerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container_type"))
+	var containerType string
+	if ok {
+		containerType = containerTypeRaw.(string)
+	} else {
+		containerType = "" // default value
+	}
+	switch strings.ToLower(containerType) {
+	case strings.ToLower("OCIR_CONTAINER"):
+		details := oci_datascience.PipelineOcirContainerConfigurationDetails{}
+		if cmd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cmd")); ok {
+			interfaces := cmd.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cmd")) {
+				details.Cmd = tmp
+			}
+		}
+		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
+			interfaces := entrypoint.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entrypoint")) {
+				details.Entrypoint = tmp
+			}
+		}
+		if image, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image")); ok {
+			tmp := image.(string)
+			details.Image = &tmp
+		}
+		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
+			tmp := imageDigest.(string)
+			details.ImageDigest = &tmp
+		}
+		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
+			tmp := imageSignatureId.(string)
+			details.ImageSignatureId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown container_type '%v' was specified", containerType)
+	}
+	return baseObject, nil
+}
+
+func PipelineContainerConfigurationDetailsToMap(obj oci_datascience.PipelineContainerConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_datascience.PipelineOcirContainerConfigurationDetails:
+		result["container_type"] = "OCIR_CONTAINER"
+
+		result["cmd"] = v.Cmd
+
+		result["entrypoint"] = v.Entrypoint
+
+		if v.Image != nil {
+			result["image"] = string(*v.Image)
+		}
+
+		if v.ImageDigest != nil {
+			result["image_digest"] = string(*v.ImageDigest)
+		}
+
+		if v.ImageSignatureId != nil {
+			result["image_signature_id"] = string(*v.ImageSignatureId)
+		}
+	default:
+		log.Printf("[WARN] Received 'container_type' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func (s *DatasciencePipelineResourceCrud) mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineInfrastructureConfigurationDetails, error) {
 	result := oci_datascience.PipelineInfrastructureConfigurationDetails{}
 
@@ -1280,6 +1258,11 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineInfrastructureConfigurati
 		result.ShapeName = &tmp
 	}
 
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1296,6 +1279,10 @@ func PipelineInfrastructureConfigurationDetailsToMap(obj *oci_datascience.Pipeli
 
 	if obj.ShapeName != nil {
 		result["shape_name"] = string(*obj.ShapeName)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
 	return result
@@ -1419,6 +1406,180 @@ func (s *DatasciencePipelineResourceCrud) mapToPipelineStepConfigurationDetails(
 // 	return result
 // }
 
+func (s *DatasciencePipelineResourceCrud) mapToPipelineStepDetails(fieldKeyFormat string) (oci_datascience.PipelineStepDetails, error) {
+	var baseObject oci_datascience.PipelineStepDetails
+	//discriminator
+	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
+	var stepType string
+	if ok {
+		stepType = stepTypeRaw.(string)
+	} else {
+		stepType = "" // default value
+	}
+	switch strings.ToLower(stepType) {
+	case strings.ToLower("CONTAINER"):
+		details := oci_datascience.PipelineContainerStepDetails{}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+				details.DependsOn = tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
+			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		if stepContainerConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_container_configuration_details")); ok {
+			if tmpList := stepContainerConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_container_configuration_details"), 0)
+				tmp, err := s.mapToPipelineContainerConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_container_configuration_details, encountered error: %v", err)
+				}
+				details.StepContainerConfigurationDetails = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_SCRIPT"):
+		details := oci_datascience.PipelineCustomScriptStepDetails{}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+				details.DependsOn = tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
+			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ML_JOB"):
+		details := oci_datascience.PipelineMlJobStepDetails{}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+				details.DependsOn = tmp
+			}
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if jobId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "job_id")); ok {
+			tmp := jobId.(string)
+			details.JobId = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
+	}
+	return baseObject, nil
+}
+
+func (s *DatasciencePipelineResourceCrud) mapToPipelineStepContainerConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineStepConfigurationDetails, error) {
+	result := oci_datascience.PipelineStepConfigurationDetails{}
+
+	if commandLineArguments, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "command_line_arguments")); ok {
+		tmp := commandLineArguments.(string)
+		result.CommandLineArguments = &tmp
+	}
+
+	if environmentVariables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "environment_variables")); ok {
+		result.EnvironmentVariables = tfresource.ObjectMapToStringMap(environmentVariables.(map[string]interface{}))
+	}
+
+	if maximumRuntimeInMinutes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_runtime_in_minutes")); ok {
+		tmp := maximumRuntimeInMinutes.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert maximumRuntimeInMinutes string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.MaximumRuntimeInMinutes = &tmpInt64
+	}
+
+	return result, nil
+}
+
 func (s *DatasciencePipelineResourceCrud) ExtractPipelineStepDetailsAndCallHeadArtifact(obj oci_datascience.PipelineStepDetails) error {
 	switch v := (obj).(type) {
 	case oci_datascience.PipelineCustomScriptStepDetails:
@@ -1432,6 +1593,130 @@ func (s *DatasciencePipelineResourceCrud) ExtractPipelineStepDetailsAndCallHeadA
 		} // if the step name and artifact uploaded items are not nil
 	}
 	return nil
+}
+
+func (s *DatasciencePipelineResourceCrud) mapToPipelineStepUpdateDetails(fieldKeyFormat string) (oci_datascience.PipelineStepUpdateDetails, error) {
+	var baseObject oci_datascience.PipelineStepUpdateDetails
+	//discriminator
+	stepTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_type"))
+	var stepType string
+	if ok {
+		stepType = stepTypeRaw.(string)
+	} else {
+		stepType = "" // default value
+	}
+	switch strings.ToLower(stepType) {
+	case strings.ToLower("CONTAINER"):
+		details := oci_datascience.PipelineContainerStepUpdateDetails{}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
+			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("CUSTOM_SCRIPT"):
+		details := oci_datascience.PipelineCustomScriptStepUpdateDetails{}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			// if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+			// 	details.DependsOn = tmp
+			// }
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepInfrastructureConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details")); ok {
+			if tmpList := stepInfrastructureConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_infrastructure_configuration_details"), 0)
+				tmp, err := s.mapToPipelineInfrastructureConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_infrastructure_configuration_details, encountered error: %v", err)
+				}
+				details.StepInfrastructureConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("ML_JOB"):
+		details := oci_datascience.PipelineMlJobStepUpdateDetails{}
+		if dependsOn, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "depends_on")); ok {
+			interfaces := dependsOn.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			// if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "depends_on")) {
+			// 	details.DependsOn = tmp
+			// }
+		}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
+			if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
+				tmp, err := s.mapToPipelineStepConfigurationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert step_configuration_details, encountered error: %v", err)
+				}
+				details.StepConfigurationDetails = &tmp
+			}
+		}
+		if stepName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_name")); ok {
+			tmp := stepName.(string)
+			details.StepName = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown step_type '%v' was specified", stepType)
+	}
+	return baseObject, nil
 }
 
 func PipelineStepArtifactToMap(v StepArtifact) map[string]interface{} {
@@ -1457,8 +1742,36 @@ func PipelineStepArtifactToMap(v StepArtifact) map[string]interface{} {
 func PipelineStepDetailsToMap(obj oci_datascience.PipelineStepDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_datascience.PipelineContainerStepDetails:
+		result["step_type"] = "CONTAINER"
+
+		if v.StepInfrastructureConfigurationDetails != nil {
+			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
+		}
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		result["depends_on"] = v.DependsOn
+
+		if v.StepConfigurationDetails != nil {
+			result["step_configuration_details"] = []interface{}{PipelineStepConfigurationDetailsToMap(v.StepConfigurationDetails)}
+		}
+
+		if v.StepContainerConfigurationDetails != nil {
+			result["step_container_configuration_details"] = []interface{}{PipelineContainerConfigurationDetailsToMap(v.StepContainerConfigurationDetails)}
+		}
+
+		if v.StepName != nil {
+			result["step_name"] = string(*v.StepName)
+		}
 	case oci_datascience.PipelineCustomScriptStepDetails:
 		result["step_type"] = "CUSTOM_SCRIPT"
+
+		if v.StepInfrastructureConfigurationDetails != nil {
+			result["step_infrastructure_configuration_details"] = []interface{}{PipelineInfrastructureConfigurationDetailsToMap(v.StepInfrastructureConfigurationDetails)}
+		}
 
 		result["depends_on"] = v.DependsOn
 
