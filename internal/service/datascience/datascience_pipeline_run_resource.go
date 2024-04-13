@@ -209,6 +209,67 @@ func DatasciencePipelineRunResource() *schema.Resource {
 						},
 
 						// Optional
+						"step_container_configuration_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"container_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"OCIR_CONTAINER",
+										}, true),
+									},
+									"image": {
+										Type:     schema.TypeString,
+										Required: true,
+										ForceNew: true,
+									},
+
+									// Optional
+									"cmd": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"entrypoint": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"image_digest": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"image_signature_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -500,7 +561,6 @@ func (s *DatasciencePipelineRunResourceCrud) Create() error {
 			request.StepOverrideDetails = tmp
 		}
 	}
-
 	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
 		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
 		if err != nil {
@@ -756,6 +816,62 @@ func PipelineConfigurationDetailsToMap(obj *oci_datascience.PipelineConfiguratio
 	return result
 }
 
+func (s *DatasciencePipelineRunResourceCrud) mapToPipelineStepContainerConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineContainerConfigurationDetails, error) {
+	var baseObject oci_datascience.PipelineContainerConfigurationDetails
+	//discriminator
+	containerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "container_type"))
+	var containerType string
+	if ok {
+		containerType = containerTypeRaw.(string)
+	} else {
+		containerType = "" // default value
+	}
+	switch strings.ToLower(containerType) {
+	case strings.ToLower("OCIR_CONTAINER"):
+		details := oci_datascience.PipelineOcirContainerConfigurationDetails{}
+		if cmd, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cmd")); ok {
+			interfaces := cmd.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "cmd")) {
+				details.Cmd = tmp
+			}
+		}
+		if entrypoint, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entrypoint")); ok {
+			interfaces := entrypoint.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "entrypoint")) {
+				details.Entrypoint = tmp
+			}
+		}
+		if image, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image")); ok {
+			tmp := image.(string)
+			details.Image = &tmp
+		}
+		if imageDigest, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_digest")); ok {
+			tmp := imageDigest.(string)
+			details.ImageDigest = &tmp
+		}
+		if imageSignatureId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "image_signature_id")); ok {
+			tmp := imageSignatureId.(string)
+			details.ImageSignatureId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown container_type '%v' was specified", containerType)
+	}
+	return baseObject, nil
+}
+
 func (s *DatasciencePipelineRunResourceCrud) mapToPipelineLogConfigurationDetails(fieldKeyFormat string) (oci_datascience.PipelineLogConfigurationDetails, error) {
 	result := oci_datascience.PipelineLogConfigurationDetails{}
 
@@ -861,6 +977,17 @@ func PipelineStepConfigurationDetailsToMap(obj *oci_datascience.PipelineStepConf
 func (s *DatasciencePipelineRunResourceCrud) mapToPipelineStepOverrideDetails(fieldKeyFormat string) (oci_datascience.PipelineStepOverrideDetails, error) {
 	result := oci_datascience.PipelineStepOverrideDetails{}
 
+	if stepContainerConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_container_configuration_details")); ok {
+		if tmpList := stepContainerConfigurationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_container_configuration_details"), 0)
+			tmp, err := s.mapToPipelineStepContainerConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert step_container_configuration_details, encountered error: %v", err)
+			}
+			result.StepContainerConfigurationDetails = tmp
+		}
+	}
+
 	if stepConfigurationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "step_configuration_details")); ok {
 		if tmpList := stepConfigurationDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "step_configuration_details"), 0)
@@ -883,6 +1010,10 @@ func (s *DatasciencePipelineRunResourceCrud) mapToPipelineStepOverrideDetails(fi
 func PipelineStepOverrideDetailsToMap(obj oci_datascience.PipelineStepOverrideDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.StepContainerConfigurationDetails != nil {
+		result["step_container_configuration_details"] = []interface{}{PipelineContainerConfigurationDetailsToMap(obj.StepContainerConfigurationDetails)}
+	}
+
 	if obj.StepConfigurationDetails != nil {
 		result["step_configuration_details"] = []interface{}{PipelineStepConfigurationDetailsToMap(obj.StepConfigurationDetails)}
 	}
@@ -890,13 +1021,32 @@ func PipelineStepOverrideDetailsToMap(obj oci_datascience.PipelineStepOverrideDe
 	if obj.StepName != nil {
 		result["step_name"] = string(*obj.StepName)
 	}
-
 	return result
 }
 
 func PipelineStepRunToMap(obj oci_datascience.PipelineStepRun) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_datascience.PipelineContainerStepRun:
+		result["step_type"] = "CONTAINER"
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+
+		result["state"] = string(v.LifecycleState)
+
+		if v.StepName != nil {
+			result["step_name"] = string(*v.StepName)
+		}
+
+		if v.TimeFinished != nil {
+			result["time_finished"] = v.TimeFinished.String()
+		}
+
+		if v.TimeStarted != nil {
+			result["time_started"] = v.TimeStarted.String()
+		}
 	case oci_datascience.PipelineCustomScriptStepRun:
 		result["step_type"] = "CUSTOM_SCRIPT"
 

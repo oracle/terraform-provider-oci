@@ -83,6 +83,13 @@ The following attributes are exported:
 		* `command_line_arguments` - The command line arguments to set for step.
 		* `environment_variables` - Environment variables to set for step.
 		* `maximum_runtime_in_minutes` - A time bound for the execution of the step.
+	* `step_container_configuration_details` - Container Details for a step in pipeline.
+		* `cmd` - The container image run [CMD](https://docs.docker.com/engine/reference/builder/#cmd) as a list of strings. Use `CMD` as arguments to the `ENTRYPOINT` or the only command to run in the absence of an `ENTRYPOINT`. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. 
+		* `container_type` - The type of container.
+		* `entrypoint` - The container image run [ENTRYPOINT](https://docs.docker.com/engine/reference/builder/#entrypoint) as a list of strings. Accept the `CMD` as extra arguments. The combined size of `CMD` and `ENTRYPOINT` must be less than 2048 bytes. More information on how `CMD` and `ENTRYPOINT` interact are [here](https://docs.docker.com/engine/reference/builder/#understand-how-cmd-and-entrypoint-interact). 
+		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
+		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
+		* `image_signature_id` - OCID of the container image signature
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
 	* `job_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.
