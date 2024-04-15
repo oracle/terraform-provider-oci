@@ -53,12 +53,6 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				ForceNew:  true,
-				Sensitive: true,
-			},
 			"username": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -66,6 +60,13 @@ func FusionAppsFusionEnvironmentAdminUserResource() *schema.Resource {
 			},
 
 			// Optional
+			"password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Computed:  true,
+				ForceNew:  true,
+				Sensitive: true,
+			},
 
 			// Computed
 			"items": {
