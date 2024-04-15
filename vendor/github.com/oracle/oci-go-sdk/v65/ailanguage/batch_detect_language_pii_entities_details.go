@@ -32,6 +32,8 @@ type BatchDetectLanguagePiiEntitiesDetails struct {
 
 	// Mask recognized PII entities with different modes.
 	Masking map[string]PiiEntityMasking `mandatory:"false" json:"masking"`
+
+	Profile *Profile `mandatory:"false" json:"profile"`
 }
 
 func (m BatchDetectLanguagePiiEntitiesDetails) String() string {
@@ -56,6 +58,7 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 		EndpointId    *string                     `json:"endpointId"`
 		CompartmentId *string                     `json:"compartmentId"`
 		Masking       map[string]piientitymasking `json:"masking"`
+		Profile       *Profile                    `json:"profile"`
 		Documents     []TextDocument              `json:"documents"`
 	}{}
 
@@ -80,6 +83,8 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 			m.Masking[k] = nil
 		}
 	}
+
+	m.Profile = model.Profile
 
 	m.Documents = make([]TextDocument, len(model.Documents))
 	copy(m.Documents, model.Documents)

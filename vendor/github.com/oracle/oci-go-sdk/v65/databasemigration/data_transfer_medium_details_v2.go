@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DataTransferMediumDetailsV2 Optional additional properties for dump transfer in source or target host. Default kind is CURL
+// DataTransferMediumDetailsV2 Optional additional properties for dump transfer in source or target host.
 type DataTransferMediumDetailsV2 interface {
 }
 

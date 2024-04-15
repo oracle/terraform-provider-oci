@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetScheduledRun.go.html to see an example of how to use GetScheduledRunRequest.
 type GetScheduledRunRequest struct {
 
-	// The scheduledRun unique OCID.
+	// The scheduledRun unique OCID
 	ScheduledRunId *string `mandatory:"true" contributesTo:"path" name:"scheduledRunId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

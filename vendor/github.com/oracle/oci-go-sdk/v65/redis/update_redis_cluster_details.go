@@ -27,6 +27,9 @@ type UpdateRedisClusterDetails struct {
 	// The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
 	NodeMemoryInGBs *float32 `mandatory:"false" json:"nodeMemoryInGBs"`
 
+	// OCIDs of the NSGs to control access in the customer network
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
