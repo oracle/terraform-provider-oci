@@ -24,8 +24,10 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
 		email_address = var.fusion_environment_create_fusion_environment_admin_user_details_email_address
 		first_name = var.fusion_environment_create_fusion_environment_admin_user_details_first_name
 		last_name = var.fusion_environment_create_fusion_environment_admin_user_details_last_name
-		password = var.fusion_environment_create_fusion_environment_admin_user_details_password
 		username = var.fusion_environment_create_fusion_environment_admin_user_details_username
+
+		#Optional
+		password = var.fusion_environment_create_fusion_environment_admin_user_details_password
 	}
 	display_name = var.fusion_environment_display_name
 	fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id
@@ -68,7 +70,7 @@ The following arguments are supported:
 	* `email_address` - (Required) The email address for the administrator.
 	* `first_name` - (Required) The administrator's first name.
 	* `last_name` - (Required) The administrator's last name.
-	* `password` - (Required) The password for the administrator.
+	* `password` - (Optional) The password for the administrator.
 	* `username` - (Required) The username for the administrator.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `display_name` - (Required) (Updatable) FusionEnvironment Identifier can be renamed.
