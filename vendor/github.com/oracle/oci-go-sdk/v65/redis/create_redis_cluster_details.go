@@ -36,6 +36,9 @@ type CreateRedisClusterDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster's subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
+	// OCIDs of the NSGs to control access in the customer network
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

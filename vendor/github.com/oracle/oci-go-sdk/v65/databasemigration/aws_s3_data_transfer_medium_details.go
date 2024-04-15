@@ -35,6 +35,8 @@ type AwsS3DataTransferMediumDetails struct {
 	// AWS secret access key credentials
 	// Details: https://docs.aws.amazon.com/general/latest/gr/aws-sec-cred-types.html#access-keys-and-secret-access-keys
 	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+
+	ObjectStorageBucket *ObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
 }
 
 func (m AwsS3DataTransferMediumDetails) String() string {

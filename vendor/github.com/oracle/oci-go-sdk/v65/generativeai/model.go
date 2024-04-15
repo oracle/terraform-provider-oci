@@ -73,6 +73,8 @@ type Model struct {
 	// Corresponds to the time when the custom model and its associated foundation model will be deprecated.
 	TimeDeprecated *common.SDKTime `mandatory:"false" json:"timeDeprecated"`
 
+	PreviousState *Model `mandatory:"false" json:"previousState"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -130,6 +132,7 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		ModelMetrics        modelmetrics                      `json:"modelMetrics"`
 		IsLongTermSupported *bool                             `json:"isLongTermSupported"`
 		TimeDeprecated      *common.SDKTime                   `json:"timeDeprecated"`
+		PreviousState       *Model                            `json:"previousState"`
 		FreeformTags        map[string]string                 `json:"freeformTags"`
 		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags          map[string]map[string]interface{} `json:"systemTags"`
@@ -175,6 +178,8 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.IsLongTermSupported = model.IsLongTermSupported
 
 	m.TimeDeprecated = model.TimeDeprecated
+
+	m.PreviousState = model.PreviousState
 
 	m.FreeformTags = model.FreeformTags
 

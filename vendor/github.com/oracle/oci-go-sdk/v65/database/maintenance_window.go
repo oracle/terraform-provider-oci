@@ -52,6 +52,9 @@ type MaintenanceWindow struct {
 
 	// Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4.
 	LeadTimeInWeeks *int `mandatory:"false" json:"leadTimeInWeeks"`
+
+	// If true, skips the release update (RU) for the quarter. You cannot skip two consecutive quarters. An RU skip request will only be honoured if the current version of the Autonomous Container Database is supported for current quarter.
+	SkipRu []bool `mandatory:"false" json:"skipRu"`
 }
 
 func (m MaintenanceWindow) String() string {

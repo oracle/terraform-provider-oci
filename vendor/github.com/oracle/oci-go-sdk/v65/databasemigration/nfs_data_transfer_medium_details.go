@@ -18,6 +18,7 @@ import (
 
 // NfsDataTransferMediumDetails OCI Object Storage bucket will be used to store Data Pump dump files for the migration.
 type NfsDataTransferMediumDetails struct {
+	ObjectStorageBucket *ObjectStoreBucket `mandatory:"false" json:"objectStorageBucket"`
 }
 
 func (m NfsDataTransferMediumDetails) String() string {

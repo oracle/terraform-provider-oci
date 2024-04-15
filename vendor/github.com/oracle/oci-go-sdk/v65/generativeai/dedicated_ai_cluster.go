@@ -59,6 +59,8 @@ type DedicatedAiCluster struct {
 
 	Capacity DedicatedAiClusterCapacity `mandatory:"false" json:"capacity"`
 
+	PreviousState *DedicatedAiCluster `mandatory:"false" json:"previousState"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -107,6 +109,7 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated      *common.SDKTime                      `json:"timeUpdated"`
 		LifecycleDetails *string                              `json:"lifecycleDetails"`
 		Capacity         dedicatedaiclustercapacity           `json:"capacity"`
+		PreviousState    *DedicatedAiCluster                  `json:"previousState"`
 		FreeformTags     map[string]string                    `json:"freeformTags"`
 		DefinedTags      map[string]map[string]interface{}    `json:"definedTags"`
 		SystemTags       map[string]map[string]interface{}    `json:"systemTags"`
@@ -141,6 +144,8 @@ func (m *DedicatedAiCluster) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Capacity = nil
 	}
+
+	m.PreviousState = model.PreviousState
 
 	m.FreeformTags = model.FreeformTags
 
@@ -274,24 +279,27 @@ type DedicatedAiClusterUnitShapeEnum string
 
 // Set of constants representing the allowable values for DedicatedAiClusterUnitShapeEnum
 const (
-	DedicatedAiClusterUnitShapeLargeCohere DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
-	DedicatedAiClusterUnitShapeSmallCohere DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
-	DedicatedAiClusterUnitShapeEmbedCohere DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
-	DedicatedAiClusterUnitShapeLlama270    DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
+	DedicatedAiClusterUnitShapeLargeCohere   DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE"
+	DedicatedAiClusterUnitShapeSmallCohere   DedicatedAiClusterUnitShapeEnum = "SMALL_COHERE"
+	DedicatedAiClusterUnitShapeEmbedCohere   DedicatedAiClusterUnitShapeEnum = "EMBED_COHERE"
+	DedicatedAiClusterUnitShapeLlama270      DedicatedAiClusterUnitShapeEnum = "LLAMA2_70"
+	DedicatedAiClusterUnitShapeLargeCohereV2 DedicatedAiClusterUnitShapeEnum = "LARGE_COHERE_V2"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
-	"LARGE_COHERE": DedicatedAiClusterUnitShapeLargeCohere,
-	"SMALL_COHERE": DedicatedAiClusterUnitShapeSmallCohere,
-	"EMBED_COHERE": DedicatedAiClusterUnitShapeEmbedCohere,
-	"LLAMA2_70":    DedicatedAiClusterUnitShapeLlama270,
+	"LARGE_COHERE":    DedicatedAiClusterUnitShapeLargeCohere,
+	"SMALL_COHERE":    DedicatedAiClusterUnitShapeSmallCohere,
+	"EMBED_COHERE":    DedicatedAiClusterUnitShapeEmbedCohere,
+	"LLAMA2_70":       DedicatedAiClusterUnitShapeLlama270,
+	"LARGE_COHERE_V2": DedicatedAiClusterUnitShapeLargeCohereV2,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
-	"large_cohere": DedicatedAiClusterUnitShapeLargeCohere,
-	"small_cohere": DedicatedAiClusterUnitShapeSmallCohere,
-	"embed_cohere": DedicatedAiClusterUnitShapeEmbedCohere,
-	"llama2_70":    DedicatedAiClusterUnitShapeLlama270,
+	"large_cohere":    DedicatedAiClusterUnitShapeLargeCohere,
+	"small_cohere":    DedicatedAiClusterUnitShapeSmallCohere,
+	"embed_cohere":    DedicatedAiClusterUnitShapeEmbedCohere,
+	"llama2_70":       DedicatedAiClusterUnitShapeLlama270,
+	"large_cohere_v2": DedicatedAiClusterUnitShapeLargeCohereV2,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -310,6 +318,7 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"SMALL_COHERE",
 		"EMBED_COHERE",
 		"LLAMA2_70",
+		"LARGE_COHERE_V2",
 	}
 }
 

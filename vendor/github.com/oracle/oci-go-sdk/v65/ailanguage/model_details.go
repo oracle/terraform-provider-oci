@@ -73,6 +73,10 @@ func (m *modeldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := NamedEntityRecognitionModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PII":
+		mm := PiiModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PRE_TRAINED_LANGUAGE_DETECTION":
 		mm := PreTrainedLanguageDetectionModelDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -145,6 +149,7 @@ const (
 	ModelDetailsModelTypePreTrainedHealthNlu              ModelDetailsModelTypeEnum = "PRE_TRAINED_HEALTH_NLU"
 	ModelDetailsModelTypePreTrainedSummarization          ModelDetailsModelTypeEnum = "PRE_TRAINED_SUMMARIZATION"
 	ModelDetailsModelTypePreTrainedUniversal              ModelDetailsModelTypeEnum = "PRE_TRAINED_UNIVERSAL"
+	ModelDetailsModelTypePii                              ModelDetailsModelTypeEnum = "PII"
 )
 
 var mappingModelDetailsModelTypeEnum = map[string]ModelDetailsModelTypeEnum{
@@ -160,6 +165,7 @@ var mappingModelDetailsModelTypeEnum = map[string]ModelDetailsModelTypeEnum{
 	"PRE_TRAINED_HEALTH_NLU":               ModelDetailsModelTypePreTrainedHealthNlu,
 	"PRE_TRAINED_SUMMARIZATION":            ModelDetailsModelTypePreTrainedSummarization,
 	"PRE_TRAINED_UNIVERSAL":                ModelDetailsModelTypePreTrainedUniversal,
+	"PII":                                  ModelDetailsModelTypePii,
 }
 
 var mappingModelDetailsModelTypeEnumLowerCase = map[string]ModelDetailsModelTypeEnum{
@@ -175,6 +181,7 @@ var mappingModelDetailsModelTypeEnumLowerCase = map[string]ModelDetailsModelType
 	"pre_trained_health_nlu":               ModelDetailsModelTypePreTrainedHealthNlu,
 	"pre_trained_summarization":            ModelDetailsModelTypePreTrainedSummarization,
 	"pre_trained_universal":                ModelDetailsModelTypePreTrainedUniversal,
+	"pii":                                  ModelDetailsModelTypePii,
 }
 
 // GetModelDetailsModelTypeEnumValues Enumerates the set of values for ModelDetailsModelTypeEnum
@@ -201,6 +208,7 @@ func GetModelDetailsModelTypeEnumStringValues() []string {
 		"PRE_TRAINED_HEALTH_NLU",
 		"PRE_TRAINED_SUMMARIZATION",
 		"PRE_TRAINED_UNIVERSAL",
+		"PII",
 	}
 }
 
