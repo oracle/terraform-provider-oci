@@ -7,8 +7,8 @@ import (
 	"log"
 )
 
-const Version = "5.37.0"
-const ReleaseDate = "2024-04-10"
+const Version = "5.38.0"
+const ReleaseDate = "2024-04-21"
 
 func PrintVersion() {
 	log.Printf("[INFO] terraform-provider-oci %s\n", Version)
