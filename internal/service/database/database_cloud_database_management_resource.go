@@ -234,7 +234,6 @@ func (s *DatabaseCloudDatabaseManagementResourceCrud) Update() error {
 	if enableManagement, ok := s.D.GetOkExists("enable_management"); ok {
 		operation = enableManagement.(bool)
 	}
-
 	if operation {
 		// Update operation
 		request := oci_database.ModifyDatabaseManagementRequest{}

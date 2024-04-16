@@ -270,6 +270,10 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"migrate_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"apply_lag": {
@@ -317,7 +321,18 @@ func createDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) e
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("migrate_trigger"); ok {
+		err := sync.MigrateDataGuardAssociationToMultiDataGuards()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
@@ -333,7 +348,28 @@ func updateDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) e
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("migrate_trigger"); ok && sync.D.HasChange("migrate_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("migrate_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.MigrateDataGuardAssociationToMultiDataGuards()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("migrate_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+		return nil
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteDatabaseDataGuardAssociation(d *schema.ResourceData, m interface{}) error {
@@ -531,6 +567,34 @@ func (s *DatabaseDataGuardAssociationResourceCrud) SetData() error {
 	}
 
 	s.D.Set("transport_type", s.Res.TransportType)
+
+	return nil
+}
+
+func (s *DatabaseDataGuardAssociationResourceCrud) MigrateDataGuardAssociationToMultiDataGuards() error {
+	request := oci_database.MigrateDataGuardAssociationToMultiDataGuardsRequest{}
+
+	idTmp := s.D.Id()
+	request.DataGuardAssociationId = &idTmp
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.MigrateDataGuardAssociationToMultiDataGuards(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("migrate_trigger")
+	s.D.Set("migrate_trigger", val)
 
 	return nil
 }
