@@ -144,7 +144,7 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr() + OpaInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_opa_opa_instance", "test_opa_instance", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(opaInstanceRepresentation, map[string]interface{}{
-					"state": acctest.Representation{RepType: acctest.Required, Create: "ACTIVE"},
+						"state": acctest.Representation{RepType: acctest.Required, Create: "ACTIVE"},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -169,7 +169,6 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				},
 			),
 		},
-
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
