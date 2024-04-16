@@ -138,6 +138,12 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["connection_strings"] = nil
 		}
 
+		if r.DataGuardGroup != nil {
+			database["data_guard_group"] = []interface{}{DataGuardGroupToMap(r.DataGuardGroup)}
+		} else {
+			database["data_guard_group"] = nil
+		}
+
 		if r.DatabaseManagementConfig != nil {
 			database["database_management_config"] = []interface{}{CloudDatabaseManagementConfigToMap(r.DatabaseManagementConfig)}
 		} else {

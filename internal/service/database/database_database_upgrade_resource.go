@@ -122,6 +122,72 @@ func DatabaseDatabaseUpgradeResource() *schema.Resource {
 					},
 				},
 			},
+			"data_guard_group": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"members": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apply_lag": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"apply_rate": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"db_system_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_active_data_guard_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_lag": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_lag_refresh": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"transport_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"protection_mode": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"database_software_image_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -414,6 +480,12 @@ func (s *DatabaseDatabaseUpgradeResourceCrud) SetData() error {
 		s.D.Set("connection_strings", []interface{}{DatabaseConnectionStringsToMap(s.Res.ConnectionStrings)})
 	} else {
 		s.D.Set("connection_strings", nil)
+	}
+
+	if s.Res.DataGuardGroup != nil {
+		s.D.Set("data_guard_group", []interface{}{DataGuardGroupToMap(s.Res.DataGuardGroup)})
+	} else {
+		s.D.Set("data_guard_group", nil)
 	}
 
 	if s.Res.DatabaseSoftwareImageId != nil {
