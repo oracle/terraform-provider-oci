@@ -141,7 +141,8 @@ The following arguments are supported:
 
     For more information, see [Redo Transport Services](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-redo-transport-services.htm#SBYDB00400) in the Oracle Data Guard documentation.
 
-    **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+	**IMPORTANT** - The only transport type currently supported by the Database service is ASYNC. 
+* `migrate_trigger` - (Optional) (Updatable) An optional property when incremented triggers Migrate. Could be set to any integer value.
 
 
 ** IMPORTANT **

@@ -53,7 +53,6 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1` + randString},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseSoftwareImageDataSourceFilterRepresentation}}
-
 	DatabaseAutonomousDatabaseSoftwareImageDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_autonomous_database_software_image.test_autonomous_database_software_image.id}`}},
