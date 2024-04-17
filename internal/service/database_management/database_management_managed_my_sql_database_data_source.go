@@ -26,6 +26,10 @@ func DatabaseManagementManagedMySqlDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"db_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -83,7 +87,15 @@ func DatabaseManagementManagedMySqlDatabaseDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"management_state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -92,11 +104,17 @@ func DatabaseManagementManagedMySqlDatabaseDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created_heat_wave": {
+
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 		},
 	}
+
 }
 
 func readSingularDatabaseManagementManagedMySqlDatabase(d *schema.ResourceData, m interface{}) error {
@@ -147,6 +165,8 @@ func (s *DatabaseManagementManagedMySqlDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("database_type", s.Res.DatabaseType)
+
 	if s.Res.DbName != nil {
 		s.D.Set("db_name", *s.Res.DbName)
 	}
@@ -184,10 +204,13 @@ func (s *DatabaseManagementManagedMySqlDatabaseDataSourceCrud) SetData() error {
 	if s.Res.IsLakehouseEnabled != nil {
 		s.D.Set("is_lakehouse_enabled", *s.Res.IsLakehouseEnabled)
 	}
+	s.D.Set("management_state", s.Res.ManagementState)
 
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
@@ -195,7 +218,10 @@ func (s *DatabaseManagementManagedMySqlDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreatedHeatWave != nil {
 		s.D.Set("time_created_heat_wave", s.Res.TimeCreatedHeatWave.String())
+		if s.Res.TimeUpdated != nil {
+			s.D.Set("time_updated", s.Res.TimeUpdated.String())
+		}
 	}
-
 	return nil
+	//}
 }

@@ -5,6 +5,7 @@ package database_management
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database_management "github.com/oracle/oci-go-sdk/v65/databasemanagement"
@@ -86,8 +87,16 @@ func DatabaseManagementManagedMySqlDatabaseSqlDataDataSource() *schema.Resource 
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"max_controlled_memory": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"max_timer_wait": {
 										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"max_total_memory": {
+										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"min_timer_wait": {
@@ -107,6 +116,10 @@ func DatabaseManagementManagedMySqlDatabaseSqlDataDataSource() *schema.Resource 
 										Computed: true,
 									},
 									"schema_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"sum_cpu_time": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -327,8 +340,16 @@ func MySqlDataSummaryToMap(obj oci_database_management.MySqlDataSummary) map[str
 		result["last_seen"] = obj.LastSeen.String()
 	}
 
+	if obj.MaxControlledMemory != nil {
+		result["max_controlled_memory"] = strconv.FormatInt(*obj.MaxControlledMemory, 10)
+	}
+
 	if obj.MaxTimerWait != nil {
 		result["max_timer_wait"] = float32(*obj.MaxTimerWait)
+	}
+
+	if obj.MaxTotalMemory != nil {
+		result["max_total_memory"] = strconv.FormatInt(*obj.MaxTotalMemory, 10)
 	}
 
 	if obj.MinTimerWait != nil {
@@ -349,6 +370,10 @@ func MySqlDataSummaryToMap(obj oci_database_management.MySqlDataSummary) map[str
 
 	if obj.SchemaName != nil {
 		result["schema_name"] = string(*obj.SchemaName)
+	}
+
+	if obj.SumCpuTime != nil {
+		result["sum_cpu_time"] = strconv.FormatInt(*obj.SumCpuTime, 10)
 	}
 
 	if obj.SumCreatedTempDiskTables != nil {
