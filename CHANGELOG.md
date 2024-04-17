@@ -1,4 +1,4 @@
-## 5.38.0 (Unreleased)
+## 5.38.0 (April 17, 2024)
 
 ### Added
 - Support for Oracle Process Automation (OPA) : Support for Start/Stop operation in Public API
