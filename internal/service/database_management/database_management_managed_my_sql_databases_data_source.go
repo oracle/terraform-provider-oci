@@ -22,6 +22,10 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"filter_by_my_sql_database_type_param": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"managed_my_sql_database_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -38,6 +42,10 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 
 									// Computed
 									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_type": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -102,7 +110,15 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
+									"management_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -114,6 +130,10 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
@@ -122,6 +142,7 @@ func DatabaseManagementManagedMySqlDatabasesDataSource() *schema.Resource {
 			},
 		},
 	}
+
 }
 
 func readDatabaseManagementManagedMySqlDatabases(d *schema.ResourceData, m interface{}) error {
@@ -148,6 +169,10 @@ func (s *DatabaseManagementManagedMySqlDatabasesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if filterByMySqlDatabaseTypeParam, ok := s.D.GetOkExists("filter_by_my_sql_database_type_param"); ok {
+		request.FilterByMySqlDatabaseTypeParam = oci_database_management.ListManagedMySqlDatabasesFilterByMySqlDatabaseTypeParamEnum(filterByMySqlDatabaseTypeParam.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_management")
@@ -224,6 +249,8 @@ func ManagedMySqlDatabaseSummaryToMap(obj oci_database_management.ManagedMySqlDa
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
 
+	result["database_type"] = string(obj.DatabaseType)
+
 	if obj.DbName != nil {
 		result["db_name"] = string(*obj.DbName)
 	}
@@ -236,9 +263,13 @@ func ManagedMySqlDatabaseSummaryToMap(obj oci_database_management.ManagedMySqlDa
 		result["id"] = string(*obj.Id)
 	}
 
+	result["management_state"] = string(obj.ManagementState)
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["state"] = string(obj.LifecycleState)
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
