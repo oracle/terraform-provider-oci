@@ -12,6 +12,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_opa "github.com/oracle/oci-go-sdk/v65/opa"
@@ -89,6 +90,16 @@ func OpaOpaInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_opa.OpaInstanceLifecycleStateInactive),
+					string(oci_opa.OpaInstanceLifecycleStateActive),
+				}, true),
+			},
 
 			// Computed
 			"attachments": {
@@ -144,10 +155,6 @@ func OpaOpaInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -169,8 +176,26 @@ func createOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync := &OpaOpaInstanceResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_opa.OpaInstanceLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_opa.OpaInstanceLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if powerOff {
+		if err := sync.StopOpaInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateInactive)
+	}
+	return nil
+
 }
 
 func readOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
@@ -186,7 +211,36 @@ func updateOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpaInstanceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_opa.OpaInstanceLifecycleStateActive == oci_opa.OpaInstanceLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_opa.OpaInstanceLifecycleStateInactive == oci_opa.OpaInstanceLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartOpaInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopOpaInstance(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_opa.OpaInstanceLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deleteOpaOpaInstance(d *schema.ResourceData, m interface{}) error {
@@ -599,6 +653,40 @@ func (s *OpaOpaInstanceResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *OpaOpaInstanceResourceCrud) StartOpaInstance() error {
+	request := oci_opa.StartOpaInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.OpaInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
+
+	_, err := s.Client.StartOpaInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_opa.OpaInstanceLifecycleStateActive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *OpaOpaInstanceResourceCrud) StopOpaInstance() error {
+	request := oci_opa.StopOpaInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.OpaInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opa")
+
+	_, err := s.Client.StopOpaInstance(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_opa.OpaInstanceLifecycleStateInactive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func AttachmentDetailsToMap(obj oci_opa.AttachmentDetails) map[string]interface{} {

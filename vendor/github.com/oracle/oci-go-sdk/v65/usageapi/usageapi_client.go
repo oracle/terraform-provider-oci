@@ -4,7 +4,7 @@
 
 // Usage API
 //
-// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the dimension of your choosing. The Usage API is used by the Cost Analysis tool in the Console. Also see Using the Usage API (https://docs.cloud.oracle.com/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
+// Use the Usage API to view your Oracle Cloud usage and costs. The API allows you to request data that meets the specified filter criteria, and to group that data by the chosen dimension. The Usage API is used by the Cost Analysis and Carbon Emissions Analysis tools in the Console. See Cost Analysis Overview (https://docs.cloud.oracle.com/Content/Billing/Concepts/costanalysisoverview.htm) and Using the Usage API (https://docs.cloud.oracle.com/Content/Billing/Concepts/costanalysisoverview.htm#cost_analysis_using_the_api) for more information.
 //
 
 package usageapi
@@ -146,6 +146,68 @@ func (client UsageapiClient) createCustomTable(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/CreateCustomTable"
 		err = common.PostProcessServiceError(err, "Usageapi", "CreateCustomTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateEmailRecipientsGroup Add a list of email recipients that can receive usage statements for the subscription.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/CreateEmailRecipientsGroup.go.html to see an example of how to use CreateEmailRecipientsGroup API.
+func (client UsageapiClient) CreateEmailRecipientsGroup(ctx context.Context, request CreateEmailRecipientsGroupRequest) (response CreateEmailRecipientsGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createEmailRecipientsGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateEmailRecipientsGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateEmailRecipientsGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateEmailRecipientsGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateEmailRecipientsGroupResponse")
+	}
+	return
+}
+
+// createEmailRecipientsGroup implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) createEmailRecipientsGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/usageStatements/{subscriptionId}/emailRecipientsGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateEmailRecipientsGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/EmailRecipientsGroup/CreateEmailRecipientsGroup"
+		err = common.PostProcessServiceError(err, "Usageapi", "CreateEmailRecipientsGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -396,6 +458,63 @@ func (client UsageapiClient) deleteCustomTable(ctx context.Context, request comm
 	return response, err
 }
 
+// DeleteEmailRecipientsGroup Delete the email recipients group for the usage statement subscription.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/DeleteEmailRecipientsGroup.go.html to see an example of how to use DeleteEmailRecipientsGroup API.
+func (client UsageapiClient) DeleteEmailRecipientsGroup(ctx context.Context, request DeleteEmailRecipientsGroupRequest) (response DeleteEmailRecipientsGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteEmailRecipientsGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteEmailRecipientsGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteEmailRecipientsGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteEmailRecipientsGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteEmailRecipientsGroupResponse")
+	}
+	return
+}
+
+// deleteEmailRecipientsGroup implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) deleteEmailRecipientsGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/usageStatements/{subscriptionId}/emailRecipientsGroups/{emailRecipientsGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteEmailRecipientsGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/EmailRecipientsGroup/DeleteEmailRecipientsGroup"
+		err = common.PostProcessServiceError(err, "Usageapi", "DeleteEmailRecipientsGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteQuery Delete a saved query by the OCID.
 //
 // # See also
@@ -617,6 +736,63 @@ func (client UsageapiClient) getCustomTable(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/GetCustomTable"
 		err = common.PostProcessServiceError(err, "Usageapi", "GetCustomTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetEmailRecipientsGroup Return the saved usage statement email recipient group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/GetEmailRecipientsGroup.go.html to see an example of how to use GetEmailRecipientsGroup API.
+func (client UsageapiClient) GetEmailRecipientsGroup(ctx context.Context, request GetEmailRecipientsGroupRequest) (response GetEmailRecipientsGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getEmailRecipientsGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetEmailRecipientsGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetEmailRecipientsGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetEmailRecipientsGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetEmailRecipientsGroupResponse")
+	}
+	return
+}
+
+// getEmailRecipientsGroup implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) getEmailRecipientsGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usageStatements/{subscriptionId}/emailRecipientsGroups/{emailRecipientsGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetEmailRecipientsGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/EmailRecipientsGroup/GetEmailRecipientsGroup"
+		err = common.PostProcessServiceError(err, "Usageapi", "GetEmailRecipientsGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -902,6 +1078,68 @@ func (client UsageapiClient) listCustomTables(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/ListCustomTables"
 		err = common.PostProcessServiceError(err, "Usageapi", "ListCustomTables", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListEmailRecipientsGroups Return the saved usage statement email recipient group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/ListEmailRecipientsGroups.go.html to see an example of how to use ListEmailRecipientsGroups API.
+func (client UsageapiClient) ListEmailRecipientsGroups(ctx context.Context, request ListEmailRecipientsGroupsRequest) (response ListEmailRecipientsGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listEmailRecipientsGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListEmailRecipientsGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListEmailRecipientsGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListEmailRecipientsGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListEmailRecipientsGroupsResponse")
+	}
+	return
+}
+
+// listEmailRecipientsGroups implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) listEmailRecipientsGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/usageStatements/{subscriptionId}/emailRecipientsGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListEmailRecipientsGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/EmailRecipientsGroup/ListEmailRecipientsGroups"
+		err = common.PostProcessServiceError(err, "Usageapi", "ListEmailRecipientsGroups", apiReferenceLink)
 		return response, err
 	}
 
@@ -1529,6 +1767,63 @@ func (client UsageapiClient) updateCustomTable(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/CustomTable/UpdateCustomTable"
 		err = common.PostProcessServiceError(err, "Usageapi", "UpdateCustomTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateEmailRecipientsGroup Update a saved email recipients group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/usageapi/UpdateEmailRecipientsGroup.go.html to see an example of how to use UpdateEmailRecipientsGroup API.
+func (client UsageapiClient) UpdateEmailRecipientsGroup(ctx context.Context, request UpdateEmailRecipientsGroupRequest) (response UpdateEmailRecipientsGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateEmailRecipientsGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateEmailRecipientsGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateEmailRecipientsGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateEmailRecipientsGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateEmailRecipientsGroupResponse")
+	}
+	return
+}
+
+// updateEmailRecipientsGroup implements the OCIOperation interface (enables retrying operations)
+func (client UsageapiClient) updateEmailRecipientsGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/usageStatements/{subscriptionId}/emailRecipientsGroups/{emailRecipientsGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateEmailRecipientsGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/usage/20200107/EmailRecipientsGroup/UpdateEmailRecipientsGroup"
+		err = common.PostProcessServiceError(err, "Usageapi", "UpdateEmailRecipientsGroup", apiReferenceLink)
 		return response, err
 	}
 

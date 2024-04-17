@@ -267,6 +267,8 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 			autonomousContainerDatabase["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		autonomousContainerDatabase["list_one_off_patches"] = r.ListOneOffPatches
+
 		if r.MaintenanceWindow != nil {
 			autonomousContainerDatabase["maintenance_window"] = []interface{}{MaintenanceWindowToMap(r.MaintenanceWindow)}
 		} else {

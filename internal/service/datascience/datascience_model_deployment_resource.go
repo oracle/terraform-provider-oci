@@ -110,6 +110,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"subnet_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 
 												// Computed
 											},
@@ -1290,6 +1295,11 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		}
 	}
 
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1302,6 +1312,10 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 
 	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
 		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
 	}
 
 	return result

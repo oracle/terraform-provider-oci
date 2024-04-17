@@ -45,6 +45,7 @@ The following attributes are exported:
 		* `private_endpoint_ip_address` - The private IP address of the API endpoint to access a specific node.
 * `node_count` - The number of nodes in the Redis cluster.
 * `node_memory_in_gbs` - The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+* `nsg_ids` - OCIDs of the NSGs to control access in the customer network
 * `primary_endpoint_ip_address` - The private IP address of the API endpoint for the Redis cluster's primary node.
 * `primary_fqdn` - The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's primary node.
 * `replicas_endpoint_ip_address` - The private IP address of the API endpoint for the Redis cluster's replica nodes.

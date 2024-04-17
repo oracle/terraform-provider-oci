@@ -98,7 +98,7 @@ The following arguments are supported:
 	* `namespace` - (Required) (Updatable) The namespace needed to determine the object storage bucket.
 	* `region` - (Required) (Updatable) The destination Object Store Region specified by the customer.
 * `saved_report_id` - (Optional) The saved report ID which can also be used to generate a query.
-* `schedule_recurrences` - (Required) Specifies the frequency according to when the schedule will be run,  in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
+* `schedule_recurrences` - (Required) Specifies the frequency according to when the schedule will be run, in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
 * `time_scheduled` - (Required) The date and time of the first time job execution.
 
 
@@ -138,7 +138,7 @@ The following attributes are exported:
 	* `namespace` - The namespace needed to determine the object storage bucket.
 	* `region` - The destination Object Store Region specified by the customer.
 * `saved_report_id` - The saved report ID which can also be used to generate a query.
-* `schedule_recurrences` - Specifies the frequency according to when the schedule will be run,  in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
+* `schedule_recurrences` - Specifies the frequency according to when the schedule will be run, in the x-obmcs-recurring-time format described in [RFC 5545 section 3.3.10](https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10). Supported values are : ONE_TIME, DAILY, WEEKLY and MONTHLY. 
 * `state` - The schedule lifecycle state.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the schedule was created.

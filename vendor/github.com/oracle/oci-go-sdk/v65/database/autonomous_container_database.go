@@ -140,6 +140,9 @@ type AutonomousContainerDatabase struct {
 	// An array of CPU values that can be used to successfully provision a single Autonomous Database.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
+	// List of One-Off patches that has been successfully applied to Autonomous Container Database
+	ListOneOffPatches []string `mandatory:"false" json:"listOneOffPatches"`
+
 	// The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See Compute Models in Autonomous Database on Dedicated Exadata Infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
 	ComputeModel AutonomousContainerDatabaseComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 
