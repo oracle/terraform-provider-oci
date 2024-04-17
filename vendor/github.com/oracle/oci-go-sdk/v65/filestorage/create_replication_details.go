@@ -50,6 +50,9 @@ type CreateReplicationDetails struct {
 
 	// Not used by File Systems but required for SPLAT tag integration.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m CreateReplicationDetails) String() string {

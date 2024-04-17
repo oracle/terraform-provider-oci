@@ -76,6 +76,9 @@ type UpdateRedisConnectionDetails struct {
 	// The KeyStore password.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
+	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.

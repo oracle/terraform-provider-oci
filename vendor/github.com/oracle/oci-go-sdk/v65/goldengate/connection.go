@@ -169,6 +169,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		mm := JavaMessageServiceConnection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB2":
+		mm := Db2Connection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ELASTICSEARCH":
 		mm := ElasticsearchConnection{}
 		err = json.Unmarshal(data, &mm)

@@ -46,6 +46,9 @@ type CreateOutboundConnectorDetails interface {
 
 	// Not used by File Systems but required for SPLAT tag integration.
 	GetSystemTags() map[string]map[string]interface{}
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type createoutboundconnectordetails struct {
@@ -54,6 +57,7 @@ type createoutboundconnectordetails struct {
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Locks              []ResourceLock                    `mandatory:"false" json:"locks"`
 	AvailabilityDomain *string                           `mandatory:"true" json:"availabilityDomain"`
 	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectorType      string                            `json:"connectorType"`
@@ -76,6 +80,7 @@ func (m *createoutboundconnectordetails) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
+	m.Locks = s.Model.Locks
 	m.ConnectorType = s.Model.ConnectorType
 
 	return err
@@ -118,6 +123,11 @@ func (m createoutboundconnectordetails) GetDefinedTags() map[string]map[string]i
 // GetSystemTags returns SystemTags
 func (m createoutboundconnectordetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetLocks returns Locks
+func (m createoutboundconnectordetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetAvailabilityDomain returns AvailabilityDomain

@@ -74,6 +74,8 @@ type UpdateCloudVmClusterDetails struct {
 
 	// The private zone id in which DNS records need to be created for Private DNS migration.
 	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
+
+	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 }
 
 func (m UpdateCloudVmClusterDetails) String() string {

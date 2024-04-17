@@ -46,6 +46,8 @@ type PrivateEndpointSummary struct {
 	// Example: If the prefix chosen is "abc", then the endpointFqdn will be 'abc.private.objectstorage.<region>.oraclecloud.com'
 	Prefix *string `mandatory:"true" json:"prefix"`
 
+	Fqdns *Fqdns `mandatory:"true" json:"fqdns"`
+
 	// The entity tag for the Private Endpoint.
 	Etag *string `mandatory:"true" json:"etag"`
 

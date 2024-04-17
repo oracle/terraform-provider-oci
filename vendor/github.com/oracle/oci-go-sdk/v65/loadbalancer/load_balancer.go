@@ -121,6 +121,10 @@ type LoadBalancer struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}`
+	DefinedTagsExtended map[string]map[string]map[string]interface{} `mandatory:"false" json:"definedTagsExtended"`
+
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// System tags can be viewed by users, but can only be created by the system.

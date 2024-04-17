@@ -67,7 +67,7 @@ func newDataScienceClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *DataScienceClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("datascience", "https://pre.datascience.{region}.oci.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("datascience", "https://datascience.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid

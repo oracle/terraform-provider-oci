@@ -150,7 +150,7 @@ func (client DbBackupsClient) changeBackupCompartment(ctx context.Context, reque
 	return response, err
 }
 
-// CopyBackup Creates a copy of a DB system backup present in the specified source region.
+// CopyBackup Creates a copy of a DB system backup available in the specified source region.
 // A default retry strategy applies to this operation CopyBackup()
 func (client DbBackupsClient) CopyBackup(ctx context.Context, request CopyBackupRequest) (response CopyBackupResponse, err error) {
 	var ociResponse common.OCIResponse

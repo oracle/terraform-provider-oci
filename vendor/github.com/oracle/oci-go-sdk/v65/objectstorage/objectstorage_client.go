@@ -17,15 +17,12 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
-
-	"regexp"
 )
 
 // ObjectStorageClient a client for ObjectStorage
 type ObjectStorageClient struct {
 	common.BaseClient
-	config                   *common.ConfigurationProvider
-	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
+	config *common.ConfigurationProvider
 }
 
 // NewObjectStorageClientWithConfigurationProvider Creates a new default ObjectStorage client with the given configuration provider.
@@ -71,8 +68,7 @@ func newObjectStorageClientFromBaseClient(baseClient common.BaseClient, configPr
 
 // SetRegion overrides the region of this client.
 func (client *ObjectStorageClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("objectstorage", client.getEndpointTemplatePerRealm(region), "objectstorage")
-	client.parseEndpointTemplatePerRealm()
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("objectstorage", "https://objectstorage.{region}.{secondLevelDomain}", "objectstorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -94,57 +90,6 @@ func (client *ObjectStorageClient) setConfigurationProvider(configProvider commo
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ObjectStorageClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
-}
-
-// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
-func (client *ObjectStorageClient) getEndpointTemplatePerRealm(region string) string {
-	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
-		realm, _ := common.StringToRegion(region).RealmID()
-		templatePerRealmDict := map[string]string{
-			"oc1": "https://{namespaceName+Dot}objectstorage.{region}.oci.customer-oci.com",
-		}
-		if template, ok := templatePerRealmDict[realm]; ok {
-			return template
-		}
-	}
-	return "https://objectstorage.{region}.{secondLevelDomain}"
-}
-
-// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
-// This function will build a map of template params to their values, this map is used when building the API endpoint
-func (client *ObjectStorageClient) parseEndpointTemplatePerRealm() {
-	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
-	templateRegex := regexp.MustCompile(`{.*?}`)
-	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
-	templates := templateRegex.FindAllString(client.Host, -1)
-	for _, template := range templates {
-		templateParam := templateSubRegex.FindStringSubmatch(template)
-		if len(templateParam) > 1 {
-			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
-				Template:    templateParam[0],
-				EndsWithDot: true,
-			})
-		} else {
-			templateParam := template[1 : len(template)-1]
-			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
-				Template:    template,
-				EndsWithDot: false,
-			})
-		}
-	}
-}
-
-// SetCustomClientConfiguration sets client with retry and other custom configurations
-func (client *ObjectStorageClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
-	client.Configuration = config
-	client.refreshRegion()
-}
-
-// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
-func (client *ObjectStorageClient) refreshRegion() {
-	configProvider := *client.config
-	region, _ := configProvider.Region()
-	client.SetRegion(region)
 }
 
 // AbortMultipartUpload Aborts an in-progress multipart upload and deletes all parts that have been uploaded.
@@ -185,13 +130,6 @@ func (client ObjectStorageClient) abortMultipartUpload(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(AbortMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response AbortMultipartUploadResponse
 	var httpResponse *http.Response
@@ -249,13 +187,6 @@ func (client ObjectStorageClient) bulkCopyObjects(ctx context.Context, request c
 		return nil, err
 	}
 
-	host := client.Host
-	request.(BulkCopyObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response BulkCopyObjectsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -309,13 +240,6 @@ func (client ObjectStorageClient) cancelWorkRequest(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CancelWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CancelWorkRequestResponse
 	var httpResponse *http.Response
@@ -382,13 +306,6 @@ func (client ObjectStorageClient) checkObject(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CheckObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CheckObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -442,13 +359,6 @@ func (client ObjectStorageClient) commitMultipartUpload(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CommitMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CommitMultipartUploadResponse
 	var httpResponse *http.Response
@@ -506,13 +416,6 @@ func (client ObjectStorageClient) copyObject(ctx context.Context, request common
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CopyObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CopyObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -566,13 +469,6 @@ func (client ObjectStorageClient) copyPart(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CopyPartRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CopyPartResponse
 	var httpResponse *http.Response
@@ -634,13 +530,6 @@ func (client ObjectStorageClient) createAcl(ctx context.Context, request common.
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CreateAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateAclResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -700,13 +589,6 @@ func (client ObjectStorageClient) createAclGroup(ctx context.Context, request co
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CreateAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateAclGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -761,13 +643,6 @@ func (client ObjectStorageClient) createBucket(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CreateBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CreateBucketResponse
 	var httpResponse *http.Response
@@ -825,13 +700,6 @@ func (client ObjectStorageClient) createMultipartUpload(ctx context.Context, req
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CreateMultipartUploadRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateMultipartUploadResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -885,13 +753,6 @@ func (client ObjectStorageClient) createPreauthenticatedRequest(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CreatePreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CreatePreauthenticatedRequestResponse
 	var httpResponse *http.Response
@@ -952,13 +813,6 @@ func (client ObjectStorageClient) createPrivateEndpoint(ctx context.Context, req
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CreatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreatePrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1012,13 +866,6 @@ func (client ObjectStorageClient) createReplicationPolicy(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(CreateReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response CreateReplicationPolicyResponse
 	var httpResponse *http.Response
@@ -1075,13 +922,6 @@ func (client ObjectStorageClient) createRetentionRule(ctx context.Context, reque
 		return nil, err
 	}
 
-	host := client.Host
-	request.(CreateRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response CreateRetentionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1136,13 +976,6 @@ func (client ObjectStorageClient) deleteAcl(ctx context.Context, request common.
 		return nil, err
 	}
 
-	host := client.Host
-	request.(DeleteAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteAclResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1196,13 +1029,6 @@ func (client ObjectStorageClient) deleteAclGroup(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(DeleteAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response DeleteAclGroupResponse
 	var httpResponse *http.Response
@@ -1261,13 +1087,6 @@ func (client ObjectStorageClient) deleteBucket(ctx context.Context, request comm
 		return nil, err
 	}
 
-	host := client.Host
-	request.(DeleteBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteBucketResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1321,13 +1140,6 @@ func (client ObjectStorageClient) deleteObject(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(DeleteObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response DeleteObjectResponse
 	var httpResponse *http.Response
@@ -1383,13 +1195,6 @@ func (client ObjectStorageClient) deleteObjectLifecyclePolicy(ctx context.Contex
 		return nil, err
 	}
 
-	host := client.Host
-	request.(DeleteObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1443,13 +1248,6 @@ func (client ObjectStorageClient) deletePreauthenticatedRequest(ctx context.Cont
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(DeletePreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response DeletePreauthenticatedRequestResponse
 	var httpResponse *http.Response
@@ -1505,13 +1303,6 @@ func (client ObjectStorageClient) deletePrivateEndpoint(ctx context.Context, req
 		return nil, err
 	}
 
-	host := client.Host
-	request.(DeletePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeletePrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1565,13 +1356,6 @@ func (client ObjectStorageClient) deleteReplicationPolicy(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(DeleteReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response DeleteReplicationPolicyResponse
 	var httpResponse *http.Response
@@ -1627,13 +1411,6 @@ func (client ObjectStorageClient) deleteRetentionRule(ctx context.Context, reque
 		return nil, err
 	}
 
-	host := client.Host
-	request.(DeleteRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response DeleteRetentionRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1687,13 +1464,6 @@ func (client ObjectStorageClient) getAcl(ctx context.Context, request common.OCI
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetAclResponse
 	var httpResponse *http.Response
@@ -1749,13 +1519,6 @@ func (client ObjectStorageClient) getAclGroup(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetAclGroupResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1809,13 +1572,6 @@ func (client ObjectStorageClient) getBucket(ctx context.Context, request common.
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetBucketResponse
 	var httpResponse *http.Response
@@ -1872,13 +1628,6 @@ func (client ObjectStorageClient) getBucketOptions(ctx context.Context, request 
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetBucketOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetBucketOptionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1932,13 +1681,6 @@ func (client ObjectStorageClient) getNamespace(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetNamespaceResponse
 	var httpResponse *http.Response
@@ -1999,13 +1741,6 @@ func (client ObjectStorageClient) getNamespaceMetadata(ctx context.Context, requ
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetNamespaceMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetNamespaceMetadataResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2060,13 +1795,6 @@ func (client ObjectStorageClient) getObject(ctx context.Context, request common.
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2119,13 +1847,6 @@ func (client ObjectStorageClient) getObjectLifecyclePolicy(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
@@ -2181,13 +1902,6 @@ func (client ObjectStorageClient) getPreauthenticatedRequest(ctx context.Context
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetPreauthenticatedRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetPreauthenticatedRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2241,13 +1955,6 @@ func (client ObjectStorageClient) getPrivateEndpoint(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetPrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetPrivateEndpointResponse
 	var httpResponse *http.Response
@@ -2303,13 +2010,6 @@ func (client ObjectStorageClient) getReplicationPolicy(ctx context.Context, requ
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetReplicationPolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetReplicationPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2363,13 +2063,6 @@ func (client ObjectStorageClient) getRetentionRule(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(GetRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response GetRetentionRuleResponse
 	var httpResponse *http.Response
@@ -2425,13 +2118,6 @@ func (client ObjectStorageClient) getWorkRequest(ctx context.Context, request co
 		return nil, err
 	}
 
-	host := client.Host
-	request.(GetWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2485,13 +2171,6 @@ func (client ObjectStorageClient) headBucket(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(HeadBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response HeadBucketResponse
 	var httpResponse *http.Response
@@ -2547,13 +2226,6 @@ func (client ObjectStorageClient) headObject(ctx context.Context, request common
 		return nil, err
 	}
 
-	host := client.Host
-	request.(HeadObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response HeadObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2608,13 +2280,6 @@ func (client ObjectStorageClient) listAclGroups(ctx context.Context, request com
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListAclGroupsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListAclGroupsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2668,13 +2333,6 @@ func (client ObjectStorageClient) listAcls(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListAclsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListAclsResponse
 	var httpResponse *http.Response
@@ -2736,13 +2394,6 @@ func (client ObjectStorageClient) listBuckets(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListBucketsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListBucketsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2797,13 +2448,6 @@ func (client ObjectStorageClient) listMultipartUploadParts(ctx context.Context, 
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListMultipartUploadPartsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListMultipartUploadPartsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2857,13 +2501,6 @@ func (client ObjectStorageClient) listMultipartUploads(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListMultipartUploadsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListMultipartUploadsResponse
 	var httpResponse *http.Response
@@ -2923,13 +2560,6 @@ func (client ObjectStorageClient) listObjectVersions(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListObjectVersionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListObjectVersionsResponse
 	var httpResponse *http.Response
@@ -2992,13 +2622,6 @@ func (client ObjectStorageClient) listObjects(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListObjectsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3052,13 +2675,6 @@ func (client ObjectStorageClient) listPreauthenticatedRequests(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListPreauthenticatedRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListPreauthenticatedRequestsResponse
 	var httpResponse *http.Response
@@ -3117,13 +2733,6 @@ func (client ObjectStorageClient) listPrivateEndpoints(ctx context.Context, requ
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListPrivateEndpointsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListPrivateEndpointsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3178,13 +2787,6 @@ func (client ObjectStorageClient) listReplicationPolicies(ctx context.Context, r
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListReplicationPoliciesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListReplicationPoliciesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3238,13 +2840,6 @@ func (client ObjectStorageClient) listReplicationSources(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListReplicationSourcesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListReplicationSourcesResponse
 	var httpResponse *http.Response
@@ -3301,13 +2896,6 @@ func (client ObjectStorageClient) listRetentionRules(ctx context.Context, reques
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListRetentionRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListRetentionRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3361,13 +2949,6 @@ func (client ObjectStorageClient) listWorkRequestErrors(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListWorkRequestErrorsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
@@ -3423,13 +3004,6 @@ func (client ObjectStorageClient) listWorkRequestLogs(ctx context.Context, reque
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ListWorkRequestLogsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3483,13 +3057,6 @@ func (client ObjectStorageClient) listWorkRequests(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ListWorkRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -3548,13 +3115,6 @@ func (client ObjectStorageClient) makeBucketWritable(ctx context.Context, reques
 		return nil, err
 	}
 
-	host := client.Host
-	request.(MakeBucketWritableRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response MakeBucketWritableResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3608,13 +3168,6 @@ func (client ObjectStorageClient) mergeObjectMetadata(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(MergeObjectMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response MergeObjectMetadataResponse
 	var httpResponse *http.Response
@@ -3676,13 +3229,6 @@ func (client ObjectStorageClient) putObject(ctx context.Context, request common.
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(PutObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response PutObjectResponse
 	var httpResponse *http.Response
@@ -3748,13 +3294,6 @@ func (client ObjectStorageClient) putObjectLifecyclePolicy(ctx context.Context, 
 		return nil, err
 	}
 
-	host := client.Host
-	request.(PutObjectLifecyclePolicyRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response PutObjectLifecyclePolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3809,13 +3348,6 @@ func (client ObjectStorageClient) queryObject(ctx context.Context, request commo
 		return nil, err
 	}
 
-	host := client.Host
-	request.(QueryObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response QueryObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3868,13 +3400,6 @@ func (client ObjectStorageClient) readObjectSchema(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ReadObjectSchemaRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ReadObjectSchemaResponse
 	var httpResponse *http.Response
@@ -3943,13 +3468,6 @@ func (client ObjectStorageClient) reencryptBucket(ctx context.Context, request c
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ReencryptBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ReencryptBucketResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4009,13 +3527,6 @@ func (client ObjectStorageClient) reencryptObject(ctx context.Context, request c
 		return nil, err
 	}
 
-	host := client.Host
-	request.(ReencryptObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response ReencryptObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4072,13 +3583,6 @@ func (client ObjectStorageClient) renameObject(ctx context.Context, request comm
 		return nil, err
 	}
 
-	host := client.Host
-	request.(RenameObjectRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response RenameObjectResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4132,13 +3636,6 @@ func (client ObjectStorageClient) replaceObjectMetadata(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(ReplaceObjectMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response ReplaceObjectMetadataResponse
 	var httpResponse *http.Response
@@ -4195,13 +3692,6 @@ func (client ObjectStorageClient) restoreObjects(ctx context.Context, request co
 		return nil, err
 	}
 
-	host := client.Host
-	request.(RestoreObjectsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response RestoreObjectsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4255,13 +3745,6 @@ func (client ObjectStorageClient) startPrefixRename(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(StartPrefixRenameRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response StartPrefixRenameResponse
 	var httpResponse *http.Response
@@ -4317,13 +3800,6 @@ func (client ObjectStorageClient) updateAcl(ctx context.Context, request common.
 		return nil, err
 	}
 
-	host := client.Host
-	request.(UpdateAclRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response UpdateAclResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4377,13 +3853,6 @@ func (client ObjectStorageClient) updateAclGroup(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(UpdateAclGroupRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateAclGroupResponse
 	var httpResponse *http.Response
@@ -4441,13 +3910,6 @@ func (client ObjectStorageClient) updateBucket(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(UpdateBucketRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateBucketResponse
 	var httpResponse *http.Response
@@ -4508,13 +3970,6 @@ func (client ObjectStorageClient) updateBucketOptions(ctx context.Context, reque
 		return nil, err
 	}
 
-	host := client.Host
-	request.(UpdateBucketOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response UpdateBucketOptionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4574,13 +4029,6 @@ func (client ObjectStorageClient) updateNamespaceMetadata(ctx context.Context, r
 		return nil, err
 	}
 
-	host := client.Host
-	request.(UpdateNamespaceMetadataRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response UpdateNamespaceMetadataResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4634,13 +4082,6 @@ func (client ObjectStorageClient) updateObjectStorageTier(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(UpdateObjectStorageTierRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateObjectStorageTierResponse
 	var httpResponse *http.Response
@@ -4701,13 +4142,6 @@ func (client ObjectStorageClient) updatePrivateEndpoint(ctx context.Context, req
 		return nil, err
 	}
 
-	host := client.Host
-	request.(UpdatePrivateEndpointRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
 	var response UpdatePrivateEndpointResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -4761,13 +4195,6 @@ func (client ObjectStorageClient) updateRetentionRule(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(UpdateRetentionRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UpdateRetentionRuleResponse
 	var httpResponse *http.Response
@@ -4824,13 +4251,6 @@ func (client ObjectStorageClient) uploadPart(ctx context.Context, request common
 	if err != nil {
 		return nil, err
 	}
-
-	host := client.Host
-	request.(UploadPartRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
 
 	var response UploadPartResponse
 	var httpResponse *http.Response

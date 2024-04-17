@@ -162,6 +162,10 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB2":
+		mm := CreateDb2ConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "ELASTICSEARCH":
 		mm := CreateElasticsearchConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -31,20 +31,6 @@ type UpdatePrivateEndpointDetails struct {
 	// The ID of the compartment in which to create the Private Endpoint.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// A prefix to use for the private endpoint. The customer VCN's DNS records are
-	// updated with this prefix. The prefix input from the customer will be the first sub-domain in the endpointFqdn.
-	// Example: If the prefix chosen is "abc", then the endpointFqdn will be 'abc.private.objectstorage.<region>.oraclecloud.com'
-	Prefix *string `mandatory:"false" json:"prefix"`
-
-	// A list of additional prefix that you can provide along with any other prefix. These resulting endpointFqdn's are added to the
-	// customer VCN's DNS record.
-	AdditionalPrefixes []string `mandatory:"false" json:"additionalPrefixes"`
-
-	// A list of the OCIDs of the network security groups (NSGs) to add the private endpoint's VNIC to.
-	// For more information about NSGs, see
-	// NetworkSecurityGroup.
-	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
 	// A list of targets that can be accessed by the private endpoint.
 	AccessTargets []AccessTargetDetails `mandatory:"false" json:"accessTargets"`
 

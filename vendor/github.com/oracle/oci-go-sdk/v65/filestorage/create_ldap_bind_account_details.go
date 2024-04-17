@@ -53,6 +53,9 @@ type CreateLdapBindAccountDetails struct {
 	// Not used by File Systems but required for SPLAT tag integration.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the password for the LDAP bind account in the Vault.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
@@ -88,6 +91,11 @@ func (m CreateLdapBindAccountDetails) GetDefinedTags() map[string]map[string]int
 // GetSystemTags returns SystemTags
 func (m CreateLdapBindAccountDetails) GetSystemTags() map[string]map[string]interface{} {
 	return m.SystemTags
+}
+
+// GetLocks returns Locks
+func (m CreateLdapBindAccountDetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m CreateLdapBindAccountDetails) String() string {

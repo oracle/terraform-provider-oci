@@ -24,7 +24,7 @@ type PipelineStepOverrideDetails struct {
 
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"true" json:"stepConfigurationDetails"`
 
-	ContainerOverrideDetails PipelineContainerConfigurationDetails `mandatory:"false" json:"containerOverrideDetails"`
+	StepContainerConfigurationDetails PipelineContainerConfigurationDetails `mandatory:"false" json:"stepContainerConfigurationDetails"`
 
 	StepDataflowConfigurationDetails *PipelineDataflowConfigurationDetails `mandatory:"false" json:"stepDataflowConfigurationDetails"`
 }
@@ -48,10 +48,10 @@ func (m PipelineStepOverrideDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PipelineStepOverrideDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ContainerOverrideDetails         pipelinecontainerconfigurationdetails `json:"containerOverrideDetails"`
-		StepDataflowConfigurationDetails *PipelineDataflowConfigurationDetails `json:"stepDataflowConfigurationDetails"`
-		StepName                         *string                               `json:"stepName"`
-		StepConfigurationDetails         *PipelineStepConfigurationDetails     `json:"stepConfigurationDetails"`
+		StepContainerConfigurationDetails pipelinecontainerconfigurationdetails `json:"stepContainerConfigurationDetails"`
+		StepDataflowConfigurationDetails  *PipelineDataflowConfigurationDetails `json:"stepDataflowConfigurationDetails"`
+		StepName                          *string                               `json:"stepName"`
+		StepConfigurationDetails          *PipelineStepConfigurationDetails     `json:"stepConfigurationDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -59,14 +59,14 @@ func (m *PipelineStepOverrideDetails) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	nn, e = model.ContainerOverrideDetails.UnmarshalPolymorphicJSON(model.ContainerOverrideDetails.JsonData)
+	nn, e = model.StepContainerConfigurationDetails.UnmarshalPolymorphicJSON(model.StepContainerConfigurationDetails.JsonData)
 	if e != nil {
 		return
 	}
 	if nn != nil {
-		m.ContainerOverrideDetails = nn.(PipelineContainerConfigurationDetails)
+		m.StepContainerConfigurationDetails = nn.(PipelineContainerConfigurationDetails)
 	} else {
-		m.ContainerOverrideDetails = nil
+		m.StepContainerConfigurationDetails = nil
 	}
 
 	m.StepDataflowConfigurationDetails = model.StepDataflowConfigurationDetails

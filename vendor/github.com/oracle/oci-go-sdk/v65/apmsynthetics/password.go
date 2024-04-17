@@ -79,3 +79,45 @@ func (m password) ValidateEnumValue() (bool, error) {
 	}
 	return false, nil
 }
+
+// PasswordPasswordTypeEnum Enum with underlying type: string
+type PasswordPasswordTypeEnum string
+
+// Set of constants representing the allowable values for PasswordPasswordTypeEnum
+const (
+	PasswordPasswordTypeInText        PasswordPasswordTypeEnum = "IN_TEXT"
+	PasswordPasswordTypeVaultSecretId PasswordPasswordTypeEnum = "VAULT_SECRET_ID"
+)
+
+var mappingPasswordPasswordTypeEnum = map[string]PasswordPasswordTypeEnum{
+	"IN_TEXT":         PasswordPasswordTypeInText,
+	"VAULT_SECRET_ID": PasswordPasswordTypeVaultSecretId,
+}
+
+var mappingPasswordPasswordTypeEnumLowerCase = map[string]PasswordPasswordTypeEnum{
+	"in_text":         PasswordPasswordTypeInText,
+	"vault_secret_id": PasswordPasswordTypeVaultSecretId,
+}
+
+// GetPasswordPasswordTypeEnumValues Enumerates the set of values for PasswordPasswordTypeEnum
+func GetPasswordPasswordTypeEnumValues() []PasswordPasswordTypeEnum {
+	values := make([]PasswordPasswordTypeEnum, 0)
+	for _, v := range mappingPasswordPasswordTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPasswordPasswordTypeEnumStringValues Enumerates the set of values in String for PasswordPasswordTypeEnum
+func GetPasswordPasswordTypeEnumStringValues() []string {
+	return []string{
+		"IN_TEXT",
+		"VAULT_SECRET_ID",
+	}
+}
+
+// GetMappingPasswordPasswordTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPasswordPasswordTypeEnum(val string) (PasswordPasswordTypeEnum, bool) {
+	enum, ok := mappingPasswordPasswordTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}

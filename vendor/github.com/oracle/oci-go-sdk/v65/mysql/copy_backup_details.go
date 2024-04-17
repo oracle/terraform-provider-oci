@@ -15,8 +15,12 @@ import (
 	"strings"
 )
 
-// CopyBackupDetails Details required to copy a DB system backup from source region to destination region.
+// CopyBackupDetails Details required to copy a DB system backup from its source region to a destination region.
 type CopyBackupDetails struct {
+
+	// The OCID of the compartment the DB system backup is to be copied to.
+	// **Note:** The compartment must be the same as the compartment of the DB system backup in the source region.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The OCID of DB system backup to be copied.
 	SourceBackupId *string `mandatory:"true" json:"sourceBackupId"`

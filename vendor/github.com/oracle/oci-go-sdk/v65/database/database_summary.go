@@ -121,6 +121,8 @@ type DatabaseSummary struct {
 
 	// Database Storage Type, this option is applicable when database on Exadata VM cluster on Exascale Infrastructure. High Capacity will be selected if not specified.
 	VaultStorageType DatabaseSummaryVaultStorageTypeEnum `mandatory:"false" json:"vaultStorageType,omitempty"`
+
+	DataGuardGroup *DataGuardGroup `mandatory:"false" json:"dataGuardGroup"`
 }
 
 func (m DatabaseSummary) String() string {

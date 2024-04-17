@@ -57,6 +57,10 @@ func (m *modelmetrics) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := TextGenerationModelMetrics{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CHAT_MODEL_METRICS":
+		mm := ChatModelMetrics{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ModelMetrics: %s.", m.ModelMetricsType)
 		return *m, nil
@@ -85,14 +89,17 @@ type ModelMetricsModelMetricsTypeEnum string
 // Set of constants representing the allowable values for ModelMetricsModelMetricsTypeEnum
 const (
 	ModelMetricsModelMetricsTypeTextGenerationModelMetrics ModelMetricsModelMetricsTypeEnum = "TEXT_GENERATION_MODEL_METRICS"
+	ModelMetricsModelMetricsTypeChatModelMetrics           ModelMetricsModelMetricsTypeEnum = "CHAT_MODEL_METRICS"
 )
 
 var mappingModelMetricsModelMetricsTypeEnum = map[string]ModelMetricsModelMetricsTypeEnum{
 	"TEXT_GENERATION_MODEL_METRICS": ModelMetricsModelMetricsTypeTextGenerationModelMetrics,
+	"CHAT_MODEL_METRICS":            ModelMetricsModelMetricsTypeChatModelMetrics,
 }
 
 var mappingModelMetricsModelMetricsTypeEnumLowerCase = map[string]ModelMetricsModelMetricsTypeEnum{
 	"text_generation_model_metrics": ModelMetricsModelMetricsTypeTextGenerationModelMetrics,
+	"chat_model_metrics":            ModelMetricsModelMetricsTypeChatModelMetrics,
 }
 
 // GetModelMetricsModelMetricsTypeEnumValues Enumerates the set of values for ModelMetricsModelMetricsTypeEnum
@@ -108,6 +115,7 @@ func GetModelMetricsModelMetricsTypeEnumValues() []ModelMetricsModelMetricsTypeE
 func GetModelMetricsModelMetricsTypeEnumStringValues() []string {
 	return []string{
 		"TEXT_GENERATION_MODEL_METRICS",
+		"CHAT_MODEL_METRICS",
 	}
 }
 
