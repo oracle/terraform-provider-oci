@@ -39,6 +39,9 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The base version for the Autonomous Container Database.
 	DbVersion *string `mandatory:"false" json:"dbVersion"`
 
+	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
 	// *No longer used.* This parameter is no longer used for Autonomous Database on dedicated Exadata infrasture. Specify a `peerCloudAutonomousVmClusterId` instead. Using this parameter will cause the operation to fail.
 	PeerAutonomousExadataInfrastructureId *string `mandatory:"false" json:"peerAutonomousExadataInfrastructureId"`
 

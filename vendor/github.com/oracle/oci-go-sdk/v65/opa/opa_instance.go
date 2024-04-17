@@ -256,6 +256,7 @@ const (
 	OpaInstanceLifecycleStateCreating OpaInstanceLifecycleStateEnum = "CREATING"
 	OpaInstanceLifecycleStateUpdating OpaInstanceLifecycleStateEnum = "UPDATING"
 	OpaInstanceLifecycleStateActive   OpaInstanceLifecycleStateEnum = "ACTIVE"
+	OpaInstanceLifecycleStateInactive OpaInstanceLifecycleStateEnum = "INACTIVE"
 	OpaInstanceLifecycleStateDeleting OpaInstanceLifecycleStateEnum = "DELETING"
 	OpaInstanceLifecycleStateDeleted  OpaInstanceLifecycleStateEnum = "DELETED"
 	OpaInstanceLifecycleStateFailed   OpaInstanceLifecycleStateEnum = "FAILED"
@@ -265,6 +266,7 @@ var mappingOpaInstanceLifecycleStateEnum = map[string]OpaInstanceLifecycleStateE
 	"CREATING": OpaInstanceLifecycleStateCreating,
 	"UPDATING": OpaInstanceLifecycleStateUpdating,
 	"ACTIVE":   OpaInstanceLifecycleStateActive,
+	"INACTIVE": OpaInstanceLifecycleStateInactive,
 	"DELETING": OpaInstanceLifecycleStateDeleting,
 	"DELETED":  OpaInstanceLifecycleStateDeleted,
 	"FAILED":   OpaInstanceLifecycleStateFailed,
@@ -274,6 +276,7 @@ var mappingOpaInstanceLifecycleStateEnumLowerCase = map[string]OpaInstanceLifecy
 	"creating": OpaInstanceLifecycleStateCreating,
 	"updating": OpaInstanceLifecycleStateUpdating,
 	"active":   OpaInstanceLifecycleStateActive,
+	"inactive": OpaInstanceLifecycleStateInactive,
 	"deleting": OpaInstanceLifecycleStateDeleting,
 	"deleted":  OpaInstanceLifecycleStateDeleted,
 	"failed":   OpaInstanceLifecycleStateFailed,
@@ -294,6 +297,7 @@ func GetOpaInstanceLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

@@ -47,6 +47,7 @@ The following arguments are supported:
 * `is_breakglass_enabled` - (Optional) indicates if breakGlass is enabled for the opa instance.
 * `metering_type` - (Optional) MeteringType Identifier
 * `shape_name` - (Required) Shape of the instance.
+* `state` - (Optional) (Updatable) The target state for the Opa Instance. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
 ** IMPORTANT **

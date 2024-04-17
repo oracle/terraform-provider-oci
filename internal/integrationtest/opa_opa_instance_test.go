@@ -57,6 +57,7 @@ var (
 		"idcs_at":               acctest.Representation{RepType: acctest.Required, Create: `${var.idcs_access_token}`},
 		"is_breakglass_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"metering_type":         acctest.Representation{RepType: acctest.Required, Create: `EXECUTION_PACK`},
+		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 		"lifecycle":             acctest.RepresentationGroup{RepType: acctest.Required, Group: opaIgnoreDefinedTagsDifferencesRepresentationAgain},
 	}
 
@@ -124,8 +125,8 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttr(resourceName, "is_breakglass_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metering_type", "EXECUTION_PACK"),
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -134,6 +135,35 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 							return errExport
 						}
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + idcsAccessTokenVariableStr() + OpaInstanceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_opa_opa_instance", "test_opa_instance", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(opaInstanceRepresentation, map[string]interface{}{
+						"state": acctest.Representation{RepType: acctest.Required, Create: "ACTIVE"},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				resource.TestCheckResourceAttr(resourceName, "is_breakglass_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "metering_type", "EXECUTION_PACK"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -158,7 +188,6 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_breakglass_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metering_type", "EXECUTION_PACK"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -185,8 +214,8 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttr(resourceName, "is_breakglass_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metering_type", "EXECUTION_PACK"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -236,7 +265,7 @@ func TestOpaOpaInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_breakglass_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "metering_type", "EXECUTION_PACK"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),

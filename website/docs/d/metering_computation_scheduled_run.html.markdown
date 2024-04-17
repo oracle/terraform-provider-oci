@@ -26,7 +26,7 @@ data "oci_metering_computation_scheduled_run" "test_scheduled_run" {
 
 The following arguments are supported:
 
-* `scheduled_run_id` - (Required) The scheduledRun unique OCID.
+* `scheduled_run_id` - (Required) The scheduledRun unique OCID
 
 
 ## Attributes Reference

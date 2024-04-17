@@ -24,25 +24,33 @@ variable "idcs_access_token" {
 }
 
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  # API key authentication
+  # tenancy_ocid     = var.tenancy_ocid
+  # user_ocid        = var.user_ocid
+  # fingerprint      = var.fingerprint
+  # private_key_path = var.private_key_path
+  # region           = var.region
+
+  # Security token authentication
+  auth = "SecurityToken"
+  config_file_profile = "tf"
   region           = var.region
 }
 
 resource "oci_opa_opa_instance" "test_opa_instance" {
   compartment_id = "${var.compartment_id}"
   consumption_model = "UCM"
-  display_name = "displayName"
+  display_name = "opa_instance_tf"
   idcs_at = "${var.idcs_access_token}"
   metering_type = "EXECUTION_PACK"
   shape_name = "PRODUCTION"
+  is_breakglass_enabled = false
+  state = "ACTIVE"
 }
 
 data "oci_opa_opa_instances" "test_opa_instances" {
   compartment_id = "${var.compartment_id}"
-  display_name = "displayName2"
+  display_name = "opa_instance_tf"
   filter {
     name = "id"
     values = ["${oci_opa_opa_instance.test_opa_instance.id}"]

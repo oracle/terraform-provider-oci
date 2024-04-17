@@ -65,6 +65,9 @@ type RedisCluster struct {
 	// The date and time the Redis cluster was updated. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// OCIDs of the NSGs to control access in the customer network
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

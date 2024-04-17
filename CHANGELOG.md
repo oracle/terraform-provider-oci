@@ -1,3 +1,14 @@
+## 5.38.0 (April 17, 2024)
+
+### Added
+- Support for Oracle Process Automation (OPA) : Support for Start/Stop operation in Public API
+- Support for ODSC - Model Deploy - Custom Public Egress Support
+- Support for Cost Management - Usage Statements
+- Support for Oracle Home Version Control - Phase 2 | ADB-D and ADB-C@C
+- Support for OCI Cache Service with Redis - NSG Support
+### Bug Fix
+- Update psql Documentaiton for TF Provider
+
 ## 5.37.0 (April 09, 2024)
 
 ### Added
