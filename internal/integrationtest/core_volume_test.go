@@ -33,36 +33,39 @@ var (
 	CoreVolumeResourceConfig = CoreVolumeResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Update, CoreVolumeRepresentation)
 
-	CoreCoreVolumeSingularDataSourceRepresentation = map[string]interface{}{
+	CoreVolumeSingularDataSourceRepresentation = map[string]interface{}{
 		"volume_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_volume.test_volume.id}`},
 	}
 
-	CoreCoreVolumeDataSourceRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"state":               acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeDataSourceFilterRepresentation}}
+	CoreVolumeDataSourceRepresentation = map[string]interface{}{
+		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"compartment_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVolumeDataSourceFilterRepresentation},
+	}
 	CoreVolumeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volume.id}`}},
 	}
 
 	CoreVolumeRepresentation = map[string]interface{}{
-		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"backup_policy_id":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":           acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `51`, Update: `52`},
-		"source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeSourceDetailsRepresentation},
-		"vpus_per_gb":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
-		"autotune_policies":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: volumeAutotunePoliciesRepresentation},
-		"is_auto_tune_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeAutotunePoliciesRepresentation},
+		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"backup_policy_id":           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":                acctest.Representation{RepType: acctest.Optional, Create: `51`, Update: `52`},
+		"source_details":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeSourceDetailsRepresentation},
+		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
 	}
-	volumeAutotunePoliciesRepresentation = map[string]interface{}{
+	CoreVolumeAutotunePoliciesRepresentation = map[string]interface{}{
 		"autotune_type":   acctest.Representation{RepType: acctest.Required, Create: `PERFORMANCE_BASED`, Update: `PERFORMANCE_BASED`},
 		"max_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `30`},
 	}
@@ -242,7 +245,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volumes", "test_volumes", acctest.Optional, acctest.Update, CoreCoreVolumeDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volumes", "test_volumes", acctest.Optional, acctest.Update, CoreVolumeDataSourceRepresentation) +
 				compartmentIdVariableStr + CoreVolumeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Update, CoreVolumeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -274,7 +277,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreCoreVolumeSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Required, acctest.Create, CoreVolumeSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + CoreVolumeResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_core_volume", "test_volume", acctest.Optional, acctest.Update, CoreVolumeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "volume_id"),
@@ -307,6 +310,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"volume_backup_id",
+				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,
 		},

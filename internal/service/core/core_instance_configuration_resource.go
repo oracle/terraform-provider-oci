@@ -237,6 +237,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 														},
 													},
 												},
+												"cluster_placement_group_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"compartment_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1206,6 +1212,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																		// Computed
 																	},
 																},
+															},
+															"cluster_placement_group_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
 															},
 															"compartment_id": {
 																Type:     schema.TypeString,
@@ -3119,6 +3131,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		}
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_placement_group_id")); ok {
+		tmp := clusterPlacementGroupId.(string)
+		result.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
@@ -3205,6 +3222,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 		blockVolumeReplicas = append(blockVolumeReplicas, InstanceConfigurationBlockVolumeReplicaDetailsToMap(item))
 	}
 	result["block_volume_replicas"] = blockVolumeReplicas
+
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
