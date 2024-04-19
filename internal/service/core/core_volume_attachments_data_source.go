@@ -158,6 +158,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
 
+			if v.IsVolumeCreatedDuringLaunch != nil {
+				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
+			}
+
 			result["iscsi_login_state"] = string(v.IscsiLoginState)
 
 			result["state"] = string(v.LifecycleState)
@@ -240,6 +244,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
 
+			if v.IsVolumeCreatedDuringLaunch != nil {
+				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
+			}
+
 			result["iscsi_login_state"] = string(v.IscsiLoginState)
 
 			result["state"] = string(v.LifecycleState)
@@ -288,6 +296,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			if v.IsVolumeCreatedDuringLaunch != nil {
+				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
 			}
 
 			result["iscsi_login_state"] = string(v.IscsiLoginState)
