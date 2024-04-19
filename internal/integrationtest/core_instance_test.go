@@ -309,12 +309,33 @@ var (
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},
 		"numa_nodes_per_socket": acctest.Representation{RepType: acctest.Optional, Create: `NPS0`},
 	}
+	CoreInstanceBootVolumeRepresentation = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source_details":      acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceBootVolumeSourceDetailsRepresentation},
+	}
+	CoreInstanceBootVolumeSourceDetailsRepresentation = map[string]interface{}{
+		"id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance_boot_volume_swap.boot_volume_id}`},
+		"type": acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
+	}
 	CoreInstanceSourceDetailsRepresentation = map[string]interface{}{
 		"source_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCID[var.region]}`},
 		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
 		"boot_volume_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
+	}
+	CoreInstanceSourceDetailsUpdateBootVolumeIdRepresentation = map[string]interface{}{
+		"source_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_boot_volume.test_boot_volume_swap.id}`},
+		"source_type":                     acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
+		"is_preserve_boot_volume_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+	CoreInstanceSourceDetailsUpdateImageIdRepresentation = map[string]interface{}{
+		"source_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.InstanceImageOCIDShieldedCompatible[var.region]}`},
+		"source_type":                     acctest.Representation{RepType: acctest.Required, Create: `image`},
+		"is_preserve_boot_volume_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"kms_key_id":                      acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"boot_volume_size_in_gbs":         acctest.Representation{RepType: acctest.Optional, Create: `65`},
 	}
 	CoreInstanceAgentConfigPluginsConfigRepresentation = map[string]interface{}{
 		"desired_state": acctest.Representation{RepType: acctest.Required, Create: `ENABLED`},
@@ -380,6 +401,11 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 
 	CoreInstanceResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_dedicated_vm_host", "test_dedicated_vm_host", acctest.Optional, acctest.Update, CoreDedicatedVmHostRepresentation) +
 		CoreInstanceResourceDependenciesWithoutDHV
+
+	// Create an instance and clone the instance's boot volume to have a boot volume ready for testing BVR (Boot Volume Replacement)
+	CoreInstanceBootVolumeSwapResourceDependencies = CoreInstanceResourceDependenciesWithoutDHV +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance_boot_volume_swap", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume_swap", acctest.Required, acctest.Create, CoreInstanceBootVolumeRepresentation)
 
 	CoreInstanceResourceDependenciesIPV6 = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -2689,13 +2715,15 @@ func TestAccResourceCoreInstance_UpdatePlatformConfig(t *testing.T) {
 			{
 				Config: config + compartmentIdVariableStr + CoreInstanceResourceDependenciesWithoutDHV + utils.FlexVmImageIdsVariable +
 					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
-						acctest.GetMultipleUpdatedRepresenationCopy(
-							[]string{"shape", "shape_config", "platform_config"},
-							[]interface{}{
-								acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
-								acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFungibleShapeConfig},
-								acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceIntelVmPlatformConfigRepresentationWithSMTEnabled},
-							}, CoreInstanceWithIntelVmPlatformConfigRepresentation),
+						acctest.RepresentationCopyWithRemovedProperties(
+							acctest.GetMultipleUpdatedRepresenationCopy(
+								[]string{"shape", "shape_config"},
+								[]interface{}{
+									acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+									acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceShapeConfigRepresentation_ForFungibleShapeConfig},
+								},
+								CoreInstanceWithIntelVmPlatformConfigRepresentation),
+							[]string{"platform_config"}),
 					),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
@@ -2704,6 +2732,115 @@ func TestAccResourceCoreInstance_UpdatePlatformConfig(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.0.is_symmetric_multi_threading_enabled", "true"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+		},
+	})
+}
+
+// source details update
+func TestAccResourceCoreInstance_UpdateSourceDetails(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_UpdateSourceDetails")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	config := `
+      provider oci {
+         test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
+      }
+   ` + acctest.CommonTestVariables()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+
+			// Step 0 - verify create with source_details
+			{
+				Config: acctest.ProviderTestConfig() + compartmentIdVariableStr + CoreInstanceBootVolumeSwapResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithRemovedProperties(CoreInstanceRepresentation, []string{"dedicated_vm_host_id", "launch_options", "image"})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "60"),
+
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						return err
+					},
+				),
+			},
+
+			// Step 1:  verify updates to existing source_details property does not destroy the resource - Update the imageId associated with source details
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceBootVolumeSwapResourceDependencies + utils.DefinedShieldedImageOCIDs +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithRemovedProperties(
+							acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsUpdateImageIdRepresentation},
+								CoreInstanceRepresentation),
+							[]string{"dedicated_vm_host_id", "launch_options", "image"})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "image"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "65"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.is_preserve_boot_volume_enabled", "false"),
+
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 2:  verify updates to existing source_details property does not destroy the resource - Update the bootVolumeId associated with the source details
+			{
+				Config: config + compartmentIdVariableStr + CoreInstanceBootVolumeSwapResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create,
+						acctest.RepresentationCopyWithRemovedProperties(
+							acctest.GetUpdatedRepresentationCopy("source_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsUpdateBootVolumeIdRepresentation},
+								CoreInstanceRepresentation),
+							[]string{"dedicated_vm_host_id", "launch_options", "image"})),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "source_details.0.source_id"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.source_type", "bootVolume"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.boot_volume_size_in_gbs", "65"),
+					resource.TestCheckResourceAttr(resourceName, "source_details.0.is_preserve_boot_volume_enabled", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
