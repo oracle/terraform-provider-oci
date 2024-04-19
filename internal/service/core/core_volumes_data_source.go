@@ -23,6 +23,10 @@ func CoreVolumesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -72,6 +76,11 @@ func (s *CoreVolumesDataSourceCrud) Get() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -146,6 +155,10 @@ func (s *CoreVolumesDataSourceCrud) SetData() error {
 			blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
 		}
 		volume["block_volume_replicas"] = blockVolumeReplicas
+
+		if r.ClusterPlacementGroupId != nil {
+			volume["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
 
 		if r.CompartmentId != nil {
 			volume["compartment_id"] = *r.CompartmentId

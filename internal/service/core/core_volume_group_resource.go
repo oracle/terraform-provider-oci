@@ -111,6 +111,12 @@ func CoreVolumeGroupResource() *schema.Resource {
 				ForceNew:   true,
 				Deprecated: tfresource.FieldDeprecatedButSupportedThroughAnotherResource("backup_policy_id", "oci_core_volume_backup_policy_assignment"),
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -273,6 +279,11 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 	if backupPolicyId, ok := s.D.GetOkExists("backup_policy_id"); ok {
 		tmp := backupPolicyId.(string)
 		request.BackupPolicyId = &tmp
+	}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {

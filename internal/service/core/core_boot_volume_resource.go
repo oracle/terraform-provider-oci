@@ -140,6 +140,11 @@ func CoreBootVolumeResource() *schema.Resource {
 					},
 				},
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"boot_volume_replicas_deletion": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -351,6 +356,11 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("boot_volume_replicas") {
 			request.BootVolumeReplicas = tmp
 		}
+	}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -598,6 +608,10 @@ func (s *CoreBootVolumeResourceCrud) SetData() error {
 		bootVolumeReplicas = append(bootVolumeReplicas, BootVolumeReplicaInfoToMap(item))
 	}
 	s.D.Set("boot_volume_replicas", bootVolumeReplicas)
+
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

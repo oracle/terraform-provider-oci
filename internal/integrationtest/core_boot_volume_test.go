@@ -51,24 +51,25 @@ var (
 	}
 
 	CoreBootVolumeRepresentation = map[string]interface{}{
-		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"source_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeSourceDetailsRepresentation},
-		"backup_policy_id":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"kms_key_id":           acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `51`},
-		"vpus_per_gb":          acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
-		"autotune_policies":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: bootVolumeAutotunePoliciesRepresentation},
-		"is_auto_tune_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeSourceDetailsRepresentation},
+		"backup_policy_id":           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":                acctest.Representation{RepType: acctest.Optional, Create: `50`, Update: `51`},
+		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
+		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreBootVolumeAutotunePoliciesRepresentation},
+		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 	}
 	CoreBootVolumeSourceDetailsRepresentation = map[string]interface{}{
 		"id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
 	}
-	bootVolumeAutotunePoliciesRepresentation = map[string]interface{}{
+	CoreBootVolumeAutotunePoliciesRepresentation = map[string]interface{}{
 		"autotune_type":   acctest.Representation{RepType: acctest.Required, Create: `PERFORMANCE_BASED`, Update: `PERFORMANCE_BASED`},
 		"max_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `30`},
 	}
@@ -318,6 +319,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"backup_policy_id",
+				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,
 		},

@@ -130,6 +130,10 @@ func (s *CoreBootVolumesDataSourceCrud) SetData() error {
 		}
 		bootVolume["boot_volume_replicas"] = bootVolumeReplicas
 
+		if r.ClusterPlacementGroupId != nil {
+			bootVolume["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
 		if r.CompartmentId != nil {
 			bootVolume["compartment_id"] = *r.CompartmentId
 		}
