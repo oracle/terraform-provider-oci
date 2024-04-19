@@ -45,6 +45,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 		#Optional
 		display_name = var.boot_volume_boot_volume_replicas_display_name
 	}
+	cluster_placement_group_id = oci_identity_group.test_group.id
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.boot_volume_display_name
 	freeform_tags = {"Department"= "Finance"}
@@ -68,6 +69,7 @@ The following arguments are supported:
 * `boot_volume_replicas` - (Optional) (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `cluster_placement_group_id` - (Optional) The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the boot volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -104,6 +106,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `boot_volume_replica_id` - The boot volume replica's Oracle ID (OCID).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
