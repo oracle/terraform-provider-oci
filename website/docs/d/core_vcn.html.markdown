@@ -25,7 +25,7 @@ data "oci_core_vcn" "test_vcn" {
 
 The following arguments are supported:
 
-* `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
+* `vcn_id` - (Required) Specify the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
 
 
 ## Attributes Reference
