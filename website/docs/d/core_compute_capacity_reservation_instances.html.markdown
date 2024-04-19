@@ -46,6 +46,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `availability_domain` - The availability domain the instance is running in.
+* `cluster_placement_group_id` - The OCID of the cluster placement group of the instance.
 * `compartment_id` - The OCID of the compartment that contains the instance.
 * `fault_domain` - The fault domain the instance is running in.
 * `id` - The OCID of the instance.

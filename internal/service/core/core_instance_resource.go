@@ -143,6 +143,11 @@ func CoreInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				ForceNew: true,
+				Optional: true,
+			},
 			"compute_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1133,6 +1138,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.CapacityReservationId = &tmp
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -1587,6 +1597,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.CapacityReservationId != nil {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
 
 	if s.Res.CompartmentId != nil {
