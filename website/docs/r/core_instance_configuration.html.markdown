@@ -107,6 +107,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			}
 			availability_domain = var.instance_configuration_instance_details_launch_details_availability_domain
 			capacity_reservation_id = oci_core_capacity_reservation.test_capacity_reservation.id
+			cluster_placement_group_id = oci_identity_group.test_group.id
 			compartment_id = var.compartment_id
 			create_vnic_details {
 
@@ -284,6 +285,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				}
 				availability_domain = var.instance_configuration_instance_details_options_launch_details_availability_domain
 				capacity_reservation_id = oci_core_capacity_reservation.test_capacity_reservation.id
+				cluster_placement_group_id = oci_identity_group.test_group.id
 				compartment_id = var.compartment_id
 				create_vnic_details {
 
@@ -492,7 +494,7 @@ The following arguments are supported:
 		* `volume_id` - (Applicable when instance_type=compute) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute
 	* `launch_details` - (Applicable when instance_type=compute) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
-
+	
 	  See [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails) for more information.
         * `agent_config` - (Applicable when instance_type=compute) Configuration options for the Oracle Cloud Agent software running on the instance.
             * `are_all_plugins_disabled` - (Applicable when instance_type=compute) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
@@ -1015,7 +1017,7 @@ The following attributes are exported:
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
-
+	
 	  See [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails) for more information.
         * `agent_config` - Configuration options for the Oracle Cloud Agent software running on the instance.
             * `are_all_plugins_disabled` - Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
