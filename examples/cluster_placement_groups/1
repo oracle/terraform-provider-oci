@@ -1,0 +1,62 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+locals {
+    cpg_name = "TestCpg3"
+}
+variable "tenancy_ocid" {
+
+}
+
+
+variable "region" {
+}
+
+
+provider "oci" {
+  tenancy_ocid     = var.tenancy_ocid
+  region           = var.region
+}
+
+
+data "oci_identity_availability_domain" "ad" {
+  compartment_id = var.tenancy_ocid
+  ad_number      = 1
+}
+
+#resource "oci_cluster_placement_groups_cluster_placement_group" "test_cpg" {
+#  #Required
+#  compartment_id = var.tenancy_ocid
+#  description    = "cpg for compute block resources"
+#  name           = local.cpg_name
+#  availability_domain = "${data.oci_identity_availability_domain.ad.name}"
+#  cluster_placement_group_type = "STANDARD"
+
+# depends_on = [oci_identity_tag.tag1]
+
+#  defined_tags = {
+#    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"
+#  }
+
+#  freeform_tags = {
+#    "Department" = "Finance"
+#  }
+#}
+
+
+
+#data "oci_cluster_placement_groups_cluster_placement_group" "test_cpg" {
+#  cluster_placement_group_id = oci_cluster_placement_groups_cluster_placement_group.test_cpg.id
+#}
+
+data "oci_cluster_placement_groups_cluster_placement_groups" "test_cpgs" {
+  #Required
+  compartment_id = var.tenancy_ocid
+}
+output "list_cpgs" {
+  value = data.oci_cluster_placement_groups_cluster_placement_groups.test_cpgs
+}
+
+#output "get_cpg" {
+#  value = data.oci_cluster_placement_groups_cluster_placement_group.test_cpg
+#}

@@ -83,6 +83,7 @@ resource "oci_core_instance" "test_instance" {
 		is_live_migration_preferred = var.instance_availability_config_is_live_migration_preferred
 		recovery_action = var.instance_availability_config_recovery_action
 	}
+	cluster_placement_group_id = oci_identity_group.test_group.id
 	compute_cluster_id = oci_core_compute_cluster.test_compute_cluster.id
 	create_vnic_details {
 
@@ -253,8 +254,9 @@ The following arguments are supported:
 	* `recovery_action` - (Optional) (Updatable) The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
-* `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
-* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
+* `availability_domain` - (Required) The availability domain of the instance.  Example: `Uocm:PHX-AD-1`
+* `capacity_reservation_id` - (Optional) (Updatable) The OCID of the compute capacity reservation this instance is launched under. You can opt out of all default reservations by specifying an empty string as input for this field. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default). 
+* `cluster_placement_group_id` - (Optional) The OCID of the cluster placement group of the instance.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment.
 * `compute_cluster_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the [compute cluster](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) that the instance will be created in. 
 * `create_vnic_details` - (Optional) (Updatable) Contains properties for a VNIC. You use this object when creating the primary VNIC during instance launch or when creating a secondary VNIC. For more information about VNICs, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
@@ -527,7 +529,8 @@ The following attributes are exported:
 	* `recovery_action` - The lifecycle state for an instance when it is recovered after infrastructure maintenance.
 		* `RESTORE_INSTANCE` - The instance is restored to the lifecycle state it was in before the maintenance event. If the instance was running, it is automatically rebooted. This is the default action when a value is not set.
 		* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
-* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1` 
+* `availability_domain` - The availability domain the instance is running in.  Example: `Uocm:PHX-AD-1`
+* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under. When this field contains an empty string or is null, the instance is not currently in a capacity reservation. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `boot_volume_id` - The OCID of the attached boot volume. If the `source_type` is `bootVolume`, this will be the same OCID as the `source_id`.
 * `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under. When this field contains an empty string or is null, the instance is not currently in a capacity reservation. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm#default).
 * `compartment_id` - The OCID of the compartment that contains the instance.

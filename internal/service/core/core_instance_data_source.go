@@ -88,6 +88,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
 	}
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

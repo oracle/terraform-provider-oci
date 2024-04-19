@@ -68,6 +68,9 @@ variable "instance_shape_config_memory_in_gbs" {
   default = 1
 }
 
+variable "cluster_placement_group_ocid" {
+}
+
 variable "instance_image_ocid" {
   type = map(string)
 
@@ -104,11 +107,11 @@ variable "tag_namespace_name" {
 }
 
 resource "oci_core_instance" "test_instance" {
-  count               = var.num_instances
-  availability_domain = data.oci_identity_availability_domain.ad.name
-  compartment_id      = var.compartment_ocid
-  display_name        = "TestInstance${count.index}"
-  shape               = var.instance_shape
+  count                      = var.num_instances
+  availability_domain        = data.oci_identity_availability_domain.ad.name
+  compartment_id             = var.compartment_ocid
+  display_name               = "TestInstance${count.index}"
+  shape                      = var.instance_shape
 
   shape_config {
     ocpus = var.instance_ocpus

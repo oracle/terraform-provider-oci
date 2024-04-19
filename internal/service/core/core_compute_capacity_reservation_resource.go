@@ -106,6 +106,10 @@ func CoreComputeCapacityReservationResource() *schema.Resource {
 								},
 							},
 						},
+						"cluster_placement_group_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 						"fault_domain": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -542,6 +546,13 @@ func (s *CoreComputeCapacityReservationResourceCrud) mapToInstanceReservationCon
 		}
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_placement_group_id")); ok {
+		tmp := clusterPlacementGroupId.(string)
+		if tmp != "" {
+			result.ClusterPlacementGroupId = &tmp
+		}
+	}
+
 	if faultDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fault_domain")); ok {
 		tmp := faultDomain.(string)
 		if tmp != "" {
@@ -582,6 +593,10 @@ func InstanceReservationConfigToMap(obj oci_core.InstanceReservationConfig) map[
 
 	if obj.ClusterConfig != nil {
 		result["cluster_config"] = []interface{}{ClusterConfigDetailsToMap(obj.ClusterConfig)}
+	}
+
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
 	}
 
 	if obj.FaultDomain != nil {

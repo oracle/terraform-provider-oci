@@ -44,6 +44,10 @@ func CoreComputeCapacityReservationInstancesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"cluster_placement_group_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -160,6 +164,10 @@ func (s *CoreComputeCapacityReservationInstancesDataSourceCrud) SetData() error 
 
 		if r.AvailabilityDomain != nil {
 			computeCapacityReservationInstance["availability_domain"] = *r.AvailabilityDomain
+		}
+
+		if r.ClusterPlacementGroupId != nil {
+			computeCapacityReservationInstance["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}
 
 		if r.CompartmentId != nil {
