@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,14 +16,13 @@ import (
 	"strings"
 )
 
-// CreateLifecycleStageDetails The information about a lifecycle stage.
+// CreateLifecycleStageDetails Provides the information used to create a lifecycle stage.
 type CreateLifecycleStageDetails struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the lifecycle stage. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// User specified rank for the lifecycle stage.
-	// Rank determines the hierarchy of the lifecycle stages for a given lifecycle environment.
+	// User-specified rank for the lifecycle stage. Rank determines the hierarchy of the lifecycle stages within the lifecycle environment.
 	Rank *int `mandatory:"true" json:"rank"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

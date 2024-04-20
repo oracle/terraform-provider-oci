@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// EntitlementSummary A summary of an entitlement.
+// EntitlementSummary Provides summary information for an entitlement.
 type EntitlementSummary struct {
 
-	// The OCID of the tenancy containing the entitlement.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy containing the entitlement.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The Customer Support Identifier (CSI). CSI is a unique key given to a customer to unlock software sources. It uniquely identifies the entitlement.
+	// The Customer Support Identifier (CSI) which unlocks the software sources. The CSI is is a unique key given to a customer and it uniquely identifies the entitlement.
 	Csi *string `mandatory:"true" json:"csi"`
 
 	// The vendor for the entitlement.

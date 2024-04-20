@@ -12,6 +12,10 @@ import (
 )
 
 // DeactivateClusterPlacementGroupRequest wrapper for the DeactivateClusterPlacementGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/DeactivateClusterPlacementGroup.go.html to see an example of how to use DeactivateClusterPlacementGroupRequest.
 type DeactivateClusterPlacementGroupRequest struct {
 
 	// A unique cluster placement group identifier.

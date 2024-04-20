@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshSoftwareOnManagedInstance.go.html to see an example of how to use RefreshSoftwareOnManagedInstanceRequest.
 type RefreshSoftwareOnManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

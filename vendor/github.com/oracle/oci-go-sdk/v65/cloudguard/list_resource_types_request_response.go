@@ -18,22 +18,22 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourceTypes.go.html to see an example of how to use ListResourceTypesRequest.
 type ListResourceTypesRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Detector type
+	// Detector type.
 	DetectorId ListResourceTypesDetectorIdEnum `mandatory:"false" contributesTo:"query" name:"detectorId" omitEmpty:"true"`
 
-	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+	// The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListResourceTypesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListResourceTypesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for displayName is ascending. If no value is specified displayName is default.
@@ -129,24 +129,27 @@ type ListResourceTypesDetectorIdEnum string
 
 // Set of constants representing the allowable values for ListResourceTypesDetectorIdEnum
 const (
-	ListResourceTypesDetectorIdActivityDetector      ListResourceTypesDetectorIdEnum = "IAAS_ACTIVITY_DETECTOR"
-	ListResourceTypesDetectorIdConfigurationDetector ListResourceTypesDetectorIdEnum = "IAAS_CONFIGURATION_DETECTOR"
-	ListResourceTypesDetectorIdThreatDetector        ListResourceTypesDetectorIdEnum = "IAAS_THREAT_DETECTOR"
-	ListResourceTypesDetectorIdLogInsightDetector    ListResourceTypesDetectorIdEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListResourceTypesDetectorIdActivityDetector         ListResourceTypesDetectorIdEnum = "IAAS_ACTIVITY_DETECTOR"
+	ListResourceTypesDetectorIdConfigurationDetector    ListResourceTypesDetectorIdEnum = "IAAS_CONFIGURATION_DETECTOR"
+	ListResourceTypesDetectorIdThreatDetector           ListResourceTypesDetectorIdEnum = "IAAS_THREAT_DETECTOR"
+	ListResourceTypesDetectorIdLogInsightDetector       ListResourceTypesDetectorIdEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListResourceTypesDetectorIdInstanceSecurityDetector ListResourceTypesDetectorIdEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
 )
 
 var mappingListResourceTypesDetectorIdEnum = map[string]ListResourceTypesDetectorIdEnum{
-	"IAAS_ACTIVITY_DETECTOR":      ListResourceTypesDetectorIdActivityDetector,
-	"IAAS_CONFIGURATION_DETECTOR": ListResourceTypesDetectorIdConfigurationDetector,
-	"IAAS_THREAT_DETECTOR":        ListResourceTypesDetectorIdThreatDetector,
-	"IAAS_LOG_INSIGHT_DETECTOR":   ListResourceTypesDetectorIdLogInsightDetector,
+	"IAAS_ACTIVITY_DETECTOR":          ListResourceTypesDetectorIdActivityDetector,
+	"IAAS_CONFIGURATION_DETECTOR":     ListResourceTypesDetectorIdConfigurationDetector,
+	"IAAS_THREAT_DETECTOR":            ListResourceTypesDetectorIdThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":       ListResourceTypesDetectorIdLogInsightDetector,
+	"IAAS_INSTANCE_SECURITY_DETECTOR": ListResourceTypesDetectorIdInstanceSecurityDetector,
 }
 
 var mappingListResourceTypesDetectorIdEnumLowerCase = map[string]ListResourceTypesDetectorIdEnum{
-	"iaas_activity_detector":      ListResourceTypesDetectorIdActivityDetector,
-	"iaas_configuration_detector": ListResourceTypesDetectorIdConfigurationDetector,
-	"iaas_threat_detector":        ListResourceTypesDetectorIdThreatDetector,
-	"iaas_log_insight_detector":   ListResourceTypesDetectorIdLogInsightDetector,
+	"iaas_activity_detector":          ListResourceTypesDetectorIdActivityDetector,
+	"iaas_configuration_detector":     ListResourceTypesDetectorIdConfigurationDetector,
+	"iaas_threat_detector":            ListResourceTypesDetectorIdThreatDetector,
+	"iaas_log_insight_detector":       ListResourceTypesDetectorIdLogInsightDetector,
+	"iaas_instance_security_detector": ListResourceTypesDetectorIdInstanceSecurityDetector,
 }
 
 // GetListResourceTypesDetectorIdEnumValues Enumerates the set of values for ListResourceTypesDetectorIdEnum
@@ -165,6 +168,7 @@ func GetListResourceTypesDetectorIdEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
+		"IAAS_INSTANCE_SECURITY_DETECTOR",
 	}
 }
 

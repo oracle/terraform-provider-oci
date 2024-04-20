@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateScheduledJob.go.html to see an example of how to use CreateScheduledJobRequest.
 type CreateScheduledJobRequest struct {
 
-	// Details for the new scheduled job.
+	// Provides the information used to create the scheduled job.
 	CreateScheduledJobDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

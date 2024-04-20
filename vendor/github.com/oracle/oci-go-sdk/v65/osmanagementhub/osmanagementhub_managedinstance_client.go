@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,6 +92,70 @@ func (client *ManagedInstanceClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AttachProfileToManagedInstance Adds profile to a managed instance. After the profile has been added,
+// the instance can be registered as a managed instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachProfileToManagedInstance.go.html to see an example of how to use AttachProfileToManagedInstance API.
+// A default retry strategy applies to this operation AttachProfileToManagedInstance()
+func (client ManagedInstanceClient) AttachProfileToManagedInstance(ctx context.Context, request AttachProfileToManagedInstanceRequest) (response AttachProfileToManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.attachProfileToManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AttachProfileToManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AttachProfileToManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AttachProfileToManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AttachProfileToManagedInstanceResponse")
+	}
+	return
+}
+
+// attachProfileToManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) attachProfileToManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/attachProfile", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AttachProfileToManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/AttachProfileToManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "AttachProfileToManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachSoftwareSourcesToManagedInstance Adds software sources to a managed instance. After the software source has been added,
 // then packages from that software source can be installed on the managed instance.
 //
@@ -148,6 +213,129 @@ func (client ManagedInstanceClient) attachSoftwareSourcesToManagedInstance(ctx c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/AttachSoftwareSourcesToManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "AttachSoftwareSourcesToManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteManagedInstance Unregisters the specified managed instance from the service. Once unregistered, the service will no longer manage the instance.
+// For Linux instances, yum or DNF repository files will be restored to their state prior to registration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstance.go.html to see an example of how to use DeleteManagedInstance API.
+// A default retry strategy applies to this operation DeleteManagedInstance()
+func (client ManagedInstanceClient) DeleteManagedInstance(ctx context.Context, request DeleteManagedInstanceRequest) (response DeleteManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteManagedInstanceResponse")
+	}
+	return
+}
+
+// deleteManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) deleteManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/managedInstances/{managedInstanceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/DeleteManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "DeleteManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DetachProfileFromManagedInstance Detaches profile from a managed instance. After the profile has been removed,
+// the instance cannot be registered as a managed instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachProfileFromManagedInstance.go.html to see an example of how to use DetachProfileFromManagedInstance API.
+// A default retry strategy applies to this operation DetachProfileFromManagedInstance()
+func (client ManagedInstanceClient) DetachProfileFromManagedInstance(ctx context.Context, request DetachProfileFromManagedInstanceRequest) (response DetachProfileFromManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.detachProfileFromManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DetachProfileFromManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DetachProfileFromManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DetachProfileFromManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DetachProfileFromManagedInstanceResponse")
+	}
+	return
+}
+
+// detachProfileFromManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) detachProfileFromManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/detachProfile", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DetachProfileFromManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/DetachProfileFromManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "DetachProfileFromManagedInstance", apiReferenceLink)
 		return response, err
 	}
 
@@ -410,6 +598,127 @@ func (client ManagedInstanceClient) getManagedInstance(ctx context.Context, requ
 	return response, err
 }
 
+// GetWindowsUpdate Returns a Windows Update object.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetWindowsUpdate.go.html to see an example of how to use GetWindowsUpdate API.
+// A default retry strategy applies to this operation GetWindowsUpdate()
+func (client ManagedInstanceClient) GetWindowsUpdate(ctx context.Context, request GetWindowsUpdateRequest) (response GetWindowsUpdateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWindowsUpdate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWindowsUpdateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWindowsUpdateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWindowsUpdateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWindowsUpdateResponse")
+	}
+	return
+}
+
+// getWindowsUpdate implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) getWindowsUpdate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/windowsUpdates/{windowsUpdateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWindowsUpdateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WindowsUpdate/GetWindowsUpdate"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "GetWindowsUpdate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InstallAllWindowsUpdatesOnManagedInstancesInCompartment Installs all of the available Windows updates for managed instances in a compartment. This applies only to standalone Windows instances. This will not update instances that belong to a group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallAllWindowsUpdatesOnManagedInstancesInCompartment.go.html to see an example of how to use InstallAllWindowsUpdatesOnManagedInstancesInCompartment API.
+// A default retry strategy applies to this operation InstallAllWindowsUpdatesOnManagedInstancesInCompartment()
+func (client ManagedInstanceClient) InstallAllWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request InstallAllWindowsUpdatesOnManagedInstancesInCompartmentRequest) (response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installAllWindowsUpdatesOnManagedInstancesInCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse")
+	}
+	return
+}
+
+// installAllWindowsUpdatesOnManagedInstancesInCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installAllWindowsUpdatesOnManagedInstancesInCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/actions/installWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallAllWindowsUpdatesOnManagedInstancesInCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallAllWindowsUpdatesOnManagedInstancesInCompartment"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallAllWindowsUpdatesOnManagedInstancesInCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // InstallModuleStreamProfileOnManagedInstance Installs a profile for an module stream.  The stream must be
 // enabled before a profile can be installed.  If a module stream
 // defines multiple profiles, each one can be installed independently.
@@ -538,7 +847,70 @@ func (client ManagedInstanceClient) installPackagesOnManagedInstance(ctx context
 	return response, err
 }
 
-// ListManagedInstanceAvailablePackages Returns a list of available packages for a managed instance.
+// InstallWindowsUpdatesOnManagedInstance Installs Windows updates on the specified managed instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstance.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstance API.
+// A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstance()
+func (client ManagedInstanceClient) InstallWindowsUpdatesOnManagedInstance(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceRequest) (response InstallWindowsUpdatesOnManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installWindowsUpdatesOnManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallWindowsUpdatesOnManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallWindowsUpdatesOnManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallWindowsUpdatesOnManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallWindowsUpdatesOnManagedInstanceResponse")
+	}
+	return
+}
+
+// installWindowsUpdatesOnManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) installWindowsUpdatesOnManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/installWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallWindowsUpdatesOnManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/InstallWindowsUpdatesOnManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "InstallWindowsUpdatesOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceAvailablePackages Returns a list of packages that are available for installation on a managed instance.
 //
 // # See also
 //
@@ -596,7 +968,7 @@ func (client ManagedInstanceClient) listManagedInstanceAvailablePackages(ctx con
 	return response, err
 }
 
-// ListManagedInstanceAvailableSoftwareSources Returns a list of available software sources for a managed instance.
+// ListManagedInstanceAvailableSoftwareSources Returns a list of software sources that can be attached to the specified managed instance. Any software sources already attached to the instance are not included in the list.
 //
 // # See also
 //
@@ -647,6 +1019,64 @@ func (client ManagedInstanceClient) listManagedInstanceAvailableSoftwareSources(
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceAvailableSoftwareSources"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceAvailableSoftwareSources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceAvailableWindowsUpdates Returns a list of Windows updates that can be installed on the specified managed instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceAvailableWindowsUpdates.go.html to see an example of how to use ListManagedInstanceAvailableWindowsUpdates API.
+// A default retry strategy applies to this operation ListManagedInstanceAvailableWindowsUpdates()
+func (client ManagedInstanceClient) ListManagedInstanceAvailableWindowsUpdates(ctx context.Context, request ListManagedInstanceAvailableWindowsUpdatesRequest) (response ListManagedInstanceAvailableWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceAvailableWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceAvailableWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceAvailableWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceAvailableWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceAvailableWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listManagedInstanceAvailableWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceAvailableWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/availableWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceAvailableWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceAvailableWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceAvailableWindowsUpdates", apiReferenceLink)
 		return response, err
 	}
 
@@ -770,16 +1200,65 @@ func (client ManagedInstanceClient) listManagedInstanceInstalledPackages(ctx con
 	return response, err
 }
 
-// ListManagedInstanceModules Retrieve a list of modules, along with streams of the modules,
-// from a managed instance.  Filters may be applied to select
-// a subset of modules based on the filter criteria.
-// The 'name' attribute filters against the name of a module.
-// It accepts strings of the format "<string>".
-// The 'nameContains' attribute filters against the name of a module
-// based on partial match. It accepts strings of the format "<string>".
-// If this attribute is defined, only matching modules are included
-// in the result set. If it is not defined, the request  is not subject
-// to this filter.
+// ListManagedInstanceInstalledWindowsUpdates Returns a list of Windows updates that have been installed on the specified managed instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceInstalledWindowsUpdates.go.html to see an example of how to use ListManagedInstanceInstalledWindowsUpdates API.
+// A default retry strategy applies to this operation ListManagedInstanceInstalledWindowsUpdates()
+func (client ManagedInstanceClient) ListManagedInstanceInstalledWindowsUpdates(ctx context.Context, request ListManagedInstanceInstalledWindowsUpdatesRequest) (response ListManagedInstanceInstalledWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listManagedInstanceInstalledWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListManagedInstanceInstalledWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListManagedInstanceInstalledWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListManagedInstanceInstalledWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListManagedInstanceInstalledWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listManagedInstanceInstalledWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listManagedInstanceInstalledWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedInstances/{managedInstanceId}/installedWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListManagedInstanceInstalledWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ListManagedInstanceInstalledWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListManagedInstanceInstalledWindowsUpdates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceModules Retrieves a list of modules, along with streams of the modules, from a managed instance. Filters may be applied to select a subset of modules based on the filter criteria.
 //
 // # See also
 //
@@ -953,58 +1432,68 @@ func (client ManagedInstanceClient) listManagedInstances(ctx context.Context, re
 	return response, err
 }
 
-// ManageModuleStreamsOnManagedInstance Perform an operation involving modules, streams, and profiles on a
-// managed instance.  Each operation may enable or disable an arbitrary
-// amount of module streams, and install or remove an arbitrary number
-// of module stream profiles.  When the operation is complete, the
-// state of the modules, streams, and profiles on the managed instance
-// will match the state indicated in the operation.
-// Each module stream specified in the list of module streams to enable
-// will be in the "ENABLED" state upon completion of the operation.
-// If there was already a stream of that module enabled, any work
-// required to switch from the current stream to the new stream is
-// performed implicitly.
-// Each module stream specified in the list of module streams to disable
-// will be in the "DISABLED" state upon completion of the operation.
-// Any profiles that are installed for the module stream will be removed
-// as part of the operation.
-// Each module stream profile specified in the list of profiles to install
-// will be in the "INSTALLED" state upon completion of the operation,
-// indicating that any packages that are part of the profile are installed
-// on the managed instance.  If the module stream containing the profile
-// is not enabled, it will be enabled as part of the operation.  There
-// is an exception when attempting to install a stream of a profile when
-// another stream of the same module is enabled.  It is an error to attempt
-// to install a profile of another module stream, unless enabling the
-// new module stream is explicitly included in this operation.
-// Each module stream profile specified in the list of profiles to remove
-// will be in the "AVAILABLE" state upon completion of the operation.
-// The status of packages within the profile after the operation is
-// complete is defined by the package manager on the managed instance.
-// Operations that contain one or more elements that are not allowed
-// are rejected.
-// The result of this request is a work request object.  The returned
-// work request is the parent of a structure of other WorkRequests.  Taken
-// as a whole, this structure indicates the entire set of work to be
-// performed to complete the operation.
-// This interface can also be used to perform a dry run of the operation
-// rather than committing it to a managed instance.  If a dry run is
-// requested, the OS Management Hub service will evaluate the operation
-// against the current module, stream, and profile state on the managed
-// instance.  It will calculate the impact of the operation on all
-// modules, streams, and profiles on the managed instance, including those
-// that are implicitly impacted by the operation.
-// The WorkRequest resulting from a dry run behaves differently than
-// a WorkRequest resulting from a committable operation.  Dry run
-// WorkRequests are always singletons and never have children.  The
-// impact of the operation is returned using the log and error
-// facilities of work requests.  The impact of operations that are
-// allowed by the OS Management Hub service are communicated as one or
-// more work request log entries.  Operations that are not allowed
-// by the OS Management Hub service are communicated as one or more
-// work request error entries.  Each entry, for either logs or errors,
-// contains a structured message containing the results of one
-// or more operations.
+// ListWindowsUpdates Lists Windows updates that have been reported to the service.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListWindowsUpdates.go.html to see an example of how to use ListWindowsUpdates API.
+// A default retry strategy applies to this operation ListWindowsUpdates()
+func (client ManagedInstanceClient) ListWindowsUpdates(ctx context.Context, request ListWindowsUpdatesRequest) (response ListWindowsUpdatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWindowsUpdates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWindowsUpdatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWindowsUpdatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWindowsUpdatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWindowsUpdatesResponse")
+	}
+	return
+}
+
+// listWindowsUpdates implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) listWindowsUpdates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/windowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWindowsUpdatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/WindowsUpdateCollection/ListWindowsUpdates"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "ListWindowsUpdates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ManageModuleStreamsOnManagedInstance Enables or disables module streams and installs or removes module stream profiles. Once complete, the state of the modules, streams, and
+// profiles will match the state indicated in the operation. See ManageModuleStreamsOnManagedInstanceDetails
+// for more information. You can preform this operation as a dry run. For a dry run, the service evaluates the operation against the
+// current module, stream, and profile state on the managed instance, but does not commit the changes. Instead, the service returns work request log or error entries indicating the impact of the operation.
 //
 // # See also
 //
@@ -1067,7 +1556,7 @@ func (client ManagedInstanceClient) manageModuleStreamsOnManagedInstance(ctx con
 	return response, err
 }
 
-// RefreshSoftwareOnManagedInstance Refresh all installed and updatable software information on a managed instance.
+// RefreshSoftwareOnManagedInstance Refreshes the package or Windows update information on a managed instance with the latest data from the software source. This does not update packages on the instance. It provides the service with the latest package data.
 //
 // # See also
 //
@@ -1324,7 +1813,7 @@ func (client ManagedInstanceClient) switchModuleStreamOnManagedInstance(ctx cont
 	return response, err
 }
 
-// UpdateAllPackagesOnManagedInstancesInCompartment Install all of the available package updates for all of the managed instances in a compartment.
+// UpdateAllPackagesOnManagedInstancesInCompartment Install all of the available package updates for all of the managed instances in a compartment. This applies only to standalone non-Windows instances. This will not update instances that belong to a group or lifecycle environment.
 //
 // # See also
 //
@@ -1387,7 +1876,7 @@ func (client ManagedInstanceClient) updateAllPackagesOnManagedInstancesInCompart
 	return response, err
 }
 
-// UpdateManagedInstance Updates the managed instance.
+// UpdateManagedInstance Updates the specified managed instance information, such as description, ONS topic, and associated management station.
 //
 // # See also
 //

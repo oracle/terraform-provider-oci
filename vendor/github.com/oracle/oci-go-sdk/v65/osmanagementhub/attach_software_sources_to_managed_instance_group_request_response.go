@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachSoftwareSourcesToManagedInstanceGroup.go.html to see an example of how to use AttachSoftwareSourcesToManagedInstanceGroupRequest.
 type AttachSoftwareSourcesToManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// Details for software sources to attach to the managed instance group.
+	// The software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to attach to the managed instance group.
 	AttachSoftwareSourcesToManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
@@ -88,6 +88,9 @@ type AttachSoftwareSourcesToManagedInstanceGroupResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
+
+	// Unique Oracle-assigned identifier for the asynchronous work. You can use this to query its status.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.

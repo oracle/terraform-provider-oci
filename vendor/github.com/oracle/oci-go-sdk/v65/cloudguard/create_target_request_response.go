@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateTarget.go.html to see an example of how to use CreateTargetRequest.
 type CreateTargetRequest struct {
 
-	// Details for the new Target.
+	// Contains generic target information which is required for all target types
 	CreateTargetDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

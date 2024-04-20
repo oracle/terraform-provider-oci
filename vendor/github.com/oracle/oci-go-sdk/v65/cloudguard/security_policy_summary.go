@@ -16,13 +16,14 @@ import (
 	"strings"
 )
 
-// SecurityPolicySummary Summary information for a security zone policy. A security policy defines a security requirement for resources in a security zone. If a security zone enables a policy (using a recipe), then any action that attempts to violate that policy is denied.
+// SecurityPolicySummary Summary information for a Security Zones policy. A security policy
+// defines a security requirement for resources in a security zone.
 type SecurityPolicySummary struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can’t be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// The id of the security policy's compartment
+	// The OCID of the security policy's compartment
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The owner of the security policy
@@ -31,25 +32,25 @@ type SecurityPolicySummary struct {
 	// A shorter version of the security policy's name
 	FriendlyName *string `mandatory:"false" json:"friendlyName"`
 
-	// The security policy's full name
+	// The security policy's display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The security policy's description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The category of security policy
+	// The category of the security policy
 	Category *string `mandatory:"false" json:"category"`
 
 	// The list of services that the security policy protects
 	Services []string `mandatory:"false" json:"services"`
 
-	// The time the security policy was created. An RFC3339 formatted datetime string.
+	// The date and time the security policy was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the security policy was last updated. An RFC3339 formatted datetime string.
+	// The date and time the security policy was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the security policy
+	// The current lifecycle state of the security policy
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a policy in the `Failed` state.

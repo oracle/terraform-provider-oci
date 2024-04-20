@@ -19,33 +19,33 @@ import (
 // DetectorRule Information for a detector rule (DetectorRule object).
 type DetectorRule struct {
 
-	// The unique identifier of the detector rule.
+	// The unique identifier of the detector rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// detector for the rule
+	// Detector recipe for the rule
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// service type of the configuration to which the rule is applied
+	// Service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"true" json:"serviceType"`
 
-	// resource type of the configuration to which the rule is applied
+	// Resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Display name for DetectorRule.
+	// Display name for the detector rule
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Description for DetectorRule.
+	// Description for the detector rule
 	Description *string `mandatory:"false" json:"description"`
 
-	// recommendation for DetectorRule
+	// Recommendation for the detector rule
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
 	DetectorDetails *DetectorDetails `mandatory:"false" json:"detectorDetails"`
 
-	// List of cloudguard managed list types related to this rule
+	// List of managed list types related to this rule
 	ManagedListTypes []DetectorRuleManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
-	// List of CandidateResponderRule related to this rule
+	// List of responder rules that could be used to remediate a problem triggered by this detector rule
 	CandidateResponderRules []CandidateResponderRule `mandatory:"false" json:"candidateResponderRules"`
 
 	// The date and time the detector rule was created. Format defined by RFC3339.
@@ -54,11 +54,14 @@ type DetectorRule struct {
 	// The date and time the detector rule was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the DetectorRule.
+	// The current state of the detector rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorRule) String() string {

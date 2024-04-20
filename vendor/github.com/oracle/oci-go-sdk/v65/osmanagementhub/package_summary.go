@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,7 +17,7 @@ import (
 	"strings"
 )
 
-// PackageSummary A software package summary.
+// PackageSummary Provides summary information for a software package.
 type PackageSummary interface {
 
 	// Package name.
@@ -34,7 +35,7 @@ type PackageSummary interface {
 	// The architecture for which this package was built.
 	GetArchitecture() ArchTypeEnum
 
-	// list of software sources that provide the software package.
+	// List of software sources that provide the software package.
 	GetSoftwareSources() []SoftwareSourceDetails
 }
 

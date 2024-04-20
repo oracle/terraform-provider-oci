@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,19 +16,19 @@ import (
 	"strings"
 )
 
-// UpdateMirrorConfigurationDetails Information for updating a mirror configuration
+// UpdateMirrorConfigurationDetails Provides the information used to update the mirror configuration for a management station.
 type UpdateMirrorConfigurationDetails struct {
 
-	// Directory for the mirroring
+	// Path to the data volume on the management station where software source mirrors are stored.
 	Directory *string `mandatory:"true" json:"directory"`
 
-	// Default port for the mirror
+	// Default mirror listening port for http.
 	Port *string `mandatory:"true" json:"port"`
 
-	// Default sslport for the mirror
+	// Default mirror listening port for https.
 	Sslport *string `mandatory:"true" json:"sslport"`
 
-	// Local path for the sslcert
+	// Path to the SSL cerfificate.
 	Sslcert *string `mandatory:"false" json:"sslcert"`
 }
 

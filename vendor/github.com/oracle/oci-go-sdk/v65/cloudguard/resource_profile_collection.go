@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// ResourceProfileCollection Collection of resource profile summary.
+// ResourceProfileCollection Collection of resource profile summaries.
 type ResourceProfileCollection struct {
 
-	// List of resource profiles
+	// List of ResourceProfileSummary resources
 	Items []ResourceProfileSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResourceProfileCollection) String() string {

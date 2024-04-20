@@ -16,55 +16,58 @@ import (
 	"strings"
 )
 
-// DetectorRecipeDetectorRule A DetectorRecipeDetectorRule object defines a single recipe rule in the collection for a DetectorRecipe object.
+// DetectorRecipeDetectorRule A DetectorRecipeDetectorRule resource defines a single recipe rule in the collection for a DetectorRecipe resource.
 type DetectorRecipeDetectorRule struct {
 
 	// The unique identifier of the detector rule.
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
 
-	// detector for the rule
+	// Detector recipe for the rule
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// service type of the configuration to which the rule is applied
+	// Service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"true" json:"serviceType"`
 
-	// resource type of the configuration to which the rule is applied
+	// Resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Display name for DetectorRecipeDetectorRule.
+	// Display name for DetectorRecipeDetectorRule resource
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Description for DetectorRecipeDetectorRule.
+	// Description for DetectorRecipeDetectorRule resource
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for DetectorRecipeDetectorRule
+	// Recommendation for DetectorRecipeDetectorRule resource
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
 	Details *DetectorDetails `mandatory:"false" json:"details"`
 
-	// List of cloudguard managed list types related to this rule
+	// List of managed list types related to this rule
 	ManagedListTypes []DetectorRecipeDetectorRuleManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
-	// List of CandidateResponderRule related to this rule
+	// List of responder rules that can be used to remediate this detector rule
 	CandidateResponderRules []CandidateResponderRule `mandatory:"false" json:"candidateResponderRules"`
 
 	// The date and time the detector recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the detector recipe rule was updated. Format defined by RFC3339.
+	// The date and time the detector recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the DetectorRule.
+	// The current lifecycle state of the detector rule.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The id of the attached DataSource.
+	// The unique identifier of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for the detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DetectorRecipeDetectorRule) String() string {

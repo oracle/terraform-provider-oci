@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,45 +16,43 @@ import (
 	"strings"
 )
 
-// ManagedInstance Detail information for an OCI Compute instance that is being managed.
+// ManagedInstance An object that defines the instance being managed by the service.
 type ManagedInstance struct {
 
-	// The OCID for the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Managed instance identifier.
+	// User-friendly name for the managed instance.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID for the tenancy this managed instance resides in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy that the managed instance resides in.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// The OCID for the compartment this managed instance resides in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// status of the managed instance.
+	// Current status of the managed instance.
 	Status ManagedInstanceStatusEnum `mandatory:"true" json:"status"`
 
-	// Information specified by the user about the managed instance.
+	// User-specified description for the managed instance.
 	Description *string `mandatory:"false" json:"description"`
 
-	// location of the managed instance.
+	// The location of the managed instance.
 	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
 
-	// Time at which the instance last checked in, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// Time that the instance last checked in with the service (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeLastCheckin *common.SDKTime `mandatory:"false" json:"timeLastCheckin"`
 
-	// Time at which the instance last booted, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// Time that the instance last booted (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeLastBoot *common.SDKTime `mandatory:"false" json:"timeLastBoot"`
 
-	// Operating System Name.
+	// Operating system name.
 	OsName *string `mandatory:"false" json:"osName"`
 
-	// Operating System Version.
+	// Operating system version.
 	OsVersion *string `mandatory:"false" json:"osVersion"`
 
-	// Operating System Kernel Version.
+	// Operating system kernel version.
 	OsKernelVersion *string `mandatory:"false" json:"osKernelVersion"`
 
 	// The ksplice effective kernel version.
@@ -62,19 +61,19 @@ type ManagedInstance struct {
 	// The CPU architecture type of the managed instance.
 	Architecture ArchTypeEnum `mandatory:"false" json:"architecture,omitempty"`
 
-	// The Operating System type of the managed instance.
+	// The operating system type of the managed instance.
 	OsFamily OsFamilyEnum `mandatory:"false" json:"osFamily,omitempty"`
 
-	// The content profile of this instance.
+	// The profile that was used to register this instance with the service.
 	Profile *string `mandatory:"false" json:"profile"`
 
-	// Whether this managed instance is acting as an on-premise management station.
+	// Indicates whether this managed instance is acting as an on-premises management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
 
-	// The OCID of a management station to be used as the preferred primary.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station.
 	PrimaryManagementStationId *string `mandatory:"false" json:"primaryManagementStationId"`
 
-	// The OCID of a management station to be used as the preferred secondary.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary managment station.
 	SecondaryManagementStationId *string `mandatory:"false" json:"secondaryManagementStationId"`
 
 	// The list of software sources currently attached to the managed instance.
@@ -89,22 +88,25 @@ type ManagedInstance struct {
 	// Indicates whether a reboot is required to complete installation of updates.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 
-	// Number of packages installed on the system.
+	// Number of packages installed on the instance.
 	InstalledPackages *int `mandatory:"false" json:"installedPackages"`
 
-	// Number of updates available to be installed.
+	// Number of Windows updates installed on the instance.
+	InstalledWindowsUpdates *int `mandatory:"false" json:"installedWindowsUpdates"`
+
+	// Number of updates available for installation.
 	UpdatesAvailable *int `mandatory:"false" json:"updatesAvailable"`
 
-	// Number of security type updates available to be installed.
+	// Number of security type updates available for installation.
 	SecurityUpdatesAvailable *int `mandatory:"false" json:"securityUpdatesAvailable"`
 
-	// Number of bug fix type updates available to be installed.
+	// Number of bug fix type updates available for installation.
 	BugUpdatesAvailable *int `mandatory:"false" json:"bugUpdatesAvailable"`
 
-	// Number of enhancement type updates available to be installed.
+	// Number of enhancement type updates available for installation.
 	EnhancementUpdatesAvailable *int `mandatory:"false" json:"enhancementUpdatesAvailable"`
 
-	// Number of non-classified updates available to be installed.
+	// Number of non-classified (other) updates available for installation.
 	OtherUpdatesAvailable *int `mandatory:"false" json:"otherUpdatesAvailable"`
 
 	// Number of scheduled jobs associated with this instance.
@@ -113,13 +115,19 @@ type ManagedInstance struct {
 	// Number of work requests associated with this instance.
 	WorkRequestCount *int `mandatory:"false" json:"workRequestCount"`
 
-	// The date and time the work request was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the instance was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the work request was updated, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the instance was last updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether the Autonomous Linux service manages the instance.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m ManagedInstance) String() string {

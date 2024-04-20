@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateDetectorRecipeDetectorRuleDetails Create detector rule in a detector recipe
+// CreateDetectorRecipeDetectorRuleDetails Parameters to use to create details in a detector rule in a detector recipe.
 type CreateDetectorRecipeDetectorRuleDetails struct {
 	Details *CreateDetectorRuleDetails `mandatory:"false" json:"details"`
 }

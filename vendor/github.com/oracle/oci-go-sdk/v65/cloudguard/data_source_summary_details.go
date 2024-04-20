@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DataSourceSummaryDetails Summary specific to the data source type.
+// DataSourceSummaryDetails Summary information for a data source of a specified data source type.
 type DataSourceSummaryDetails interface {
 }
 
@@ -51,6 +51,10 @@ func (m *datasourcesummarydetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.DataSourceFeedProvider {
+	case "SCHEDULEDQUERY":
+		mm := ScheduledQueryDataSourceSummaryObjDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOGGINGQUERY":
 		mm := LoggingQueryDataSourceSummaryDetails{}
 		err = json.Unmarshal(data, &mm)

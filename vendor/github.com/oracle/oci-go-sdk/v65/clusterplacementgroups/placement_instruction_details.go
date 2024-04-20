@@ -49,18 +49,15 @@ type PlacementInstructionDetailsTypeEnum string
 
 // Set of constants representing the allowable values for PlacementInstructionDetailsTypeEnum
 const (
-	PlacementInstructionDetailsTypeToken     PlacementInstructionDetailsTypeEnum = "TOKEN"
-	PlacementInstructionDetailsTypeSiteGroup PlacementInstructionDetailsTypeEnum = "SITE_GROUP"
+	PlacementInstructionDetailsTypeToken PlacementInstructionDetailsTypeEnum = "TOKEN"
 )
 
 var mappingPlacementInstructionDetailsTypeEnum = map[string]PlacementInstructionDetailsTypeEnum{
-	"TOKEN":      PlacementInstructionDetailsTypeToken,
-	"SITE_GROUP": PlacementInstructionDetailsTypeSiteGroup,
+	"TOKEN": PlacementInstructionDetailsTypeToken,
 }
 
 var mappingPlacementInstructionDetailsTypeEnumLowerCase = map[string]PlacementInstructionDetailsTypeEnum{
-	"token":      PlacementInstructionDetailsTypeToken,
-	"site_group": PlacementInstructionDetailsTypeSiteGroup,
+	"token": PlacementInstructionDetailsTypeToken,
 }
 
 // GetPlacementInstructionDetailsTypeEnumValues Enumerates the set of values for PlacementInstructionDetailsTypeEnum
@@ -76,7 +73,6 @@ func GetPlacementInstructionDetailsTypeEnumValues() []PlacementInstructionDetail
 func GetPlacementInstructionDetailsTypeEnumStringValues() []string {
 	return []string{
 		"TOKEN",
-		"SITE_GROUP",
 	}
 }
 

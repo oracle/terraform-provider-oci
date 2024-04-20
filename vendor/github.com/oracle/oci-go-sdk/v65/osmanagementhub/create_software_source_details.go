@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,16 +17,16 @@ import (
 	"strings"
 )
 
-// CreateSoftwareSourceDetails Description of a software source to be created.
+// CreateSoftwareSourceDetails Provides the information used to create a software source.
 type CreateSoftwareSourceDetails interface {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source. Avoid entering confidential information.
 	GetDescription() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -41,11 +42,11 @@ type CreateSoftwareSourceDetails interface {
 
 type createsoftwaresourcedetails struct {
 	JsonData           []byte
+	DisplayName        *string                           `mandatory:"false" json:"displayName"`
 	Description        *string                           `mandatory:"false" json:"description"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
-	DisplayName        *string                           `mandatory:"true" json:"displayName"`
 	SoftwareSourceType string                            `json:"softwareSourceType"`
 }
 
@@ -83,6 +84,10 @@ func (m *createsoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := CreateCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "VENDOR":
+		mm := CreateVendorSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERSIONED":
 		mm := CreateVersionedCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -91,6 +96,11 @@ func (m *createsoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		common.Logf("Recieved unsupported enum value for CreateSoftwareSourceDetails: %s.", m.SoftwareSourceType)
 		return *m, nil
 	}
+}
+
+// GetDisplayName returns DisplayName
+func (m createsoftwaresourcedetails) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 // GetDescription returns Description
@@ -111,11 +121,6 @@ func (m createsoftwaresourcedetails) GetDefinedTags() map[string]map[string]inte
 // GetCompartmentId returns CompartmentId
 func (m createsoftwaresourcedetails) GetCompartmentId() *string {
 	return m.CompartmentId
-}
-
-// GetDisplayName returns DisplayName
-func (m createsoftwaresourcedetails) GetDisplayName() *string {
-	return m.DisplayName
 }
 
 func (m createsoftwaresourcedetails) String() string {

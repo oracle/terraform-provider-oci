@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DisableModuleStreamOnManagedInstance.go.html to see an example of how to use DisableModuleStreamOnManagedInstanceRequest.
 type DisableModuleStreamOnManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// The details of the module stream to be disabled on a managed instance.

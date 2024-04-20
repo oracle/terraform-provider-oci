@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,23 +17,23 @@ import (
 	"strings"
 )
 
-// CreateSoftwareSourceProfileDetails Description of a software source registration profile to be created.
+// CreateSoftwareSourceProfileDetails Provides the information used to create the software source registration profile.
 type CreateSoftwareSourceProfileDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the tenancy containing the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The list of software source OCIDs that the registration profile will use.
-	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
-
-	// The description of the registration profile.
+	// User-specified description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
+
+	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -44,7 +45,13 @@ type CreateSoftwareSourceProfileDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// The software source vendor name.
+	// The list of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the registration profile will use.
+	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
+
+	// The type of instance to register.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
+
+	// The vendor of the operating system for the instance.
 	VendorName VendorNameEnum `mandatory:"true" json:"vendorName"`
 
 	// The operating system family.
@@ -74,6 +81,16 @@ func (m CreateSoftwareSourceProfileDetails) GetManagementStationId() *string {
 	return m.ManagementStationId
 }
 
+// GetRegistrationType returns RegistrationType
+func (m CreateSoftwareSourceProfileDetails) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m CreateSoftwareSourceProfileDetails) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m CreateSoftwareSourceProfileDetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -94,6 +111,9 @@ func (m CreateSoftwareSourceProfileDetails) String() string {
 func (m CreateSoftwareSourceProfileDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}

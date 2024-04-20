@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -25,7 +26,7 @@ type WorkRequestError struct {
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured. An RFC3339 formatted datetime string.
+	// The time the error occured. (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

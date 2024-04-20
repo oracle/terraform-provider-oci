@@ -16,19 +16,20 @@ import (
 	"strings"
 )
 
-// SecurityZoneSummary Summary information for a security zone. A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartment (and any subcompartments in the zone) that violate a policy are denied.
+// SecurityZoneSummary Summary information for a security zone. A security zone is associated with
+// a security zone recipe and enforces all security zone policies in the recipe.
 type SecurityZoneSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique security zone identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment for the security zone
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the recipe (`SecurityRecipe`) for the security zone
+	// The OCID of the recipe (`SecurityRecipe` resource) for the security zone
 	SecurityZoneRecipeId *string `mandatory:"true" json:"securityZoneRecipeId"`
 
-	// The security zone's name
+	// The security zone's display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The security zone's description
@@ -40,7 +41,7 @@ type SecurityZoneSummary struct {
 	// The time the security zone was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the security zone
+	// The current lifecycle state of the security zone
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.

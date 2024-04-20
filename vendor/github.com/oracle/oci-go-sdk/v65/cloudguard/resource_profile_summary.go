@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// ResourceProfileSummary Resource profile summary.
+// ResourceProfileSummary Summary information for a resource profile.
 type ResourceProfileSummary struct {
 
-	// Unique identifier for resource profile
+	// Unique identifier for the resource profile
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique identifier for resource profile
+	// Unique identifier for the resource associated with the resource profile
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Resource name for resource profile
+	// Display name for the resource profile
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Resource type for resource profile
+	// Resource type for the resource profile
 	Type *string `mandatory:"true" json:"type"`
 
-	// Risk Score for the resource profile
+	// Risk score for the resource profile
 	RiskScore *float64 `mandatory:"true" json:"riskScore"`
 
-	// List of tactic summary associated with the resource profile.
+	// List of tactic summaries associated with the resource profile
 	Tactics []TacticSummary `mandatory:"true" json:"tactics"`
 
 	// The date and time the resource profile was first detected. Format defined by RFC3339.
@@ -43,7 +43,7 @@ type ResourceProfileSummary struct {
 	// The date and time the resource profile was last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// Number of sightings associated with this resource profile
+	// Number of sightings associated with the resource profile
 	SightingsCount *int `mandatory:"false" json:"sightingsCount"`
 
 	// Number of problems associated with this resource profile

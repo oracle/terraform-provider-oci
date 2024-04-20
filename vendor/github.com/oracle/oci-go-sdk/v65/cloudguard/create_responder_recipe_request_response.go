@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateResponderRecipe.go.html to see an example of how to use CreateResponderRecipeRequest.
 type CreateResponderRecipeRequest struct {
 
-	// Details for ResponderRecipe.
+	// Details for ResponderRecipe
 	CreateResponderRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

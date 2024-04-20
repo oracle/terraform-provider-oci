@@ -18,11 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListMirrors.go.html to see an example of how to use ListMirrorsRequest.
 type ListMirrorsRequest struct {
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Example: `My new resource`
+	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return resources that may partially match the given display name.

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// NoDelayStartPolicy Continuous query start policy that starts the query immediately.
+// NoDelayStartPolicy Continuous query start policy that starts the query immediately
 type NoDelayStartPolicy struct {
 }
 

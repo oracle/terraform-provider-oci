@@ -16,17 +16,18 @@ import (
 	"strings"
 )
 
-// WorkRequestError An error encountered while executing a work request.
+// WorkRequestError Summary information for an error (WorkRequestError resource)
+// encountered while executing a work request
 type WorkRequestError struct {
 
 	// A machine-usable code for the error that occured. Error codes are listed on
-	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm)
+	// (https://docs.cloud.oracle.com/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
-	// A human readable description of the issue encountered.
+	// A human readable description of the issue encountered
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured.
+	// The time the error occured
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

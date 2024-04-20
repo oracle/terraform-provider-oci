@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// ContinuousQueryStartPolicy Continuous query start policy object
+// ContinuousQueryStartPolicy Start policy for continuous query
 type ContinuousQueryStartPolicy interface {
 }
 

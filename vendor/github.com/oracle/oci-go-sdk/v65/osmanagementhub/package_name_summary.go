@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// PackageNameSummary A simple representation of a package using its displayName and NEVRA parts.
+// PackageNameSummary Provides summary information about a package.
 type PackageNameSummary struct {
 
-	// Full package NEVRA name - this value should be unique.
+	// Full package name in NERVA format. This value should be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The name of the software package.
@@ -27,10 +28,10 @@ type PackageNameSummary struct {
 	// Type of the package.
 	Type *string `mandatory:"false" json:"type"`
 
-	// Version of the installed package.
+	// The version of the software package.
 	Version *string `mandatory:"false" json:"version"`
 
-	// The architecture for which this package was built.
+	// The CPU architecture type for which this package was built.
 	Architecture ArchTypeEnum `mandatory:"false" json:"architecture,omitempty"`
 }
 

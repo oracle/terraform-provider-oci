@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeDataSourceCompartmentDetails Changing compartmentId for DataSource
+// ChangeDataSourceCompartmentDetails The compartmentId for the compartment into which the data source is to be moved.
 type ChangeDataSourceCompartmentDetails struct {
 
-	// The OCID of the compartment into which the DataSource should be moved
+	// The OCID of the compartment into which the data source is to be moved
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

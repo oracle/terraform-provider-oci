@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleStageInstalledPackages.go.html to see an example of how to use ListLifecycleStageInstalledPackagesRequest.
 type ListLifecycleStageInstalledPackagesRequest struct {
 
-	// The OCID of the lifecycle stage.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -40,7 +40,7 @@ type ListLifecycleStageInstalledPackagesRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return only lifecycle stage whose lifecycle state matches the given lifecycle state.
+	// A filter to return only lifecycle stages whose lifecycle state matches the given lifecycle state.
 	LifecycleState LifecycleStageLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.

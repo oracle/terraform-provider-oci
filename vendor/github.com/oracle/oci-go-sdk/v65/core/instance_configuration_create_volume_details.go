@@ -73,6 +73,9 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
 	VpusPerGB *int64 `mandatory:"false" json:"vpusPerGB"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The size of the volume in GBs.
 	SizeInGBs *int64 `mandatory:"false" json:"sizeInGBs"`
 
@@ -101,19 +104,20 @@ func (m InstanceConfigurationCreateVolumeDetails) ValidateEnumValue() (bool, err
 // UnmarshalJSON unmarshals from json
 func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		AvailabilityDomain  *string                                          `json:"availabilityDomain"`
-		BackupPolicyId      *string                                          `json:"backupPolicyId"`
-		CompartmentId       *string                                          `json:"compartmentId"`
-		IsAutoTuneEnabled   *bool                                            `json:"isAutoTuneEnabled"`
-		BlockVolumeReplicas []InstanceConfigurationBlockVolumeReplicaDetails `json:"blockVolumeReplicas"`
-		DefinedTags         map[string]map[string]interface{}                `json:"definedTags"`
-		DisplayName         *string                                          `json:"displayName"`
-		FreeformTags        map[string]string                                `json:"freeformTags"`
-		KmsKeyId            *string                                          `json:"kmsKeyId"`
-		VpusPerGB           *int64                                           `json:"vpusPerGB"`
-		SizeInGBs           *int64                                           `json:"sizeInGBs"`
-		SourceDetails       instanceconfigurationvolumesourcedetails         `json:"sourceDetails"`
-		AutotunePolicies    []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
+		AvailabilityDomain      *string                                          `json:"availabilityDomain"`
+		BackupPolicyId          *string                                          `json:"backupPolicyId"`
+		CompartmentId           *string                                          `json:"compartmentId"`
+		IsAutoTuneEnabled       *bool                                            `json:"isAutoTuneEnabled"`
+		BlockVolumeReplicas     []InstanceConfigurationBlockVolumeReplicaDetails `json:"blockVolumeReplicas"`
+		DefinedTags             map[string]map[string]interface{}                `json:"definedTags"`
+		DisplayName             *string                                          `json:"displayName"`
+		FreeformTags            map[string]string                                `json:"freeformTags"`
+		KmsKeyId                *string                                          `json:"kmsKeyId"`
+		VpusPerGB               *int64                                           `json:"vpusPerGB"`
+		ClusterPlacementGroupId *string                                          `json:"clusterPlacementGroupId"`
+		SizeInGBs               *int64                                           `json:"sizeInGBs"`
+		SourceDetails           instanceconfigurationvolumesourcedetails         `json:"sourceDetails"`
+		AutotunePolicies        []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -140,6 +144,8 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 	m.KmsKeyId = model.KmsKeyId
 
 	m.VpusPerGB = model.VpusPerGB
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.SizeInGBs = model.SizeInGBs
 

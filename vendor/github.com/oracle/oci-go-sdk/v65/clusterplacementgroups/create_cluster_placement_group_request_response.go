@@ -12,6 +12,10 @@ import (
 )
 
 // CreateClusterPlacementGroupRequest wrapper for the CreateClusterPlacementGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/CreateClusterPlacementGroup.go.html to see an example of how to use CreateClusterPlacementGroupRequest.
 type CreateClusterPlacementGroupRequest struct {
 
 	// The details for creating the new cluster placement group.

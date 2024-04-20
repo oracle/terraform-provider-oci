@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateManagementStation.go.html to see an example of how to use UpdateManagementStationRequest.
 type UpdateManagementStationRequest struct {
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	ManagementStationId *string `mandatory:"true" contributesTo:"path" name:"managementStationId"`
 
-	// The information to be updated.
+	// The information used to update the management station.
 	UpdateManagementStationDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

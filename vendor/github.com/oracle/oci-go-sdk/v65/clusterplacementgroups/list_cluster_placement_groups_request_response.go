@@ -12,6 +12,10 @@ import (
 )
 
 // ListClusterPlacementGroupsRequest wrapper for the ListClusterPlacementGroups operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListClusterPlacementGroups.go.html to see an example of how to use ListClusterPlacementGroupsRequest.
 type ListClusterPlacementGroupsRequest struct {
 
 	// A filter to return only the resources that match the specified compartment OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).

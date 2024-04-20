@@ -16,55 +16,58 @@ import (
 	"strings"
 )
 
-// ResponderExecution Responder Execution Object.
+// ResponderExecution Attributes for a responder execution (ResponderExecution resource).
 type ResponderExecution struct {
 
 	// The unique identifier of the responder execution
 	Id *string `mandatory:"true" json:"id"`
 
-	// Responder Rule id for the responder execution
+	// Responder rule ID for the responder execution
 	ResponderRuleId *string `mandatory:"true" json:"responderRuleId"`
 
-	// Rule Type for the responder execution
+	// Responder rule type for the responder execution
 	ResponderRuleType ResponderTypeEnum `mandatory:"true" json:"responderRuleType"`
 
-	// Rule name for the responder execution
+	// Responder rule name for the responder execution
 	ResponderRuleName *string `mandatory:"true" json:"responderRuleName"`
 
-	// Problem id associated with the responder execution
+	// Problem ID associated with the responder execution
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
-	// region where the problem is found
+	// Region where the problem is found
 	Region *string `mandatory:"true" json:"region"`
 
-	// targetId of the problem for the responder execution
+	// Target ID of the problem for the responder execution
 	TargetId *string `mandatory:"true" json:"targetId"`
 
-	// compartment id of the responder execution for the problem
+	// Compartment OCID of the responder execution for the problem
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// resource type of the problem for the responder execution
+	// Resource type of the problem for the responder execution
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// resource name of the problem for the responder execution. TODO-DOC link to resource definition doc
+	// Resource name of the problem for the responder execution.
 	ResourceName *string `mandatory:"true" json:"resourceName"`
 
 	// The date and time the responder execution was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// current execution status of the responder
+	// Current execution status of the responder
 	ResponderExecutionStatus ResponderExecutionStatesEnum `mandatory:"true" json:"responderExecutionStatus"`
 
-	// execution mode of the responder
+	// Execution mode of the responder
 	ResponderExecutionMode ResponderExecutionModesEnum `mandatory:"true" json:"responderExecutionMode"`
 
 	// The date and time the responder execution was updated. Format defined by RFC3339.
 	TimeCompleted *common.SDKTime `mandatory:"false" json:"timeCompleted"`
 
-	// Message about the responder execution.
+	// Message about the responder execution
 	Message *string `mandatory:"false" json:"message"`
 
 	ResponderRuleExecutionDetails *ResponderRuleExecutionDetails `mandatory:"false" json:"responderRuleExecutionDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResponderExecution) String() string {

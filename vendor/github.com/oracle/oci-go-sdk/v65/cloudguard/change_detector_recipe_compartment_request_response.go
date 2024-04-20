@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeDetectorRecipeCompartment.go.html to see an example of how to use ChangeDetectorRecipeCompartmentRequest.
 type ChangeDetectorRecipeCompartmentRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The target compartment id.
+	// The target compartment OCID
 	ChangeDetectorRecipeCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

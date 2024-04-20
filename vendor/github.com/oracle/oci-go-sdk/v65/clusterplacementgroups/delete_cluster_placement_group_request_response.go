@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteClusterPlacementGroupRequest wrapper for the DeleteClusterPlacementGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/DeleteClusterPlacementGroup.go.html to see an example of how to use DeleteClusterPlacementGroupRequest.
 type DeleteClusterPlacementGroupRequest struct {
 
 	// A unique cluster placement group identifier.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// ModuleStreamProfileSummary Summary information pertaining to a module stream profile provided by a software source.
+// ModuleStreamProfileSummary Provides the summary information for a module stream profile contained within a software source.
 type ModuleStreamProfileSummary struct {
 
 	// The name of the module that contains the stream profile.
@@ -27,7 +28,7 @@ type ModuleStreamProfileSummary struct {
 	// The name of the profile.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Indicates if this profile is the default for its module stream.
+	// Indicates if this profile is the default for the module stream.
 	IsDefault *bool `mandatory:"false" json:"isDefault"`
 }
 

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/SkipBulkResponderExecution.go.html to see an example of how to use SkipBulkResponderExecutionRequest.
 type SkipBulkResponderExecutionRequest struct {
 
-	// A list of responder execution ids to skip the execution
+	// A list of responder execution IDs to skip the execution
 	SkipBulkResponderExecutionDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

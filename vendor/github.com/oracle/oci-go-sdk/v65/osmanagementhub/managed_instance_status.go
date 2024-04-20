@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -23,6 +24,8 @@ const (
 	ManagedInstanceStatusError             ManagedInstanceStatusEnum = "ERROR"
 	ManagedInstanceStatusWarning           ManagedInstanceStatusEnum = "WARNING"
 	ManagedInstanceStatusRegistrationError ManagedInstanceStatusEnum = "REGISTRATION_ERROR"
+	ManagedInstanceStatusDeleting          ManagedInstanceStatusEnum = "DELETING"
+	ManagedInstanceStatusOnboarding        ManagedInstanceStatusEnum = "ONBOARDING"
 )
 
 var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
@@ -31,6 +34,8 @@ var mappingManagedInstanceStatusEnum = map[string]ManagedInstanceStatusEnum{
 	"ERROR":              ManagedInstanceStatusError,
 	"WARNING":            ManagedInstanceStatusWarning,
 	"REGISTRATION_ERROR": ManagedInstanceStatusRegistrationError,
+	"DELETING":           ManagedInstanceStatusDeleting,
+	"ONBOARDING":         ManagedInstanceStatusOnboarding,
 }
 
 var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatusEnum{
@@ -39,6 +44,8 @@ var mappingManagedInstanceStatusEnumLowerCase = map[string]ManagedInstanceStatus
 	"error":              ManagedInstanceStatusError,
 	"warning":            ManagedInstanceStatusWarning,
 	"registration_error": ManagedInstanceStatusRegistrationError,
+	"deleting":           ManagedInstanceStatusDeleting,
+	"onboarding":         ManagedInstanceStatusOnboarding,
 }
 
 // GetManagedInstanceStatusEnumValues Enumerates the set of values for ManagedInstanceStatusEnum
@@ -58,6 +65,8 @@ func GetManagedInstanceStatusEnumStringValues() []string {
 		"ERROR",
 		"WARNING",
 		"REGISTRATION_ERROR",
+		"DELETING",
+		"ONBOARDING",
 	}
 }
 

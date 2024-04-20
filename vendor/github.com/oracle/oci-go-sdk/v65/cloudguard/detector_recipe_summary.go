@@ -16,19 +16,19 @@ import (
 	"strings"
 )
 
-// DetectorRecipeSummary Summary of Detector recipe
+// DetectorRecipeSummary Summary information for a detector recipe.
 type DetectorRecipeSummary struct {
 
-	// Ocid for detector recipe
+	// OCID for detector recipe
 	Id *string `mandatory:"true" json:"id"`
 
-	// DisplayName of detector recipe
+	// Display name for detector recipe
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// compartmentId of detector recipe
+	// Compartment OCID of detector recipe
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Owner of detector recipe
+	// Owner of the detector recipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
 	// Type of detector
@@ -37,19 +37,22 @@ type DetectorRecipeSummary struct {
 	// Detector recipe description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recipe Ocid of the Source Recipe to be cloned
+	// Recipe OCID of the source recipe to be cloned
 	SourceDetectorRecipeId *string `mandatory:"false" json:"sourceDetectorRecipeId"`
 
-	// List of detetor rules for the detector type
+	// Recipe type ( STANDARD, ENTERPRISE )
+	DetectorRecipeType DetectorRecipeEnumEnum `mandatory:"false" json:"detectorRecipeType,omitempty"`
+
+	// List of detector rules for the detector type
 	DetectorRules []DetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
 	// The date and time the detector recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the detector recipe was updated. Format defined by RFC3339.
+	// The date and time the detector recipe was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The number of days for which source data is retained
@@ -87,6 +90,9 @@ func (m DetectorRecipeSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Detector: %s. Supported values are: %s.", m.Detector, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDetectorRecipeEnumEnum(string(m.DetectorRecipeType)); !ok && m.DetectorRecipeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorRecipeType: %s. Supported values are: %s.", m.DetectorRecipeType, strings.Join(GetDetectorRecipeEnumEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
