@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// UpdateDataSourceDetails Update of Data Source
+// UpdateDataSourceDetails Parameters to update a data source.
 type UpdateDataSourceDetails struct {
 
-	// Data Source display name.
+	// Display name for data source
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Status of DataSource.
+	// Enablement status of data source
 	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`

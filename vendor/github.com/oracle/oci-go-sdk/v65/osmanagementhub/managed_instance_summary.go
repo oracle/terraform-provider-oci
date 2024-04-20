@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,34 +16,34 @@ import (
 	"strings"
 )
 
-// ManagedInstanceSummary Summary of the ManagedInstance.
+// ManagedInstanceSummary Provides summary information for a managed instance.
 type ManagedInstanceSummary struct {
 
-	// The OCID for the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Managed instance identifier.
+	// User-friendly name for the managed instance.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID for the tenancy this managed instance resides in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy this managed instance resides in.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// The OCID for the compartment this managed instance resides in.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// status of the managed instance.
+	// Current status of the managed instance.
 	Status ManagedInstanceStatusEnum `mandatory:"true" json:"status"`
 
-	// Information specified by the user about the managed instance.
+	// User-specified description of the managed instance.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Location of the managed instance.
+	// The location of the managed instance.
 	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
 
 	// The CPU architecture type of the managed instance.
 	Architecture ArchTypeEnum `mandatory:"false" json:"architecture,omitempty"`
 
-	// The Operating System type of the managed instance.
+	// The operating system type of the managed instance.
 	OsFamily OsFamilyEnum `mandatory:"false" json:"osFamily,omitempty"`
 
 	ManagedInstanceGroup *Id `mandatory:"false" json:"managedInstanceGroup"`
@@ -54,11 +55,19 @@ type ManagedInstanceSummary struct {
 	// Indicates whether a reboot is required to complete installation of updates.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 
-	// Number of updates available to be installed.
+	// Number of updates available for installation.
 	UpdatesAvailable *int `mandatory:"false" json:"updatesAvailable"`
 
-	// Whether this managed instance is acting as an on-premise management station.
+	// Whether this managed instance is acting as an on-premises management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether Autonomous Linux manages this instance.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m ManagedInstanceSummary) String() string {

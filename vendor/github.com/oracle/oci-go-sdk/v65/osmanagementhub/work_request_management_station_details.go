@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -21,7 +22,7 @@ type WorkRequestManagementStationDetails struct {
 	// Target version to update the management station software.
 	ManagementStationVersion *string `mandatory:"false" json:"managementStationVersion"`
 
-	// Target config needed for set management station config.
+	// The configuration of the management station.
 	Config []byte `mandatory:"false" json:"config"`
 
 	// Optional list for mirrors to sync.

@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResponderExecutions.go.html to see an example of how to use ListResponderExecutionsRequest.
 type ListResponderExecutionsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the the setting of `accessLevel`.
+	// returned depending on the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
@@ -34,28 +34,28 @@ type ListResponderExecutionsRequest struct {
 	// When set to `RESTRICTED` permissions are checked and no partial results are displayed.
 	AccessLevel ListResponderExecutionsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// Responder Rule Ids filter for the Responder Executions.
+	// Responder rule unique identifier filter for the responder executions.
 	ResponderRuleIds []string `contributesTo:"query" name:"responderRuleIds" collectionFormat:"multi"`
 
-	// Creation Start time for filtering
+	// Creation start time for filtering
 	TimeCreatedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedGreaterThanOrEqualTo"`
 
-	// Creation End time for filtering
+	// Creation end time for filtering.
 	TimeCreatedLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCreatedLessThanOrEqualTo"`
 
-	// Completion End Time
+	// Completion end time.
 	TimeCompletedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCompletedGreaterThanOrEqualTo"`
 
-	// Completion Start Time
+	// Completion start time.
 	TimeCompletedLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeCompletedLessThanOrEqualTo"`
 
 	// The ID of the target in which to list resources.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
-	// Resource Type associated with the resource.
+	// Resource type associated with the resource.
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
-	// The field to list the Responder Executions by Responder Type. Valid values are REMEDIATION and NOTIFICATION
+	// The field to list the responder executions by responder type. Valid values are REMEDIATION and NOTIFICATION.
 	ResponderType ListResponderExecutionsResponderTypeEnum `mandatory:"false" contributesTo:"query" name:"responderType" omitEmpty:"true"`
 
 	// The status of the responder execution in which to list responders.
@@ -64,13 +64,13 @@ type ListResponderExecutionsRequest struct {
 	// The mode of the responder execution in which to list responders.
 	ResponderExecutionMode ListResponderExecutionsResponderExecutionModeEnum `mandatory:"false" contributesTo:"query" name:"responderExecutionMode" omitEmpty:"true"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListResponderExecutionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for responderRuleName and resourceName is ascending. If no value is specified timeCreated is default.

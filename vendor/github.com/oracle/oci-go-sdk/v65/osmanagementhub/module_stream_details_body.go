@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// ModuleStreamDetailsBody The details of the module stream to be enabled/disabled on a managed instance.
+// ModuleStreamDetailsBody Provides the information used to enable or disable the module stream on a managed instance.
 type ModuleStreamDetailsBody struct {
 
 	// The name of a module.

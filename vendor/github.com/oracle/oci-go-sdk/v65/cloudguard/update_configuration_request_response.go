@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateConfiguration.go.html to see an example of how to use UpdateConfigurationRequest.
 type UpdateConfigurationRequest struct {
 
-	// Update Configuration Details of Cloud Guard for a Tenancy.
+	// Updates configuration details of Cloud Guard for a Tenancy.
 	UpdateConfigurationDetails `contributesTo:"body"`
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The client request ID for tracing.

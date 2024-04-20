@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// LoggingQueryDataSourceSummaryDetails The information about new Logging Query of type DataSourceSummary.
+// LoggingQueryDataSourceSummaryDetails Summary information for a logging query for a data source.
 type LoggingQueryDataSourceSummaryDetails struct {
 
-	// DataSource customer specified regions
+	// Data source customer-specified regions
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// DataSource mapping with detectorRecipe and detectorRule
+	// Data source mapping with detector recipe and detector rule
 	DataSourceDetectorMappingInfo []DataSourceMappingInfo `mandatory:"false" json:"dataSourceDetectorMappingInfo"`
 
-	// DataSource query metadata replication region and status.
+	// Data source query metadata replication region and status.
 	RegionStatusDetail []RegionStatusDetail `mandatory:"false" json:"regionStatusDetail"`
 }
 

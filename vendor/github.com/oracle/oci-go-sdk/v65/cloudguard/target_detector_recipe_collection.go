@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeCollection Summary of the Target DetectorRecipe.
+// TargetDetectorRecipeCollection Collection of target detector recipe summaries.
 type TargetDetectorRecipeCollection struct {
 
-	// List of TargetDetectorRecipeSummary
+	// List of TargetDetectorRecipeSummary resources
 	Items []TargetDetectorRecipeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetDetectorRecipeCollection) String() string {

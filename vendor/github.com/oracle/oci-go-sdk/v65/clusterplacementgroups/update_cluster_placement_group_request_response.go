@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateClusterPlacementGroupRequest wrapper for the UpdateClusterPlacementGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/UpdateClusterPlacementGroup.go.html to see an example of how to use UpdateClusterPlacementGroupRequest.
 type UpdateClusterPlacementGroupRequest struct {
 
 	// A unique cluster placement group identifier.

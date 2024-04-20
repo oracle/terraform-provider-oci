@@ -18,24 +18,24 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSummarizedResponderExecutions.go.html to see an example of how to use RequestSummarizedResponderExecutionsRequest.
 type RequestSummarizedResponderExecutionsRequest struct {
 
-	// The possible attributes based on which the responder executions can be distinguished
+	// The possible attributes based on which the responder executions can be distinguished.
 	ResponderExecutionsDimensions []ResponderDimensionEnum `contributesTo:"query" name:"responderExecutionsDimensions" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The possible filters for Responder Type Dimension to distinguish Responder Executions.
-	// If no values are passed, the metric for responder executions of all reponder types are returned
+	// The possible filters for responder type dimension to distinguish responder executions.
+	// If no values are passed, the metric for responder executions of all responder types are returned.
 	ResponderTypeFilter []ResponderTypeEnum `contributesTo:"query" name:"responderTypeFilter" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The possible filters for Responder Type Dimension to distinguish Responder Executions.
-	// If no values are passed, the metric for responder executions of all status are returned
+	// The possible filters for responder type dimension to distinguish responder executions.
+	// If no values are passed, the metric for responder executions of all status are returned.
 	ResponderExecutionStatusFilter []ResponderExecutionStatusEnum `contributesTo:"query" name:"responderExecutionStatusFilter" omitEmpty:"true" collectionFormat:"multi"`
 
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the the setting of `accessLevel`.
+	// returned depending on the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
@@ -45,7 +45,7 @@ type RequestSummarizedResponderExecutionsRequest struct {
 	// When set to `RESTRICTED` permissions are checked and no partial results are displayed.
 	AccessLevel RequestSummarizedResponderExecutionsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.

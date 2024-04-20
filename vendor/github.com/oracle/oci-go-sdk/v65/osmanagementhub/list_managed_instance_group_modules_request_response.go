@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupModules.go.html to see an example of how to use ListManagedInstanceGroupModulesRequest.
 type ListManagedInstanceGroupModulesRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// The resource name.
@@ -30,8 +30,7 @@ type ListManagedInstanceGroupModulesRequest struct {
 	// A filter to return resources that may partially match the name given.
 	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
 
-	// The name of the stream of the containing module.  This parameter
-	// is required if a profileName is specified.
+	// The name of the module stream. This parameter is required if a profile name is specified.
 	StreamName *string `mandatory:"false" contributesTo:"query" name:"streamName"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

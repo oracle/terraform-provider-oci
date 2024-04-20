@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ChangeSecurityRecipeCompartmentDetails The compartment for the security zone recipe
+// ChangeSecurityRecipeCompartmentDetails Parameters to be used to move a security recipe to a different compartment.
 type ChangeSecurityRecipeCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment

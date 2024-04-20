@@ -92,6 +92,10 @@ func (client *ClusterPlacementGroupsCPClient) ConfigurationProvider() *common.Co
 }
 
 // ActivateClusterPlacementGroup Activates the specified, previously deactivated cluster placement group to let resources be created in it.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ActivateClusterPlacementGroup.go.html to see an example of how to use ActivateClusterPlacementGroup API.
 // A default retry strategy applies to this operation ActivateClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) ActivateClusterPlacementGroup(ctx context.Context, request ActivateClusterPlacementGroupRequest) (response ActivateClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -151,6 +155,10 @@ func (client ClusterPlacementGroupsCPClient) activateClusterPlacementGroup(ctx c
 }
 
 // CancelWorkRequest Cancels the work request with the specified ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/CancelWorkRequest.go.html to see an example of how to use CancelWorkRequest API.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client ClusterPlacementGroupsCPClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -207,6 +215,10 @@ func (client ClusterPlacementGroupsCPClient) cancelWorkRequest(ctx context.Conte
 // ChangeClusterPlacementGroupCompartment Moves a cluster placement group resource from one compartment to another in the same tenancy. For information about
 // moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ChangeClusterPlacementGroupCompartment.go.html to see an example of how to use ChangeClusterPlacementGroupCompartment API.
 // A default retry strategy applies to this operation ChangeClusterPlacementGroupCompartment()
 func (client ClusterPlacementGroupsCPClient) ChangeClusterPlacementGroupCompartment(ctx context.Context, request ChangeClusterPlacementGroupCompartmentRequest) (response ChangeClusterPlacementGroupCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -266,6 +278,10 @@ func (client ClusterPlacementGroupsCPClient) changeClusterPlacementGroupCompartm
 }
 
 // CreateClusterPlacementGroup Creates a new cluster placement group in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/CreateClusterPlacementGroup.go.html to see an example of how to use CreateClusterPlacementGroup API.
 // A default retry strategy applies to this operation CreateClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) CreateClusterPlacementGroup(ctx context.Context, request CreateClusterPlacementGroupRequest) (response CreateClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -325,6 +341,10 @@ func (client ClusterPlacementGroupsCPClient) createClusterPlacementGroup(ctx con
 }
 
 // DeactivateClusterPlacementGroup Deactivates the specified cluster placement group to prevent new resources from being created in it.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/DeactivateClusterPlacementGroup.go.html to see an example of how to use DeactivateClusterPlacementGroup API.
 // A default retry strategy applies to this operation DeactivateClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) DeactivateClusterPlacementGroup(ctx context.Context, request DeactivateClusterPlacementGroupRequest) (response DeactivateClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -384,6 +404,10 @@ func (client ClusterPlacementGroupsCPClient) deactivateClusterPlacementGroup(ctx
 }
 
 // DeleteClusterPlacementGroup Deletes the specified cluster placement group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/DeleteClusterPlacementGroup.go.html to see an example of how to use DeleteClusterPlacementGroup API.
 // A default retry strategy applies to this operation DeleteClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) DeleteClusterPlacementGroup(ctx context.Context, request DeleteClusterPlacementGroupRequest) (response DeleteClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -438,6 +462,10 @@ func (client ClusterPlacementGroupsCPClient) deleteClusterPlacementGroup(ctx con
 }
 
 // GetClusterPlacementGroup Gets the specified cluster placement group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/GetClusterPlacementGroup.go.html to see an example of how to use GetClusterPlacementGroup API.
 // A default retry strategy applies to this operation GetClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) GetClusterPlacementGroup(ctx context.Context, request GetClusterPlacementGroupRequest) (response GetClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -492,6 +520,10 @@ func (client ClusterPlacementGroupsCPClient) getClusterPlacementGroup(ctx contex
 }
 
 // GetWorkRequest Gets details of the work request with the specified ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/GetWorkRequest.go.html to see an example of how to use GetWorkRequest API.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client ClusterPlacementGroupsCPClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -546,6 +578,10 @@ func (client ClusterPlacementGroupsCPClient) getWorkRequest(ctx context.Context,
 }
 
 // ListClusterPlacementGroups Gets a list of all cluster placement groups in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListClusterPlacementGroups.go.html to see an example of how to use ListClusterPlacementGroups API.
 // A default retry strategy applies to this operation ListClusterPlacementGroups()
 func (client ClusterPlacementGroupsCPClient) ListClusterPlacementGroups(ctx context.Context, request ListClusterPlacementGroupsRequest) (response ListClusterPlacementGroupsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -600,6 +636,10 @@ func (client ClusterPlacementGroupsCPClient) listClusterPlacementGroups(ctx cont
 }
 
 // ListWorkRequestErrors Returns a (paginated) list of errors for the work request with the specified ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListWorkRequestErrors.go.html to see an example of how to use ListWorkRequestErrors API.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client ClusterPlacementGroupsCPClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -654,6 +694,10 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestErrors(ctx context.C
 }
 
 // ListWorkRequestLogs Returns a (paginated) list of logs for the work request with the specified ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListWorkRequestLogs.go.html to see an example of how to use ListWorkRequestLogs API.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client ClusterPlacementGroupsCPClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -708,6 +752,10 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestLogs(ctx context.Con
 }
 
 // ListWorkRequests Lists all work requests in the specified compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ListWorkRequests.go.html to see an example of how to use ListWorkRequests API.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client ClusterPlacementGroupsCPClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -762,6 +810,10 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequests(ctx context.Contex
 }
 
 // UpdateClusterPlacementGroup Updates the specified cluster placement group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/UpdateClusterPlacementGroup.go.html to see an example of how to use UpdateClusterPlacementGroup API.
 // A default retry strategy applies to this operation UpdateClusterPlacementGroup()
 func (client ClusterPlacementGroupsCPClient) UpdateClusterPlacementGroup(ctx context.Context, request UpdateClusterPlacementGroupRequest) (response UpdateClusterPlacementGroupResponse, err error) {
 	var ociResponse common.OCIResponse

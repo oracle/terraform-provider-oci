@@ -19,16 +19,16 @@ import (
 // ProblemTrendAggregation Provides aggregated information on trends for counts of problems by specified parameters.
 type ProblemTrendAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// Start Time in epoch seconds
+	// Start time in epoch seconds
 	StartTimestamp *float32 `mandatory:"true" json:"startTimestamp"`
 
 	// Duration
 	DurationInSeconds *int `mandatory:"true" json:"durationInSeconds"`
 
-	// The number of occurences with for the corresponding time range and dimensions.
+	// The number of occurrences for the corresponding time range and dimensions.
 	Count *int `mandatory:"true" json:"count"`
 }
 

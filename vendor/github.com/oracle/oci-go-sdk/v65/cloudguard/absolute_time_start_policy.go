@@ -17,10 +17,10 @@ import (
 	"strings"
 )
 
-// AbsoluteTimeStartPolicy Policy that defines the exact start time.
+// AbsoluteTimeStartPolicy Start policy that defines the exact start time
 type AbsoluteTimeStartPolicy struct {
 
-	// Time when the query can start, if not specified it can start immediately.
+	// Time when the query can start. If not specified it can start immediately
 	QueryStartTime *common.SDKTime `mandatory:"false" json:"queryStartTime"`
 }
 

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,25 +16,34 @@ import (
 	"strings"
 )
 
-// UpdateScheduledJobDetails Information for updating a scheduled job.
+// UpdateScheduledJobDetails Provides the information used to update a scheduled job.
 type UpdateScheduledJobDetails struct {
 
-	// Scheduled job name.
+	// User-friendly name for the scheduled job. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Details describing the scheduled job.
+	// User-specified description for the scheduled job. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The type of scheduling this scheduled job follows.
+	// The type of scheduling frequency for the job.
 	ScheduleType ScheduleTypesEnum `mandatory:"false" json:"scheduleType,omitempty"`
 
-	// The desired time for the next execution of this scheduled job.
+	// The desired time of the next execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeNextExecution *common.SDKTime `mandatory:"false" json:"timeNextExecution"`
 
-	// The recurring rule for a recurring scheduled job.
+	// The frequency schedule for a recurring scheduled job.
 	RecurringRule *string `mandatory:"false" json:"recurringRule"`
 
-	// The list of operations this scheduled job needs to perform (can only support one operation if the operationType is not UPDATE_PACKAGES/UPDATE_ALL/UPDATE_SECURITY/UPDATE_BUGFIX/UPDATE_ENHANCEMENT/UPDATE_OTHER/UPDATE_KSPLICE_USERSPACE/UPDATE_KSPLICE_KERNEL).
+	// The list of operations this scheduled job needs to perform.
+	// A scheduled job supports only one operation type, unless it is one of the following:
+	// * UPDATE_PACKAGES
+	// * UPDATE_ALL
+	// * UPDATE_SECURITY
+	// * UPDATE_BUGFIX
+	// * UPDATE_ENHANCEMENT
+	// * UPDATE_OTHER
+	// * UPDATE_KSPLICE_USERSPACE
+	// * UPDATE_KSPLICE_KERNEL
 	Operations []ScheduledJobOperation `mandatory:"false" json:"operations"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -45,6 +55,12 @@ type UpdateScheduledJobDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The amount of time in minutes to wait until retrying the scheduled job. If set, the service will automatically
+	// retry a failed scheduled job after the interval. For example, you could set the interval to [2,5,10]. If the
+	// initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service
+	// waits 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries.
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 }
 
 func (m UpdateScheduledJobDetails) String() string {

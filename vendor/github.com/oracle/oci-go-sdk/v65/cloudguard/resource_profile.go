@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// ResourceProfile Resource profile details
+// ResourceProfile Resource profile details.
 type ResourceProfile struct {
 
-	// Unique identifier for resource profile
+	// Unique identifier for the resource profile
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique identifier for resource profile
+	// Unique identifier for the resource associated with the resource profile
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Resource name for resource profile
+	// Display name for the resource profile
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Resource type for resource profile
+	// Resource type for the resource profile
 	Type *string `mandatory:"true" json:"type"`
 
-	// Compartment Id for resource profile
+	// Compartment OCID for the resource profile
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Risk Score for the resource profile
+	// Risk score for the resource profile
 	RiskScore *float64 `mandatory:"true" json:"riskScore"`
 
 	// The date and time the resource profile was first detected. Format defined by RFC3339.
@@ -43,26 +43,29 @@ type ResourceProfile struct {
 	// The date and time the resource profile was last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// List of tactic summary associated with the resource profile.
+	// List of tactic summaries associated with the resource profile
 	Tactics []TacticSummary `mandatory:"true" json:"tactics"`
 
-	// Number of sightings associated with this resource profile
+	// Number of sightings associated with the resource profile
 	SightingsCount *int `mandatory:"false" json:"sightingsCount"`
 
-	// List of Problems associated with the resource profile.
+	// List of problems IDs associated with the resource profile
 	ProblemIds []string `mandatory:"false" json:"problemIds"`
 
-	// Target Id for resource profile
+	// Unique target ID for the resource profile
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// Risk Level associated with resource profile
+	// Risk level associated with resource profile
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Peak Risk Score for the resource profile
+	// Peak risk score for the resource profile
 	PeakRiskScore *float64 `mandatory:"false" json:"peakRiskScore"`
 
-	// The date and time for peak risk score. Format defined by RFC3339.
+	// The date and time for the peak risk score. Format defined by RFC3339.
 	TimePeakScore *common.SDKTime `mandatory:"false" json:"timePeakScore"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResourceProfile) String() string {

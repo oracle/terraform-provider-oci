@@ -19,14 +19,14 @@ import (
 // ActivityProblemAggregation Provides the parameters and their corresponding count.
 type ActivityProblemAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
 	PoliticalLocation *PoliticalLocation `mandatory:"true" json:"politicalLocation"`
 
 	GeographicalLocation *GeographicalLocation `mandatory:"true" json:"geographicalLocation"`
 
-	// The number of occurences with given dimension/s
+	// The number of occurrences with given dimensions
 	Count *int `mandatory:"true" json:"count"`
 }
 

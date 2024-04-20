@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// SecurityScoreTrendAggregationCollection Security Score Trend Aggregation Collection.
+// SecurityScoreTrendAggregationCollection Collection of security trend aggregation information.
 type SecurityScoreTrendAggregationCollection struct {
 
-	// The items consist of all the SecurityScoreTrendAggregation objects.
+	// List of all the SecurityScoreTrendAggregation resources
 	Items []SecurityScoreTrendAggregation `mandatory:"true" json:"items"`
 }
 

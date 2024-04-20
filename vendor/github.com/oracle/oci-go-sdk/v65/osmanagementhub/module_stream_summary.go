@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// ModuleStreamSummary Summary information pertaining to a module stream provided by a software source.
+// ModuleStreamSummary Provides the summary information for a module stream contained within a software source.
 type ModuleStreamSummary struct {
 
 	// The name of the stream.
@@ -30,7 +31,7 @@ type ModuleStreamSummary struct {
 	// Indicates whether this module stream is the latest.
 	IsLatest *bool `mandatory:"false" json:"isLatest"`
 
-	// The software source id for the the module stream.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that contains the the module stream.
 	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
 }
 

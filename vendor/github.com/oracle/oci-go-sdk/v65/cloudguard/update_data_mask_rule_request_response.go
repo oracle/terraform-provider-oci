@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateDataMaskRule.go.html to see an example of how to use UpdateDataMaskRuleRequest.
 type UpdateDataMaskRuleRequest struct {
 
-	// OCID of dataMaskRule
+	// OCID of the data mask rule
 	DataMaskRuleId *string `mandatory:"true" contributesTo:"path" name:"dataMaskRuleId"`
 
-	// The information to be updated.
+	// The data mask rule information to be updated
 	UpdateDataMaskRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

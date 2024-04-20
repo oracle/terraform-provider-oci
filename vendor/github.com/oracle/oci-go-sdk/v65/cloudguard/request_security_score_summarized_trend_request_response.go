@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RequestSecurityScoreSummarizedTrend.go.html to see an example of how to use RequestSecurityScoreSummarizedTrendRequest.
 type RequestSecurityScoreSummarizedTrendRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Start time for a filter. If start time is not specified, start time will be set to today's current time - 30 days.
@@ -27,7 +27,7 @@ type RequestSecurityScoreSummarizedTrendRequest struct {
 	// End time for a filter. If end time is not specified, end time will be set to today's current time.
 	TimeScoreComputedLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeScoreComputedLessThanOrEqualTo"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.

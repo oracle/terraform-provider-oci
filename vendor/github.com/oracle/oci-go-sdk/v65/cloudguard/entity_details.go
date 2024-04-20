@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// EntityDetails Entities Details for a data source
+// EntityDetails Detailed information for the entities mapped to a data source.
 type EntityDetails struct {
 
 	// The display name of entity

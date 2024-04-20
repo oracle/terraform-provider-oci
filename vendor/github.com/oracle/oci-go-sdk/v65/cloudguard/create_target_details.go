@@ -16,17 +16,17 @@ import (
 	"strings"
 )
 
-// CreateTargetDetails The information about new Target.
+// CreateTargetDetails Parameters used to create a new target.
 type CreateTargetDetails struct {
 
-	// DetectorTemplate identifier.
+	// Display name for the target.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// possible type of targets(COMPARTMENT/FACLOUD)
+	// Type of resource that target support (COMPARTMENT/FACLOUD)
 	TargetResourceType TargetResourceTypeEnum `mandatory:"true" json:"targetResourceType"`
 
 	// Resource ID which the target uses to monitor
@@ -36,13 +36,13 @@ type CreateTargetDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of detector recipes to associate with target
+	// List of detector recipes to attach to target
 	TargetDetectorRecipes []CreateTargetDetectorRecipeDetails `mandatory:"false" json:"targetDetectorRecipes"`
 
-	// List of responder recipes to associate with target
+	// List of responder recipes to attach to target
 	TargetResponderRecipes []CreateTargetResponderRecipeDetails `mandatory:"false" json:"targetResponderRecipes"`
 
-	// The current state of the DetectorRule.
+	// The enablement state of the detector rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

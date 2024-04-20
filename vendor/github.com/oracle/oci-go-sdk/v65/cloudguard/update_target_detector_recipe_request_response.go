@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateTargetDetectorRecipe.go.html to see an example of how to use UpdateTargetDetectorRecipeRequest.
 type UpdateTargetDetectorRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetDetectorRecipe
+	// OCID of the target detector recipe.
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
-	// The details to be updated.
+	// The details to be updated
 	UpdateTargetDetectorRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

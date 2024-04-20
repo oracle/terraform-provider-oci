@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateDetectorRecipeDetectorRule.go.html to see an example of how to use UpdateDetectorRecipeDetectorRuleRequest.
 type UpdateDetectorRecipeDetectorRuleRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
-	// The details to be updated for DetectorRule.
+	// The details to be updated for DetectorRule
 	UpdateDetectorRecipeDetectorRuleDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

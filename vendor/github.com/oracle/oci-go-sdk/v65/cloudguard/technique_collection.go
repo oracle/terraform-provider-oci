@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// TechniqueCollection Collection of technique summaries in Cloud Guard
+// TechniqueCollection Collection of technique summaries.
 type TechniqueCollection struct {
 
-	// List of technique summary.
+	// List of TechniqueSummary resources
 	Items []TechniqueSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TechniqueCollection) String() string {

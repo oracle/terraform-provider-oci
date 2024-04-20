@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,52 +16,54 @@ import (
 	"strings"
 )
 
-// ManagementStation Detailed information about an ManagementStation config
+// ManagementStation Provides information about the management station, including name, state, and configuration.
 type ManagementStation struct {
 
-	// OCID for the ManagementStation config
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the Management Station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ManagementStation name
+	// A user-friendly name for the management station.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Name of the host
+	// Hostname of the management station.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
 	Proxy *ProxyConfiguration `mandatory:"true" json:"proxy"`
 
 	Mirror *MirrorConfiguration `mandatory:"true" json:"mirror"`
 
-	// OCID for the Instance associated with the Management Station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance that is acting as the management station.
 	ManagedInstanceId *string `mandatory:"false" json:"managedInstanceId"`
 
-	// OCID of the Scheduled Job for mirror sync
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job for the mirror sync.
 	ScheduledJobId *string `mandatory:"false" json:"scheduledJobId"`
 
-	// OCID of the Profile associated with the Station
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile used for the management station.
 	ProfileId *string `mandatory:"false" json:"profileId"`
 
-	// Details describing the ManagementStation config.
+	// User-specified description for the management station.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Current state of the mirroring
+	// Current state of the mirror sync for the management station.
 	OverallState OverallStateEnum `mandatory:"false" json:"overallState,omitempty"`
 
-	// A decimal number representing the completeness percentage
+	// A decimal number representing the progress of the current mirror sync.
 	OverallPercentage *int `mandatory:"false" json:"overallPercentage"`
 
-	// A decimal number representing the mirror capacity
+	// A decimal number representing the amount of mirror capacity used by the sync.
 	MirrorCapacity *int `mandatory:"false" json:"mirrorCapacity"`
 
-	// A decimal number representing the total of repos
+	// The number of software sources that the station is mirroring.
 	TotalMirrors *int `mandatory:"false" json:"totalMirrors"`
 
 	MirrorSyncStatus *MirrorSyncStatus `mandatory:"false" json:"mirrorSyncStatus"`
 
-	// The current state of the Management Station config.
+	Health *StationHealth `mandatory:"false" json:"health"`
+
+	// The current state of the management station.
 	LifecycleState ManagementStationLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

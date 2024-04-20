@@ -22,28 +22,28 @@ type ProblemEndpointSummary struct {
 	// Unique identifier for problem endpoint.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique id for sighting associated with the endpoint.
+	// Unique identifier for sighting associated with the endpoint
 	SightingId *string `mandatory:"true" json:"sightingId"`
 
-	// Unique id for cloudguard problem
+	// Unique identifier for problem associated with the endpoint
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
-	// Identifier for the sighting type
+	// Unique identifier for the sighting type associated with the endpoint
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
-	// Display Name of the sighting type
+	// Display name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
-	// IP Address of the Endpoint
+	// IP address of the endpoint
 	IpAddress *string `mandatory:"true" json:"ipAddress"`
 
-	// IP Address type of the Endpoint
+	// Type of IP address for the endpoint
 	IpAddressType *string `mandatory:"true" json:"ipAddressType"`
 
 	// Time when activities were last detected
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// IP Address classification type of the endpoint
+	// IP address classification type for the endpoint
 	IpClassificationType *string `mandatory:"false" json:"ipClassificationType"`
 
 	// Country of the endpoint
@@ -58,10 +58,10 @@ type ProblemEndpointSummary struct {
 	// ASN number of the endpoint
 	AsnNumber *string `mandatory:"false" json:"asnNumber"`
 
-	// Regions where activities were performed from this IP
+	// Regions where activities were performed from this IP address
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// Services where activities were performed from this IP
+	// List of services where activities were performed from this IP address
 	Services []string `mandatory:"false" json:"services"`
 }
 

@@ -11,19 +11,23 @@
 package cloudguard
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// UpdateConfigurationDetails Update cloud guard configuration details for a tenancy.
+// UpdateConfigurationDetails Parameters to update Cloud Guard configuration details for a tenancy.
 type UpdateConfigurationDetails struct {
 
-	// The reporting region value
+	// The reporting region
 	ReportingRegion *string `mandatory:"true" json:"reportingRegion"`
 
-	// Status of Cloud Guard Tenant
+	// Status of Cloud Guard tenant
 	Status CloudGuardStatusEnum `mandatory:"true" json:"status"`
+
+	// List of service configurations for tenant
+	ServiceConfigurations []ServiceConfiguration `mandatory:"false" json:"serviceConfigurations"`
 
 	// Identifies if Oracle managed resources will be created by customers.
 	// If no value is specified false is the default.
@@ -47,4 +51,39 @@ func (m UpdateConfigurationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		ServiceConfigurations []serviceconfiguration `json:"serviceConfigurations"`
+		SelfManageResources   *bool                  `json:"selfManageResources"`
+		ReportingRegion       *string                `json:"reportingRegion"`
+		Status                CloudGuardStatusEnum   `json:"status"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.ServiceConfigurations = make([]ServiceConfiguration, len(model.ServiceConfigurations))
+	for i, n := range model.ServiceConfigurations {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.ServiceConfigurations[i] = nn.(ServiceConfiguration)
+		} else {
+			m.ServiceConfigurations[i] = nil
+		}
+	}
+	m.SelfManageResources = model.SelfManageResources
+
+	m.ReportingRegion = model.ReportingRegion
+
+	m.Status = model.Status
+
+	return
 }

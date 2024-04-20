@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// SightingCollection Provides the summary of sighting
+// SightingCollection Collection of sighting summaries.
 type SightingCollection struct {
 
-	// List of SightingSummary
+	// List of SightingSummary resources
 	Items []SightingSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m SightingCollection) String() string {

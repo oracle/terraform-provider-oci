@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// ManagedListTypeCollection Summary of the ManagedListType.
+// ManagedListTypeCollection Collection of managed list type summaries.
 type ManagedListTypeCollection struct {
 
-	// List of ManagedListTypeSummary
+	// List of ManagedListTypeSummary resources
 	Items []ManagedListTypeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ManagedListTypeCollection) String() string {

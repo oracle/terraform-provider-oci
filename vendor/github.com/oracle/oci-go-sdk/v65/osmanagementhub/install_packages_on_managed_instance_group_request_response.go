@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallPackagesOnManagedInstanceGroup.go.html to see an example of how to use InstallPackagesOnManagedInstanceGroupRequest.
 type InstallPackagesOnManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
-	// Details for packages to install on the specified managed instance group.
+	// The names of packages to install on the specified managed instance group.
 	InstallPackagesOnManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

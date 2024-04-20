@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateDetectorRecipeDetectorRule.go.html to see an example of how to use CreateDetectorRecipeDetectorRuleRequest.
 type CreateDetectorRecipeDetectorRuleRequest struct {
 
-	// DetectorRecipe OCID
+	// Detector recipe OCID
 	DetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"detectorRecipeId"`
 
-	// The details with which detector rule has to be created.
+	// The details with which detector rule is to be created.
 	CreateDetectorRecipeDetectorRuleDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

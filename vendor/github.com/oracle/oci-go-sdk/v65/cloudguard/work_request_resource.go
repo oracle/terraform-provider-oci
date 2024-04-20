@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// WorkRequestResource A resource created or operated on by a work request.
+// WorkRequestResource Parameters of a work request resource, which is created or operated on by a work request.
 type WorkRequestResource struct {
 
-	// The resource type the work request affects.
+	// The resource type the work request affects
 	EntityType *string `mandatory:"true" json:"entityType"`
 
 	// The way in which this resource is affected by the work tracked in the work request.
@@ -28,13 +28,13 @@ type WorkRequestResource struct {
 	// or DELETED, respectively.
 	ActionType ActionTypeEnum `mandatory:"true" json:"actionType"`
 
-	// The identifier of the resource the work request affects.
+	// The identifier of the resource that the work request affects
 	Identifier *string `mandatory:"true" json:"identifier"`
 
 	// The URI path that the user can do a GET on to access the resource metadata
 	EntityUri *string `mandatory:"false" json:"entityUri"`
 
-	// Additional information that helps to explain the resource.
+	// Additional information that helps to explain the resource
 	Metadata map[string]string `mandatory:"false" json:"metadata"`
 }
 

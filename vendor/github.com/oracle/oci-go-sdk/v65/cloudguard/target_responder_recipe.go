@@ -16,38 +16,53 @@ import (
 	"strings"
 )
 
-// TargetResponderRecipe Details of Target ResponderRecipe
+// TargetResponderRecipe A TargetResponderRecipe resource contains a specific instance of one of the
+// supported detector types (for example, activity, configuration, or threat)
+// in which some settings can be modified specifically for a single target.
+// A TargetResponderRecipe resource:
+// * Is effectively a copy of a ResponderRecipe resource in which users can make
+// very limited changes if it’s Oracle-managed, and more changes if it’s user-managed.
+// * Is visible on the Cloud Guard Targets, Target Details page.
+// * Is located in a specific OCI compartment.
+// * Can be modified by users, programmatically or through the UI.
+// * Changes that can be made here override any settings in the corresponding
+// ResponderRecipe, of which the TargetResponderRecipe resource is effectively a copy
+// of the ResponderRecipe resource (effectively created when the detector recipe
+// is attached to the target).
 type TargetResponderRecipe struct {
 
-	// Unique identifier of TargetResponderRecipe that can't be changed after creation.
+	// Unique identifier of target responder recipe that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Unique identifier for Responder Recipe of which this is an extension.
+	// Unique identifier for the Oracle-managed responder recipe from which this recipe was cloned
 	ResponderRecipeId *string `mandatory:"true" json:"responderRecipeId"`
 
-	// Compartment Identifier
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ResponderRecipe display name.
+	// Target responder recipe display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// ResponderRecipe description.
+	// Target responder description
 	Description *string `mandatory:"true" json:"description"`
 
-	// Owner of ResponderRecipe
+	// Owner of target responder recipe
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
 	// The date and time the target responder recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target responder recipe rule was updated. Format defined by RFC3339.
+	// The date and time the target responder recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// List of responder rules associated with the recipe - user input
 	ResponderRules []TargetResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
-	// List of responder rules associated with the recipe after applying all defaults
+	// List of currently enabled responder rules for the responder type for recipe after applying defaults
 	EffectiveResponderRules []TargetResponderRecipeResponderRule `mandatory:"false" json:"effectiveResponderRules"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetResponderRecipe) String() string {

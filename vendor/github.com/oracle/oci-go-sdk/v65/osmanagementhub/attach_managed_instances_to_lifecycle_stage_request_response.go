@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/AttachManagedInstancesToLifecycleStage.go.html to see an example of how to use AttachManagedInstancesToLifecycleStageRequest.
 type AttachManagedInstancesToLifecycleStageRequest struct {
 
-	// The OCID of the lifecycle stage.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
 	// Details for managed instances to attach to the lifecycle stage.

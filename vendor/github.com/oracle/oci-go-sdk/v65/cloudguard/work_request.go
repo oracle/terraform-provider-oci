@@ -16,38 +16,41 @@ import (
 	"strings"
 )
 
-// WorkRequest A description of workrequest status
+// WorkRequest Detailed information about a work request (WorkRequest resource).
 type WorkRequest struct {
 
-	// The id of the work request.
+	// Unique identifier of the work request
 	Id *string `mandatory:"true" json:"id"`
 
-	// The ocid of the compartment that contains the work request. Work requests should be scoped to
+	// The OCID of the compartment that contains the work request. Work requests should be scoped to
 	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
 	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used
+	// resource whose compartment should be used.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Operation type of the work request.
+	// Operation type of the work request
 	OperationType OperationTypeEnum `mandatory:"true" json:"operationType"`
 
-	// Operation status of the work request.
+	// Operation status of the work request
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The resources affected by this work request.
+	// List of resources affected by the work request
 	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
 
-	// Percentage of the request completed.
+	// Percentage of the work request that's completed
 	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
 
-	// The date and time the request was created
+	// The date and time the work request was created
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
-	// The date and time the request was started
+	// The date and time the work request was started
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The date and time the object was finished
+	// The date and time the work request was finished
 	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m WorkRequest) String() string {

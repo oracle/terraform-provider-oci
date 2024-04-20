@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// TargetSelected Target Selection eg select ALL or select on basis of TargetResourceTypes or TargetIds.
+// TargetSelected Specification of how targets are to be selected (select ALL, or select by TargetResourceType or TargetId).
 type TargetSelected interface {
 }
 

@@ -17,25 +17,25 @@ import (
 	"strings"
 )
 
-// UpdateDataMaskRuleDetails The information to be updated.
+// UpdateDataMaskRuleDetails The information to be updated for a data mask rule.
 type UpdateDataMaskRuleDetails struct {
 
-	// Data mask rule Name.
+	// Data mask rule display name
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// IAM Group id associated with the data mask rule
+	// IAM group ID associated with the data mask rule
 	IamGroupId *string `mandatory:"false" json:"iamGroupId"`
 
 	TargetSelected TargetSelected `mandatory:"false" json:"targetSelected"`
 
-	// Data Mask Categories
+	// Data mask rule categories
 	DataMaskCategories []DataMaskCategoryEnum `mandatory:"false" json:"dataMaskCategories,omitempty"`
 
-	// The status of the dataMaskRule.
+	// The status of the data mask rule
 	DataMaskRuleStatus DataMaskRuleStatusEnum `mandatory:"false" json:"dataMaskRuleStatus,omitempty"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

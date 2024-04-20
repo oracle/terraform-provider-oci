@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// UpdateLifecycleEnvironmentDetails The information to be updated.
+// UpdateLifecycleEnvironmentDetails Provides the information used to update the lifecycle environment.
 type UpdateLifecycleEnvironmentDetails struct {
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the lifecycle environment. Does not have to be unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// User specified information about the lifecycle environment. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// User-specified list of lifecycle stages used within the lifecycle environment. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The list of lifecycle stages to be updated.

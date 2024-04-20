@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteManagedInstanceGroup.go.html to see an example of how to use DeleteManagedInstanceGroupRequest.
 type DeleteManagedInstanceGroupRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

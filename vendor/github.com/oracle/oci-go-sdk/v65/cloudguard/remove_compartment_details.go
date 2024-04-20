@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// RemoveCompartmentDetails An existing compartment to remove from a security zone
+// RemoveCompartmentDetails Detailed information on a compartment to be removed from a security zone.
 type RemoveCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to be removed from SecurityZone.

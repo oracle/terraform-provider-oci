@@ -16,17 +16,20 @@ import (
 	"strings"
 )
 
-// ConditionMetadataTypeSummary condition type provided by cloud guard
+// ConditionMetadataTypeSummary Additional information on supported condition types.
 type ConditionMetadataTypeSummary struct {
 
-	// Name used to identify
+	// Unique identifier of the condition type
 	Id *string `mandatory:"true" json:"id"`
 
 	// Display name of the condition type
 	Description *string `mandatory:"true" json:"description"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ConditionMetadataTypeSummary) String() string {

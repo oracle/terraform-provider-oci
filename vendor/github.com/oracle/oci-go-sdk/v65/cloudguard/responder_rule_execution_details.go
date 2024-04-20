@@ -17,11 +17,11 @@ import (
 	"strings"
 )
 
-// ResponderRuleExecutionDetails Details of ResponderRuleExecution. A Responder Rule Execution is the entity that captures the execution of a Responder Rule for a given Problem.
+// ResponderRuleExecutionDetails Details of responder rule execution for a problem.
 type ResponderRuleExecutionDetails struct {
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// ResponderRule configurations
+	// List of responder rule configurations
 	Configurations []ResponderConfiguration `mandatory:"false" json:"configurations"`
 }
 

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,10 +17,10 @@ import (
 	"strings"
 )
 
-// SoftwareSourceCollection Results of a SoftwareSource search. Contains boh SoftwareSourceSummary items and other information, such as metadata.
+// SoftwareSourceCollection A set of software sources returned for the ListSoftwareSources operation.
 type SoftwareSourceCollection struct {
 
-	// List of SoftwareSources.
+	// List of software sources.
 	Items []SoftwareSourceSummary `mandatory:"true" json:"items"`
 }
 

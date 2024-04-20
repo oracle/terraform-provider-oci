@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/SkipResponderExecution.go.html to see an example of how to use SkipResponderExecutionRequest.
 type SkipResponderExecutionRequest struct {
 
-	// The identifier of the responder execution.
+	// The unique identifier of the responder execution.
 	ResponderExecutionId *string `mandatory:"true" contributesTo:"path" name:"responderExecutionId"`
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// DataSourceMappingInfo Detail of resources which are mapped to DataSource.
+// DataSourceMappingInfo Details of the detector recipe and detector rule mapped to the data source.
 type DataSourceMappingInfo struct {
 
-	// Id of the attached detectorRecipeId to the Data Source.
+	// ID of the detector recipe attached to the data source
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 
-	// Id of the attached detectorRuleId to the Data Source.
+	// ID of the detector rule attached to the data source
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
 }
 

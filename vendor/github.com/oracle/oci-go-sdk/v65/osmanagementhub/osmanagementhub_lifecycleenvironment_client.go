@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,8 +92,7 @@ func (client *LifecycleEnvironmentClient) ConfigurationProvider() *common.Config
 	return client.config
 }
 
-// AttachManagedInstancesToLifecycleStage Attach(add) managed instances to a lifecycle stage.
-// Once added operations can be applied to all managed instances in the lifecycle stage.
+// AttachManagedInstancesToLifecycleStage Attaches (adds) managed instances to a lifecycle stage. Once added, you can apply operations to all managed instances in the lifecycle stage.
 //
 // # See also
 //
@@ -155,7 +155,70 @@ func (client LifecycleEnvironmentClient) attachManagedInstancesToLifecycleStage(
 	return response, err
 }
 
-// CreateLifecycleEnvironment Creates a new lifecycle environment.
+// ChangeLifecycleEnvironmentCompartment Moves a lifecycle environment into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeLifecycleEnvironmentCompartment.go.html to see an example of how to use ChangeLifecycleEnvironmentCompartment API.
+// A default retry strategy applies to this operation ChangeLifecycleEnvironmentCompartment()
+func (client LifecycleEnvironmentClient) ChangeLifecycleEnvironmentCompartment(ctx context.Context, request ChangeLifecycleEnvironmentCompartmentRequest) (response ChangeLifecycleEnvironmentCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeLifecycleEnvironmentCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeLifecycleEnvironmentCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeLifecycleEnvironmentCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeLifecycleEnvironmentCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeLifecycleEnvironmentCompartmentResponse")
+	}
+	return
+}
+
+// changeLifecycleEnvironmentCompartment implements the OCIOperation interface (enables retrying operations)
+func (client LifecycleEnvironmentClient) changeLifecycleEnvironmentCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/lifecycleEnvironments/{lifecycleEnvironmentId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeLifecycleEnvironmentCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleEnvironment/ChangeLifecycleEnvironmentCompartment"
+		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "ChangeLifecycleEnvironmentCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateLifecycleEnvironment Creates a lifecycle environment. A lifecycle environment is a user-defined pipeline to deliver curated, versioned content in a prescribed, methodical manner.
 //
 // # See also
 //
@@ -218,7 +281,7 @@ func (client LifecycleEnvironmentClient) createLifecycleEnvironment(ctx context.
 	return response, err
 }
 
-// DeleteLifecycleEnvironment Deletes a lifecycle environment.
+// DeleteLifecycleEnvironment Deletes the specified lifecycle environment.
 //
 // # See also
 //
@@ -276,7 +339,7 @@ func (client LifecycleEnvironmentClient) deleteLifecycleEnvironment(ctx context.
 	return response, err
 }
 
-// DetachManagedInstancesFromLifecycleStage Detach(remove) managed instance from a lifecycle stage.
+// DetachManagedInstancesFromLifecycleStage Detaches (removes) a managed instance from a lifecycle stage.
 //
 // # See also
 //
@@ -397,7 +460,7 @@ func (client LifecycleEnvironmentClient) getLifecycleEnvironment(ctx context.Con
 	return response, err
 }
 
-// GetLifecycleStage Gets information about the specified lifecycle stage.
+// GetLifecycleStage Returns information about the specified lifecycle stage.
 //
 // # See also
 //
@@ -573,8 +636,7 @@ func (client LifecycleEnvironmentClient) listLifecycleStageInstalledPackages(ctx
 	return response, err
 }
 
-// ListLifecycleStages Lists lifecycle stages that match the specified compartment or lifecycle stage OCID. Filter the list against
-// a variety of criteria including but not limited to its name, status, architecture, and OS family.
+// ListLifecycleStages Lists lifecycle stages that match the specified compartment or lifecycle stage OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against
 //
 // # See also
 //
@@ -632,8 +694,9 @@ func (client LifecycleEnvironmentClient) listLifecycleStages(ctx context.Context
 	return response, err
 }
 
-// PromoteSoftwareSourceToLifecycleStage Updates the versioned custom software source content
-// for specified lifecycle stage.
+// PromoteSoftwareSourceToLifecycleStage Updates the versioned custom software source content to the specified lifecycle stage.
+// A versioned custom software source OCID (softwareSourceId) is required when promoting content to the first lifecycle stage. You must promote content to the first stage before promoting to subsequent stages, otherwise the service returns an error.
+// The softwareSourceId is optional when promoting content to the second, third, forth, or fifth stages. If you provide a softwareSourceId, the service validates that it matches the softwareSourceId of the previous stage. If it does not match, the service returns an error. If you don't provide a softwareSourceId, the service promotes the versioned software source from the previous lifecycle stage. If the previous lifecycle stage has no software source, the service returns an error.
 //
 // # See also
 //

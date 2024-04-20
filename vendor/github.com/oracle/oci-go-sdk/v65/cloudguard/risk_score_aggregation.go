@@ -19,7 +19,7 @@ import (
 // RiskScoreAggregation Provides the dimensions and their corresponding risk score.
 type RiskScoreAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
 	// The risk score with given dimensions

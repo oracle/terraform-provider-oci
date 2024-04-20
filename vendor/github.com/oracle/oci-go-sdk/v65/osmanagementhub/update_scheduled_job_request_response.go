@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/UpdateScheduledJob.go.html to see an example of how to use UpdateScheduledJobRequest.
 type UpdateScheduledJobRequest struct {
 
-	// The OCID of the scheduled job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	ScheduledJobId *string `mandatory:"true" contributesTo:"path" name:"scheduledJobId"`
 
-	// The information to be updated.
+	// Provides the information used to update the job.
 	UpdateScheduledJobDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

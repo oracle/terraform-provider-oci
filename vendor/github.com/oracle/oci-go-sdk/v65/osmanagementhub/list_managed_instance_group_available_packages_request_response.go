@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceGroupAvailablePackages.go.html to see an example of how to use ListManagedInstanceGroupAvailablePackagesRequest.
 type ListManagedInstanceGroupAvailablePackagesRequest struct {
 
-	// The managed instance group OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	ManagedInstanceGroupId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceGroupId"`
 
 	// A filter to return resources that match the given display names.
@@ -27,7 +27,7 @@ type ListManagedInstanceGroupAvailablePackagesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -46,9 +46,7 @@ type ListManagedInstanceGroupAvailablePackagesRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending.
 	SortBy ListManagedInstanceGroupAvailablePackagesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
-	// A boolean variable that is used to list only the latest versions of packages, module streams,
-	// and stream profiles when set to true. All packages, module streams, and stream profiles are
-	// returned when set to false.
+	// Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

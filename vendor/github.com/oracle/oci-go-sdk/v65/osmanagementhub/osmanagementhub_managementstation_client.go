@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,7 +92,70 @@ func (client *ManagementStationClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// CreateManagementStation Creates a management station.
+// ChangeManagementStationCompartment Moves a managment station to a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagementStationCompartment.go.html to see an example of how to use ChangeManagementStationCompartment API.
+// A default retry strategy applies to this operation ChangeManagementStationCompartment()
+func (client ManagementStationClient) ChangeManagementStationCompartment(ctx context.Context, request ChangeManagementStationCompartmentRequest) (response ChangeManagementStationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeManagementStationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeManagementStationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeManagementStationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeManagementStationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeManagementStationCompartmentResponse")
+	}
+	return
+}
+
+// changeManagementStationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagementStationClient) changeManagementStationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementStations/{managementStationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeManagementStationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/ChangeManagementStationCompartment"
+		err = common.PostProcessServiceError(err, "ManagementStation", "ChangeManagementStationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateManagementStation Create a management station. You must provide proxy and mirror configuration information.
 //
 // # See also
 //
@@ -386,7 +450,70 @@ func (client ManagementStationClient) listMirrors(ctx context.Context, request c
 	return response, err
 }
 
-// SynchronizeMirrors Synchronizes the specified mirrors associated with the management station.
+// RefreshManagementStationConfig Refreshes the list of software sources mirrored by the management station to support the associated instances.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/RefreshManagementStationConfig.go.html to see an example of how to use RefreshManagementStationConfig API.
+// A default retry strategy applies to this operation RefreshManagementStationConfig()
+func (client ManagementStationClient) RefreshManagementStationConfig(ctx context.Context, request RefreshManagementStationConfigRequest) (response RefreshManagementStationConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshManagementStationConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshManagementStationConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshManagementStationConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshManagementStationConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshManagementStationConfigResponse")
+	}
+	return
+}
+
+// refreshManagementStationConfig implements the OCIOperation interface (enables retrying operations)
+func (client ManagementStationClient) refreshManagementStationConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementStations/{managementStationId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshManagementStationConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagementStation/RefreshManagementStationConfig"
+		err = common.PostProcessServiceError(err, "ManagementStation", "RefreshManagementStationConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SynchronizeMirrors Synchronize the specified software sources mirrors on the management station.
 //
 // # See also
 //
@@ -449,7 +576,7 @@ func (client ManagementStationClient) synchronizeMirrors(ctx context.Context, re
 	return response, err
 }
 
-// SynchronizeSingleMirrors Synchronize the specified mirror associated with a management station.
+// SynchronizeSingleMirrors Synchronize the specified software source mirrors on the management station.
 //
 // # See also
 //

@@ -12,6 +12,10 @@ import (
 )
 
 // ActivateClusterPlacementGroupRequest wrapper for the ActivateClusterPlacementGroup operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/clusterplacementgroups/ActivateClusterPlacementGroup.go.html to see an example of how to use ActivateClusterPlacementGroupRequest.
 type ActivateClusterPlacementGroupRequest struct {
 
 	// A unique cluster placement group identifier.

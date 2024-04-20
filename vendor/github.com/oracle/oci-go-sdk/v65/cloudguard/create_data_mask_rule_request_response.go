@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateDataMaskRule.go.html to see an example of how to use CreateDataMaskRuleRequest.
 type CreateDataMaskRuleRequest struct {
 
-	// Definition for the new Data Mask Rule.
+	// Definition for the new data mask rule
 	CreateDataMaskRuleDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

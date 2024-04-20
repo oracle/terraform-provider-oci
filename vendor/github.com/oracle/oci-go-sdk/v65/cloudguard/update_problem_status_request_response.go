@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateProblemStatus.go.html to see an example of how to use UpdateProblemStatusRequest.
 type UpdateProblemStatusRequest struct {
 
-	// OCId of the problem.
+	// OCID of the problem.
 	ProblemId *string `mandatory:"true" contributesTo:"path" name:"problemId"`
 
-	// The additional details for the problem.
+	// The additional details for the problem
 	UpdateProblemStatusDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

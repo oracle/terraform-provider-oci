@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,43 +16,46 @@ import (
 	"strings"
 )
 
-// LifecycleEnvironment Contains versioned software source content and lifecycle stages for a managed instance.
+// LifecycleEnvironment Defines the lifecycle environment, including the associated versioned software sources, lifecycle stages, and managed instances.
 type LifecycleEnvironment struct {
 
-	// The OCID of the resource that is immutable on creation.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the lifecycle environment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// The user-friendly name for the lifecycle environment.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// User specified list of lifecycle stages to be created for the lifecycle environment.
+	// User-specified list of lifecycle stages used within the lifecycle environment.
 	Stages []LifecycleStage `mandatory:"true" json:"stages"`
 
 	// The current state of the lifecycle environment.
 	LifecycleState LifecycleEnvironmentLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The operating system type of the target instances.
+	// The operating system of the managed instances in the lifecycle environment.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
-	// The CPU architecture of the target instances.
+	// The CPU architecture of the managed instances in the lifecycle environment.
 	ArchType ArchTypeEnum `mandatory:"true" json:"archType"`
 
-	// The software source vendor name.
+	// The vendor of the operating system used by the managed instances in the lifecycle environment.
 	VendorName VendorNameEnum `mandatory:"true" json:"vendorName"`
 
-	// The time the lifecycle environment was created. An RFC3339 formatted datetime string.
+	// The time the lifecycle environment was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// User specified information about the lifecycle environment.
+	// User-specified information about the lifecycle environment.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The list of managed instance OCIDs specified in the lifecycle stage.
+	// List of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) assigned to the lifecycle stage.
 	ManagedInstanceIds []ManagedInstanceDetails `mandatory:"false" json:"managedInstanceIds"`
 
-	// The time the lifecycle environment was last modified. An RFC3339 formatted datetime string.
+	// The location of managed instances attached to the lifecycle environment.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
+	// The time the lifecycle environment was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -91,6 +95,9 @@ func (m LifecycleEnvironment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

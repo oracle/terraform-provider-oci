@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSecurityRecipe.go.html to see an example of how to use DeleteSecurityRecipeRequest.
 type DeleteSecurityRecipeRequest struct {
 
-	// The unique identifier of the security zone recipe (`SecurityRecipe`)
+	// The unique identifier of the security zone recipe. (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// CreateDataSourceDetails Creation of Data Source.
+// CreateDataSourceDetails Parameters for creating a data source (DataSource resource).
 type CreateDataSourceDetails struct {
 
-	// Data Source display name.
+	// Data source display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// CompartmentId of Data Source.
+	// Compartment OCID of the data source
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Possible type of dataSourceFeed Provider(LoggingQuery)
+	// Type of data source feed provider (LoggingQuery)
 	DataSourceFeedProvider DataSourceFeedProviderEnum `mandatory:"true" json:"dataSourceFeedProvider"`
 
-	// Status of DataSource. Default value is DISABLED.
+	// Enablement status of data source.
 	Status DataSourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	DataSourceDetails DataSourceDetails `mandatory:"false" json:"dataSourceDetails"`

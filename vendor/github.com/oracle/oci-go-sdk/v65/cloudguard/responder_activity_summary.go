@@ -16,34 +16,34 @@ import (
 	"strings"
 )
 
-// ResponderActivitySummary Responder Activity summary Definition.
+// ResponderActivitySummary Responder activity summary definition.
 type ResponderActivitySummary struct {
 
-	// Unique id for Responder activity.
+	// Unique ID for responder activity
 	Id *string `mandatory:"true" json:"id"`
 
-	// problemId for which Responder activity is associated to.
+	// Unique ID of problem associated with responder activity
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
-	// Id of the responder rule for the problem
+	// Unique ID of the responder rule associated with the problem
 	ResponderRuleId *string `mandatory:"true" json:"responderRuleId"`
 
-	// responder rule type for performing the operation
+	// Responder rule type for performing the operation
 	ResponderType ResponderTypeEnum `mandatory:"true" json:"responderType"`
 
-	// responder rule name
+	// Responder rule name
 	ResponderRuleName *string `mandatory:"true" json:"responderRuleName"`
 
-	// Responder activity types
+	// Responder activity type
 	ResponderActivityType ResponderActivityTypeEnum `mandatory:"true" json:"responderActivityType"`
 
-	// the responder execution status
+	// Responder execution status
 	ResponderExecutionStatus ResponderExecutionStatesEnum `mandatory:"true" json:"responderExecutionStatus"`
 
-	// responder activity starting time
+	// Responder activity starting time
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// additional message related to this operation
+	// Additional message related to this operation
 	Message *string `mandatory:"true" json:"message"`
 }
 

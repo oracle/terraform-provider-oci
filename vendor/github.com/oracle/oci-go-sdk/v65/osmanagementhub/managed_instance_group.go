@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,28 +16,28 @@ import (
 	"strings"
 )
 
-// ManagedInstanceGroup Description of managed instance group.
+// ManagedInstanceGroup An object that defines the managed instance group.
 type ManagedInstanceGroup struct {
 
-	// The managed instance group OCID that is immutable on creation.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the managed instance group.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The current state of the managed instance group.
 	LifecycleState ManagedInstanceGroupLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the managed instance group.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Details describing the managed instance group.
+	// User-specified information about the managed instance group.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time the managed instance group was created. An RFC3339 formatted datetime string.
+	// The time the managed instance group was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The time the managed instance group was last modified. An RFC3339 formatted datetime string.
+	// The time the managed instance group was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
 	// The operating system type of the instances in the managed instance group.
@@ -45,23 +46,34 @@ type ManagedInstanceGroup struct {
 	// The CPU architecture of the instances in the managed instance group.
 	ArchType ArchTypeEnum `mandatory:"false" json:"archType,omitempty"`
 
-	// The software source vendor name.
+	// The vendor of the operating system used by the managed instances in the group.
 	VendorName VendorNameEnum `mandatory:"false" json:"vendorName,omitempty"`
 
-	// The list of software sources that the managed instance group will use.
+	// The list of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that the managed instance group will use.
 	SoftwareSourceIds []SoftwareSourceDetails `mandatory:"false" json:"softwareSourceIds"`
 
 	// The list of software sources that the managed instance group will use.
 	SoftwareSources []SoftwareSourceDetails `mandatory:"false" json:"softwareSources"`
 
-	// The list of managed instances OCIDs attached to the managed instance group.
+	// The list of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) attached to the managed instance group.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
-	// The number of Managed Instances in the managed instance group.
+	// The number of managed instances in the group.
 	ManagedInstanceCount *int `mandatory:"false" json:"managedInstanceCount"`
+
+	// The location of managed instances attached to the group.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
 
 	// The number of scheduled jobs pending against the managed instance group.
 	PendingJobCount *int `mandatory:"false" json:"pendingJobCount"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *AutonomousSettings `mandatory:"false" json:"autonomousSettings"`
+
+	// Indicates whether the Autonomous Linux service manages the group.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -99,6 +111,9 @@ func (m ManagedInstanceGroup) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVendorNameEnum(string(m.VendorName)); !ok && m.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
