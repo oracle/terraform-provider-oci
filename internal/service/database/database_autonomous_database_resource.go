@@ -97,7 +97,6 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"backup_retention_period_in_days": {
 				Type:     schema.TypeInt,
@@ -1851,6 +1850,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok && s.D.HasChange("byol_compute_count_limit") {
 		tmp := float32(byolComputeCountLimit.(float64))
 		request.ByolComputeCountLimit = &tmp
+	}
+
+	if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok && s.D.HasChange("autonomous_maintenance_schedule_type") {
+		request.AutonomousMaintenanceScheduleType = oci_database.UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 	}
 
 	if computeCount, ok := s.D.GetOkExists("compute_count"); ok && s.D.HasChange("compute_count") {
