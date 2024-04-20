@@ -1,3 +1,20 @@
+## 5.39.0 (Unreleased)
+
+### Added
+- Support for Cluster Placement Group- Service
+- clusterPlacementGroupId terraform implementation and tests
+- add cluster placement group capability for block and boot volumes
+- Support for Compute API: Replace instance boot volume via UpdateInstance
+- Support for Oracle Process Automation (OPA) : Support for Start/Stop operation in Public API
+- Support for ODSC - Model Deploy - Custom Public Egress Support
+- Support for Cost Management - Usage Statements
+- Support for Oracle Home Version Control - Phase 2 | ADB-D and ADB-C@C
+- Support for OCI Cache Service with Redis - NSG Support
+### Bug Fix
+- update architecture code due to param type change to Enum
+- logSourceIdentifer updates for logging Analytics connectors
+- Update psql Documentaiton for TF Provider
+
 ## 5.38.0 (Unreleased)
 
 ### Added
