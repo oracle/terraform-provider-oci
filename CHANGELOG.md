@@ -1,3 +1,13 @@
+## 5.39.0 (Unreleased)
+
+### Added
+- Support for Cluster Placement Group- Service
+- clusterPlacementGroupId terraform implementation and tests
+- add cluster placement group capability for block and boot volumes
+- Support for Compute API: Replace instance boot volume via UpdateInstance
+### Bug Fix
+logSourceIdentifer updates for logging Analytics connectors
+
 ## 5.38.0 (Unreleased)
 
 ### Added
