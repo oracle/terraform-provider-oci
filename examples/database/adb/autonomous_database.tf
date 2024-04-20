@@ -257,7 +257,7 @@ resource "oci_database_autonomous_database" "autonomous_database_oneway_tls_conn
   db_name                     = "adbOneWay"
 
   whitelisted_ips             = ["1.1.1.1"]
-  is_mtls_connection_required    = "true"
+  is_mtls_connection_required = "true"
 }
 
 resource "oci_database_autonomous_database" "autonomous_database_dbms_status" {
@@ -388,7 +388,6 @@ output "autonomous_database_high_connection_string" {
 output "autonomous_databases" {
   value = data.oci_database_autonomous_databases.autonomous_databases.autonomous_databases
 }
-
 
 resource "oci_database_autonomous_database" "test_autonomous_database_shrink" {
   admin_password           = random_string.autonomous_database_admin_password.result
