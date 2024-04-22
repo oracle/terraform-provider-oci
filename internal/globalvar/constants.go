@@ -9,6 +9,7 @@ const (
 	AuthInstancePrincipalSetting          = "InstancePrincipal"
 	AuthInstancePrincipalWithCertsSetting = "InstancePrincipalWithCerts"
 	AuthSecurityToken                     = "SecurityToken"
+	AuthOKEWorkloadIdentity               = "OKEWorkloadIdentity"
 	ResourcePrincipal                     = "ResourcePrincipal"
 	RequestHeaderOpcOboToken              = "opc-obo-token"
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
@@ -59,6 +60,8 @@ const (
 	VarsFile                        = "vars.tf"
 	ProviderFile                    = "provider.tf"
 	MissingRequiredAttributeWarning = `
+
+	
 
 Warning: There are one or more 'Required' attributes for which a value could not be discovered.
 This may be expected behavior from the service, which may prevent discovery of certain sensitive attributes or secrets.
