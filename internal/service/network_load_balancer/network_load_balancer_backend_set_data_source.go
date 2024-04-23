@@ -88,6 +88,10 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 	}
 	s.D.Set("ip_version", s.Res.IpVersion)
 
+	if s.Res.IsInstantFailoverEnabled != nil {
+		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
+	}
+
 	if s.Res.IsFailOpen != nil {
 		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
 	}

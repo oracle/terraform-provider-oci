@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// UpdateBulkProblemStatusDetails List of problem ids to be passed in to update the Problem status.
+// UpdateBulkProblemStatusDetails List of problem IDs to be passed in to update problem status.
 type UpdateBulkProblemStatusDetails struct {
 
 	// Action taken by user
 	Status ProblemLifecycleDetailEnum `mandatory:"true" json:"status"`
 
-	// List of ProblemIds to be passed in to update the Problem status.
+	// List of problem IDs to be passed in to update the problem status
 	ProblemIds []string `mandatory:"true" json:"problemIds"`
 
-	// User defined comment to be passed in to update the problem.
+	// User-defined comment to be passed in to update the problem
 	Comment *string `mandatory:"false" json:"comment"`
 }
 

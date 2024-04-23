@@ -17,39 +17,39 @@ import (
 	"strings"
 )
 
-// CreateDetectorRuleDetails Details of a Detector Rule to be created in Detector Recipe
+// CreateDetectorRuleDetails Details of a detector rule to be created in a detector recipe.
 type CreateDetectorRuleDetails struct {
 
 	// Name of the detector rule
 	Name *string `mandatory:"true" json:"name"`
 
-	// Id of source detector rule
+	// ID of source detector rule
 	SourceDetectorRuleId *string `mandatory:"false" json:"sourceDetectorRuleId"`
 
 	// Description of the detector rule
 	Description *string `mandatory:"false" json:"description"`
 
-	// Identifies state for detector rule
+	// Enablement state of the detector rule
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
-	// The Risk Level
+	// The risk level for the detector rule
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Configuration details
+	// List of detector rule configurations
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
 
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// user defined labels for a detector rule
+	// User-defined labels for the detector rule
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// Recommendations of the detector rule
+	// Recommendations for the detector rule
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// ocid of the data source which needs to attached
+	// OCID of the data source which is attached
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for the detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 

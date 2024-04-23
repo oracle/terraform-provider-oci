@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// RegionStatusDetail Status of Region query replication.
+// RegionStatusDetail Status of replication of a data source query in a region
 type RegionStatusDetail struct {
 
-	// Data Source replication region.
+	// Data source replication region
 	Region *string `mandatory:"true" json:"region"`
 
-	// Data Source replication region status.
+	// Data source replication region status
 	Status QueryReplicationStatusEnum `mandatory:"true" json:"status"`
 }
 

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// ManagedInstanceGroupInstalledPackageSummary Summary information pertaining to an installed package on a managed instance group.
+// ManagedInstanceGroupInstalledPackageSummary Provides summary information for a package installed on a managed instance group.
 type ManagedInstanceGroupInstalledPackageSummary struct {
 
 	// The name of the package that is installed on the managed instance group.

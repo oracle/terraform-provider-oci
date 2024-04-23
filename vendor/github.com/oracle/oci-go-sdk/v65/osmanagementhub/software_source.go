@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,26 +17,28 @@ import (
 	"strings"
 )
 
-// SoftwareSource A software source contains a collection of packages.
+// SoftwareSource The object that defines a software source. A software source contains a collection of packages. For more information, see Managing Software Sources (https://docs.cloud.oracle.com/iaas/osmh/doc/software-sources.htm).
 type SoftwareSource interface {
 
-	// OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	GetId() *string
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	GetDisplayName() *string
 
-	// The date and time the software source was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeCreated() *common.SDKTime
 
-	// Possible availabilities of a software source.
+	// Availability of the software source (for non-OCI environments).
 	GetAvailability() AvailabilityEnum
 
-	// The Repo ID for the software source.
+	// Availability of the software source (for OCI environments).
+	GetAvailabilityAtOci() AvailabilityEnum
+
+	// The repository ID for the software source.
 	GetRepoId() *string
 
 	// The OS family the software source belongs to.
@@ -44,16 +47,16 @@ type SoftwareSource interface {
 	// The architecture type supported by the software source.
 	GetArchType() ArchTypeEnum
 
-	// URL for the repository.
+	// URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 	GetUrl() *string
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source.
 	GetDescription() *string
 
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
 
-	// Number of packages.
+	// Number of packages the software source contains.
 	GetPackageCount() *int64
 
 	// The yum repository checksum type used by this software source.
@@ -67,6 +70,9 @@ type SoftwareSource interface {
 
 	// Fingerprint of the GPG key for this software source.
 	GetGpgKeyFingerprint() *string
+
+	// The size of the software source in gigabytes (GB).
+	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -92,6 +98,7 @@ type softwaresource struct {
 	GpgKeyUrl          *string                           `mandatory:"false" json:"gpgKeyUrl"`
 	GpgKeyId           *string                           `mandatory:"false" json:"gpgKeyId"`
 	GpgKeyFingerprint  *string                           `mandatory:"false" json:"gpgKeyFingerprint"`
+	Size               *float64                          `mandatory:"false" json:"size"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -100,6 +107,7 @@ type softwaresource struct {
 	DisplayName        *string                           `mandatory:"true" json:"displayName"`
 	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	Availability       AvailabilityEnum                  `mandatory:"true" json:"availability"`
+	AvailabilityAtOci  AvailabilityEnum                  `mandatory:"true" json:"availabilityAtOci"`
 	RepoId             *string                           `mandatory:"true" json:"repoId"`
 	OsFamily           OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
 	ArchType           ArchTypeEnum                      `mandatory:"true" json:"archType"`
@@ -123,6 +131,7 @@ func (m *softwaresource) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.TimeCreated = s.Model.TimeCreated
 	m.Availability = s.Model.Availability
+	m.AvailabilityAtOci = s.Model.AvailabilityAtOci
 	m.RepoId = s.Model.RepoId
 	m.OsFamily = s.Model.OsFamily
 	m.ArchType = s.Model.ArchType
@@ -134,6 +143,7 @@ func (m *softwaresource) UnmarshalJSON(data []byte) error {
 	m.GpgKeyUrl = s.Model.GpgKeyUrl
 	m.GpgKeyId = s.Model.GpgKeyId
 	m.GpgKeyFingerprint = s.Model.GpgKeyFingerprint
+	m.Size = s.Model.Size
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -204,6 +214,11 @@ func (m softwaresource) GetGpgKeyFingerprint() *string {
 	return m.GpgKeyFingerprint
 }
 
+// GetSize returns Size
+func (m softwaresource) GetSize() *float64 {
+	return m.Size
+}
+
 // GetFreeformTags returns FreeformTags
 func (m softwaresource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -244,6 +259,11 @@ func (m softwaresource) GetAvailability() AvailabilityEnum {
 	return m.Availability
 }
 
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m softwaresource) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
+}
+
 // GetRepoId returns RepoId
 func (m softwaresource) GetRepoId() *string {
 	return m.RepoId
@@ -276,6 +296,9 @@ func (m softwaresource) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))
 	}
@@ -303,6 +326,7 @@ const (
 	SoftwareSourceLifecycleStateCreating SoftwareSourceLifecycleStateEnum = "CREATING"
 	SoftwareSourceLifecycleStateUpdating SoftwareSourceLifecycleStateEnum = "UPDATING"
 	SoftwareSourceLifecycleStateActive   SoftwareSourceLifecycleStateEnum = "ACTIVE"
+	SoftwareSourceLifecycleStateInactive SoftwareSourceLifecycleStateEnum = "INACTIVE"
 	SoftwareSourceLifecycleStateDeleting SoftwareSourceLifecycleStateEnum = "DELETING"
 	SoftwareSourceLifecycleStateDeleted  SoftwareSourceLifecycleStateEnum = "DELETED"
 	SoftwareSourceLifecycleStateFailed   SoftwareSourceLifecycleStateEnum = "FAILED"
@@ -312,6 +336,7 @@ var mappingSoftwareSourceLifecycleStateEnum = map[string]SoftwareSourceLifecycle
 	"CREATING": SoftwareSourceLifecycleStateCreating,
 	"UPDATING": SoftwareSourceLifecycleStateUpdating,
 	"ACTIVE":   SoftwareSourceLifecycleStateActive,
+	"INACTIVE": SoftwareSourceLifecycleStateInactive,
 	"DELETING": SoftwareSourceLifecycleStateDeleting,
 	"DELETED":  SoftwareSourceLifecycleStateDeleted,
 	"FAILED":   SoftwareSourceLifecycleStateFailed,
@@ -321,6 +346,7 @@ var mappingSoftwareSourceLifecycleStateEnumLowerCase = map[string]SoftwareSource
 	"creating": SoftwareSourceLifecycleStateCreating,
 	"updating": SoftwareSourceLifecycleStateUpdating,
 	"active":   SoftwareSourceLifecycleStateActive,
+	"inactive": SoftwareSourceLifecycleStateInactive,
 	"deleting": SoftwareSourceLifecycleStateDeleting,
 	"deleted":  SoftwareSourceLifecycleStateDeleted,
 	"failed":   SoftwareSourceLifecycleStateFailed,
@@ -341,6 +367,7 @@ func GetSoftwareSourceLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

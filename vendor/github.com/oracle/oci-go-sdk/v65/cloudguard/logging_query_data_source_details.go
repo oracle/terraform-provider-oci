@@ -17,32 +17,32 @@ import (
 	"strings"
 )
 
-// LoggingQueryDataSourceDetails The information about new Logging Query of type DataSource.
+// LoggingQueryDataSourceDetails Information for a logging query for a data source.
 type LoggingQueryDataSourceDetails struct {
 
-	// Logging Query regions
+	// List of logging query regions
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// The continuous query expression that is run periodically.
+	// The continuous query expression that is run periodicall
 	Query *string `mandatory:"false" json:"query"`
 
 	// Interval in minutes that query is run periodically.
 	IntervalInMinutes *int `mandatory:"false" json:"intervalInMinutes"`
 
-	// The integer value that must be exceeded, fall below or equal to (depending on the operator), the query result to trigger an event.
+	// The integer value that must be exceeded, fall below or equal to (depending on the operator), for the query result to trigger an event
 	Threshold *int `mandatory:"false" json:"threshold"`
 
 	QueryStartTime ContinuousQueryStartPolicy `mandatory:"false" json:"queryStartTime"`
 
-	// The additional entities count used for data source query.
+	// The additional entities count used for data source query
 	AdditionalEntitiesCount *int `mandatory:"false" json:"additionalEntitiesCount"`
 
 	LoggingQueryDetails LoggingQueryDetails `mandatory:"false" json:"loggingQueryDetails"`
 
-	// Operator used in Data Soruce
+	// Operator used in data source
 	Operator LoggingQueryOperatorTypeEnum `mandatory:"false" json:"operator,omitempty"`
 
-	// Logging query type for data source (Sighting/Insight)
+	// Type of logging query for data source (Sighting/Insight)
 	LoggingQueryType LoggingQueryTypeEnum `mandatory:"false" json:"loggingQueryType,omitempty"`
 }
 

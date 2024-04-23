@@ -16,13 +16,16 @@ import (
 	"strings"
 )
 
-// SecurityPolicy A security policy defines a security requirement for resources in a security zone. If a security zone enables a policy (using a recipe), then any action that attempts to violate that policy is denied.
+// SecurityPolicy A security policy (SecurityPolicy resource) defines security requirements
+// for resources in a security zone. If a security zone enables a security policy through
+// a security recipe (SecurityRecipe resource), then any action that would violate that
+// policy is blocked.
 type SecurityPolicy struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can’t be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// The id of the security policy's compartment
+	// The OCID of the security policy's compartment
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The owner of the security policy
@@ -31,13 +34,13 @@ type SecurityPolicy struct {
 	// A shorter version of the security policy's name
 	FriendlyName *string `mandatory:"false" json:"friendlyName"`
 
-	// The security policy's full name
+	// The security policy's display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The security policy's description
 	Description *string `mandatory:"false" json:"description"`
 
-	// The category of security policy
+	// The category of the security policy
 	Category *string `mandatory:"false" json:"category"`
 
 	// The list of services that the security policy protects
@@ -49,11 +52,14 @@ type SecurityPolicy struct {
 	// The time the security policy was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the security policy
+	// The current lifecycle state of the security policy
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a resource in a `Failed` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

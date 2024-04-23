@@ -143,6 +143,11 @@ func CoreInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				ForceNew: true,
+				Optional: true,
+			},
 			"compute_cluster_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -779,7 +784,6 @@ func CoreInstanceResource() *schema.Resource {
 						"source_type": {
 							Type:             schema.TypeString,
 							Required:         true,
-							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"bootVolume",
@@ -792,7 +796,6 @@ func CoreInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 						},
 						"boot_volume_size_in_gbs": {
 							Type:             schema.TypeString,
@@ -853,6 +856,10 @@ func CoreInstanceResource() *schema.Resource {
 						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"is_preserve_boot_volume_enabled": {
+							Type:     schema.TypeBool,
 							Optional: true,
 						},
 
@@ -1131,6 +1138,11 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		request.CapacityReservationId = &tmp
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -1365,7 +1377,8 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok {
+	sourceDetailsFieldKeyFormat := "source_details.0.%s"
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && !s.D.HasChange(fmt.Sprintf(sourceDetailsFieldKeyFormat, "source_id")) {
 		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
 			err := s.mapToUpdateInstanceBootVolumeSizeInGbs(fieldKeyFormat)
@@ -1381,7 +1394,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	// Update shape, shape config, platform config, fault domain and launch options
+	// Update shape, shape config, platform config, source details, fault domain and launch options
 	err := s.updateOptionsViaWorkRequest()
 
 	if err != nil {
@@ -1584,6 +1597,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 
 	if s.Res.CapacityReservationId != nil {
 		s.D.Set("capacity_reservation_id", *s.Res.CapacityReservationId)
+	}
+
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -2195,6 +2212,57 @@ func InstanceSourceDetailsToMap(obj *oci_core.InstanceSourceDetails, bootVolume 
 	}
 
 	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceSourceDetails(fieldKeyFormat string) (oci_core.UpdateInstanceSourceDetails, error) {
+	var baseObject oci_core.UpdateInstanceSourceDetails
+	//discriminator
+	sourceTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_type"))
+	var sourceType string
+	if ok {
+		sourceType = sourceTypeRaw.(string)
+	} else {
+		sourceType = "" // default value
+	}
+	switch strings.ToLower(sourceType) {
+	case strings.ToLower("bootVolume"):
+		details := oci_core.UpdateInstanceSourceViaBootVolumeDetails{}
+		if sourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_id")); ok {
+			tmp := sourceId.(string)
+			details.BootVolumeId = &tmp
+		}
+		if isPreserveBootVolumeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_preserve_boot_volume_enabled")); ok {
+			tmp := isPreserveBootVolumeEnabled.(bool)
+			details.IsPreserveBootVolumeEnabled = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("image"):
+		details := oci_core.UpdateInstanceSourceViaImageDetails{}
+		if sourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_id")); ok {
+			tmp := sourceId.(string)
+			details.ImageId = &tmp
+		}
+		if bootVolumeSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "boot_volume_size_in_gbs")); ok {
+			tmp := bootVolumeSizeInGBs.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return nil, fmt.Errorf("unable to convert bootVolumeSizeInGBs string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.BootVolumeSizeInGBs = &tmpInt64
+		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+		if isPreserveBootVolumeEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_preserve_boot_volume_enabled")); ok {
+			tmp := isPreserveBootVolumeEnabled.(bool)
+			details.IsPreserveBootVolumeEnabled = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown source_type '%v' was specified", sourceType)
+	}
+	return baseObject, nil
 }
 
 func (s *CoreInstanceResourceCrud) mapToInstanceSourceImageFilterDetails(fieldKeyFormat string) (oci_core.InstanceSourceImageFilterDetails, error) {
@@ -3799,11 +3867,23 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 		}
 	}
 
+	sourceDetailsFieldKeyFormat := "source_details.0.%s"
+	if sourceDetails, ok := s.D.GetOkExists("source_details"); ok && s.D.HasChange(fmt.Sprintf(sourceDetailsFieldKeyFormat, "source_id")) {
+		if tmpList := sourceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "source_details", 0)
+			tmp, err := s.mapToUpdateInstanceSourceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SourceDetails = tmp
+		}
+	}
+
 	if updateOperationConstraint, ok := s.D.GetOkExists("update_operation_constraint"); ok {
 		request.UpdateOperationConstraint = oci_core.UpdateInstanceDetailsUpdateOperationConstraintEnum(updateOperationConstraint.(string))
 	}
 
-	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil && request.PlatformConfig == nil {
+	if request.Shape == nil && request.ShapeConfig == nil && request.LaunchOptions == nil && request.FaultDomain == nil && request.PlatformConfig == nil && request.SourceDetails == nil {
 		// no-op
 		return nil
 	}

@@ -87,6 +87,10 @@ func (s *CoreBootVolumeDataSourceCrud) SetData() error {
 	}
 	s.D.Set("boot_volume_replicas", bootVolumeReplicas)
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

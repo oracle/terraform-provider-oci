@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSecurityPolicy.go.html to see an example of how to use GetSecurityPolicyRequest.
 type GetSecurityPolicyRequest struct {
 
-	// The unique identifier of the security zone policy (`SecurityPolicy`)
+	// The unique identifier of the security zone policy. (`SecurityPolicy`)
 	SecurityPolicyId *string `mandatory:"true" contributesTo:"path" name:"securityPolicyId"`
 
 	// The client request ID for tracing.

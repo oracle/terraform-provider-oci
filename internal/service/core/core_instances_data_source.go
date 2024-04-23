@@ -158,6 +158,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["capacity_reservation_id"] = *r.CapacityReservationId
 		}
 
+		if r.ClusterPlacementGroupId != nil {
+			instance["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
+		}
+
 		if r.DedicatedVmHostId != nil {
 			instance["dedicated_vm_host_id"] = *r.DedicatedVmHostId
 		}

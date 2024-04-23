@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// ResourceTypeCollection resource type provided by cloud guard
+// ResourceTypeCollection Collection of supported resource types.
 type ResourceTypeCollection struct {
 
-	// collection of resource types
+	// List of ResourceTypeSummary resources
 	Items []ResourceTypeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResourceTypeCollection) String() string {

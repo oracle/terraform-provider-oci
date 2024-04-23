@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourceProfiles.go.html to see an example of how to use ListResourceProfilesRequest.
 type ListResourceProfilesRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Start time for a filter. If start time is not specified, start time will be set to current time - 30 days.
@@ -36,7 +36,7 @@ type ListResourceProfilesRequest struct {
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the the setting of `accessLevel`.
+	// returned depending on the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
@@ -46,28 +46,28 @@ type ListResourceProfilesRequest struct {
 	// When set to `RESTRICTED` permissions are checked and no partial results are displayed.
 	AccessLevel ListResourceProfilesAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// A filter to return only resources that match the list of resource types given
+	// A filter to return only resources that match the list of resource types given.
 	ResourceTypes []string `contributesTo:"query" name:"resourceTypes" collectionFormat:"multi"`
 
-	// risk score filter
+	// Risk score filter.
 	RiskScoreGreaterThanOrEqualTo *float64 `mandatory:"false" contributesTo:"query" name:"riskScoreGreaterThanOrEqualTo"`
 
-	// risk score filter
+	// Risk score filter,
 	RiskScoreLessThanOrEqualTo *float64 `mandatory:"false" contributesTo:"query" name:"riskScoreLessThanOrEqualTo"`
 
-	// A filter to return only resources that match the list of techniques given
+	// A filter to return only resources that match the list of techniques given.
 	Techniques []string `contributesTo:"query" name:"techniques" collectionFormat:"multi"`
 
 	// A filter to return only resources that match the list of tactics given.
 	Tactics []string `contributesTo:"query" name:"tactics" collectionFormat:"multi"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListResourceProfilesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort resource profiles. Only one sort order may be provided. Default order for timeLastDetected is descending. If no value is specified timeLastDetected is default.

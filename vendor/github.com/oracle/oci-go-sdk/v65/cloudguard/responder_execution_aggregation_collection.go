@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ResponderExecutionAggregationCollection Collection of ResponderExecutionAggregation objects
+// ResponderExecutionAggregationCollection Collection of ResponderExecutionAggregation resources.
 type ResponderExecutionAggregationCollection struct {
 
-	// The items consist of all the ResponderExecutionAggregation objects.
+	// List of all the ResponderExecutionAggregation resources
 	Items []ResponderExecutionAggregation `mandatory:"true" json:"items"`
 }
 

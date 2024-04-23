@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ChangeSecurityPolicyCompartmentDetails The information to be updated.
+// ChangeSecurityPolicyCompartmentDetails Parameters to be used to move a security policy to a different compartment.
 type ChangeSecurityPolicyCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment

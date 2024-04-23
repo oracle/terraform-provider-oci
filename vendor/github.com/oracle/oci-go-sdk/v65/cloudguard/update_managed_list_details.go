@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// UpdateManagedListDetails Update ManagedList
+// UpdateManagedListDetails Parameters to use to update details for a managed list.
 type UpdateManagedListDetails struct {
 
 	// Managed list display name.
@@ -27,7 +27,7 @@ type UpdateManagedListDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// List of ManagedListItem
+	// List of managed list items
 	ListItems []string `mandatory:"false" json:"listItems"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

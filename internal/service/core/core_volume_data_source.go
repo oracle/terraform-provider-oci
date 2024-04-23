@@ -87,6 +87,10 @@ func (s *CoreVolumeDataSourceCrud) SetData() error {
 	}
 	s.D.Set("block_volume_replicas", blockVolumeReplicas)
 
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

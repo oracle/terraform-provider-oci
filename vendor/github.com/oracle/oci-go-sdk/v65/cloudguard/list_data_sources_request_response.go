@@ -18,31 +18,31 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListDataSources.go.html to see an example of how to use ListDataSourcesRequest.
 type ListDataSourcesRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources their feedProvider matches the given DataSourceFeedProvider.
+	// A filter to return only resources when their feed provider matches the given feed provider (`DataSourceFeedProvider` resource).
 	DataSourceFeedProvider ListDataSourcesDataSourceFeedProviderEnum `mandatory:"false" contributesTo:"query" name:"dataSourceFeedProvider" omitEmpty:"true"`
 
-	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+	// The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListDataSourcesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return only resources their query type matches the given LoggingQueryType.
+	// A filter to return only resources where their query type matches the given LoggingQueryType.
 	LoggingQueryType ListDataSourcesLoggingQueryTypeEnum `mandatory:"false" contributesTo:"query" name:"loggingQueryType" omitEmpty:"true"`
 
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the the setting of `accessLevel`.
+	// returned depending on the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
@@ -52,7 +52,7 @@ type ListDataSourcesRequest struct {
 	// When set to `RESTRICTED` permissions are checked and no partial results are displayed.
 	AccessLevel ListDataSourcesAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListDataSourcesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
@@ -154,15 +154,18 @@ type ListDataSourcesDataSourceFeedProviderEnum string
 
 // Set of constants representing the allowable values for ListDataSourcesDataSourceFeedProviderEnum
 const (
-	ListDataSourcesDataSourceFeedProviderLoggingquery ListDataSourcesDataSourceFeedProviderEnum = "LOGGINGQUERY"
+	ListDataSourcesDataSourceFeedProviderLoggingquery   ListDataSourcesDataSourceFeedProviderEnum = "LOGGINGQUERY"
+	ListDataSourcesDataSourceFeedProviderScheduledquery ListDataSourcesDataSourceFeedProviderEnum = "SCHEDULEDQUERY"
 )
 
 var mappingListDataSourcesDataSourceFeedProviderEnum = map[string]ListDataSourcesDataSourceFeedProviderEnum{
-	"LOGGINGQUERY": ListDataSourcesDataSourceFeedProviderLoggingquery,
+	"LOGGINGQUERY":   ListDataSourcesDataSourceFeedProviderLoggingquery,
+	"SCHEDULEDQUERY": ListDataSourcesDataSourceFeedProviderScheduledquery,
 }
 
 var mappingListDataSourcesDataSourceFeedProviderEnumLowerCase = map[string]ListDataSourcesDataSourceFeedProviderEnum{
-	"loggingquery": ListDataSourcesDataSourceFeedProviderLoggingquery,
+	"loggingquery":   ListDataSourcesDataSourceFeedProviderLoggingquery,
+	"scheduledquery": ListDataSourcesDataSourceFeedProviderScheduledquery,
 }
 
 // GetListDataSourcesDataSourceFeedProviderEnumValues Enumerates the set of values for ListDataSourcesDataSourceFeedProviderEnum
@@ -178,6 +181,7 @@ func GetListDataSourcesDataSourceFeedProviderEnumValues() []ListDataSourcesDataS
 func GetListDataSourcesDataSourceFeedProviderEnumStringValues() []string {
 	return []string{
 		"LOGGINGQUERY",
+		"SCHEDULEDQUERY",
 	}
 }
 

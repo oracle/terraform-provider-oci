@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// CreateTargetDetectorRecipeDetails The information required to create TargetDetectorRecipe
+// CreateTargetDetectorRecipeDetails Parameters to use to create a target detector recipe.
 type CreateTargetDetectorRecipeDetails struct {
 
-	// Identifier for DetectorRecipe.
+	// Unique identifier for the target detector recipe
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 
-	// Overrides to be applied to Detector Rule associated with the target
+	// List of overrides to be applied to detector rules associated with the target
 	DetectorRules []UpdateTargetRecipeDetectorRuleDetails `mandatory:"false" json:"detectorRules"`
 }
 

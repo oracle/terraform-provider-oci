@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,7 +17,7 @@ import (
 	"strings"
 )
 
-// UpdatablePackageSummary A software package available for install on a managed instance.
+// UpdatablePackageSummary Provides summary information for a software package available for installation on a managed instance.
 type UpdatablePackageSummary struct {
 
 	// Package name.
@@ -31,13 +32,13 @@ type UpdatablePackageSummary struct {
 	// Version of the installed package.
 	Version *string `mandatory:"true" json:"version"`
 
-	// list of software sources that provide the software package.
+	// List of software sources that provide the software package.
 	SoftwareSources []SoftwareSourceDetails `mandatory:"false" json:"softwareSources"`
 
-	// The version of this upgradable package already installed on the instance.
+	// The version of the package that is currently installed on the instance.
 	InstalledVersion *string `mandatory:"false" json:"installedVersion"`
 
-	// List of errata containing this update.
+	// List of errata applicable to this update.
 	Errata []string `mandatory:"false" json:"errata"`
 
 	// List of CVEs applicable to this erratum.
@@ -46,7 +47,7 @@ type UpdatablePackageSummary struct {
 	// The architecture for which this package was built.
 	Architecture ArchTypeEnum `mandatory:"false" json:"architecture,omitempty"`
 
-	// The classification of this update.
+	// The type of update.
 	UpdateType ClassificationTypesEnum `mandatory:"true" json:"updateType"`
 }
 

@@ -16,31 +16,31 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeDetectorRuleSummary Summary of the Detector Recipe Rule.
+// TargetDetectorRecipeDetectorRuleSummary Summary information for a detector rule in a detector recipe.
 type TargetDetectorRecipeDetectorRuleSummary struct {
 
 	// The unique identifier of the detector rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// possible type of detectors
+	// Type of detector
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// DetectorTemplate Identifier, can be renamed
+	// Detector template display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// DetectorTemplate Identifier, can be renamed
+	// Detector template description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for TargetDetectorRecipeDetectorRule
+	// Recommendation for TargetDetectorRecipeDetectorRule resource
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// service type of the configuration to which the rule is applied
+	// Service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"false" json:"serviceType"`
 
-	// resource type of the configuration to which the rule is applied
+	// Resource type of the configuration to which the rule is applied
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// List of cloudguard managed list types related to this rule
+	// List of managed list types related to this rule
 	ManagedListTypes []TargetDetectorRecipeDetectorRuleSummaryManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
 	DetectorDetails *TargetDetectorDetails `mandatory:"false" json:"detectorDetails"`
@@ -48,20 +48,23 @@ type TargetDetectorRecipeDetectorRuleSummary struct {
 	// The date and time the target detector recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target detector recipe rule was updated. Format defined by RFC3339.
+	// The date and time the target detector recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the target detector recipe rule
+	// The current lifecycle state of the target detector recipe rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The id of the attached DataSource.
+	// The unique identifier of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for a detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetDetectorRecipeDetectorRuleSummary) String() string {

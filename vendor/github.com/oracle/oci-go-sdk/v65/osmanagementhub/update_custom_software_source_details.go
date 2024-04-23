@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,16 +17,16 @@ import (
 	"strings"
 )
 
-// UpdateCustomSoftwareSourceDetails Information for updating a custom or software source.
+// UpdateCustomSoftwareSourceDetails Provides the information used to update a custom software source.
 type UpdateCustomSoftwareSourceDetails struct {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Information specified by the user about the software source.
+	// User-specified description of the software source.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -38,13 +39,16 @@ type UpdateCustomSoftwareSourceDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// List of vendor software sources.
+	// List of vendor software sources that are used for the basis of the custom software source.
 	VendorSoftwareSources []Id `mandatory:"false" json:"vendorSoftwareSources"`
 
 	CustomSoftwareSourceFilter *CustomSoftwareSourceFilter `mandatory:"false" json:"customSoftwareSourceFilter"`
 
-	// Indicates whether service should automatically update the custom software source for the user.
+	// Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
 	IsAutomaticallyUpdated *bool `mandatory:"false" json:"isAutomaticallyUpdated"`
+
+	// Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
+	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
 }
 
 // GetCompartmentId returns CompartmentId

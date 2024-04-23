@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,32 +16,40 @@ import (
 	"strings"
 )
 
-// CreateManagedInstanceGroupDetails The information about new managed instance group.
+// CreateManagedInstanceGroupDetails Provides the information used to create a new managed instance group.
 type CreateManagedInstanceGroupDetails struct {
 
-	// A user-friendly name for the managed instance group. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the managed instance group. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the tenancy containing the managed instance group.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the managed instance group.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The operating system type of the managed instance(s) that this managed instance group will contain.
+	// The operating system type of the managed instances that will be attached to this group.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
 
-	// The CPU architecture type of the managed instance(s) that this managed instance group will contain.
+	// The CPU architecture type of the managed instances that will be attached to this group.
 	ArchType ArchTypeEnum `mandatory:"true" json:"archType"`
 
-	// The software source vendor name.
+	// The vendor of the operating system that will be used by the managed instances in the group.
 	VendorName VendorNameEnum `mandatory:"true" json:"vendorName"`
 
-	// The list of software source OCIDs available to the managed instances in the managed instance group.
-	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
-
-	// Details about the managed instance group.
+	// User-specified description of the managed instance group. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The list of managed instance OCIDs to be added to the managed instance group.
+	// The location of managed instances attached to the group. If no location is provided, the default is on premises.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
+	// The list of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) available to the managed instances in the group.
+	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
+
+	// The list of managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to be added to the group.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -72,6 +81,9 @@ func (m CreateManagedInstanceGroupDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", m.VendorName, strings.Join(GetVendorNameEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

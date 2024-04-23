@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListEntitlements.go.html to see an example of how to use ListEntitlementsRequest.
 type ListEntitlementsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return entitlements that match the given CSI.
 	Csi *string `mandatory:"false" contributesTo:"query" name:"csi"`
 
-	// A filter to return only profiles that match the given vendorName.
+	// A filter to return only resources that match the given vendor name.
 	VendorName ListEntitlementsVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -128,15 +128,18 @@ type ListEntitlementsVendorNameEnum string
 
 // Set of constants representing the allowable values for ListEntitlementsVendorNameEnum
 const (
-	ListEntitlementsVendorNameOracle ListEntitlementsVendorNameEnum = "ORACLE"
+	ListEntitlementsVendorNameOracle    ListEntitlementsVendorNameEnum = "ORACLE"
+	ListEntitlementsVendorNameMicrosoft ListEntitlementsVendorNameEnum = "MICROSOFT"
 )
 
 var mappingListEntitlementsVendorNameEnum = map[string]ListEntitlementsVendorNameEnum{
-	"ORACLE": ListEntitlementsVendorNameOracle,
+	"ORACLE":    ListEntitlementsVendorNameOracle,
+	"MICROSOFT": ListEntitlementsVendorNameMicrosoft,
 }
 
 var mappingListEntitlementsVendorNameEnumLowerCase = map[string]ListEntitlementsVendorNameEnum{
-	"oracle": ListEntitlementsVendorNameOracle,
+	"oracle":    ListEntitlementsVendorNameOracle,
+	"microsoft": ListEntitlementsVendorNameMicrosoft,
 }
 
 // GetListEntitlementsVendorNameEnumValues Enumerates the set of values for ListEntitlementsVendorNameEnum
@@ -152,6 +155,7 @@ func GetListEntitlementsVendorNameEnumValues() []ListEntitlementsVendorNameEnum 
 func GetListEntitlementsVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MICROSOFT",
 	}
 }
 

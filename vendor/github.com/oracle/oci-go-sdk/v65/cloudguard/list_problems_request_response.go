@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListProblems.go.html to see an example of how to use ListProblemsRequest.
 type ListProblemsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// Start time for a filter. If start time is not specified, start time will be set to current time - 30 days.
@@ -33,49 +33,49 @@ type ListProblemsRequest struct {
 	// End time for a filter. If end time is not specified, end time will be set to current time.
 	TimeFirstDetectedLessThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeFirstDetectedLessThanOrEqualTo"`
 
-	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+	// The field life cycle state. Only one state can be provided. Default value for state is active.
 	LifecycleDetail ListProblemsLifecycleDetailEnum `mandatory:"false" contributesTo:"query" name:"lifecycleDetail" omitEmpty:"true"`
 
-	// The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+	// The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 	LifecycleState ListProblemsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// OCI Monitoring region.
+	// OCI monitoring region.
 	Region *string `mandatory:"false" contributesTo:"query" name:"region"`
 
-	// Risk level of the Problem.
+	// Risk level of the problem.
 	RiskLevel *string `mandatory:"false" contributesTo:"query" name:"riskLevel"`
 
-	// Resource Type associated with the resource.
+	// Resource type associated with the resource.
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
 	// City of the problem.
 	City *string `mandatory:"false" contributesTo:"query" name:"city"`
 
-	// State of the problem.
+	// State or province of the problem.
 	State *string `mandatory:"false" contributesTo:"query" name:"state"`
 
 	// Country of the problem.
 	Country *string `mandatory:"false" contributesTo:"query" name:"country"`
 
-	// Label associated with the Problem.
+	// User-defined label associated with the problem.
 	Label *string `mandatory:"false" contributesTo:"query" name:"label"`
 
-	// Comma seperated list of detector rule ids to be passed in to match against Problems.
+	// Comma seperated list of detector rule IDs to be passed in to match against Problems.
 	DetectorRuleIdList []string `contributesTo:"query" name:"detectorRuleIdList" collectionFormat:"multi"`
 
-	// The field to list the Problems by Detector Type. Valid values are IAAS_ACTIVITY_DETECTOR and IAAS_CONFIGURATION_DETECTOR
+	// The field to list the problems by detector type.
 	DetectorType ListProblemsDetectorTypeEnum `mandatory:"false" contributesTo:"query" name:"detectorType" omitEmpty:"true"`
 
 	// The ID of the target in which to list resources.
 	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
 
-	// Setting this to `SECURITY_ZONE` returns only security-zone related violations.
+	// Setting this to `SECURITY_ZONE` returns only security zone-related violations.
 	ProblemCategory ListProblemsProblemCategoryEnum `mandatory:"false" contributesTo:"query" name:"problemCategory" omitEmpty:"true"`
 
 	// Default is false.
 	// When set to true, the hierarchy of compartments is traversed
 	// and all compartments and subcompartments in the tenancy are
-	// returned depending on the the setting of `accessLevel`.
+	// returned depending on the setting of `accessLevel`.
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`.
@@ -88,13 +88,13 @@ type ListProblemsRequest struct {
 	// The ID of the resource associated with the problem.
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListProblemsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for riskLevel, timeLastDetected and resourceName is descending. Default order for riskLevel and resourceName is ascending. If no value is specified timeLastDetected is default.
@@ -291,24 +291,27 @@ type ListProblemsDetectorTypeEnum string
 
 // Set of constants representing the allowable values for ListProblemsDetectorTypeEnum
 const (
-	ListProblemsDetectorTypeActivityDetector      ListProblemsDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
-	ListProblemsDetectorTypeConfigurationDetector ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
-	ListProblemsDetectorTypeThreatDetector        ListProblemsDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
-	ListProblemsDetectorTypeLogInsightDetector    ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListProblemsDetectorTypeActivityDetector         ListProblemsDetectorTypeEnum = "IAAS_ACTIVITY_DETECTOR"
+	ListProblemsDetectorTypeConfigurationDetector    ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
+	ListProblemsDetectorTypeThreatDetector           ListProblemsDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
+	ListProblemsDetectorTypeLogInsightDetector       ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	ListProblemsDetectorTypeInstanceSecurityDetector ListProblemsDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
 )
 
 var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnum{
-	"IAAS_ACTIVITY_DETECTOR":      ListProblemsDetectorTypeActivityDetector,
-	"IAAS_CONFIGURATION_DETECTOR": ListProblemsDetectorTypeConfigurationDetector,
-	"IAAS_THREAT_DETECTOR":        ListProblemsDetectorTypeThreatDetector,
-	"IAAS_LOG_INSIGHT_DETECTOR":   ListProblemsDetectorTypeLogInsightDetector,
+	"IAAS_ACTIVITY_DETECTOR":          ListProblemsDetectorTypeActivityDetector,
+	"IAAS_CONFIGURATION_DETECTOR":     ListProblemsDetectorTypeConfigurationDetector,
+	"IAAS_THREAT_DETECTOR":            ListProblemsDetectorTypeThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":       ListProblemsDetectorTypeLogInsightDetector,
+	"IAAS_INSTANCE_SECURITY_DETECTOR": ListProblemsDetectorTypeInstanceSecurityDetector,
 }
 
 var mappingListProblemsDetectorTypeEnumLowerCase = map[string]ListProblemsDetectorTypeEnum{
-	"iaas_activity_detector":      ListProblemsDetectorTypeActivityDetector,
-	"iaas_configuration_detector": ListProblemsDetectorTypeConfigurationDetector,
-	"iaas_threat_detector":        ListProblemsDetectorTypeThreatDetector,
-	"iaas_log_insight_detector":   ListProblemsDetectorTypeLogInsightDetector,
+	"iaas_activity_detector":          ListProblemsDetectorTypeActivityDetector,
+	"iaas_configuration_detector":     ListProblemsDetectorTypeConfigurationDetector,
+	"iaas_threat_detector":            ListProblemsDetectorTypeThreatDetector,
+	"iaas_log_insight_detector":       ListProblemsDetectorTypeLogInsightDetector,
+	"iaas_instance_security_detector": ListProblemsDetectorTypeInstanceSecurityDetector,
 }
 
 // GetListProblemsDetectorTypeEnumValues Enumerates the set of values for ListProblemsDetectorTypeEnum
@@ -327,6 +330,7 @@ func GetListProblemsDetectorTypeEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
+		"IAAS_INSTANCE_SECURITY_DETECTOR",
 	}
 }
 

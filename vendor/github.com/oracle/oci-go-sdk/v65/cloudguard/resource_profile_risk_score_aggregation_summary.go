@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ResourceProfileRiskScoreAggregationSummary Resource profile risk score trend-line
+// ResourceProfileRiskScoreAggregationSummary Summary of resource profile risk score aggregations.
 type ResourceProfileRiskScoreAggregationSummary struct {
 
 	// OCID for the resource profile
@@ -25,10 +25,10 @@ type ResourceProfileRiskScoreAggregationSummary struct {
 	// Display name for the resource profile
 	ResourceProfileDisplayName *string `mandatory:"true" json:"resourceProfileDisplayName"`
 
-	// List of ResourceRiskScoreAggregation
+	// List of ResourceRiskScoreAggregation resources
 	Items []ResourceRiskScoreAggregation `mandatory:"true" json:"items"`
 
-	// Risk threshold
+	// Risk score value that triggers a problem
 	RiskThreshold *int `mandatory:"false" json:"riskThreshold"`
 }
 

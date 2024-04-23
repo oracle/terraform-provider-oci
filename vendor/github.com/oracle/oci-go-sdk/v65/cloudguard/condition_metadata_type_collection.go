@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// ConditionMetadataTypeCollection condition type provided by cloud guard
+// ConditionMetadataTypeCollection The collection of available condition types.
 type ConditionMetadataTypeCollection struct {
 
-	// collection of condition types
+	// List of ConditionMetadataTypeSummary resources
 	Items []ConditionMetadataTypeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ConditionMetadataTypeCollection) String() string {

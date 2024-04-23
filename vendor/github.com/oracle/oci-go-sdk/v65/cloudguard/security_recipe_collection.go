@@ -16,11 +16,30 @@ import (
 	"strings"
 )
 
-// SecurityRecipeCollection Results of a security zone recipe search. Contains `SecurityRecipeSummary` items.
+// SecurityRecipeCollection Collection of Security Zones recipes (SecurityRecipeSummary resources),
+// resulting from a security zone recipe search.
 type SecurityRecipeCollection struct {
 
-	// A list of security zone recipe summaries
+	// A list of SecurityRecipeSummary resources
 	Items []SecurityRecipeSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
+	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`
+	// Avoid entering confidential information.
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// System tags can be viewed by users, but can only be created by the system.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m SecurityRecipeCollection) String() string {

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,20 +16,26 @@ import (
 	"strings"
 )
 
-// ScheduledJobOperation Defines an operation in a scheduled job.
+// ScheduledJobOperation Defines an operation that is performed by a scheduled job.
 type ScheduledJobOperation struct {
 
 	// The type of operation this scheduled job performs.
 	OperationType OperationTypesEnum `mandatory:"true" json:"operationType"`
 
-	// The names of the target packages (only if operation type is INSTALL_PACKAGES/UPDATE_PACKAGES/REMOVE_PACKAGES).
+	// The names of the target packages. This parameter only applies when the scheduled job is for installing, updating, or removing packages.
 	PackageNames []string `mandatory:"false" json:"packageNames"`
+
+	// Unique identifier for the Windows update. This parameter only applies if the scheduled job is for installing Windows updates.
+	// Note that this is not an OCID, but is a unique identifier assigned by Microsoft.
+	// For example: '6981d463-cd91-4a26-b7c4-ea4ded9183ed'.
+	WindowsUpdateNames []string `mandatory:"false" json:"windowsUpdateNames"`
 
 	ManageModuleStreamsDetails *ManageModuleStreamsInScheduledJobDetails `mandatory:"false" json:"manageModuleStreamsDetails"`
 
 	SwitchModuleStreamsDetails *ModuleStreamDetails `mandatory:"false" json:"switchModuleStreamsDetails"`
 
-	// The OCIDs for the software sources (only if operation type is ATTACH_SOFTWARE_SOURCES/DETACH_SOFTWARE_SOURCES).
+	// The software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	// This parameter only applies when the scheduled job is for attaching or detaching software sources.
 	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
 }
 

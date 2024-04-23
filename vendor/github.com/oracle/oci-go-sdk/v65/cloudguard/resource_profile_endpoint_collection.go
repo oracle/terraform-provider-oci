@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ResourceProfileEndpointCollection Collection of Resource Profile endpoint summaries
+// ResourceProfileEndpointCollection Collection of resource profile endpoint summaries.
 type ResourceProfileEndpointCollection struct {
 
-	// List of ResourceProfileEndpointSummary
+	// List of ResourceProfileEndpointSummary resources
 	Items []ResourceProfileEndpointSummary `mandatory:"true" json:"items"`
 }
 

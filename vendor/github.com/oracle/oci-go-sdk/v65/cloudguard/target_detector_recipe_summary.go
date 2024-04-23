@@ -16,41 +16,47 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeSummary Summary of DetectorRecipe
+// TargetDetectorRecipeSummary Summary information for a target detector recipe
 type TargetDetectorRecipeSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// DetectorRecipe Identifier Name
+	// Detector recipe's display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// DetectorRecipe Description
+	// Detector recipe's description
 	Description *string `mandatory:"true" json:"description"`
 
-	// Owner of DetectorRecipe
+	// Detector recipe's owner
 	Owner OwnerTypeEnum `mandatory:"true" json:"owner"`
 
-	// Unique identifier for Detector Recipe of which this is an extension
+	// Unique identifier for detector recipe of which this is an extension
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 
 	// Type of detector
 	Detector DetectorEnumEnum `mandatory:"false" json:"detector,omitempty"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// The date and time the target detector recipe was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target detector recipe was updated. Format defined by RFC3339.
+	// The date and time the target detector recipe was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
+	// Recipe type ( STANDARD, ENTERPRISE )
+	DetectorRecipeType DetectorRecipeEnumEnum `mandatory:"false" json:"detectorRecipeType,omitempty"`
 
 	// The number of days for which source data is retained
 	SourceDataRetention *int `mandatory:"false" json:"sourceDataRetention"`
@@ -74,6 +80,9 @@ func (m TargetDetectorRecipeSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDetectorRecipeEnumEnum(string(m.DetectorRecipeType)); !ok && m.DetectorRecipeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorRecipeType: %s. Supported values are: %s.", m.DetectorRecipeType, strings.Join(GetDetectorRecipeEnumEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

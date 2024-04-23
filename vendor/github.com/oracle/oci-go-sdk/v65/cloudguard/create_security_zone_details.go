@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// CreateSecurityZoneDetails Details for a new security zone
+// CreateSecurityZoneDetails Parameters to be used to create a new security zone.
 type CreateSecurityZoneDetails struct {
 
-	// The security zone's name
+	// The security zone's display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the recipe (`SecurityRecipe`) for the security zone
+	// The OCID of the security zone recipe (`SecurityRecipe` resource) for the security zone
 	SecurityZoneRecipeId *string `mandatory:"true" json:"securityZoneRecipeId"`
 
 	// The OCID of the compartment for the security zone

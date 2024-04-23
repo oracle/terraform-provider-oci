@@ -18,15 +18,14 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreamProfiles.go.html to see an example of how to use ListModuleStreamProfilesRequest.
 type ListModuleStreamProfilesRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// The name of a module. This parameter is required if a
 	// streamName is specified.
 	ModuleName *string `mandatory:"false" contributesTo:"query" name:"moduleName"`
 
-	// The name of the stream of the containing module.  This parameter
-	// is required if a profileName is specified.
+	// The name of the module stream. This parameter is required if a profile name is specified.
 	StreamName *string `mandatory:"false" contributesTo:"query" name:"streamName"`
 
 	// The name of the entity to be queried.

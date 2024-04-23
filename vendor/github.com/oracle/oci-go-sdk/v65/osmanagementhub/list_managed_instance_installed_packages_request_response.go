@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceInstalledPackages.go.html to see an example of how to use ListManagedInstanceInstalledPackagesRequest.
 type ListManagedInstanceInstalledPackagesRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return resources that match the given display names.
@@ -31,11 +31,11 @@ type ListManagedInstanceInstalledPackagesRequest struct {
 	// Example: 2017-07-14T02:40:00.000Z
 	TimeInstallDateStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeInstallDateStart"`
 
-	// The install date before which to list all packages, in ISO 8601 format.
+	// A filter to return only packages that were installed on or before the date provided, in ISO 8601 format.
 	// Example: 2017-07-14T02:40:00.000Z
 	TimeInstallDateEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeInstallDateEnd"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

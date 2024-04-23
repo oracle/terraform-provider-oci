@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateTargetRecipeDetectorRuleDetails The details to be updated in TargetDetectorRecipeDetectorRule
+// UpdateTargetRecipeDetectorRuleDetails Parameters to be used to update a detector rule in a target detector recipe.
 type UpdateTargetRecipeDetectorRuleDetails struct {
 
-	// Identifier for DetectorRule.
+	// Unique identifier for the detector rule
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
 
 	Details *UpdateTargetDetectorRuleDetails `mandatory:"true" json:"details"`

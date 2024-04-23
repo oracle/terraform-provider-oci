@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// RuleSummary Summary of rules
+// RuleSummary Summary information for a rule.
 type RuleSummary struct {
 
-	// id of the rule
+	// Unique identifier of the rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// description of the rule
+	// Description of the rule
 	Description *string `mandatory:"true" json:"description"`
 
-	// List of parameters applicable for rule
+	// List of parameters applicable for the rule
 	Parameters []OperatorSummary `mandatory:"true" json:"parameters"`
 }
 

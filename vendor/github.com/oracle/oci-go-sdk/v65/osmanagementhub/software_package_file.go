@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -24,8 +25,7 @@ type SoftwarePackageFile struct {
 	// Type of the file.
 	Type *string `mandatory:"false" json:"type"`
 
-	// The date and time of the last modification to this file, as described
-	// in RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the file was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
 
 	// Checksum of the file.

@@ -337,11 +337,7 @@ func SoftwarePackageFileToMap(obj oci_os_management_hub.SoftwarePackageFile) map
 
 func SoftwarePackageSummaryToMap(obj oci_os_management_hub.SoftwarePackageSummary) map[string]interface{} {
 	result := map[string]interface{}{}
-
-	if obj.Architecture != nil {
-		result["architecture"] = string(*obj.Architecture)
-	}
-
+	result["architecture"] = string(obj.Architecture)
 	if obj.Checksum != nil {
 		result["checksum"] = string(*obj.Checksum)
 	}

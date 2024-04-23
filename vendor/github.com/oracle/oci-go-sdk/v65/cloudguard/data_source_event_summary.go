@@ -17,19 +17,19 @@ import (
 	"strings"
 )
 
-// DataSourceEventSummary The information about Event details of DataSource.
+// DataSourceEventSummary Summary information about a data source event.
 type DataSourceEventSummary struct {
 
 	// Data source event region
 	Region *string `mandatory:"true" json:"region"`
 
-	// Data source event date time
+	// Data source event date and time
 	EventDate *common.SDKTime `mandatory:"true" json:"eventDate"`
 
-	// Attached data Source
+	// Unique identifier of data source.
 	DataSourceId *string `mandatory:"true" json:"dataSourceId"`
 
-	// Data source event created time
+	// Data source event creation date and time
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	EventInfo DataSourceEventInfo `mandatory:"true" json:"eventInfo"`

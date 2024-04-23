@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,14 +16,17 @@ import (
 	"strings"
 )
 
-// SoftwareSourceAvailability An object that contains a software source OCID and its availability.
+// SoftwareSourceAvailability An object that defines the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) and the availability of a vendor software source.
 type SoftwareSourceAvailability struct {
 
-	// The OCID for a vendor software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source.
 	SoftwareSourceId *string `mandatory:"true" json:"softwareSourceId"`
 
-	// Possible availabilities of a software source.
-	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
+	// Availability of the software source to instances in private data centers or third-party clouds.
+	Availability AvailabilityEnum `mandatory:"false" json:"availability,omitempty"`
+
+	// Availability of the software source to OCI instances.
+	AvailabilityAtOci AvailabilityEnum `mandatory:"false" json:"availabilityAtOci,omitempty"`
 }
 
 func (m SoftwareSourceAvailability) String() string {
@@ -34,10 +38,13 @@ func (m SoftwareSourceAvailability) String() string {
 // Not recommended for calling this function directly
 func (m SoftwareSourceAvailability) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
-
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

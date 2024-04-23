@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// DataSourceCollection Summary of the DataSource.
+// DataSourceCollection The collection of data source summaries (DataSourceSummary resources).
 type DataSourceCollection struct {
 
-	// List of DataSourceSummary
+	// List of data source summaries (DataSourceSummary resources)
 	Items []DataSourceSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DataSourceCollection) String() string {

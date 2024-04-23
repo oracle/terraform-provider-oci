@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteDataSource.go.html to see an example of how to use DeleteDataSourceRequest.
 type DeleteDataSourceRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

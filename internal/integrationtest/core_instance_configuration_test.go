@@ -252,18 +252,19 @@ var (
 		"is_shareable":                        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsRepresentation = map[string]interface{}{
-		"availability_domain":   acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"backup_policy_id":      acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
-		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"size_in_gbs":           acctest.Representation{RepType: acctest.Optional, Create: `50`},
-		"source_details":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation},
-		"vpus_per_gb":           acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"is_auto_tune_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `true`},
-		"kms_key_id":            acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"block_volume_replicas": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationBlockVolumeReplicaDetailsRepresentation},
+		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"backup_policy_id":           acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id}`},
+		"block_volume_replicas":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationBlockVolumeReplicaDetailsRepresentation},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"compartment_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `backend-servers`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":                acctest.Representation{RepType: acctest.Optional, Create: `50`},
+		"source_details":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsBlockVolumesCreateDetailsSourceDetailsRepresentation},
+		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 	CoreInstanceConfigurationBlockVolumeReplicaDetailsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -362,6 +363,7 @@ var (
 		utils.VolumeBackupPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
+
 	CoreInstanceConfigurationResourceDependencies = CoreInstanceConfigurationResourceDependenciesWithoutKms +
 		KeyResourceDependencyConfig
 	InstanceConfigurationVmShape         = `VM.Standard2.1`
@@ -942,6 +944,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{
 				"instance_id",
 				"source",
+				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,
 		},

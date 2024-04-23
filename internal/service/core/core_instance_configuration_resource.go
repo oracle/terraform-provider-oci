@@ -237,6 +237,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 														},
 													},
 												},
+												"cluster_placement_group_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"compartment_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -451,6 +457,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 									},
 									"capacity_reservation_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"cluster_placement_group_id": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
@@ -1207,6 +1219,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																	},
 																},
 															},
+															"cluster_placement_group_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
 															"compartment_id": {
 																Type:     schema.TypeString,
 																Optional: true,
@@ -1420,6 +1438,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 												},
 												"capacity_reservation_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"cluster_placement_group_id": {
 													Type:     schema.TypeString,
 													Optional: true,
 													Computed: true,
@@ -3119,6 +3143,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		}
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_placement_group_id")); ok {
+		tmp := clusterPlacementGroupId.(string)
+		result.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
@@ -3205,6 +3234,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 		blockVolumeReplicas = append(blockVolumeReplicas, InstanceConfigurationBlockVolumeReplicaDetailsToMap(item))
 	}
 	result["block_volume_replicas"] = blockVolumeReplicas
+
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -3669,6 +3702,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.CapacityReservationId = &tmp
 	}
 
+	if clusterPlacementGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cluster_placement_group_id")); ok {
+		tmp := clusterPlacementGroupId.(string)
+		result.ClusterPlacementGroupId = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
 		tmp := compartmentId.(string)
 		result.CompartmentId = &tmp
@@ -3833,6 +3871,10 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 
 	if obj.CapacityReservationId != nil {
 		result["capacity_reservation_id"] = string(*obj.CapacityReservationId)
+	}
+
+	if obj.ClusterPlacementGroupId != nil {
+		result["cluster_placement_group_id"] = string(*obj.ClusterPlacementGroupId)
 	}
 
 	if obj.CompartmentId != nil {

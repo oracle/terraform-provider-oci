@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,14 +16,22 @@ import (
 	"strings"
 )
 
-// UpdateManagedInstanceDetails The information to be updated.
+// UpdateManagedInstanceDetails Provides the information used to update a managed instance.
 type UpdateManagedInstanceDetails struct {
 
-	// The OCID of a management station to be used as the preferred primary.
+	// User-specified description of the managed instance. Avoid entering confidential information.
+	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as primary management station.
 	PrimaryManagementStationId *string `mandatory:"false" json:"primaryManagementStationId"`
 
-	// The OCID of a management station to be used as the preferred secondary.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station for the instance to use as secondary management station.
 	SecondaryManagementStationId *string `mandatory:"false" json:"secondaryManagementStationId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Oracle Notifications service (ONS) topic. ONS is the channel used to send notifications to the customer.
+	NotificationTopicId *string `mandatory:"false" json:"notificationTopicId"`
+
+	AutonomousSettings *UpdatableAutonomousSettings `mandatory:"false" json:"autonomousSettings"`
 }
 
 func (m UpdateManagedInstanceDetails) String() string {
