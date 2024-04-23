@@ -10,6 +10,7 @@
 - Support for Cost Management - Usage Statements
 - Support for Oracle Home Version Control - Phase 2 | ADB-D and ADB-C@C
 - Support for OCI Cache Service with Redis - NSG Support
+- Fixed AWS_S3 migrations bug, update resource issue with the optional atributes and documentation added
 ### Bug Fix
 - update architecture code due to param type change to Enum
 - logSourceIdentifer updates for logging Analytics connectors
