@@ -209,6 +209,17 @@ var (
 				"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 			}), []string{"whitelisted_ips", "scheduled_operations"})
 
+	autonomousDatabasePEWithPublicAccessRepresentation = acctest.RepresentationCopyWithRemovedProperties(
+		acctest.RepresentationCopyWithNewProperties(
+			DatabaseAutonomousDatabaseRepresentation,
+			map[string]interface{}{
+				"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group.id}`, `${oci_core_network_security_group.test_network_security_group2.id}`}},
+				"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `xlx4fc9y`},
+				"private_endpoint_ip":    acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.97`},
+				"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+				"whitelisted_ips":        acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}},
+			}), []string{"scheduled_operations"})
+
 	AutonomousDatabasePrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -1895,6 +1906,138 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabasePrivateEndpointRepresentation, []string{"nsg_ids", "private_endpoint_label", "subnet_id"}), map[string]interface{}{
+						"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+						"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `null`},
+						"private_endpoint_ip":    acctest.Representation{RepType: acctest.Optional, Create: `null`},
+						"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `null`},
+						"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19c`, Update: `19c`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "null"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "null"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestResourceDatabaseAutonomousDatabaseResource_privateEndpointWithPublicAccess(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_privateEndPointWithPublicAccess")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabasePEWithPublicAccessRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.97"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fc9y"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips", "1.1.1.1/28"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		//2. modify acl's of pe database
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(autonomousDatabasePrivateEndpointRepresentation, map[string]interface{}{
+						"whitelisted_ips": acctest.Representation{RepType: acctest.Optional, Update: []string{"1.1.1.29"}},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_ip", "10.0.0.97"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "xlx4fc9y"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips", "1.1.1.1/29"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		//3. change network access to public
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabasePEWithPublicAccessRepresentation, []string{"nsg_ids", "private_endpoint_label", "subnet_id"}), map[string]interface{}{
 						"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 						"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `null`},
 						"private_endpoint_ip":    acctest.Representation{RepType: acctest.Optional, Create: `null`},
