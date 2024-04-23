@@ -108,6 +108,11 @@ func CoreVolumeResource() *schema.Resource {
 					},
 				},
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"block_volume_replicas_deletion": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -359,6 +364,11 @@ func (s *CoreVolumeResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("block_volume_replicas") {
 			request.BlockVolumeReplicas = tmp
 		}
+	}
+
+	if clusterPlacementGroupId, ok := s.D.GetOkExists("cluster_placement_group_id"); ok {
+		tmp := clusterPlacementGroupId.(string)
+		request.ClusterPlacementGroupId = &tmp
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -625,6 +635,10 @@ func (s *CoreVolumeResourceCrud) SetData() error {
 		blockVolumeReplicas = append(blockVolumeReplicas, BlockVolumeReplicaInfoToMap(item))
 	}
 	s.D.Set("block_volume_replicas", blockVolumeReplicas)
+
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
+	}
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)

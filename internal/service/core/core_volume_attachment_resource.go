@@ -133,6 +133,10 @@ func CoreVolumeAttachmentResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_volume_created_during_launch": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"iscsi_login_state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -323,6 +327,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
 
+		if v.IsVolumeCreatedDuringLaunch != nil {
+			s.D.Set("is_volume_created_during_launch", *v.IsVolumeCreatedDuringLaunch)
+		}
+
 		s.D.Set("iscsi_login_state", v.IscsiLoginState)
 
 		if v.IsShareable != nil {
@@ -405,6 +413,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 			s.D.Set("is_read_only", *v.IsReadOnly)
 		}
 
+		if v.IsVolumeCreatedDuringLaunch != nil {
+			s.D.Set("is_volume_created_during_launch", *v.IsVolumeCreatedDuringLaunch)
+		}
+
 		s.D.Set("iscsi_login_state", v.IscsiLoginState)
 
 		if v.IsShareable != nil {
@@ -456,6 +468,10 @@ func (s *CoreVolumeAttachmentResourceCrud) SetData() error {
 
 		if v.IsReadOnly != nil {
 			s.D.Set("is_read_only", *v.IsReadOnly)
+		}
+
+		if v.IsVolumeCreatedDuringLaunch != nil {
+			s.D.Set("is_volume_created_during_launch", *v.IsVolumeCreatedDuringLaunch)
 		}
 
 		s.D.Set("iscsi_login_state", v.IscsiLoginState)

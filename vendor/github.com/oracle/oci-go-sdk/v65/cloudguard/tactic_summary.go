@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// TacticSummary Tactic summary.
+// TacticSummary Summary information for a tactic.
 type TacticSummary struct {
 
-	// Unique identifier for the tactic.
+	// Unique identifier for the tactic
 	Id *string `mandatory:"true" json:"id"`
 
 	// Display name of the tactic

@@ -73,6 +73,9 @@ type LaunchInstanceDetails struct {
 	// Example: `FAULT-DOMAIN-1`
 	FaultDomain *string `mandatory:"false" json:"faultDomain"`
 
+	// The OCID of the cluster placement group of the instance.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -216,6 +219,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		DisplayName                    *string                                  `json:"displayName"`
 		ExtendedMetadata               map[string]interface{}                   `json:"extendedMetadata"`
 		FaultDomain                    *string                                  `json:"faultDomain"`
+		ClusterPlacementGroupId        *string                                  `json:"clusterPlacementGroupId"`
 		FreeformTags                   map[string]string                        `json:"freeformTags"`
 		ComputeClusterId               *string                                  `json:"computeClusterId"`
 		HostnameLabel                  *string                                  `json:"hostnameLabel"`
@@ -257,6 +261,8 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.ExtendedMetadata = model.ExtendedMetadata
 
 	m.FaultDomain = model.FaultDomain
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.FreeformTags = model.FreeformTags
 

@@ -44,7 +44,7 @@ type UpdateVnicDetails struct {
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
-	// The value appears in the Vnic object and also the
+	// The value appears in the `Vnic` object and also the
 	// PrivateIp object returned by
 	// ListPrivateIps and
 	// GetPrivateIp.

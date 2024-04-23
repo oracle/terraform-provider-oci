@@ -18,11 +18,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceErrata.go.html to see an example of how to use ListManagedInstanceErrataRequest.
 type ListManagedInstanceErrataRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
-	// A filter to return only errata that match the given advisory types.
-	AdvisoryType []ListManagedInstanceErrataAdvisoryTypeEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
+	// A filter to return only packages that match the given update classification type.
+	ClassificationType []ClassificationTypesEnum `contributesTo:"query" name:"classificationType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The assigned erratum name. It's unique and not changeable.
 	// Example: `ELSA-2020-5804`
@@ -31,7 +31,7 @@ type ListManagedInstanceErrataRequest struct {
 	// A filter to return resources that may partially match the erratum name given.
 	NameContains *string `mandatory:"false" contributesTo:"query" name:"nameContains"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -89,9 +89,9 @@ func (request ListManagedInstanceErrataRequest) RetryPolicy() *common.RetryPolic
 // Not recommended for calling this function directly
 func (request ListManagedInstanceErrataRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	for _, val := range request.AdvisoryType {
-		if _, ok := GetMappingListManagedInstanceErrataAdvisoryTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisoryType: %s. Supported values are: %s.", val, strings.Join(GetListManagedInstanceErrataAdvisoryTypeEnumStringValues(), ",")))
+	for _, val := range request.ClassificationType {
+		if _, ok := GetMappingClassificationTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClassificationType: %s. Supported values are: %s.", val, strings.Join(GetClassificationTypesEnumStringValues(), ",")))
 		}
 	}
 
@@ -131,52 +131,6 @@ func (response ListManagedInstanceErrataResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListManagedInstanceErrataResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListManagedInstanceErrataAdvisoryTypeEnum Enum with underlying type: string
-type ListManagedInstanceErrataAdvisoryTypeEnum string
-
-// Set of constants representing the allowable values for ListManagedInstanceErrataAdvisoryTypeEnum
-const (
-	ListManagedInstanceErrataAdvisoryTypeSecurity    ListManagedInstanceErrataAdvisoryTypeEnum = "SECURITY"
-	ListManagedInstanceErrataAdvisoryTypeBugfix      ListManagedInstanceErrataAdvisoryTypeEnum = "BUGFIX"
-	ListManagedInstanceErrataAdvisoryTypeEnhancement ListManagedInstanceErrataAdvisoryTypeEnum = "ENHANCEMENT"
-)
-
-var mappingListManagedInstanceErrataAdvisoryTypeEnum = map[string]ListManagedInstanceErrataAdvisoryTypeEnum{
-	"SECURITY":    ListManagedInstanceErrataAdvisoryTypeSecurity,
-	"BUGFIX":      ListManagedInstanceErrataAdvisoryTypeBugfix,
-	"ENHANCEMENT": ListManagedInstanceErrataAdvisoryTypeEnhancement,
-}
-
-var mappingListManagedInstanceErrataAdvisoryTypeEnumLowerCase = map[string]ListManagedInstanceErrataAdvisoryTypeEnum{
-	"security":    ListManagedInstanceErrataAdvisoryTypeSecurity,
-	"bugfix":      ListManagedInstanceErrataAdvisoryTypeBugfix,
-	"enhancement": ListManagedInstanceErrataAdvisoryTypeEnhancement,
-}
-
-// GetListManagedInstanceErrataAdvisoryTypeEnumValues Enumerates the set of values for ListManagedInstanceErrataAdvisoryTypeEnum
-func GetListManagedInstanceErrataAdvisoryTypeEnumValues() []ListManagedInstanceErrataAdvisoryTypeEnum {
-	values := make([]ListManagedInstanceErrataAdvisoryTypeEnum, 0)
-	for _, v := range mappingListManagedInstanceErrataAdvisoryTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListManagedInstanceErrataAdvisoryTypeEnumStringValues Enumerates the set of values in String for ListManagedInstanceErrataAdvisoryTypeEnum
-func GetListManagedInstanceErrataAdvisoryTypeEnumStringValues() []string {
-	return []string{
-		"SECURITY",
-		"BUGFIX",
-		"ENHANCEMENT",
-	}
-}
-
-// GetMappingListManagedInstanceErrataAdvisoryTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListManagedInstanceErrataAdvisoryTypeEnum(val string) (ListManagedInstanceErrataAdvisoryTypeEnum, bool) {
-	enum, ok := mappingListManagedInstanceErrataAdvisoryTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListManagedInstanceErrataSortOrderEnum Enum with underlying type: string

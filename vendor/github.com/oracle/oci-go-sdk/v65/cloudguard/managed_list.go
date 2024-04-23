@@ -16,46 +16,46 @@ import (
 	"strings"
 )
 
-// ManagedList A managed list is a reusable list of parameters that makes it easier to set the scope for detector and responder rules. A ManagedList object contains the reusable list of parameters, plus metadata for the list.
+// ManagedList A managed list is a reusable list of parameters that makes it easier to set the scope for detector and responder rules. A ManagedList resource contains the reusable list of parameters, plus metadata for the list.
 type ManagedList struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// ManagedList display name.
+	// Managed list display name
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// type of the list
+	// Type of information contained in the managed list
 	ListType ManagedListTypeEnum `mandatory:"true" json:"listType"`
 
-	// ManagedList description.
+	// Managed list description
 	Description *string `mandatory:"false" json:"description"`
 
-	// OCID of the Source ManagedList
+	// OCID of the source managed list
 	SourceManagedListId *string `mandatory:"false" json:"sourceManagedListId"`
 
-	// List of ManagedListItem
+	// List of items in the managed list
 	ListItems []string `mandatory:"false" json:"listItems"`
 
-	// provider of the feed
+	// Provider of the managed list feed
 	FeedProvider FeedProviderTypeEnum `mandatory:"false" json:"feedProvider,omitempty"`
 
-	// If this list is editable or not
+	// Is this list editable?
 	IsEditable *bool `mandatory:"false" json:"isEditable"`
 
 	// The date and time the managed list was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the managed list was updated. Format defined by RFC3339.
+	// The date and time the managed list was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the resource.
+	// The current lifecycle state of the resource
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

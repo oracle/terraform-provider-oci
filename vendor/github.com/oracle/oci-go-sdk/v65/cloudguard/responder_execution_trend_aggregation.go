@@ -19,16 +19,16 @@ import (
 // ResponderExecutionTrendAggregation Provides the timestamps and their corresponding number of remediations.
 type ResponderExecutionTrendAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// Start Time in epoch seconds
+	// Start time in epoch seconds
 	StartTimestamp *float32 `mandatory:"true" json:"startTimestamp"`
 
 	// Duration
 	DurationInSeconds *int `mandatory:"true" json:"durationInSeconds"`
 
-	// The number of remediations for a given time.
+	// The number of remediations for a given time
 	Count *int `mandatory:"true" json:"count"`
 }
 

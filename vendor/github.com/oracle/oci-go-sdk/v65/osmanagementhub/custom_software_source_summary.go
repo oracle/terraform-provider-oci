@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,40 +17,41 @@ import (
 	"strings"
 )
 
-// CustomSoftwareSourceSummary A custom software source contains a custom collection of packages.
+// CustomSoftwareSourceSummary Indicates whether the service should create the software source from a list of packages provided by the user.
 type CustomSoftwareSourceSummary struct {
 
-	// The OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The Repo ID for the software source.
+	// The repository ID for the software source.
 	RepoId *string `mandatory:"true" json:"repoId"`
 
-	// URL for the repository.
+	// URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 	Url *string `mandatory:"true" json:"url"`
 
-	// The date and time the software source was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The date and time of when the software source was updated as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// List of vendor software sources.
+	// List of vendor software sources that are used for the basis of the custom software source..
 	VendorSoftwareSources []Id `mandatory:"true" json:"vendorSoftwareSources"`
 
-	// Information specified by the user about the software source.
+	// Description of the software source. For custom software sources, this is user-specified.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Number of packages.
+	// Number of packages the software source contains.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
+
+	// The size of the software source in gigabytes (GB).
+	Size *float64 `mandatory:"false" json:"size"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -68,8 +70,11 @@ type CustomSoftwareSourceSummary struct {
 	// The current state of the software source.
 	LifecycleState SoftwareSourceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Possible availabilities of a software source.
+	// Availability of the software source (for non-OCI environments).
 	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
+
+	// Availability of the software source (for OCI environments).
+	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
 	// The OS family the software source belongs to.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
@@ -123,6 +128,11 @@ func (m CustomSoftwareSourceSummary) GetAvailability() AvailabilityEnum {
 	return m.Availability
 }
 
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m CustomSoftwareSourceSummary) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
+}
+
 // GetOsFamily returns OsFamily
 func (m CustomSoftwareSourceSummary) GetOsFamily() OsFamilyEnum {
 	return m.OsFamily
@@ -141,6 +151,11 @@ func (m CustomSoftwareSourceSummary) GetPackageCount() *int64 {
 // GetLifecycleState returns LifecycleState
 func (m CustomSoftwareSourceSummary) GetLifecycleState() SoftwareSourceLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+// GetSize returns Size
+func (m CustomSoftwareSourceSummary) GetSize() *float64 {
+	return m.Size
 }
 
 // GetFreeformTags returns FreeformTags
@@ -173,6 +188,9 @@ func (m CustomSoftwareSourceSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))

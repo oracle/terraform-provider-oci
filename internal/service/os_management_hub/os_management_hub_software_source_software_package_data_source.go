@@ -215,9 +215,7 @@ func (s *OsManagementHubSoftwareSourceSoftwarePackageDataSourceCrud) SetData() e
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OsManagementHubSoftwareSourceSoftwarePackageDataSource-", OsManagementHubSoftwareSourceSoftwarePackageDataSource(), s.D))
 
-	if s.Res.Architecture != nil {
-		s.D.Set("architecture", *s.Res.Architecture)
-	}
+	s.D.Set("architecture", s.Res.Architecture)
 
 	if s.Res.Checksum != nil {
 		s.D.Set("checksum", *s.Res.Checksum)

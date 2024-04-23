@@ -156,6 +156,7 @@ func TestCoreVolumeAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_multipath"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_pv_encryption_in_transit_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "volume_attachments.0.is_read_only", "false"),
+				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.is_volume_created_during_launch"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.port"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "volume_attachments.0.time_created"),

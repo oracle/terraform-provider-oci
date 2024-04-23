@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,16 +17,16 @@ import (
 	"strings"
 )
 
-// UpdateSoftwareSourceDetails Information for updating a software source.
+// UpdateSoftwareSourceDetails Provides the information used to update a software source.
 type UpdateSoftwareSourceDetails interface {
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	GetDisplayName() *string
 
-	// Information specified by the user about the software source.
+	// User-specified description of the software source.
 	GetDescription() *string
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -81,6 +82,10 @@ func (m *updatesoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 	switch m.SoftwareSourceType {
 	case "CUSTOM":
 		mm := UpdateCustomSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "VERSIONED":
+		mm := UpdateVersionedCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VENDOR":

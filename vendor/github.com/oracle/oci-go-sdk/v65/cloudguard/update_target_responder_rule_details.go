@@ -17,14 +17,17 @@ import (
 	"strings"
 )
 
-// UpdateTargetResponderRuleDetails Details of ResponderRule.
+// UpdateTargetResponderRuleDetails Parameters to update details for a responder rule for a target responder recipe.
+// TargetResponderRuleDetails contains all configurations associated with the
+// ResponderRule, whereas UpdateTargetResponderRecipeResponderRuleDetails
+// refers to the details that are to be updated for ResponderRule.
 type UpdateTargetResponderRuleDetails struct {
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// Configurations associated with the ResponderRule
+	// List of responder rule configurations
 	Configurations []ResponderConfiguration `mandatory:"false" json:"configurations"`
 
-	// Execution Mode for ResponderRule
+	// Execution mode for the responder rule
 	Mode ResponderModeTypesEnum `mandatory:"false" json:"mode,omitempty"`
 }
 

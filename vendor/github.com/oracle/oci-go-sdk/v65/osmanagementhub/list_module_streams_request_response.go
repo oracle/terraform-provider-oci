@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListModuleStreams.go.html to see an example of how to use ListModuleStreamsRequest.
 type ListModuleStreamsRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
 	// The name of a module. This parameter is required if a
@@ -28,9 +28,7 @@ type ListModuleStreamsRequest struct {
 	// The name of the entity to be queried.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
-	// A boolean variable that is used to list only the latest versions of packages, module streams,
-	// and stream profiles when set to true. All packages, module streams, and stream profiles are
-	// returned when set to false.
+	// Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

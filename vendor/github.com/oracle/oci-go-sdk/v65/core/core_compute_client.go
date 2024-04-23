@@ -1197,8 +1197,7 @@ func (client ComputeClient) createComputeCapacityTopology(ctx context.Context, r
 // After the compute cluster is created, you can use the compute cluster's OCID with the
 // LaunchInstance operation to create instances in the compute cluster.
 // The instances must be created in the same compartment and availability domain as the cluster.
-// Use compute clusters when you want to manage instances in the cluster individually, or when you want
-// to use different types of instances in the RDMA network group.
+// Use compute clusters when you want to manage instances in the cluster individually in the RDMA network group.
 // If you want predictable capacity for a specific number of identical instances that are managed as a group,
 // create a cluster network that uses instance pools by using the
 // CreateClusterNetwork operation.

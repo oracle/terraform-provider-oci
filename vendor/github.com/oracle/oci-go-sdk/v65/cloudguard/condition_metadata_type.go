@@ -19,11 +19,14 @@ import (
 // ConditionMetadataType The metadata definition of the requested condition type.
 type ConditionMetadataType struct {
 
-	// Name used to identify
+	// Name used to identify the condition metadata type
 	Name *string `mandatory:"true" json:"name"`
 
-	// collection of Service type
+	// Collection of ServiceTypeSummary resources
 	ServiceTypes []ServiceTypeSummary `mandatory:"true" json:"serviceTypes"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ConditionMetadataType) String() string {

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListErrata.go.html to see an example of how to use ListErrataRequest.
 type ListErrataRequest struct {
 
-	// The OCID of the compartment that contains the resources to list. This parameter is required.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The assigned erratum name. It's unique and not changeable.
@@ -31,7 +31,10 @@ type ListErrataRequest struct {
 	// A filter to return only packages that match the given update classification type.
 	ClassificationType []ClassificationTypesEnum `contributesTo:"query" name:"classificationType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only profiles that match the given osFamily.
+	// A filter to return only errata that match the given advisory types.
+	AdvisoryType []AdvisoryTypesEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListErrataOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// The advisory severity.
@@ -106,6 +109,12 @@ func (request ListErrataRequest) ValidateEnumValue() (bool, error) {
 		}
 	}
 
+	for _, val := range request.AdvisoryType {
+		if _, ok := GetMappingAdvisoryTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisoryType: %s. Supported values are: %s.", val, strings.Join(GetAdvisoryTypesEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListErrataOsFamilyEnum(string(request.OsFamily)); !ok && request.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", request.OsFamily, strings.Join(GetListErrataOsFamilyEnumStringValues(), ",")))
 	}
@@ -158,21 +167,36 @@ type ListErrataOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListErrataOsFamilyEnum
 const (
-	ListErrataOsFamily9 ListErrataOsFamilyEnum = "ORACLE_LINUX_9"
-	ListErrataOsFamily8 ListErrataOsFamilyEnum = "ORACLE_LINUX_8"
-	ListErrataOsFamily7 ListErrataOsFamilyEnum = "ORACLE_LINUX_7"
+	ListErrataOsFamilyOracleLinux9      ListErrataOsFamilyEnum = "ORACLE_LINUX_9"
+	ListErrataOsFamilyOracleLinux8      ListErrataOsFamilyEnum = "ORACLE_LINUX_8"
+	ListErrataOsFamilyOracleLinux7      ListErrataOsFamilyEnum = "ORACLE_LINUX_7"
+	ListErrataOsFamilyOracleLinux6      ListErrataOsFamilyEnum = "ORACLE_LINUX_6"
+	ListErrataOsFamilyWindowsServer2016 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2016"
+	ListErrataOsFamilyWindowsServer2019 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2019"
+	ListErrataOsFamilyWindowsServer2022 ListErrataOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListErrataOsFamilyAll               ListErrataOsFamilyEnum = "ALL"
 )
 
 var mappingListErrataOsFamilyEnum = map[string]ListErrataOsFamilyEnum{
-	"ORACLE_LINUX_9": ListErrataOsFamily9,
-	"ORACLE_LINUX_8": ListErrataOsFamily8,
-	"ORACLE_LINUX_7": ListErrataOsFamily7,
+	"ORACLE_LINUX_9":      ListErrataOsFamilyOracleLinux9,
+	"ORACLE_LINUX_8":      ListErrataOsFamilyOracleLinux8,
+	"ORACLE_LINUX_7":      ListErrataOsFamilyOracleLinux7,
+	"ORACLE_LINUX_6":      ListErrataOsFamilyOracleLinux6,
+	"WINDOWS_SERVER_2016": ListErrataOsFamilyWindowsServer2016,
+	"WINDOWS_SERVER_2019": ListErrataOsFamilyWindowsServer2019,
+	"WINDOWS_SERVER_2022": ListErrataOsFamilyWindowsServer2022,
+	"ALL":                 ListErrataOsFamilyAll,
 }
 
 var mappingListErrataOsFamilyEnumLowerCase = map[string]ListErrataOsFamilyEnum{
-	"oracle_linux_9": ListErrataOsFamily9,
-	"oracle_linux_8": ListErrataOsFamily8,
-	"oracle_linux_7": ListErrataOsFamily7,
+	"oracle_linux_9":      ListErrataOsFamilyOracleLinux9,
+	"oracle_linux_8":      ListErrataOsFamilyOracleLinux8,
+	"oracle_linux_7":      ListErrataOsFamilyOracleLinux7,
+	"oracle_linux_6":      ListErrataOsFamilyOracleLinux6,
+	"windows_server_2016": ListErrataOsFamilyWindowsServer2016,
+	"windows_server_2019": ListErrataOsFamilyWindowsServer2019,
+	"windows_server_2022": ListErrataOsFamilyWindowsServer2022,
+	"all":                 ListErrataOsFamilyAll,
 }
 
 // GetListErrataOsFamilyEnumValues Enumerates the set of values for ListErrataOsFamilyEnum
@@ -190,6 +214,11 @@ func GetListErrataOsFamilyEnumStringValues() []string {
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
+		"ORACLE_LINUX_6",
+		"WINDOWS_SERVER_2016",
+		"WINDOWS_SERVER_2019",
+		"WINDOWS_SERVER_2022",
+		"ALL",
 	}
 }
 

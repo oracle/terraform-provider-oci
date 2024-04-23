@@ -1,6 +1,5 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-// Licensed under the Mozilla Public License v2.0
-
+// // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// // Licensed under the Mozilla Public License v2.0
 package database_migration
 
 import (
@@ -1963,15 +1962,26 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDataPumpParameters(f
 		}
 	}
 
-	if exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree")); ok {
+	/*if exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree")); ok {
+		tmp := exportParallelismDegree.(int)
+		result.ExportParallelismDegree = &tmp
+	}*/
+	exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree"))
+	if ok && s.D.HasChange("export_parallelism_degree") {
 		tmp := exportParallelismDegree.(int)
 		result.ExportParallelismDegree = &tmp
 	}
 
-	if importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree")); ok {
+	importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree"))
+	if ok && s.D.HasChange("import_parallelism_degree") {
 		tmp := importParallelismDegree.(int)
 		result.ImportParallelismDegree = &tmp
 	}
+
+	/*if importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree")); ok {
+		tmp := importParallelismDegree.(int)
+		result.ImportParallelismDegree = &tmp
+	}*/
 
 	if isCluster, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_cluster")); ok {
 		tmp := isCluster.(bool)
@@ -2357,6 +2367,12 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDumpTransferDetails(
 
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDumpTransferDetails(fieldKeyFormat string) (oci_database_migration.UpdateDumpTransferDetails, error) {
 	result := oci_database_migration.UpdateDumpTransferDetails{}
+
+	sharedStorageMountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shared_storage_mount_target_id"))
+	if ok && s.D.HasChange("shared_storage_mount_target_id") {
+		tmp := sharedStorageMountTargetId.(string)
+		result.SharedStorageMountTargetId = &tmp
+	}
 
 	if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 		if tmpList := source.([]interface{}); len(tmpList) > 0 {
@@ -3295,6 +3311,16 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToDataTransferMediumDetailsV
 			tmp := name.(string)
 			details.Name = &tmp
 		}
+		if objectStorageBucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_bucket")); ok {
+			if tmpList := objectStorageBucket.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_bucket"), 0)
+				tmp, err := s.mapToObjectStoreBucket(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_bucket, encountered error: %v", err)
+				}
+				details.ObjectStorageBucket = &tmp
+			}
+		}
 		if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
 			tmp := region.(string)
 			details.Region = &tmp
@@ -3323,6 +3349,16 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToDataTransferMediumDetailsV
 		baseObject = details
 	case strings.ToLower("NFS"):
 		details := oci_database_migration.NfsDataTransferMediumDetails{}
+		if objectStorageBucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "object_storage_bucket")); ok {
+			if tmpList := objectStorageBucket.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "object_storage_bucket"), 0)
+				tmp, err := s.mapToObjectStoreBucket(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert object_storage_bucket, encountered error: %v", err)
+				}
+				details.ObjectStorageBucket = &tmp
+			}
+		}
 		baseObject = details
 	case strings.ToLower("OBJECT_STORAGE"):
 		details := oci_database_migration.ObjectStorageDataTransferMediumDetails{}
@@ -3357,6 +3393,10 @@ func DataTransferMediumDetailsV2ToMap(obj *oci_database_migration.DataTransferMe
 			result["name"] = string(*v.Name)
 		}
 
+		if v.ObjectStorageBucket != nil {
+			result["object_storage_bucket"] = []interface{}{ObjectStoreBucketToMap(v.ObjectStorageBucket)}
+		}
+
 		if v.Region != nil {
 			result["region"] = string(*v.Region)
 		}
@@ -3376,6 +3416,10 @@ func DataTransferMediumDetailsV2ToMap(obj *oci_database_migration.DataTransferMe
 		}
 	case oci_database_migration.NfsDataTransferMediumDetails:
 		result["type"] = "NFS"
+
+		if v.ObjectStorageBucket != nil {
+			result["object_storage_bucket"] = []interface{}{ObjectStoreBucketToMap(v.ObjectStorageBucket)}
+		}
 	case oci_database_migration.ObjectStorageDataTransferMediumDetails:
 		result["type"] = "OBJECT_STORAGE"
 
@@ -3487,6 +3531,7 @@ func MetadataRemapToMap(obj oci_database_migration.MetadataRemap) map[string]int
 
 	return result
 }
+
 func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -3587,7 +3632,6 @@ func metadataRemapsHashCodeForSets(v interface{}) int {
 	}
 	return utils.GetStringHashcode(buf.String())
 }
-
 func (s *DatabaseMigrationMigrationResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_database_migration.ChangeMigrationCompartmentRequest{}
 

@@ -16,52 +16,74 @@ import (
 	"strings"
 )
 
-// TargetDetectorRecipeDetectorRule Detector Recipe Rule
+// TargetDetectorRecipeDetectorRule A TargetDetectorRecipeDetectorRule resource contains a specific instance of a
+// single detector rule in one of the supported detector types (for example,
+// activity, configuration, or threat).
+// A TargetDetectorRecipeDetectorRule resource:
+// * Is effectively a copy of a DetectorRecipeRule resource (made when
+// a detector recipe is attached to a target) in which users can make
+// certain changes if it’s Oracle-managed, and other changes if it’s user-managed.
+// * Is visible on the Cloud Guard Targets, Target Details page.
+// * Is effectively located in a specific OCI compartment, through the
+// ThreatDetectorRecipe resource to which it belongs.
+// * Can be modified by users, programmatically or through the UI.
+// * Changes that can be made here apply locally, to resources in OCI compartments
+// mapped to the target that attaches the associated detector recipe
+// (in a TargetDetectorRecipe resource), and override any changes made in rules
+// associated with the corresponding DetectorRecipe resource.
 type TargetDetectorRecipeDetectorRule struct {
 
-	// The unique identifier of the detector rule.
+	// The unique identifier of the detector rule
 	DetectorRuleId *string `mandatory:"true" json:"detectorRuleId"`
 
-	// detector for the rule
+	// Detector type for the rule
 	Detector DetectorEnumEnum `mandatory:"true" json:"detector"`
 
-	// service type of the configuration to which the rule is applied
+	// Service type of the configuration to which the rule is applied
 	ServiceType *string `mandatory:"true" json:"serviceType"`
 
-	// resource type of the configuration to which the rule is applied
+	// The type of resource which is monitored by the detector rule.
+	// For example, Instance, Database, VCN, Policy. To find the resource type for a
+	// particular rule, see Detector Recipe Reference
+	//  (https://docs.cloud.oracle.com/iaas/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
+	// Or try Detector Recipe Reference
+	//  (https://docs.cloud.oracle.com/cloud-guard/using/detect-recipes.htm#detect-recipes-reference).
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Display name for TargetDetectorRecipeDetectorRule. information.
+	// Display name for TargetDetectorRecipeDetectorRule resource
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// Description for TargetDetectorRecipeDetectorRule. information.
+	// Description for TargetDetectorRecipeDetectorRule resource
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for TargetDetectorRecipeDetectorRule
+	// Recommendation for TargetDetectorRecipeDetectorRule resource
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
 	Details *TargetDetectorDetails `mandatory:"false" json:"details"`
 
-	// List of cloudguard managed list types related to this rule
+	// List of managed list types related to this rule
 	ManagedListTypes []TargetDetectorRecipeDetectorRuleManagedListTypesEnum `mandatory:"false" json:"managedListTypes,omitempty"`
 
 	// The date and time the target detector recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the target detector recipe rule was updated. Format defined by RFC3339.
+	// The date and time the target detector recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the DetectorRule.
+	// The current lifecycle state of the detector rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The id of the attached DataSource.
+	// The ID of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for a detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m TargetDetectorRecipeDetectorRule) String() string {

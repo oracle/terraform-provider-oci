@@ -17,27 +17,27 @@ import (
 	"strings"
 )
 
-// DataMaskRule A data mask rule specifies the conditions in which the value for a sensitive data field in the UI is to be hidden or displayed when viewed by specified groups of users. The DataMaskRule object contains the parameters for a data mask rule.
+// DataMaskRule A data mask rule specifies the conditions in which the value for a sensitive data field in the UI is to be hidden or displayed when viewed by specified groups of users. The DataMaskRule resource contains the parameters for a data mask rule.
 type DataMaskRule struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier where the resource is created.
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// IAM Group id associated with the data mask rule
+	// IAM Group ID associated with the data mask rule
 	IamGroupId *string `mandatory:"true" json:"iamGroupId"`
 
 	TargetSelected TargetSelected `mandatory:"true" json:"targetSelected"`
 
-	// Data Mask Rule Identifier, can be renamed.
+	// Data mask rule display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The data mask rule description.
+	// The data mask rule description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Data Mask Categories
+	// List of data mask rule categories
 	DataMaskCategories []DataMaskCategoryEnum `mandatory:"false" json:"dataMaskCategories,omitempty"`
 
 	// The date and time the target was created. Format defined by RFC3339.
@@ -46,14 +46,17 @@ type DataMaskRule struct {
 	// The date and time the target was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The status of the dataMaskRule.
+	// The current status of the data mask rule
 	DataMaskRuleStatus DataMaskRuleStatusEnum `mandatory:"false" json:"dataMaskRuleStatus,omitempty"`
 
-	// The current state of the DataMaskRule.
+	// The current lifecycle state of the data mask rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// Additional details on the substate of the lifecycle state [DEPRECATE]
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
@@ -110,6 +113,7 @@ func (m *DataMaskRule) UnmarshalJSON(data []byte) (e error) {
 		DataMaskRuleStatus DataMaskRuleStatusEnum            `json:"dataMaskRuleStatus"`
 		LifecycleState     LifecycleStateEnum                `json:"lifecycleState"`
 		LifecyleDetails    *string                           `json:"lifecyleDetails"`
+		Locks              []ResourceLock                    `json:"locks"`
 		FreeformTags       map[string]string                 `json:"freeformTags"`
 		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
@@ -140,6 +144,8 @@ func (m *DataMaskRule) UnmarshalJSON(data []byte) (e error) {
 
 	m.LifecyleDetails = model.LifecyleDetails
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

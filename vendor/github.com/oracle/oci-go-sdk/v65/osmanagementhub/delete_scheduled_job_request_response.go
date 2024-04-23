@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteScheduledJob.go.html to see an example of how to use DeleteScheduledJobRequest.
 type DeleteScheduledJobRequest struct {
 
-	// The OCID of the scheduled job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	ScheduledJobId *string `mandatory:"true" contributesTo:"path" name:"scheduledJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -77,6 +77,9 @@ type BootVolume struct {
 	// from the source boot volume or boot volume backup.
 	IsHydrated *bool `mandatory:"false" json:"isHydrated"`
 
+	// The clusterPlacementGroup Id of the volume for volume placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
+
 	// The number of volume performance units (VPUs) that will be applied to this boot volume per GB,
 	// representing the Block Volume service's elastic performance options.
 	// See Block Volume Performance Levels (https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
@@ -134,27 +137,28 @@ func (m BootVolume) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
-		DisplayName        *string                           `json:"displayName"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		ImageId            *string                           `json:"imageId"`
-		IsHydrated         *bool                             `json:"isHydrated"`
-		VpusPerGB          *int64                            `json:"vpusPerGB"`
-		SizeInGBs          *int64                            `json:"sizeInGBs"`
-		SourceDetails      bootvolumesourcedetails           `json:"sourceDetails"`
-		VolumeGroupId      *string                           `json:"volumeGroupId"`
-		KmsKeyId           *string                           `json:"kmsKeyId"`
-		IsAutoTuneEnabled  *bool                             `json:"isAutoTuneEnabled"`
-		AutoTunedVpusPerGB *int64                            `json:"autoTunedVpusPerGB"`
-		BootVolumeReplicas []BootVolumeReplicaInfo           `json:"bootVolumeReplicas"`
-		AutotunePolicies   []autotunepolicy                  `json:"autotunePolicies"`
-		AvailabilityDomain *string                           `json:"availabilityDomain"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		Id                 *string                           `json:"id"`
-		LifecycleState     BootVolumeLifecycleStateEnum      `json:"lifecycleState"`
-		SizeInMBs          *int64                            `json:"sizeInMBs"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		ImageId                 *string                           `json:"imageId"`
+		IsHydrated              *bool                             `json:"isHydrated"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		VpusPerGB               *int64                            `json:"vpusPerGB"`
+		SizeInGBs               *int64                            `json:"sizeInGBs"`
+		SourceDetails           bootvolumesourcedetails           `json:"sourceDetails"`
+		VolumeGroupId           *string                           `json:"volumeGroupId"`
+		KmsKeyId                *string                           `json:"kmsKeyId"`
+		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
+		AutoTunedVpusPerGB      *int64                            `json:"autoTunedVpusPerGB"`
+		BootVolumeReplicas      []BootVolumeReplicaInfo           `json:"bootVolumeReplicas"`
+		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		Id                      *string                           `json:"id"`
+		LifecycleState          BootVolumeLifecycleStateEnum      `json:"lifecycleState"`
+		SizeInMBs               *int64                            `json:"sizeInMBs"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -173,6 +177,8 @@ func (m *BootVolume) UnmarshalJSON(data []byte) (e error) {
 	m.ImageId = model.ImageId
 
 	m.IsHydrated = model.IsHydrated
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.VpusPerGB = model.VpusPerGB
 

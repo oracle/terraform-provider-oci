@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// ResponderRuleSummary Summary of the ResponderRule.
+// ResponderRuleSummary Summary information for a responder rule.
 type ResponderRuleSummary struct {
 
-	// Identifier for ResponderRule.
+	// Unique identifier for responder rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// ResponderRule Display Name
+	// Display name for responder rule
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// ResponderRule Description
+	// Responder rule description
 	Description *string `mandatory:"true" json:"description"`
 
-	// Type of Responder
+	// Type of responder
 	Type ResponderTypeEnum `mandatory:"true" json:"type"`
 
-	// List of Policy
+	// List of policies
 	Policies []string `mandatory:"false" json:"policies"`
 
-	// Supported Execution Modes
+	// Supported execution modes for responder rule
 	SupportedModes []ResponderRuleSummarySupportedModesEnum `mandatory:"false" json:"supportedModes,omitempty"`
 
 	Details *ResponderRuleDetails `mandatory:"false" json:"details"`
@@ -42,10 +42,10 @@ type ResponderRuleSummary struct {
 	// The date and time the responder rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the responder rule was updated. Format defined by RFC3339.
+	// The date and time the responder rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the ResponderRule.
+	// The current lifecycle state of the responder rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

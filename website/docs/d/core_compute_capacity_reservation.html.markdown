@@ -44,8 +44,14 @@ The following attributes are exported:
 	* `cluster_config` - The HPC cluster configuration requested when launching instances in a compute capacity reservation.
 
 		If the parameter is provided, the reservation is created with the HPC island and a list of HPC blocks that you specify. If a list of HPC blocks are missing or not provided, the reservation is created with any HPC blocks in the HPC island that you specify. If the values of HPC island or HPC block that you provide are not valid, an error is returned.
+<<<<<<< HEAD
 		* `hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HpcIsland. 
 		* `network_block_ids` - The list of OCID of the network blocks.
+=======
+		* `hpc_island_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HPC island. 
+		* `network_block_ids` - The list of OCIDs of the network blocks.
+	* `cluster_placement_group_id` - The OCID of the cluster placement group for this instance reservation capacity configuration.
+>>>>>>> d74e4e1fef (Added - clusterPlacementGroupId terraform implementation and tests)
 	* `fault_domain` - The fault domain of this capacity configuration. If a value is not supplied, this capacity configuration is applicable to all fault domains in the specified availability domain. For more information, see [Capacity Reservations](https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/reserve-capacity.htm).
 	* `instance_shape` - The shape to use when launching instances using compute capacity reservations. The shape determines the number of CPUs, the amount of memory, and other resources allocated to the instance. You can list all available shapes by calling [ListComputeCapacityReservationInstanceShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/computeCapacityReservationInstanceShapes/ListComputeCapacityReservationInstanceShapes). 
 	* `instance_shape_config` - The shape configuration requested when launching instances in a compute capacity reservation.

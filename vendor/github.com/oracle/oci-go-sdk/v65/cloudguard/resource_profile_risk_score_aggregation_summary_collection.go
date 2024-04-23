@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ResourceProfileRiskScoreAggregationSummaryCollection Collection of resource profile risk score trends.
+// ResourceProfileRiskScoreAggregationSummaryCollection Collection of resource profile risk score aggregation summaries.
 type ResourceProfileRiskScoreAggregationSummaryCollection struct {
 
-	// List of ResourceProfileRiskScoreAggregationSummary
+	// List of ResourceProfileRiskScoreAggregationSummary resources
 	Items []ResourceProfileRiskScoreAggregationSummary `mandatory:"true" json:"items"`
 }
 

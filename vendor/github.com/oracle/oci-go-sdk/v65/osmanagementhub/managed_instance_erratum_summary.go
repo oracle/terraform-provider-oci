@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,26 +16,25 @@ import (
 	"strings"
 )
 
-// ManagedInstanceErratumSummary An erratum associated with a managed instance.
+// ManagedInstanceErratumSummary Provides summary information about an erratum associated with a managed instance.
 type ManagedInstanceErratumSummary struct {
 
 	// The identifier of the erratum.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The type of the erratum.
+	// The advisory type of the erratum.
 	AdvisoryType ClassificationTypesEnum `mandatory:"true" json:"advisoryType"`
 
-	// The list of Packages affected by this erratum.
+	// The list of packages affected by this erratum.
 	Packages []PackageNameSummary `mandatory:"true" json:"packages"`
 
-	// The date and time the package was issued by a providing erratum (if available), as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the package was issued by a providing erratum (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeIssued *common.SDKTime `mandatory:"false" json:"timeIssued"`
 
-	// Summary description of the erratum.
+	// A summary description of the erratum.
 	Synopsis *string `mandatory:"false" json:"synopsis"`
 
-	// List of CVEs applicable to this erratum.
+	// The list of CVEs applicable to this erratum.
 	RelatedCves []string `mandatory:"false" json:"relatedCves"`
 }
 

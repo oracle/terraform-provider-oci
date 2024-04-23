@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,13 +16,13 @@ import (
 	"strings"
 )
 
-// WorkRequestDetails The details of the user-friendly names to be used for actions.
+// WorkRequestDetails Provides the name and description of the job.
 type WorkRequestDetails struct {
 
-	// A user-friendly name for the resulting job. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the job. The name does not have to be unique. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// User specified information about the resulting job. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// User-specified information about the job. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 }
 
