@@ -71,6 +71,7 @@ var (
 )
 
 // issue-routing-tag: database_management/default
+// This test is has been executed with ROLE as SYSDG and NORMAL
 func TestDatabaseManagementNamedCredentialResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseManagementNamedCredentialResource_basic")
 	defer httpreplay.SaveScenario()
