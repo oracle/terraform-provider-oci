@@ -638,6 +638,55 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								Type: schema.TypeFloat,
 							},
 						},
+						"public_connection_urls": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apex_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_transforms_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"graph_studio_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"machine_learning_notebook_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"machine_learning_user_management_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"mongo_db_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ords_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"sql_dev_web_url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"public_endpoint": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"refreshable_mode": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1261,6 +1310,16 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["provisionable_cpus"] = r.ProvisionableCpus
+
+		if r.PublicConnectionUrls != nil {
+			autonomousDatabasesClone["public_connection_urls"] = []interface{}{AutonomousDatabaseConnectionUrlsToMap(r.PublicConnectionUrls)}
+		} else {
+			autonomousDatabasesClone["public_connection_urls"] = nil
+		}
+
+		if r.PublicEndpoint != nil {
+			autonomousDatabasesClone["public_endpoint"] = *r.PublicEndpoint
+		}
 
 		autonomousDatabasesClone["refreshable_mode"] = r.RefreshableMode
 
