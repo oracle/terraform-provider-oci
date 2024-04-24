@@ -1,4 +1,4 @@
-## 5.39.0 (Unreleased)
+## 5.39.0 (April 24, 2024)
 
 ### Added
 - Support for Cluster Placement Group- Service
@@ -16,7 +16,7 @@
 - logSourceIdentifer updates for logging Analytics connectors
 - Update psql Documentaiton for TF Provider
 
-## 5.38.0 (Unreleased)
+## 5.38.0 (April 24, 2024)
 
 ### Added
 - Support for Oracle Process Automation (OPA) : Support for Start/Stop operation in Public API
