@@ -46,6 +46,10 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`}},
 	}
 
+	ignoreNlbDefinedTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
+
 	NetworkLoadBalancerNetworkLoadBalancerRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -57,7 +61,9 @@ var (
 		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Optional, Create: `IPV4`, Update: `IPV4_AND_IPV6`},
 		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"reserved_ips":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: networkLoadBalancerReservedIpsRepresentation},
+		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreNlbDefinedTagsChangesRepresentation},
 	}
+
 	networkLoadBalancerRepresentationIpv6 = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -68,6 +74,7 @@ var (
 		"is_private":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"nlb_ip_version":                 acctest.Representation{RepType: acctest.Optional, Create: `IPV4_AND_IPV6`},
 		"network_security_group_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"lifecycle":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreNlbDefinedTagsChangesRepresentation},
 	}
 	networkLoadBalancerReservedIpsRepresentation = map[string]interface{}{
 		"id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_public_ip.test_public_ip.id}`},

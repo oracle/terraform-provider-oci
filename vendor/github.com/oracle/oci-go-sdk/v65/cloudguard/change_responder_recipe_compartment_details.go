@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// ChangeResponderRecipeCompartmentDetails Changing compartmentId for ResponderRecipe
+// ChangeResponderRecipeCompartmentDetails Parameters to use to move a responder recipe to a different compartment.
 type ChangeResponderRecipeCompartmentDetails struct {
 
-	// The OCID of the compartment into which the ResponderRecipe should be moved
+	// The OCID of the compartment into which the responder recipe is to be moved
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

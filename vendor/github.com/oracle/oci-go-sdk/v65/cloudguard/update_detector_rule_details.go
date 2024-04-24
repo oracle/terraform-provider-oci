@@ -17,33 +17,33 @@ import (
 	"strings"
 )
 
-// UpdateDetectorRuleDetails Details of a Detector Rule to be overriden in Detector Recipe
+// UpdateDetectorRuleDetails Parameters to be updated for a detector rule within a detector recipe.
 type UpdateDetectorRuleDetails struct {
 
-	// Enables the control
+	// Enablement status of the detector rule
 	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The Risk Level
+	// The risk level of the detector rule
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Configuration details
+	// List of detector rule configurations
 	Configurations []DetectorConfiguration `mandatory:"false" json:"configurations"`
 
 	Condition Condition `mandatory:"false" json:"condition"`
 
-	// user defined labels for a detector rule
+	// User-defined labels for a detector rule
 	Labels []string `mandatory:"false" json:"labels"`
 
-	// Description for DetectorRecipeDetectorRule.
+	// Description for the detector rule
 	Description *string `mandatory:"false" json:"description"`
 
-	// Recommendation for DetectorRecipeDetectorRule
+	// Recommendation for the detector rule
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// The id of the attached DataSource.
+	// The unique identifier of the attached data source
 	DataSourceId *string `mandatory:"false" json:"dataSourceId"`
 
-	// Data Source entities mapping for a Detector Rule
+	// Data source entities mapping for a detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
 }
 

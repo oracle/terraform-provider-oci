@@ -66,6 +66,7 @@ func TestCoreBootVolumeAttachmentResource_basic(t *testing.T) {
 				acctest.TestCheckResourceAttributesEqual(datasourceName, "boot_volume_attachments.0.instance_id", "oci_core_instance.test_instance", "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "boot_volume_attachments.0.time_updated"),
 			),
 		},
 		// verify datasource can retrieve all boot volume attachments in a compartment by specifying no filtering options

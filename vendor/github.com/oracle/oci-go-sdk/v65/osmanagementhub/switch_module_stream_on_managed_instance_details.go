@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// SwitchModuleStreamOnManagedInstanceDetails The details of the module stream to be version switched on a managed instance.
+// SwitchModuleStreamOnManagedInstanceDetails Provides the information used to switch module streams on a managed instance.
 type SwitchModuleStreamOnManagedInstanceDetails struct {
 
 	// The name of a module.
@@ -23,6 +24,9 @@ type SwitchModuleStreamOnManagedInstanceDetails struct {
 
 	// The name of a stream of the specified module.
 	StreamName *string `mandatory:"true" json:"streamName"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that contains the module stream.
+	SoftwareSourceId *string `mandatory:"false" json:"softwareSourceId"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

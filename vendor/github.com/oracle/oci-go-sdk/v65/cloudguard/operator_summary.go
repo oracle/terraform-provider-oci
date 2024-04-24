@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// OperatorSummary Summary of Operator
+// OperatorSummary Summary information on available operators.
 type OperatorSummary struct {
 
-	// name of the operand
+	// Name of the operand
 	Name *string `mandatory:"true" json:"name"`
 
-	// display name of the operand
+	// Display name of the operand
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// data type of operand
+	// Data type of the operand
 	Datatype *string `mandatory:"true" json:"datatype"`
 
-	// operand list type
+	// Operand list type
 	ManagedListtype *string `mandatory:"true" json:"managedListtype"`
 
-	// Filter type can be config filter or condition filter
+	// Type of filter
 	FilterType ConditionFilterTypeEnum `mandatory:"true" json:"filterType"`
 
 	// List of parameters
 	Operators []ConditionOperator `mandatory:"true" json:"operators"`
 
-	// configuration value type list for multilist data type
+	// Configuration value type list for multi-list data type
 	MultiListTypes []string `mandatory:"false" json:"multiListTypes"`
 }
 

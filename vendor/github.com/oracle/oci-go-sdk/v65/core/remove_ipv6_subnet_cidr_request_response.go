@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/RemoveIpv6SubnetCidr.go.html to see an example of how to use RemoveIpv6SubnetCidrRequest.
 type RemoveIpv6SubnetCidrRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
+	// Specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
 	SubnetId *string `mandatory:"true" contributesTo:"path" name:"subnetId"`
 
 	// Details object for removing an IPv6 SUBNET prefix.

@@ -19,8 +19,11 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetManagedInstanceContent.go.html to see an example of how to use GetManagedInstanceContentRequest.
 type GetManagedInstanceContentRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
+
+	// A filter to return only vulnerabilities matching the given types.
+	VulnerabilityType []VulnerabilityTypesEnum `contributesTo:"query" name:"vulnerabilityType" omitEmpty:"true" collectionFormat:"multi"`
 
 	// The assigned erratum name. It's unique and not changeable.
 	// Example: `ELSA-2020-5804`
@@ -30,7 +33,16 @@ type GetManagedInstanceContentRequest struct {
 	AdvisoryNameContains *string `mandatory:"false" contributesTo:"query" name:"advisoryNameContains"`
 
 	// A filter to return only errata that match the given advisory types.
-	AdvisoryType []GetManagedInstanceContentAdvisoryTypeEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
+	AdvisoryType []AdvisoryTypesEnum `contributesTo:"query" name:"advisoryType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return vulnerabilities that match the given name. For Linux instances, this refers to the advisory name. For Windows instances, this refers to the Windows update display name.
+	VulnerabilityName []string `contributesTo:"query" name:"vulnerabilityName" collectionFormat:"multi"`
+
+	// A filter to return vulnerabilities that partially match the given name. For Linux instances, this refers to the advisory name. For Windows instances, this refers to the Windows update display name.
+	VulnerabilityNameContains *string `mandatory:"false" contributesTo:"query" name:"vulnerabilityNameContains"`
+
+	// The format of the report to download. Default is CSV.
+	ReportFormat GetManagedInstanceContentReportFormatEnum `mandatory:"false" contributesTo:"query" name:"reportFormat" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -71,12 +83,21 @@ func (request GetManagedInstanceContentRequest) RetryPolicy() *common.RetryPolic
 // Not recommended for calling this function directly
 func (request GetManagedInstanceContentRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	for _, val := range request.AdvisoryType {
-		if _, ok := GetMappingGetManagedInstanceContentAdvisoryTypeEnum(string(val)); !ok && val != "" {
-			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisoryType: %s. Supported values are: %s.", val, strings.Join(GetGetManagedInstanceContentAdvisoryTypeEnumStringValues(), ",")))
+	for _, val := range request.VulnerabilityType {
+		if _, ok := GetMappingVulnerabilityTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VulnerabilityType: %s. Supported values are: %s.", val, strings.Join(GetVulnerabilityTypesEnumStringValues(), ",")))
 		}
 	}
 
+	for _, val := range request.AdvisoryType {
+		if _, ok := GetMappingAdvisoryTypesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AdvisoryType: %s. Supported values are: %s.", val, strings.Join(GetAdvisoryTypesEnumStringValues(), ",")))
+		}
+	}
+
+	if _, ok := GetMappingGetManagedInstanceContentReportFormatEnum(string(request.ReportFormat)); !ok && request.ReportFormat != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ReportFormat: %s. Supported values are: %s.", request.ReportFormat, strings.Join(GetGetManagedInstanceContentReportFormatEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -109,48 +130,48 @@ func (response GetManagedInstanceContentResponse) HTTPResponse() *http.Response 
 	return response.RawResponse
 }
 
-// GetManagedInstanceContentAdvisoryTypeEnum Enum with underlying type: string
-type GetManagedInstanceContentAdvisoryTypeEnum string
+// GetManagedInstanceContentReportFormatEnum Enum with underlying type: string
+type GetManagedInstanceContentReportFormatEnum string
 
-// Set of constants representing the allowable values for GetManagedInstanceContentAdvisoryTypeEnum
+// Set of constants representing the allowable values for GetManagedInstanceContentReportFormatEnum
 const (
-	GetManagedInstanceContentAdvisoryTypeSecurity    GetManagedInstanceContentAdvisoryTypeEnum = "SECURITY"
-	GetManagedInstanceContentAdvisoryTypeBugfix      GetManagedInstanceContentAdvisoryTypeEnum = "BUGFIX"
-	GetManagedInstanceContentAdvisoryTypeEnhancement GetManagedInstanceContentAdvisoryTypeEnum = "ENHANCEMENT"
+	GetManagedInstanceContentReportFormatCsv  GetManagedInstanceContentReportFormatEnum = "csv"
+	GetManagedInstanceContentReportFormatJson GetManagedInstanceContentReportFormatEnum = "json"
+	GetManagedInstanceContentReportFormatXml  GetManagedInstanceContentReportFormatEnum = "xml"
 )
 
-var mappingGetManagedInstanceContentAdvisoryTypeEnum = map[string]GetManagedInstanceContentAdvisoryTypeEnum{
-	"SECURITY":    GetManagedInstanceContentAdvisoryTypeSecurity,
-	"BUGFIX":      GetManagedInstanceContentAdvisoryTypeBugfix,
-	"ENHANCEMENT": GetManagedInstanceContentAdvisoryTypeEnhancement,
+var mappingGetManagedInstanceContentReportFormatEnum = map[string]GetManagedInstanceContentReportFormatEnum{
+	"csv":  GetManagedInstanceContentReportFormatCsv,
+	"json": GetManagedInstanceContentReportFormatJson,
+	"xml":  GetManagedInstanceContentReportFormatXml,
 }
 
-var mappingGetManagedInstanceContentAdvisoryTypeEnumLowerCase = map[string]GetManagedInstanceContentAdvisoryTypeEnum{
-	"security":    GetManagedInstanceContentAdvisoryTypeSecurity,
-	"bugfix":      GetManagedInstanceContentAdvisoryTypeBugfix,
-	"enhancement": GetManagedInstanceContentAdvisoryTypeEnhancement,
+var mappingGetManagedInstanceContentReportFormatEnumLowerCase = map[string]GetManagedInstanceContentReportFormatEnum{
+	"csv":  GetManagedInstanceContentReportFormatCsv,
+	"json": GetManagedInstanceContentReportFormatJson,
+	"xml":  GetManagedInstanceContentReportFormatXml,
 }
 
-// GetGetManagedInstanceContentAdvisoryTypeEnumValues Enumerates the set of values for GetManagedInstanceContentAdvisoryTypeEnum
-func GetGetManagedInstanceContentAdvisoryTypeEnumValues() []GetManagedInstanceContentAdvisoryTypeEnum {
-	values := make([]GetManagedInstanceContentAdvisoryTypeEnum, 0)
-	for _, v := range mappingGetManagedInstanceContentAdvisoryTypeEnum {
+// GetGetManagedInstanceContentReportFormatEnumValues Enumerates the set of values for GetManagedInstanceContentReportFormatEnum
+func GetGetManagedInstanceContentReportFormatEnumValues() []GetManagedInstanceContentReportFormatEnum {
+	values := make([]GetManagedInstanceContentReportFormatEnum, 0)
+	for _, v := range mappingGetManagedInstanceContentReportFormatEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetGetManagedInstanceContentAdvisoryTypeEnumStringValues Enumerates the set of values in String for GetManagedInstanceContentAdvisoryTypeEnum
-func GetGetManagedInstanceContentAdvisoryTypeEnumStringValues() []string {
+// GetGetManagedInstanceContentReportFormatEnumStringValues Enumerates the set of values in String for GetManagedInstanceContentReportFormatEnum
+func GetGetManagedInstanceContentReportFormatEnumStringValues() []string {
 	return []string{
-		"SECURITY",
-		"BUGFIX",
-		"ENHANCEMENT",
+		"csv",
+		"json",
+		"xml",
 	}
 }
 
-// GetMappingGetManagedInstanceContentAdvisoryTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingGetManagedInstanceContentAdvisoryTypeEnum(val string) (GetManagedInstanceContentAdvisoryTypeEnum, bool) {
-	enum, ok := mappingGetManagedInstanceContentAdvisoryTypeEnumLowerCase[strings.ToLower(val)]
+// GetMappingGetManagedInstanceContentReportFormatEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingGetManagedInstanceContentReportFormatEnum(val string) (GetManagedInstanceContentReportFormatEnum, bool) {
+	enum, ok := mappingGetManagedInstanceContentReportFormatEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

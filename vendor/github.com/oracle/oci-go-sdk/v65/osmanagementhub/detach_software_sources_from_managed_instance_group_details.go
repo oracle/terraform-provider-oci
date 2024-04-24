@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,11 +16,11 @@ import (
 	"strings"
 )
 
-// DetachSoftwareSourcesFromManagedInstanceGroupDetails The software sources OCIDs to detach from the managed instance group.
+// DetachSoftwareSourcesFromManagedInstanceGroupDetails Provides the information used to detach software sources from a managed instance group.
 type DetachSoftwareSourcesFromManagedInstanceGroupDetails struct {
 
-	// The list of software sources OCIDs to be detached.
-	SoftwareSources []string `mandatory:"false" json:"softwareSources"`
+	// List of software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) to detach from the group.
+	SoftwareSources []string `mandatory:"true" json:"softwareSources"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
 }

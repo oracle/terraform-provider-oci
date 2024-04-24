@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,38 +17,37 @@ import (
 	"strings"
 )
 
-// VersionedCustomSoftwareSource An immutable custom software source that is assigned a version and contains a custom collection of packages.
+// VersionedCustomSoftwareSource The object that defines a versioned custom software source.
 type VersionedCustomSoftwareSource struct {
 
-	// OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The date and time the software source was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The Repo ID for the software source.
+	// The repository ID for the software source.
 	RepoId *string `mandatory:"true" json:"repoId"`
 
-	// URL for the repository.
+	// URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 	Url *string `mandatory:"true" json:"url"`
 
-	// List of vendor software sources.
+	// List of vendor software sources that are used for the basis of the versioned custom software source.
 	VendorSoftwareSources []Id `mandatory:"true" json:"vendorSoftwareSources"`
 
 	// The version to assign to this custom software source.
 	SoftwareSourceVersion *string `mandatory:"true" json:"softwareSourceVersion"`
 
-	// Information specified by the user about the software source.
+	// User-specified description for the software source.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Number of packages.
+	// Number of packages the software source contains.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
 
 	// URL of the GPG key for this software source.
@@ -58,6 +58,9 @@ type VersionedCustomSoftwareSource struct {
 
 	// Fingerprint of the GPG key for this software source.
 	GpgKeyFingerprint *string `mandatory:"false" json:"gpgKeyFingerprint"`
+
+	// The size of the software source in gigabytes (GB).
+	Size *float64 `mandatory:"false" json:"size"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -75,8 +78,20 @@ type VersionedCustomSoftwareSource struct {
 
 	CustomSoftwareSourceFilter *CustomSoftwareSourceFilter `mandatory:"false" json:"customSoftwareSourceFilter"`
 
-	// Possible availabilities of a software source.
+	// Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
+	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
+
+	// Indicates whether the service should create the software source from a list of packages provided by the user.
+	IsCreatedFromPackageList *bool `mandatory:"false" json:"isCreatedFromPackageList"`
+
+	// The packages in the software source.
+	Packages []string `mandatory:"false" json:"packages"`
+
+	// Availability of the software source (for non-OCI environments).
 	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
+
+	// Availability of the software source (for OCI environments).
+	AvailabilityAtOci AvailabilityEnum `mandatory:"true" json:"availabilityAtOci"`
 
 	// The OS family the software source belongs to.
 	OsFamily OsFamilyEnum `mandatory:"true" json:"osFamily"`
@@ -119,6 +134,11 @@ func (m VersionedCustomSoftwareSource) GetDescription() *string {
 // GetAvailability returns Availability
 func (m VersionedCustomSoftwareSource) GetAvailability() AvailabilityEnum {
 	return m.Availability
+}
+
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m VersionedCustomSoftwareSource) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
 }
 
 // GetRepoId returns RepoId
@@ -171,6 +191,11 @@ func (m VersionedCustomSoftwareSource) GetGpgKeyFingerprint() *string {
 	return m.GpgKeyFingerprint
 }
 
+// GetSize returns Size
+func (m VersionedCustomSoftwareSource) GetSize() *float64 {
+	return m.Size
+}
+
 // GetFreeformTags returns FreeformTags
 func (m VersionedCustomSoftwareSource) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -198,6 +223,9 @@ func (m VersionedCustomSoftwareSource) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))

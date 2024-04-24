@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,23 +16,23 @@ import (
 	"strings"
 )
 
-// CreateManagementStationDetails Information for creating an ManagementStation
+// CreateManagementStationDetails Provides the information used to create a management station.
 type CreateManagementStationDetails struct {
 
-	// The OCID of the tenancy containing the Management Station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Management Station name
+	// User-friendly name for the management station. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Name of the host
+	// Hostname of the management station.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
 	Proxy *CreateProxyConfigurationDetails `mandatory:"true" json:"proxy"`
 
 	Mirror *CreateMirrorConfigurationDetails `mandatory:"true" json:"mirror"`
 
-	// Details describing the Management Station config.
+	// User-specified description of the management station. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

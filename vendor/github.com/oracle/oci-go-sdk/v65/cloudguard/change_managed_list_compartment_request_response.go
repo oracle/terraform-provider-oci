@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeManagedListCompartment.go.html to see an example of how to use ChangeManagedListCompartmentRequest.
 type ChangeManagedListCompartmentRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
-	// The compartment id of the ManagedList
+	// The compartment OCID of the ManagedList
 	ChangeManagedListCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

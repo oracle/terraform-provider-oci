@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResponderRecipe.go.html to see an example of how to use GetResponderRecipeRequest.
 type GetResponderRecipeRequest struct {
 
-	// OCID of ResponderRecipe
+	// OCID of the responder recipe.
 	ResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"responderRecipeId"`
 
 	// The client request ID for tracing.

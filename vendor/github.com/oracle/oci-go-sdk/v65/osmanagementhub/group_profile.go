@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,16 +17,16 @@ import (
 	"strings"
 )
 
-// GroupProfile Definition of a registration profile of type GROUP.
+// GroupProfile Provides the information for a group registration profile.
 type GroupProfile struct {
 
-	// The OCID of the profile that is immutable on creation.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the tenancy containing the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// A user-friendly name for the profile.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	ManagedInstanceGroup *ManagedInstanceGroupDetails `mandatory:"true" json:"managedInstanceGroup"`
@@ -33,11 +34,17 @@ type GroupProfile struct {
 	// The description of the registration profile.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
 	ManagementStationId *string `mandatory:"false" json:"managementStationId"`
 
-	// The time the the registration profile was created. An RFC3339 formatted datetime string.
+	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
+	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
+
+	// Indicates if the profile was created by the service. OS Management Hub provides a limited set of standardized profiles that can be used to register Autonomous Linux or Windows instances.
+	IsServiceProvidedProfile *bool `mandatory:"false" json:"isServiceProvidedProfile"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -53,7 +60,7 @@ type GroupProfile struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The software source vendor name.
+	// The vendor of the operating system for the instance.
 	VendorName VendorNameEnum `mandatory:"true" json:"vendorName"`
 
 	// The operating system family.
@@ -64,6 +71,9 @@ type GroupProfile struct {
 
 	// The current state of the registration profile.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// The type of instance to register.
+	RegistrationType ProfileRegistrationTypeEnum `mandatory:"false" json:"registrationType,omitempty"`
 }
 
 // GetId returns Id
@@ -116,6 +126,21 @@ func (m GroupProfile) GetLifecycleState() ProfileLifecycleStateEnum {
 	return m.LifecycleState
 }
 
+// GetRegistrationType returns RegistrationType
+func (m GroupProfile) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m GroupProfile) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
+// GetIsServiceProvidedProfile returns IsServiceProvidedProfile
+func (m GroupProfile) GetIsServiceProvidedProfile() *bool {
+	return m.IsServiceProvidedProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m GroupProfile) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -152,6 +177,9 @@ func (m GroupProfile) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingProfileLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetProfileLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

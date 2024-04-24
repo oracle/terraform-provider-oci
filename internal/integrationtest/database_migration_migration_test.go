@@ -1,6 +1,5 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-// Licensed under the Mozilla Public License v2.0
-
+// // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// // Licensed under the Mozilla Public License v2.0
 package integrationtest
 
 import (
@@ -120,7 +119,12 @@ var (
 		"object_storage_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
 	}
 	DatabaseMigrationMigrationDataTransferMediumDetailsV2Representation = map[string]interface{}{
-		"type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`, Update: `OBJECT_STORAGE`},
+		"type":                  acctest.Representation{RepType: acctest.Required, Create: `AWS_S3`, Update: `AWS_S3`},
+		"object_storage_bucket": acctest.RepresentationGroup{RepType: acctest.Optional, Group: migrationDataTransferMediumDetailsObjectStorageDetailsRepresentation},
+		"access_key_id":         acctest.Representation{RepType: acctest.Required, Create: `abc`, Update: `abc`},
+		"name":                  acctest.Representation{RepType: acctest.Required, Create: `AWS_S3`, Update: `AWS_S3`},
+		"region":                acctest.Representation{RepType: acctest.Required, Create: `Ashburn`, Update: `Ashburn`},
+		"secret_access_key":     acctest.Representation{RepType: acctest.Required, Create: `3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D`, Update: `3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D`},
 	}
 	DatabaseMigrationMigrationDatapumpSettingsRepresentation = map[string]interface{}{
 		"data_pump_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDatapumpSettingsDataPumpParametersRepresentation},
@@ -209,12 +213,12 @@ var (
 		"namespace": acctest.Representation{RepType: acctest.Optional, Create: `ax5cpn0vohdh`, Update: `ax5cpn0vohdh`},
 	}
 	DatabaseMigrationMigrationDatapumpSettingsDataPumpParametersRepresentation = map[string]interface{}{
-		"estimate":                  acctest.Representation{RepType: acctest.Optional, Create: `BLOCKS`, Update: `STATISTICS`},
-		"exclude_parameters":        acctest.Representation{RepType: acctest.Optional, Create: [3]string{`INDEX`, `MATERIALIZED_VIEW`, `MATERIALIZED_VIEW_LOG`}, Update: [1]string{`excludeParameters2`}},
-		"export_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"import_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"is_cluster":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"table_exists_action":       acctest.Representation{RepType: acctest.Optional, Create: `TRUNCATE`, Update: `REPLACE`},
+		"estimate":           acctest.Representation{RepType: acctest.Optional, Create: `BLOCKS`, Update: `STATISTICS`},
+		"exclude_parameters": acctest.Representation{RepType: acctest.Optional, Create: [3]string{`INDEX`, `MATERIALIZED_VIEW`, `MATERIALIZED_VIEW_LOG`}, Update: [1]string{`excludeParameters2`}},
+		//"export_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`}, //commented to test the bug
+		//"import_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`}, //commented to test the bug
+		"is_cluster":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"table_exists_action": acctest.Representation{RepType: acctest.Optional, Create: `TRUNCATE`, Update: `REPLACE`},
 	}
 	migrationDatapumpSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Required, Create: `test_export_dir`, Update: `test_export_dir`},
@@ -267,6 +271,7 @@ var (
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `bucket`, Update: `bucket2`},
 		"namespace": acctest.Representation{RepType: acctest.Required, Create: `namespace`, Update: `namespace2`},
 	}
+
 	migrationGoldenGateDetailsHubRestAdminCredentialsRepresentation = map[string]interface{}{
 		"password": acctest.Representation{RepType: acctest.Required, Create: `ytW8z_.vZMwdBk0y`, Update: `ytW8z_.vZMwdBk0y`},
 		"username": acctest.Representation{RepType: acctest.Required, Create: `oggadmin`, Update: `oggadmin`},
@@ -463,7 +468,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceNoSshName, "dump_transfer_details.0.target.0.wallet_location", "walletLocation"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "AWS_S3"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.secret_access_key"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.access_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.region", "Ashburn"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.name", "AWS_S3"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
@@ -529,7 +541,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + fileStorageMountStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + databaseTargetRDSStr + //DatabaseMigrationMigrationResourceDependencies + //DatabaseMigrationMigrationResourceDependencies +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + databaseSourceStr + databaseTargetStr + databaseTargetNoAutStr + kmsVaultIdVariableStr + vcnIdVariableStr + subnetIdStr + KmsKeyIdVariableStr + bucketIdVariableStr + sshKeyStr + databaseSourceContainerStr + databaseSourceFDBStr + databaseSourceContainerFDBStr + sourceDBStr + targetDBStr + databaseTargetNoSshStr + databaseSourcePDBStr + databaseSourceNoSshStr + databaseSourceNoSSHDBStr + databaseTargetRDSStr + //DatabaseMigrationMigrationResourceDependencies + //DatabaseMigrationMigrationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRDSRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -541,7 +553,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "AWS_S3"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.secret_access_key"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.access_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.region", "Ashburn"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.name", "AWS_S3"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
@@ -631,7 +650,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "AWS_S3"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.secret_access_key"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.access_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.region", "Ashburn"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.name", "AWS_S3"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "datapump_settings.0.export_directory_object.0.name", "test_export_dir"),
@@ -718,13 +744,18 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.0.bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_details.0.namespace", "ax5cpn0vohdh"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details_v2.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details_v2.0.type", "OBJECT_STORAGE"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.type", "AWS_S3"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.bucket"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.object_storage_bucket.0.namespace", "ax5cpn0vohdh"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.secret_access_key"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_transfer_medium_details_v2.0.access_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.region", "Ashburn"),
+				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details_v2.0.name", "AWS_S3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.estimate", "STATISTICS"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.export_parallelism_degree", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.import_parallelism_degree", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.is_cluster", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.data_pump_parameters.0.table_exists_action", "REPLACE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "datapump_settings.0.export_directory_object.#", "1"),

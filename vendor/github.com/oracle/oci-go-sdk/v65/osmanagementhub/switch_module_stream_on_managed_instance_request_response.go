@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SwitchModuleStreamOnManagedInstance.go.html to see an example of how to use SwitchModuleStreamOnManagedInstanceRequest.
 type SwitchModuleStreamOnManagedInstanceRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// The details of the module stream to be switched on a managed instance.

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListProfiles.go.html to see an example of how to use ListProfilesRequest.
 type ListProfilesRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -27,19 +27,28 @@ type ListProfilesRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// A filter to return registration profiles that match the given profileType.
+	// A filter to return registration profiles that match the given profile type.
 	ProfileType []ProfileTypeEnum `contributesTo:"query" name:"profileType" omitEmpty:"true" collectionFormat:"multi"`
 
-	// The OCID of the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile. A filter used to return the specified profile.
 	ProfileId *string `mandatory:"false" contributesTo:"query" name:"profileId"`
 
-	// A filter to return only profiles that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListProfilesOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
 
 	// A filter to return only profiles that match the given archType.
 	ArchType ListProfilesArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only profiles that match the given vendorName.
+	// A filter to return profiles that match the given instance type.
+	RegistrationType []ProfileRegistrationTypeEnum `contributesTo:"query" name:"registrationType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A boolean variable that is used to list only the default profile resources.
+	IsDefaultProfile *bool `mandatory:"false" contributesTo:"query" name:"isDefaultProfile"`
+
+	// A filter to return only service-provided profiles.
+	IsServiceProvidedProfile *bool `mandatory:"false" contributesTo:"query" name:"isServiceProvidedProfile"`
+
+	// A filter to return only resources that match the given vendor name.
 	VendorName ListProfilesVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -52,7 +61,7 @@ type ListProfilesRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to return only registration profile whose lifecycleState matches the given lifecycleState.
+	// A filter to return only registration profiles in the given state.
 	LifecycleState ProfileLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
@@ -114,6 +123,12 @@ func (request ListProfilesRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListProfilesArchTypeEnum(string(request.ArchType)); !ok && request.ArchType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", request.ArchType, strings.Join(GetListProfilesArchTypeEnumStringValues(), ",")))
 	}
+	for _, val := range request.RegistrationType {
+		if _, ok := GetMappingProfileRegistrationTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", val, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListProfilesVendorNameEnum(string(request.VendorName)); !ok && request.VendorName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VendorName: %s. Supported values are: %s.", request.VendorName, strings.Join(GetListProfilesVendorNameEnumStringValues(), ",")))
 	}
@@ -163,21 +178,36 @@ type ListProfilesOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListProfilesOsFamilyEnum
 const (
-	ListProfilesOsFamily9 ListProfilesOsFamilyEnum = "ORACLE_LINUX_9"
-	ListProfilesOsFamily8 ListProfilesOsFamilyEnum = "ORACLE_LINUX_8"
-	ListProfilesOsFamily7 ListProfilesOsFamilyEnum = "ORACLE_LINUX_7"
+	ListProfilesOsFamilyOracleLinux9      ListProfilesOsFamilyEnum = "ORACLE_LINUX_9"
+	ListProfilesOsFamilyOracleLinux8      ListProfilesOsFamilyEnum = "ORACLE_LINUX_8"
+	ListProfilesOsFamilyOracleLinux7      ListProfilesOsFamilyEnum = "ORACLE_LINUX_7"
+	ListProfilesOsFamilyOracleLinux6      ListProfilesOsFamilyEnum = "ORACLE_LINUX_6"
+	ListProfilesOsFamilyWindowsServer2016 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2016"
+	ListProfilesOsFamilyWindowsServer2019 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2019"
+	ListProfilesOsFamilyWindowsServer2022 ListProfilesOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListProfilesOsFamilyAll               ListProfilesOsFamilyEnum = "ALL"
 )
 
 var mappingListProfilesOsFamilyEnum = map[string]ListProfilesOsFamilyEnum{
-	"ORACLE_LINUX_9": ListProfilesOsFamily9,
-	"ORACLE_LINUX_8": ListProfilesOsFamily8,
-	"ORACLE_LINUX_7": ListProfilesOsFamily7,
+	"ORACLE_LINUX_9":      ListProfilesOsFamilyOracleLinux9,
+	"ORACLE_LINUX_8":      ListProfilesOsFamilyOracleLinux8,
+	"ORACLE_LINUX_7":      ListProfilesOsFamilyOracleLinux7,
+	"ORACLE_LINUX_6":      ListProfilesOsFamilyOracleLinux6,
+	"WINDOWS_SERVER_2016": ListProfilesOsFamilyWindowsServer2016,
+	"WINDOWS_SERVER_2019": ListProfilesOsFamilyWindowsServer2019,
+	"WINDOWS_SERVER_2022": ListProfilesOsFamilyWindowsServer2022,
+	"ALL":                 ListProfilesOsFamilyAll,
 }
 
 var mappingListProfilesOsFamilyEnumLowerCase = map[string]ListProfilesOsFamilyEnum{
-	"oracle_linux_9": ListProfilesOsFamily9,
-	"oracle_linux_8": ListProfilesOsFamily8,
-	"oracle_linux_7": ListProfilesOsFamily7,
+	"oracle_linux_9":      ListProfilesOsFamilyOracleLinux9,
+	"oracle_linux_8":      ListProfilesOsFamilyOracleLinux8,
+	"oracle_linux_7":      ListProfilesOsFamilyOracleLinux7,
+	"oracle_linux_6":      ListProfilesOsFamilyOracleLinux6,
+	"windows_server_2016": ListProfilesOsFamilyWindowsServer2016,
+	"windows_server_2019": ListProfilesOsFamilyWindowsServer2019,
+	"windows_server_2022": ListProfilesOsFamilyWindowsServer2022,
+	"all":                 ListProfilesOsFamilyAll,
 }
 
 // GetListProfilesOsFamilyEnumValues Enumerates the set of values for ListProfilesOsFamilyEnum
@@ -195,6 +225,11 @@ func GetListProfilesOsFamilyEnumStringValues() []string {
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
+		"ORACLE_LINUX_6",
+		"WINDOWS_SERVER_2016",
+		"WINDOWS_SERVER_2019",
+		"WINDOWS_SERVER_2022",
+		"ALL",
 	}
 }
 
@@ -263,15 +298,18 @@ type ListProfilesVendorNameEnum string
 
 // Set of constants representing the allowable values for ListProfilesVendorNameEnum
 const (
-	ListProfilesVendorNameOracle ListProfilesVendorNameEnum = "ORACLE"
+	ListProfilesVendorNameOracle    ListProfilesVendorNameEnum = "ORACLE"
+	ListProfilesVendorNameMicrosoft ListProfilesVendorNameEnum = "MICROSOFT"
 )
 
 var mappingListProfilesVendorNameEnum = map[string]ListProfilesVendorNameEnum{
-	"ORACLE": ListProfilesVendorNameOracle,
+	"ORACLE":    ListProfilesVendorNameOracle,
+	"MICROSOFT": ListProfilesVendorNameMicrosoft,
 }
 
 var mappingListProfilesVendorNameEnumLowerCase = map[string]ListProfilesVendorNameEnum{
-	"oracle": ListProfilesVendorNameOracle,
+	"oracle":    ListProfilesVendorNameOracle,
+	"microsoft": ListProfilesVendorNameMicrosoft,
 }
 
 // GetListProfilesVendorNameEnumValues Enumerates the set of values for ListProfilesVendorNameEnum
@@ -287,6 +325,7 @@ func GetListProfilesVendorNameEnumValues() []ListProfilesVendorNameEnum {
 func GetListProfilesVendorNameEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MICROSOFT",
 	}
 }
 

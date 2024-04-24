@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateManagedList.go.html to see an example of how to use UpdateManagedListRequest.
 type UpdateManagedListRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
-	// Details for the ManagedList to be updated
+	// Details for the ManagedList resource to be updated
 	UpdateManagedListDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

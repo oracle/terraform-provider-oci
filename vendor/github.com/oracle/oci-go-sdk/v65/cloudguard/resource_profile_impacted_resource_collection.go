@@ -19,8 +19,11 @@ import (
 // ResourceProfileImpactedResourceCollection Collection of resource profile impacted resource summaries
 type ResourceProfileImpactedResourceCollection struct {
 
-	// List of ResourceProfileImpactedResourceSummary
+	// List of ResourceProfileImpactedResourceSummary resources
 	Items []ResourceProfileImpactedResourceSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResourceProfileImpactedResourceCollection) String() string {

@@ -16,40 +16,40 @@ import (
 	"strings"
 )
 
-// ResourceProfileImpactedResourceSummary Resource Profile impacted resource summary.
+// ResourceProfileImpactedResourceSummary Summary information on impacted resource in resource profile.
 type ResourceProfileImpactedResourceSummary struct {
 
 	// Unique identifier for impacted resource
 	Id *string `mandatory:"true" json:"id"`
 
-	// Resource profile Id associated with the imacted resource
+	// Resource profile ID associated with the impacted resource
 	ResourceProfileId *string `mandatory:"true" json:"resourceProfileId"`
 
-	// Compartment Id for impacted resource
+	// Compartment ID for impacted resource
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Impacted resource Id
+	// Impacted resource ID
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Resource name
+	// Impacted resource name
 	ResourceName *string `mandatory:"true" json:"resourceName"`
 
-	// Resource type
+	// Impacted resource type
 	ResourceType *string `mandatory:"true" json:"resourceType"`
 
-	// Identifier for the sighting type
+	// Sighting type for impacted resource
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
-	// Name of the sighting type
+	// Display name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
 	// Region for impacted resource
 	Region *string `mandatory:"true" json:"region"`
 
-	// Time when the impacted resource is identified for given resource profile.
+	// Time when the impacted resource is identified for the resource profile.
 	TimeIdentified *common.SDKTime `mandatory:"true" json:"timeIdentified"`
 
-	// Problem Id for impacted resource
+	// Problem ID associated with the impacted resource
 	ProblemId *string `mandatory:"false" json:"problemId"`
 }
 

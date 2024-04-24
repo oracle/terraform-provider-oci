@@ -16,25 +16,25 @@ import (
 	"strings"
 )
 
-// SightingType Specific behavior that can trigger a Sighting
+// SightingType Information for a sighting type
 type SightingType struct {
 
-	// The unique identifier of sighting type
+	// The unique identifier of the sighting type
 	Id *string `mandatory:"false" json:"id"`
 
-	// Name of the sighting type
+	// Display name of the sighting type
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the sighting type
 	Description *string `mandatory:"false" json:"description"`
 
-	// Link of the sighting type
+	// MITRE ATT@CK framework link for the sighting type
 	MitreLink *string `mandatory:"false" json:"mitreLink"`
 
-	// Mitre Att&ck tactic
+	// MITRE ATT@CK framework tactic for the sighting type
 	Tactic *string `mandatory:"false" json:"tactic"`
 
-	// List of Mitre Att&ck Techniques
+	// List of MITRE ATT@CK framework techniques for the sighting type
 	Techniques []string `mandatory:"false" json:"techniques"`
 }
 

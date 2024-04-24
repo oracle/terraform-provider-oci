@@ -54,6 +54,9 @@ type CreateVolumeGroupDetails struct {
 	// The list of volume group replicas that this volume group will be enabled to have
 	// in the specified destination availability domains.
 	VolumeGroupReplicas []VolumeGroupReplicaDetails `mandatory:"false" json:"volumeGroupReplicas"`
+
+	// The clusterPlacementGroup Id of the volume group for volume group placement.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 
 func (m CreateVolumeGroupDetails) String() string {
@@ -75,14 +78,15 @@ func (m CreateVolumeGroupDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupPolicyId      *string                           `json:"backupPolicyId"`
-		DefinedTags         map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName         *string                           `json:"displayName"`
-		FreeformTags        map[string]string                 `json:"freeformTags"`
-		VolumeGroupReplicas []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
-		AvailabilityDomain  *string                           `json:"availabilityDomain"`
-		CompartmentId       *string                           `json:"compartmentId"`
-		SourceDetails       volumegroupsourcedetails          `json:"sourceDetails"`
+		BackupPolicyId          *string                           `json:"backupPolicyId"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		DisplayName             *string                           `json:"displayName"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		VolumeGroupReplicas     []VolumeGroupReplicaDetails       `json:"volumeGroupReplicas"`
+		ClusterPlacementGroupId *string                           `json:"clusterPlacementGroupId"`
+		AvailabilityDomain      *string                           `json:"availabilityDomain"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		SourceDetails           volumegroupsourcedetails          `json:"sourceDetails"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -100,6 +104,8 @@ func (m *CreateVolumeGroupDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.VolumeGroupReplicas = make([]VolumeGroupReplicaDetails, len(model.VolumeGroupReplicas))
 	copy(m.VolumeGroupReplicas, model.VolumeGroupReplicas)
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
+
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

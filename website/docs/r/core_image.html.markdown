@@ -123,7 +123,7 @@ The following arguments are supported:
 	* `source_uri` - (Required when source_type=objectStorageUri) The Object Storage URL for the image.
 * `instance_id` - (Optional) The OCID of the instance you want to use as the basis for the image. 
 * `launch_mode` - (Optional) Specifies the configuration mode for launching virtual machine (VM) instances. The configuration modes are:
-	* `NATIVE` - VM instances launch with paravirtualized boot and VFIO devices. The default value for platform images.
+	* `NATIVE` - VM instances launch with iSCSI boot and VFIO devices. The default value for platform images.
 	* `EMULATED` - VM instances launch with emulated devices, such as the E1000 network driver and emulated SCSI disk controller.
 	* `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
 	* `CUSTOM` - VM instances launch with custom configuration settings specified in the `LaunchOptions` parameter. 

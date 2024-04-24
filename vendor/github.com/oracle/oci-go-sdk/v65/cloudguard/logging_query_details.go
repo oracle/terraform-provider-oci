@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// LoggingQueryDetails Additional details specific to the data source type (Sighting/Insight).
+// LoggingQueryDetails Details for a logging query for a data source.
 type LoggingQueryDetails interface {
 }
 

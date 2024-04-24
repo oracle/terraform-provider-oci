@@ -21,30 +21,39 @@ type SummarizeManagedInstanceAnalyticsRequest struct {
 	// A filter to return only metrics whose name matches the given metric names.
 	MetricNames []MetricNameEnum `contributesTo:"query" name:"metricNames" omitEmpty:"true" collectionFormat:"multi"`
 
-	// This compartmentId is used to list managed instances within a compartment.
-	// Or serve as an additional filter to restrict only managed instances with in certain compartment if other filter presents.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
+	// This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the managed instance group for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group. This filter returns resources associated with this group.
 	ManagedInstanceGroupId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceGroupId"`
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment. This filter returns only resource contained with the specified lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentId"`
 
-	// The OCID of the lifecycle stage for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage. This resource returns resources associated with this lifecycle stage.
 	LifecycleStageId *string `mandatory:"false" contributesTo:"query" name:"lifecycleStageId"`
 
-	// A filter to return only instances whose managed instance status matches the given status.
+	// A filter to return only managed instances whose status matches the status provided.
 	Status []ManagedInstanceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources that match the given operating system family.
+	OsFamily []OsFamilyEnum `contributesTo:"query" name:"osFamily" omitEmpty:"true" collectionFormat:"multi"`
+
+	// Indicates whether to list only resources managed by the Autonomous Linux service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
 	// A filter to return resources that match the given display names.
 	DisplayName []string `contributesTo:"query" name:"displayName" collectionFormat:"multi"`
 
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
-
-	// Filter instances by Location. Used when report target type is compartment or group.
-	InstanceLocation SummarizeManagedInstanceAnalyticsInstanceLocationEnum `mandatory:"false" contributesTo:"query" name:"instanceLocation" omitEmpty:"true"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -56,7 +65,8 @@ type SummarizeManagedInstanceAnalyticsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for name is ascending.
+	// The field to sort by. Only one sort order may be provided. The default is to sort in ascending order by metricName (previously name, which is now depricated).
+	// You can also sort by displayName (default is ascending order).
 	SortBy SummarizeManagedInstanceAnalyticsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'ASC' or 'DESC'.
@@ -113,9 +123,24 @@ func (request SummarizeManagedInstanceAnalyticsRequest) ValidateEnumValue() (boo
 		}
 	}
 
-	if _, ok := GetMappingSummarizeManagedInstanceAnalyticsInstanceLocationEnum(string(request.InstanceLocation)); !ok && request.InstanceLocation != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InstanceLocation: %s. Supported values are: %s.", request.InstanceLocation, strings.Join(GetSummarizeManagedInstanceAnalyticsInstanceLocationEnumStringValues(), ",")))
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
 	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.OsFamily {
+		if _, ok := GetMappingOsFamilyEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", val, strings.Join(GetOsFamilyEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingSummarizeManagedInstanceAnalyticsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeManagedInstanceAnalyticsSortByEnumStringValues(), ",")))
 	}
@@ -154,70 +179,26 @@ func (response SummarizeManagedInstanceAnalyticsResponse) HTTPResponse() *http.R
 	return response.RawResponse
 }
 
-// SummarizeManagedInstanceAnalyticsInstanceLocationEnum Enum with underlying type: string
-type SummarizeManagedInstanceAnalyticsInstanceLocationEnum string
-
-// Set of constants representing the allowable values for SummarizeManagedInstanceAnalyticsInstanceLocationEnum
-const (
-	SummarizeManagedInstanceAnalyticsInstanceLocationOnPremise  SummarizeManagedInstanceAnalyticsInstanceLocationEnum = "ON_PREMISE"
-	SummarizeManagedInstanceAnalyticsInstanceLocationOciCompute SummarizeManagedInstanceAnalyticsInstanceLocationEnum = "OCI_COMPUTE"
-	SummarizeManagedInstanceAnalyticsInstanceLocationAzure      SummarizeManagedInstanceAnalyticsInstanceLocationEnum = "AZURE"
-	SummarizeManagedInstanceAnalyticsInstanceLocationEc2        SummarizeManagedInstanceAnalyticsInstanceLocationEnum = "EC2"
-)
-
-var mappingSummarizeManagedInstanceAnalyticsInstanceLocationEnum = map[string]SummarizeManagedInstanceAnalyticsInstanceLocationEnum{
-	"ON_PREMISE":  SummarizeManagedInstanceAnalyticsInstanceLocationOnPremise,
-	"OCI_COMPUTE": SummarizeManagedInstanceAnalyticsInstanceLocationOciCompute,
-	"AZURE":       SummarizeManagedInstanceAnalyticsInstanceLocationAzure,
-	"EC2":         SummarizeManagedInstanceAnalyticsInstanceLocationEc2,
-}
-
-var mappingSummarizeManagedInstanceAnalyticsInstanceLocationEnumLowerCase = map[string]SummarizeManagedInstanceAnalyticsInstanceLocationEnum{
-	"on_premise":  SummarizeManagedInstanceAnalyticsInstanceLocationOnPremise,
-	"oci_compute": SummarizeManagedInstanceAnalyticsInstanceLocationOciCompute,
-	"azure":       SummarizeManagedInstanceAnalyticsInstanceLocationAzure,
-	"ec2":         SummarizeManagedInstanceAnalyticsInstanceLocationEc2,
-}
-
-// GetSummarizeManagedInstanceAnalyticsInstanceLocationEnumValues Enumerates the set of values for SummarizeManagedInstanceAnalyticsInstanceLocationEnum
-func GetSummarizeManagedInstanceAnalyticsInstanceLocationEnumValues() []SummarizeManagedInstanceAnalyticsInstanceLocationEnum {
-	values := make([]SummarizeManagedInstanceAnalyticsInstanceLocationEnum, 0)
-	for _, v := range mappingSummarizeManagedInstanceAnalyticsInstanceLocationEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetSummarizeManagedInstanceAnalyticsInstanceLocationEnumStringValues Enumerates the set of values in String for SummarizeManagedInstanceAnalyticsInstanceLocationEnum
-func GetSummarizeManagedInstanceAnalyticsInstanceLocationEnumStringValues() []string {
-	return []string{
-		"ON_PREMISE",
-		"OCI_COMPUTE",
-		"AZURE",
-		"EC2",
-	}
-}
-
-// GetMappingSummarizeManagedInstanceAnalyticsInstanceLocationEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingSummarizeManagedInstanceAnalyticsInstanceLocationEnum(val string) (SummarizeManagedInstanceAnalyticsInstanceLocationEnum, bool) {
-	enum, ok := mappingSummarizeManagedInstanceAnalyticsInstanceLocationEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
 // SummarizeManagedInstanceAnalyticsSortByEnum Enum with underlying type: string
 type SummarizeManagedInstanceAnalyticsSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeManagedInstanceAnalyticsSortByEnum
 const (
-	SummarizeManagedInstanceAnalyticsSortByName SummarizeManagedInstanceAnalyticsSortByEnum = "name"
+	SummarizeManagedInstanceAnalyticsSortByName        SummarizeManagedInstanceAnalyticsSortByEnum = "name"
+	SummarizeManagedInstanceAnalyticsSortByMetricname  SummarizeManagedInstanceAnalyticsSortByEnum = "metricName"
+	SummarizeManagedInstanceAnalyticsSortByDisplayname SummarizeManagedInstanceAnalyticsSortByEnum = "displayName"
 )
 
 var mappingSummarizeManagedInstanceAnalyticsSortByEnum = map[string]SummarizeManagedInstanceAnalyticsSortByEnum{
-	"name": SummarizeManagedInstanceAnalyticsSortByName,
+	"name":        SummarizeManagedInstanceAnalyticsSortByName,
+	"metricName":  SummarizeManagedInstanceAnalyticsSortByMetricname,
+	"displayName": SummarizeManagedInstanceAnalyticsSortByDisplayname,
 }
 
 var mappingSummarizeManagedInstanceAnalyticsSortByEnumLowerCase = map[string]SummarizeManagedInstanceAnalyticsSortByEnum{
-	"name": SummarizeManagedInstanceAnalyticsSortByName,
+	"name":        SummarizeManagedInstanceAnalyticsSortByName,
+	"metricname":  SummarizeManagedInstanceAnalyticsSortByMetricname,
+	"displayname": SummarizeManagedInstanceAnalyticsSortByDisplayname,
 }
 
 // GetSummarizeManagedInstanceAnalyticsSortByEnumValues Enumerates the set of values for SummarizeManagedInstanceAnalyticsSortByEnum
@@ -233,6 +214,8 @@ func GetSummarizeManagedInstanceAnalyticsSortByEnumValues() []SummarizeManagedIn
 func GetSummarizeManagedInstanceAnalyticsSortByEnumStringValues() []string {
 	return []string{
 		"name",
+		"metricName",
+		"displayName",
 	}
 }
 

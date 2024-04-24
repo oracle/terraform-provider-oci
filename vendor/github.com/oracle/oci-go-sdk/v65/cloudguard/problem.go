@@ -16,16 +16,16 @@ import (
 	"strings"
 )
 
-// Problem Problems are at the core of Cloud Guard’s functionality. A Problem object is created whenever an action or a configuration on a resource triggers a rule in a detector that’s attached to the target containing the compartment where the resource is located. Each Problem object contains all the details for a single problem. This is the information for the problem that appears on the Cloud Guard Problems page.
+// Problem Problems are at the core of Cloud Guard’s functionality. A Problem resource is created whenever an action or a configuration on a resource triggers a rule in a detector that’s attached to the target containing the compartment where the resource is located. Each Problem resource contains all the details for a single problem. This is the information for the problem that appears on the Cloud Guard Problems page.
 type Problem struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Identifier of the rule
+	// Unique identifier of the detector rule that triggered the problem
 	DetectorRuleId *string `mandatory:"false" json:"detectorRuleId"`
 
 	// DEPRECATED
@@ -34,13 +34,13 @@ type Problem struct {
 	// Regions where the problem is found
 	Regions []string `mandatory:"false" json:"regions"`
 
-	// The Risk Level
+	// The risk level for the problem
 	RiskLevel RiskLevelEnum `mandatory:"false" json:"riskLevel,omitempty"`
 
-	// Risk Score for the problem
+	// The risk score for the problem
 	RiskScore *float64 `mandatory:"false" json:"riskScore"`
 
-	// The date and time for the peak risk score that is observed. Format defined by RFC3339.
+	// The date and time for the peak risk score that is observed for the problem. Format defined by RFC3339.
 	PeakRiskScoreDate *string `mandatory:"false" json:"peakRiskScoreDate"`
 
 	// Peak risk score for the problem
@@ -52,16 +52,16 @@ type Problem struct {
 	// Number of days for which peak score is calculated for the problem
 	PeakRiskScoreLookupPeriodInDays *int `mandatory:"false" json:"peakRiskScoreLookupPeriodInDays"`
 
-	// Identifier of the Resource
+	// Unique identifier of the resource affected by the problem
 	ResourceId *string `mandatory:"false" json:"resourceId"`
 
-	// DisplayName of the Resource
+	// Display name of the affected resource
 	ResourceName *string `mandatory:"false" json:"resourceName"`
 
-	// Type of the Resource
+	// Type of the affected resource
 	ResourceType *string `mandatory:"false" json:"resourceType"`
 
-	// user defined labels on the problem
+	// User-defined labels on the problem
 	Labels []string `mandatory:"false" json:"labels"`
 
 	// The date and time the problem was last detected. Format defined by RFC3339.
@@ -70,19 +70,19 @@ type Problem struct {
 	// The date and time the problem was first detected. Format defined by RFC3339.
 	TimeFirstDetected *common.SDKTime `mandatory:"false" json:"timeFirstDetected"`
 
-	// The current state of the Problem.
+	// The current lifecycle state of the problem
 	LifecycleState ProblemLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The lifecycleDetail will give more detail on the substate of the lifecycleState.
+	// Additional details on the substate of the lifecycle state
 	LifecycleDetail ProblemLifecycleDetailEnum `mandatory:"false" json:"lifecycleDetail,omitempty"`
 
-	// Id of the detector associated with the Problem.
+	// Unique identifier of the detector rule that triggered the problem
 	DetectorId DetectorEnumEnum `mandatory:"false" json:"detectorId,omitempty"`
 
-	// targetId of the problem
+	// Unique identifier of the target associated with the problem
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// The additional details of the Problem
+	// The additional details of the problem
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
 
 	// Description of the problem
@@ -91,17 +91,20 @@ type Problem struct {
 	// Recommendation for the problem
 	Recommendation *string `mandatory:"false" json:"recommendation"`
 
-	// User Comments
+	// User comments on the problem
 	Comment *string `mandatory:"false" json:"comment"`
 
-	// Identifier of the impacted Resource
+	// Unique identifier of the resource impacted by the problem
 	ImpactedResourceId *string `mandatory:"false" json:"impactedResourceId"`
 
-	// DisplayName of the impacted  Resource
+	// Display name of the impacted resource
 	ImpactedResourceName *string `mandatory:"false" json:"impactedResourceName"`
 
-	// Type of the impacted Resource
+	// Type of the impacted resource
 	ImpactedResourceType *string `mandatory:"false" json:"impactedResourceType"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m Problem) String() string {

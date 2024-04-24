@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListWorkRequests.go.html to see an example of how to use ListWorkRequestsRequest.
 type ListWorkRequestsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given OperationStatus.
+	// A filter to return only resources their lifecycleState matches the given operation status (OperationStatus resource).
 	Status ListWorkRequestsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// The ID of the resource affected by the work request.
@@ -33,10 +33,10 @@ type ListWorkRequestsRequest struct {
 	// The page token representing the page at which to start retrieving results. This is usually retrieved from a previous list call.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// The maximum number of items to return.
+	// The maximum number of items to return
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
-	// The sort order to use, either 'asc' or 'desc'.
+	// The sort order to use
 	SortOrder ListWorkRequestsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
 	// The field to sort by. Only one sort order may be provided. Default order for timeAccepted is descending.

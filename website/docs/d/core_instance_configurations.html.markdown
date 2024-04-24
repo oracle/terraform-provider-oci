@@ -61,9 +61,10 @@ The following attributes are exported:
 				* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
 			* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 			* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
-			* `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
-				* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
-				* `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
+			* `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
+				* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1`
+				* `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided.
+			* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 			* `compartment_id` - The OCID of the compartment that contains the volume.
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -118,7 +119,8 @@ The following attributes are exported:
 				* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 		* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 		* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under.
-		* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment  as the instance that was used to create the instance configuration. 
+		* `cluster_placement_group_id` - The OCID of the cluster placement group of the instance.
+		* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration.
 		* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
 			* `assign_ipv6ip` - Whether to allocate an IPv6 address at instance and VNIC creation from an IPv6 enabled subnet. Default: False. When provided you may optionally provide an IPv6 prefix (`ipv6SubnetCidr`) of your choice to assign the IPv6 address from. If `ipv6SubnetCidr` is not provided then an IPv6 prefix is chosen for you. 
 			* `assign_private_dns_record` - Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information.
@@ -293,6 +295,7 @@ The following attributes are exported:
 					* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
 				* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
 				* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+				* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 				* `compartment_id` - The OCID of the compartment that contains the volume.
 				* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 				* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -344,6 +347,7 @@ The following attributes are exported:
 					* `STOP_INSTANCE` - The instance is recovered in the stopped state. 
 			* `availability_domain` - The availability domain of the instance.  Example: `Uocm:PHX-AD-1` 
 			* `capacity_reservation_id` - The OCID of the compute capacity reservation this instance is launched under.
+			* `cluster_placement_group_id` - The OCID of the cluster placement group of the instance.
 			* `compartment_id` - The OCID of the compartment containing the instance. Instances created from instance configurations are placed in the same compartment as the instance that was used to create the instance configuration. 
 			* `create_vnic_details` - Contains the properties of the VNIC for an instance configuration. See [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) and [Instance Configurations](https://docs.cloud.oracle.com/iaas/Content/Compute/Concepts/instancemanagement.htm#config) for more information. 
 				* `assign_private_dns_record` - Whether the VNIC should be assigned a private DNS record. See the `assignPrivateDnsRecord` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 

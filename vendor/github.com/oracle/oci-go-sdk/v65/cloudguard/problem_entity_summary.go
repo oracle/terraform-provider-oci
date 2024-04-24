@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ProblemEntitySummary The information about problem entities details of DataSource for a CloudGuard Problem.
+// ProblemEntitySummary Summary information about problem entities for a data source for a problem.
 type ProblemEntitySummary struct {
 
 	// Data source problem entities region
@@ -25,16 +25,16 @@ type ProblemEntitySummary struct {
 	// Data source problem entities first detected time
 	TimeFirstDetected *common.SDKTime `mandatory:"true" json:"timeFirstDetected"`
 
-	// Attached problem id
+	// Attached problem ID
 	ProblemId *string `mandatory:"true" json:"problemId"`
 
 	// Data source problem entities last detected time
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// Log result query url for a data source query
+	// Log result query URL for a data source query
 	ResultUrl *string `mandatory:"false" json:"resultUrl"`
 
-	// List of event related to a DataSource
+	// List of entity details related to a data source
 	EntityDetails []EntityDetails `mandatory:"false" json:"entityDetails"`
 }
 

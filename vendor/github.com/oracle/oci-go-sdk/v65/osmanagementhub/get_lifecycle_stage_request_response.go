@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetLifecycleStage.go.html to see an example of how to use GetLifecycleStageRequest.
 type GetLifecycleStageRequest struct {
 
-	// The OCID of the lifecycle stage.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

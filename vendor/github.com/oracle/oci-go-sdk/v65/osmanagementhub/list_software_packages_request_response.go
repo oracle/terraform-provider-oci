@@ -18,19 +18,16 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListSoftwarePackages.go.html to see an example of how to use ListSoftwarePackagesRequest.
 type ListSoftwarePackagesRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Example: `My new resource`
+	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// A boolean variable that is used to list only the latest versions of packages, module streams,
-	// and stream profiles when set to true. All packages, module streams, and stream profiles are
-	// returned when set to false.
+	// Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

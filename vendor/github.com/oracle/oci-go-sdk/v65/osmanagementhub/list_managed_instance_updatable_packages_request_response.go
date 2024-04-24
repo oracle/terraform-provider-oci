@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagedInstanceUpdatablePackages.go.html to see an example of how to use ListManagedInstanceUpdatablePackagesRequest.
 type ListManagedInstanceUpdatablePackagesRequest struct {
 
-	// The OCID of the managed instance.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 	ManagedInstanceId *string `mandatory:"true" contributesTo:"path" name:"managedInstanceId"`
 
 	// A filter to return only packages that match the given update classification type.
@@ -34,7 +34,7 @@ type ListManagedInstanceUpdatablePackagesRequest struct {
 	// Example: `ELSA-2020-5804`
 	AdvisoryName []string `contributesTo:"query" name:"advisoryName" collectionFormat:"multi"`
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -91,10 +92,7 @@ func (client *ManagedInstanceGroupClient) ConfigurationProvider() *common.Config
 	return client.config
 }
 
-// AttachManagedInstancesToManagedInstanceGroup Adds managed instances to the specified managed instance group. After the managed
-// instances have been added, then operations can be performed on the managed
-// instance group which will then apply to all managed instances in the
-// group.
+// AttachManagedInstancesToManagedInstanceGroup Adds managed instances to the specified managed instance group. After adding instances to the group, any operation applied to the group will be applied to all instances in the group.
 //
 // # See also
 //
@@ -157,7 +155,7 @@ func (client ManagedInstanceGroupClient) attachManagedInstancesToManagedInstance
 	return response, err
 }
 
-// AttachSoftwareSourcesToManagedInstanceGroup Attaches software sources to the specified managed instance group. The software sources must be compatible with the content for the managed instance group.
+// AttachSoftwareSourcesToManagedInstanceGroup Attaches software sources to the specified managed instance group. The software sources must be compatible with the type of instances in the group.
 //
 // # See also
 //
@@ -213,6 +211,69 @@ func (client ManagedInstanceGroupClient) attachSoftwareSourcesToManagedInstanceG
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/AttachSoftwareSourcesToManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "AttachSoftwareSourcesToManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeManagedInstanceGroupCompartment Moves the specified managed instance group to a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeManagedInstanceGroupCompartment.go.html to see an example of how to use ChangeManagedInstanceGroupCompartment API.
+// A default retry strategy applies to this operation ChangeManagedInstanceGroupCompartment()
+func (client ManagedInstanceGroupClient) ChangeManagedInstanceGroupCompartment(ctx context.Context, request ChangeManagedInstanceGroupCompartmentRequest) (response ChangeManagedInstanceGroupCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeManagedInstanceGroupCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeManagedInstanceGroupCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeManagedInstanceGroupCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeManagedInstanceGroupCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeManagedInstanceGroupCompartmentResponse")
+	}
+	return
+}
+
+// changeManagedInstanceGroupCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) changeManagedInstanceGroupCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeManagedInstanceGroupCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/ChangeManagedInstanceGroupCompartment"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "ChangeManagedInstanceGroupCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -283,7 +344,7 @@ func (client ManagedInstanceGroupClient) createManagedInstanceGroup(ctx context.
 	return response, err
 }
 
-// DeleteManagedInstanceGroup Deletes a specified managed instance group.
+// DeleteManagedInstanceGroup Deletes the specified managed instance group.
 //
 // # See also
 //
@@ -404,7 +465,7 @@ func (client ManagedInstanceGroupClient) detachManagedInstancesFromManagedInstan
 	return response, err
 }
 
-// DetachSoftwareSourcesFromManagedInstanceGroup Detaches software sources from a group.
+// DetachSoftwareSourcesFromManagedInstanceGroup Detaches the specified software sources from a managed instance group.
 //
 // # See also
 //
@@ -467,10 +528,7 @@ func (client ManagedInstanceGroupClient) detachSoftwareSourcesFromManagedInstanc
 	return response, err
 }
 
-// DisableModuleStreamOnManagedInstanceGroup Disables a module stream on a managed instance group. After the stream is
-// disabled, it is no longer possible to install the profiles that are
-// contained by the stream. All installed profiles must be removed prior
-// to disabling a module stream.
+// DisableModuleStreamOnManagedInstanceGroup Disables a module stream on a managed instance group. After the stream is disabled, you can no longer install the profiles contained by the stream.  Before removing the stream, you must remove all installed profiles for the stream by using the RemoveModuleStreamProfileFromManagedInstanceGroup operation.
 //
 // # See also
 //
@@ -533,11 +591,7 @@ func (client ManagedInstanceGroupClient) disableModuleStreamOnManagedInstanceGro
 	return response, err
 }
 
-// EnableModuleStreamOnManagedInstanceGroup Enables a module stream on a managed instance group.  After the stream is
-// enabled, it is possible to install the profiles that are contained
-// by the stream.  Enabling a stream that is already enabled will
-// succeed.  Attempting to enable a different stream for a module that
-// already has a stream enabled results in an error.
+// EnableModuleStreamOnManagedInstanceGroup Enables a module stream on a managed instance group.  After the stream is enabled, you can install a module stream profile. Enabling a stream that is already enabled will succeed.  Enabling a different stream for a module that already has a stream enabled results in an error. Instead, use the SwitchModuleStreamOnManagedInstanceGroup operation.
 //
 // # See also
 //
@@ -658,9 +712,7 @@ func (client ManagedInstanceGroupClient) getManagedInstanceGroup(ctx context.Con
 	return response, err
 }
 
-// InstallModuleStreamProfileOnManagedInstanceGroup Installs a profile for an module stream. The stream must be
-// enabled before a profile can be installed. If a module stream
-// defines multiple profiles, each one can be installed independently.
+// InstallModuleStreamProfileOnManagedInstanceGroup Installs a profile for an enabled module stream. If a module stream defines multiple profiles, you can install each one independently.
 //
 // # See also
 //
@@ -723,8 +775,7 @@ func (client ManagedInstanceGroupClient) installModuleStreamProfileOnManagedInst
 	return response, err
 }
 
-// InstallPackagesOnManagedInstanceGroup Installs package(s) on each managed instance in a managed instance group. The package must be compatible with the
-// instances in the managed instance group.
+// InstallPackagesOnManagedInstanceGroup Installs the specified packages on each managed instance in a managed instance group. The package must be compatible with the instances in the group.
 //
 // # See also
 //
@@ -787,8 +838,70 @@ func (client ManagedInstanceGroupClient) installPackagesOnManagedInstanceGroup(c
 	return response, err
 }
 
-// ListManagedInstanceGroupAvailableModules Lists available modules that for the specified managed instance group. Filter the list against a variety of
-// criteria including but not limited to its name.
+// InstallWindowsUpdatesOnManagedInstanceGroup Installs Windows updates on each managed instance in the managed instance group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/InstallWindowsUpdatesOnManagedInstanceGroup.go.html to see an example of how to use InstallWindowsUpdatesOnManagedInstanceGroup API.
+// A default retry strategy applies to this operation InstallWindowsUpdatesOnManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) InstallWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request InstallWindowsUpdatesOnManagedInstanceGroupRequest) (response InstallWindowsUpdatesOnManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.installWindowsUpdatesOnManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InstallWindowsUpdatesOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InstallWindowsUpdatesOnManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InstallWindowsUpdatesOnManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InstallWindowsUpdatesOnManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// installWindowsUpdatesOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) installWindowsUpdatesOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/installWindowsUpdates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InstallWindowsUpdatesOnManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/InstallWindowsUpdatesOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "InstallWindowsUpdatesOnManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListManagedInstanceGroupAvailableModules List modules that are available for installation on the specified managed instance group. Filter the list against a variety of criteria including but not limited to module name.
 //
 // # See also
 //
@@ -905,8 +1018,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupAvailablePackag
 	return response, err
 }
 
-// ListManagedInstanceGroupAvailableSoftwareSources Lists available software sources for a specified managed instance group. Filter the list against a variety of
-// criteria including but not limited to its name.
+// ListManagedInstanceGroupAvailableSoftwareSources Lists available software sources for a specified managed instance group. Filter the list against a variety of criteria including but not limited to the software source name. The results list only software sources that have not already been added to the group.
 //
 // # See also
 //
@@ -1098,8 +1210,7 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroupModules(ctx con
 	return response, err
 }
 
-// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID. Filter the
-// list against a variety of criteria including but not limited to its name, status, architecture, and OS family.
+// ListManagedInstanceGroups Lists managed instance groups that match the specified compartment or managed instance group OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). Filter the list against a variety of criteria including but not limited to name, status, architecture, and OS family.
 //
 // # See also
 //
@@ -1157,58 +1268,8 @@ func (client ManagedInstanceGroupClient) listManagedInstanceGroups(ctx context.C
 	return response, err
 }
 
-// ManageModuleStreamsOnManagedInstanceGroup Perform an operation involving modules, streams, and profiles on a
-// managed instance group.  Each operation may enable or disable an arbitrary
-// amount of module streams, and install or remove an arbitrary number
-// of module stream profiles.  When the operation is complete, the
-// state of the modules, streams, and profiles on the managed instance group
-// will match the state indicated in the operation.
-// Each module stream specified in the list of module streams to enable
-// will be in the "ENABLED" state upon completion of the operation.
-// If there was already a stream of that module enabled, any work
-// required to switch from the current stream to the new stream is
-// performed implicitly.
-// Each module stream specified in the list of module streams to disable
-// will be in the "DISABLED" state upon completion of the operation.
-// Any profiles that are installed for the module stream will be removed
-// as part of the operation.
-// Each module stream profile specified in the list of profiles to install
-// will be in the "INSTALLED" state upon completion of the operation,
-// indicating that any packages that are part of the profile are installed
-// on the managed instance.  If the module stream containing the profile
-// is not enabled, it will be enabled as part of the operation. There
-// is an exception when attempting to install a stream of a profile when
-// another stream of the same module is enabled.  It is an error to attempt
-// to install a profile of another module stream, unless enabling the
-// new module stream is explicitly included in this operation.
-// Each module stream profile specified in the list of profiles to remove
-// will be in the "AVAILABLE" state upon completion of the operation.
-// The status of packages within the profile after the operation is
-// complete is defined by the package manager on the managed instance group.
-// Operations that contain one or more elements that are not allowed
-// are rejected.
-// The result of this request is a work request object. The returned
-// work request is the parent of a structure of other work requests.  Taken
-// as a whole, this structure indicates the entire set of work to be
-// performed to complete the operation.
-// This interface can also be used to perform a dry run of the operation
-// rather than committing it to a managed instance group.  If a dry run is
-// requested, the OS Management Hub service will evaluate the operation
-// against the current module, stream, and profile state on the managed
-// instance.  It will calculate the impact of the operation on all
-// modules, streams, and profiles on the managed instance, including those
-// that are implicitly impacted by the operation.
-// The work request resulting from a dry run behaves differently than
-// a work request resulting from a committable operation.  Dry run
-// work requests are always singletons and never have children. The
-// impact of the operation is returned using the log and error
-// facilities of work requests. The impact of operations that are
-// allowed by the OS Management Hub service are communicated as one or
-// more work request log entries.  Operations that are not allowed
-// by the OS Management Hub service are communicated as one or more
-// work request error entries.  Each entry, for either logs or errors,
-// contains a structured message containing the results of one
-// or more operations.
+// ManageModuleStreamsOnManagedInstanceGroup Enables or disables module streams and installs or removes module stream profiles. Once complete, the state of the modules, streams, and profiles will match the state indicated in the operation. See ManageModuleStreamsOnManagedInstanceGroupDetails for more information.
+// You can preform this operation as a dry run. For a dry run, the service evaluates the operation against the current module, stream, and profile state on the managed instance, but does not commit the changes. Instead, the service returns work request log or error entries indicating the impact of the operation.
 //
 // # See also
 //
@@ -1271,9 +1332,7 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 	return response, err
 }
 
-// RemoveModuleStreamProfileFromManagedInstanceGroup Removes a profile for a module stream that is installed on a managed instance group.
-// If a module stream is provided, rather than a fully qualified profile, all
-// profiles that have been installed for the module stream will be removed.
+// RemoveModuleStreamProfileFromManagedInstanceGroup Removes a profile for a module stream that is installed on a managed instance group. Providing the module stream name (without specifying a profile name) removes all profiles that have been installed for the module stream.
 //
 // # See also
 //
@@ -1336,7 +1395,7 @@ func (client ManagedInstanceGroupClient) removeModuleStreamProfileFromManagedIns
 	return response, err
 }
 
-// RemovePackagesFromManagedInstanceGroup Removes package(s) from each managed instance in a specified managed instance group.
+// RemovePackagesFromManagedInstanceGroup Removes the specified packages from each managed instance in a managed instance group.
 //
 // # See also
 //
@@ -1392,6 +1451,72 @@ func (client ManagedInstanceGroupClient) removePackagesFromManagedInstanceGroup(
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RemovePackagesFromManagedInstanceGroup"
 		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RemovePackagesFromManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchModuleStreamOnManagedInstanceGroup Enables a new stream for a module that already has a stream enabled.
+// If any profiles or packages from the original module are installed,
+// switching to a new stream will remove the existing packages and
+// install their counterparts in the new stream.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/SwitchModuleStreamOnManagedInstanceGroup.go.html to see an example of how to use SwitchModuleStreamOnManagedInstanceGroup API.
+// A default retry strategy applies to this operation SwitchModuleStreamOnManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) SwitchModuleStreamOnManagedInstanceGroup(ctx context.Context, request SwitchModuleStreamOnManagedInstanceGroupRequest) (response SwitchModuleStreamOnManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchModuleStreamOnManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchModuleStreamOnManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchModuleStreamOnManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchModuleStreamOnManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchModuleStreamOnManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// switchModuleStreamOnManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) switchModuleStreamOnManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/moduleStreams/switchModuleStream", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchModuleStreamOnManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/SwitchModuleStreamOnManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "SwitchModuleStreamOnManagedInstanceGroup", apiReferenceLink)
 		return response, err
 	}
 

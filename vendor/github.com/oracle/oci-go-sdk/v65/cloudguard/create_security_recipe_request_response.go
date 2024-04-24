@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSecurityRecipe.go.html to see an example of how to use CreateSecurityRecipeRequest.
 type CreateSecurityRecipeRequest struct {
 
-	// Details for the new `SecurityRecipe`.
+	// Details for the new `SecurityRecipe` resource
 	CreateSecurityRecipeDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -64,6 +64,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					#Optional
 					display_name = var.instance_configuration_instance_details_block_volumes_create_details_block_volume_replicas_display_name
 				}
+				cluster_placement_group_id = var.cluster_placement_group_id
 				compartment_id = var.compartment_id
 				defined_tags = {"Operations.CostCenter"= "42"}
 				display_name = var.instance_configuration_instance_details_block_volumes_create_details_display_name
@@ -106,6 +107,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 			}
 			availability_domain = var.instance_configuration_instance_details_launch_details_availability_domain
 			capacity_reservation_id = oci_core_capacity_reservation.test_capacity_reservation.id
+			cluster_placement_group_id = oci_identity_group.test_group.id
 			compartment_id = var.compartment_id
 			create_vnic_details {
 
@@ -242,6 +244,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					}
 					availability_domain = var.instance_configuration_instance_details_options_block_volumes_create_details_availability_domain
 					backup_policy_id = data.oci_core_volume_backup_policies.test_volume_backup_policies.volume_backup_policies.0.id
+					cluster_placement_group_id = var.cluster_placement_group_id
 					compartment_id = var.compartment_id
 					defined_tags = {"Operations.CostCenter"= "42"}
 					display_name = var.instance_configuration_instance_details_options_block_volumes_create_details_display_name
@@ -282,6 +285,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				}
 				availability_domain = var.instance_configuration_instance_details_options_launch_details_availability_domain
 				capacity_reservation_id = oci_core_capacity_reservation.test_capacity_reservation.id
+				cluster_placement_group_id = oci_identity_group.test_group.id
 				compartment_id = var.compartment_id
 				create_vnic_details {
 
@@ -457,39 +461,40 @@ The following arguments are supported:
 			* `is_read_only` - (Applicable when instance_type=compute) Whether the attachment should be created in read-only mode.
 			* `is_shareable` - (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 			* `type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized".
-			* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false.
-		* `create_details` - (Applicable when instance_type=compute) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/)
-            * `autotune_policies` - (Applicable when instance_type=compute) The list of autotune policies enabled for this volume.
-                * `autotune_type` - (Required) This specifies the type of autotunes supported by OCI.
-                * `max_vpus_per_gb` - (Required when autotune_type=PERFORMANCE_BASED) This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
-            * `availability_domain` - (Applicable when instance_type=compute) The availability domain of the volume.  Example: `Uocm:PHX-AD-1`
-            * `backup_policy_id` - (Applicable when instance_type=compute) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
-            * `block_volume_replicas` - (Optional) The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
-                * `availability_domain` - (Required) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1`
-                * `display_name` - (Optional) The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided.
-            * `compartment_id` - (Applicable when instance_type=compute) The OCID of the compartment that contains the volume.
-            * `defined_tags` - (Applicable when instance_type=compute) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-            * `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-            * `freeform_tags` - (Applicable when instance_type=compute) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
-            * `is_auto_tune_enabled` - (Optional) Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
-            * `kms_key_id` - (Applicable when instance_type=compute) The OCID of the Vault service key to assign as the master encryption key for the volume.
-            * `size_in_gbs` - (Applicable when instance_type=compute) The size of the volume in GBs.
-            * `source_details` - (Applicable when instance_type=compute)
-                * `id` - (Optional) The OCID of the volume backup.
-                * `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
-            * `vpus_per_gb` - (Applicable when instance_type=compute) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+			* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
+		* `create_details` - (Applicable when instance_type=compute) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
+			* `autotune_policies` - (Applicable when instance_type=compute) The list of autotune policies enabled for this volume.
+				* `autotune_type` - (Required) This specifies the type of autotunes supported by OCI.
+				* `max_vpus_per_gb` - (Required when autotune_type=PERFORMANCE_BASED) This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
+			* `availability_domain` - (Applicable when instance_type=compute) The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+			* `backup_policy_id` - (Applicable when instance_type=compute) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+			* `block_volume_replicas` - (Applicable when instance_type=compute) The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
+				* `availability_domain` - (Required when instance_type=compute) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+				* `display_name` - (Applicable when instance_type=compute) The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
+			* `cluster_placement_group_id` - (Applicable when instance_type=compute) The clusterPlacementGroup Id of the volume for volume placement.
+			* `compartment_id` - (Applicable when instance_type=compute) The OCID of the compartment that contains the volume.
+			* `defined_tags` - (Applicable when instance_type=compute) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+			* `freeform_tags` - (Applicable when instance_type=compute) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `is_auto_tune_enabled` - (Applicable when instance_type=compute) Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+			* `kms_key_id` - (Applicable when instance_type=compute) The OCID of the Vault service key to assign as the master encryption key for the volume. 
+			* `size_in_gbs` - (Applicable when instance_type=compute) The size of the volume in GBs.
+			* `source_details` - (Applicable when instance_type=compute) 
+				* `id` - (Optional) The OCID of the volume backup.
+				* `type` - (Required) The type can be one of these values: `volume`, `volumeBackup`
+			* `vpus_per_gb` - (Applicable when instance_type=compute) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
-              Allowed values:
-                * `0`: Represents Lower Cost option.
-                * `10`: Represents Balanced option.
-                * `20`: Represents Higher Performance option.
-                * `30`-`120`: Represents the Ultra High Performance option.
+				Allowed values:
+				* `0`: Represents Lower Cost option.
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option.
+				* `30`-`120`: Represents the Ultra High Performance option.
 
-              For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+				For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
 		* `volume_id` - (Applicable when instance_type=compute) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute
 	* `launch_details` - (Applicable when instance_type=compute) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
-
+	
 	  See [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails) for more information.
         * `agent_config` - (Applicable when instance_type=compute) Configuration options for the Oracle Cloud Agent software running on the instance.
             * `are_all_plugins_disabled` - (Applicable when instance_type=compute) Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
@@ -696,9 +701,10 @@ The following arguments are supported:
 			* `create_details` - (Applicable when instance_type=instance_options) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/)
 				* `autotune_policies` - (Applicable when instance_type=instance_options) The list of autotune policies enabled for this volume.
 					* `autotune_type` - (Required) This specifies the type of autotunes supported by OCI.
-					* `max_vpus_per_gb` - (Required when autotune_type=PERFORMANCE_BASED) This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
-				* `availability_domain` - (Applicable when instance_type=instance_options) The availability domain of the volume.  Example: `Uocm:PHX-AD-1`
-				* `backup_policy_id` - (Applicable when instance_type=instance_options) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+					* `max_vpus_per_gb` - (Required when autotune_type=PERFORMANCE_BASED) This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
+				* `availability_domain` - (Applicable when instance_type=instance_options) The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+				* `backup_policy_id` - (Applicable when instance_type=instance_options) If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+				* `cluster_placement_group_id` - (Applicable when instance_type=instance_options) The clusterPlacementGroup Id of the volume for volume placement.
 				* `compartment_id` - (Applicable when instance_type=instance_options) (Updatable) The OCID of the compartment that contains the volume.
 				* `defined_tags` - (Applicable when instance_type=instance_options) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 				* `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
@@ -977,39 +983,41 @@ The following attributes are exported:
 			* `is_read_only` - Whether the attachment should be created in read-only mode.
 			* `is_shareable` - Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 			* `type` - The type of volume. The only supported values are "iscsi" and "paravirtualized".
-			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false.
-		* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/)
-            * `autotune_policies` - The list of autotune policies enabled for this volume.
-                * `autotune_type` - This specifies the type of autotunes supported by OCI.
-                * `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
-            * `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1`
-            * `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
-            * `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains.
-                * `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1`
-                * `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided.
-            * `compartment_id` - The OCID of the compartment that contains the volume.
-            * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
-            * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
-            * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
- 		    * `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune.
-		    * `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume.
-            * `size_in_gbs` - The size of the volume in GBs.
-            * `source_details` -
-                * `id` - The OCID of the volume backup.
-                * `type` - The type can be one of these values: `volume`, `volumeBackup`
-            * `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
+			* `use_chap` - Whether to use CHAP authentication for the volume attachment. Defaults to false. 
+		* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
+			* `autotune_policies` - The list of autotune policies enabled for this volume.
+				* `autotune_type` - This specifies the type of autotunes supported by OCI.
+				* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
+			* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+			* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+			* `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
+				* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
+				* `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
+			* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
+			* `compartment_id` - The OCID of the compartment that contains the volume.
+			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
+			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+			* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+			* `is_auto_tune_enabled` - Specifies whether the auto-tune performance is enabled for this boot volume. This field is deprecated. Use the `InstanceConfigurationDetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
+			* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the volume. 
+			* `size_in_gbs` - The size of the volume in GBs.
+			* `source_details` - 
+				* `id` - The OCID of the volume backup.
+				* `type` - The type can be one of these values: `volume`, `volumeBackup`
+			* `vpus_per_gb` - The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
-              Allowed values:
-                * `0`: Represents Lower Cost option.
-                * `10`: Represents Balanced option.
-                * `20`: Represents Higher Performance option.
-                * `30`-`120`: Represents the Ultra High Performance option.
+				Allowed values:
+				* `0`: Represents Lower Cost option.
+				* `10`: Represents Balanced option.
+				* `20`: Represents Higher Performance option.
+				* `30`-`120`: Represents the Ultra High Performance option.
 
-              For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+				For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+				
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
-
+	
 	  See [LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails) for more information.
         * `agent_config` - Configuration options for the Oracle Cloud Agent software running on the instance.
             * `are_all_plugins_disabled` - Whether Oracle Cloud Agent can run all the available plugins. This includes the management and monitoring plugins.
@@ -1209,9 +1217,10 @@ The following attributes are exported:
 			* `create_details` - Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/)
 				* `autotune_policies` - The list of autotune policies enabled for this volume.
 					* `autotune_type` - This specifies the type of autotunes supported by OCI.
-					* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring.
-				* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1`
-				* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned.
+					* `max_vpus_per_gb` - This will be the maximum VPUs/GB performance level that the volume will be auto-tuned temporarily based on performance monitoring. 
+				* `availability_domain` - The availability domain of the volume.  Example: `Uocm:PHX-AD-1` 
+				* `backup_policy_id` - If provided, specifies the ID of the volume backup policy to assign to the newly created volume. If omitted, no policy will be assigned. 
+				* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 				* `compartment_id` - The OCID of the compartment that contains the volume.
 				* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 				* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

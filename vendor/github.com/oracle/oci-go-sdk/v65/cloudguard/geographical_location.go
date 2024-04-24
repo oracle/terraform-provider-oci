@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-// GeographicalLocation Geographical Location of a problem
+// GeographicalLocation The geographical location of a problem in terms of latitude and longitude.
 type GeographicalLocation struct {
 
-	// Latitude
+	// Latitude of problem
 	Latitude *float64 `mandatory:"true" json:"latitude"`
 
-	// Longitude
+	// Longitude of problem
 	Longitude *float64 `mandatory:"true" json:"longitude"`
 }
 
