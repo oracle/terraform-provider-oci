@@ -58,6 +58,7 @@ var (
 		"placement_configs": acctest.RepresentationGroup{RepType: acctest.Required, Group: nodePoolNodeConfigDetailsPlacementConfigsRepresentation},
 		"size":              acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `4`},
 	}
+
 	nodePoolNodeConfigDetailsPlacementConfigsRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.node_pool_regional_subnet_1.id}`, Update: `${oci_core_subnet.node_pool_regional_subnet_2.id}`},

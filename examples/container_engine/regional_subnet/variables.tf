@@ -46,7 +46,7 @@ variable "node_pool_node_shape" {
 }
 
 variable "node_pool_quantity_per_subnet" {
-  default = 2
+  default = 1
 }
 
 variable "node_pool_ssh_public_key" {

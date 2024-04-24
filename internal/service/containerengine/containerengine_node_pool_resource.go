@@ -240,6 +240,7 @@ func ContainerengineNodePoolResource() *schema.Resource {
 											"FLANNEL_OVERLAY",
 											"OCI_VCN_IP_NATIVE",
 										}, true),
+										ForceNew: true,
 									},
 
 									// Optional
@@ -1770,7 +1771,6 @@ func NodePoolPlacementConfigDetailsToMap(obj oci_containerengine.NodePoolPlaceme
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
 	}
-
 	return result
 }
 
@@ -2044,8 +2044,6 @@ func (s *ContainerengineNodePoolResourceCrud) hasNodeConfigDetailsChange(fieldKe
 
 func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetails(fieldKeyFormat string) (oci_containerengine.UpdateNodePoolNodeConfigDetails, error) {
 	result := oci_containerengine.UpdateNodePoolNodeConfigDetails{}
-
-	result.PlacementConfigs = []oci_containerengine.NodePoolPlacementConfigDetails{}
 	if placementConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "placement_configs")); ok {
 		set := placementConfigs.(*schema.Set)
 		interfaces := set.List()
@@ -2059,26 +2057,37 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetai
 			}
 			tmp[i] = converted
 		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs")) {
+		if len(tmp) != 0 && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "placement_configs")) {
 			result.PlacementConfigs = tmp
 		}
 	}
 
-	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok {
+	if nodePoolPodNetworkOptionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details")) {
+		if tmpList := nodePoolPodNetworkOptionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "node_pool_pod_network_option_details"), 0)
+			tmp, err := s.mapToNodePoolPodNetworkOptionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			result.NodePoolPodNetworkOptionDetails = tmp
+		}
+	}
+
+	if size, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "size")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "size")) {
 		tmp := size.(int)
 		result.Size = &tmp
 	}
 
-	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+	if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")) {
 		tmp := isPvEncryptionInTransitEnabled.(bool)
 		result.IsPvEncryptionInTransitEnabled = &tmp
 	}
 
-	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "kms_key_id")) {
 		tmp := kmsKeyId.(string)
 		result.KmsKeyId = &tmp
 	}
-	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "defined_tags")) {
 		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 		if err != nil {
 			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
@@ -2086,7 +2095,7 @@ func (s *ContainerengineNodePoolResourceCrud) mapToUpdateNodePoolNodeConfigDetai
 		result.DefinedTags = tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "freeform_tags")) {
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
