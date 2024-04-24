@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateDataSource.go.html to see an example of how to use UpdateDataSourceRequest.
 type UpdateDataSourceRequest struct {
 
-	// DataSource OCID
+	// Data source OCID.
 	DataSourceId *string `mandatory:"true" contributesTo:"path" name:"dataSourceId"`
 
-	// Details for the DataSource to be updated
+	// Details for the DataSource resource to be updated
 	UpdateDataSourceDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

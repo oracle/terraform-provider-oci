@@ -86,6 +86,10 @@ func CoreBootVolumeAttachmentsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -197,6 +201,10 @@ func (s *CoreBootVolumeAttachmentsDataSourceCrud) SetData() error {
 
 		if r.TimeCreated != nil {
 			bootVolumeAttachment["time_created"] = r.TimeCreated.String()
+		}
+
+		if r.TimeUpdated != nil {
+			bootVolumeAttachment["time_updated"] = r.TimeUpdated.String()
 		}
 
 		resources = append(resources, bootVolumeAttachment)

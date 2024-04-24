@@ -18,20 +18,19 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListManagementStations.go.html to see an example of how to use ListManagementStationsRequest.
 type ListManagementStationsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A user-friendly name. Does not have to be unique, and it's changeable.
-	// Example: `My new resource`
+	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The current lifecycle state for the object.
+	// A filter that returns information for management stations in the specified state.
 	LifecycleState ManagementStationLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The OCID of the managed instance for which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance. This filter returns resources associated with this managed instance.
 	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
@@ -53,7 +52,7 @@ type ListManagementStationsRequest struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station. A filter that returns information about the specified management station.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but

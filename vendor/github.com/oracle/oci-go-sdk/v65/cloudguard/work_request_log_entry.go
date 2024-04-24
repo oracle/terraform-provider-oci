@@ -19,10 +19,10 @@ import (
 // WorkRequestLogEntry A log message from the execution of a work request.
 type WorkRequestLogEntry struct {
 
-	// Human-readable log message.
+	// A human-readable log message
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the log message was written.
+	// The time the log message was written
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

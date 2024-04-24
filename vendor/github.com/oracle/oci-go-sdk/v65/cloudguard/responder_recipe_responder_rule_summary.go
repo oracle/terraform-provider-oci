@@ -16,28 +16,28 @@ import (
 	"strings"
 )
 
-// ResponderRecipeResponderRuleSummary Details of ResponderRule.
+// ResponderRecipeResponderRuleSummary Summary information for a responder rule
 type ResponderRecipeResponderRuleSummary struct {
 
-	// Identifier for ResponderRule.
+	// Unique identifier for the responder rule
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ResponderRule Display Name
+	// Responder rule display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// ResponderRule Description
+	// Responder rule description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Type of Responder
+	// Type of responder
 	Type ResponderTypeEnum `mandatory:"false" json:"type,omitempty"`
 
-	// List of Policy
+	// List of policies
 	Policies []string `mandatory:"false" json:"policies"`
 
-	// Supported Execution Modes
+	// Supported execution modes for the responder rule
 	SupportedModes []ResponderRecipeResponderRuleSummarySupportedModesEnum `mandatory:"false" json:"supportedModes,omitempty"`
 
 	Details *ResponderRuleDetails `mandatory:"false" json:"details"`
@@ -45,10 +45,10 @@ type ResponderRecipeResponderRuleSummary struct {
 	// The date and time the responder recipe rule was created. Format defined by RFC3339.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the responder recipe rule was updated. Format defined by RFC3339.
+	// The date and time the responder recipe rule was last updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the ResponderRule.
+	// The current lifecycle state of the responder rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

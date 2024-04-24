@@ -18,13 +18,13 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetTargetDetectorRecipeDetectorRule.go.html to see an example of how to use GetTargetDetectorRecipeDetectorRuleRequest.
 type GetTargetDetectorRecipeDetectorRuleRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetDetectorRecipe
+	// OCID of the target detector recipe.
 	TargetDetectorRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetDetectorRecipeId"`
 
-	// The id of DetectorRule
+	// The unique identifier of the detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
 	// The client request ID for tracing.

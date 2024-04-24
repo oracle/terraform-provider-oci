@@ -16,11 +16,14 @@ import (
 	"strings"
 )
 
-// DataSourceEventCollection The collection of datasource events.
+// DataSourceEventCollection The collection of events related to a data source.
 type DataSourceEventCollection struct {
 
-	// List of event related to a DataSource
+	// List of events related to a data source
 	Items []DataSourceEventSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DataSourceEventCollection) String() string {

@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetDetectorRule.go.html to see an example of how to use GetDetectorRuleRequest.
 type GetDetectorRuleRequest struct {
 
-	// The Name of Detector.
+	// Detector name.
 	DetectorId *string `mandatory:"true" contributesTo:"path" name:"detectorId"`
 
-	// The key of Detector Rule.
+	// The unique identifier of a detector rule.
 	DetectorRuleId *string `mandatory:"true" contributesTo:"path" name:"detectorRuleId"`
 
 	// The client request ID for tracing.

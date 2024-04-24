@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -25,16 +26,20 @@ type ManageModuleStreamsOnManagedInstanceDetails struct {
 	// false.
 	IsDryRun *bool `mandatory:"false" json:"isDryRun"`
 
-	// The set of module streams to enable.
+	// The set of module streams to enable. If any streams of a module are already enabled, the service switches from the current stream to the new stream.
+	// Once complete, the streams will be in 'ENABLED' status.
 	Enable []ModuleStreamDetails `mandatory:"false" json:"enable"`
 
-	// The set of module streams to disable.
+	// The set of module streams to disable. Any profiles that are installed for the module stream will be removed as part of the operation.
+	// Once complete, the streams will be in 'DISABLED' status.
 	Disable []ModuleStreamDetails `mandatory:"false" json:"disable"`
 
-	// The set of module stream profiles to install.
+	// The set of module stream profiles to install. Any packages that are part of the profile are installed on the managed instance.
+	// Once complete, the profile will be in 'INSTALLED' status. The operation will return an error if you attempt to install a profile from a disabled stream, unless enabling the new module stream is included in this operation.
 	Install []ModuleStreamProfileDetails `mandatory:"false" json:"install"`
 
-	// The set of module stream profiles to remove.
+	// The set of module stream profiles to remove. Once complete, the profile will be in 'AVAILABLE' status.
+	// The status of packages within the profile after the operation is complete is defined by the package manager on the managed instance group.
 	Remove []ModuleStreamProfileDetails `mandatory:"false" json:"remove"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`

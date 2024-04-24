@@ -27,7 +27,7 @@ type CreateDrgRouteDistributionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG the DRG route table belongs to.
 	DrgId *string `mandatory:"true" json:"drgId"`
 
-	// Whether this distribution defines how routes get imported into route tables or exported through DRG Attachments
+	// Whether this distribution defines how routes get imported into route tables or exported through DRG attachments.
 	DistributionType CreateDrgRouteDistributionDetailsDistributionTypeEnum `mandatory:"true" json:"distributionType"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

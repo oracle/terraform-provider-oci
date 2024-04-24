@@ -19,28 +19,28 @@ import (
 // Sighting Sighting details.
 type Sighting struct {
 
-	// Unique identifier for sighting event
+	// Unique identifier for the sighting
 	Id *string `mandatory:"true" json:"id"`
 
-	// Description of the sighting event
+	// Description of the sighting
 	Description *string `mandatory:"true" json:"description"`
 
-	// Compartment Id where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// ClassificationStatus of the sighting event
+	// Classification status of the sighting
 	ClassificationStatus ClassificationStatusEnum `mandatory:"true" json:"classificationStatus"`
 
-	// Identifier for the sighting type
+	// Type of sighting
 	SightingType *string `mandatory:"true" json:"sightingType"`
 
 	// Display name of the sighting type
 	SightingTypeDisplayName *string `mandatory:"true" json:"sightingTypeDisplayName"`
 
-	// Name of the Mitre att&ck tactic
+	// Name of the MITRE ATT@CK framework tactic
 	TacticName *string `mandatory:"true" json:"tacticName"`
 
-	// Name of the Mitre att&ck technique
+	// Name of the MITRE ATT@CK framework technique
 	TechniqueName *string `mandatory:"true" json:"techniqueName"`
 
 	// Score for the sighting
@@ -49,7 +49,7 @@ type Sighting struct {
 	// Severity of the sighting
 	Severity SeverityEnum `mandatory:"true" json:"severity"`
 
-	// Confidence of the sighting
+	// Level of confidence that the sighting is not a false positive
 	Confidence ConfidenceEnum `mandatory:"true" json:"confidence"`
 
 	// The date and time the sighting was first detected. Format defined by RFC3339.
@@ -58,10 +58,10 @@ type Sighting struct {
 	// The date and time the sighting was last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
-	// regions involved in the sighting
+	// List of regions involved in the sighting
 	Regions []string `mandatory:"true" json:"regions"`
 
-	// Problem Id to which the Sighting is associated
+	// Problem ID associated the sighting
 	ProblemId *string `mandatory:"false" json:"problemId"`
 
 	// Unique identifier for principal actor
@@ -73,8 +73,11 @@ type Sighting struct {
 	// Type of the principal actor
 	ActorPrincipalType *string `mandatory:"false" json:"actorPrincipalType"`
 
-	// The additional details of the Sighting
+	// The additional details for the sighting
 	AdditionalDetails map[string]string `mandatory:"false" json:"additionalDetails"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m Sighting) String() string {

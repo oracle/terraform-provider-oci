@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/GetModuleStreamProfile.go.html to see an example of how to use GetModuleStreamProfileRequest.
 type GetModuleStreamProfileRequest struct {
 
-	// The software source OCID.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	SoftwareSourceId *string `mandatory:"true" contributesTo:"path" name:"softwareSourceId"`
 
-	// The name of the profile of the containing module stream.
+	// The name of the module stream profile.
 	ProfileName *string `mandatory:"true" contributesTo:"path" name:"profileName"`
 
 	// The name of a module.

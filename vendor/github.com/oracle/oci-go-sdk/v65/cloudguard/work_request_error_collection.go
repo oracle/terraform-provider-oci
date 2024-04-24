@@ -16,10 +16,12 @@ import (
 	"strings"
 )
 
-// WorkRequestErrorCollection Results of a workRequestError search. Contains both WorkRequestError items and other information, such as metadata.
+// WorkRequestErrorCollection The collection of work request error resources. These result from a
+// workRequestError search. Contains WorkRequestError items and other
+// information, such as metadata.
 type WorkRequestErrorCollection struct {
 
-	// List of workRequestError objects.
+	// List of workRequestError resources
 	Items []WorkRequestError `mandatory:"true" json:"items"`
 }
 

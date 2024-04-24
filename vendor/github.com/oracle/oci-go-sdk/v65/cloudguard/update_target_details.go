@@ -16,20 +16,20 @@ import (
 	"strings"
 )
 
-// UpdateTargetDetails The information to be updated.
+// UpdateTargetDetails The target information to be updated.
 type UpdateTargetDetails struct {
 
 	// Display name of a target.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The current state of the Target.
+	// The current lifecycle state of the Target.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The details of target detector recipes to be updated.
+	// The details of target detector recipes to be updated
 	TargetDetectorRecipes []UpdateTargetDetectorRecipe `mandatory:"false" json:"targetDetectorRecipes"`
 
-	// The details of target responder recipes to be updated.
+	// The details of target responder recipes to be updated
 	TargetResponderRecipes []UpdateTargetResponderRecipe `mandatory:"false" json:"targetResponderRecipes"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

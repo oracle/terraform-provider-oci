@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,20 +17,26 @@ import (
 	"strings"
 )
 
-// CreateProfileDetails The information about new registration profile.
+// CreateProfileDetails Provides the information used to create a new registration profile.
 type CreateProfileDetails interface {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	GetDisplayName() *string
 
-	// The OCID of the tenancy containing the registration profile.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the registration profile.
 	GetCompartmentId() *string
 
-	// The description of the registration profile.
+	// User-specified description of the registration profile.
 	GetDescription() *string
 
-	// The OCID of the management station.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
 	GetManagementStationId() *string
+
+	// The type of instance to register.
+	GetRegistrationType() ProfileRegistrationTypeEnum
+
+	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
+	GetIsDefaultProfile() *bool
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -46,6 +53,8 @@ type createprofiledetails struct {
 	JsonData            []byte
 	Description         *string                           `mandatory:"false" json:"description"`
 	ManagementStationId *string                           `mandatory:"false" json:"managementStationId"`
+	RegistrationType    ProfileRegistrationTypeEnum       `mandatory:"false" json:"registrationType,omitempty"`
+	IsDefaultProfile    *bool                             `mandatory:"false" json:"isDefaultProfile"`
 	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	DisplayName         *string                           `mandatory:"true" json:"displayName"`
@@ -68,6 +77,8 @@ func (m *createprofiledetails) UnmarshalJSON(data []byte) error {
 	m.CompartmentId = s.Model.CompartmentId
 	m.Description = s.Model.Description
 	m.ManagementStationId = s.Model.ManagementStationId
+	m.RegistrationType = s.Model.RegistrationType
+	m.IsDefaultProfile = s.Model.IsDefaultProfile
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ProfileType = s.Model.ProfileType
@@ -116,6 +127,16 @@ func (m createprofiledetails) GetManagementStationId() *string {
 	return m.ManagementStationId
 }
 
+// GetRegistrationType returns RegistrationType
+func (m createprofiledetails) GetRegistrationType() ProfileRegistrationTypeEnum {
+	return m.RegistrationType
+}
+
+// GetIsDefaultProfile returns IsDefaultProfile
+func (m createprofiledetails) GetIsDefaultProfile() *bool {
+	return m.IsDefaultProfile
+}
+
 // GetFreeformTags returns FreeformTags
 func (m createprofiledetails) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -146,6 +167,9 @@ func (m createprofiledetails) String() string {
 func (m createprofiledetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingProfileRegistrationTypeEnum(string(m.RegistrationType)); !ok && m.RegistrationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RegistrationType: %s. Supported values are: %s.", m.RegistrationType, strings.Join(GetProfileRegistrationTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

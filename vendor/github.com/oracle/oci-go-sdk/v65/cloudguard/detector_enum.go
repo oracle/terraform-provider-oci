@@ -19,24 +19,27 @@ type DetectorEnumEnum string
 
 // Set of constants representing the allowable values for DetectorEnumEnum
 const (
-	DetectorEnumIaasActivityDetector      DetectorEnumEnum = "IAAS_ACTIVITY_DETECTOR"
-	DetectorEnumIaasConfigurationDetector DetectorEnumEnum = "IAAS_CONFIGURATION_DETECTOR"
-	DetectorEnumIaasThreatDetector        DetectorEnumEnum = "IAAS_THREAT_DETECTOR"
-	DetectorEnumIaasLogInsightDetector    DetectorEnumEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	DetectorEnumIaasActivityDetector         DetectorEnumEnum = "IAAS_ACTIVITY_DETECTOR"
+	DetectorEnumIaasConfigurationDetector    DetectorEnumEnum = "IAAS_CONFIGURATION_DETECTOR"
+	DetectorEnumIaasThreatDetector           DetectorEnumEnum = "IAAS_THREAT_DETECTOR"
+	DetectorEnumIaasLogInsightDetector       DetectorEnumEnum = "IAAS_LOG_INSIGHT_DETECTOR"
+	DetectorEnumIaasInstanceSecurityDetector DetectorEnumEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
 )
 
 var mappingDetectorEnumEnum = map[string]DetectorEnumEnum{
-	"IAAS_ACTIVITY_DETECTOR":      DetectorEnumIaasActivityDetector,
-	"IAAS_CONFIGURATION_DETECTOR": DetectorEnumIaasConfigurationDetector,
-	"IAAS_THREAT_DETECTOR":        DetectorEnumIaasThreatDetector,
-	"IAAS_LOG_INSIGHT_DETECTOR":   DetectorEnumIaasLogInsightDetector,
+	"IAAS_ACTIVITY_DETECTOR":          DetectorEnumIaasActivityDetector,
+	"IAAS_CONFIGURATION_DETECTOR":     DetectorEnumIaasConfigurationDetector,
+	"IAAS_THREAT_DETECTOR":            DetectorEnumIaasThreatDetector,
+	"IAAS_LOG_INSIGHT_DETECTOR":       DetectorEnumIaasLogInsightDetector,
+	"IAAS_INSTANCE_SECURITY_DETECTOR": DetectorEnumIaasInstanceSecurityDetector,
 }
 
 var mappingDetectorEnumEnumLowerCase = map[string]DetectorEnumEnum{
-	"iaas_activity_detector":      DetectorEnumIaasActivityDetector,
-	"iaas_configuration_detector": DetectorEnumIaasConfigurationDetector,
-	"iaas_threat_detector":        DetectorEnumIaasThreatDetector,
-	"iaas_log_insight_detector":   DetectorEnumIaasLogInsightDetector,
+	"iaas_activity_detector":          DetectorEnumIaasActivityDetector,
+	"iaas_configuration_detector":     DetectorEnumIaasConfigurationDetector,
+	"iaas_threat_detector":            DetectorEnumIaasThreatDetector,
+	"iaas_log_insight_detector":       DetectorEnumIaasLogInsightDetector,
+	"iaas_instance_security_detector": DetectorEnumIaasInstanceSecurityDetector,
 }
 
 // GetDetectorEnumEnumValues Enumerates the set of values for DetectorEnumEnum
@@ -55,6 +58,7 @@ func GetDetectorEnumEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
+		"IAAS_INSTANCE_SECURITY_DETECTOR",
 	}
 }
 

@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -89,6 +90,69 @@ func (client *ScheduledJobClient) setConfigurationProvider(configProvider common
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ScheduledJobClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// ChangeScheduledJobCompartment Moves a scheduled job to another compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ChangeScheduledJobCompartment.go.html to see an example of how to use ChangeScheduledJobCompartment API.
+// A default retry strategy applies to this operation ChangeScheduledJobCompartment()
+func (client ScheduledJobClient) ChangeScheduledJobCompartment(ctx context.Context, request ChangeScheduledJobCompartmentRequest) (response ChangeScheduledJobCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeScheduledJobCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeScheduledJobCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeScheduledJobCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeScheduledJobCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeScheduledJobCompartmentResponse")
+	}
+	return
+}
+
+// changeScheduledJobCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ScheduledJobClient) changeScheduledJobCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/scheduledJobs/{scheduledJobId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeScheduledJobCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ScheduledJob/ChangeScheduledJobCompartment"
+		err = common.PostProcessServiceError(err, "ScheduledJob", "ChangeScheduledJobCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
 }
 
 // CreateScheduledJob Creates a new scheduled job.
@@ -270,9 +334,7 @@ func (client ScheduledJobClient) getScheduledJob(ctx context.Context, request co
 	return response, err
 }
 
-// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID.
-// Filter the list against a variety of criteria including but not limited to its display name,
-// lifecycle state, operation type, and schedule type.
+// ListScheduledJobs Lists scheduled jobs that match the specified compartment or scheduled job OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 //
 // # See also
 //
@@ -330,8 +392,8 @@ func (client ScheduledJobClient) listScheduledJobs(ctx context.Context, request 
 	return response, err
 }
 
-// RunScheduledJobNow Triggers an already created RECURRING scheduled job to run immediately instead of waiting
-// for its next regularly scheduled time. This operation does not support ONETIME scheduled job.
+// RunScheduledJobNow Triggers an already created recurring scheduled job to run immediately instead of waiting for its next regularly
+// scheduled time. This operation only applies to recurring jobs, not one-time scheduled jobs.
 //
 // # See also
 //

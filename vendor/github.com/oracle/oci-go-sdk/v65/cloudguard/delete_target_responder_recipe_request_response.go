@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteTargetResponderRecipe.go.html to see an example of how to use DeleteTargetResponderRecipeRequest.
 type DeleteTargetResponderRecipeRequest struct {
 
-	// OCID of target
+	// OCID of the target
 	TargetId *string `mandatory:"true" contributesTo:"path" name:"targetId"`
 
-	// OCID of TargetResponderRecipe
+	// OCID of the target responder recipe.
 	TargetResponderRecipeId *string `mandatory:"true" contributesTo:"path" name:"targetResponderRecipeId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

@@ -19,16 +19,16 @@ import (
 // ResourceRiskScoreAggregation Risk score of a resource.
 type ResourceRiskScoreAggregation struct {
 
-	// Tactics used for evaluating the risk scrore
+	// List of tactics used for evaluating the risk score
 	Tactics []string `mandatory:"true" json:"tactics"`
 
 	// The date and time for which the score is calculated. Format defined by RFC3339.
 	ScoreTimestamp *float32 `mandatory:"true" json:"scoreTimestamp"`
 
-	// Risk Score
+	// The risk score
 	RiskScore *float64 `mandatory:"true" json:"riskScore"`
 
-	// The Risk Level
+	// The risk level
 	RiskLevel RiskLevelEnum `mandatory:"true" json:"riskLevel"`
 }
 

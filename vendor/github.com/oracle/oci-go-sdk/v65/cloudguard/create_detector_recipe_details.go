@@ -16,27 +16,27 @@ import (
 	"strings"
 )
 
-// CreateDetectorRecipeDetails Create of Detector recipe.
+// CreateDetectorRecipeDetails Parameters to use to create details for a detector recipe.
 type CreateDetectorRecipeDetails struct {
 
 	// Detector recipe display name.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Compartment Identifier
+	// Compartment OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// Detector recipe description.
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// detector for the rule
+	// Detector for the rule
 	Detector DetectorEnumEnum `mandatory:"false" json:"detector,omitempty"`
 
-	// The id of the source detector recipe.
+	// The ID of the source detector recipe
 	SourceDetectorRecipeId *string `mandatory:"false" json:"sourceDetectorRecipeId"`
 
-	// Detector Rules to override from source detector recipe
+	// Detector rules to override from source detector recipe
 	DetectorRules []UpdateDetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

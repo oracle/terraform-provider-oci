@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/CreateManagedInstanceGroup.go.html to see an example of how to use CreateManagedInstanceGroupRequest.
 type CreateManagedInstanceGroupRequest struct {
 
-	// Details for the new managed instance group.
+	// Provides the information used to create the managed instance group.
 	CreateManagedInstanceGroupDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

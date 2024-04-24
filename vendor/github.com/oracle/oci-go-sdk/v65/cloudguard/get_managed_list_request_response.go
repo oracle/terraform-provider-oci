@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetManagedList.go.html to see an example of how to use GetManagedListRequest.
 type GetManagedListRequest struct {
 
-	// The cloudguard list OCID to be passed in the request.
+	// The managed list OCID to be passed in the request.
 	ManagedListId *string `mandatory:"true" contributesTo:"path" name:"managedListId"`
 
 	// The client request ID for tracing.

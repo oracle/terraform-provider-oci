@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateSecurityRecipe.go.html to see an example of how to use UpdateSecurityRecipeRequest.
 type UpdateSecurityRecipeRequest struct {
 
-	// The unique identifier of the security zone recipe (`SecurityRecipe`)
+	// The unique identifier of the security zone recipe. (`SecurityRecipe`)
 	SecurityRecipeId *string `mandatory:"true" contributesTo:"path" name:"securityRecipeId"`
 
-	// The information to be updated in the security zone recipe.
+	// The information to be updated in the security zone recipe
 	UpdateSecurityRecipeDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

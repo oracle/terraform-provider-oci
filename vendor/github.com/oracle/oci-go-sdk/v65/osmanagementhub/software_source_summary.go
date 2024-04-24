@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -16,34 +17,35 @@ import (
 	"strings"
 )
 
-// SoftwareSourceSummary A software source contains a collection of packages.
+// SoftwareSourceSummary Provides summary information for a software source. A software source contains a collection of packages. For more information, see Managing Software Sources (https://docs.cloud.oracle.com/iaas/osmh/doc/software-sources.htm).
 type SoftwareSourceSummary interface {
 
-	// The OCID for the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 	GetId() *string
 
-	// The OCID of the tenancy containing the software source.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
 	GetCompartmentId() *string
 
-	// User friendly name for the software source.
+	// User-friendly name for the software source.
 	GetDisplayName() *string
 
-	// The Repo ID for the software source.
+	// The repository ID for the software source.
 	GetRepoId() *string
 
-	// URL for the repository.
+	// URL for the repository. For vendor software sources, this is the URL to the regional yum server. For custom software sources, this is 'custom/<repoId>'.
 	GetUrl() *string
 
-	// The date and time the software source was created, as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeCreated() *common.SDKTime
 
-	// The date and time of when the software source was updated as described in
-	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339), section 14.29.
+	// The date and time the software source was updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeUpdated() *common.SDKTime
 
-	// Possible availabilities of a software source.
+	// Availability of the software source (for non-OCI environments).
 	GetAvailability() AvailabilityEnum
+
+	// Availability of the software source (for OCI environments).
+	GetAvailabilityAtOci() AvailabilityEnum
 
 	// The OS family the software source belongs to.
 	GetOsFamily() OsFamilyEnum
@@ -51,14 +53,17 @@ type SoftwareSourceSummary interface {
 	// The architecture type supported by the software source.
 	GetArchType() ArchTypeEnum
 
-	// Information specified by the user about the software source.
+	// Description of the software source. For custom software sources, this is user-specified.
 	GetDescription() *string
 
-	// Number of packages.
+	// Number of packages the software source contains.
 	GetPackageCount() *int64
 
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
+
+	// The size of the software source in gigabytes (GB).
+	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
@@ -80,6 +85,7 @@ type softwaresourcesummary struct {
 	Description        *string                           `mandatory:"false" json:"description"`
 	PackageCount       *int64                            `mandatory:"false" json:"packageCount"`
 	LifecycleState     SoftwareSourceLifecycleStateEnum  `mandatory:"false" json:"lifecycleState,omitempty"`
+	Size               *float64                          `mandatory:"false" json:"size"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags         map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -91,6 +97,7 @@ type softwaresourcesummary struct {
 	TimeCreated        *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
 	TimeUpdated        *common.SDKTime                   `mandatory:"true" json:"timeUpdated"`
 	Availability       AvailabilityEnum                  `mandatory:"true" json:"availability"`
+	AvailabilityAtOci  AvailabilityEnum                  `mandatory:"true" json:"availabilityAtOci"`
 	OsFamily           OsFamilyEnum                      `mandatory:"true" json:"osFamily"`
 	ArchType           ArchTypeEnum                      `mandatory:"true" json:"archType"`
 	SoftwareSourceType string                            `json:"softwareSourceType"`
@@ -115,11 +122,13 @@ func (m *softwaresourcesummary) UnmarshalJSON(data []byte) error {
 	m.TimeCreated = s.Model.TimeCreated
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.Availability = s.Model.Availability
+	m.AvailabilityAtOci = s.Model.AvailabilityAtOci
 	m.OsFamily = s.Model.OsFamily
 	m.ArchType = s.Model.ArchType
 	m.Description = s.Model.Description
 	m.PackageCount = s.Model.PackageCount
 	m.LifecycleState = s.Model.LifecycleState
+	m.Size = s.Model.Size
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -168,6 +177,11 @@ func (m softwaresourcesummary) GetPackageCount() *int64 {
 // GetLifecycleState returns LifecycleState
 func (m softwaresourcesummary) GetLifecycleState() SoftwareSourceLifecycleStateEnum {
 	return m.LifecycleState
+}
+
+// GetSize returns Size
+func (m softwaresourcesummary) GetSize() *float64 {
+	return m.Size
 }
 
 // GetFreeformTags returns FreeformTags
@@ -225,6 +239,11 @@ func (m softwaresourcesummary) GetAvailability() AvailabilityEnum {
 	return m.Availability
 }
 
+// GetAvailabilityAtOci returns AvailabilityAtOci
+func (m softwaresourcesummary) GetAvailabilityAtOci() AvailabilityEnum {
+	return m.AvailabilityAtOci
+}
+
 // GetOsFamily returns OsFamily
 func (m softwaresourcesummary) GetOsFamily() OsFamilyEnum {
 	return m.OsFamily
@@ -246,6 +265,9 @@ func (m softwaresourcesummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingAvailabilityEnum(string(m.Availability)); !ok && m.Availability != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Availability: %s. Supported values are: %s.", m.Availability, strings.Join(GetAvailabilityEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAvailabilityEnum(string(m.AvailabilityAtOci)); !ok && m.AvailabilityAtOci != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AvailabilityAtOci: %s. Supported values are: %s.", m.AvailabilityAtOci, strings.Join(GetAvailabilityEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingOsFamilyEnum(string(m.OsFamily)); !ok && m.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", m.OsFamily, strings.Join(GetOsFamilyEnumStringValues(), ",")))

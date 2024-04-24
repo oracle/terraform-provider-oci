@@ -17,27 +17,27 @@ import (
 	"strings"
 )
 
-// DataMaskRuleSummary Summary of DataMaskRule.
+// DataMaskRuleSummary Summary information for a data mask rule.
 type DataMaskRuleSummary struct {
 
-	// Unique identifier that is immutable on creation
+	// Unique identifier that can't be changed after creation
 	Id *string `mandatory:"true" json:"id"`
 
-	// Compartment Identifier where the resource is created
+	// Compartment OCID where the resource is created
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// IAM Group id associated with the data mask rule
+	// IAM group ID associated with the data mask rule
 	IamGroupId *string `mandatory:"true" json:"iamGroupId"`
 
 	TargetSelected TargetSelected `mandatory:"true" json:"targetSelected"`
 
-	// Data Mask Rule Name.
+	// Data mask rule display name
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The data mask rule description.
+	// The data mask rule description
 	Description *string `mandatory:"false" json:"description"`
 
-	// Data Mask Categories
+	// List of data mask rule categories
 	DataMaskCategories []DataMaskCategoryEnum `mandatory:"false" json:"dataMaskCategories,omitempty"`
 
 	// The date and time the target was created. Format defined by RFC3339.
@@ -46,13 +46,13 @@ type DataMaskRuleSummary struct {
 	// The date and time the target was updated. Format defined by RFC3339.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The status of the dataMaskRule.
+	// The current status of the data mask rule
 	DataMaskRuleStatus DataMaskRuleStatusEnum `mandatory:"false" json:"dataMaskRuleStatus,omitempty"`
 
-	// The current state of the DataMaskRule.
+	// The current lifecycle state of the data mask rule
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]
 	LifecyleDetails *string `mandatory:"false" json:"lifecyleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

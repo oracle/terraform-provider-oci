@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/ListLifecycleEnvironments.go.html to see an example of how to use ListLifecycleEnvironmentsRequest.
 type ListLifecycleEnvironmentsRequest struct {
 
-	// The OCID of the compartment that contains the resources to list.
+	// The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return resources that match the given display names.
@@ -27,14 +27,20 @@ type ListLifecycleEnvironmentsRequest struct {
 	// A filter to return resources that may partially match the given display name.
 	DisplayNameContains *string `mandatory:"false" contributesTo:"query" name:"displayNameContains"`
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"false" contributesTo:"query" name:"lifecycleEnvironmentId"`
 
 	// A filter to return only profiles that match the given archType.
 	ArchType ListLifecycleEnvironmentsArchTypeEnum `mandatory:"false" contributesTo:"query" name:"archType" omitEmpty:"true"`
 
-	// A filter to return only profiles that match the given osFamily.
+	// A filter to return only resources that match the given operating system family.
 	OsFamily ListLifecycleEnvironmentsOsFamilyEnum `mandatory:"false" contributesTo:"query" name:"osFamily" omitEmpty:"true"`
+
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -101,6 +107,18 @@ func (request ListLifecycleEnvironmentsRequest) ValidateEnumValue() (bool, error
 	if _, ok := GetMappingListLifecycleEnvironmentsOsFamilyEnum(string(request.OsFamily)); !ok && request.OsFamily != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OsFamily: %s. Supported values are: %s.", request.OsFamily, strings.Join(GetListLifecycleEnvironmentsOsFamilyEnumStringValues(), ",")))
 	}
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingLifecycleEnvironmentLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetLifecycleEnvironmentLifecycleStateEnumStringValues(), ",")))
 	}
@@ -201,21 +219,36 @@ type ListLifecycleEnvironmentsOsFamilyEnum string
 
 // Set of constants representing the allowable values for ListLifecycleEnvironmentsOsFamilyEnum
 const (
-	ListLifecycleEnvironmentsOsFamily9 ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_9"
-	ListLifecycleEnvironmentsOsFamily8 ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_8"
-	ListLifecycleEnvironmentsOsFamily7 ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_7"
+	ListLifecycleEnvironmentsOsFamilyOracleLinux9      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_9"
+	ListLifecycleEnvironmentsOsFamilyOracleLinux8      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_8"
+	ListLifecycleEnvironmentsOsFamilyOracleLinux7      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_7"
+	ListLifecycleEnvironmentsOsFamilyOracleLinux6      ListLifecycleEnvironmentsOsFamilyEnum = "ORACLE_LINUX_6"
+	ListLifecycleEnvironmentsOsFamilyWindowsServer2016 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2016"
+	ListLifecycleEnvironmentsOsFamilyWindowsServer2019 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2019"
+	ListLifecycleEnvironmentsOsFamilyWindowsServer2022 ListLifecycleEnvironmentsOsFamilyEnum = "WINDOWS_SERVER_2022"
+	ListLifecycleEnvironmentsOsFamilyAll               ListLifecycleEnvironmentsOsFamilyEnum = "ALL"
 )
 
 var mappingListLifecycleEnvironmentsOsFamilyEnum = map[string]ListLifecycleEnvironmentsOsFamilyEnum{
-	"ORACLE_LINUX_9": ListLifecycleEnvironmentsOsFamily9,
-	"ORACLE_LINUX_8": ListLifecycleEnvironmentsOsFamily8,
-	"ORACLE_LINUX_7": ListLifecycleEnvironmentsOsFamily7,
+	"ORACLE_LINUX_9":      ListLifecycleEnvironmentsOsFamilyOracleLinux9,
+	"ORACLE_LINUX_8":      ListLifecycleEnvironmentsOsFamilyOracleLinux8,
+	"ORACLE_LINUX_7":      ListLifecycleEnvironmentsOsFamilyOracleLinux7,
+	"ORACLE_LINUX_6":      ListLifecycleEnvironmentsOsFamilyOracleLinux6,
+	"WINDOWS_SERVER_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
+	"WINDOWS_SERVER_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
+	"WINDOWS_SERVER_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"ALL":                 ListLifecycleEnvironmentsOsFamilyAll,
 }
 
 var mappingListLifecycleEnvironmentsOsFamilyEnumLowerCase = map[string]ListLifecycleEnvironmentsOsFamilyEnum{
-	"oracle_linux_9": ListLifecycleEnvironmentsOsFamily9,
-	"oracle_linux_8": ListLifecycleEnvironmentsOsFamily8,
-	"oracle_linux_7": ListLifecycleEnvironmentsOsFamily7,
+	"oracle_linux_9":      ListLifecycleEnvironmentsOsFamilyOracleLinux9,
+	"oracle_linux_8":      ListLifecycleEnvironmentsOsFamilyOracleLinux8,
+	"oracle_linux_7":      ListLifecycleEnvironmentsOsFamilyOracleLinux7,
+	"oracle_linux_6":      ListLifecycleEnvironmentsOsFamilyOracleLinux6,
+	"windows_server_2016": ListLifecycleEnvironmentsOsFamilyWindowsServer2016,
+	"windows_server_2019": ListLifecycleEnvironmentsOsFamilyWindowsServer2019,
+	"windows_server_2022": ListLifecycleEnvironmentsOsFamilyWindowsServer2022,
+	"all":                 ListLifecycleEnvironmentsOsFamilyAll,
 }
 
 // GetListLifecycleEnvironmentsOsFamilyEnumValues Enumerates the set of values for ListLifecycleEnvironmentsOsFamilyEnum
@@ -233,6 +266,11 @@ func GetListLifecycleEnvironmentsOsFamilyEnumStringValues() []string {
 		"ORACLE_LINUX_9",
 		"ORACLE_LINUX_8",
 		"ORACLE_LINUX_7",
+		"ORACLE_LINUX_6",
+		"WINDOWS_SERVER_2016",
+		"WINDOWS_SERVER_2019",
+		"WINDOWS_SERVER_2022",
+		"ALL",
 	}
 }
 

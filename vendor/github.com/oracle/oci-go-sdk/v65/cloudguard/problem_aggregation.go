@@ -19,10 +19,10 @@ import (
 // ProblemAggregation Provides aggregated information on counts of problems by specified parameters.
 type ProblemAggregation struct {
 
-	// The key-value pairs of dimensions and their names.
+	// The key-value pairs of dimensions and their names
 	DimensionsMap map[string]string `mandatory:"true" json:"dimensionsMap"`
 
-	// The number of occurences with given dimension/s
+	// The number of occurrences with given dimensions
 	Count *int `mandatory:"true" json:"count"`
 }
 

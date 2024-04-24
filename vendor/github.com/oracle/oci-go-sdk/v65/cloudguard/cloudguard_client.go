@@ -92,7 +92,11 @@ func (client *CloudGuardClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// AddCompartment Add an existing compartment to a security zone. If you previously removed a subcompartment from a security zone, you can add it back to the same security zone. The security zone ensures that resources in the subcompartment comply with the security zone's policies.
+// AddCompartment Adds a compartment to an existing security zone (SecurityZone resource), identified by
+// securityZoneId. Specify parameters in an AddCompartmentDetails resource that you pass.
+// If you previously removed a subcompartment from a security zone, you can add it back to the
+// same security zone. The security zone ensures that resources in the subcompartment comply with
+// the security zone's policies.
 //
 // # See also
 //
@@ -154,7 +158,7 @@ func (client CloudGuardClient) addCompartment(ctx context.Context, request commo
 	return response, err
 }
 
-// CancelWorkRequest Cancels the work request with the given ID.
+// CancelWorkRequest Cancels a work request identified by workRequestId.
 //
 // # See also
 //
@@ -211,7 +215,9 @@ func (client CloudGuardClient) cancelWorkRequest(ctx context.Context, request co
 	return response, err
 }
 
-// ChangeDataSourceCompartment Moves the DataSource from current compartment to another.
+// ChangeDataSourceCompartment Moves a data source (DataSource resource), identified by parameters
+// passed in a ChangeDataSourceCompartmentDetails resource, from the current
+// compartment to another.
 //
 // # See also
 //
@@ -273,7 +279,10 @@ func (client CloudGuardClient) changeDataSourceCompartment(ctx context.Context, 
 	return response, err
 }
 
-// ChangeDetectorRecipeCompartment Moves the detector recipe (DetectorRecipe object), identified by detectorRecipeId, from the current compartment to another compartment.
+// ChangeDetectorRecipeCompartment Moves the detector recipe (DetectorRecipe resource),
+// identified by detectorRecipeId, from the current compartment to
+// another compartment. When provided, If-Match is checked against
+// etag values of the resource.
 //
 // # See also
 //
@@ -335,7 +344,7 @@ func (client CloudGuardClient) changeDetectorRecipeCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeManagedListCompartment Moves the managed list (ManagedList object), identified by managedListId, from the current compartment to another compartment.
+// ChangeManagedListCompartment Moves the managed list (ManagedList resource), identified by managedListId, from the current compartment to another compartment.
 //
 // # See also
 //
@@ -397,7 +406,9 @@ func (client CloudGuardClient) changeManagedListCompartment(ctx context.Context,
 	return response, err
 }
 
-// ChangeResponderRecipeCompartment Moves the ResponderRecipe from current compartment to another.
+// ChangeResponderRecipeCompartment Moves the responder recipe (ResponderRecipe resource), identified by responderRecipeId
+// in a ChangeResponderRecipeCompartmentDetails resource, from the current compartment to another compartment.
+// When provided, if-match is checked against etag values of the resource.
 //
 // # See also
 //
@@ -459,7 +470,71 @@ func (client CloudGuardClient) changeResponderRecipeCompartment(ctx context.Cont
 	return response, err
 }
 
-// ChangeSecurityRecipeCompartment Moves a security zone recipe to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+// ChangeSavedQueryCompartment Moves the SavedQuery resource into a different compartment. When provided, If-Match is checked against etag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ChangeSavedQueryCompartment.go.html to see an example of how to use ChangeSavedQueryCompartment API.
+func (client CloudGuardClient) ChangeSavedQueryCompartment(ctx context.Context, request ChangeSavedQueryCompartmentRequest) (response ChangeSavedQueryCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSavedQueryCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSavedQueryCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSavedQueryCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSavedQueryCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSavedQueryCompartmentResponse")
+	}
+	return
+}
+
+// changeSavedQueryCompartment implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) changeSavedQueryCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/savedQueries/{savedQueryId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSavedQueryCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/ChangeSavedQueryCompartment"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ChangeSavedQueryCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeSecurityRecipeCompartment Moves the security recipe (SecurityRecipe resource), identified by securityRecipeId,
+// from the current compartment to another compartment. When provided, `if-match` is checked
+// against `etag` values of the resource.
 //
 // # See also
 //
@@ -521,7 +596,9 @@ func (client CloudGuardClient) changeSecurityRecipeCompartment(ctx context.Conte
 	return response, err
 }
 
-// ChangeSecurityZoneCompartment Moves a security zone to a different compartment. When provided, `If-Match` is checked against `ETag` values of the resource.
+// ChangeSecurityZoneCompartment Moves a security zone, identified by securityZoneId, to a different compartment.
+// Pass parameters through a ChangeSecurityZoneCompartmentDetails resource.
+// When provided, `if-match` is checked against `etag` values of the resource.
 //
 // # See also
 //
@@ -583,7 +660,69 @@ func (client CloudGuardClient) changeSecurityZoneCompartment(ctx context.Context
 	return response, err
 }
 
-// CreateDataMaskRule Creates a new DataMaskRule object definition.
+// CreateAdhocQuery Creates a AdhocQuery resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateAdhocQuery.go.html to see an example of how to use CreateAdhocQuery API.
+func (client CloudGuardClient) CreateAdhocQuery(ctx context.Context, request CreateAdhocQueryRequest) (response CreateAdhocQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createAdhocQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateAdhocQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateAdhocQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateAdhocQueryResponse")
+	}
+	return
+}
+
+// createAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/adhocQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateAdhocQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/CreateAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateAdhocQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateDataMaskRule Creates a new DataMaskRule resource definition.
 //
 // # See also
 //
@@ -645,7 +784,8 @@ func (client CloudGuardClient) createDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// CreateDataSource Creates a DataSource
+// CreateDataSource Creates a data source (DataSource resource), using parameters passed
+// through a CreateDataSourceDetails resource.
 //
 // # See also
 //
@@ -707,7 +847,7 @@ func (client CloudGuardClient) createDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// CreateDetectorRecipe Creates a new DetectorRecipe object.
+// CreateDetectorRecipe Creates a new DetectorRecipe resource.
 //
 // # See also
 //
@@ -769,7 +909,7 @@ func (client CloudGuardClient) createDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// CreateDetectorRecipeDetectorRule Create the DetectorRule
+// CreateDetectorRecipeDetectorRule Creates a detector rule.
 //
 // # See also
 //
@@ -831,7 +971,7 @@ func (client CloudGuardClient) createDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// CreateManagedList Creates a new ManagedList object.
+// CreateManagedList Creates a new ManagedList resource.
 //
 // # See also
 //
@@ -893,7 +1033,8 @@ func (client CloudGuardClient) createManagedList(ctx context.Context, request co
 	return response, err
 }
 
-// CreateResponderRecipe Create a ResponderRecipe.
+// CreateResponderRecipe Creates a responder recipe (ResponderRecipe resource), from values passed in a
+// CreateResponderRecipeDetails resource.
 //
 // # See also
 //
@@ -955,7 +1096,70 @@ func (client CloudGuardClient) createResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// CreateSecurityRecipe Creates a security zone recipe. A security zone recipe is a collection of security zone policies.
+// CreateSavedQuery Creates a SavedQuery resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateSavedQuery.go.html to see an example of how to use CreateSavedQuery API.
+func (client CloudGuardClient) CreateSavedQuery(ctx context.Context, request CreateSavedQueryRequest) (response CreateSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSavedQueryResponse")
+	}
+	return
+}
+
+// createSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/savedQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/CreateSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSecurityRecipe Creates a security zone recipe (SecurityRecipe resource), using parameters
+// passed in a CreateSecurityRecipeDetails resource.
 //
 // # See also
 //
@@ -1017,7 +1221,8 @@ func (client CloudGuardClient) createSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// CreateSecurityZone Creates a security zone for a compartment. A security zone enforces all security zone policies in a given security zone recipe. Any actions that violate a policy are denied. By default, any subcompartments are also in the same security zone.
+// CreateSecurityZone Creates a security zone (SecurityZone resource) for a compartment. Pass parameters
+// through a CreateSecurityZoneDetails resource.
 //
 // # See also
 //
@@ -1079,7 +1284,7 @@ func (client CloudGuardClient) createSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// CreateTarget Creates a new Target
+// CreateTarget Creates a target (Target resource), using parameters passed in a CreateTargetDetails resource.
 //
 // # See also
 //
@@ -1141,7 +1346,9 @@ func (client CloudGuardClient) createTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// CreateTargetDetectorRecipe Attach a DetectorRecipe with the Target
+// CreateTargetDetectorRecipe Attaches a DetectorRecipe to a target (Target resource) identified by targetId,
+// using parameters passed in a TargetAttachTargetDetectorRecipeDetails resource.
+// Attach a DetectorRecipe with the Target
 //
 // # See also
 //
@@ -1203,7 +1410,7 @@ func (client CloudGuardClient) createTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// CreateTargetResponderRecipe Attach a ResponderRecipe with the Target
+// CreateTargetResponderRecipe Attaches a responder recipe to a target.
 //
 // # See also
 //
@@ -1265,7 +1472,132 @@ func (client CloudGuardClient) createTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// DeleteDataMaskRule Deletes a DataMaskRule object, identified by dataMaskRuleId.
+// CreateWlpAgent Creates and registers a WLP agent for an
+// on-premise resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/CreateWlpAgent.go.html to see an example of how to use CreateWlpAgent API.
+func (client CloudGuardClient) CreateWlpAgent(ctx context.Context, request CreateWlpAgentRequest) (response CreateWlpAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createWlpAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateWlpAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateWlpAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateWlpAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateWlpAgentResponse")
+	}
+	return
+}
+
+// createWlpAgent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) createWlpAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/wlpAgents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateWlpAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/CreateWlpAgent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "CreateWlpAgent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteAdhocQuery Deletes a AdhocQuery resource identified by adhocQueryId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteAdhocQuery.go.html to see an example of how to use DeleteAdhocQuery API.
+func (client CloudGuardClient) DeleteAdhocQuery(ctx context.Context, request DeleteAdhocQueryRequest) (response DeleteAdhocQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteAdhocQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteAdhocQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteAdhocQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteAdhocQueryResponse")
+	}
+	return
+}
+
+// deleteAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/adhocQueries/{adhocQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteAdhocQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/DeleteAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteAdhocQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDataMaskRule Deletes a DataMaskRule resource, identified by dataMaskRuleId.
 //
 // # See also
 //
@@ -1322,7 +1654,7 @@ func (client CloudGuardClient) deleteDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteDataSource Deletes a DataSource identified by dataSourceId
+// DeleteDataSource Deletes a data source (DataSource resource) identified by dataSourceId.
 //
 // # See also
 //
@@ -1384,7 +1716,7 @@ func (client CloudGuardClient) deleteDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// DeleteDetectorRecipe Deletes a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// DeleteDetectorRecipe Deletes a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -1446,7 +1778,7 @@ func (client CloudGuardClient) deleteDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// DeleteDetectorRecipeDetectorRule Deletes DetectorRecipeDetectorRule
+// DeleteDetectorRecipeDetectorRule Deletes the DetectorRecipeDetectorRule resource identified by detectorRuleId.
 //
 // # See also
 //
@@ -1503,7 +1835,7 @@ func (client CloudGuardClient) deleteDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// DeleteDetectorRecipeDetectorRuleDataSource Delete the DetectorRecipeDetectorRuleDataSource resource by identifier
+// DeleteDetectorRecipeDetectorRuleDataSource Deletes the DetectorRecipeDetectorRuleDataSource resource by identifier.
 //
 // # See also
 //
@@ -1622,7 +1954,7 @@ func (client CloudGuardClient) deleteManagedList(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteResponderRecipe Delete the ResponderRecipe resource by identifier
+// DeleteResponderRecipe Deletes a responder recipe (ResponderRecipe resource) identified by responderRecipeId.
 //
 // # See also
 //
@@ -1679,7 +2011,69 @@ func (client CloudGuardClient) deleteResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// DeleteSecurityRecipe Deletes a security zone recipe. The recipe can't be associated with an existing security zone.
+// DeleteSavedQuery Deletes a SavedQuery resource identified by savedQueryId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteSavedQuery.go.html to see an example of how to use DeleteSavedQuery API.
+func (client CloudGuardClient) DeleteSavedQuery(ctx context.Context, request DeleteSavedQueryRequest) (response DeleteSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSavedQueryResponse")
+	}
+	return
+}
+
+// deleteSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/DeleteSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSecurityRecipe Deletes a security zone recipe, identified by securityRecipeId. The recipe can't be associated with an existing security zone.
 //
 // # See also
 //
@@ -1736,7 +2130,7 @@ func (client CloudGuardClient) deleteSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// DeleteSecurityZone Deletes an existing security zone with a given identifier.
+// DeleteSecurityZone Deletes a security zone, identified by securityZoneId.
 //
 // # See also
 //
@@ -1793,7 +2187,7 @@ func (client CloudGuardClient) deleteSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteTarget Deletes a Target identified by targetId
+// DeleteTarget Deletes a target (Target resource) identified by targetId.
 //
 // # See also
 //
@@ -1850,7 +2244,8 @@ func (client CloudGuardClient) deleteTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// DeleteTargetDetectorRecipe Delete the TargetDetectorRecipe resource by identifier
+// DeleteTargetDetectorRecipe Deletes the target detector recipe (TargetDetectorRecipe resource) identified by
+// targetDetectorRecipeId, from a target (Target resource) identified by targetId.
 //
 // # See also
 //
@@ -1907,7 +2302,9 @@ func (client CloudGuardClient) deleteTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// DeleteTargetResponderRecipe Delete the TargetResponderRecipe resource by identifier
+// DeleteTargetResponderRecipe Detaches a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, from a target (Target resource)
+// identified by targetId.
 //
 // # See also
 //
@@ -1964,7 +2361,117 @@ func (client CloudGuardClient) deleteTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// ExecuteResponderExecution Executes the responder execution. When provided, If-Match is checked against ETag values of the resource.
+// DeleteWlpAgent Deletes and unregisters the WLP agent for an on-premise resource.
+// x-obmcs-splat:
+// routing:
+//
+//	strategy: route-to-any-ad
+//
+// serviceList: [ 'cloudguard-cp-SPLAT_ENV' ]
+// resources:
+//
+//	wlpAgent:
+//	  serviceResourceName: WlpAgent
+//	  targetCompartmentId: downstream.getOr404('cloudguard-cp-SPLAT_ENV', 'GetWlpAgent', request.resourceId).compartmentId
+//	  actionKind: delete
+//	  resourceOcid: request.resourceId
+//	  reconciliationCanStartAfterSecs: 30
+//	  permissions: [ "WLP_AGENT_DELETE" ]
+//
+// authorization:
+//
+//	mode: automated
+//	check: resources['wlpAgent'].grantedPermissions.contains('WLP_AGENT_DELETE')
+//	allowCrossTenancy: true
+//
+// tagStore:
+//
+//	mode: automated
+//
+// maximumAttemptCount: 3
+// throttling:
+//
+//	perUserLimit:
+//	  rpsLimit: 15
+//	perTenantLimit:
+//	  rpsLimit: 30
+//
+// quotas:
+//
+//	mode: automated
+//
+// search:
+//
+//	mode: backfilling
+//	operationResourceName: wlpAgent
+//
+// lock:
+//
+//	mode: test
+//	operationResourceName: wlpAgent
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/DeleteWlpAgent.go.html to see an example of how to use DeleteWlpAgent API.
+func (client CloudGuardClient) DeleteWlpAgent(ctx context.Context, request DeleteWlpAgentRequest) (response DeleteWlpAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deleteWlpAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteWlpAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteWlpAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteWlpAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteWlpAgentResponse")
+	}
+	return
+}
+
+// deleteWlpAgent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) deleteWlpAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/wlpAgents/{wlpAgentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteWlpAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/DeleteWlpAgent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "DeleteWlpAgent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ExecuteResponderExecution Executes the responder execution. When provided, if-match is checked
+// against etag values of the resource.
 //
 // # See also
 //
@@ -2026,7 +2533,120 @@ func (client CloudGuardClient) executeResponderExecution(ctx context.Context, re
 	return response, err
 }
 
-// GetConditionMetadataType Returns a ConditionMetatDataType object with its details.
+// GetAdhocQuery Returns an adhoc query identified by adhocQueryId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetAdhocQuery.go.html to see an example of how to use GetAdhocQuery API.
+func (client CloudGuardClient) GetAdhocQuery(ctx context.Context, request GetAdhocQueryRequest) (response GetAdhocQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdhocQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdhocQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdhocQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdhocQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdhocQueryResponse")
+	}
+	return
+}
+
+// getAdhocQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getAdhocQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdhocQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/GetAdhocQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetAdhocQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetAdhocQueryResultContent Downloads the results for a given adhoc ID (from includes results from all monitoring regions).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetAdhocQueryResultContent.go.html to see an example of how to use GetAdhocQueryResultContent API.
+func (client CloudGuardClient) GetAdhocQueryResultContent(ctx context.Context, request GetAdhocQueryResultContentRequest) (response GetAdhocQueryResultContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getAdhocQueryResultContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetAdhocQueryResultContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetAdhocQueryResultContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetAdhocQueryResultContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetAdhocQueryResultContentResponse")
+	}
+	return
+}
+
+// getAdhocQueryResultContent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getAdhocQueryResultContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}/results/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetAdhocQueryResultContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQueryResultCollection/GetAdhocQueryResultContent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetAdhocQueryResultContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetConditionMetadataType Returns a ConditionMetatDataType resource with its details.
 //
 // # See also
 //
@@ -2083,7 +2703,8 @@ func (client CloudGuardClient) getConditionMetadataType(ctx context.Context, req
 	return response, err
 }
 
-// GetConfiguration Returns the configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
+// GetConfiguration Returns the configuration details for a Cloud Guard tenancy,
+// identified by root compartment OCID.
 //
 // # See also
 //
@@ -2140,7 +2761,7 @@ func (client CloudGuardClient) getConfiguration(ctx context.Context, request com
 	return response, err
 }
 
-// GetDataMaskRule Returns a DataMaskRule object, identified by DataMaskRuleId.
+// GetDataMaskRule Returns a DataMaskRule resource, identified by dataMaskRuleId.
 //
 // # See also
 //
@@ -2197,7 +2818,7 @@ func (client CloudGuardClient) getDataMaskRule(ctx context.Context, request comm
 	return response, err
 }
 
-// GetDataSource Returns a DataSource identified by dataSourceId
+// GetDataSource Returns a data source (DataSource resource) identified by dataSourceId.
 //
 // # See also
 //
@@ -2254,7 +2875,7 @@ func (client CloudGuardClient) getDataSource(ctx context.Context, request common
 	return response, err
 }
 
-// GetDetector Returns a Detector object, identified by detectorId.
+// GetDetector Returns a Detector resource, identified by detectorId.
 //
 // # See also
 //
@@ -2311,7 +2932,7 @@ func (client CloudGuardClient) getDetector(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetDetectorRecipe Returns a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// GetDetectorRecipe Returns a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -2368,7 +2989,7 @@ func (client CloudGuardClient) getDetectorRecipe(ctx context.Context, request co
 	return response, err
 }
 
-// GetDetectorRecipeDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
+// GetDetectorRecipeDetectorRule Returns a detector rule (DetectorRule resource) identified by detectorRuleId.
 //
 // # See also
 //
@@ -2425,7 +3046,7 @@ func (client CloudGuardClient) getDetectorRecipeDetectorRule(ctx context.Context
 	return response, err
 }
 
-// GetDetectorRule Returns a detector rule (DetectorRule object) identified by detectorRuleId.
+// GetDetectorRule Returns a detector rule (DetectorRule resource) identified by detectorRuleId.
 //
 // # See also
 //
@@ -2539,7 +3160,7 @@ func (client CloudGuardClient) getManagedList(ctx context.Context, request commo
 	return response, err
 }
 
-// GetProblem Returns the Problem object identified by a problemId.
+// GetProblem Returns the Problem resource identified by problemId.
 //
 // # See also
 //
@@ -2596,7 +3217,64 @@ func (client CloudGuardClient) getProblem(ctx context.Context, request common.OC
 	return response, err
 }
 
-// GetResourceProfile Returns resource profile details
+// GetResource Returns a resource identified by resourceId
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResource.go.html to see an example of how to use GetResource API.
+func (client CloudGuardClient) GetResource(ctx context.Context, request GetResourceRequest) (response GetResourceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResource, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourceResponse")
+	}
+	return
+}
+
+// getResource implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getResource(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/{resourceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Resource/GetResource"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetResource", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetResourceProfile Returns details for a resource profile, identified by resourceProfileId.
 //
 // # See also
 //
@@ -2653,7 +3331,64 @@ func (client CloudGuardClient) getResourceProfile(ctx context.Context, request c
 	return response, err
 }
 
-// GetResponderExecution Returns a Responder Execution identified by responderExecutionId
+// GetResourceVulnerability Returns the vulnerability details associated with the cveId where resource is an instance
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetResourceVulnerability.go.html to see an example of how to use GetResourceVulnerability API.
+func (client CloudGuardClient) GetResourceVulnerability(ctx context.Context, request GetResourceVulnerabilityRequest) (response GetResourceVulnerabilityResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourceVulnerability, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourceVulnerabilityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourceVulnerabilityResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourceVulnerabilityResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourceVulnerabilityResponse")
+	}
+	return
+}
+
+// getResourceVulnerability implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getResourceVulnerability(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/{resourceId}/vulnerabilities/{vulnerabilityKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourceVulnerabilityResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceVulnerability/GetResourceVulnerability"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetResourceVulnerability", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetResponderExecution Returns a responder execution identified by responderExecutionId.
 //
 // # See also
 //
@@ -2710,7 +3445,7 @@ func (client CloudGuardClient) getResponderExecution(ctx context.Context, reques
 	return response, err
 }
 
-// GetResponderRecipe Get a ResponderRecipe by identifier
+// GetResponderRecipe Returns a responder recipe (ResponderRecipe resource) identified by responderRecipeId.
 //
 // # See also
 //
@@ -2767,7 +3502,7 @@ func (client CloudGuardClient) getResponderRecipe(ctx context.Context, request c
 	return response, err
 }
 
-// GetResponderRecipeResponderRule Get ResponderRule by identifier
+// GetResponderRecipeResponderRule Returns a responder rule (ResponderRule resource) identified by responderRuleId.
 //
 // # See also
 //
@@ -2824,7 +3559,7 @@ func (client CloudGuardClient) getResponderRecipeResponderRule(ctx context.Conte
 	return response, err
 }
 
-// GetResponderRule Get a ResponderRule by identifier
+// GetResponderRule Returns a responder rule (ResponderRule resource) identified by resonderRuleId.
 //
 // # See also
 //
@@ -2881,7 +3616,66 @@ func (client CloudGuardClient) getResponderRule(ctx context.Context, request com
 	return response, err
 }
 
-// GetSecurityPolicy Gets a security zone policy using its identifier. When a policy is enabled in a security zone, then any action in the zone that attempts to violate that policy is denied.
+// GetSavedQuery Returns a SavedQuery resource identified by savedQueryId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetSavedQuery.go.html to see an example of how to use GetSavedQuery API.
+func (client CloudGuardClient) GetSavedQuery(ctx context.Context, request GetSavedQueryRequest) (response GetSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSavedQueryResponse")
+	}
+	return
+}
+
+// getSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/GetSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSecurityPolicy Returns a security zone policy (SecurityPolicy resource), identified by its unique ID
+// (securityPolicyId). When a policy is enabled in a security zone, then any action in
+// the zone that attempts to violate that policy is blocked.
 //
 // # See also
 //
@@ -2938,7 +3732,7 @@ func (client CloudGuardClient) getSecurityPolicy(ctx context.Context, request co
 	return response, err
 }
 
-// GetSecurityRecipe Gets a security zone recipe by identifier. A security zone recipe is a collection of security zone policies.
+// GetSecurityRecipe Returns a security zone recipe (SecurityRecipe resource) identified by securityRecipeId.
 //
 // # See also
 //
@@ -2995,7 +3789,7 @@ func (client CloudGuardClient) getSecurityRecipe(ctx context.Context, request co
 	return response, err
 }
 
-// GetSecurityZone Gets a security zone by its identifier. A security zone is associated with a security zone recipe and enforces all security zone policies in the recipe. Any actions in the zone's compartments that violate a policy are denied.
+// GetSecurityZone Returns a security zone (SecurityZone resource) identified by securityZoneId.
 //
 // # See also
 //
@@ -3052,7 +3846,7 @@ func (client CloudGuardClient) getSecurityZone(ctx context.Context, request comm
 	return response, err
 }
 
-// GetSighting Returns Sighting details
+// GetSighting Returns a single sighting (Sighting resource) identified by sightingId.
 //
 // # See also
 //
@@ -3109,7 +3903,7 @@ func (client CloudGuardClient) getSighting(ctx context.Context, request common.O
 	return response, err
 }
 
-// GetTarget Returns a Target identified by targetId
+// GetTarget Returns a target (Target resource) identified by targetId.
 //
 // # See also
 //
@@ -3166,7 +3960,7 @@ func (client CloudGuardClient) getTarget(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// GetTargetDetectorRecipe Get a TargetDetectorRecipe by identifier
+// GetTargetDetectorRecipe Returns a target detector recipe (TargetDetectorRecipe resource) identified by targetDetectorRecipeId.
 //
 // # See also
 //
@@ -3223,7 +4017,7 @@ func (client CloudGuardClient) getTargetDetectorRecipe(ctx context.Context, requ
 	return response, err
 }
 
-// GetTargetDetectorRecipeDetectorRule Get DetectorRule by identifier
+// GetTargetDetectorRecipeDetectorRule Returns DetectorRule resource by identified by targetDetectorRecipeId.
 //
 // # See also
 //
@@ -3280,7 +4074,8 @@ func (client CloudGuardClient) getTargetDetectorRecipeDetectorRule(ctx context.C
 	return response, err
 }
 
-// GetTargetResponderRecipe Get a TargetResponderRecipe by identifier
+// GetTargetResponderRecipe Returns a target responder recipe (TargetResponderRecipe) identified by
+// targetResponderRecipeId for a target (Target resource) identified by targetId.
 //
 // # See also
 //
@@ -3337,7 +4132,10 @@ func (client CloudGuardClient) getTargetResponderRecipe(ctx context.Context, req
 	return response, err
 }
 
-// GetTargetResponderRecipeResponderRule Get ResponderRule by identifier
+// GetTargetResponderRecipeResponderRule Returns a responder rule (ResponderRule resource) identified by
+// responderRuleId, from a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, attached to a target (Target resource)
+// identified by targetId.
 //
 // # See also
 //
@@ -3394,7 +4192,64 @@ func (client CloudGuardClient) getTargetResponderRecipeResponderRule(ctx context
 	return response, err
 }
 
-// GetWorkRequest Gets details of the work request with the given ID.
+// GetWlpAgent Returns a WlpAgent resource for an on-premise resource identified by wlpAgentId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/GetWlpAgent.go.html to see an example of how to use GetWlpAgent API.
+func (client CloudGuardClient) GetWlpAgent(ctx context.Context, request GetWlpAgentRequest) (response GetWlpAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getWlpAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetWlpAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetWlpAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetWlpAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetWlpAgentResponse")
+	}
+	return
+}
+
+// getWlpAgent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) getWlpAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAgents/{wlpAgentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetWlpAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/GetWlpAgent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "GetWlpAgent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetWorkRequest Returns details for a work request (WorkRequest resource) identified by workRequestId.
 //
 // # See also
 //
@@ -3451,7 +4306,134 @@ func (client CloudGuardClient) getWorkRequest(ctx context.Context, request commo
 	return response, err
 }
 
-// ListConditionMetadataTypes Returns a list of ConditionMetadataType objects.
+// ListAdhocQueries Returns a list of all adhoc queries (AdhocQuery resources) for a compartment
+// identified by compartmentId. List is returned in a AdhocQueryCollection resource
+// with page of AdhocQuerySummary resources.
+// The ListAdhocQueries operation returns only the adhoc queries in 'compartmentId' passed.
+// The list does not include any subcompartments of the compartmentId passed.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListAdhocQueries on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListAdhocQueries.go.html to see an example of how to use ListAdhocQueries API.
+func (client CloudGuardClient) ListAdhocQueries(ctx context.Context, request ListAdhocQueriesRequest) (response ListAdhocQueriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdhocQueries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdhocQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdhocQueriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdhocQueriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdhocQueriesResponse")
+	}
+	return
+}
+
+// listAdhocQueries implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listAdhocQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdhocQueriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQuery/ListAdhocQueries"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListAdhocQueries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListAdhocQueryResults Lists the results for a given adhoc ID (from includes results from all monitoring regions).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListAdhocQueryResults.go.html to see an example of how to use ListAdhocQueryResults API.
+func (client CloudGuardClient) ListAdhocQueryResults(ctx context.Context, request ListAdhocQueryResultsRequest) (response ListAdhocQueryResultsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listAdhocQueryResults, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListAdhocQueryResultsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListAdhocQueryResultsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListAdhocQueryResultsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListAdhocQueryResultsResponse")
+	}
+	return
+}
+
+// listAdhocQueryResults implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listAdhocQueryResults(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/adhocQueries/{adhocQueryId}/results", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListAdhocQueryResultsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/AdhocQueryResultCollection/ListAdhocQueryResults"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListAdhocQueryResults", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListConditionMetadataTypes Returns a list of ConditionMetadataType resources.
 //
 // # See also
 //
@@ -3508,7 +4490,7 @@ func (client CloudGuardClient) listConditionMetadataTypes(ctx context.Context, r
 	return response, err
 }
 
-// ListDataMaskRules Returns a list of all DataMaskRule objects in the specified compartmentId (OCID) and its subcompartments.
+// ListDataMaskRules Returns a list of all DataMaskRule resources in the specified compartmentId (OCID) and its subcompartments.
 //
 // # See also
 //
@@ -3565,7 +4547,9 @@ func (client CloudGuardClient) listDataMaskRules(ctx context.Context, request co
 	return response, err
 }
 
-// ListDataSourceEvents Returns a list of events from CloudGuard DataSource
+// ListDataSourceEvents Returns a list of data source events
+// (DataSourceEventCollection  resource) from the data source
+// (DataSource resource) identified by dataSourceId.
 //
 // # See also
 //
@@ -3622,15 +4606,17 @@ func (client CloudGuardClient) listDataSourceEvents(ctx context.Context, request
 	return response, err
 }
 
-// ListDataSources Returns a list of all Data Sources in a compartment
-// The ListDataSources operation returns only the data Sources in `compartmentId` passed.
+// ListDataSources Returns a list of all data sources (DataSource resources) for a compartment
+// identified by compartmentId. List is returned in a DataSourceCollection resource
+// with page of DataSourceSummary resources.
+// The ListAdhocQueries operation returns only the adhoc queries in 'compartmentId' passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
 // Principal doesn't have access to even one of the child compartments. This is valid only when
 // `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform ListdataSources on the
+// The parameter `compartmentIdInSubtree` applies when you perform ListAdhocQueries on the
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
 // To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
@@ -3690,7 +4676,7 @@ func (client CloudGuardClient) listDataSources(ctx context.Context, request comm
 	return response, err
 }
 
-// ListDetectorRecipeDetectorRules Returns a list of detector rules (DetectorRule objects) for a detector recipe (DetectorRecipe object), identified by detectorRecipeId.
+// ListDetectorRecipeDetectorRules Returns a list of detector rules (DetectorRule resources) for a detector recipe (DetectorRecipe resource), identified by detectorRecipeId.
 //
 // # See also
 //
@@ -3747,7 +4733,7 @@ func (client CloudGuardClient) listDetectorRecipeDetectorRules(ctx context.Conte
 	return response, err
 }
 
-// ListDetectorRecipes Returns a list of all detector recipes (DetectorRecipe objects) in a compartment, identified by compartmentId.
+// ListDetectorRecipes Returns a list of all detector recipes (DetectorRecipe resources) in a compartment, identified by compartmentId.
 // The ListDetectorRecipes operation returns only the detector recipes in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -3815,7 +4801,7 @@ func (client CloudGuardClient) listDetectorRecipes(ctx context.Context, request 
 	return response, err
 }
 
-// ListDetectorRules Returns a list of detector rules for the DetectorRecipe object identified by detectorId.
+// ListDetectorRules Returns a list of detector rules for the DetectorRecipe resource identified by detectorId.
 //
 // # See also
 //
@@ -3872,7 +4858,7 @@ func (client CloudGuardClient) listDetectorRules(ctx context.Context, request co
 	return response, err
 }
 
-// ListDetectors Returns a detector catalog (DetectorCollection object) with a list of DetectorSummary objects.
+// ListDetectors Returns a detector catalog (DetectorCollection resource) with a list of DetectorSummary resources.
 //
 // # See also
 //
@@ -3929,7 +4915,7 @@ func (client CloudGuardClient) listDetectors(ctx context.Context, request common
 	return response, err
 }
 
-// ListImpactedResources Returns a list of impacted resources for a Cloud Guard problem with a specified problem ID.
+// ListImpactedResources Returns a list of impacted resources for a problem identified by problemId.
 //
 // # See also
 //
@@ -4043,7 +5029,7 @@ func (client CloudGuardClient) listManagedListTypes(ctx context.Context, request
 	return response, err
 }
 
-// ListManagedLists Returns a list of all ManagedList objects in a compartment, identified by compartmentId.
+// ListManagedLists Returns a list of all ManagedList resources in a compartment, identified by compartmentId.
 // The ListManagedLists operation returns only the managed lists in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return ManagedLists in only
@@ -4225,7 +5211,7 @@ func (client CloudGuardClient) listProblemEndpoints(ctx context.Context, request
 	return response, err
 }
 
-// ListProblemEntities Returns a list of entities for a CloudGuard Problem
+// ListProblemEntities Returns a list of entities for a problem.
 //
 // # See also
 //
@@ -4282,7 +5268,7 @@ func (client CloudGuardClient) listProblemEntities(ctx context.Context, request 
 	return response, err
 }
 
-// ListProblemHistories Returns a list of actions taken on a Cloud Guard problem.
+// ListProblemHistories Returns a list of actions taken on a problem.
 //
 // # See also
 //
@@ -4407,7 +5393,8 @@ func (client CloudGuardClient) listProblems(ctx context.Context, request common.
 	return response, err
 }
 
-// ListRecommendations Returns a list of all Recommendations.
+// ListRecommendations Returns a list of recommendations (RecommendationSummaryCollection resource with a page of
+// RecommendationSummary resources) for a specified compartment OCID.
 //
 // # See also
 //
@@ -4464,7 +5451,65 @@ func (client CloudGuardClient) listRecommendations(ctx context.Context, request 
 	return response, err
 }
 
-// ListResourceProfileEndpoints Returns a list of endpoints for Cloud Guard resource profile
+// ListResourcePorts Returns the list of open ports associated with the resourceId where resource is an instance
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourcePorts.go.html to see an example of how to use ListResourcePorts API.
+func (client CloudGuardClient) ListResourcePorts(ctx context.Context, request ListResourcePortsRequest) (response ListResourcePortsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourcePorts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourcePortsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourcePortsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourcePortsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourcePortsResponse")
+	}
+	return
+}
+
+// listResourcePorts implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listResourcePorts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/{resourceId}/ports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourcePortsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourcePortCollection/ListResourcePorts"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourcePorts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListResourceProfileEndpoints Returns a list of endpoints (ResourceProfileEndpointCollection resource with a page of
+// ResourceProfileEndpointSummary resources) for a resource profile identified by resourceProfileId.
 //
 // # See also
 //
@@ -4521,7 +5566,9 @@ func (client CloudGuardClient) listResourceProfileEndpoints(ctx context.Context,
 	return response, err
 }
 
-// ListResourceProfileImpactedResources Returns a list of impacted resources for Cloud Guard resource profile
+// ListResourceProfileImpactedResources Returns a list of impacted resources (ResourceProfileImpactedResourceCollection resource
+// with a page of ResourceProfileImpactedResourceSummary resources) for a resource profile
+// identified by resourceProfileId.
 //
 // # See also
 //
@@ -4578,8 +5625,8 @@ func (client CloudGuardClient) listResourceProfileImpactedResources(ctx context.
 	return response, err
 }
 
-// ListResourceProfiles Returns a list of all resource profiles identified by the Cloud Guard
-// The ListResourceProfiles operation returns only resource profiles that match the passed filters.
+// ListResourceProfiles Returns a list of all resource profile summaries (ResourceProfileCollection resource with a page of
+// ResourceProfileSummary resources) for a compartment, identified by compartmentId and filtered as specified.
 // The ListResourceProfiles operation returns only the resource profiles in `compartmentId` passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
@@ -4646,7 +5693,8 @@ func (client CloudGuardClient) listResourceProfiles(ctx context.Context, request
 	return response, err
 }
 
-// ListResourceTypes Returns a list of resource types.
+// ListResourceTypes Returns a single ResourceTypeCollection resource, containing a list of resource types,
+// identified by parameters specified.
 //
 // # See also
 //
@@ -4703,7 +5751,133 @@ func (client CloudGuardClient) listResourceTypes(ctx context.Context, request co
 	return response, err
 }
 
-// ListResponderActivities Returns a list of Responder activities done on CloudGuard Problem
+// ListResourceVulnerabilities Returns the list of vulnerabilities associated with the resourceId where resource is an instance
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResourceVulnerabilities.go.html to see an example of how to use ListResourceVulnerabilities API.
+func (client CloudGuardClient) ListResourceVulnerabilities(ctx context.Context, request ListResourceVulnerabilitiesRequest) (response ListResourceVulnerabilitiesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourceVulnerabilities, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourceVulnerabilitiesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourceVulnerabilitiesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourceVulnerabilitiesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourceVulnerabilitiesResponse")
+	}
+	return
+}
+
+// listResourceVulnerabilities implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listResourceVulnerabilities(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources/{resourceId}/vulnerabilities", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourceVulnerabilitiesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/ResourceVulnerabilityCollection/ListResourceVulnerabilities"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListResourceVulnerabilities", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListResources Returns a list of all resources in a compartment
+// The ListResources operation returns only the resources in `compartmentId` passed.
+// The list does not include any subcompartments of the compartmentId passed.
+// The parameter `accessLevel` specifies whether to return only those compartments for which the
+// requestor has INSPECT permissions on at least one resource directly
+// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
+// Principal doesn't have access to even one of the child compartments. This is valid only when
+// `compartmentIdInSubtree` is set to `true`.
+// The parameter `compartmentIdInSubtree` applies when you perform ListResources on the
+// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
+// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListResources.go.html to see an example of how to use ListResources API.
+func (client CloudGuardClient) ListResources(ctx context.Context, request ListResourcesRequest) (response ListResourcesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResources, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourcesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourcesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourcesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourcesResponse")
+	}
+	return
+}
+
+// listResources implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listResources(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/resources", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourcesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/Resource/ListResources"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListResources", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListResponderActivities Returns a list of responder activities for a problem, identified by problemId, in a
+// ResponderActivityCollection resource, with a page of ResponderActivitySummary resources.
 //
 // # See also
 //
@@ -4760,7 +5934,8 @@ func (client CloudGuardClient) listResponderActivities(ctx context.Context, requ
 	return response, err
 }
 
-// ListResponderExecutions Returns a list of Responder Executions. A Responder Execution is an entity that tracks the collective execution of multiple Responder Rule Executions for a given Problem.
+// ListResponderExecutions Returns a list of responder executions. A responder execution is an entity that tracks
+// the collective execution of multiple responder rule executions for a given problem.
 //
 // # See also
 //
@@ -4817,7 +5992,9 @@ func (client CloudGuardClient) listResponderExecutions(ctx context.Context, requ
 	return response, err
 }
 
-// ListResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe.
+// ListResponderRecipeResponderRules Returns a list of responder rules (ResponderRule resources in a
+// responderRecipeResponderRuleCollection resource, with page of ResponderRuleSummary resources),
+// for a responder recipe (ResponderRecipe resource), identified by responderRecipeId.
 //
 // # See also
 //
@@ -4874,7 +6051,8 @@ func (client CloudGuardClient) listResponderRecipeResponderRules(ctx context.Con
 	return response, err
 }
 
-// ListResponderRecipes Returns a list of all ResponderRecipes in a compartment
+// ListResponderRecipes Returns a list (ResponderRecipeCollection resource, with a page of ResponderRecipeSummary resources)
+// of all responder recipes (RespponderRecipe resources) in a compartment, identified by compartmentId.
 // The ListResponderRecipe operation returns only the targets in `compartmentId` passed.
 // The list does not include any subcompartments of the compartmentId passed.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
@@ -4942,7 +6120,9 @@ func (client CloudGuardClient) listResponderRecipes(ctx context.Context, request
 	return response, err
 }
 
-// ListResponderRules Returns a list of ResponderRule.
+// ListResponderRules Returns a list of responder rules for the ResponderRecipe resource
+// identified by responderId. The list is contained in a ResponderRuleCollection
+// resource with a page of ResponderRuleSummary resources.
 //
 // # See also
 //
@@ -4999,7 +6179,65 @@ func (client CloudGuardClient) listResponderRules(ctx context.Context, request c
 	return response, err
 }
 
-// ListSecurityPolicies Returns a list of security zone policies. Specify any compartment.
+// ListSavedQueries Returns a list of saved queries run in a tenancy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListSavedQueries.go.html to see an example of how to use ListSavedQueries API.
+func (client CloudGuardClient) ListSavedQueries(ctx context.Context, request ListSavedQueriesRequest) (response ListSavedQueriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSavedQueries, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSavedQueriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSavedQueriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSavedQueriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSavedQueriesResponse")
+	}
+	return
+}
+
+// listSavedQueries implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listSavedQueries(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/savedQueries", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSavedQueriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/ListSavedQueries"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListSavedQueries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSecurityPolicies Returns a list of security zone policies (SecurityPolicySummary resources),
+// identified by compartmentId.
 //
 // # See also
 //
@@ -5056,7 +6294,8 @@ func (client CloudGuardClient) listSecurityPolicies(ctx context.Context, request
 	return response, err
 }
 
-// ListSecurityRecipes Gets a list of all security zone recipes in a compartment.
+// ListSecurityRecipes Returns a list of security zone recipes (SecurityRecipeSummary resources) in a
+// compartment, identified by compartmentId.
 //
 // # See also
 //
@@ -5113,7 +6352,8 @@ func (client CloudGuardClient) listSecurityRecipes(ctx context.Context, request 
 	return response, err
 }
 
-// ListSecurityZones Gets a list of all security zones in a compartment.
+// ListSecurityZones Returns a list of security zones (SecurityZone resources) in a compartment identified by
+// compartmentId. List is contained in a page of SecurityZoneSummary resources.
 //
 // # See also
 //
@@ -5170,7 +6410,9 @@ func (client CloudGuardClient) listSecurityZones(ctx context.Context, request co
 	return response, err
 }
 
-// ListSightingEndpoints Returns Sighting endpoints details
+// ListSightingEndpoints Returns sighting endpoints details in a
+// SightingEndpointsCollection resource
+// with a page of SightingEndpointSummary resources.
 //
 // # See also
 //
@@ -5227,7 +6469,8 @@ func (client CloudGuardClient) listSightingEndpoints(ctx context.Context, reques
 	return response, err
 }
 
-// ListSightingImpactedResources Return a list of Impacted Resources for a CloudGuard Sighting
+// ListSightingImpactedResources Returns a list of impacted resources for a sighting, identified by sightingId, in a
+// SightingImpactedResourceCollection resource with a page of SightingImpactedResourceSummary resources.
 //
 // # See also
 //
@@ -5284,8 +6527,8 @@ func (client CloudGuardClient) listSightingImpactedResources(ctx context.Context
 	return response, err
 }
 
-// ListSightings Returns a list of all Sightings identified by the Cloud Guard
-// The ListSightings operation returns only sightings that match the passed filters.
+// ListSightings For the parameters passed, returns a list of sightings
+// (SightingCollection resource) with a page of SightingSummary resources.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -5351,7 +6594,7 @@ func (client CloudGuardClient) listSightings(ctx context.Context, request common
 	return response, err
 }
 
-// ListTactics Returns a list of tactics associated with detector rules.
+// ListTactics Returns a list of TacticSummary resources for a compartment, identified by compartmentId.
 //
 // # See also
 //
@@ -5465,7 +6708,9 @@ func (client CloudGuardClient) listTargetDetectorRecipeDetectorRules(ctx context
 	return response, err
 }
 
-// ListTargetDetectorRecipes Returns a list of all detector recipes associated with the target identified by targetId
+// ListTargetDetectorRecipes Returns a list of all target detector recipes (TargetDetectorRecipe resources)
+// associated with a target (Target resource), identified by targetId. The list is contained
+// in a TargetDetectorRecipeCollection resource with page of TargetDetectorRecipeSummary resources.
 //
 // # See also
 //
@@ -5522,7 +6767,10 @@ func (client CloudGuardClient) listTargetDetectorRecipes(ctx context.Context, re
 	return response, err
 }
 
-// ListTargetResponderRecipeResponderRules Returns a list of ResponderRule associated with ResponderRecipe within a Target.
+// ListTargetResponderRecipeResponderRules Returns a list of responder rules (ResponderRule resources) associated with a
+// responder recipe (ResponderRecipe resource) attached to a Target.
+// List is returned in a TargetResponderRecipeResponderRuleCollection resource
+// with page of TargetResponderRecipeResponderRuleSummary resources.
 //
 // # See also
 //
@@ -5579,7 +6827,9 @@ func (client CloudGuardClient) listTargetResponderRecipeResponderRules(ctx conte
 	return response, err
 }
 
-// ListTargetResponderRecipes Returns a list of all responder recipes associated with the target identified by targetId
+// ListTargetResponderRecipes Returns a list of summary information for all responder recipes
+// (TargetResponderRecipeCollection resource, with a page of TargetResponderRecipeSummary resources)
+// attached to a target identified by targetId, located in a compartment identified by compartmentId.
 //
 // # See also
 //
@@ -5636,9 +6886,10 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 	return response, err
 }
 
-// ListTargets Returns a list of all Targets in a compartment
-// The ListTargets operation returns only the targets in `compartmentId` passed.
-// The list does not include any subcompartments of the compartmentId passed.
+// ListTargets Returns a list of targets (TargetCollection resource with page of TargetSummary
+// resources) for the target identified by compartmentId. By default, only the target
+// associated with the compartment is returned. Setting compartmentIdInSubtree to true
+// returns the entire hierarchy of targets in subcompartments.
 // The parameter `accessLevel` specifies whether to return only those compartments for which the
 // requestor has INSPECT permissions on at least one resource directly
 // or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
@@ -5646,7 +6897,7 @@ func (client CloudGuardClient) listTargetResponderRecipes(ctx context.Context, r
 // `compartmentIdInSubtree` is set to `true`.
 // The parameter `compartmentIdInSubtree` applies when you perform ListTargets on the
 // `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
+// To get a full list of all targets in compartments and subcompartments in the tenancy (root compartment),
 // set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
 //
 // # See also
@@ -5761,7 +7012,65 @@ func (client CloudGuardClient) listTechniques(ctx context.Context, request commo
 	return response, err
 }
 
-// ListWorkRequestErrors Return a (paginated) list of errors for a given work request.
+// ListWlpAgents Returns a list of WLP agents in a compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/ListWlpAgents.go.html to see an example of how to use ListWlpAgents API.
+func (client CloudGuardClient) ListWlpAgents(ctx context.Context, request ListWlpAgentsRequest) (response ListWlpAgentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWlpAgents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWlpAgentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWlpAgentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWlpAgentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWlpAgentsResponse")
+	}
+	return
+}
+
+// listWlpAgents implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) listWlpAgents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/wlpAgents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListWlpAgentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/ListWlpAgents"
+		err = common.PostProcessServiceError(err, "CloudGuard", "ListWlpAgents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequestErrors Returns a list of errors for a work request
+// identified by workRequestId.
 //
 // # See also
 //
@@ -5818,7 +7127,8 @@ func (client CloudGuardClient) listWorkRequestErrors(ctx context.Context, reques
 	return response, err
 }
 
-// ListWorkRequestLogs Return a (paginated) list of logs for a given work request.
+// ListWorkRequestLogs Returns a paginated list (WorkRequestLogEntryCollection resource)
+// of log entries for a request, identified by workRequestId.
 //
 // # See also
 //
@@ -5875,7 +7185,8 @@ func (client CloudGuardClient) listWorkRequestLogs(ctx context.Context, request 
 	return response, err
 }
 
-// ListWorkRequests Lists the work requests in a compartment.
+// ListWorkRequests Returns a list of work requests (WorkRequestSummaryCollection resource),
+// in a compartment identified by compartmentId.
 //
 // # See also
 //
@@ -5932,7 +7243,10 @@ func (client CloudGuardClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
-// RemoveCompartment Removes an existing compartment from a security zone. When you remove a subcompartment from a security zone, it no longer enforces security zone policies on the resources in the subcompartment. You can't remove the primary compartment that was used to create the security zone.
+// RemoveCompartment Removes a compartment from a security zone (SecurityZone resource), identified by securityZoneId.
+// Pass compartmentId of compartment to remove through a RemoveCompartmentDetails resource. When you remove a
+// subcompartment from a security zone, it no longer enforces security zone policies on the resources in the
+// subcompartment. You can't remove the primary compartment that was used to create the security zone.
 //
 // # See also
 //
@@ -5994,7 +7308,8 @@ func (client CloudGuardClient) removeCompartment(ctx context.Context, request co
 	return response, err
 }
 
-// RequestRiskScores Examines the number of problems related to the resource and the relative severity of those problems.
+// RequestRiskScores Returns a page of RiskScoreAggregation resources for a compartment,
+// identified by compartmentId.
 //
 // # See also
 //
@@ -6051,8 +7366,8 @@ func (client CloudGuardClient) requestRiskScores(ctx context.Context, request co
 	return response, err
 }
 
-// RequestSecurityScoreSummarizedTrend Measures the number of resources examined across all regions and compares it with the
-// number of problems detected, for a given time period.
+// RequestSecurityScoreSummarizedTrend Returns a page of SecurityScoreTrendAggregation resources. These measure the number
+// of resources examined across all regions and compare it with the number of problems detected.
 //
 // # See also
 //
@@ -6109,7 +7424,8 @@ func (client CloudGuardClient) requestSecurityScoreSummarizedTrend(ctx context.C
 	return response, err
 }
 
-// RequestSecurityScores Measures the number of resources examined across all regions and compares it with the number of problems detected.
+// RequestSecurityScores Returns a page of SecurityScoreAggregation resources. These measure the number
+// of resources examined across all regions and compare it with the number of problems detected.
 //
 // # See also
 //
@@ -6300,16 +7616,16 @@ func (client CloudGuardClient) requestSummarizedProblems(ctx context.Context, re
 	return response, err
 }
 
-// RequestSummarizedResponderExecutions Returns the number of Responder Executions, for a given set of dimensions.
-// The parameter `accessLevel` specifies whether to return only those compartments for which the
-// requestor has INSPECT permissions on at least one resource directly
-// or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to return Not Authorized if
-// Principal doesn't have access to even one of the child compartments. This is valid only when
-// `compartmentIdInSubtree` is set to `true`.
-// The parameter `compartmentIdInSubtree` applies when you perform summarize API on the
-// `compartmentId` passed and when it is set to true, the entire hierarchy of compartments can be returned.
-// To get a full list of all compartments and subcompartments in the tenancy (root compartment),
-// set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
+// RequestSummarizedResponderExecutions Returns the number of responder executions, identified by parameters specified, in a page of
+// ResponderExecutionAggregation resources.
+// Setting accessLevel to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions,
+// directly or indirectly (permissions can be on a resource in a subcompartment). “Not Authorized” is returned
+// if user doesn't have access to at least one of the child compartments. When accessLevel is set to RESTRICTED,
+// permissions are checked and no partial results are displayed. This is valid only when compartmentIdInSubtree is set to true.
+// Setting accessLevel to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions, directly or
+// indirectly (permissions can be on a resource in a subcompartment). “Not Authorized” is returned if user doesn't have
+// access to at least one of the child compartments. When accessLevel is set to RESTRICTED, permissions are checked
+// and no partial results are displayed. This is valid only when compartmentIdInSubtree is set to true.
 //
 // # See also
 //
@@ -6480,7 +7796,9 @@ func (client CloudGuardClient) requestSummarizedSecurityScores(ctx context.Conte
 	return response, err
 }
 
-// RequestSummarizedTopTrendResourceProfileRiskScores Summarizes the resource profile risk score top trends for the given time range based on the search filters.
+// RequestSummarizedTopTrendResourceProfileRiskScores Returns a list of resource profile risk score aggregation summaries
+// (ResourceProfileRiskScoreAggregationSummaryCollection resource with a page of
+// ResourceProfileRiskScoreAggregationSummary resources) for a specified compartment.
 //
 // # See also
 //
@@ -6603,7 +7921,9 @@ func (client CloudGuardClient) requestSummarizedTrendProblems(ctx context.Contex
 	return response, err
 }
 
-// RequestSummarizedTrendResourceRiskScores Summarizes the resource risk score trend for the given time range based on the search filters.
+// RequestSummarizedTrendResourceRiskScores Returns a summary of risk score trends in a  ResourceRiskScoreAggregationCollection resource,
+// with a page of ResourceRiskScoreAggregation resources, filtered by parameters that you specify
+// in a RequestSummarizedTrendResourceRiskScoresDetailsresource.
 //
 // # See also
 //
@@ -6783,8 +8103,7 @@ func (client CloudGuardClient) requestSummarizedTrendSecurityScores(ctx context.
 	return response, err
 }
 
-// SkipBulkResponderExecution Skips the execution for a bulk of responder executions
-// The operation is atomic in nature
+// SkipBulkResponderExecution Skips the execution for a bulk of responder executions.
 //
 // # See also
 //
@@ -6841,7 +8160,7 @@ func (client CloudGuardClient) skipBulkResponderExecution(ctx context.Context, r
 	return response, err
 }
 
-// SkipResponderExecution Skips the execution of the responder execution. When provided, If-Match is checked against ETag values of the resource.
+// SkipResponderExecution Skips the execution of the responder execution. When provided, If-Match is checked against etag values of the resource.
 //
 // # See also
 //
@@ -6903,7 +8222,8 @@ func (client CloudGuardClient) skipResponderExecution(ctx context.Context, reque
 	return response, err
 }
 
-// TriggerResponder Sends the problem identified by problemId to the responder engine, to be processed by rule that’s identified by responderRuleId, in the TriggerResponderDetails resource that’s passed.
+// TriggerResponder Sends the problem identified by problemId to the responder engine, to be processed by rule
+// that’s identified by responderRuleId, in the TriggerResponderDetails resource that’s passed.
 //
 // # See also
 //
@@ -7022,7 +8342,8 @@ func (client CloudGuardClient) updateBulkProblemStatus(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateConfiguration Update configuration details for a Cloud Guard tenancy, identified by root compartment OCID. The reporting region cannot be updated once created.
+// UpdateConfiguration Updates configuration details for a Cloud Guard tenancy, identified by root compartment OCID.
+// The reporting region cannot be updated once created.
 //
 // # See also
 //
@@ -7084,7 +8405,7 @@ func (client CloudGuardClient) updateConfiguration(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateDataMaskRule Updates a data mask rule (DataMaskRule object) identified by dataMaskRuleId.
+// UpdateDataMaskRule Updates a data mask rule (DataMaskRule resource) identified by dataMaskRuleId.
 //
 // # See also
 //
@@ -7141,7 +8462,8 @@ func (client CloudGuardClient) updateDataMaskRule(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateDataSource Updates a data source identified by dataSourceId
+// UpdateDataSource Updates a data source (DataSource resource) identified by dataSourceId,
+// using values passed in an UpdateDataSourceDetails resource.
 //
 // # See also
 //
@@ -7203,7 +8525,7 @@ func (client CloudGuardClient) updateDataSource(ctx context.Context, request com
 	return response, err
 }
 
-// UpdateDetectorRecipe Updates a detector recipe (DetectorRecipe object) identified by detectorRecipeId.
+// UpdateDetectorRecipe Updates a detector recipe (DetectorRecipe resource) identified by detectorRecipeId.
 //
 // # See also
 //
@@ -7265,7 +8587,7 @@ func (client CloudGuardClient) updateDetectorRecipe(ctx context.Context, request
 	return response, err
 }
 
-// UpdateDetectorRecipeDetectorRule Updates a detector rule (DetectorRule object) identified by detectorRuleId.
+// UpdateDetectorRecipeDetectorRule Updates a detector rule (DetectorRule resource) identified by detectorRuleId.
 //
 // # See also
 //
@@ -7322,7 +8644,7 @@ func (client CloudGuardClient) updateDetectorRecipeDetectorRule(ctx context.Cont
 	return response, err
 }
 
-// UpdateManagedList Updates a ManagedList object, identified by managedList.
+// UpdateManagedList Updates a ManagedList resource, identified by managedList.
 //
 // # See also
 //
@@ -7446,7 +8768,8 @@ func (client CloudGuardClient) updateProblemStatus(ctx context.Context, request 
 	return response, err
 }
 
-// UpdateResponderRecipe Update the ResponderRecipe resource by identifier
+// UpdateResponderRecipe Updates a responder recipe (ResponderRecipe resource) identified by
+// responderRecipeId, passed in an UpdateResponderRecipeDetails resource.
 //
 // # See also
 //
@@ -7503,7 +8826,8 @@ func (client CloudGuardClient) updateResponderRecipe(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateResponderRecipeResponderRule Update the ResponderRule by identifier
+// UpdateResponderRecipeResponderRule Updates a responder rule (ResponderRule resource) identified by responderRuleId,
+// passed in a UpdateResponderRecipeResponderRuleDetails resource.
 //
 // # See also
 //
@@ -7560,7 +8884,70 @@ func (client CloudGuardClient) updateResponderRecipeResponderRule(ctx context.Co
 	return response, err
 }
 
-// UpdateSecurityRecipe Updates a security zone recipe. A security zone recipe is a collection of security zone policies.
+// UpdateSavedQuery Updates a saved query identified by savedQueryId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateSavedQuery.go.html to see an example of how to use UpdateSavedQuery API.
+func (client CloudGuardClient) UpdateSavedQuery(ctx context.Context, request UpdateSavedQueryRequest) (response UpdateSavedQueryResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateSavedQuery, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSavedQueryResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSavedQueryResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSavedQueryResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSavedQueryResponse")
+	}
+	return
+}
+
+// updateSavedQuery implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateSavedQuery(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/savedQueries/{savedQueryId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSavedQueryResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/SavedQuery/UpdateSavedQuery"
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateSavedQuery", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSecurityRecipe Updates a security zone recipe (SecurityRecipe resource), identified by securityRecipeId,
+// using parameters passed in an UpdateSecurityRecipeDetails resource.
 //
 // # See also
 //
@@ -7617,7 +9004,8 @@ func (client CloudGuardClient) updateSecurityRecipe(ctx context.Context, request
 	return response, err
 }
 
-// UpdateSecurityZone Updates the security zone identified by its id
+// UpdateSecurityZone Updates a security zone (SecurityZone resource) identified by securityZoneId.
+// Pass parameters through an UpdateSecurityZoneDetails resource.
 //
 // # See also
 //
@@ -7674,7 +9062,8 @@ func (client CloudGuardClient) updateSecurityZone(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateTarget Updates a Target identified by targetId
+// UpdateTarget Updates a target (Target resource) identified by targetId, using parameters
+// passed in an UpdateTargetDetails resource.
 //
 // # See also
 //
@@ -7731,7 +9120,8 @@ func (client CloudGuardClient) updateTarget(ctx context.Context, request common.
 	return response, err
 }
 
-// UpdateTargetDetectorRecipe Update the TargetDetectorRecipe resource by identifier
+// UpdateTargetDetectorRecipe Updates a target detector recipe (TargtetDetectorRecipe resource) identified by
+// targetDetectorRecipeId, using parameters passed in an UpdateTargetDetectorRecipeDetails resource.
 //
 // # See also
 //
@@ -7788,7 +9178,7 @@ func (client CloudGuardClient) updateTargetDetectorRecipe(ctx context.Context, r
 	return response, err
 }
 
-// UpdateTargetDetectorRecipeDetectorRule Update the DetectorRule by identifier
+// UpdateTargetDetectorRecipeDetectorRule Updates the DetectorRule resource identified by targetDetectorRecipeId
 //
 // # See also
 //
@@ -7845,7 +9235,10 @@ func (client CloudGuardClient) updateTargetDetectorRecipeDetectorRule(ctx contex
 	return response, err
 }
 
-// UpdateTargetResponderRecipe Update the TargetResponderRecipe resource by identifier
+// UpdateTargetResponderRecipe Updates the target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, attached to a target identified
+// by targetId. Pass parameters for the update through an
+// UpdateTargetResponderRecipeDetails resource.
 //
 // # See also
 //
@@ -7902,7 +9295,11 @@ func (client CloudGuardClient) updateTargetResponderRecipe(ctx context.Context, 
 	return response, err
 }
 
-// UpdateTargetResponderRecipeResponderRule Update the ResponderRule by identifier
+// UpdateTargetResponderRecipeResponderRule Updates a responder rule (ResponderRule resource) identified by
+// responderRuleId, for a target responder recipe (TargetResponderRecipe resource)
+// identified by targetResponderRecipeId, for a target (Target resource)
+// identified by targetId. Parameters for the update are passed through an
+// UpdateTargetResponderRecipeResponderRuleDetails resource.
 //
 // # See also
 //
@@ -7952,6 +9349,68 @@ func (client CloudGuardClient) updateTargetResponderRecipeResponderRule(ctx cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/TargetResponderRecipeResponderRule/UpdateTargetResponderRecipeResponderRule"
 		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateTargetResponderRecipeResponderRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateWlpAgent Updates and renews the certificate for an on-premise WLP agent identified by wlpAgentId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/UpdateWlpAgent.go.html to see an example of how to use UpdateWlpAgent API.
+func (client CloudGuardClient) UpdateWlpAgent(ctx context.Context, request UpdateWlpAgentRequest) (response UpdateWlpAgentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateWlpAgent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateWlpAgentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateWlpAgentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateWlpAgentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateWlpAgentResponse")
+	}
+	return
+}
+
+// updateWlpAgent implements the OCIOperation interface (enables retrying operations)
+func (client CloudGuardClient) updateWlpAgent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/wlpAgents/{wlpAgentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateWlpAgentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/cloud-guard/20200131/WlpAgent/UpdateWlpAgent"
+		err = common.PostProcessServiceError(err, "CloudGuard", "UpdateWlpAgent", apiReferenceLink)
 		return response, err
 	}
 

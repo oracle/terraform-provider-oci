@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,19 +16,19 @@ import (
 	"strings"
 )
 
-// ManagedInstanceGroupAvailablePackageSummary Summary information pertaining to an available package for a managed instance group.
+// ManagedInstanceGroupAvailablePackageSummary Provides summary information for an available package for a managed instance group.
 type ManagedInstanceGroupAvailablePackageSummary struct {
 
 	// Package name.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// Unique identifier for the package. NOTE - This is not an OCID.
+	// Unique identifier for the package. Note that this is not an OCID.
 	Name *string `mandatory:"true" json:"name"`
 
 	// Type of the package.
 	Type *string `mandatory:"true" json:"type"`
 
-	// Version of the installed package.
+	// Version of the available package.
 	Version *string `mandatory:"true" json:"version"`
 
 	// The architecture for which this package was built.
@@ -36,7 +37,7 @@ type ManagedInstanceGroupAvailablePackageSummary struct {
 	// List of software sources that provide the software package.
 	SoftwareSources []SoftwareSourceDetails `mandatory:"false" json:"softwareSources"`
 
-	// Flag to return only latest package versions.
+	// Indicates whether this is the latest package version.
 	IsLatest *bool `mandatory:"false" json:"isLatest"`
 }
 

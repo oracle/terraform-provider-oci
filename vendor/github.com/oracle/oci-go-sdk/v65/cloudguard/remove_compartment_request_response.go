@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/cloudguard/RemoveCompartment.go.html to see an example of how to use RemoveCompartmentRequest.
 type RemoveCompartmentRequest struct {
 
-	// The unique identifier of the security zone (`SecurityZone`)
+	// The unique identifier of the security zone (`SecurityZone` resource).
 	SecurityZoneId *string `mandatory:"true" contributesTo:"path" name:"securityZoneId"`
 
-	// The compartment to remove from the security zone.
+	// The compartment to remove from the security zone
 	RemoveCompartmentDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

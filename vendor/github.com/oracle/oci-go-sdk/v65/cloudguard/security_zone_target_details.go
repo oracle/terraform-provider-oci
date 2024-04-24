@@ -17,16 +17,16 @@ import (
 	"strings"
 )
 
-// SecurityZoneTargetDetails Details about Security Zone Target.
+// SecurityZoneTargetDetails Target details for a security zone target.
 type SecurityZoneTargetDetails struct {
 
-	// The OCID of the security zone to associate this compartment with.
+	// The OCID of the security zone to associate with this compartment
 	SecurityZoneId *string `mandatory:"false" json:"securityZoneId"`
 
-	// The name of the security zone to associate this compartment with.
+	// The name of the security zone to associate with this compartment.
 	SecurityZoneDisplayName *string `mandatory:"false" json:"securityZoneDisplayName"`
 
-	// The list of security zone recipes to associate this compartment with.
+	// The list of security zone recipes to associate with this compartment
 	TargetSecurityZoneRecipes []SecurityRecipe `mandatory:"false" json:"targetSecurityZoneRecipes"`
 }
 

@@ -16,11 +16,15 @@ import (
 	"strings"
 )
 
-// ResponderExecutionCollection Provides the summary of responder executions and their corresponding count value.
+// ResponderExecutionCollection Collection of aggregated responder execution information,
+// including their corresponding count values.
 type ResponderExecutionCollection struct {
 
-	// List of ResponderExecutionSummary
+	// List of ResponderExecutionSummary resources
 	Items []ResponderExecutionSummary `mandatory:"true" json:"items"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m ResponderExecutionCollection) String() string {

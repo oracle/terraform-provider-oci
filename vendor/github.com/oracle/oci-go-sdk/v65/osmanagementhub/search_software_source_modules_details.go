@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,10 +16,10 @@ import (
 	"strings"
 )
 
-// SearchSoftwareSourceModulesDetails Contains a list of software sources to get the combined list of modules from all of those software sources.
+// SearchSoftwareSourceModulesDetails Provides the information used to search for a set of modules from a list software sources.
 type SearchSoftwareSourceModulesDetails struct {
 
-	// List of software source OCIDs.
+	// List of sofware source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	SoftwareSourceIds []string `mandatory:"true" json:"softwareSourceIds"`
 
 	// The sort order.
@@ -27,7 +28,7 @@ type SearchSoftwareSourceModulesDetails struct {
 	// The name of a module.
 	Name *string `mandatory:"false" json:"name"`
 
-	// filters results, allowing only those with a name which contains the string.
+	// A filter to return modules with a name that contains the given string.
 	NameContains *string `mandatory:"false" json:"nameContains"`
 
 	// The field to sort by.

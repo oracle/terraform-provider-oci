@@ -87,6 +87,8 @@ type UpdateInstanceDetails struct {
 
 	ShapeConfig *UpdateInstanceShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
 
+	SourceDetails UpdateInstanceSourceDetails `mandatory:"false" json:"sourceDetails"`
+
 	// The parameter acts as a fail-safe to prevent unwanted downtime when updating a running instance.
 	// The default is ALLOW_DOWNTIME.
 	// * `ALLOW_DOWNTIME` - Compute might reboot the instance while updating the instance if a reboot is required.
@@ -166,6 +168,7 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		ExtendedMetadata          map[string]interface{}                             `json:"extendedMetadata"`
 		Shape                     *string                                            `json:"shape"`
 		ShapeConfig               *UpdateInstanceShapeConfigDetails                  `json:"shapeConfig"`
+		SourceDetails             updateinstancesourcedetails                        `json:"sourceDetails"`
 		UpdateOperationConstraint UpdateInstanceDetailsUpdateOperationConstraintEnum `json:"updateOperationConstraint"`
 		InstanceOptions           *InstanceOptions                                   `json:"instanceOptions"`
 		FaultDomain               *string                                            `json:"faultDomain"`
@@ -198,6 +201,16 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Shape = model.Shape
 
 	m.ShapeConfig = model.ShapeConfig
+
+	nn, e = model.SourceDetails.UnmarshalPolymorphicJSON(model.SourceDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceDetails = nn.(UpdateInstanceSourceDetails)
+	} else {
+		m.SourceDetails = nil
+	}
 
 	m.UpdateOperationConstraint = model.UpdateOperationConstraint
 

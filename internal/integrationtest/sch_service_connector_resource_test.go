@@ -47,6 +47,14 @@ var (
 		"tasks":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: SchServiceConnectorTasksRepresentation},
 	}
 
+	serviceConnectorRepresentationNoTargetNoTasksStreamingSource = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
+		"source":         acctest.RepresentationGroup{RepType: acctest.Required, Group: serviceConnectorStreamingSourceRepresentation},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `My service connector description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
 	serviceConnectorRepresentationNoTargetStreamingSourceFunctionTask = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `My_Service_Connector`, Update: `displayName2`},
@@ -60,13 +68,13 @@ var (
 	logAnalyticsTargetRepresentation = map[string]interface{}{
 		"kind":                  acctest.Representation{RepType: acctest.Required, Create: `loggingAnalytics`},
 		"log_group_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_group_ocid}`},
-		"log_source_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_source_name}`},
+		"log_source_identifier": acctest.Representation{RepType: acctest.Required, Create: `${var.logAn_log_source_name}`, Update: `LinuxSyslogSource`},
 	}
 
 	// targets for streaming as a source
 	serviceConnectorFunctionTargetStreamingSourceRepresentation             = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSource, functionTargetRepresentation)
 	serviceConnectorFunctionTargetStreamingSourceFunctionTaskRepresentation = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSourceFunctionTask, functionTargetRepresentation)
-	serviceConnectorLogAnTargetStreamingSourceRepresentation                = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetStreamingSource, logAnalyticsTargetRepresentation)
+	serviceConnectorLogAnTargetStreamingSourceRepresentation                = createServiceConnectorRepresentation(serviceConnectorRepresentationNoTargetNoTasksStreamingSource, logAnalyticsTargetRepresentation)
 
 	updatedServiceConnectorFunctionTasksRepresentation = map[string]interface{}{
 		"kind":              acctest.Representation{RepType: acctest.Optional, Update: `function`},
@@ -282,6 +290,34 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + SchServiceConnectorResourceDependencies + imageVariableStr + logAnLogGroupIdVariableStr + logAnLogSourceNameVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_sch_service_connector", "test_service_connector", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(serviceConnectorLogAnTargetStreamingSourceRepresentation, []string{"target"}), map[string]interface{}{
+						"target": acctest.RepresentationGroup{RepType: acctest.Required, Group: logAnalyticsTargetRepresentation},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
+				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "TRIM_HORIZON"),
+				resource.TestCheckResourceAttrSet(resourceName, "source.0.stream_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.kind", "loggingAnalytics"),
+				resource.TestCheckResourceAttrSet(resourceName, "target.0.log_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "target.0.log_source_identifier", "LinuxSyslogSource"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
 					return err
 				},
 			),

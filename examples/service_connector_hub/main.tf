@@ -1,5 +1,4 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -139,7 +138,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
     "Department" = "Accounting"
   }
 
-  source {
+ /* source {
     kind = "logging"
 
     log_sources {
@@ -148,9 +147,10 @@ resource "oci_sch_service_connector" "test_service_connector" {
       log_id         = oci_logging_log.test_log.id
     }
   }
+  */
 
   // If using streaming source
-  /*source {
+  source {
     kind = "Streaming"
 
     // Optional
@@ -161,12 +161,12 @@ resource "oci_sch_service_connector" "test_service_connector" {
     }
 
     stream_id = oci_streaming_stream.test_stream.id
-  }*/
+  }
 
-  target {
+  /*target {
     kind      = "streaming"
     stream_id = oci_streaming_stream.test_stream.id
-  }
+  }*/
 
   // If using the objectStorage target
   /*target {
@@ -180,11 +180,11 @@ resource "oci_sch_service_connector" "test_service_connector" {
   }*/
 
   // If using the log analytics target
-  /*target {
+  target {
     kind            = "loggingAnalytics"
     log_group_id    = var.log_analytics_log_group_id
     log_source_identifier = var.service_connector_target_log_source_identifier
-  }*/
+  }
 
   // If using the notification target
   /*target {
@@ -203,10 +203,10 @@ resource "oci_sch_service_connector" "test_service_connector" {
     dimensions                  = var.dimensions
   }*/
 
-  tasks {
+  /*tasks {
     condition = "logContent='20'"
     kind      = "logRule"
-  }
+  }*/
 
   // If using function task
   /*
@@ -227,7 +227,7 @@ output "oci_sch_service_connector_id" {
   value = [data.oci_sch_service_connector.test_service_connector.id]
 }
 
-resource "oci_sch_connector_plugins" "test_connector_plugins" {
+resource "oci_sch_service_connector" "test_connector_plugins" {
   compartment_id = var.compartment_ocid
   display_name   = "My_Service_Connector"
   source {
@@ -238,13 +238,11 @@ resource "oci_sch_connector_plugins" "test_connector_plugins" {
   // If using the functions target
   target {
     kind        = "functions"
-    function_id = var.function_id
+    function_id = oci_functions_function.test_function.id
 
     // Optional
     batch_size_in_kbs = "5000"
     // Optional
-    batch_size_in_num = "10"
-    // Optional
-    batch_time_in_sec = "5"
+    batch_time_in_sec = "61"
   }
 }

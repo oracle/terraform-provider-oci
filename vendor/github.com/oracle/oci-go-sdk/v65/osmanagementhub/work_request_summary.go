@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -24,13 +25,12 @@ type WorkRequestSummary struct {
 	// Status of the work request.
 	Status OperationStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID of the work request.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The OCID of the compartment that contains the work request. Work requests should be scoped to
-	// the same compartment as the resource the work request affects. If the work request affects multiple resources,
-	// and those resources are not in the same compartment, it is up to the service team to pick the primary
-	// resource whose compartment should be used.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
+	// Work requests should be scoped to the same compartment as the resource it affects.
+	// If the work request affects multiple resources the different compartments, the services selects the compartment of the primary resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The date and time the request was created - as described in
@@ -46,14 +46,20 @@ type WorkRequestSummary struct {
 	// A progress or error message, if there is any.
 	Message *string `mandatory:"false" json:"message"`
 
-	// The OCID of the parent work request.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent work request, if there is any.
 	ParentId *string `mandatory:"false" json:"parentId"`
 
-	// The list of OCIDs for the child work requests.
+	// The list of OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for child work requests.
 	ChildrenId []string `mandatory:"false" json:"childrenId"`
 
 	// The percentage complete of the operation tracked by this work request.
 	PercentComplete *float32 `mandatory:"false" json:"percentComplete"`
+
+	// The scheduled date and time to retry the work request (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
+
+	// Indicates whether this work request is managed by Autonomous Linux
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 }
 
 func (m WorkRequestSummary) String() string {

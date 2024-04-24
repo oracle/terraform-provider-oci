@@ -16,10 +16,12 @@ import (
 	"strings"
 )
 
-// AttachTargetDetectorRecipeDetails The information required to create TargetDetectorRecipe
+// AttachTargetDetectorRecipeDetails Identifier for an existing detector recipe to use to create
+// a new detector recipe (TargetDetectorRecipe resource) to be
+// attached to a target.
 type AttachTargetDetectorRecipeDetails struct {
 
-	// DetectorRecipe Identifier
+	// Detector recipe unique identifier
 	DetectorRecipeId *string `mandatory:"true" json:"detectorRecipeId"`
 }
 

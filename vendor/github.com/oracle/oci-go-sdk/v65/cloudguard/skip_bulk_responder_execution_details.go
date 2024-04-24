@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// SkipBulkResponderExecutionDetails List of responder execution ids to skip the execution
+// SkipBulkResponderExecutionDetails Details of responders to skip execution.
 type SkipBulkResponderExecutionDetails struct {
 
-	// List of responder execution ids to skip the execution
+	// List of responder execution IDs to skip execution
 	ResponderExecutionIds []string `mandatory:"true" json:"responderExecutionIds"`
 }
 

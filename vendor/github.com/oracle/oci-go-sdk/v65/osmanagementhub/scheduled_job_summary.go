@@ -4,7 +4,8 @@
 
 // OS Management Hub API
 //
-// Use the OS Management Hub API to manage and monitor updates and patches for the operating system environments in your private data centers through a single management console. For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
+// Use the OS Management Hub API to manage and monitor updates and patches for instances in OCI, your private data center, or 3rd-party clouds.
+// For more information, see Overview of OS Management Hub (https://docs.cloud.oracle.com/iaas/osmh/doc/overview.htm).
 //
 
 package osmanagementhub
@@ -15,31 +16,40 @@ import (
 	"strings"
 )
 
-// ScheduledJobSummary Summary of the scheduled job.
+// ScheduledJobSummary Provides summary information for a scheduled job.
 type ScheduledJobSummary struct {
 
-	// The OCID of the scheduled job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job.
 	Id *string `mandatory:"true" json:"id"`
 
-	// Scheduled job name.
+	// User-friendly name for the scheduled job.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID of the compartment containing the scheduled job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the scheduled job.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// The type of scheduling this scheduled job follows.
 	ScheduleType ScheduleTypesEnum `mandatory:"true" json:"scheduleType"`
 
-	// The time this scheduled job was created. An RFC3339 formatted datetime string.
+	// The time this scheduled job was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time this scheduled job was updated. An RFC3339 formatted datetime string.
+	// The time this scheduled job was updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The time/date of the next scheduled execution of this scheduled job.
+	// The time of the next execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeNextExecution *common.SDKTime `mandatory:"true" json:"timeNextExecution"`
 
-	// The list of operations this scheduled job needs to perform (can only support one operation if the operationType is not UPDATE_PACKAGES/UPDATE_ALL/UPDATE_SECURITY/UPDATE_BUGFIX/UPDATE_ENHANCEMENT/UPDATE_OTHER/UPDATE_KSPLICE_USERSPACE/UPDATE_KSPLICE_KERNEL).
+	// The list of operations this scheduled job needs to perform.
+	// A scheduled job supports only one operation type, unless it is one of the following:
+	// * UPDATE_PACKAGES
+	// * UPDATE_ALL
+	// * UPDATE_SECURITY
+	// * UPDATE_BUGFIX
+	// * UPDATE_ENHANCEMENT
+	// * UPDATE_OTHER
+	// * UPDATE_KSPLICE_USERSPACE
+	// * UPDATE_KSPLICE_KERNEL
 	Operations []ScheduledJobOperation `mandatory:"true" json:"operations"`
 
 	// The current state of the scheduled job.
@@ -55,27 +65,48 @@ type ScheduledJobSummary struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"true" json:"definedTags"`
 
-	// The time/date of the last execution of this scheduled job.
+	// The list of locations this scheduled job should operate on for a job targeting on compartments. (Empty list means apply to all locations). This can only be set when managedCompartmentIds is not empty.
+	Locations []ManagedInstanceLocationEnum `mandatory:"false" json:"locations"`
+
+	// The time of the last execution of this scheduled job (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).b.
 	TimeLastExecution *common.SDKTime `mandatory:"false" json:"timeLastExecution"`
 
-	// The list of managed instance OCIDs this scheduled job operates on (mutually exclusive with managedInstanceGroupIds, managedCompartmentIds and lifecycleStageIds).
+	// The managed instance OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
+	// managedInstanceGroupIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceIds []string `mandatory:"false" json:"managedInstanceIds"`
 
-	// The list of managed instance group OCIDs this scheduled job operates on (mutually exclusive with managedInstances, managedCompartmentIds and lifecycleStageIds).
+	// The managed instance group OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedCompartmentIds, and lifecycleStageIds.
 	ManagedInstanceGroupIds []string `mandatory:"false" json:"managedInstanceGroupIds"`
 
-	// The list of target compartment OCIDs if this scheduled job operates on a compartment level (mutually exclusive with managedInstances, managedInstanceGroupIds and lifecycleStageIds).
+	// The compartment OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedInstanceGroupIds, and lifecycleStageIds.
 	ManagedCompartmentIds []string `mandatory:"false" json:"managedCompartmentIds"`
 
-	// The list of target lifecycle stage OCIDs if this scheduled job operates on lifecycle stages (mutually exclusive with managedInstances, managedInstanceGroupIds and managedCompartmentIds).
+	// The lifecycle stage OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that this scheduled job operates on.
+	// A scheduled job can only operate on one type of target, therefore this parameter is mutually exclusive with
+	// managedInstanceIds, managedInstanceGroupIds, and managedCompartmentIds.
 	LifecycleStageIds []string `mandatory:"false" json:"lifecycleStageIds"`
 
-	// true, if the schedule job has its update/deletion capabilities restricted. (Used to track scheduled job for management station syncing).
-	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
+	// Indicates whether this scheduled job is managed by the Autonomous Linux service.
+	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Indicates if the schedule job has restricted update and deletion capabilities.
+	// For restricted scheduled jobs, you can update only the timeNextExecution, recurringRule, and tags.
+	IsRestricted *bool `mandatory:"false" json:"isRestricted"`
+
+	// The amount of time in minutes to wait until retrying the scheduled job. If set, the service will automatically
+	// retry a failed scheduled job after the interval. For example, you could set the interval to [2,5,10]. If the
+	// initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service waits
+	// 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries.
+	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 }
 
 func (m ScheduledJobSummary) String() string {

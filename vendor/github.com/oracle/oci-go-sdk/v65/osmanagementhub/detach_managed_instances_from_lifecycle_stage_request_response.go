@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DetachManagedInstancesFromLifecycleStage.go.html to see an example of how to use DetachManagedInstancesFromLifecycleStageRequest.
 type DetachManagedInstancesFromLifecycleStageRequest struct {
 
-	// The OCID of the lifecycle stage.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle stage.
 	LifecycleStageId *string `mandatory:"true" contributesTo:"path" name:"lifecycleStageId"`
 
-	// Details for managed instances to detach from the lifecycle stage.
+	// Details for the managed instance to detach from the lifecycle stage.
 	DetachManagedInstancesFromLifecycleStageDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request, please provide the request ID.

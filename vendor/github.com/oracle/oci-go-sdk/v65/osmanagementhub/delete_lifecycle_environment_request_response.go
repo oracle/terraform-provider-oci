@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/osmanagementhub/DeleteLifecycleEnvironment.go.html to see an example of how to use DeleteLifecycleEnvironmentRequest.
 type DeleteLifecycleEnvironmentRequest struct {
 
-	// The OCID of the lifecycle environment.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the lifecycle environment.
 	LifecycleEnvironmentId *string `mandatory:"true" contributesTo:"path" name:"lifecycleEnvironmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

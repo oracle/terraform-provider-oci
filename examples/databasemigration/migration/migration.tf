@@ -245,7 +245,7 @@ resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
 
   #csvText - Optional
-  csv_text = "MY_BIZZ,SRC_CITY,TABLE,EXCLUDE"
+  //csv_text = "MY_BIZZ,SRC_CITY,TABLE,EXCLUDE"
   golden_gate_service_details {
     settings {
       acceptable_lag = "10"
@@ -262,7 +262,15 @@ resource "oci_database_migration_migration" "test_migration" {
     }
   }
   data_transfer_medium_details_v2 {
-    type = "NFS"
+    type = "AWS_S3"
+    access_key_id = "abc"
+    object_storage_bucket {
+      bucket = "bucket"
+      namespace = "namespace"
+    }
+    name = "AWS-S3"
+    region = "Ashburn"
+    secret_access_key = "3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D"
   }
   datapump_settings {
     export_directory_object {
