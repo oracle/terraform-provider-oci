@@ -70,10 +70,8 @@ variable defined_tag_namespace_name {
 
 provider "oci" {
   region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  auth = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
 }
 
 resource "oci_identity_tag_namespace" "tag-namespace1" {
@@ -111,7 +109,7 @@ data "oci_kms_vault" "test_vault" {
 
 data "oci_kms_keys" "test_keys_dependency_RSA" {
   #Required
-  compartment_id = var.tenancy_ocid
+  compartment_id = var.compartment_ocid
   management_endpoint = data.oci_kms_vault.test_vault.management_endpoint
   algorithm = "RSA"
 
@@ -284,8 +282,8 @@ resource "oci_containerengine_node_pool" "test_flex_shape_node_pool" {
   compartment_id     = var.compartment_ocid
   kubernetes_version = reverse(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)[0]
   name               = "flexShapePool"
-  node_shape         = "VM.Standard.E3.Flex"
-  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id, oci_core_subnet.nodePool_Subnet_2.id]
+  node_shape         = "VM.Standard.E4.Flex"
+  subnet_ids         = [oci_core_subnet.nodePool_Subnet_1.id]
 
   node_source_details {
     #Required
@@ -344,6 +342,7 @@ data "oci_containerengine_cluster_option" "test_cluster_option" {
 
 data "oci_containerengine_node_pool_option" "test_node_pool_option" {
   node_pool_option_id = "all"
+  compartment_id = var.compartment_ocid
 }
 
 data "oci_core_images" "shape_specific_images" {
