@@ -96,16 +96,19 @@ type LogLogTypeEnum string
 const (
 	LogLogTypeCustom  LogLogTypeEnum = "CUSTOM"
 	LogLogTypeService LogLogTypeEnum = "SERVICE"
+	LogLogTypeSiem    LogLogTypeEnum = "SIEM"
 )
 
 var mappingLogLogTypeEnum = map[string]LogLogTypeEnum{
 	"CUSTOM":  LogLogTypeCustom,
 	"SERVICE": LogLogTypeService,
+	"SIEM":    LogLogTypeSiem,
 }
 
 var mappingLogLogTypeEnumLowerCase = map[string]LogLogTypeEnum{
 	"custom":  LogLogTypeCustom,
 	"service": LogLogTypeService,
+	"siem":    LogLogTypeSiem,
 }
 
 // GetLogLogTypeEnumValues Enumerates the set of values for LogLogTypeEnum
@@ -122,6 +125,7 @@ func GetLogLogTypeEnumStringValues() []string {
 	return []string{
 		"CUSTOM",
 		"SERVICE",
+		"SIEM",
 	}
 }
 

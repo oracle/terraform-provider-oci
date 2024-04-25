@@ -92,9 +92,6 @@ type RedisConnection struct {
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
-	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
-
 	// The Redis technology type.
 	TechnologyType RedisConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -254,18 +251,15 @@ type RedisConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for RedisConnectionTechnologyTypeEnum
 const (
-	RedisConnectionTechnologyTypeRedis             RedisConnectionTechnologyTypeEnum = "REDIS"
-	RedisConnectionTechnologyTypeOciCacheWithRedis RedisConnectionTechnologyTypeEnum = "OCI_CACHE_WITH_REDIS"
+	RedisConnectionTechnologyTypeRedis RedisConnectionTechnologyTypeEnum = "REDIS"
 )
 
 var mappingRedisConnectionTechnologyTypeEnum = map[string]RedisConnectionTechnologyTypeEnum{
-	"REDIS":                RedisConnectionTechnologyTypeRedis,
-	"OCI_CACHE_WITH_REDIS": RedisConnectionTechnologyTypeOciCacheWithRedis,
+	"REDIS": RedisConnectionTechnologyTypeRedis,
 }
 
 var mappingRedisConnectionTechnologyTypeEnumLowerCase = map[string]RedisConnectionTechnologyTypeEnum{
-	"redis":                RedisConnectionTechnologyTypeRedis,
-	"oci_cache_with_redis": RedisConnectionTechnologyTypeOciCacheWithRedis,
+	"redis": RedisConnectionTechnologyTypeRedis,
 }
 
 // GetRedisConnectionTechnologyTypeEnumValues Enumerates the set of values for RedisConnectionTechnologyTypeEnum
@@ -281,7 +275,6 @@ func GetRedisConnectionTechnologyTypeEnumValues() []RedisConnectionTechnologyTyp
 func GetRedisConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"REDIS",
-		"OCI_CACHE_WITH_REDIS",
 	}
 }
 

@@ -46,7 +46,7 @@ type CreateDeploymentBackupDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 }
 
 func (m CreateDeploymentBackupDetails) String() string {

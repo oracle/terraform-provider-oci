@@ -1590,65 +1590,6 @@ func (client GoldenGateClient) exportDeploymentWallet(ctx context.Context, reque
 	return response, err
 }
 
-// GenerateLibraryUrl Generates a Pre-Authenticated Request Object URL to a DB2 for z/OS library that needs to be uploaded to your DB2 for z/OS server in order to establish GoldenGate connections to it. For licensing reasons, the URL is accessible for 10 minutes only.
-// A default retry strategy applies to this operation GenerateLibraryUrl()
-func (client GoldenGateClient) GenerateLibraryUrl(ctx context.Context, request GenerateLibraryUrlRequest) (response GenerateLibraryUrlResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.generateLibraryUrl, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GenerateLibraryUrlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GenerateLibraryUrlResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GenerateLibraryUrlResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GenerateLibraryUrlResponse")
-	}
-	return
-}
-
-// generateLibraryUrl implements the OCIOperation interface (enables retrying operations)
-func (client GoldenGateClient) generateLibraryUrl(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/generateLibraryUrl", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GenerateLibraryUrlResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/GenerateLibraryUrl"
-		err = common.PostProcessServiceError(err, "GoldenGate", "GenerateLibraryUrl", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetCertificate Retrieves a Certificate.
 // A default retry strategy applies to this operation GetCertificate()
 func (client GoldenGateClient) GetCertificate(ctx context.Context, request GetCertificateRequest) (response GetCertificateResponse, err error) {
@@ -2736,7 +2677,7 @@ func (client GoldenGateClient) listMessages(ctx context.Context, request common.
 	return response, err
 }
 
-// ListTrailFiles Lists the TrailFiles for a deployment. Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
+// ListTrailFiles Lists the TrailFiles for a deployment.
 // A default retry strategy applies to this operation ListTrailFiles()
 func (client GoldenGateClient) ListTrailFiles(ctx context.Context, request ListTrailFilesRequest) (response ListTrailFilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2790,7 +2731,7 @@ func (client GoldenGateClient) listTrailFiles(ctx context.Context, request commo
 	return response, err
 }
 
-// ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment. Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
+// ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment.
 // A default retry strategy applies to this operation ListTrailSequences()
 func (client GoldenGateClient) ListTrailSequences(ctx context.Context, request ListTrailSequencesRequest) (response ListTrailSequencesResponse, err error) {
 	var ociResponse common.OCIResponse

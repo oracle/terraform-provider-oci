@@ -44,7 +44,7 @@ type CreateGenericConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -97,7 +97,7 @@ func (m CreateGenericConnectionDetails) GetDefinedTags() map[string]map[string]i
 }
 
 // GetLocks returns Locks
-func (m CreateGenericConnectionDetails) GetLocks() []ResourceLock {
+func (m CreateGenericConnectionDetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 

@@ -47,7 +47,7 @@ type CreateOracleConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -92,10 +92,6 @@ type CreateOracleConnectionDetails struct {
 	// The Oracle technology type.
 	TechnologyType OracleConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
-	// Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections,
-	// when a databaseId is provided. The default value is MTLS.
-	AuthenticationMode OracleConnectionAuthenticationModeEnum `mandatory:"false" json:"authenticationMode,omitempty"`
-
 	// The mode of the database connection session to be established by the data client.
 	// 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database.
 	// Connection to a RAC database involves a redirection received from the SCAN listeners
@@ -129,7 +125,7 @@ func (m CreateOracleConnectionDetails) GetDefinedTags() map[string]map[string]in
 }
 
 // GetLocks returns Locks
-func (m CreateOracleConnectionDetails) GetLocks() []ResourceLock {
+func (m CreateOracleConnectionDetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 
@@ -173,9 +169,6 @@ func (m CreateOracleConnectionDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingOracleConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetOracleConnectionTechnologyTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingOracleConnectionAuthenticationModeEnum(string(m.AuthenticationMode)); !ok && m.AuthenticationMode != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationMode: %s. Supported values are: %s.", m.AuthenticationMode, strings.Join(GetOracleConnectionAuthenticationModeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingOracleConnectionSessionModeEnum(string(m.SessionMode)); !ok && m.SessionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetOracleConnectionSessionModeEnumStringValues(), ",")))

@@ -188,10 +188,6 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := UpdateKafkaConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DB2":
-		mm := UpdateDb2ConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "GENERIC":
 		mm := UpdateGenericConnectionDetails{}
 		err = json.Unmarshal(data, &mm)

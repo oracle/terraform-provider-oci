@@ -555,64 +555,6 @@ func (client DatabaseClient) cancelBackup(ctx context.Context, request common.OC
 	return response, err
 }
 
-// CancelMaintenanceRun Cancels the in progress maintenance activity under this maintenance run.
-func (client DatabaseClient) CancelMaintenanceRun(ctx context.Context, request CancelMaintenanceRunRequest) (response CancelMaintenanceRunResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.cancelMaintenanceRun, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CancelMaintenanceRunResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CancelMaintenanceRunResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CancelMaintenanceRunResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CancelMaintenanceRunResponse")
-	}
-	return
-}
-
-// cancelMaintenanceRun implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) cancelMaintenanceRun(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maintenanceRuns/{maintenanceRunId}/actions/cancel", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CancelMaintenanceRunResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/MaintenanceRun/CancelMaintenanceRun"
-		err = common.PostProcessServiceError(err, "Database", "CancelMaintenanceRun", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeAutonomousContainerDatabaseCompartment Move the Autonomous Container Database and its dependent resources to the specified compartment.
 // For more information about moving Autonomous Container Databases, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).

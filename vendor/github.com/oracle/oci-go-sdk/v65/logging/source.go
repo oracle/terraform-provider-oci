@@ -52,6 +52,10 @@ func (m *source) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.SourceType {
+	case "SIEM":
+		mm := SiemService{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OCISERVICE":
 		mm := OciService{}
 		err = json.Unmarshal(data, &mm)
@@ -84,14 +88,17 @@ type SourceSourceTypeEnum string
 // Set of constants representing the allowable values for SourceSourceTypeEnum
 const (
 	SourceSourceTypeOciservice SourceSourceTypeEnum = "OCISERVICE"
+	SourceSourceTypeSiem       SourceSourceTypeEnum = "SIEM"
 )
 
 var mappingSourceSourceTypeEnum = map[string]SourceSourceTypeEnum{
 	"OCISERVICE": SourceSourceTypeOciservice,
+	"SIEM":       SourceSourceTypeSiem,
 }
 
 var mappingSourceSourceTypeEnumLowerCase = map[string]SourceSourceTypeEnum{
 	"ociservice": SourceSourceTypeOciservice,
+	"siem":       SourceSourceTypeSiem,
 }
 
 // GetSourceSourceTypeEnumValues Enumerates the set of values for SourceSourceTypeEnum
@@ -107,6 +114,7 @@ func GetSourceSourceTypeEnumValues() []SourceSourceTypeEnum {
 func GetSourceSourceTypeEnumStringValues() []string {
 	return []string{
 		"OCISERVICE",
+		"SIEM",
 	}
 }
 

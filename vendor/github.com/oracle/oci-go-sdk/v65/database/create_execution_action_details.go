@@ -18,9 +18,6 @@ import (
 // CreateExecutionActionDetails Request to create execution action resource.
 type CreateExecutionActionDetails struct {
 
-	// The user-friendly name for the execution action. The name does not need to be unique.
-	DisplayName *string `mandatory:"true" json:"displayName"`
-
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the execution window resource the execution action belongs to.
 	ExecutionWindowId *string `mandatory:"true" json:"executionWindowId"`
 

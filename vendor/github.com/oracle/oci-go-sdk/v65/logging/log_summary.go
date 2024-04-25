@@ -93,16 +93,19 @@ type LogSummaryLogTypeEnum string
 const (
 	LogSummaryLogTypeCustom  LogSummaryLogTypeEnum = "CUSTOM"
 	LogSummaryLogTypeService LogSummaryLogTypeEnum = "SERVICE"
+	LogSummaryLogTypeSiem    LogSummaryLogTypeEnum = "SIEM"
 )
 
 var mappingLogSummaryLogTypeEnum = map[string]LogSummaryLogTypeEnum{
 	"CUSTOM":  LogSummaryLogTypeCustom,
 	"SERVICE": LogSummaryLogTypeService,
+	"SIEM":    LogSummaryLogTypeSiem,
 }
 
 var mappingLogSummaryLogTypeEnumLowerCase = map[string]LogSummaryLogTypeEnum{
 	"custom":  LogSummaryLogTypeCustom,
 	"service": LogSummaryLogTypeService,
+	"siem":    LogSummaryLogTypeSiem,
 }
 
 // GetLogSummaryLogTypeEnumValues Enumerates the set of values for LogSummaryLogTypeEnum
@@ -119,6 +122,7 @@ func GetLogSummaryLogTypeEnumStringValues() []string {
 	return []string{
 		"CUSTOM",
 		"SERVICE",
+		"SIEM",
 	}
 }
 

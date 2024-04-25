@@ -237,10 +237,6 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ElasticsearchConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DB2":
-		mm := Db2ConnectionSummary{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnectionSummary{}
 		err = json.Unmarshal(data, &mm)

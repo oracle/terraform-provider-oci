@@ -38,7 +38,7 @@ type CreateConnectionDetails interface {
 	GetDefinedTags() map[string]map[string]interface{}
 
 	// Locks associated with this resource.
-	GetLocks() []ResourceLock
+	GetLocks() []AddResourceLockDetails
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -67,7 +67,7 @@ type createconnectiondetails struct {
 	Description    *string                           `mandatory:"false" json:"description"`
 	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Locks          []ResourceLock                    `mandatory:"false" json:"locks"`
+	Locks          []AddResourceLockDetails          `mandatory:"false" json:"locks"`
 	VaultId        *string                           `mandatory:"false" json:"vaultId"`
 	KeyId          *string                           `mandatory:"false" json:"keyId"`
 	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
@@ -162,10 +162,6 @@ func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := CreateOciObjectStorageConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DB2":
-		mm := CreateDb2ConnectionDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "ELASTICSEARCH":
 		mm := CreateElasticsearchConnectionDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -232,7 +228,7 @@ func (m createconnectiondetails) GetDefinedTags() map[string]map[string]interfac
 }
 
 // GetLocks returns Locks
-func (m createconnectiondetails) GetLocks() []ResourceLock {
+func (m createconnectiondetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 

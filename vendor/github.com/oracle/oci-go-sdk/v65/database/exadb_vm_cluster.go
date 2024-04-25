@@ -66,12 +66,6 @@ type ExadbVmCluster struct {
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
-	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
-	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
-
-	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
-	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
-
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.

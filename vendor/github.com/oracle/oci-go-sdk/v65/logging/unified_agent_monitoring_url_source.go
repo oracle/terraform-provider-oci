@@ -23,7 +23,7 @@ type UnifiedAgentMonitoringUrlSource struct {
 	// Unique name for the source.
 	Name *string `mandatory:"true" json:"name"`
 
-	// List of UnifiedAgentKubernetesScrapeTarget.
+	// List of UnifiedAgentUrlScrapeTarget.
 	ScrapeTargets []UnifiedAgentUrlScrapeTarget `mandatory:"true" json:"scrapeTargets"`
 }
 

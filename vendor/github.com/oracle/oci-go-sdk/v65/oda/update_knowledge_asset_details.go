@@ -1,0 +1,45 @@
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Digital Assistant Service Instance API
+//
+// API to create and maintain Oracle Digital Assistant service instances.
+//
+
+package oda
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// UpdateKnowledgeAssetDetails Properties to update a Knowledge Asset.
+type UpdateKnowledgeAssetDetails struct {
+
+	// End-user-friendly name for this resource, to be used whenever the asset's name is displayed. Defaults to name if not provided.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Custom unique identifier for this resource
+	ExternalIdentifier *string `mandatory:"false" json:"externalIdentifier"`
+
+	// End-user-friendly URL for this resource, to be used whenever the asset's source is displayed.
+	KnowledgeSourceUrl *string `mandatory:"false" json:"knowledgeSourceUrl"`
+}
+
+func (m UpdateKnowledgeAssetDetails) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m UpdateKnowledgeAssetDetails) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

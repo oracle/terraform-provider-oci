@@ -92,9 +92,6 @@ type RedisConnectionSummary struct {
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
-	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
-
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 

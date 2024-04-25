@@ -51,7 +51,7 @@ type CreateAmazonRedshiftConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -104,7 +104,7 @@ func (m CreateAmazonRedshiftConnectionDetails) GetDefinedTags() map[string]map[s
 }
 
 // GetLocks returns Locks
-func (m CreateAmazonRedshiftConnectionDetails) GetLocks() []ResourceLock {
+func (m CreateAmazonRedshiftConnectionDetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 

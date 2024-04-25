@@ -10,7 +10,6 @@
 package apmsynthetics
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -24,8 +23,6 @@ type DatabaseWalletDetails struct {
 
 	// Service name of the database.
 	ServiceName *string `mandatory:"true" json:"serviceName"`
-
-	WalletPassword Password `mandatory:"true" json:"walletPassword"`
 }
 
 func (m DatabaseWalletDetails) String() string {
@@ -42,34 +39,4 @@ func (m DatabaseWalletDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *DatabaseWalletDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		DatabaseWallet *string  `json:"databaseWallet"`
-		ServiceName    *string  `json:"serviceName"`
-		WalletPassword password `json:"walletPassword"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.DatabaseWallet = model.DatabaseWallet
-
-	m.ServiceName = model.ServiceName
-
-	nn, e = model.WalletPassword.UnmarshalPolymorphicJSON(model.WalletPassword.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.WalletPassword = nn.(Password)
-	} else {
-		m.WalletPassword = nil
-	}
-
-	return
 }

@@ -46,7 +46,7 @@ type CreateAmazonS3ConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -99,7 +99,7 @@ func (m CreateAmazonS3ConnectionDetails) GetDefinedTags() map[string]map[string]
 }
 
 // GetLocks returns Locks
-func (m CreateAmazonS3ConnectionDetails) GetLocks() []ResourceLock {
+func (m CreateAmazonS3ConnectionDetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 

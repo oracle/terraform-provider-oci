@@ -191,6 +191,9 @@ type Instance struct {
 
 	// The OCID of the Instance Configuration used to source launch details for this instance. Any other fields supplied in the instance launch request override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
+
+	// List of licensing configurations associated with the instance.
+	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
 }
 
 func (m Instance) String() string {
@@ -247,6 +250,7 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		PreferredMaintenanceAction InstancePreferredMaintenanceActionEnum `json:"preferredMaintenanceAction"`
 		PlatformConfig             platformconfig                         `json:"platformConfig"`
 		InstanceConfigurationId    *string                                `json:"instanceConfigurationId"`
+		LicensingConfigs           []LicensingConfig                      `json:"licensingConfigs"`
 		AvailabilityDomain         *string                                `json:"availabilityDomain"`
 		CompartmentId              *string                                `json:"compartmentId"`
 		Id                         *string                                `json:"id"`
@@ -329,6 +333,8 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstanceConfigurationId = model.InstanceConfigurationId
 
+	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
+	copy(m.LicensingConfigs, model.LicensingConfigs)
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

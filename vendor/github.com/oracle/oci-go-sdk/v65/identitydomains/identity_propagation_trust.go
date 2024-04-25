@@ -4,7 +4,8 @@
 
 // Identity Domains API
 //
-// Use the Identity Domains API to manage resources within an identity domain, for example, users, dynamic resource groups, groups, and identity providers. For information about managing resources within identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm). This REST API is SCIM compliant.
+// Use the Identity Domains API to manage resources within an identity domain, for example, users, dynamic resource groups, groups, and identity providers. For information about managing resources within identity domains, see Identity and Access Management (with identity domains) (https://docs.oracle.com/iaas/Content/Identity/home.htm).
+// Use this pattern to construct endpoints for identity domains: `https://<domainURL>/admin/v1/`. See Finding an Identity Domain URL (https://docs.oracle.com/en-us/iaas/Content/Identity/api-getstarted/locate-identity-domain-url.htm) to locate the domain URL you need.
 // Use the table of contents and search tool to explore the Identity Domains API.
 //
 
@@ -305,17 +306,6 @@ type IdentityPropagationTrust struct {
 	//  - type: string
 	//  - uniqueness: none
 	OauthClients []string `mandatory:"false" json:"oauthClients"`
-
-	// The value of all the authorized OCI Service Principals.
-	// **SCIM++ Properties:**
-	//  - idcsSearchable: false
-	//  - multiValued: true
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	ServicePrincipals []string `mandatory:"false" json:"servicePrincipals"`
 
 	// Allow customers to define whether the resulting token should contain the authenticated user as the subject or whether the token should impersonate another Application Principal in IAM.
 	// **SCIM++ Properties:**

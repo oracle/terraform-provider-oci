@@ -106,6 +106,10 @@ const (
 	WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointScanProxy   WorkRequestSummaryRequestActionEnum = "DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY"
 	WorkRequestSummaryRequestActionCreateOdaPrivateEndpointAttachment  WorkRequestSummaryRequestActionEnum = "CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT"
 	WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointAttachment  WorkRequestSummaryRequestActionEnum = "DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT"
+	WorkRequestSummaryRequestActionDeleteKnowledgeGroup                WorkRequestSummaryRequestActionEnum = "DELETE_KNOWLEDGE_GROUP"
+	WorkRequestSummaryRequestActionImportKnowledgeAssets               WorkRequestSummaryRequestActionEnum = "IMPORT_KNOWLEDGE_ASSETS"
+	WorkRequestSummaryRequestActionSyncKnowledgeAsset                  WorkRequestSummaryRequestActionEnum = "SYNC_KNOWLEDGE_ASSET"
+	WorkRequestSummaryRequestActionDeleteKnowledgeAsset                WorkRequestSummaryRequestActionEnum = "DELETE_KNOWLEDGE_ASSET"
 )
 
 var mappingWorkRequestSummaryRequestActionEnum = map[string]WorkRequestSummaryRequestActionEnum{
@@ -148,6 +152,10 @@ var mappingWorkRequestSummaryRequestActionEnum = map[string]WorkRequestSummaryRe
 	"DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY":  WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointScanProxy,
 	"CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT":  WorkRequestSummaryRequestActionCreateOdaPrivateEndpointAttachment,
 	"DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT":  WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointAttachment,
+	"DELETE_KNOWLEDGE_GROUP":                  WorkRequestSummaryRequestActionDeleteKnowledgeGroup,
+	"IMPORT_KNOWLEDGE_ASSETS":                 WorkRequestSummaryRequestActionImportKnowledgeAssets,
+	"SYNC_KNOWLEDGE_ASSET":                    WorkRequestSummaryRequestActionSyncKnowledgeAsset,
+	"DELETE_KNOWLEDGE_ASSET":                  WorkRequestSummaryRequestActionDeleteKnowledgeAsset,
 }
 
 var mappingWorkRequestSummaryRequestActionEnumLowerCase = map[string]WorkRequestSummaryRequestActionEnum{
@@ -190,6 +198,10 @@ var mappingWorkRequestSummaryRequestActionEnumLowerCase = map[string]WorkRequest
 	"delete_oda_private_endpoint_scan_proxy":  WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointScanProxy,
 	"create_oda_private_endpoint_attachment":  WorkRequestSummaryRequestActionCreateOdaPrivateEndpointAttachment,
 	"delete_oda_private_endpoint_attachment":  WorkRequestSummaryRequestActionDeleteOdaPrivateEndpointAttachment,
+	"delete_knowledge_group":                  WorkRequestSummaryRequestActionDeleteKnowledgeGroup,
+	"import_knowledge_assets":                 WorkRequestSummaryRequestActionImportKnowledgeAssets,
+	"sync_knowledge_asset":                    WorkRequestSummaryRequestActionSyncKnowledgeAsset,
+	"delete_knowledge_asset":                  WorkRequestSummaryRequestActionDeleteKnowledgeAsset,
 }
 
 // GetWorkRequestSummaryRequestActionEnumValues Enumerates the set of values for WorkRequestSummaryRequestActionEnum
@@ -243,6 +255,10 @@ func GetWorkRequestSummaryRequestActionEnumStringValues() []string {
 		"DELETE_ODA_PRIVATE_ENDPOINT_SCAN_PROXY",
 		"CREATE_ODA_PRIVATE_ENDPOINT_ATTACHMENT",
 		"DELETE_ODA_PRIVATE_ENDPOINT_ATTACHMENT",
+		"DELETE_KNOWLEDGE_GROUP",
+		"IMPORT_KNOWLEDGE_ASSETS",
+		"SYNC_KNOWLEDGE_ASSET",
+		"DELETE_KNOWLEDGE_ASSET",
 	}
 }
 

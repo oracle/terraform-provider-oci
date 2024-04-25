@@ -41,7 +41,7 @@ type CreateHdfsConnectionDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
 	// Locks associated with this resource.
-	Locks []ResourceLock `mandatory:"false" json:"locks"`
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -94,7 +94,7 @@ func (m CreateHdfsConnectionDetails) GetDefinedTags() map[string]map[string]inte
 }
 
 // GetLocks returns Locks
-func (m CreateHdfsConnectionDetails) GetLocks() []ResourceLock {
+func (m CreateHdfsConnectionDetails) GetLocks() []AddResourceLockDetails {
 	return m.Locks
 }
 

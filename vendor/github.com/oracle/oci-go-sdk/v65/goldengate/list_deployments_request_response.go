@@ -166,7 +166,6 @@ const (
 	ListDeploymentsSupportedConnectionTypeMongodb               ListDeploymentsSupportedConnectionTypeEnum = "MONGODB"
 	ListDeploymentsSupportedConnectionTypeAmazonKinesis         ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_KINESIS"
 	ListDeploymentsSupportedConnectionTypeAmazonRedshift        ListDeploymentsSupportedConnectionTypeEnum = "AMAZON_REDSHIFT"
-	ListDeploymentsSupportedConnectionTypeDb2                   ListDeploymentsSupportedConnectionTypeEnum = "DB2"
 	ListDeploymentsSupportedConnectionTypeRedis                 ListDeploymentsSupportedConnectionTypeEnum = "REDIS"
 	ListDeploymentsSupportedConnectionTypeElasticsearch         ListDeploymentsSupportedConnectionTypeEnum = "ELASTICSEARCH"
 	ListDeploymentsSupportedConnectionTypeGeneric               ListDeploymentsSupportedConnectionTypeEnum = "GENERIC"
@@ -193,7 +192,6 @@ var mappingListDeploymentsSupportedConnectionTypeEnum = map[string]ListDeploymen
 	"MONGODB":                 ListDeploymentsSupportedConnectionTypeMongodb,
 	"AMAZON_KINESIS":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
 	"AMAZON_REDSHIFT":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
-	"DB2":                     ListDeploymentsSupportedConnectionTypeDb2,
 	"REDIS":                   ListDeploymentsSupportedConnectionTypeRedis,
 	"ELASTICSEARCH":           ListDeploymentsSupportedConnectionTypeElasticsearch,
 	"GENERIC":                 ListDeploymentsSupportedConnectionTypeGeneric,
@@ -220,7 +218,6 @@ var mappingListDeploymentsSupportedConnectionTypeEnumLowerCase = map[string]List
 	"mongodb":                 ListDeploymentsSupportedConnectionTypeMongodb,
 	"amazon_kinesis":          ListDeploymentsSupportedConnectionTypeAmazonKinesis,
 	"amazon_redshift":         ListDeploymentsSupportedConnectionTypeAmazonRedshift,
-	"db2":                     ListDeploymentsSupportedConnectionTypeDb2,
 	"redis":                   ListDeploymentsSupportedConnectionTypeRedis,
 	"elasticsearch":           ListDeploymentsSupportedConnectionTypeElasticsearch,
 	"generic":                 ListDeploymentsSupportedConnectionTypeGeneric,
@@ -258,7 +255,6 @@ func GetListDeploymentsSupportedConnectionTypeEnumStringValues() []string {
 		"MONGODB",
 		"AMAZON_KINESIS",
 		"AMAZON_REDSHIFT",
-		"DB2",
 		"REDIS",
 		"ELASTICSEARCH",
 		"GENERIC",

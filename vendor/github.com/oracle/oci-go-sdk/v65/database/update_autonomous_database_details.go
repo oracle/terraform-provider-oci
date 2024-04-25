@@ -250,6 +250,10 @@ type UpdateAutonomousDatabaseDetails struct {
 	// True if allow Oracle services to use the Service Gateway to connect to the Autonomous Database.
 	IsOracleServiceGatewayAllowed *bool `mandatory:"false" json:"isOracleServiceGatewayAllowed"`
 
+	// The maintenance schedule type of the Autonomous Database Serverless. An EARLY maintenance schedule
+	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
+	AutonomousMaintenanceScheduleType UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -272,6 +276,10 @@ type UpdateAutonomousDatabaseDetails struct {
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
+
+	// If true, this will disconnect the Autonomous Database from its peer and the Autonomous Database can work permanently as a standalone database.
+	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
+	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -305,6 +313,9 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum(string(m.AutoRefreshPolicy)); !ok && m.AutoRefreshPolicy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutoRefreshPolicy: %s. Supported values are: %s.", m.AutoRefreshPolicy, strings.Join(GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(string(m.AutonomousMaintenanceScheduleType)); !ok && m.AutonomousMaintenanceScheduleType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AutonomousMaintenanceScheduleType: %s. Supported values are: %s.", m.AutonomousMaintenanceScheduleType, strings.Join(GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetAutonomousDatabaseSummaryDatabaseEditionEnumStringValues(), ",")))
 	}
@@ -317,58 +328,60 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		BackupRetentionPeriodInDays          *int                                                 `json:"backupRetentionPeriodInDays"`
-		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum      `json:"computeModel"`
-		InMemoryPercentage                   *int                                                 `json:"inMemoryPercentage"`
-		LocalAdgAutoFailoverMaxDataLossLimit *int                                                 `json:"localAdgAutoFailoverMaxDataLossLimit"`
-		CpuCoreCount                         *int                                                 `json:"cpuCoreCount"`
-		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                       `json:"longTermBackupSchedule"`
-		IsDevTier                            *bool                                                `json:"isDevTier"`
-		ComputeCount                         *float32                                             `json:"computeCount"`
-		OcpuCount                            *float32                                             `json:"ocpuCount"`
-		DataStorageSizeInTBs                 *int                                                 `json:"dataStorageSizeInTBs"`
-		DataStorageSizeInGBs                 *int                                                 `json:"dataStorageSizeInGBs"`
-		DisplayName                          *string                                              `json:"displayName"`
-		IsFreeTier                           *bool                                                `json:"isFreeTier"`
-		AdminPassword                        *string                                              `json:"adminPassword"`
-		DbName                               *string                                              `json:"dbName"`
-		FreeformTags                         map[string]string                                    `json:"freeformTags"`
-		DefinedTags                          map[string]map[string]interface{}                    `json:"definedTags"`
-		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum        `json:"dbWorkload"`
-		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum      `json:"licenseModel"`
-		IsAccessControlEnabled               *bool                                                `json:"isAccessControlEnabled"`
-		WhitelistedIps                       []string                                             `json:"whitelistedIps"`
-		ArePrimaryWhitelistedIpsUsed         *bool                                                `json:"arePrimaryWhitelistedIpsUsed"`
-		StandbyWhitelistedIps                []string                                             `json:"standbyWhitelistedIps"`
-		IsAutoScalingEnabled                 *bool                                                `json:"isAutoScalingEnabled"`
-		IsRefreshableClone                   *bool                                                `json:"isRefreshableClone"`
-		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum   `json:"refreshableMode"`
-		IsLocalDataGuardEnabled              *bool                                                `json:"isLocalDataGuardEnabled"`
-		IsDataGuardEnabled                   *bool                                                `json:"isDataGuardEnabled"`
-		PeerDbId                             *string                                              `json:"peerDbId"`
-		DbVersion                            *string                                              `json:"dbVersion"`
-		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum          `json:"openMode"`
-		PermissionLevel                      UpdateAutonomousDatabaseDetailsPermissionLevelEnum   `json:"permissionLevel"`
-		SubnetId                             *string                                              `json:"subnetId"`
-		PrivateEndpointLabel                 *string                                              `json:"privateEndpointLabel"`
-		PrivateEndpointIp                    *string                                              `json:"privateEndpointIp"`
-		NsgIds                               []string                                             `json:"nsgIds"`
-		AutoRefreshPolicy                    UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum `json:"autoRefreshPolicy"`
-		AutoRefreshFrequencyInSeconds        *int                                                 `json:"autoRefreshFrequencyInSeconds"`
-		AutoRefreshPointLagInSeconds         *int                                                 `json:"autoRefreshPointLagInSeconds"`
-		TimeOfAutoRefreshStart               *common.SDKTime                                      `json:"timeOfAutoRefreshStart"`
-		CustomerContacts                     []CustomerContact                                    `json:"customerContacts"`
-		IsMtlsConnectionRequired             *bool                                                `json:"isMtlsConnectionRequired"`
-		ResourcePoolLeaderId                 *string                                              `json:"resourcePoolLeaderId"`
-		ResourcePoolSummary                  *ResourcePoolSummary                                 `json:"resourcePoolSummary"`
-		IsOracleServiceGatewayAllowed        *bool                                                `json:"isOracleServiceGatewayAllowed"`
-		ScheduledOperations                  []ScheduledOperationDetails                          `json:"scheduledOperations"`
-		IsAutoScalingForStorageEnabled       *bool                                                `json:"isAutoScalingForStorageEnabled"`
-		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum         `json:"databaseEdition"`
-		DbToolsDetails                       []DatabaseTool                                       `json:"dbToolsDetails"`
-		SecretId                             *string                                              `json:"secretId"`
-		SecretVersionNumber                  *int                                                 `json:"secretVersionNumber"`
-		EncryptionKey                        autonomousdatabaseencryptionkeydetails               `json:"encryptionKey"`
+		BackupRetentionPeriodInDays          *int                                                                 `json:"backupRetentionPeriodInDays"`
+		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum                      `json:"computeModel"`
+		InMemoryPercentage                   *int                                                                 `json:"inMemoryPercentage"`
+		LocalAdgAutoFailoverMaxDataLossLimit *int                                                                 `json:"localAdgAutoFailoverMaxDataLossLimit"`
+		CpuCoreCount                         *int                                                                 `json:"cpuCoreCount"`
+		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                                       `json:"longTermBackupSchedule"`
+		IsDevTier                            *bool                                                                `json:"isDevTier"`
+		ComputeCount                         *float32                                                             `json:"computeCount"`
+		OcpuCount                            *float32                                                             `json:"ocpuCount"`
+		DataStorageSizeInTBs                 *int                                                                 `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                 *int                                                                 `json:"dataStorageSizeInGBs"`
+		DisplayName                          *string                                                              `json:"displayName"`
+		IsFreeTier                           *bool                                                                `json:"isFreeTier"`
+		AdminPassword                        *string                                                              `json:"adminPassword"`
+		DbName                               *string                                                              `json:"dbName"`
+		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}                                    `json:"definedTags"`
+		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum                        `json:"dbWorkload"`
+		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum                      `json:"licenseModel"`
+		IsAccessControlEnabled               *bool                                                                `json:"isAccessControlEnabled"`
+		WhitelistedIps                       []string                                                             `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed         *bool                                                                `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                []string                                                             `json:"standbyWhitelistedIps"`
+		IsAutoScalingEnabled                 *bool                                                                `json:"isAutoScalingEnabled"`
+		IsRefreshableClone                   *bool                                                                `json:"isRefreshableClone"`
+		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum                   `json:"refreshableMode"`
+		IsLocalDataGuardEnabled              *bool                                                                `json:"isLocalDataGuardEnabled"`
+		IsDataGuardEnabled                   *bool                                                                `json:"isDataGuardEnabled"`
+		PeerDbId                             *string                                                              `json:"peerDbId"`
+		DbVersion                            *string                                                              `json:"dbVersion"`
+		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum                          `json:"openMode"`
+		PermissionLevel                      UpdateAutonomousDatabaseDetailsPermissionLevelEnum                   `json:"permissionLevel"`
+		SubnetId                             *string                                                              `json:"subnetId"`
+		PrivateEndpointLabel                 *string                                                              `json:"privateEndpointLabel"`
+		PrivateEndpointIp                    *string                                                              `json:"privateEndpointIp"`
+		NsgIds                               []string                                                             `json:"nsgIds"`
+		AutoRefreshPolicy                    UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum                 `json:"autoRefreshPolicy"`
+		AutoRefreshFrequencyInSeconds        *int                                                                 `json:"autoRefreshFrequencyInSeconds"`
+		AutoRefreshPointLagInSeconds         *int                                                                 `json:"autoRefreshPointLagInSeconds"`
+		TimeOfAutoRefreshStart               *common.SDKTime                                                      `json:"timeOfAutoRefreshStart"`
+		CustomerContacts                     []CustomerContact                                                    `json:"customerContacts"`
+		IsMtlsConnectionRequired             *bool                                                                `json:"isMtlsConnectionRequired"`
+		ResourcePoolLeaderId                 *string                                                              `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                  *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
+		IsOracleServiceGatewayAllowed        *bool                                                                `json:"isOracleServiceGatewayAllowed"`
+		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		ScheduledOperations                  []ScheduledOperationDetails                                          `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
+		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
+		DbToolsDetails                       []DatabaseTool                                                       `json:"dbToolsDetails"`
+		SecretId                             *string                                                              `json:"secretId"`
+		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
+		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
+		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -466,6 +479,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.IsOracleServiceGatewayAllowed = model.IsOracleServiceGatewayAllowed
 
+	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)
 	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
@@ -487,6 +502,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.EncryptionKey = nil
 	}
+
+	m.IsDisconnectPeer = model.IsDisconnectPeer
 
 	return
 }
@@ -790,5 +807,47 @@ func GetUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumStringValues() []str
 // GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum(val string) (UpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnum, bool) {
 	enum, ok := mappingUpdateAutonomousDatabaseDetailsAutoRefreshPolicyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum Enum with underlying type: string
+type UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum string
+
+// Set of constants representing the allowable values for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+const (
+	UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = "EARLY"
+	UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = "REGULAR"
+)
+
+var mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum = map[string]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum{
+	"EARLY":   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly,
+	"REGULAR": UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular,
+}
+
+var mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumLowerCase = map[string]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum{
+	"early":   UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEarly,
+	"regular": UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeRegular,
+}
+
+// GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumValues Enumerates the set of values for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+func GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumValues() []UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum {
+	values := make([]UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum, 0)
+	for _, v := range mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues Enumerates the set of values in String for UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum
+func GetUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumStringValues() []string {
+	return []string{
+		"EARLY",
+		"REGULAR",
+	}
+}
+
+// GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum(val string) (UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum, bool) {
+	enum, ok := mappingUpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

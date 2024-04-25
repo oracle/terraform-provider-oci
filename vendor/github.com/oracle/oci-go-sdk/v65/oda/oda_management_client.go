@@ -150,6 +150,60 @@ func (client ManagementClient) bulkCreateSkillEntities(ctx context.Context, requ
 	return response, err
 }
 
+// CascadingDeleteKnowledgeGroup Delete the specified Knowledge Group and all its assets.
+// A default retry strategy applies to this operation CascadingDeleteKnowledgeGroup()
+func (client ManagementClient) CascadingDeleteKnowledgeGroup(ctx context.Context, request CascadingDeleteKnowledgeGroupRequest) (response CascadingDeleteKnowledgeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cascadingDeleteKnowledgeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadingDeleteKnowledgeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadingDeleteKnowledgeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadingDeleteKnowledgeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadingDeleteKnowledgeGroupResponse")
+	}
+	return
+}
+
+// cascadingDeleteKnowledgeGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) cascadingDeleteKnowledgeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/actions/cascadingDelete", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadingDeleteKnowledgeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeGroup/CascadingDeleteKnowledgeGroup"
+		err = common.PostProcessServiceError(err, "Management", "CascadingDeleteKnowledgeGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CascadingDeleteSkillCustomEntities Cascading delete of the custom entities in a skill.
 // A default retry strategy applies to this operation CascadingDeleteSkillCustomEntities()
 func (client ManagementClient) CascadingDeleteSkillCustomEntities(ctx context.Context, request CascadingDeleteSkillCustomEntitiesRequest) (response CascadingDeleteSkillCustomEntitiesResponse, err error) {
@@ -502,6 +556,65 @@ func (client ManagementClient) createDigitalAssistant(ctx context.Context, reque
 	return response, err
 }
 
+// CreateKnowledgeGroup Creates a new Knowledge Group from scratch.
+// A default retry strategy applies to this operation CreateKnowledgeGroup()
+func (client ManagementClient) CreateKnowledgeGroup(ctx context.Context, request CreateKnowledgeGroupRequest) (response CreateKnowledgeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createKnowledgeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateKnowledgeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateKnowledgeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateKnowledgeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateKnowledgeGroupResponse")
+	}
+	return
+}
+
+// createKnowledgeGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) createKnowledgeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/knowledgeGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateKnowledgeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeGroup/CreateKnowledgeGroup"
+		err = common.PostProcessServiceError(err, "Management", "CreateKnowledgeGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateOdaPrivateEndpoint Starts an asynchronous job to create an ODA Private Endpoint.
 // To monitor the status of the job, take the `opc-work-request-id` response
 // header value and use it to call `GET /workRequests/{workRequestID}`.
@@ -737,6 +850,65 @@ func (client ManagementClient) createSkill(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/CreateSkill"
 		err = common.PostProcessServiceError(err, "Management", "CreateSkill", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateSkillKnowledgeGroupAssociation Creates a new Skill-Knowledge Group Association from scratch.
+// A default retry strategy applies to this operation CreateSkillKnowledgeGroupAssociation()
+func (client ManagementClient) CreateSkillKnowledgeGroupAssociation(ctx context.Context, request CreateSkillKnowledgeGroupAssociationRequest) (response CreateSkillKnowledgeGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSkillKnowledgeGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSkillKnowledgeGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSkillKnowledgeGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSkillKnowledgeGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSkillKnowledgeGroupAssociationResponse")
+	}
+	return
+}
+
+// createSkillKnowledgeGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) createSkillKnowledgeGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/skills/{skillId}/skillKnowledgeGroupAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSkillKnowledgeGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/SkillKnowledgeGroupAssociation/CreateSkillKnowledgeGroupAssociation"
+		err = common.PostProcessServiceError(err, "Management", "CreateSkillKnowledgeGroupAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1024,6 +1196,60 @@ func (client ManagementClient) deleteDigitalAssistant(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteKnowledgeAsset Delete the specified Knowledge Asset
+// A default retry strategy applies to this operation DeleteKnowledgeAsset()
+func (client ManagementClient) DeleteKnowledgeAsset(ctx context.Context, request DeleteKnowledgeAssetRequest) (response DeleteKnowledgeAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteKnowledgeAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteKnowledgeAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteKnowledgeAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteKnowledgeAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteKnowledgeAssetResponse")
+	}
+	return
+}
+
+// deleteKnowledgeAsset implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) deleteKnowledgeAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/knowledgeAssets/{knowledgeAssetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteKnowledgeAssetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/DeleteKnowledgeAsset"
+		err = common.PostProcessServiceError(err, "Management", "DeleteKnowledgeAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOdaPrivateEndpoint Starts an asynchronous job to delete the specified ODA Private Endpoint.
 // To monitor the status of the job, take the `opc-work-request-id` response header value and use it to call `GET /workRequests/{workRequestID}`.
 // A default retry strategy applies to this operation DeleteOdaPrivateEndpoint()
@@ -1236,6 +1462,60 @@ func (client ManagementClient) deleteSkill(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/DeleteSkill"
 		err = common.PostProcessServiceError(err, "Management", "DeleteSkill", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSkillKnowledgeGroupAssociation Delete the specified Skill-Knowledge Group Association
+// A default retry strategy applies to this operation DeleteSkillKnowledgeGroupAssociation()
+func (client ManagementClient) DeleteSkillKnowledgeGroupAssociation(ctx context.Context, request DeleteSkillKnowledgeGroupAssociationRequest) (response DeleteSkillKnowledgeGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSkillKnowledgeGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSkillKnowledgeGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSkillKnowledgeGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSkillKnowledgeGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSkillKnowledgeGroupAssociationResponse")
+	}
+	return
+}
+
+// deleteSkillKnowledgeGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) deleteSkillKnowledgeGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/odaInstances/{odaInstanceId}/skills/{skillId}/skillKnowledgeGroupAssociations/{skillKnowledgeGroupAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSkillKnowledgeGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/SkillKnowledgeGroupAssociation/DeleteSkillKnowledgeGroupAssociation"
+		err = common.PostProcessServiceError(err, "Management", "DeleteSkillKnowledgeGroupAssociation", apiReferenceLink)
 		return response, err
 	}
 
@@ -1675,6 +1955,114 @@ func (client ManagementClient) getDigitalAssistantParameter(ctx context.Context,
 	return response, err
 }
 
+// GetKnowledgeAsset Gets the specified Knowledge Asset.
+// A default retry strategy applies to this operation GetKnowledgeAsset()
+func (client ManagementClient) GetKnowledgeAsset(ctx context.Context, request GetKnowledgeAssetRequest) (response GetKnowledgeAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getKnowledgeAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetKnowledgeAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetKnowledgeAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetKnowledgeAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetKnowledgeAssetResponse")
+	}
+	return
+}
+
+// getKnowledgeAsset implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getKnowledgeAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/knowledgeAssets/{knowledgeAssetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetKnowledgeAssetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/GetKnowledgeAsset"
+		err = common.PostProcessServiceError(err, "Management", "GetKnowledgeAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetKnowledgeGroup Gets the specified Knowledge Group.
+// A default retry strategy applies to this operation GetKnowledgeGroup()
+func (client ManagementClient) GetKnowledgeGroup(ctx context.Context, request GetKnowledgeGroupRequest) (response GetKnowledgeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getKnowledgeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetKnowledgeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetKnowledgeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetKnowledgeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetKnowledgeGroupResponse")
+	}
+	return
+}
+
+// getKnowledgeGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getKnowledgeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetKnowledgeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeGroup/GetKnowledgeGroup"
+		err = common.PostProcessServiceError(err, "Management", "GetKnowledgeGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetOdaPrivateEndpoint Gets the specified ODA Private Endpoint.
 // A default retry strategy applies to this operation GetOdaPrivateEndpoint()
 func (client ManagementClient) GetOdaPrivateEndpoint(ctx context.Context, request GetOdaPrivateEndpointRequest) (response GetOdaPrivateEndpointResponse, err error) {
@@ -1891,6 +2279,60 @@ func (client ManagementClient) getSkill(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// GetSkillKnowledgeGroupAssociation Gets the specified Skill-Knowledge Group Association.
+// A default retry strategy applies to this operation GetSkillKnowledgeGroupAssociation()
+func (client ManagementClient) GetSkillKnowledgeGroupAssociation(ctx context.Context, request GetSkillKnowledgeGroupAssociationRequest) (response GetSkillKnowledgeGroupAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSkillKnowledgeGroupAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSkillKnowledgeGroupAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSkillKnowledgeGroupAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSkillKnowledgeGroupAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSkillKnowledgeGroupAssociationResponse")
+	}
+	return
+}
+
+// getSkillKnowledgeGroupAssociation implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) getSkillKnowledgeGroupAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/skills/{skillId}/skillKnowledgeGroupAssociations/{skillKnowledgeGroupAssociationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSkillKnowledgeGroupAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/SkillKnowledgeGroupAssociation/GetSkillKnowledgeGroupAssociation"
+		err = common.PostProcessServiceError(err, "Management", "GetSkillKnowledgeGroupAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetSkillParameter Gets the specified Skill Parameter.
 // A default retry strategy applies to this operation GetSkillParameter()
 func (client ManagementClient) GetSkillParameter(ctx context.Context, request GetSkillParameterRequest) (response GetSkillParameterResponse, err error) {
@@ -2051,6 +2493,69 @@ func (client ManagementClient) importBot(ctx context.Context, request common.OCI
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Bot/ImportBot"
 		err = common.PostProcessServiceError(err, "Management", "ImportBot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ImportKnowledgeAssetsFromLocation Creates a new Knowledge Asset from publicly accessible object storage location.
+// This can be a single file or directory. In the case of a directory, one asset will be created for each
+// supported document in the directory and any subdirectories. An optional matching .metadata file can be
+// included in the same directory as each document containing an instance of `UpdateKnowledgeAssetDetails`
+// in JSON format. This metadata will be used to update the asset once created.
+// A default retry strategy applies to this operation ImportKnowledgeAssetsFromLocation()
+func (client ManagementClient) ImportKnowledgeAssetsFromLocation(ctx context.Context, request ImportKnowledgeAssetsFromLocationRequest) (response ImportKnowledgeAssetsFromLocationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importKnowledgeAssetsFromLocation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportKnowledgeAssetsFromLocationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportKnowledgeAssetsFromLocationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportKnowledgeAssetsFromLocationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportKnowledgeAssetsFromLocationResponse")
+	}
+	return
+}
+
+// importKnowledgeAssetsFromLocation implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) importKnowledgeAssetsFromLocation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/actions/importAssetsFromLocation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportKnowledgeAssetsFromLocationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/ImportKnowledgeAssetsFromLocation"
+		err = common.PostProcessServiceError(err, "Management", "ImportKnowledgeAssetsFromLocation", apiReferenceLink)
 		return response, err
 	}
 
@@ -2286,6 +2791,120 @@ func (client ManagementClient) listDigitalAssistants(ctx context.Context, reques
 	return response, err
 }
 
+// ListKnowledgeAssets Returns a page of Knowledge Assets that belong to the specified Knowledge Group.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListKnowledgeAssets()
+func (client ManagementClient) ListKnowledgeAssets(ctx context.Context, request ListKnowledgeAssetsRequest) (response ListKnowledgeAssetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listKnowledgeAssets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListKnowledgeAssetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListKnowledgeAssetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListKnowledgeAssetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListKnowledgeAssetsResponse")
+	}
+	return
+}
+
+// listKnowledgeAssets implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listKnowledgeAssets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/knowledgeAssets", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListKnowledgeAssetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/ListKnowledgeAssets"
+		err = common.PostProcessServiceError(err, "Management", "ListKnowledgeAssets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListKnowledgeGroups Returns a page of Knowledge Groups that belong to the specified Digital Assistant instance.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListKnowledgeGroups()
+func (client ManagementClient) ListKnowledgeGroups(ctx context.Context, request ListKnowledgeGroupsRequest) (response ListKnowledgeGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listKnowledgeGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListKnowledgeGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListKnowledgeGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListKnowledgeGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListKnowledgeGroupsResponse")
+	}
+	return
+}
+
+// listKnowledgeGroups implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listKnowledgeGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/knowledgeGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListKnowledgeGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeGroup/ListKnowledgeGroups"
+		err = common.PostProcessServiceError(err, "Management", "ListKnowledgeGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListOdaPrivateEndpointAttachments Returns a page of ODA Instances attached to this ODA Private Endpoint.
 // If the `opc-next-page` header appears in the response, then
 // there are more items to retrieve. To get the next page in the subsequent
@@ -2452,6 +3071,63 @@ func (client ManagementClient) listOdaPrivateEndpoints(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/OdaPrivateEndpoint/ListOdaPrivateEndpoints"
 		err = common.PostProcessServiceError(err, "Management", "ListOdaPrivateEndpoints", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSkillKnowledgeGroupAssociations Returns a page of Skill-Knowledge Group Associations that belong to the specified skill.
+// If the `opc-next-page` header appears in the response, then
+// there are more items to retrieve. To get the next page in the subsequent
+// GET request, include the header's value as the `page` query parameter.
+// A default retry strategy applies to this operation ListSkillKnowledgeGroupAssociations()
+func (client ManagementClient) ListSkillKnowledgeGroupAssociations(ctx context.Context, request ListSkillKnowledgeGroupAssociationsRequest) (response ListSkillKnowledgeGroupAssociationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSkillKnowledgeGroupAssociations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSkillKnowledgeGroupAssociationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSkillKnowledgeGroupAssociationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSkillKnowledgeGroupAssociationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSkillKnowledgeGroupAssociationsResponse")
+	}
+	return
+}
+
+// listSkillKnowledgeGroupAssociations implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) listSkillKnowledgeGroupAssociations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/odaInstances/{odaInstanceId}/skills/{skillId}/skillKnowledgeGroupAssociations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSkillKnowledgeGroupAssociationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/SkillKnowledgeGroupAssociation/ListSkillKnowledgeGroupAssociations"
+		err = common.PostProcessServiceError(err, "Management", "ListSkillKnowledgeGroupAssociations", apiReferenceLink)
 		return response, err
 	}
 
@@ -2733,6 +3409,60 @@ func (client ManagementClient) publishSkill(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/Skill/PublishSkill"
 		err = common.PostProcessServiceError(err, "Management", "PublishSkill", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReimportKnowledgeAssetFromLocation Reimport the document for the asset from a publicly-accessible object storage location pointing to a single document.
+// A default retry strategy applies to this operation ReimportKnowledgeAssetFromLocation()
+func (client ManagementClient) ReimportKnowledgeAssetFromLocation(ctx context.Context, request ReimportKnowledgeAssetFromLocationRequest) (response ReimportKnowledgeAssetFromLocationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.reimportKnowledgeAssetFromLocation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReimportKnowledgeAssetFromLocationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReimportKnowledgeAssetFromLocationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReimportKnowledgeAssetFromLocationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReimportKnowledgeAssetFromLocationResponse")
+	}
+	return
+}
+
+// reimportKnowledgeAssetFromLocation implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) reimportKnowledgeAssetFromLocation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/knowledgeAssets/{knowledgeAssetId}/actions/reimportFromLocation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReimportKnowledgeAssetFromLocationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/ReimportKnowledgeAssetFromLocation"
+		err = common.PostProcessServiceError(err, "Management", "ReimportKnowledgeAssetFromLocation", apiReferenceLink)
 		return response, err
 	}
 
@@ -3172,6 +3902,114 @@ func (client ManagementClient) updateDigitalAssistantParameter(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/DigitalAssistantParameter/UpdateDigitalAssistantParameter"
 		err = common.PostProcessServiceError(err, "Management", "UpdateDigitalAssistantParameter", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateKnowledgeAsset Updates the specified Knowledge Asset with the information in the request body.
+// A default retry strategy applies to this operation UpdateKnowledgeAsset()
+func (client ManagementClient) UpdateKnowledgeAsset(ctx context.Context, request UpdateKnowledgeAssetRequest) (response UpdateKnowledgeAssetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateKnowledgeAsset, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateKnowledgeAssetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateKnowledgeAssetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateKnowledgeAssetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateKnowledgeAssetResponse")
+	}
+	return
+}
+
+// updateKnowledgeAsset implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) updateKnowledgeAsset(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}/knowledgeAssets/{knowledgeAssetId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateKnowledgeAssetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeAsset/UpdateKnowledgeAsset"
+		err = common.PostProcessServiceError(err, "Management", "UpdateKnowledgeAsset", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateKnowledgeGroup Updates the specified Knowledge Group with the information in the request body.
+// A default retry strategy applies to this operation UpdateKnowledgeGroup()
+func (client ManagementClient) UpdateKnowledgeGroup(ctx context.Context, request UpdateKnowledgeGroupRequest) (response UpdateKnowledgeGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateKnowledgeGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateKnowledgeGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateKnowledgeGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateKnowledgeGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateKnowledgeGroupResponse")
+	}
+	return
+}
+
+// updateKnowledgeGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagementClient) updateKnowledgeGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/odaInstances/{odaInstanceId}/knowledgeGroups/{knowledgeGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateKnowledgeGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/digital-assistant/20190506/KnowledgeGroup/UpdateKnowledgeGroup"
+		err = common.PostProcessServiceError(err, "Management", "UpdateKnowledgeGroup", apiReferenceLink)
 		return response, err
 	}
 

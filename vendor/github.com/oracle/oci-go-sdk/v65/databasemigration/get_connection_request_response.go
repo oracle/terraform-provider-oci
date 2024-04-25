@@ -14,7 +14,7 @@ import (
 // GetConnectionRequest wrapper for the GetConnection operation
 type GetConnectionRequest struct {
 
-	// The OCID of the database connection.
+	// The OCID of the database connection
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a

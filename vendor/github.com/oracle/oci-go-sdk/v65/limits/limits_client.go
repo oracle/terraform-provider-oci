@@ -94,8 +94,9 @@ func (client *LimitsClient) ConfigurationProvider() *common.ConfigurationProvide
 // GetResourceAvailability For a given compartmentId, resource limit name, and scope, returns the following:
 //   - The number of available resources associated with the given limit.
 //   - The usage in the selected compartment for the given limit.
-//     Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 //
+// If Subscription Id is provided, then usage for resource created in that subscription will be returned
+// Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 // A default retry strategy applies to this operation GetResourceAvailability()
 func (client LimitsClient) GetResourceAvailability(ctx context.Context, request GetResourceAvailabilityRequest) (response GetResourceAvailabilityResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -149,7 +150,7 @@ func (client LimitsClient) getResourceAvailability(ctx context.Context, request 
 	return response, err
 }
 
-// ListLimitDefinitions Includes a list of resource limits that are currently supported.
+// ListLimitDefinitions Includes a list of resource limits that are currently supported. If subscription Id is provided, then only resource limits supported by subscription will be returned
 // If the 'areQuotasSupported' property is true, you can create quota policies on top of this limit at the
 // compartment level.
 // A default retry strategy applies to this operation ListLimitDefinitions()
@@ -205,7 +206,7 @@ func (client LimitsClient) listLimitDefinitions(ctx context.Context, request com
 	return response, err
 }
 
-// ListLimitValues Includes a full list of resource limits belonging to a given service.
+// ListLimitValues Includes a full list of resource limits belonging to a given service. If subscription Id is provided, limit value for subscription will be returned.
 // A default retry strategy applies to this operation ListLimitValues()
 func (client LimitsClient) ListLimitValues(ctx context.Context, request ListLimitValuesRequest) (response ListLimitValuesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -259,7 +260,7 @@ func (client LimitsClient) listLimitValues(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListServices Returns the list of supported services.
+// ListServices Returns the list of supported services. If subscription ID is provided then only services supported by subscription will be returned.
 // This includes the programmatic service name, along with the friendly service name.
 // A default retry strategy applies to this operation ListServices()
 func (client LimitsClient) ListServices(ctx context.Context, request ListServicesRequest) (response ListServicesResponse, err error) {

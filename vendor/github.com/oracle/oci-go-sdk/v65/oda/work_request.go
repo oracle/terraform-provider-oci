@@ -129,6 +129,10 @@ const (
 	WorkRequestRequestActionTrainSkill                          WorkRequestRequestActionEnum = "TRAIN_SKILL"
 	WorkRequestRequestActionDeleteSkillEntities                 WorkRequestRequestActionEnum = "DELETE_SKILL_ENTITIES"
 	WorkRequestRequestActionImportSkillEntities                 WorkRequestRequestActionEnum = "IMPORT_SKILL_ENTITIES"
+	WorkRequestRequestActionDeleteKnowledgeGroup                WorkRequestRequestActionEnum = "DELETE_KNOWLEDGE_GROUP"
+	WorkRequestRequestActionImportKnowledgeAssets               WorkRequestRequestActionEnum = "IMPORT_KNOWLEDGE_ASSETS"
+	WorkRequestRequestActionSyncKnowledgeAsset                  WorkRequestRequestActionEnum = "SYNC_KNOWLEDGE_ASSET"
+	WorkRequestRequestActionDeleteKnowledgeAsset                WorkRequestRequestActionEnum = "DELETE_KNOWLEDGE_ASSET"
 )
 
 var mappingWorkRequestRequestActionEnum = map[string]WorkRequestRequestActionEnum{
@@ -175,6 +179,10 @@ var mappingWorkRequestRequestActionEnum = map[string]WorkRequestRequestActionEnu
 	"TRAIN_SKILL":                             WorkRequestRequestActionTrainSkill,
 	"DELETE_SKILL_ENTITIES":                   WorkRequestRequestActionDeleteSkillEntities,
 	"IMPORT_SKILL_ENTITIES":                   WorkRequestRequestActionImportSkillEntities,
+	"DELETE_KNOWLEDGE_GROUP":                  WorkRequestRequestActionDeleteKnowledgeGroup,
+	"IMPORT_KNOWLEDGE_ASSETS":                 WorkRequestRequestActionImportKnowledgeAssets,
+	"SYNC_KNOWLEDGE_ASSET":                    WorkRequestRequestActionSyncKnowledgeAsset,
+	"DELETE_KNOWLEDGE_ASSET":                  WorkRequestRequestActionDeleteKnowledgeAsset,
 }
 
 var mappingWorkRequestRequestActionEnumLowerCase = map[string]WorkRequestRequestActionEnum{
@@ -221,6 +229,10 @@ var mappingWorkRequestRequestActionEnumLowerCase = map[string]WorkRequestRequest
 	"train_skill":                             WorkRequestRequestActionTrainSkill,
 	"delete_skill_entities":                   WorkRequestRequestActionDeleteSkillEntities,
 	"import_skill_entities":                   WorkRequestRequestActionImportSkillEntities,
+	"delete_knowledge_group":                  WorkRequestRequestActionDeleteKnowledgeGroup,
+	"import_knowledge_assets":                 WorkRequestRequestActionImportKnowledgeAssets,
+	"sync_knowledge_asset":                    WorkRequestRequestActionSyncKnowledgeAsset,
+	"delete_knowledge_asset":                  WorkRequestRequestActionDeleteKnowledgeAsset,
 }
 
 // GetWorkRequestRequestActionEnumValues Enumerates the set of values for WorkRequestRequestActionEnum
@@ -278,6 +290,10 @@ func GetWorkRequestRequestActionEnumStringValues() []string {
 		"TRAIN_SKILL",
 		"DELETE_SKILL_ENTITIES",
 		"IMPORT_SKILL_ENTITIES",
+		"DELETE_KNOWLEDGE_GROUP",
+		"IMPORT_KNOWLEDGE_ASSETS",
+		"SYNC_KNOWLEDGE_ASSET",
+		"DELETE_KNOWLEDGE_ASSET",
 	}
 }
 

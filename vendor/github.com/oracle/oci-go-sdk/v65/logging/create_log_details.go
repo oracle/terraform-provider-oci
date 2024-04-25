@@ -72,16 +72,19 @@ type CreateLogDetailsLogTypeEnum string
 const (
 	CreateLogDetailsLogTypeCustom  CreateLogDetailsLogTypeEnum = "CUSTOM"
 	CreateLogDetailsLogTypeService CreateLogDetailsLogTypeEnum = "SERVICE"
+	CreateLogDetailsLogTypeSiem    CreateLogDetailsLogTypeEnum = "SIEM"
 )
 
 var mappingCreateLogDetailsLogTypeEnum = map[string]CreateLogDetailsLogTypeEnum{
 	"CUSTOM":  CreateLogDetailsLogTypeCustom,
 	"SERVICE": CreateLogDetailsLogTypeService,
+	"SIEM":    CreateLogDetailsLogTypeSiem,
 }
 
 var mappingCreateLogDetailsLogTypeEnumLowerCase = map[string]CreateLogDetailsLogTypeEnum{
 	"custom":  CreateLogDetailsLogTypeCustom,
 	"service": CreateLogDetailsLogTypeService,
+	"siem":    CreateLogDetailsLogTypeSiem,
 }
 
 // GetCreateLogDetailsLogTypeEnumValues Enumerates the set of values for CreateLogDetailsLogTypeEnum
@@ -98,6 +101,7 @@ func GetCreateLogDetailsLogTypeEnumStringValues() []string {
 	return []string{
 		"CUSTOM",
 		"SERVICE",
+		"SIEM",
 	}
 }
 

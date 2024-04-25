@@ -26,8 +26,6 @@ type UpdateExascaleDbStorageVaultDetails struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"false" json:"highCapacityDatabaseStorage"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
