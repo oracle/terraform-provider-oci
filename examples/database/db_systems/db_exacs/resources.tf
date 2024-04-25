@@ -71,6 +71,7 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
   source       = "VM_CLUSTER_NEW"
   db_version   = "19.0.0.0"
   display_name = "createdDbHome"
+  is_unified_auditing_enabled = "true"
 }
 
 resource "oci_database_db_home" "test_dbrs_db_home_vm_cluster" {
