@@ -26,6 +26,10 @@ func DatabaseManagementExternalDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"external_database_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"external_db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -196,6 +200,11 @@ func DatabaseManagementExternalDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"time_created": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -239,6 +248,11 @@ func (s *DatabaseManagementExternalDatabasesDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if externalDatabaseId, ok := s.D.GetOkExists("external_database_id"); ok {
+		tmp := externalDatabaseId.(string)
+		request.ExternalDatabaseId = &tmp
 	}
 
 	if externalDbSystemId, ok := s.D.GetOkExists("external_db_system_id"); ok {
@@ -381,6 +395,10 @@ func ExternalDatabaseSummaryToMap(obj oci_database_management.ExternalDatabaseSu
 	result["instance_details"] = instanceDetails
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

@@ -48,5 +48,6 @@ The following attributes are exported:
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `memory_size_in_gbs` - The total memory in gigabytes (GB) on the DB node.
 * `state` - The current lifecycle state of the external DB node.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the external DB node was created.
 * `time_updated` - The date and time the external DB node was last updated.

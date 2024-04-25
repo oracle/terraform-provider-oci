@@ -90,6 +90,10 @@ func (s *DatabaseManagementExternalDbSystemConnectorDataSourceCrud) SetData() er
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
 		}

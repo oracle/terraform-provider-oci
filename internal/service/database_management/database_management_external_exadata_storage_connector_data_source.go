@@ -108,6 +108,10 @@ func (s *DatabaseManagementExternalExadataStorageConnectorDataSourceCrud) SetDat
 		s.D.Set("storage_server_id", *s.Res.StorageServerId)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}

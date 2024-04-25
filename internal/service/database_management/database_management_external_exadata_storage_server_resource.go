@@ -118,6 +118,11 @@ func DatabaseManagementExternalExadataStorageServerResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"time_created": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -196,6 +201,11 @@ func DatabaseManagementExternalExadataStorageServerResource() *schema.Resource {
 			"storage_grid_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -426,6 +436,10 @@ func (s *DatabaseManagementExternalExadataStorageServerResourceCrud) SetData() e
 
 	if s.Res.StorageGridId != nil {
 		s.D.Set("storage_grid_id", *s.Res.StorageGridId)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

@@ -64,10 +64,12 @@ The following attributes are exported:
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Managed Database.
 	* `name` - The name of the Managed Database.
+	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `time_added` - The date and time the Managed Database was added to the group.
 	* `workload_type` - The workload type of the Autonomous Database.
 * `name` - The name of the Managed Database Group.
 * `state` - The current lifecycle state of the Managed Database Group.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the Managed Database Group was created.
 * `time_updated` - The date and time the Managed Database Group was last updated.
 

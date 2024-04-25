@@ -20,9 +20,9 @@ var (
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"external_db_system_id": acctest.Representation{RepType: acctest.Required, Create: `${var.external_dbsystem_id}`},
+		"external_database_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_external_database.test_external_database.id}`},
 	}
 
-	//DatabaseManagementExternalDatabaseResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_management_external_db_system", "test_external_db_system", acctest.Required, acctest.Create, DatabaseManagementExternalDbSystemRepresentation)
 	DatabaseManagementExternalDatabaseResourceConfig = ""
 )
 
@@ -51,7 +51,6 @@ func TestDatabaseManagementExternalDatabaseResource_basic(t *testing.T) {
 				compartmentIdVariableStr + dbSystemIdVariableStr + DatabaseManagementExternalDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "external_db_system_id"),
-
 				resource.TestCheckResourceAttrSet(datasourceName, "external_database_collection.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "external_database_collection.0.items.#"),
 			),
