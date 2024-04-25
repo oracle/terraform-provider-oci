@@ -25,6 +25,8 @@ resource "oci_queue_queue" "test_queue" {
 	channel_consumption_limit = var.queue_channel_consumption_limit
 	custom_encryption_key_id = oci_kms_key.test_key.id
 	dead_letter_queue_delivery_count = var.queue_dead_letter_queue_delivery_count
+	purge_trigger = var.purge_trigger
+	purge_type = var.purge_type
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
 	retention_in_seconds = var.queue_retention_in_seconds
@@ -48,7 +50,7 @@ The following arguments are supported:
 * `timeout_in_seconds` - (Optional) (Updatable) The default polling timeout of the messages in the queue, in seconds.
 * `visibility_in_seconds` - (Optional) (Updatable) The default visibility timeout of the messages consumed from the queue, in seconds.
 * `purge_trigger` - (Optional) (Updatable) An optional property when incremented triggers Purge. Could be set to any integer value.
-
+* `purge_type` - (Optional) (Updatable) An optional value that specifies the purge behavior for the Queue. Could be set to NORMAL, DLQ or BOTH. If unset, the default value is NORMAL
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values

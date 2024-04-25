@@ -182,13 +182,14 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + compartmentIdUVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(QueueQueueRepresentation, map[string]interface{}{
-						"purge_queue": acctest.Representation{RepType: acctest.Required, Create: `true`},
-						"purge_type":  acctest.Representation{RepType: acctest.Required, Create: `normal`},
+						"purge_trigger": acctest.Representation{RepType: acctest.Required, Create: `0`},
+						"purge_type":    acctest.Representation{RepType: acctest.Required, Create: `normal`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "purge_queue"),
+				resource.TestCheckResourceAttr(resourceName, "purge_trigger", "0"),
+				resource.TestCheckResourceAttr(resourceName, "purge_type", "normal"),
 				resource.TestCheckResourceAttr(resourceName, "dead_letter_queue_delivery_count", "10"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -211,8 +212,8 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters and we are not setting  the purge queue related
-		// parameters. So it should not trigger purge queue.
+		// verify updates to updatable parameters and we are not setting the purge trigger and purge_type parameters.
+		// so it should not trigger purge queue.
 		{
 			Config: config + compartmentIdVariableStr + customEncryptionKeyIdVariableStr + QueueQueueResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_queue_queue", "test_queue", acctest.Optional, acctest.Update, QueueQueueRepresentation),
@@ -220,6 +221,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "channel_consumption_limit", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "custom_encryption_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "purge_trigger", "0"),
 				resource.TestCheckResourceAttr(resourceName, "dead_letter_queue_delivery_count", "11"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -287,7 +289,7 @@ func TestQueueQueueResource_basic(t *testing.T) {
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
-				"purge_queue",
+				"purge_trigger",
 				"purge_type",
 			},
 			ResourceName: resourceName,
