@@ -106,6 +106,11 @@ func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"time_added": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -122,6 +127,11 @@ func DatabaseManagementManagedDatabaseGroupResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -513,6 +523,10 @@ func (s *DatabaseManagementManagedDatabaseGroupResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -551,6 +565,10 @@ func ChildDatabaseToMap(obj oci_database_management.ChildDatabase) map[string]in
 		result["name"] = string(*obj.Name)
 	}
 
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
 	if obj.TimeAdded != nil {
 		result["time_added"] = obj.TimeAdded.String()
 	}
@@ -586,6 +604,10 @@ func ManagedDatabaseGroupSummaryToMap(obj oci_database_management.ManagedDatabas
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
