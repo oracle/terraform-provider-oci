@@ -235,6 +235,11 @@ func DatabaseManagementExternalDbSystemConnectorResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_connection_status_last_updated": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -528,6 +533,10 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) SetData() erro
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.CompartmentId != nil {
 			s.D.Set("compartment_id", *v.CompartmentId)
@@ -1191,6 +1200,10 @@ func ExternalDbSystemConnectorSummaryToMap(obj oci_database_management.ExternalD
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()

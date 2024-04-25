@@ -69,6 +69,7 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external DB system connector.
 * `lifecycle_details` - Additional information about the current lifecycle state.
 * `state` - The current lifecycle state of the external DB system connector.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_connection_status_last_updated` - The date and time the connectionStatus of the external DB system connector was last updated.
 * `time_created` - The date and time the external DB system connector was created.
 * `time_updated` - The date and time the external DB system connector was last updated.
