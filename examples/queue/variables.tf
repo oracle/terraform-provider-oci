@@ -49,3 +49,11 @@ variable "queue_visibility_in_seconds" {
 variable "queue_channel_consumption_limit" {
   default = 10
 }
+
+variable "purge_type" {
+  default = "NORMAL"
+}
+
+variable "purge_trigger" {
+  default = 1
+}

@@ -85,10 +85,11 @@ func QueueQueueResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
-			"purge_queue": {
-				Type:     schema.TypeBool,
+			"purge_trigger": {
+				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			// purge_type is an optional value that can be one of [NORMAL, DLQ, BOTH], default: normal
 			"purge_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -133,14 +134,16 @@ func createQueueQueue(d *schema.ResourceData, m interface{}) error {
 		return e
 	}
 
-	if value, ok := sync.D.GetOkExists("purge_queue"); ok && value.(bool) {
+	// Purging the queue immediately after creating is optional and is done if purge_trigger is set
+	// Call purge_queue if "purge_trigger" exists
+	if _, ok := sync.D.GetOk("purge_trigger"); ok {
 		err := sync.PurgeQueue()
 		if err != nil {
 			return err
 		}
 	}
-	return nil
 
+	return nil
 }
 
 func readQueueQueue(d *schema.ResourceData, m interface{}) error {
@@ -156,11 +159,20 @@ func updateQueueQueue(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).QueueAdminClient()
 
-	// Checking only if the purge queue key exists in configuration and is set to true.
-	if value, ok := sync.D.GetOkExists("purge_queue"); ok && value.(bool) {
-		err := sync.PurgeQueue()
-		if err != nil {
-			return err
+	// Check if purge_trigger has a change and call purge_queue if the new value is greater than old value
+	if _, ok := sync.D.GetOk("purge_trigger"); ok && sync.D.HasChange("purge_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("purge_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if newValue > oldValue {
+			err := sync.PurgeQueue()
+			if err != nil {
+				return err
+			}
+		} else {
+			// Set the value back to the old value in Terraform state
+			sync.D.Set("purge_trigger", oldRaw)
+			return fmt.Errorf("new value of purge_trigger should be greater than the old value to trigger purge")
 		}
 	}
 
@@ -603,6 +615,13 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 		request.PurgeType, _ = oci_queue.GetMappingPurgeQueueDetailsPurgeTypeEnum(purgeType.(string))
 	}
 
+	// Check if "purge_type" exists in the state and set its value in the request, set default NORMAL
+	if purgeType, ok := s.D.GetOk("purge_type"); ok {
+		request.PurgeType, _ = oci_queue.GetMappingPurgeQueueDetailsPurgeTypeEnum(purgeType.(string))
+	} else {
+		request.PurgeType, _ = oci_queue.GetMappingPurgeQueueDetailsPurgeTypeEnum("NORMAL")
+	}
+
 	idTmp := s.D.Id()
 	request.QueueId = &idTmp
 
@@ -616,9 +635,6 @@ func (s *QueueQueueResourceCrud) PurgeQueue() error {
 	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
 		return waitErr
 	}
-
-	val := s.D.Get("purge_queue")
-	s.D.Set("purge_queue", val)
 
 	workId := response.OpcWorkRequestId
 	return s.getQueueFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "queue"), oci_queue.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
