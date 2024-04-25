@@ -363,6 +363,12 @@ func DatabaseDbHomeResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_unified_auditing_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -833,6 +839,10 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsUnifiedAuditingEnabled != nil {
+		s.D.Set("is_unified_auditing_enabled", *s.Res.IsUnifiedAuditingEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}
@@ -1193,6 +1203,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -1229,6 +1243,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
+		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
@@ -1289,6 +1307,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -1336,6 +1358,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
 		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
+		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
@@ -1382,6 +1408,10 @@ func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequ
 		if isDesupportedVersion, ok := s.D.GetOkExists("is_desupported_version"); ok {
 			tmp := isDesupportedVersion.(bool)
 			details.IsDesupportedVersion = &tmp
+		}
+		if isUnifiedAuditingEnabled, ok := s.D.GetOkExists("is_unified_auditing_enabled"); ok {
+			tmp := isUnifiedAuditingEnabled.(bool)
+			details.IsUnifiedAuditingEnabled = &tmp
 		}
 		if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 			tmp := kmsKeyId.(string)

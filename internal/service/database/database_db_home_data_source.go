@@ -96,6 +96,10 @@ func (s *DatabaseDbHomeDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsUnifiedAuditingEnabled != nil {
+		s.D.Set("is_unified_auditing_enabled", *s.Res.IsUnifiedAuditingEnabled)
+	}
+
 	if s.Res.KmsKeyId != nil {
 		s.D.Set("kms_key_id", *s.Res.KmsKeyId)
 	}

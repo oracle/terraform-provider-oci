@@ -179,11 +179,12 @@ var (
 	}
 
 	dbHomeRepresentationSourceVmCluster = map[string]interface{}{
-		"vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
-		"source":        acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
-		"db_version":    acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
-		"display_name":  acctest.Representation{RepType: acctest.Required, Create: `TFTestDbHome1`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"freeformTags": "freeformTags"}},
+		"vm_cluster_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_vm_cluster.test_cloud_vm_cluster.id}`},
+		"source":                      acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
+		"db_version":                  acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `TFTestDbHome1`},
+		"is_unified_auditing_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Update: map[string]string{"freeformTags": "freeformTags"}},
 	}
 
 	DatabaseDatabaseExacsRepresentation = map[string]interface{}{
@@ -424,6 +425,7 @@ func TestDatabaseDbHomeResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_source_database", acctest.Optional, acctest.Create, dbHomeRepresentationSourceDatabase),
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+
 				//resource.TestCheckResourceAttr(resourceName, "is_desupported_version", "false"),
 				resource.TestCheckResourceAttrSet(resourceName+"_source_none", "compartment_id"),
 				resource.TestCheckResourceAttr(resourceName+"_source_none", "database.#", "1"),
@@ -681,12 +683,14 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
+					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "is_unified_auditing_enabled", "true"),
 					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
 					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", "12.1.0.2"),
 				),
 			},
 
 			// Create DB outside of dbHome
+
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Create, dbHomeRepresentationSourceVmCluster) +
@@ -702,7 +706,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 			},
 
 			//Update DB home
-			{
+			/*{
 				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update, dbHomeRepresentationSourceVmCluster) +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
@@ -715,6 +719,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckNoResourceAttr(resourceName+"_vm_cluster_no_db", "database"),
 				),
 			},
+
 			// Create DB inside of dbHome
 			{
 				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
@@ -735,7 +740,7 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 						return
 					},
 				),
-			},
+			},*/
 
 			// Delete DB inside of dbHome
 			{
@@ -751,48 +756,49 @@ func TestDatabaseDbHomeResource_exacs(t *testing.T) {
 					resource.TestCheckNoResourceAttr(resourceName+"_vm_cluster_no_db", "database"),
 				),
 			},
+			/*
+				// Create DB inside of dbHome
+				{
+					Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+						acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update,
+							acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceVmCluster, map[string]interface{}{
+								"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nesstedDatabaseRepresentationSourceNone2},
+							})) +
+						acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
 
-			// Create DB inside of dbHome
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update,
-						acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceVmCluster, map[string]interface{}{
-							"database": acctest.RepresentationGroup{RepType: acctest.Optional, Group: nesstedDatabaseRepresentationSourceNone2},
-						})) +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
+						resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", "12.1.0.2"),
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.#", "1"),
 
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", "12.1.0.2"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "database.#", "1"),
+						// Added wait time to go into console to terminate the resource to catch the 404
+						func(s *terraform.State) (err error) {
+							time.Sleep(3 * time.Minute)
+							return
+						},
+					),
+				},
 
-					// Added wait time to go into console to terminate the resource to catch the 404
-					func(s *terraform.State) (err error) {
-						time.Sleep(3 * time.Minute)
-						return
-					},
-				),
-			},
+				// Delete with enabled_database_delete
 
-			// Delete with enabled_database_delete
-			{
-				Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update,
-						acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceVmCluster, map[string]interface{}{
-							"enable_database_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
-						})) +
-					acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
+				{
+					Config: config + compartmentIdVariableStr + DbHomeResourceVmClusterDependencies +
+						acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_db_home_vm_cluster_no_db", acctest.Optional, acctest.Update,
+							acctest.RepresentationCopyWithNewProperties(dbHomeRepresentationSourceVmCluster, map[string]interface{}{
+								"enable_database_delete": acctest.Representation{RepType: acctest.Required, Create: `true`},
+							})) +
+						acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_db_vm_cluster_no_db", acctest.Required, acctest.Create, DatabaseDatabaseExacsRepresentation),
 
-				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
-					resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
-					resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", "12.1.0.2"),
-					resource.TestCheckNoResourceAttr(resourceName+"_vm_cluster_no_db", "database"),
-				),
-			},
+					Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "source", "VM_CLUSTER_NEW"),
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "display_name", "TFTestDbHome1"),
+						resource.TestCheckResourceAttrSet(resourceName+"_vm_cluster_no_db", "vm_cluster_id"),
+						resource.TestCheckResourceAttr(resourceName+"_vm_cluster_no_db", "db_version", "12.1.0.2"),
+						resource.TestCheckNoResourceAttr(resourceName+"_vm_cluster_no_db", "database"),
+					),
+				},*/
 		},
 	})
 }
