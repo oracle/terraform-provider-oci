@@ -25,6 +25,8 @@ resource "oci_queue_queue" "test_queue1" {
   #Optional
   custom_encryption_key_id         = var.queue_custom_encryption_key_id # We can have dependency on the oci_kms_key and get the key id from that
   dead_letter_queue_delivery_count = var.queue_dead_letter_queue_delivery_count
+  purge_trigger                    = var.purge_trigger
+  purge_type                       = var.purge_type
   freeform_tags                    = var.queue_freeform_tags
   retention_in_seconds             = var.queue_retention_in_seconds
   timeout_in_seconds               = var.queue_timeout_in_seconds
@@ -32,28 +34,27 @@ resource "oci_queue_queue" "test_queue1" {
   channel_consumption_limit        = var.queue_channel_consumption_limit
 }
 
-# Purging the queue immediately after create if requried. We are using the purge queue optional parameter
+# Purging the queue immediately after create if required. Queue is purged if purge trigger is set to any integer value. We are using the purge trigger and purge type optional parameter.
+# We are purging the queue immediately after create.
 resource "oci_queue_queue" "test_queue2" {
   #Required
   compartment_id = var.compartment_id
   display_name   = var.queue_display_name
 
   #Optional
-  purge_queue = true
+  purge_trigger = 1
   purge_type = "normal"
 
 }
 
-# Normal queue creation if purge queue parameter is set to false. This will not trigger the purge queue operation. In addition, presence of purge type if purge queue is false or absent is a no-op.
+# Normal queue creation if purge trigger parameter is unset. This will not trigger the purge queue operation. In addition, presence of purge type if purge trigger is unset is a no-op.
 resource "oci_queue_queue" "test_queue3" {
   #Required
   compartment_id = var.compartment_id
   display_name   = var.queue_display_name
 
   #Optional
-  purge_queue = false
   purge_type = "normal"
-
 }
 
 data "oci_queue_queues" "test_queues" {
