@@ -80,6 +80,8 @@ The following attributes are exported:
 * `group_by` - Aggregate the result by.
 * `items` - A list of usage items.
 	* `ad` - The availability domain of the usage.
+	* `attributed_cost` - The attributed cost with a max value of 9999999999.999999999999 and a minimum value of 0.
+	* `attributed_usage` - The attributed usage with a max value of 9999999999.999999999999 and a minimum value of 0.
 	* `compartment_id` - The compartment OCID.
 	* `compartment_name` - The compartment name.
 	* `compartment_path` - The compartment path, starting from root.
