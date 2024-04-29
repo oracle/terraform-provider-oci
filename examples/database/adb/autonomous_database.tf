@@ -129,6 +129,31 @@ resource "oci_database_autonomous_database" "test_autonomous_database_bck_ret_da
   is_free_tier                         = "false"
 }
 
+resource "oci_database_autonomous_database" "autonomous_database_private_ip_with_acls" {
+  #Required
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "2.0"
+  compute_model            = "ECPU"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbdbpeacl"
+
+  #Optional
+  db_version                                     = data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions[0].version
+  db_workload                                    = var.autonomous_database_db_workload
+  display_name                                   = "example_autonomous_database"
+  freeform_tags                                  = var.autonomous_database_freeform_tags
+  is_auto_scaling_enabled                        = "true"
+  is_auto_scaling_for_storage_enabled            = "true"
+  license_model                                  = var.autonomous_database_license_model
+  is_preview_version_with_service_terms_accepted = "false"
+  character_set                                  = "AL32UTF8"
+  ncharacter_set                                 = "AL16UTF16"
+  subnet_id = oci_core_subnet.test_subnet.id
+  nsg_ids = ["test-bn-nsg-id-1"]
+  whitelisted_ips = ["1.1.1.28"]
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_db_tools" {
   admin_password                       = random_string.autonomous_database_admin_password.result
   compartment_id                       = var.compartment_ocid
