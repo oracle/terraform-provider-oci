@@ -1,3 +1,13 @@
+## 5.40.0 (Unreleased)
+
+### Added
+- Support for Database Management : Support ExaCC databases Fixed merge conflicts
+- Support for New Features: Network Security Group support in ZRCV cloud service
+- Support for Data Safe - Pre masking health check
+- Support for Ability to set Unified Auditing option for Create DBHome | ExaDB-D
+- Fixed AWS_S3 migrations bug, update resource issue with the optional atributes and documentation added
+OKE Workload Identity Auth support
+
 ## 5.39.0 (April 24, 2024)
 
 ### Added
