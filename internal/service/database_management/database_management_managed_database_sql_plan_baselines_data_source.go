@@ -307,15 +307,15 @@ func (s *DatabaseManagementManagedDatabaseSqlPlanBaselinesDataSourceCrud) SetDat
 func SqlPlanBaselineSummaryToMap(obj oci_database_management.SqlPlanBaselineSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	result["accepted"] = string(*obj.Accepted)
+	result["accepted"] = string(obj.Accepted)
 
-	result["adaptive"] = string(*obj.Adaptive)
+	result["adaptive"] = string(obj.Adaptive)
 
-	result["auto_purge"] = string(*obj.AutoPurge)
+	result["auto_purge"] = string(obj.AutoPurge)
 
-	result["enabled"] = string(*obj.Enabled)
+	result["enabled"] = string(obj.Enabled)
 
-	result["fixed"] = string(*obj.Fixed)
+	result["fixed"] = string(obj.Fixed)
 
 	result["origin"] = string(obj.Origin)
 
@@ -323,7 +323,7 @@ func SqlPlanBaselineSummaryToMap(obj oci_database_management.SqlPlanBaselineSumm
 		result["plan_name"] = string(*obj.PlanName)
 	}
 
-	result["reproduced"] = string(*obj.Reproduced)
+	result["reproduced"] = string(obj.Reproduced)
 
 	if obj.SqlHandle != nil {
 		result["sql_handle"] = string(*obj.SqlHandle)
