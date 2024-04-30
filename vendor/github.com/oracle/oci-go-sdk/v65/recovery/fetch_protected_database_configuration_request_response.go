@@ -92,6 +92,12 @@ type FetchProtectedDatabaseConfigurationResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// Contains filename passed in header.
+	OpcFilename *string `presentIn:"header" name:"opc-filename"`
+
+	// Contains file checksum passed in header.
+	OpcChecksum *string `presentIn:"header" name:"opc-checksum"`
 }
 
 func (response FetchProtectedDatabaseConfigurationResponse) String() string {

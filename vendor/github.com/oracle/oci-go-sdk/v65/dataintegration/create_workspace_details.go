@@ -67,6 +67,9 @@ type CreateWorkspaceDetails struct {
 
 	// DCMS PRivate Endpoint Compartment Identifier
 	EndpointCompartmentId *string `mandatory:"false" json:"endpointCompartmentId"`
+
+	// Key-values pairs of workspace for storing properties on the workspace.
+	WorkspaceProperties map[string]string `mandatory:"false" json:"workspaceProperties"`
 }
 
 func (m CreateWorkspaceDetails) String() string {

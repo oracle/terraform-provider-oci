@@ -195,6 +195,7 @@ const (
 	WorkRequestSummaryOperationTypeUpdateDifference                          WorkRequestSummaryOperationTypeEnum = "UPDATE_DIFFERENCE"
 	WorkRequestSummaryOperationTypePatchDifference                           WorkRequestSummaryOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestSummaryOperationTypeApplyDifference                           WorkRequestSummaryOperationTypeEnum = "APPLY_DIFFERENCE"
+	WorkRequestSummaryOperationTypeMaskPolicyGenerateHealthReport            WorkRequestSummaryOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
 	WorkRequestSummaryOperationTypeAbortMasking                              WorkRequestSummaryOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestSummaryOperationTypeCreateSecurityPolicyReport                WorkRequestSummaryOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
 	WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache                WorkRequestSummaryOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
@@ -328,6 +329,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"UPDATE_DIFFERENCE":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"PATCH_DIFFERENCE":                              WorkRequestSummaryOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"MASK_POLICY_GENERATE_HEALTH_REPORT":            WorkRequestSummaryOperationTypeMaskPolicyGenerateHealthReport,
 	"ABORT_MASKING":                                 WorkRequestSummaryOperationTypeAbortMasking,
 	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
 	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
@@ -461,6 +463,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"update_difference":                             WorkRequestSummaryOperationTypeUpdateDifference,
 	"patch_difference":                              WorkRequestSummaryOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestSummaryOperationTypeApplyDifference,
+	"mask_policy_generate_health_report":            WorkRequestSummaryOperationTypeMaskPolicyGenerateHealthReport,
 	"abort_masking":                                 WorkRequestSummaryOperationTypeAbortMasking,
 	"create_security_policy_report":                 WorkRequestSummaryOperationTypeCreateSecurityPolicyReport,
 	"refresh_security_policy_cache":                 WorkRequestSummaryOperationTypeRefreshSecurityPolicyCache,
@@ -605,6 +608,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"UPDATE_DIFFERENCE",
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
+		"MASK_POLICY_GENERATE_HEALTH_REPORT",
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",

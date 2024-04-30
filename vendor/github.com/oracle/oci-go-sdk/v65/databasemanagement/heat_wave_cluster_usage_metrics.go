@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -23,28 +23,28 @@ type HeatWaveClusterUsageMetrics struct {
 	// The status of the HeatWave cluster. Indicates whether the status of the cluster is UP, DOWN, or UNKNOWN at the current time.
 	Status HeatWaveClusterStatusEnum `mandatory:"true" json:"status"`
 
-	// The OCID for the DB system associated with the HeatWave cluster.
+	// The OCID of the MySQL Database System associated with the HeatWave cluster.
 	DbSystemId *string `mandatory:"true" json:"dbSystemId"`
 
-	// The name of the DB system associated with the HeatWave cluster.
+	// The name of the MySQL Database System associated with the HeatWave cluster.
 	DbSystemName *string `mandatory:"true" json:"dbSystemName"`
 
 	// The name of the HeatWave cluster.
 	HeatWaveClusterDisplayName *string `mandatory:"true" json:"heatWaveClusterDisplayName"`
 
-	// Number of nodes in the HeatWave cluster.
+	// The number of nodes in the HeatWave cluster.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
-	// If Lakehouse is enabled for the HeatWave cluster or not.
+	// Indicates whether Lakehouse is enabled for the HeatWave cluster or not.
 	IsLakehouseEnabled *bool `mandatory:"true" json:"isLakehouseEnabled"`
 
-	// Shape of the nodes in the HeatWave cluster.
+	// The shape of the nodes in the HeatWave cluster.
 	HeatWaveNodeShape *string `mandatory:"true" json:"heatWaveNodeShape"`
 
 	// The total memory belonging to the HeatWave cluster in GBs.
 	MemorySize *int `mandatory:"true" json:"memorySize"`
 
-	// A list of the database health metrics like CPU and Memory.
+	// A list of the HeatWave cluster health metrics like CPU and Memory.
 	Metrics []HeatWaveFleetMetricDefinition `mandatory:"true" json:"metrics"`
 }
 

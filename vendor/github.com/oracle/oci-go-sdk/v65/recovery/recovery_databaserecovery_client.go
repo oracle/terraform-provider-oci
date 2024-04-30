@@ -91,6 +91,64 @@ func (client *DatabaseRecoveryClient) ConfigurationProvider() *common.Configurat
 	return client.config
 }
 
+// CancelProtectedDatabaseDeletion Cancels the scheduled deletion of a protected database, and returns the protected database to an ACTIVE state. You can cancel the deletion only if the protected database is in the DELETE SCHEDULED state.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/CancelProtectedDatabaseDeletion.go.html to see an example of how to use CancelProtectedDatabaseDeletion API.
+// A default retry strategy applies to this operation CancelProtectedDatabaseDeletion()
+func (client DatabaseRecoveryClient) CancelProtectedDatabaseDeletion(ctx context.Context, request CancelProtectedDatabaseDeletionRequest) (response CancelProtectedDatabaseDeletionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cancelProtectedDatabaseDeletion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelProtectedDatabaseDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelProtectedDatabaseDeletionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelProtectedDatabaseDeletionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelProtectedDatabaseDeletionResponse")
+	}
+	return
+}
+
+// cancelProtectedDatabaseDeletion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseRecoveryClient) cancelProtectedDatabaseDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabases/{protectedDatabaseId}/actions/cancelDeletion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelProtectedDatabaseDeletionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/CancelProtectedDatabaseDeletion"
+		err = common.PostProcessServiceError(err, "DatabaseRecovery", "CancelProtectedDatabaseDeletion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeProtectedDatabaseCompartment Moves a protected database resource from the existing compartment to the specified compartment. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
@@ -1259,6 +1317,66 @@ func (client DatabaseRecoveryClient) listWorkRequests(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/WorkRequestSummaryCollection/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ScheduleProtectedDatabaseDeletion Defines a preferred schedule to delete a protected database after you terminate the source database.
+// The default schedule is DELETE_AFTER_72_HOURS, so that the delete operation can occur 72 hours (3 days) after the source database is terminated.
+// The alternate schedule is DELETE_AFTER_RETENTION_PERIOD. Specify this option if you want to delete a protected database only after the policy-defined backup retention period expires.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ScheduleProtectedDatabaseDeletion.go.html to see an example of how to use ScheduleProtectedDatabaseDeletion API.
+// A default retry strategy applies to this operation ScheduleProtectedDatabaseDeletion()
+func (client DatabaseRecoveryClient) ScheduleProtectedDatabaseDeletion(ctx context.Context, request ScheduleProtectedDatabaseDeletionRequest) (response ScheduleProtectedDatabaseDeletionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.scheduleProtectedDatabaseDeletion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ScheduleProtectedDatabaseDeletionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ScheduleProtectedDatabaseDeletionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ScheduleProtectedDatabaseDeletionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ScheduleProtectedDatabaseDeletionResponse")
+	}
+	return
+}
+
+// scheduleProtectedDatabaseDeletion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseRecoveryClient) scheduleProtectedDatabaseDeletion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabases/{protectedDatabaseId}/actions/scheduleDeletion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ScheduleProtectedDatabaseDeletionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ScheduleProtectedDatabaseDeletion"
+		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ScheduleProtectedDatabaseDeletion", apiReferenceLink)
 		return response, err
 	}
 

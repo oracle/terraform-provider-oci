@@ -107,6 +107,9 @@ type ListEntitiesRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only process entities.
+	IsProcess *bool `mandatory:"false" contributesTo:"query" name:"isProcess"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

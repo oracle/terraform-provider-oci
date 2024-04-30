@@ -118,13 +118,13 @@ type CreateAutonomousContainerDatabaseDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
 
-	// The value above which an Autonomous Database will be split across multiple nodes. This value defaults to 16 when the "CPU per VM" value on the Autonomous VM Cluster is greater than 16. Otherwise, it defaults to the "CPU per VM" value.
+	// The CPU value beyond which an Autonomous Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 	DbSplitThreshold *int `mandatory:"false" json:"dbSplitThreshold"`
 
-	// The percentage of CPUs to reserve for a single node Autonomous Database, in increments of 25.
+	// The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
 	VmFailoverReservation *int `mandatory:"false" json:"vmFailoverReservation"`
 
-	// This option determines whether to open an Autonomous Database across the maximum number of nodes or the least number of nodes. The default will be for the minimum number of VMs.
+	// Determines whether an Autonomous Database must be opened across a minimum or maximum of nodes. By default, Minimum nodes is selected.
 	DistributionAffinity CreateAutonomousContainerDatabaseDetailsDistributionAffinityEnum `mandatory:"false" json:"distributionAffinity,omitempty"`
 
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.

@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -34,6 +34,15 @@ const (
 	WorkRequestOperationTypeEnableExadataInfrastructure       WorkRequestOperationTypeEnum = "ENABLE_EXADATA_INFRASTRUCTURE"
 	WorkRequestOperationTypeDeleteExadataInfrastructure       WorkRequestOperationTypeEnum = "DELETE_EXADATA_INFRASTRUCTURE"
 	WorkRequestOperationTypeChangeExadataCompartment          WorkRequestOperationTypeEnum = "CHANGE_EXADATA_COMPARTMENT"
+	WorkRequestOperationTypeEnableSqlWatch                    WorkRequestOperationTypeEnum = "ENABLE_SQL_WATCH"
+	WorkRequestOperationTypeDisableSqlWatch                   WorkRequestOperationTypeEnum = "DISABLE_SQL_WATCH"
+	WorkRequestOperationTypeModifySqlWatch                    WorkRequestOperationTypeEnum = "MODIFY_SQL_WATCH"
+	WorkRequestOperationTypeEnableDblm                        WorkRequestOperationTypeEnum = "ENABLE_DBLM"
+	WorkRequestOperationTypeDisableDblm                       WorkRequestOperationTypeEnum = "DISABLE_DBLM"
+	WorkRequestOperationTypeModifyDblm                        WorkRequestOperationTypeEnum = "MODIFY_DBLM"
+	WorkRequestOperationTypeEnableDbmgmt                      WorkRequestOperationTypeEnum = "ENABLE_DBMGMT"
+	WorkRequestOperationTypeDisableDbmgmt                     WorkRequestOperationTypeEnum = "DISABLE_DBMGMT"
+	WorkRequestOperationTypeModifyDbmgmt                      WorkRequestOperationTypeEnum = "MODIFY_DBMGMT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -51,6 +60,15 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ENABLE_EXADATA_INFRASTRUCTURE":         WorkRequestOperationTypeEnableExadataInfrastructure,
 	"DELETE_EXADATA_INFRASTRUCTURE":         WorkRequestOperationTypeDeleteExadataInfrastructure,
 	"CHANGE_EXADATA_COMPARTMENT":            WorkRequestOperationTypeChangeExadataCompartment,
+	"ENABLE_SQL_WATCH":                      WorkRequestOperationTypeEnableSqlWatch,
+	"DISABLE_SQL_WATCH":                     WorkRequestOperationTypeDisableSqlWatch,
+	"MODIFY_SQL_WATCH":                      WorkRequestOperationTypeModifySqlWatch,
+	"ENABLE_DBLM":                           WorkRequestOperationTypeEnableDblm,
+	"DISABLE_DBLM":                          WorkRequestOperationTypeDisableDblm,
+	"MODIFY_DBLM":                           WorkRequestOperationTypeModifyDblm,
+	"ENABLE_DBMGMT":                         WorkRequestOperationTypeEnableDbmgmt,
+	"DISABLE_DBMGMT":                        WorkRequestOperationTypeDisableDbmgmt,
+	"MODIFY_DBMGMT":                         WorkRequestOperationTypeModifyDbmgmt,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -68,6 +86,15 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"enable_exadata_infrastructure":         WorkRequestOperationTypeEnableExadataInfrastructure,
 	"delete_exadata_infrastructure":         WorkRequestOperationTypeDeleteExadataInfrastructure,
 	"change_exadata_compartment":            WorkRequestOperationTypeChangeExadataCompartment,
+	"enable_sql_watch":                      WorkRequestOperationTypeEnableSqlWatch,
+	"disable_sql_watch":                     WorkRequestOperationTypeDisableSqlWatch,
+	"modify_sql_watch":                      WorkRequestOperationTypeModifySqlWatch,
+	"enable_dblm":                           WorkRequestOperationTypeEnableDblm,
+	"disable_dblm":                          WorkRequestOperationTypeDisableDblm,
+	"modify_dblm":                           WorkRequestOperationTypeModifyDblm,
+	"enable_dbmgmt":                         WorkRequestOperationTypeEnableDbmgmt,
+	"disable_dbmgmt":                        WorkRequestOperationTypeDisableDbmgmt,
+	"modify_dbmgmt":                         WorkRequestOperationTypeModifyDbmgmt,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -96,6 +123,15 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ENABLE_EXADATA_INFRASTRUCTURE",
 		"DELETE_EXADATA_INFRASTRUCTURE",
 		"CHANGE_EXADATA_COMPARTMENT",
+		"ENABLE_SQL_WATCH",
+		"DISABLE_SQL_WATCH",
+		"MODIFY_SQL_WATCH",
+		"ENABLE_DBLM",
+		"DISABLE_DBLM",
+		"MODIFY_DBLM",
+		"ENABLE_DBMGMT",
+		"DISABLE_DBMGMT",
+		"MODIFY_DBMGMT",
 	}
 }
 
