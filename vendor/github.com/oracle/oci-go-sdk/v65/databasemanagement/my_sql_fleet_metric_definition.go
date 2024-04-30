@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -34,6 +34,9 @@ type MySqlFleetMetricDefinition struct {
 
 	// The unit of the metric value.
 	Unit *string `mandatory:"true" json:"unit"`
+
+	// The value of the metric.
+	MetricValueDouble *float64 `mandatory:"false" json:"metricValueDouble"`
 }
 
 func (m MySqlFleetMetricDefinition) String() string {

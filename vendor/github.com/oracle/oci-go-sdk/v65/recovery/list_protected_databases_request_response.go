@@ -141,30 +141,33 @@ type ListProtectedDatabasesLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListProtectedDatabasesLifecycleStateEnum
 const (
-	ListProtectedDatabasesLifecycleStateCreating ListProtectedDatabasesLifecycleStateEnum = "CREATING"
-	ListProtectedDatabasesLifecycleStateUpdating ListProtectedDatabasesLifecycleStateEnum = "UPDATING"
-	ListProtectedDatabasesLifecycleStateActive   ListProtectedDatabasesLifecycleStateEnum = "ACTIVE"
-	ListProtectedDatabasesLifecycleStateDeleting ListProtectedDatabasesLifecycleStateEnum = "DELETING"
-	ListProtectedDatabasesLifecycleStateDeleted  ListProtectedDatabasesLifecycleStateEnum = "DELETED"
-	ListProtectedDatabasesLifecycleStateFailed   ListProtectedDatabasesLifecycleStateEnum = "FAILED"
+	ListProtectedDatabasesLifecycleStateCreating        ListProtectedDatabasesLifecycleStateEnum = "CREATING"
+	ListProtectedDatabasesLifecycleStateUpdating        ListProtectedDatabasesLifecycleStateEnum = "UPDATING"
+	ListProtectedDatabasesLifecycleStateActive          ListProtectedDatabasesLifecycleStateEnum = "ACTIVE"
+	ListProtectedDatabasesLifecycleStateDeleteScheduled ListProtectedDatabasesLifecycleStateEnum = "DELETE_SCHEDULED"
+	ListProtectedDatabasesLifecycleStateDeleting        ListProtectedDatabasesLifecycleStateEnum = "DELETING"
+	ListProtectedDatabasesLifecycleStateDeleted         ListProtectedDatabasesLifecycleStateEnum = "DELETED"
+	ListProtectedDatabasesLifecycleStateFailed          ListProtectedDatabasesLifecycleStateEnum = "FAILED"
 )
 
 var mappingListProtectedDatabasesLifecycleStateEnum = map[string]ListProtectedDatabasesLifecycleStateEnum{
-	"CREATING": ListProtectedDatabasesLifecycleStateCreating,
-	"UPDATING": ListProtectedDatabasesLifecycleStateUpdating,
-	"ACTIVE":   ListProtectedDatabasesLifecycleStateActive,
-	"DELETING": ListProtectedDatabasesLifecycleStateDeleting,
-	"DELETED":  ListProtectedDatabasesLifecycleStateDeleted,
-	"FAILED":   ListProtectedDatabasesLifecycleStateFailed,
+	"CREATING":         ListProtectedDatabasesLifecycleStateCreating,
+	"UPDATING":         ListProtectedDatabasesLifecycleStateUpdating,
+	"ACTIVE":           ListProtectedDatabasesLifecycleStateActive,
+	"DELETE_SCHEDULED": ListProtectedDatabasesLifecycleStateDeleteScheduled,
+	"DELETING":         ListProtectedDatabasesLifecycleStateDeleting,
+	"DELETED":          ListProtectedDatabasesLifecycleStateDeleted,
+	"FAILED":           ListProtectedDatabasesLifecycleStateFailed,
 }
 
 var mappingListProtectedDatabasesLifecycleStateEnumLowerCase = map[string]ListProtectedDatabasesLifecycleStateEnum{
-	"creating": ListProtectedDatabasesLifecycleStateCreating,
-	"updating": ListProtectedDatabasesLifecycleStateUpdating,
-	"active":   ListProtectedDatabasesLifecycleStateActive,
-	"deleting": ListProtectedDatabasesLifecycleStateDeleting,
-	"deleted":  ListProtectedDatabasesLifecycleStateDeleted,
-	"failed":   ListProtectedDatabasesLifecycleStateFailed,
+	"creating":         ListProtectedDatabasesLifecycleStateCreating,
+	"updating":         ListProtectedDatabasesLifecycleStateUpdating,
+	"active":           ListProtectedDatabasesLifecycleStateActive,
+	"delete_scheduled": ListProtectedDatabasesLifecycleStateDeleteScheduled,
+	"deleting":         ListProtectedDatabasesLifecycleStateDeleting,
+	"deleted":          ListProtectedDatabasesLifecycleStateDeleted,
+	"failed":           ListProtectedDatabasesLifecycleStateFailed,
 }
 
 // GetListProtectedDatabasesLifecycleStateEnumValues Enumerates the set of values for ListProtectedDatabasesLifecycleStateEnum
@@ -182,6 +185,7 @@ func GetListProtectedDatabasesLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"DELETE_SCHEDULED",
 		"DELETING",
 		"DELETED",
 		"FAILED",

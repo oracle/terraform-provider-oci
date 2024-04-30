@@ -24,6 +24,15 @@ type UpdateProtectionPolicyDetails struct {
 	// The maximum number of days to retain backups for a protected database.
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
+	// An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
+	// * The retention lock feature controls whether Recovery Service strictly preserves backups for the duration defined in a policy. Retention lock is useful to enforce recovery window compliance and to prevent unintentional modifications to protected database backups.
+	// * Recovery Service enforces a 14-day delay before the retention lock set for a policy can take effect. Therefore, you must set policyLockedDateTime  to a date that occurs 14 days after the current date.
+	// * For example, assuming that the current date is Aug 1, 2023 9 pm, you can set policyLockedDateTime  to '2023-08-15T21:00:00.600Z' (Aug 15, 2023, 9:00 pm), or greater.
+	// * During the 14-day delay period, you can either increase or decrease the retention period in the policy.
+	// * However, you are only allowed to increase the retention period on or after the retention lock date.
+	// * You cannot change the value of policyLockedDateTime if the retention lock is already in effect.
+	PolicyLockedDateTime *string `mandatory:"false" json:"policyLockedDateTime"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

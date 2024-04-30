@@ -24,6 +24,9 @@ type ListExternalDatabasesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external DB system.
 	ExternalDbSystemId *string `mandatory:"false" contributesTo:"query" name:"externalDbSystemId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the external database.
+	ExternalDatabaseId *string `mandatory:"false" contributesTo:"query" name:"externalDatabaseId"`
+
 	// A filter to only return the resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

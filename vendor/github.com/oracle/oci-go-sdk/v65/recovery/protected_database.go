@@ -45,6 +45,11 @@ type ProtectedDatabase struct {
 	// The protected database name. You can change the displayName. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
+	// The retention lock feature controls whether Recovery Service strictly preserves backups for the duration defined in a policy. Retention lock is useful to enforce recovery window compliance and to prevent unintentional modifications to protected database backups.
+	// Recovery Service enforces a 14-day delay before the retention lock set for a policy can take effect.
+	PolicyLockedDateTime *string `mandatory:"false" json:"policyLockedDateTime"`
+
 	// The OCID of the protected database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
@@ -71,11 +76,8 @@ type ProtectedDatabase struct {
 	// The current state of the Protected Database.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Indicates the protection status of the database. Allowed values are:
-	//  - HEALTHY
-	//  - WARNING
-	//  - ALERT
-	// A 'HEALTHY' status indicates that Recovery Service can ensure database recovery to any point in time within the entire recovery window. The potential data loss exposure since the last backup is:
+	// Indicates the protection status of the database.
+	// A 'PROTECTED' status indicates that Recovery Service can ensure database recovery to any point in time within the entire recovery window. The potential data loss exposure since the last backup is:
 	//  - Less than 10 seconds, if Real-time data protection is enabled
 	//  - Less than 70 minutes if Real-time data protection is disabled
 	// A 'WARNING' status indicates that Recovery Service can ensure database recovery within the current recovery window - 1 day. The potential data loss exposure since the last backup is:
