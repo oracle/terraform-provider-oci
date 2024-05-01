@@ -1,4 +1,4 @@
-## 5.40.0 (Unreleased)
+## 5.40.0 (May 01, 2024)
 
 ### Added
 - Support for Database Management : Support ExaCC databases Fixed merge conflicts
