@@ -133,6 +133,10 @@ func DataSafeMaskingPolicyResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"generate_health_report_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"state": {
@@ -166,6 +170,13 @@ func createDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
 			return err
 		}
 	}
+
+	if _, ok := sync.D.GetOkExists("generate_health_report_trigger"); ok {
+		err := sync.GenerateHealthReport()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 
 }
@@ -195,6 +206,22 @@ func updateDataSafeMaskingPolicy(d *schema.ResourceData, m interface{}) error {
 			}
 		} else {
 			sync.D.Set("add_masking_columns_from_sdm_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("generate_health_report_trigger"); ok && sync.D.HasChange("generate_health_report_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("generate_health_report_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.GenerateHealthReport()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("generate_health_report_trigger", oldRaw)
 			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
@@ -669,6 +696,61 @@ func (s *DataSafeMaskingPolicyResourceCrud) SetData() error {
 
 func (s *DataSafeMaskingPolicyResourceCrud) AddMaskingColumnsFromSdm() error {
 	return nil
+}
+
+func (s *DataSafeMaskingPolicyResourceCrud) GenerateHealthReport() error {
+	request := oci_data_safe.GenerateHealthReportRequest{}
+
+	if checkType, ok := s.D.GetOkExists("check_type"); ok {
+		request.CheckType = oci_data_safe.GenerateHealthReportDetailsCheckTypeEnum(checkType.(string))
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	idTmp := s.D.Id()
+	request.MaskingPolicyId = &idTmp
+
+	if tablespace, ok := s.D.GetOkExists("tablespace"); ok {
+		tmp := tablespace.(string)
+		request.Tablespace = &tmp
+	}
+
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")
+
+	response, err := s.Client.GenerateHealthReport(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("generate_health_report_trigger")
+	s.D.Set("generate_health_report_trigger", val)
+
+	workId := response.OpcWorkRequestId
+	return s.getMaskingPolicyFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe"), oci_data_safe.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func ColumnSourceDetailsToMap(obj *oci_data_safe.ColumnSourceDetails) map[string]interface{} {

@@ -28,6 +28,7 @@ type ListDatabaseSoftwareImagesRequest struct {
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
 	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
+	// Default order for PATCHSET is descending.
 	SortBy ListDatabaseSoftwareImagesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
@@ -44,6 +45,9 @@ type ListDatabaseSoftwareImagesRequest struct {
 
 	// A filter to return only resources that match the given image shape family exactly.
 	ImageShapeFamily DatabaseSoftwareImageSummaryImageShapeFamilyEnum `mandatory:"false" contributesTo:"query" name:"imageShapeFamily" omitEmpty:"true"`
+
+	// A filter to return only resources with `patchSet` greater than or equal to given value.
+	PatchSetGreaterThanOrEqualTo *string `mandatory:"false" contributesTo:"query" name:"patchSetGreaterThanOrEqualTo"`
 
 	// If provided, filters the results to the set of database versions which are supported for Upgrade.
 	IsUpgradeSupported *bool `mandatory:"false" contributesTo:"query" name:"isUpgradeSupported"`
@@ -145,16 +149,19 @@ type ListDatabaseSoftwareImagesSortByEnum string
 const (
 	ListDatabaseSoftwareImagesSortByTimecreated ListDatabaseSoftwareImagesSortByEnum = "TIMECREATED"
 	ListDatabaseSoftwareImagesSortByDisplayname ListDatabaseSoftwareImagesSortByEnum = "DISPLAYNAME"
+	ListDatabaseSoftwareImagesSortByPatchset    ListDatabaseSoftwareImagesSortByEnum = "PATCHSET"
 )
 
 var mappingListDatabaseSoftwareImagesSortByEnum = map[string]ListDatabaseSoftwareImagesSortByEnum{
 	"TIMECREATED": ListDatabaseSoftwareImagesSortByTimecreated,
 	"DISPLAYNAME": ListDatabaseSoftwareImagesSortByDisplayname,
+	"PATCHSET":    ListDatabaseSoftwareImagesSortByPatchset,
 }
 
 var mappingListDatabaseSoftwareImagesSortByEnumLowerCase = map[string]ListDatabaseSoftwareImagesSortByEnum{
 	"timecreated": ListDatabaseSoftwareImagesSortByTimecreated,
 	"displayname": ListDatabaseSoftwareImagesSortByDisplayname,
+	"patchset":    ListDatabaseSoftwareImagesSortByPatchset,
 }
 
 // GetListDatabaseSoftwareImagesSortByEnumValues Enumerates the set of values for ListDatabaseSoftwareImagesSortByEnum
@@ -171,6 +178,7 @@ func GetListDatabaseSoftwareImagesSortByEnumStringValues() []string {
 	return []string{
 		"TIMECREATED",
 		"DISPLAYNAME",
+		"PATCHSET",
 	}
 }
 

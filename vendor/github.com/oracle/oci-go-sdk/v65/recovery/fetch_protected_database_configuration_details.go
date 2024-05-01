@@ -49,6 +49,7 @@ const (
 	FetchProtectedDatabaseConfigurationDetailsConfigurationTypeCabundle FetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = "CABUNDLE"
 	FetchProtectedDatabaseConfigurationDetailsConfigurationTypeTnsnames FetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = "TNSNAMES"
 	FetchProtectedDatabaseConfigurationDetailsConfigurationTypeHosts    FetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = "HOSTS"
+	FetchProtectedDatabaseConfigurationDetailsConfigurationTypeRcvconf  FetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = "RCVCONF"
 	FetchProtectedDatabaseConfigurationDetailsConfigurationTypeAll      FetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = "ALL"
 )
 
@@ -56,6 +57,7 @@ var mappingFetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnum = map
 	"CABUNDLE": FetchProtectedDatabaseConfigurationDetailsConfigurationTypeCabundle,
 	"TNSNAMES": FetchProtectedDatabaseConfigurationDetailsConfigurationTypeTnsnames,
 	"HOSTS":    FetchProtectedDatabaseConfigurationDetailsConfigurationTypeHosts,
+	"RCVCONF":  FetchProtectedDatabaseConfigurationDetailsConfigurationTypeRcvconf,
 	"ALL":      FetchProtectedDatabaseConfigurationDetailsConfigurationTypeAll,
 }
 
@@ -63,6 +65,7 @@ var mappingFetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnumLowerC
 	"cabundle": FetchProtectedDatabaseConfigurationDetailsConfigurationTypeCabundle,
 	"tnsnames": FetchProtectedDatabaseConfigurationDetailsConfigurationTypeTnsnames,
 	"hosts":    FetchProtectedDatabaseConfigurationDetailsConfigurationTypeHosts,
+	"rcvconf":  FetchProtectedDatabaseConfigurationDetailsConfigurationTypeRcvconf,
 	"all":      FetchProtectedDatabaseConfigurationDetailsConfigurationTypeAll,
 }
 
@@ -81,6 +84,7 @@ func GetFetchProtectedDatabaseConfigurationDetailsConfigurationTypeEnumStringVal
 		"CABUNDLE",
 		"TNSNAMES",
 		"HOSTS",
+		"RCVCONF",
 		"ALL",
 	}
 }

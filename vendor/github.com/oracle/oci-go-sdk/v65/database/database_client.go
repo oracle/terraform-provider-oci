@@ -14409,7 +14409,7 @@ func (client DatabaseClient) listFlexComponents(ctx context.Context, request com
 	return response, err
 }
 
-// ListGiVersions Gets a list of supported GI versions for the Exadata Cloud@Customer VM cluster.
+// ListGiVersions Gets a list of supported GI versions.
 //
 // # See also
 //
@@ -19295,7 +19295,7 @@ func (client DatabaseClient) updateExternalPluggableDatabase(ctx context.Context
 	return response, err
 }
 
-// UpdateKeyStore If no database is associated with the key store, edit the key store.
+// UpdateKeyStore Edit the key store.
 //
 // # See also
 //

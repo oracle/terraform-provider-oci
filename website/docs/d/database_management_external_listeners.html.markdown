@@ -81,6 +81,7 @@ The following attributes are exported:
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database.
 	* `is_managed` - Indicates whether the database is a Managed Database or not.
 * `state` - The current lifecycle state of the external listener.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the external listener was created.
 * `time_updated` - The date and time the external listener was last updated.
 * `trace_directory` - The destination directory of the listener trace file.

@@ -233,6 +233,11 @@ func DatabaseManagementExternalExadataInfrastructureResource() *schema.Resource 
 					},
 				},
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -674,6 +679,10 @@ func (s *DatabaseManagementExternalExadataInfrastructureResourceCrud) SetData() 
 		s.D.Set("storage_grid", nil)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -780,6 +789,10 @@ func ExternalExadataInfrastructureSummaryToMap(obj oci_database_management.Exter
 
 	if obj.Status != nil {
 		result["status"] = string(*obj.Status)
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
 
 	if obj.TimeCreated != nil {

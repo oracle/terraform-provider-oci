@@ -79,3 +79,160 @@ resource "oci_database_management_managed_database" "test_managed_database" {
   }
   freeform_tags = var.managed_db_freeform_tags
 }
+
+# External CDB
+variable "external_cdb_id" {
+  default = "ocid1.externalcontainerdatabase"
+}
+variable "connector_id" {
+  default = "ocid1.externaldatabaseconnector"
+}
+
+resource "oci_database_management_externalcontainerdatabase_external_container_dbm_features_management" "test_externalcontainerdatabase_external_container_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "EXTERNAL"
+      database_connector_id = var.connector_id
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+    license_model = "LICENSE_INCLUDED"
+  }
+  external_container_database_id = var.external_cdb_id
+  enable_external_container_dbm_feature = "true"
+}
+
+# Uncomment PDB enable APIs only after CDB enablement is done
+# External PDB
+/*variable "external_pdb_id" {
+  default = "ocid1.externalpluggabledatabase"
+}
+variable "pdb_connector_id" {
+  default = "ocid1.externaldatabaseconnector"
+}
+
+resource "oci_database_management_externalpluggabledatabase_external_pluggable_dbm_features_management" "test_externalpluggabledatabase_external_pluggable_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "EXTERNAL"
+      database_connector_id = var.pdb_connector_id
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+  }
+  external_pluggable_database_id = var.external_pdb_id
+  enable_external_pluggable_dbm_feature = "true"
+}*/
+
+
+# External Non-CDB
+variable "external_non_cdb_id" {
+  default = "ocid1.externalnoncontainerdatabase"
+}
+variable "non_cdb_connector_id" {
+  default = "ocid1.externaldatabaseconnector"
+}
+
+resource "oci_database_management_externalnoncontainerdatabase_external_non_container_dbm_features_management" "test_externalnoncontainerdatabase_external_non_container_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "EXTERNAL"
+      database_connector_id = var.non_cdb_connector_id
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+    license_model = "LICENSE_INCLUDED"
+  }
+  external_non_container_database_id = var.external_non_cdb_id
+  enable_external_non_container_dbm_feature = "true"
+}
+
+# Cloud CDB
+variable "cloud_cdb_id" {
+  default = "ocid1.database"
+}
+variable "cdb_pe_id" {
+  default = "ocid1.dbmgmtprivateendpoint"
+}
+variable "vault_secret_id" {
+  default = "ocid1.vaultsecret"
+}
+variable "cdb_user_role" {
+  default = "SYSDBA"
+}
+variable "cdb_user" {
+  default = "dbsnmp"
+}
+variable "cdb_service" {
+  default = "cdb_service"
+}
+resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "PE"
+      private_end_point_id = var.cdb_pe_id
+    }
+    database_connection_details {
+      connection_credentials {
+        credential_type = "DETAILS"
+        password_secret_id = var.vault_secret_id
+        role = var.cdb_user_role
+        user_name = var.cdb_user
+      }
+      connection_string {
+        connection_type = "BASIC"
+        port = "1521"
+        protocol = "TCP"
+        service = var.cdb_service
+      }
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+    management_type = "ADVANCED"
+  }
+  database_id = var.cloud_cdb_id
+  enable_database_dbm_feature = "true"
+}
+
+# Uncomment PDB enable APIs only after CDB enablement is done
+# Cloud PDB
+/*variable "cloud_pdb_id" {
+  default = "ocid1.pluggabledatabase"
+}
+variable "pdb_pe_id" {
+  default = "ocid1.dbmgmtprivateendpoint"
+}
+variable "vault_secret_id" {
+  default = "ocid1.vaultsecret"
+}
+variable "pdb_user_role" {
+  default = "SYSDBA"
+}
+variable "pdb_user" {
+  default = "dbsnmp"
+}
+variable "db_service" {
+  default = "pdb_service"
+}
+resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management" "test_pluggabledatabase_pluggable_database_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "PE"
+      private_end_point_id = var.pdb_pe_id
+    }
+    database_connection_details {
+      connection_credentials {
+        credential_type = "DETAILS"
+        password_secret_id = var.vault_secret_id
+        role = var.pdb_user_role
+        user_name = var.pdb_user
+      }
+      connection_string {
+        connection_type = "BASIC"
+        port = "1521"
+        protocol = "TCP"
+        service = var.db_service
+      }
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+    management_type = "ADVANCED"
+  }
+  pluggable_database_id = var.cloud_pdb_id
+  enable_pluggable_database_dbm_feature = "true"
+}*/

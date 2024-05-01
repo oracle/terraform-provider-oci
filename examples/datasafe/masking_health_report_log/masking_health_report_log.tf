@@ -6,8 +6,8 @@ variable "user_ocid" {}
 variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
-variable "compartment_id" {}
-
+variable "compartment_ocid" {}
+variable "masking_health_report_id" {}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -15,4 +15,10 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
+}
+
+
+data "oci_data_safe_masking_policy_health_report_logs" "test_masking_policy_health_report_logs" {
+  #Required
+  masking_policy_health_report_id = var.masking_health_report_id
 }

@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -26,7 +26,7 @@ type HeatWaveNode struct {
 	// The status of the HeatWave node. Indicates whether the status of the node is UP, DOWN, or UNKNOWN at the current time.
 	Status HeatWaveNodeStatusEnum `mandatory:"true" json:"status"`
 
-	// The date and time the node was created.
+	// The date and time the HeatWave node was created.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 }
 

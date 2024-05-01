@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -48,7 +48,7 @@ type MySqlDatabaseUsageMetrics struct {
 	// A list of the database health metrics like CPU, Storage, and Memory.
 	Metrics []MySqlFleetMetricDefinition `mandatory:"true" json:"metrics"`
 
-	// If HeatWave is enabled for this db system or not.
+	// Indicates whether HeatWave is enabled for the MySQL Database System or not.
 	IsHeatWaveEnabled *bool `mandatory:"false" json:"isHeatWaveEnabled"`
 
 	// The name of the HeatWave cluster.

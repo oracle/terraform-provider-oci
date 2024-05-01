@@ -34,19 +34,16 @@ type ProtectionPolicy struct {
 	// A user provided name for the protection policy.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
+	PolicyLockedDateTime *string `mandatory:"false" json:"policyLockedDateTime"`
+
 	// An RFC3339 formatted datetime string that indicates the created time for the protection policy. For example: '2020-05-22T21:10:29.600Z'.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// An RFC3339 formatted datetime string that indicates the updated time for the protection policy. For example: '2020-05-22T21:10:29.600Z'.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The current state of the protection policy. Allowed values are:
-	//   - CREATING
-	//   - UPDATING
-	//   - ACTIVE
-	//   - DELETING
-	//   - DELETED
-	//   - FAILED
+	// The current state of the protection policy.
 	LifecycleState LifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// Detailed description about the current lifecycle state of the protection policy. For example, it can be used to provide actionable information for a resource in a Failed state.

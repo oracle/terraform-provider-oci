@@ -1158,6 +1158,69 @@ func (client DataSafeClient) changeMaskingPolicyCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeMaskingPolicyHealthReportCompartment Moves the specified masking policy health report and its dependent resources into a different compartment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ChangeMaskingPolicyHealthReportCompartment.go.html to see an example of how to use ChangeMaskingPolicyHealthReportCompartment API.
+// A default retry strategy applies to this operation ChangeMaskingPolicyHealthReportCompartment()
+func (client DataSafeClient) ChangeMaskingPolicyHealthReportCompartment(ctx context.Context, request ChangeMaskingPolicyHealthReportCompartmentRequest) (response ChangeMaskingPolicyHealthReportCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMaskingPolicyHealthReportCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMaskingPolicyHealthReportCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMaskingPolicyHealthReportCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMaskingPolicyHealthReportCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMaskingPolicyHealthReportCompartmentResponse")
+	}
+	return
+}
+
+// changeMaskingPolicyHealthReportCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeMaskingPolicyHealthReportCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maskingPolicyHealthReports/{maskingPolicyHealthReportId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMaskingPolicyHealthReportCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/ChangeMaskingPolicyHealthReportCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeMaskingPolicyHealthReportCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeOnPremConnectorCompartment Moves the specified on-premises connector into a different compartment.
 //
 // # See also
@@ -3951,6 +4014,64 @@ func (client DataSafeClient) deleteMaskingPolicy(ctx context.Context, request co
 	return response, err
 }
 
+// DeleteMaskingPolicyHealthReport Deletes the specified masking policy health report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteMaskingPolicyHealthReport.go.html to see an example of how to use DeleteMaskingPolicyHealthReport API.
+// A default retry strategy applies to this operation DeleteMaskingPolicyHealthReport()
+func (client DataSafeClient) DeleteMaskingPolicyHealthReport(ctx context.Context, request DeleteMaskingPolicyHealthReportRequest) (response DeleteMaskingPolicyHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMaskingPolicyHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMaskingPolicyHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMaskingPolicyHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMaskingPolicyHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMaskingPolicyHealthReportResponse")
+	}
+	return
+}
+
+// deleteMaskingPolicyHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteMaskingPolicyHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/maskingPolicyHealthReports/{maskingPolicyHealthReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMaskingPolicyHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/DeleteMaskingPolicyHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteMaskingPolicyHealthReport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOnPremConnector Deletes the specified on-premises connector.
 //
 // # See also
@@ -5373,6 +5494,69 @@ func (client DataSafeClient) generateDiscoveryReportForDownload(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/GenerateDiscoveryReportForDownload"
 		err = common.PostProcessServiceError(err, "DataSafe", "GenerateDiscoveryReportForDownload", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GenerateHealthReport Performs health check on the masking policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GenerateHealthReport.go.html to see an example of how to use GenerateHealthReport API.
+// A default retry strategy applies to this operation GenerateHealthReport()
+func (client DataSafeClient) GenerateHealthReport(ctx context.Context, request GenerateHealthReportRequest) (response GenerateHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.generateHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateHealthReportResponse")
+	}
+	return
+}
+
+// generateHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) generateHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maskingPolicies/{maskingPolicyId}/actions/generateHealthReport", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/GenerateHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GenerateHealthReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -6984,6 +7168,64 @@ func (client DataSafeClient) getMaskingPolicy(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/GetMaskingPolicy"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetMaskingPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetMaskingPolicyHealthReport Gets the details of the specified masking policy health report.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetMaskingPolicyHealthReport.go.html to see an example of how to use GetMaskingPolicyHealthReport API.
+// A default retry strategy applies to this operation GetMaskingPolicyHealthReport()
+func (client DataSafeClient) GetMaskingPolicyHealthReport(ctx context.Context, request GetMaskingPolicyHealthReportRequest) (response GetMaskingPolicyHealthReportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMaskingPolicyHealthReport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMaskingPolicyHealthReportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMaskingPolicyHealthReportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMaskingPolicyHealthReportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMaskingPolicyHealthReportResponse")
+	}
+	return
+}
+
+// getMaskingPolicyHealthReport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getMaskingPolicyHealthReport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicyHealthReports/{maskingPolicyHealthReportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMaskingPolicyHealthReportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/GetMaskingPolicyHealthReport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetMaskingPolicyHealthReport", apiReferenceLink)
 		return response, err
 	}
 
@@ -10472,6 +10714,122 @@ func (client DataSafeClient) listMaskingPolicies(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicy/ListMaskingPolicies"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingPolicies", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMaskingPolicyHealthReportLogs Gets a list of errors and warnings from a masking policy health check.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingPolicyHealthReportLogs.go.html to see an example of how to use ListMaskingPolicyHealthReportLogs API.
+// A default retry strategy applies to this operation ListMaskingPolicyHealthReportLogs()
+func (client DataSafeClient) ListMaskingPolicyHealthReportLogs(ctx context.Context, request ListMaskingPolicyHealthReportLogsRequest) (response ListMaskingPolicyHealthReportLogsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingPolicyHealthReportLogs, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingPolicyHealthReportLogsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingPolicyHealthReportLogsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingPolicyHealthReportLogsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingPolicyHealthReportLogsResponse")
+	}
+	return
+}
+
+// listMaskingPolicyHealthReportLogs implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingPolicyHealthReportLogs(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicyHealthReports/{maskingPolicyHealthReportId}/logs", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingPolicyHealthReportLogsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/ListMaskingPolicyHealthReportLogs"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingPolicyHealthReportLogs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMaskingPolicyHealthReports Gets a list of masking policy health reports based on the specified query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListMaskingPolicyHealthReports.go.html to see an example of how to use ListMaskingPolicyHealthReports API.
+// A default retry strategy applies to this operation ListMaskingPolicyHealthReports()
+func (client DataSafeClient) ListMaskingPolicyHealthReports(ctx context.Context, request ListMaskingPolicyHealthReportsRequest) (response ListMaskingPolicyHealthReportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingPolicyHealthReports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingPolicyHealthReportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingPolicyHealthReportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingPolicyHealthReportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingPolicyHealthReportsResponse")
+	}
+	return
+}
+
+// listMaskingPolicyHealthReports implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingPolicyHealthReports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicyHealthReports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingPolicyHealthReportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyHealthReport/ListMaskingPolicyHealthReports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingPolicyHealthReports", apiReferenceLink)
 		return response, err
 	}
 

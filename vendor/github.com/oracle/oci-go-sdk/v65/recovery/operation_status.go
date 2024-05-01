@@ -19,6 +19,7 @@ type OperationStatusEnum string
 // Set of constants representing the allowable values for OperationStatusEnum
 const (
 	OperationStatusAccepted   OperationStatusEnum = "ACCEPTED"
+	OperationStatusWaiting    OperationStatusEnum = "WAITING"
 	OperationStatusInProgress OperationStatusEnum = "IN_PROGRESS"
 	OperationStatusFailed     OperationStatusEnum = "FAILED"
 	OperationStatusSucceeded  OperationStatusEnum = "SUCCEEDED"
@@ -28,6 +29,7 @@ const (
 
 var mappingOperationStatusEnum = map[string]OperationStatusEnum{
 	"ACCEPTED":    OperationStatusAccepted,
+	"WAITING":     OperationStatusWaiting,
 	"IN_PROGRESS": OperationStatusInProgress,
 	"FAILED":      OperationStatusFailed,
 	"SUCCEEDED":   OperationStatusSucceeded,
@@ -37,6 +39,7 @@ var mappingOperationStatusEnum = map[string]OperationStatusEnum{
 
 var mappingOperationStatusEnumLowerCase = map[string]OperationStatusEnum{
 	"accepted":    OperationStatusAccepted,
+	"waiting":     OperationStatusWaiting,
 	"in_progress": OperationStatusInProgress,
 	"failed":      OperationStatusFailed,
 	"succeeded":   OperationStatusSucceeded,
@@ -57,6 +60,7 @@ func GetOperationStatusEnumValues() []OperationStatusEnum {
 func GetOperationStatusEnumStringValues() []string {
 	return []string{
 		"ACCEPTED",
+		"WAITING",
 		"IN_PROGRESS",
 		"FAILED",
 		"SUCCEEDED",

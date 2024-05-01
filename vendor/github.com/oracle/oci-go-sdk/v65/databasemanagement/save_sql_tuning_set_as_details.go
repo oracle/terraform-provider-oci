@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -512,18 +512,21 @@ type SaveSqlTuningSetAsDetailsUpdateConditionEnum string
 
 // Set of constants representing the allowable values for SaveSqlTuningSetAsDetailsUpdateConditionEnum
 const (
-	SaveSqlTuningSetAsDetailsUpdateConditionOld SaveSqlTuningSetAsDetailsUpdateConditionEnum = "OLD"
-	SaveSqlTuningSetAsDetailsUpdateConditionNew SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NEW"
+	SaveSqlTuningSetAsDetailsUpdateConditionOld  SaveSqlTuningSetAsDetailsUpdateConditionEnum = "OLD"
+	SaveSqlTuningSetAsDetailsUpdateConditionNew  SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NEW"
+	SaveSqlTuningSetAsDetailsUpdateConditionNull SaveSqlTuningSetAsDetailsUpdateConditionEnum = "NULL"
 )
 
 var mappingSaveSqlTuningSetAsDetailsUpdateConditionEnum = map[string]SaveSqlTuningSetAsDetailsUpdateConditionEnum{
-	"OLD": SaveSqlTuningSetAsDetailsUpdateConditionOld,
-	"NEW": SaveSqlTuningSetAsDetailsUpdateConditionNew,
+	"OLD":  SaveSqlTuningSetAsDetailsUpdateConditionOld,
+	"NEW":  SaveSqlTuningSetAsDetailsUpdateConditionNew,
+	"NULL": SaveSqlTuningSetAsDetailsUpdateConditionNull,
 }
 
 var mappingSaveSqlTuningSetAsDetailsUpdateConditionEnumLowerCase = map[string]SaveSqlTuningSetAsDetailsUpdateConditionEnum{
-	"old": SaveSqlTuningSetAsDetailsUpdateConditionOld,
-	"new": SaveSqlTuningSetAsDetailsUpdateConditionNew,
+	"old":  SaveSqlTuningSetAsDetailsUpdateConditionOld,
+	"new":  SaveSqlTuningSetAsDetailsUpdateConditionNew,
+	"null": SaveSqlTuningSetAsDetailsUpdateConditionNull,
 }
 
 // GetSaveSqlTuningSetAsDetailsUpdateConditionEnumValues Enumerates the set of values for SaveSqlTuningSetAsDetailsUpdateConditionEnum
@@ -540,6 +543,7 @@ func GetSaveSqlTuningSetAsDetailsUpdateConditionEnumStringValues() []string {
 	return []string{
 		"OLD",
 		"NEW",
+		"NULL",
 	}
 }
 
