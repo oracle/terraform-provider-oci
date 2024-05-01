@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -2467,6 +2467,132 @@ func (client DbManagementClient) disableAutomaticSpmEvolveAdvisorTask(ctx contex
 	return response, err
 }
 
+// DisableDatabaseManagementFeature Disables a Database Management feature for the specified Oracle cloud database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableDatabaseManagementFeature.go.html to see an example of how to use DisableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation DisableDatabaseManagementFeature()
+func (client DbManagementClient) DisableDatabaseManagementFeature(ctx context.Context, request DisableDatabaseManagementFeatureRequest) (response DisableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// disableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableExternalContainerDatabaseManagementFeature Disables a Database Management feature for the specified external container database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalContainerDatabaseManagementFeature.go.html to see an example of how to use DisableExternalContainerDatabaseManagementFeature API.
+// A default retry strategy applies to this operation DisableExternalContainerDatabaseManagementFeature()
+func (client DbManagementClient) DisableExternalContainerDatabaseManagementFeature(ctx context.Context, request DisableExternalContainerDatabaseManagementFeatureRequest) (response DisableExternalContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// disableExternalContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableExternalContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableExternalContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableExternalContainerDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableExternalDbSystemDatabaseManagement Disables Database Management service for all the components of the specified
 // external DB system (except databases).
 //
@@ -2663,6 +2789,132 @@ func (client DbManagementClient) disableExternalExadataInfrastructureManagement(
 	return response, err
 }
 
+// DisableExternalNonContainerDatabaseManagementFeature Disables a Database Management feature for the specified external non-container database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalNonContainerDatabaseManagementFeature.go.html to see an example of how to use DisableExternalNonContainerDatabaseManagementFeature API.
+// A default retry strategy applies to this operation DisableExternalNonContainerDatabaseManagementFeature()
+func (client DbManagementClient) DisableExternalNonContainerDatabaseManagementFeature(ctx context.Context, request DisableExternalNonContainerDatabaseManagementFeatureRequest) (response DisableExternalNonContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalNonContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalNonContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalNonContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalNonContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalNonContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// disableExternalNonContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableExternalNonContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalNonContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableExternalNonContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableExternalNonContainerDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisableExternalPluggableDatabaseManagementFeature Disables a Database Management feature for the specified external pluggable database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisableExternalPluggableDatabaseManagementFeature.go.html to see an example of how to use DisableExternalPluggableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation DisableExternalPluggableDatabaseManagementFeature()
+func (client DbManagementClient) DisableExternalPluggableDatabaseManagementFeature(ctx context.Context, request DisableExternalPluggableDatabaseManagementFeatureRequest) (response DisableExternalPluggableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disableExternalPluggableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisableExternalPluggableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisableExternalPluggableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisableExternalPluggableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisableExternalPluggableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// disableExternalPluggableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disableExternalPluggableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisableExternalPluggableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableExternalPluggableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisableExternalPluggableDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DisableHighFrequencyAutomaticSpmEvolveAdvisorTask Disables the high-frequency Automatic SPM Evolve Advisor task.
 // It is available only on Oracle Exadata Database Machine, Oracle Database Exadata
 // Cloud Service (ExaCS) and Oracle Database Exadata Cloud@Customer (ExaCC).
@@ -2715,6 +2967,69 @@ func (client DbManagementClient) disableHighFrequencyAutomaticSpmEvolveAdvisorTa
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisableHighFrequencyAutomaticSpmEvolveAdvisorTask"
 		err = common.PostProcessServiceError(err, "DbManagement", "DisableHighFrequencyAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DisablePluggableDatabaseManagementFeature Disables a Database Management feature for the specified Oracle cloud pluggable database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/DisablePluggableDatabaseManagementFeature.go.html to see an example of how to use DisablePluggableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation DisablePluggableDatabaseManagementFeature()
+func (client DbManagementClient) DisablePluggableDatabaseManagementFeature(ctx context.Context, request DisablePluggableDatabaseManagementFeatureRequest) (response DisablePluggableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.disablePluggableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DisablePluggableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DisablePluggableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DisablePluggableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DisablePluggableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// disablePluggableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) disablePluggableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggabledatabases/{pluggableDatabaseId}/actions/disableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DisablePluggableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/DisablePluggableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "DisablePluggableDatabaseManagementFeature", apiReferenceLink)
 		return response, err
 	}
 
@@ -3108,6 +3423,132 @@ func (client DbManagementClient) enableAutomaticSpmEvolveAdvisorTask(ctx context
 	return response, err
 }
 
+// EnableDatabaseManagementFeature Enables a Database Management feature for the specified cloud database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableDatabaseManagementFeature.go.html to see an example of how to use EnableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation EnableDatabaseManagementFeature()
+func (client DbManagementClient) EnableDatabaseManagementFeature(ctx context.Context, request EnableDatabaseManagementFeatureRequest) (response EnableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// enableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableExternalContainerDatabaseManagementFeature Enables a Database Management feature for the specified external container database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalContainerDatabaseManagementFeature.go.html to see an example of how to use EnableExternalContainerDatabaseManagementFeature API.
+// A default retry strategy applies to this operation EnableExternalContainerDatabaseManagementFeature()
+func (client DbManagementClient) EnableExternalContainerDatabaseManagementFeature(ctx context.Context, request EnableExternalContainerDatabaseManagementFeatureRequest) (response EnableExternalContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// enableExternalContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableExternalContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableExternalContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalContainerDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableExternalDbSystemDatabaseManagement Enables Database Management service for all the components of the specified
 // external DB system (except databases).
 //
@@ -3303,6 +3744,132 @@ func (client DbManagementClient) enableExternalExadataInfrastructureManagement(c
 	return response, err
 }
 
+// EnableExternalNonContainerDatabaseManagementFeature Enables Database Management feature for the specified external non-container database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalNonContainerDatabaseManagementFeature.go.html to see an example of how to use EnableExternalNonContainerDatabaseManagementFeature API.
+// A default retry strategy applies to this operation EnableExternalNonContainerDatabaseManagementFeature()
+func (client DbManagementClient) EnableExternalNonContainerDatabaseManagementFeature(ctx context.Context, request EnableExternalNonContainerDatabaseManagementFeatureRequest) (response EnableExternalNonContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalNonContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalNonContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalNonContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalNonContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalNonContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// enableExternalNonContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableExternalNonContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalnoncontainerdatabases/{externalNonContainerDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalNonContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableExternalNonContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalNonContainerDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnableExternalPluggableDatabaseManagementFeature Enables a Database Management feature for the specified external pluggable database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnableExternalPluggableDatabaseManagementFeature.go.html to see an example of how to use EnableExternalPluggableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation EnableExternalPluggableDatabaseManagementFeature()
+func (client DbManagementClient) EnableExternalPluggableDatabaseManagementFeature(ctx context.Context, request EnableExternalPluggableDatabaseManagementFeatureRequest) (response EnableExternalPluggableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enableExternalPluggableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnableExternalPluggableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnableExternalPluggableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnableExternalPluggableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnableExternalPluggableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// enableExternalPluggableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enableExternalPluggableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalpluggabledatabases/{externalPluggableDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnableExternalPluggableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableExternalPluggableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnableExternalPluggableDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableHighFrequencyAutomaticSpmEvolveAdvisorTask Enables the high-frequency Automatic SPM Evolve Advisor task. The high-frequency
 // task runs every hour and runs for no longer than 30 minutes. These settings
 // are not configurable.
@@ -3359,6 +3926,69 @@ func (client DbManagementClient) enableHighFrequencyAutomaticSpmEvolveAdvisorTas
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnableHighFrequencyAutomaticSpmEvolveAdvisorTask"
 		err = common.PostProcessServiceError(err, "DbManagement", "EnableHighFrequencyAutomaticSpmEvolveAdvisorTask", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EnablePluggableDatabaseManagementFeature Enables a Database Management feature for the specified Oracle cloud pluggable database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/EnablePluggableDatabaseManagementFeature.go.html to see an example of how to use EnablePluggableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation EnablePluggableDatabaseManagementFeature()
+func (client DbManagementClient) EnablePluggableDatabaseManagementFeature(ctx context.Context, request EnablePluggableDatabaseManagementFeatureRequest) (response EnablePluggableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.enablePluggableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EnablePluggableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EnablePluggableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EnablePluggableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EnablePluggableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// enablePluggableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) enablePluggableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggabledatabases/{pluggableDatabaseId}/actions/enableDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EnablePluggableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/EnablePluggableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "EnablePluggableDatabaseManagementFeature", apiReferenceLink)
 		return response, err
 	}
 
@@ -8832,6 +9462,132 @@ func (client DbManagementClient) loadSqlPlanBaselinesFromCursorCache(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/LoadSqlPlanBaselinesFromCursorCache"
 		err = common.PostProcessServiceError(err, "DbManagement", "LoadSqlPlanBaselinesFromCursorCache", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ModifyDatabaseManagementFeature Modifies a Database Management feature for the specified Oracle cloud database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifyDatabaseManagementFeature.go.html to see an example of how to use ModifyDatabaseManagementFeature API.
+// A default retry strategy applies to this operation ModifyDatabaseManagementFeature()
+func (client DbManagementClient) ModifyDatabaseManagementFeature(ctx context.Context, request ModifyDatabaseManagementFeatureRequest) (response ModifyDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// modifyDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) modifyDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/modifyDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "ModifyDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ModifyPluggableDatabaseManagementFeature Modifies the Database Management feature for the specified Oracle cloud pluggable database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/ModifyPluggableDatabaseManagementFeature.go.html to see an example of how to use ModifyPluggableDatabaseManagementFeature API.
+// A default retry strategy applies to this operation ModifyPluggableDatabaseManagementFeature()
+func (client DbManagementClient) ModifyPluggableDatabaseManagementFeature(ctx context.Context, request ModifyPluggableDatabaseManagementFeatureRequest) (response ModifyPluggableDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyPluggableDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyPluggableDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyPluggableDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyPluggableDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyPluggableDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// modifyPluggableDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) modifyPluggableDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggabledatabases/{pluggableDatabaseId}/actions/modifyDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyPluggableDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyPluggableDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "ModifyPluggableDatabaseManagementFeature", apiReferenceLink)
 		return response, err
 	}
 

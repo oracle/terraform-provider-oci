@@ -91,7 +91,7 @@ func ociVarName(attrName string) string {
 
 func init() {
 	descriptions = map[string]string{
-		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s' and '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthAPIKeySetting),
+		globalvar.AuthAttrName:        fmt.Sprintf("(Optional) The type of auth to use. Options are '%s', '%s', '%s', '%s' and '%s'. By default, '%s' will be used.", globalvar.AuthAPIKeySetting, globalvar.AuthSecurityToken, globalvar.AuthInstancePrincipalSetting, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity, globalvar.AuthAPIKeySetting),
 		globalvar.TenancyOcidAttrName: fmt.Sprintf("(Optional) The tenancy OCID for a user. The tenancy OCID can be found at the bottom of user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
 		globalvar.UserOcidAttrName:    fmt.Sprintf("(Optional) The user OCID. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
 		globalvar.FingerprintAttrName: fmt.Sprintf("(Optional) The fingerprint for the user's RSA key. This can be found in user settings in the Oracle Cloud Infrastructure console. Required if auth is set to '%s', ignored otherwise.", globalvar.AuthAPIKeySetting),
@@ -128,7 +128,7 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:     true,
 			Description:  descriptions[globalvar.AuthAttrName],
 			DefaultFunc:  schema.MultiEnvDefaultFunc([]string{tfVarName(globalvar.AuthAttrName), ociVarName(globalvar.AuthAttrName)}, globalvar.AuthAPIKeySetting),
-			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal}, true),
+			ValidateFunc: validation.StringInSlice([]string{globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity}, true),
 		},
 		globalvar.TenancyOcidAttrName: {
 			Type:        schema.TypeString,
@@ -448,8 +448,14 @@ func getConfigProviders(d *schema.ResourceData, auth string) ([]oci_common.Confi
 			return nil, err
 		}
 		configProviders = append(configProviders, resourcePrincipalAuthConfigProvider)
+	case strings.ToLower(globalvar.AuthOKEWorkloadIdentity):
+		okeWorkloadIdentityConfigProvider, err := oci_common_auth.OkeWorkloadIdentityConfigurationProvider()
+		if err != nil {
+			return nil, fmt.Errorf("can not get oke workload indentity based auth config provider %v", err)
+		}
+		configProviders = append(configProviders, okeWorkloadIdentityConfigProvider)
 	default:
-		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal)
+		return nil, fmt.Errorf("auth must be one of '%s' or '%s' or '%s' or '%s' or '%s' or '%s'", globalvar.AuthAPIKeySetting, globalvar.AuthInstancePrincipalSetting, globalvar.AuthInstancePrincipalWithCertsSetting, globalvar.AuthSecurityToken, globalvar.ResourcePrincipal, globalvar.AuthOKEWorkloadIdentity)
 	}
 
 	return configProviders, nil

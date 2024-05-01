@@ -40,14 +40,14 @@ The following attributes are exported:
 * `time_created` - The date and time the Managed MySQL Database was created.
 * `heat_wave_cluster_display_name` - The name of the HeatWave cluster.
 * `heat_wave_memory_size` - The total memory belonging to the HeatWave cluster in GBs.
-* `heat_wave_node_shape` - Shape of the nodes in the HeatWave cluster.
-* `heat_wave_nodes` - The information about an individual HeatWave nodes in the cluster.
+* `heat_wave_node_shape` - The shape of the nodes in the HeatWave cluster.
+* `heat_wave_nodes` - The information about individual HeatWave nodes in the cluster.
 	* `id` - The ID associated with the HeatWave node.
 	* `status` - The status of the HeatWave node. Indicates whether the status of the node is UP, DOWN, or UNKNOWN at the current time.
-	* `time_created` - The date and time the node was created.
-* `is_heat_wave_active` - If the HeatWave cluster is active or not.
-* `is_heat_wave_enabled` - If HeatWave is enabled for this db system or not.
-* `is_lakehouse_enabled` - If HeatWave Lakehouse is enabled for the db system or not.
+	* `time_created` - The date and time the HeatWave node was created.
+* `is_heat_wave_active` - Indicates whether the HeatWave cluster is active or not.
+* `is_heat_wave_enabled` - Indicates whether HeatWave is enabled for the MySQL Database System or not.
+* `is_lakehouse_enabled` - Indicates whether HeatWave Lakehouse is enabled for the MySQL Database System or not.
 * `name` - The name of the Managed MySQL Database.
 * `time_created_heat_wave` - The date and time the Managed MySQL Database was created.
 

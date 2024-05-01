@@ -21,6 +21,11 @@ type DeleteProtectedDatabaseRequest struct {
 	// The protected database OCID.
 	ProtectedDatabaseId *string `mandatory:"true" contributesTo:"path" name:"protectedDatabaseId"`
 
+	// Defines a preferred schedule to delete a protected database after you terminate the source database.
+	// * The default schedule is DELETE_AFTER_72_HOURS, so that the delete operation can occur 72 hours (3 days) after the source database is terminated .
+	// * The alternate schedule is DELETE_AFTER_RETENTION_PERIOD. Specify this option if you want to delete a protected database only after the policy-defined backup retention period expires.
+	DeletionSchedule DeleteProtectedDatabaseDeletionScheduleEnum `mandatory:"false" contributesTo:"query" name:"deletionSchedule" omitEmpty:"true"`
+
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
 	// etag from a previous GET or POST response for that resource.
@@ -67,6 +72,9 @@ func (request DeleteProtectedDatabaseRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request DeleteProtectedDatabaseRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingDeleteProtectedDatabaseDeletionScheduleEnum(string(request.DeletionSchedule)); !ok && request.DeletionSchedule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeletionSchedule: %s. Supported values are: %s.", request.DeletionSchedule, strings.Join(GetDeleteProtectedDatabaseDeletionScheduleEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -94,4 +102,46 @@ func (response DeleteProtectedDatabaseResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response DeleteProtectedDatabaseResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// DeleteProtectedDatabaseDeletionScheduleEnum Enum with underlying type: string
+type DeleteProtectedDatabaseDeletionScheduleEnum string
+
+// Set of constants representing the allowable values for DeleteProtectedDatabaseDeletionScheduleEnum
+const (
+	DeleteProtectedDatabaseDeletionScheduleRetentionPeriod DeleteProtectedDatabaseDeletionScheduleEnum = "DELETE_AFTER_RETENTION_PERIOD"
+	DeleteProtectedDatabaseDeletionSchedule72Hours         DeleteProtectedDatabaseDeletionScheduleEnum = "DELETE_AFTER_72_HOURS"
+)
+
+var mappingDeleteProtectedDatabaseDeletionScheduleEnum = map[string]DeleteProtectedDatabaseDeletionScheduleEnum{
+	"DELETE_AFTER_RETENTION_PERIOD": DeleteProtectedDatabaseDeletionScheduleRetentionPeriod,
+	"DELETE_AFTER_72_HOURS":         DeleteProtectedDatabaseDeletionSchedule72Hours,
+}
+
+var mappingDeleteProtectedDatabaseDeletionScheduleEnumLowerCase = map[string]DeleteProtectedDatabaseDeletionScheduleEnum{
+	"delete_after_retention_period": DeleteProtectedDatabaseDeletionScheduleRetentionPeriod,
+	"delete_after_72_hours":         DeleteProtectedDatabaseDeletionSchedule72Hours,
+}
+
+// GetDeleteProtectedDatabaseDeletionScheduleEnumValues Enumerates the set of values for DeleteProtectedDatabaseDeletionScheduleEnum
+func GetDeleteProtectedDatabaseDeletionScheduleEnumValues() []DeleteProtectedDatabaseDeletionScheduleEnum {
+	values := make([]DeleteProtectedDatabaseDeletionScheduleEnum, 0)
+	for _, v := range mappingDeleteProtectedDatabaseDeletionScheduleEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeleteProtectedDatabaseDeletionScheduleEnumStringValues Enumerates the set of values in String for DeleteProtectedDatabaseDeletionScheduleEnum
+func GetDeleteProtectedDatabaseDeletionScheduleEnumStringValues() []string {
+	return []string{
+		"DELETE_AFTER_RETENTION_PERIOD",
+		"DELETE_AFTER_72_HOURS",
+	}
+}
+
+// GetMappingDeleteProtectedDatabaseDeletionScheduleEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeleteProtectedDatabaseDeletionScheduleEnum(val string) (DeleteProtectedDatabaseDeletionScheduleEnum, bool) {
+	enum, ok := mappingDeleteProtectedDatabaseDeletionScheduleEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

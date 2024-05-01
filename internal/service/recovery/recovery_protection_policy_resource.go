@@ -58,6 +58,11 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"policy_locked_date_time": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"is_predefined_policy": {
@@ -185,6 +190,11 @@ func (s *RecoveryProtectionPolicyResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if policyLockedDateTime, ok := s.D.GetOkExists("policy_locked_date_time"); ok {
+		tmp := policyLockedDateTime.(string)
+		request.PolicyLockedDateTime = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
@@ -369,6 +379,11 @@ func (s *RecoveryProtectionPolicyResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if policyLockedDateTime, ok := s.D.GetOkExists("policy_locked_date_time"); ok {
+		tmp := policyLockedDateTime.(string)
+		request.PolicyLockedDateTime = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.ProtectionPolicyId = &tmp
 
@@ -430,6 +445,10 @@ func (s *RecoveryProtectionPolicyResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.PolicyLockedDateTime != nil {
+		s.D.Set("policy_locked_date_time", *s.Res.PolicyLockedDateTime)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -478,6 +497,10 @@ func ProtectionPolicySummaryToMap(obj oci_recovery.ProtectionPolicySummary) map[
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.PolicyLockedDateTime != nil {
+		result["policy_locked_date_time"] = string(*obj.PolicyLockedDateTime)
 	}
 
 	result["state"] = string(obj.LifecycleState)

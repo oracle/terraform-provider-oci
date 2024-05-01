@@ -40,6 +40,9 @@ type MetricsSummary struct {
 
 	// Number of seconds backups are currently retained for this database.
 	CurrentRetentionPeriodInSeconds *float32 `mandatory:"false" json:"currentRetentionPeriodInSeconds"`
+
+	// Number of days of redo/archive to be applied to recover database.
+	MinimumRecoveryNeededInDays *float32 `mandatory:"false" json:"minimumRecoveryNeededInDays"`
 }
 
 func (m MetricsSummary) String() string {

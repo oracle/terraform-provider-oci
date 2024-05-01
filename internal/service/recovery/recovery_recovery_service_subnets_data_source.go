@@ -135,7 +135,7 @@ func (s *RecoveryRecoveryServiceSubnetsDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, RecoveryServiceSubnetSummaryToMap(item))
+		items = append(items, RecoveryServiceSubnetSummaryToMap(item, true))
 	}
 	recoveryServiceSubnet["items"] = items
 

@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -605,18 +605,21 @@ type LoadSqlTuningSetDetailsUpdateConditionEnum string
 
 // Set of constants representing the allowable values for LoadSqlTuningSetDetailsUpdateConditionEnum
 const (
-	LoadSqlTuningSetDetailsUpdateConditionOld LoadSqlTuningSetDetailsUpdateConditionEnum = "OLD"
-	LoadSqlTuningSetDetailsUpdateConditionNew LoadSqlTuningSetDetailsUpdateConditionEnum = "NEW"
+	LoadSqlTuningSetDetailsUpdateConditionOld  LoadSqlTuningSetDetailsUpdateConditionEnum = "OLD"
+	LoadSqlTuningSetDetailsUpdateConditionNew  LoadSqlTuningSetDetailsUpdateConditionEnum = "NEW"
+	LoadSqlTuningSetDetailsUpdateConditionNull LoadSqlTuningSetDetailsUpdateConditionEnum = "NULL"
 )
 
 var mappingLoadSqlTuningSetDetailsUpdateConditionEnum = map[string]LoadSqlTuningSetDetailsUpdateConditionEnum{
-	"OLD": LoadSqlTuningSetDetailsUpdateConditionOld,
-	"NEW": LoadSqlTuningSetDetailsUpdateConditionNew,
+	"OLD":  LoadSqlTuningSetDetailsUpdateConditionOld,
+	"NEW":  LoadSqlTuningSetDetailsUpdateConditionNew,
+	"NULL": LoadSqlTuningSetDetailsUpdateConditionNull,
 }
 
 var mappingLoadSqlTuningSetDetailsUpdateConditionEnumLowerCase = map[string]LoadSqlTuningSetDetailsUpdateConditionEnum{
-	"old": LoadSqlTuningSetDetailsUpdateConditionOld,
-	"new": LoadSqlTuningSetDetailsUpdateConditionNew,
+	"old":  LoadSqlTuningSetDetailsUpdateConditionOld,
+	"new":  LoadSqlTuningSetDetailsUpdateConditionNew,
+	"null": LoadSqlTuningSetDetailsUpdateConditionNull,
 }
 
 // GetLoadSqlTuningSetDetailsUpdateConditionEnumValues Enumerates the set of values for LoadSqlTuningSetDetailsUpdateConditionEnum
@@ -633,6 +636,7 @@ func GetLoadSqlTuningSetDetailsUpdateConditionEnumStringValues() []string {
 	return []string{
 		"OLD",
 		"NEW",
+		"NULL",
 	}
 }
 

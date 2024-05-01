@@ -39,11 +39,6 @@ func RecoveryRecoveryServiceSubnetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 			"vcn_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -64,7 +59,33 @@ func RecoveryRecoveryServiceSubnetResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-
+			"nsg_ids": {
+				Type:     schema.TypeSet,
+				Optional: true,
+				Computed: true,
+				Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"subnet_id": {
+				Type:          schema.TypeString,
+				Optional:      true,
+				Computed:      true,
+				ForceNew:      true,
+				ConflictsWith: []string{"subnets"},
+				Deprecated:    tfresource.FieldDeprecatedForAnother("subnet_id", "subnets"),
+			},
+			"subnets": {
+				Type:          schema.TypeSet,
+				Optional:      true,
+				Computed:      true,
+				ConflictsWith: []string{"subnet_id"},
+				Set:           tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -184,9 +205,37 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
+	}
+
+	if subnets, ok := s.D.GetOkExists("subnets"); ok {
+		set := subnets.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("subnets") {
+			request.Subnets = tmp
+		}
 	}
 
 	if vcnId, ok := s.D.GetOkExists("vcn_id"); ok {
@@ -371,8 +420,36 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.RecoveryServiceSubnetId = &tmp
+
+	if subnets, ok := s.D.GetOkExists("subnets"); ok {
+		set := subnets.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("subnets") {
+			request.Subnets = tmp
+		}
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
@@ -424,11 +501,23 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
+
+	subnets := []interface{}{}
+	for _, item := range s.Res.Subnets {
+		subnets = append(subnets, item)
+	}
+	s.D.Set("subnets", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnets))
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
@@ -449,7 +538,7 @@ func (s *RecoveryRecoveryServiceSubnetResourceCrud) SetData() error {
 	return nil
 }
 
-func RecoveryServiceSubnetSummaryToMap(obj oci_recovery.RecoveryServiceSubnetSummary) map[string]interface{} {
+func RecoveryServiceSubnetSummaryToMap(obj oci_recovery.RecoveryServiceSubnetSummary, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
@@ -474,10 +563,30 @@ func RecoveryServiceSubnetSummaryToMap(obj oci_recovery.RecoveryServiceSubnetSum
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SubnetId != nil {
 		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	subnets := []interface{}{}
+	for _, item := range obj.Subnets {
+		subnets = append(subnets, item)
+	}
+	if datasource {
+		result["subnets"] = subnets
+	} else {
+		result["subnets"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, subnets)
 	}
 
 	if obj.SystemTags != nil {

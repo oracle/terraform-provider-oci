@@ -177,6 +177,10 @@ func (s *DatabaseDbHomesDataSourceCrud) SetData() error {
 			dbHome["db_home_id"] = *r.Id
 		}
 
+		if r.IsUnifiedAuditingEnabled != nil {
+			dbHome["is_unified_auditing_enabled"] = *r.IsUnifiedAuditingEnabled
+		}
+
 		if r.KmsKeyId != nil {
 			dbHome["kms_key_id"] = *r.KmsKeyId
 		}

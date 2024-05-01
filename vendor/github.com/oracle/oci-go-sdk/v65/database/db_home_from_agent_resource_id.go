@@ -68,6 +68,9 @@ type DbHomeFromAgentResourceId struct {
 
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
+
+	// Indicates whether unified autiding is enabled or not.
+	IsUnifiedAuditingEnabled *bool `mandatory:"false" json:"isUnifiedAuditingEnabled"`
 }
 
 func (m DbHomeFromAgentResourceId) String() string {

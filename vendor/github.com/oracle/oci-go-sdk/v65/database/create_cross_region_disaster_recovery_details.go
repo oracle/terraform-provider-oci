@@ -38,37 +38,12 @@ import (
 //   - licenseModel
 //   - whitelistedIps
 //   - isMtlsConnectionRequired
-//
-// Example I - Creating a cross-region standby with required parameters only:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "source": "CROSS_REGION_DISASTER_RECOVERY",
-//	  "remoteDisasterRecoveryType": "BACKUP_BASED"
-//	}`
-//
-// Example II - Creating a cross-region standby that specifies optional parameters in addition to the required parameters:
-//
-//	`{
-//	  "compartmentId": "ocid.compartment.oc1..<var>&lt;unique_ID&gt;</var>",
-//	  "ecpuCount": 2,
-//	  "dbName": "adatabasedb1",
-//	  "sourceId": "ocid1.autonomousdatabase.oc1.phx..<var>&lt;unique_ID&gt;</var>",
-//	  "dataStorageSizeInTBs": 1,
-//	  "source": "CROSS_REGION_DISASTER_RECOVERY",
-//	  "adminPassword" : "<var>&lt;password&gt;</var>",
-//	  "dbVersion": "19c",
-//	  "licenseModel": "LICENSE_INCLUDED",
-//	  "isAutoScalingForStorageEnabled": "true",
-//	  "remoteDisasterRecoveryType": "BACKUP_BASED"
-//	}`
 type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the DR association.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new peer database for the DR association.
 	SourceId *string `mandatory:"true" json:"sourceId"`
 
 	// The character set for the autonomous database. The default is AL32UTF8. Allowed values for an Autonomous Database Serverless instance as as returned by List Autonomous Database Character Sets (https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)
@@ -138,7 +113,7 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// Indicates if auto scaling is enabled for the Autonomous Database CPU core count. The default value is `TRUE`.
 	IsAutoScalingEnabled *bool `mandatory:"false" json:"isAutoScalingEnabled"`
 
-	// This project introduces Autonomous Database for Developers (ADB-Dev), a free tier on dedicated infrastructure, and Cloud@Customer for database development purposes. ADB-Dev enables ExaDB customers to experiment with ADB for free and incentivizes enterprises to use ADB for new development projects.Note that ADB-Dev have 4 CPU and 20GB of memory. For ADB-Dev , memory and CPU cannot be scaled
+	// Autonomous Database for Developers are free Autonomous Databases that developers can use to build and test new applications.With Autonomous these database instancess instances, you can try new Autonomous Database features for free and apply them to ongoing or new development projects. Developer database comes with limited resources and is, therefore, not suitable for large-scale testing and production deployments. When you need more compute or storage resources, you can transition to a paid database licensing by cloning your developer database into a regular Autonomous Database. See Autonomous Database documentation (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/eddjo/index.html) for more details.
 	IsDevTier *bool `mandatory:"false" json:"isDevTier"`
 
 	// True if the database is on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
@@ -270,7 +245,7 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 
-	// The Oracle Database Edition that applies to the Autonomous databases.
+	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.

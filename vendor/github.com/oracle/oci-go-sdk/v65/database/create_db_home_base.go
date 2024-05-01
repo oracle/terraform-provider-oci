@@ -43,18 +43,22 @@ type CreateDbHomeBase interface {
 
 	// If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
 	GetIsDesupportedVersion() *bool
+
+	// Indicates whether unified autiding is enabled or not. Set to True to enable unified auditing on respective DBHome.
+	GetIsUnifiedAuditingEnabled() *bool
 }
 
 type createdbhomebase struct {
-	JsonData                []byte
-	DisplayName             *string                           `mandatory:"false" json:"displayName"`
-	KmsKeyId                *string                           `mandatory:"false" json:"kmsKeyId"`
-	KmsKeyVersionId         *string                           `mandatory:"false" json:"kmsKeyVersionId"`
-	DatabaseSoftwareImageId *string                           `mandatory:"false" json:"databaseSoftwareImageId"`
-	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	IsDesupportedVersion    *bool                             `mandatory:"false" json:"isDesupportedVersion"`
-	Source                  string                            `json:"source"`
+	JsonData                 []byte
+	DisplayName              *string                           `mandatory:"false" json:"displayName"`
+	KmsKeyId                 *string                           `mandatory:"false" json:"kmsKeyId"`
+	KmsKeyVersionId          *string                           `mandatory:"false" json:"kmsKeyVersionId"`
+	DatabaseSoftwareImageId  *string                           `mandatory:"false" json:"databaseSoftwareImageId"`
+	FreeformTags             map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags              map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	IsDesupportedVersion     *bool                             `mandatory:"false" json:"isDesupportedVersion"`
+	IsUnifiedAuditingEnabled *bool                             `mandatory:"false" json:"isUnifiedAuditingEnabled"`
+	Source                   string                            `json:"source"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -75,6 +79,7 @@ func (m *createdbhomebase) UnmarshalJSON(data []byte) error {
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.IsDesupportedVersion = s.Model.IsDesupportedVersion
+	m.IsUnifiedAuditingEnabled = s.Model.IsUnifiedAuditingEnabled
 	m.Source = s.Model.Source
 
 	return err
@@ -148,6 +153,11 @@ func (m createdbhomebase) GetDefinedTags() map[string]map[string]interface{} {
 // GetIsDesupportedVersion returns IsDesupportedVersion
 func (m createdbhomebase) GetIsDesupportedVersion() *bool {
 	return m.IsDesupportedVersion
+}
+
+// GetIsUnifiedAuditingEnabled returns IsUnifiedAuditingEnabled
+func (m createdbhomebase) GetIsUnifiedAuditingEnabled() *bool {
+	return m.IsUnifiedAuditingEnabled
 }
 
 func (m createdbhomebase) String() string {

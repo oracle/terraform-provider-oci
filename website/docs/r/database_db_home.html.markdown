@@ -75,6 +75,7 @@ resource "oci_database_db_home" "test_db_home" {
     enable_database_delete = false
 	freeform_tags = {"Department"= "Finance"}
 	is_desupported_version = var.db_home_is_desupported_version
+	is_unified_auditing_enabled = var.db_home_is_unified_auditing_enabled
 	kms_key_id = oci_kms_key.test_key.id
 	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	source = var.db_home_source
@@ -133,6 +134,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `display_name` - (Optional) The user-provided name of the Database Home.
 * `is_desupported_version` - (Optional) If true, the customer acknowledges that the specified Oracle Database software is an older release that is not currently supported by OCI.
+* `is_unified_auditing_enabled` - (Optional) Indicates whether unified autiding is enabled or not. Set to True to enable unified auditing on respective DBHome.
 * `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `kms_key_version_id` - (Optional) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 * `freeform_tags` - (Optional Applicable when source=VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -156,6 +158,7 @@ The following attributes are exported:
 * `display_name` - The user-provided name for the Database Home. The name does not need to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Home.
+* `is_unified_auditing_enabled` - Indicates whether unified autiding is enabled or not.
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `last_patch_history_entry_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the last patch history. This value is updated as soon as a patch operation is started.
 * `lifecycle_details` - Additional information about the current lifecycle state.

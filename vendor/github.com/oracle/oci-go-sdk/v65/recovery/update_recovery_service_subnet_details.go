@@ -21,6 +21,15 @@ type UpdateRecoveryServiceSubnetDetails struct {
 	// A user-provided name for the recovery service subnet. The 'displayName' does not have to be unique, and it can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// A list of OCIDs of the subnets associated with the recovery service subnet.
+	Subnets []string `mandatory:"false" json:"subnets"`
+
+	// A list of network security group (NSG) OCIDs that are associated with the Recovery Service subnet.
+	// You can specify a maximum of 5 unique OCIDs, which implies that you can associate a maximum of 5 NSGs to each Recovery Service subnet.
+	// Specify an empty array if you want to remove all the associated NSGs from a Recovery Service subnet.
+	// See NetworkSecurityGroup for more information.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

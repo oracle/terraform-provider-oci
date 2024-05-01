@@ -84,6 +84,9 @@ type Workspace struct {
 
 	// DCMS Registry ID associated with the container/workspace.
 	RegistryId *string `mandatory:"false" json:"registryId"`
+
+	// key-value pairs of workspace properties
+	WorkspaceProperties map[string]string `mandatory:"false" json:"workspaceProperties"`
 }
 
 func (m Workspace) String() string {

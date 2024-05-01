@@ -25,6 +25,7 @@ resource "oci_recovery_protection_policy" "test_protection_policy" {
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	policy_locked_date_time = var.protection_policy_policy_locked_date_time
 }
 ```
 
@@ -37,6 +38,13 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `display_name` - (Required) (Updatable) A user provided name for the protection policy. The 'displayName' does not have to be unique, and it can be modified. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
+* `policy_locked_date_time` - (Optional) (Updatable) An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
+	* The retention lock feature controls whether Recovery Service strictly preserves backups for the duration defined in a policy. Retention lock is useful to enforce recovery window compliance and to prevent unintentional modifications to protected database backups.
+	* Recovery Service enforces a 14-day delay before the retention lock set for a policy can take effect. Therefore, you must set policyLockedDateTime  to a date that occurs 14 days after the current date.
+	* For example, assuming that the current date is Aug 1, 2023 9 pm, you can set policyLockedDateTime  to '2023-08-15T21:00:00.600Z' (Aug 15, 2023, 9:00 pm), or greater.
+	* During the 14-day delay period, you can either increase or decrease the retention period in the policy.
+	* However, you are only allowed to increase the retention period on or after the retention lock date.
+	* You cannot change the value of policyLockedDateTime if the retention lock is already in effect. 
 
 
 ** IMPORTANT **
@@ -54,13 +62,8 @@ The following attributes are exported:
 * `id` - The protection policy OCID.
 * `is_predefined_policy` - Set to TRUE if the policy is Oracle-defined, and FALSE for a user-defined custom policy. You can modify only the custom policies.
 * `lifecycle_details` - Detailed description about the current lifecycle state of the protection policy. For example, it can be used to provide actionable information for a resource in a Failed state.
-* `state` - The current state of the protection policy. Allowed values are:
-	* CREATING
-	* UPDATING
-	* ACTIVE
-	* DELETING
-	* DELETED
-	* FAILED 
+* `policy_locked_date_time` - An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy. 
+* `state` - The current state of the protection policy. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `time_created` - An RFC3339 formatted datetime string that indicates the created time for the protection policy. For example: '2020-05-22T21:10:29.600Z'. 
 * `time_updated` - An RFC3339 formatted datetime string that indicates the updated time for the protection policy. For example: '2020-05-22T21:10:29.600Z'. 

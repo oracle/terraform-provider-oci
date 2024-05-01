@@ -31,6 +31,9 @@ type UpdateWorkspaceDetails struct {
 
 	// A user-friendly display name for the workspace. Does not have to be unique, and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Key-values pairs of workspace for storing properties on the workspace.
+	WorkspaceProperties map[string]string `mandatory:"false" json:"workspaceProperties"`
 }
 
 func (m UpdateWorkspaceDetails) String() string {

@@ -48,6 +48,7 @@ The following attributes are exported:
 	* `state` - The current lifecycle state of the database resource.
 	* `status` - The status of the Exadata resource.
 	* `storage_server_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata storage server.
+	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `time_created` - The timestamp of the creation of the Exadata resource.
 	* `time_updated` - The timestamp of the last update of the Exadata resource.
 	* `version` - The version of the Exadata resource.
@@ -70,6 +71,7 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the database resource.
 * `status` - The status of the Exadata resource.
 * `storage_grid_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata storage server grid.
+* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The timestamp of the creation of the Exadata resource.
 * `time_updated` - The timestamp of the last update of the Exadata resource.
 * `version` - The version of the Exadata resource.

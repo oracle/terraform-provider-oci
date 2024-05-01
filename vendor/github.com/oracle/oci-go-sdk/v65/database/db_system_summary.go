@@ -91,6 +91,9 @@ type DbSystemSummary struct {
 	// A list of the OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the network security groups (NSGs) that the backup network of this DB system belongs to. Setting this to an empty array after the list is created removes the resource from all NSGs. For more information about NSGs, see Security Rules (https://docs.cloud.oracle.com/Content/Network/Concepts/securityrules.htm). Applicable only to Exadata systems.
 	BackupNetworkNsgIds []string `mandatory:"false" json:"backupNetworkNsgIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of a grid infrastructure software image. This is a database software image of the type `GRID_IMAGE`.
+	GiSoftwareImageId *string `mandatory:"false" json:"giSoftwareImageId"`
+
 	// Memory allocated to the DB system, in gigabytes.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 

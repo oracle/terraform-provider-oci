@@ -4,9 +4,9 @@
 
 // Database Management API
 //
-// Use the Database Management API to perform tasks such as obtaining performance and resource usage metrics
-// for a fleet of Managed Databases or a specific Managed Database, creating Managed Database Groups, and
-// running a SQL job on a Managed Database or Managed Database Group.
+// Use the Database Management API to monitor and manage resources such as
+// Oracle Databases, MySQL Databases, and External Database Systems.
+// For more information, see Database Management (https://docs.cloud.oracle.com/iaas/database-management/home.htm).
 //
 
 package databasemanagement
@@ -64,6 +64,12 @@ type ExternalDbSystemDiscovery struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// System tags can be viewed by users, but can only be created by the system.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ExternalDbSystemDiscovery) String() string {
@@ -94,6 +100,7 @@ func (m *ExternalDbSystemDiscovery) UnmarshalJSON(data []byte) (e error) {
 		LifecycleDetails     *string                                     `json:"lifecycleDetails"`
 		FreeformTags         map[string]string                           `json:"freeformTags"`
 		DefinedTags          map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags           map[string]map[string]interface{}           `json:"systemTags"`
 		Id                   *string                                     `json:"id"`
 		DisplayName          *string                                     `json:"displayName"`
 		CompartmentId        *string                                     `json:"compartmentId"`
@@ -129,6 +136,8 @@ func (m *ExternalDbSystemDiscovery) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id
 
