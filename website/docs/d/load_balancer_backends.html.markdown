@@ -47,6 +47,7 @@ The following attributes are exported:
 	Example: `false` 
 * `drain` - Whether the load balancer should drain this server. Servers marked "drain" receive no new incoming traffic.  Example: `false` 
 * `ip_address` - The IP address of the backend server.  Example: `10.0.0.3` 
+* `max_connections` - The maximum number of simultaneous connections the load balancer can make to the backend. If this is not set then the maximum number of simultaneous connections the load balancer can make to the backend is unlimited.  Example: `300` 
 * `name` - A read-only field showing the IP address and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080` 
 * `offline` - Whether the load balancer should treat this server as offline. Offline servers receive no incoming traffic.  Example: `false` 
 * `port` - The communication port for the backend server.  Example: `8080` 

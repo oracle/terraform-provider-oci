@@ -153,6 +153,10 @@ func (s *LoadBalancerLoadBalancersDataSourceCrud) SetData() error {
 		loadBalancer["ip_mode"] = ipMode
 		loadBalancer["ip_addresses"] = ipAddresses
 
+		if r.IsDeleteProtectionEnabled != nil {
+			loadBalancer["is_delete_protection_enabled"] = *r.IsDeleteProtectionEnabled
+		}
+
 		if r.IsPrivate != nil {
 			loadBalancer["is_private"] = *r.IsPrivate
 		}

@@ -85,6 +85,10 @@ func (s *LoadBalancerBackendSetsDataSourceCrud) SetData() error {
 		}
 		backendSet["backend"] = backend
 
+		if r.BackendMaxConnections != nil {
+			backendSet["backend_max_connections"] = *r.BackendMaxConnections
+		}
+
 		if r.HealthChecker != nil {
 			backendSet["health_checker"] = []interface{}{HealthCheckerToMap(r.HealthChecker)}
 		} else {
