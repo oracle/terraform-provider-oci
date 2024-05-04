@@ -62,9 +62,24 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
-	* `reserved_ip` - Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-		* `id` - Ocid of the pre-created public IP. That should be attahed to this load balancer.
+	* `reserved_ip` - 
+        * `id` - Ocid of the Reserved IP/Public Ip created with VCN.
+
+            Reserved IPs are IPs which already registered using VCN API.
+
+            Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+
+            Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
+
+            Example: "ocid1.publicip.oc1.phx.unique_ID" 
 * `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead.
+* `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
+
+	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
+
+	If "false", the loadbalancer will not be protected against deletion.
+
+	Delete protection is not be enabled unless this field is set to "true". Example: `true` 
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer.

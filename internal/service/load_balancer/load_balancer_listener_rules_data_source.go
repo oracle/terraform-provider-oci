@@ -90,6 +90,10 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 											},
 										},
 									},
+									"default_max_connections": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
 									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -101,6 +105,30 @@ func LoadBalancerListenerRulesDataSource() *schema.Resource {
 									"http_large_header_size_in_kb": {
 										Type:     schema.TypeInt,
 										Computed: true,
+									},
+									"ip_max_connections": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"ip_addresses": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"max_connections": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"prefix": {
 										Type:     schema.TypeString,

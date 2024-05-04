@@ -100,6 +100,10 @@ func (s *LoadBalancerBackendsDataSourceCrud) SetData() error {
 			backend["ip_address"] = *r.IpAddress
 		}
 
+		if r.MaxConnections != nil {
+			backend["max_connections"] = *r.MaxConnections
+		}
+
 		if r.Name != nil {
 			backend["name"] = *r.Name
 		}

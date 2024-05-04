@@ -65,6 +65,11 @@ func LoadBalancerBackendResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"max_connections": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"offline": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -210,6 +215,11 @@ func (s *LoadBalancerBackendResourceCrud) Create() error {
 		request.LoadBalancerId = &tmp
 	}
 
+	if maxConnections, ok := s.D.GetOkExists("max_connections"); ok {
+		tmp := maxConnections.(int)
+		request.MaxConnections = &tmp
+	}
+
 	if offline, ok := s.D.GetOkExists("offline"); ok {
 		tmp := offline.(bool)
 		request.Offline = &tmp
@@ -324,6 +334,11 @@ func (s *LoadBalancerBackendResourceCrud) Update() error {
 		request.LoadBalancerId = &tmp
 	}
 
+	if maxConnections, ok := s.D.GetOkExists("max_connections"); ok {
+		tmp := maxConnections.(int)
+		request.MaxConnections = &tmp
+	}
+
 	if offline, ok := s.D.GetOkExists("offline"); ok {
 		tmp := offline.(bool)
 		request.Offline = &tmp
@@ -423,6 +438,10 @@ func (s *LoadBalancerBackendResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.MaxConnections != nil {
+		s.D.Set("max_connections", *s.Res.MaxConnections)
 	}
 
 	if s.Res.Name != nil {

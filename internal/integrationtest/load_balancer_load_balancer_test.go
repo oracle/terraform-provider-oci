@@ -52,11 +52,12 @@ var (
 		// Failure to do so results in test failures:  Error: Reference to undeclared resource
 		"defined_tags": acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 
-		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_private":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"reserved_ips":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
-		"network_security_group_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
-		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_private":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_delete_protection_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"reserved_ips":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
+		"network_security_group_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
+		"lifecycle":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
 	loadBalancer2Representation = map[string]interface{}{
@@ -196,6 +197,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
@@ -230,6 +232,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
@@ -258,6 +261,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
@@ -295,6 +299,7 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.ip_address_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_delete_protection_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
