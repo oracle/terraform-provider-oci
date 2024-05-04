@@ -65,6 +65,7 @@ variable "availability_domain" {
 }
 
 provider "oci" {
+  #version          = "5.29.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -73,12 +74,12 @@ provider "oci" {
 }
 
 data "oci_identity_availability_domain" "ad1" {
-  compartment_id = var.tenancy_ocid // needs to be compartment_ocid if not using root compartment
+  compartment_id = var.compartment_ocid // needs to be compartment_ocid if not using root compartment
   ad_number      = 1
 }
 
 data "oci_identity_availability_domain" "ad2" {
-  compartment_id = var.tenancy_ocid // needs to be compartment_ocid if not using root compartment
+  compartment_id = var.compartment_ocid // needs to be compartment_ocid if not using root compartment
   ad_number      = 2
 }
 
@@ -268,6 +269,8 @@ resource "oci_load_balancer" "lb1" {
   reserved_ips {
     id = oci_core_public_ip.test_reserved_ip.id
   }
+
+  is_delete_protection_enabled = "false"
 }
 
 resource "oci_load_balancer" "lb2" {
@@ -326,6 +329,7 @@ resource "oci_load_balancer_backend_set" "lb-bes1" {
   name             = "lb-bes1"
   load_balancer_id = oci_load_balancer.lb1.id
   policy           = "ROUND_ROBIN"
+  backend_max_connections = "1000"
 
   health_checker {
     port                = "80"
@@ -500,6 +504,7 @@ resource "oci_load_balancer_backend" "lb-be1" {
   drain            = false
   offline          = false
   weight           = 1
+  max_connections  = 300
 }
 
 resource "oci_load_balancer_backend" "lb-be2" {
@@ -511,6 +516,7 @@ resource "oci_load_balancer_backend" "lb-be2" {
   drain            = false
   offline          = false
   weight           = 1
+  max_connections  = 450
 }
 
 resource "oci_load_balancer_rule_set" "test_rule_set" {
@@ -569,6 +575,26 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 
   load_balancer_id = oci_load_balancer.lb1.id
   name             = "example_rule_set_name"
+}
+
+resource "oci_load_balancer_rule_set" "ip_based_max_connections_ruleset" {
+  load_balancer_id = oci_load_balancer.lb2.id
+  name             = "ip_based_max_connections_ruleset"
+
+  items {
+    action                  = "IP_BASED_MAX_CONNECTIONS"
+    default_max_connections = 20
+
+    ip_max_connections {
+      ip_addresses    = ["10.10.1.0/24", "150.136.187.0/24"]
+      max_connections = 300
+    }
+
+    ip_max_connections {
+      ip_addresses    = ["10.10.2.0/24", "151.0.0.0/8"]
+      max_connections = 10
+    }
+  }
 }
 
 output "lb_public_ip" {

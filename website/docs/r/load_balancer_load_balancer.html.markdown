@@ -54,6 +54,7 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	freeform_tags = {"Department"= "Finance"}
 	ip_mode = var.load_balancer_ip_mode
+	is_delete_protection_enabled = var.load_balancer_is_delete_protection_enabled
 	is_private = var.load_balancer_is_private
 	network_security_group_ids = var.load_balancer_network_security_group_ids
 	reserved_ips {
@@ -84,6 +85,13 @@ The following arguments are supported:
 	If "IPV6", the service assigns an IPv6 address and the load balancer supports IPv6 traffic.
 
 	Example: "ipMode":"IPV6" 
+* `is_delete_protection_enabled` - (Optional) (Updatable) Whether or not the load balancer has delete protection enabled.
+
+	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
+
+	If "false", the loadbalancer will not be protected against deletion.
+
+	Delete protection will not be enabled unless a value of "true" is provided. Example: `true` 
 * `is_private` - (Optional) Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer.
@@ -103,8 +111,16 @@ The following arguments are supported:
 
 	Example: `["ocid1.nsg.oc1.phx.unique_ID"]` 
 * `reserved_ips` - (Optional) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-	* `id` - (Optional) Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
-* `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `flexible` NOTE: Starting May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be `Flexible` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
+	* `id` - (Optional) Ocid of the Reserved IP/Public Ip created with VCN.
+
+		Reserved IPs are IPs which already registered using VCN API.
+
+		Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+
+		Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
+
+		Example: "ocid1.publicip.oc1.phx.unique_ID" Ocid of the pre-created public IP that should be attached to this load balancer. The public IP will be attached to a private IP. **Note** If public IP resource is present in the config, the terraform plan will throw `After applying this step and refreshing, the plan was not empty` error, and `private_ip_id` needs to be added as an input argument to the public IP resource block or ignore from its lifecycle as shown in [examples](https://terraform-provider-oci/blob/507acd0ed6517dbca2fbcfb8100874929c8fd8e1/examples/load_balancer/lb_full/lb_full.tf#L133) to resolve this error.
+* `shape` - (Required) (Updatable) A template that determines the total pre-provisioned bandwidth (ingress plus egress). To get a list of available shapes, use the [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerShape/ListShapes) operation.  Example: `flexible` NOTE: After May 2023, Fixed shapes - 10Mbps, 100Mbps, 400Mbps, 8000Mbps would be deprecated and only shape allowed would be `Flexible` *Note: When updating shape for a load balancer, all existing connections to the load balancer will be reset during the update process. Also `10Mbps-Micro` shape cannot be updated to any other shape nor can any other shape be updated to `10Mbps-Micro`.
 * `shape_details` - (Optional) (Updatable) The configuration details to create load balancer using Flexible shape. This is required only if shapeName is `Flexible`. 
 	* `maximum_bandwidth_in_mbps` - (Required) (Updatable) Bandwidth in Mbps that determines the maximum bandwidth (ingress plus egress) that the load balancer can achieve. This bandwidth cannot be always guaranteed. For a guaranteed bandwidth use the minimumBandwidthInMbps parameter.
 
@@ -186,9 +202,24 @@ The following attributes are exported:
 		If "true", the IP address is public and accessible from the internet.
 
 		If "false", the IP address is private and accessible only from within the associated VCN. 
-	* `reserved_ip` - Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
-		* `id` - Ocid of the pre-created public IP. That should be attahed to this load balancer.
-* `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead 
+	* `reserved_ip` - 
+        * `id` - Ocid of the Reserved IP/Public Ip created with VCN.
+
+            Reserved IPs are IPs which already registered using VCN API.
+
+            Create a reserved Public IP and then while creating the load balancer pass the ocid of the reserved IP in this field reservedIp to attach the Ip to Load balancer. Load balancer will be configured to listen to traffic on this IP.
+
+            Reserved IPs will not be deleted when the Load balancer is deleted. They will be unattached from the Load balancer.
+
+            Example: "ocid1.publicip.oc1.phx.unique_ID" 
+* `ip_addresses` - An array of IP addresses. Deprecated: use ip_address_details instead
+* `is_delete_protection_enabled` - Whether or not the load balancer has delete protection enabled.
+
+	If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
+
+	If "false", the loadbalancer will not be protected against deletion.
+
+	Delete protection is not be enabled unless this field is set to "true". Example: `true` 
 * `is_private` - Whether the load balancer has a VCN-local (private) IP address.
 
 	If "true", the service assigns a private IP address to the load balancer.

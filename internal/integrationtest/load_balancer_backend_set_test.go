@@ -39,6 +39,7 @@ var (
 		"load_balancer_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":                              acctest.Representation{RepType: acctest.Required, Create: `backendSet1`},
 		"policy":                            acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
+		"backend_max_connections":           acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `350`},
 		"session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSslConfigurationRepresentationOciCerts},
 	}
@@ -48,6 +49,7 @@ var (
 		"load_balancer_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
 		"name":                              acctest.Representation{RepType: acctest.Required, Create: `backendSet1`},
 		"policy":                            acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
+		"backend_max_connections":           acctest.Representation{RepType: acctest.Optional, Create: `300`, Update: `350`},
 		"session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSessionPersistenceConfigurationRepresentation},
 		"ssl_configuration":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetSslConfigurationRepresentationLB},
 	}
@@ -188,6 +190,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "300"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
@@ -210,12 +213,14 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
+						"backup":          "true",
+						"drain":           "true",
+						"ip_address":      "10.0.0.3",
+						"name":            "10.0.0.3:10",
+						"max_connections": "400",
+						"offline":         "true",
+						"port":            "10",
+						"weight":          "11",
 					},
 						[]string{
 							"name",
@@ -232,6 +237,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "350"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
@@ -267,6 +273,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.offline", "true"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.port", "10"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.weight", "11"),
+					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.max_connections", "0"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.interval_ms", "2000"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.port", "11"),
@@ -278,6 +285,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend_max_connections", "350"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.disable_fallback", "true"),
@@ -300,8 +308,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 			// verify update with LB session persistence
 			{
 				Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetLBRepresentationOciCerts) +
-					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetLBRepresentationOciCerts), // +
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -324,6 +331,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "300"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
@@ -368,6 +376,7 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 					resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 					resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+					resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "300"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-compatible-ssl-cipher-suite-v1"),
 					resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
@@ -394,12 +403,14 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 				Check: resource.ComposeAggregateTestCheckFunc(
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
+						"backup":          "true",
+						"drain":           "true",
+						"ip_address":      "10.0.0.3",
+						"name":            "10.0.0.3:10",
+						"max_connections": "400",
+						"offline":         "true",
+						"port":            "10",
+						"weight":          "11",
 					},
 						[]string{
 							"name",
@@ -452,18 +463,21 @@ func TestLoadBalancerBackendSetResourceOciCerts_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
 					acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "backendsets.0.backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
+						"backup":          "true",
+						"drain":           "true",
+						"ip_address":      "10.0.0.3",
+						"name":            "10.0.0.3:10",
+						"max_connections": "0",
+						"offline":         "true",
+						"port":            "10",
+						"weight":          "11",
 					},
 						[]string{
 							"backup",
 							"drain",
 							"ip_address",
 							"name",
+							"max_connections",
 							"offline",
 							"port",
 							"weight",
@@ -558,6 +572,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "300"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "false"),
@@ -580,12 +595,14 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-					"backup":     "true",
-					"drain":      "true",
-					"ip_address": "10.0.0.3",
-					"offline":    "true",
-					"port":       "10",
-					"weight":     "11",
+					"backup":          "true",
+					"drain":           "true",
+					"ip_address":      "10.0.0.3",
+					"name":            "10.0.0.3:10",
+					"offline":         "true",
+					"max_connections": "400",
+					"port":            "10",
+					"weight":          "11",
 				},
 					[]string{
 						"name",
@@ -602,6 +619,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.cookie_name", "example_cookie"),
 				resource.TestCheckResourceAttr(resourceName, "session_persistence_configuration.0.disable_fallback", "true"),
@@ -634,6 +652,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.backup", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.drain", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.ip_address", "10.0.0.3"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.max_connections", "0"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.offline", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.port", "10"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend.0.weight", "11"),
@@ -648,6 +667,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.health_checker.0.url_path", "urlPath2"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.cookie_name", "example_cookie"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.session_persistence_configuration.0.disable_fallback", "true"),
@@ -670,8 +690,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 		// verify Update with LB session persistence
 		{
 			Config: config + compartmentIdVariableStr + BackendSetResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetLBRepresentation) +
-				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Optional, acctest.Create, backendSetLBRepresentation), // +
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "health_checker.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "health_checker.0.interval_ms", "1000"),
@@ -695,6 +714,10 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				// While the comment above says: verify Update with LB
+				// this step calls GenerateResourceFromRepresentationMap with acctest.Create, backendSetLBRepresentation
+				// so we expect backend_max_connections to be 300
+				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "300"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "6"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "false"),
@@ -765,12 +788,14 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-					"backup":     "true",
-					"drain":      "true",
-					"ip_address": "10.0.0.3",
-					"offline":    "true",
-					"port":       "10",
-					"weight":     "11",
+					"backup":          "true",
+					"drain":           "true",
+					"ip_address":      "10.0.0.3",
+					"name":            "10.0.0.3:10",
+					"max_connections": "400",
+					"offline":         "true",
+					"port":            "10",
+					"weight":          "11",
 				},
 					[]string{
 						"name",
@@ -796,6 +821,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "name", "backendSet1"),
 				resource.TestCheckResourceAttr(resourceName, "policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(resourceName, "backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
@@ -824,18 +850,21 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.#", "1"),
 				acctest.CheckResourceSetContainsElementWithProperties(datasourceName, "backendsets.0.backend", map[string]string{
-					"backup":     "true",
-					"drain":      "true",
-					"ip_address": "10.0.0.3",
-					"offline":    "true",
-					"port":       "10",
-					"weight":     "11",
+					"backup":          "true",
+					"drain":           "true",
+					"ip_address":      "10.0.0.3",
+					"name":            "10.0.0.3:10",
+					"max_connections": "0",
+					"offline":         "true",
+					"port":            "10",
+					"weight":          "11",
 				},
 					[]string{
 						"backup",
 						"drain",
 						"ip_address",
 						"name",
+						"max_connections",
 						"offline",
 						"port",
 						"weight",
@@ -860,6 +889,7 @@ func TestLoadBalancerBackendSetResourceLB_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.lb_cookie_session_persistence_configuration.0.path", "/tmp/example2"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.name", "backendSet1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.policy", "LEAST_CONNECTIONS"),
+				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.backend_max_connections", "350"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.cipher_suite_name", "oci-wider-compatible-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(datasourceName, "backendsets.0.ssl_configuration.0.protocols.#", "1"),
@@ -950,12 +980,14 @@ func TestLoadBalancerBackendSetResourceLBCertToOciCerts_combo(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-					"backup":     "true",
-					"drain":      "true",
-					"ip_address": "10.0.0.3",
-					"offline":    "true",
-					"port":       "10",
-					"weight":     "11",
+					"backup":          "true",
+					"drain":           "true",
+					"ip_address":      "10.0.0.3",
+					"name":            "10.0.0.3:10",
+					"max_connections": "400",
+					"offline":         "true",
+					"port":            "10",
+					"weight":          "11",
 				},
 					[]string{
 						"name",
@@ -1053,12 +1085,14 @@ func TestLoadBalancerBackendSetResourceOciCertsToLBCert_combo(t *testing.T) {
 					acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend", "test_backend", acctest.Optional, acctest.Update, backendRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					acctest.CheckResourceSetContainsElementWithProperties(resourceName, "backend", map[string]string{
-						"backup":     "true",
-						"drain":      "true",
-						"ip_address": "10.0.0.3",
-						"offline":    "true",
-						"port":       "10",
-						"weight":     "11",
+						"backup":          "true",
+						"drain":           "true",
+						"ip_address":      "10.0.0.3",
+						"name":            "10.0.0.3:10",
+						"max_connections": "400",
+						"offline":         "true",
+						"port":            "10",
+						"weight":          "11",
 					},
 						[]string{
 							"name",

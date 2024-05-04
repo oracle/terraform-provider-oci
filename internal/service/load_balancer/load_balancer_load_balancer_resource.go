@@ -69,6 +69,11 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_delete_protection_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_private": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -304,6 +309,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.IpMode = oci_load_balancer.CreateLoadBalancerDetailsIpModeEnum(ipMode.(string))
 	}
 
+	if isDeleteProtectionEnabled, ok := s.D.GetOkExists("is_delete_protection_enabled"); ok {
+		tmp := isDeleteProtectionEnabled.(bool)
+		request.IsDeleteProtectionEnabled = &tmp
+	}
+
 	if isPrivate, ok := s.D.GetOkExists("is_private"); ok {
 		tmp := isPrivate.(bool)
 		request.IsPrivate = &tmp
@@ -481,6 +491,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isDeleteProtectionEnabled, ok := s.D.GetOkExists("is_delete_protection_enabled"); ok {
+		tmp := isDeleteProtectionEnabled.(bool)
+		request.IsDeleteProtectionEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.LoadBalancerId = &tmp
 
@@ -576,6 +591,10 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 	}
 
 	s.D.Set("ip_address_details", ipAddressDetails)
+
+	if s.Res.IsDeleteProtectionEnabled != nil {
+		s.D.Set("is_delete_protection_enabled", *s.Res.IsDeleteProtectionEnabled)
+	}
 
 	if s.Res.IsPrivate != nil {
 		s.D.Set("is_private", *s.Res.IsPrivate)
