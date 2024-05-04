@@ -65,7 +65,7 @@ type OccAvailabilityCatalog struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Details about capacity available for  different resources in catalog.
+	// Details about capacity available for different resources in catalog.
 	Details []OccAvailabilitySummary `mandatory:"false" json:"details"`
 }
 

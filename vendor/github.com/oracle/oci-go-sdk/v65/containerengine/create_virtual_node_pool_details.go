@@ -60,6 +60,8 @@ type CreateVirtualNodePoolDetails struct {
 	VirtualNodeTags *VirtualNodeTags `mandatory:"false" json:"virtualNodeTags"`
 
 	VirtualNodePoolCyclingDetails *VirtualNodePoolCyclingDetails `mandatory:"false" json:"virtualNodePoolCyclingDetails"`
+
+	VirtualNodeEvictionVirtualNodePoolSettings *VirtualNodeEvictionVirtualNodePoolSettings `mandatory:"false" json:"virtualNodeEvictionVirtualNodePoolSettings"`
 }
 
 func (m CreateVirtualNodePoolDetails) String() string {

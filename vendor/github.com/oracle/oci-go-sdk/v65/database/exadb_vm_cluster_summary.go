@@ -66,6 +66,18 @@ type ExadbVmClusterSummary struct {
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
+	// The number of Total ECPUs for a Exadata VM cluster on Exascale Infrastructure.
+	TotalECpuCount *int `mandatory:"true" json:"totalECpuCount"`
+
+	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
+	EnabledECpuCount *int `mandatory:"true" json:"enabledECpuCount"`
+
+	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
+
+	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
+	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
+
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
@@ -106,6 +118,12 @@ type ExadbVmClusterSummary struct {
 
 	// If true, sparse disk group is configured for the Exadata VM cluster on Exascale Infrastructure. If false, sparse disk group is not created.
 	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
+
+	// Grid Setup will be done using this grid image id
+	GridImageId *string `mandatory:"false" json:"gridImageId"`
+
+	// The type of Grid Image
+	GridImageType ExadbVmClusterSummaryGridImageTypeEnum `mandatory:"false" json:"gridImageType,omitempty"`
 
 	// Operating system version of the image.
 	SystemVersion *string `mandatory:"false" json:"systemVersion"`
@@ -163,6 +181,10 @@ type ExadbVmClusterSummary struct {
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
+	SnapshotFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"snapshotFileSystemStorage"`
+
+	TotalFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"totalFileSystemStorage"`
+
 	// The memory to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 }
@@ -180,6 +202,9 @@ func (m ExadbVmClusterSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetExadbVmClusterSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingExadbVmClusterSummaryGridImageTypeEnum(string(m.GridImageType)); !ok && m.GridImageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for GridImageType: %s. Supported values are: %s.", m.GridImageType, strings.Join(GetExadbVmClusterSummaryGridImageTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingExadbVmClusterSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetExadbVmClusterSummaryLicenseModelEnumStringValues(), ",")))
 	}
@@ -251,6 +276,48 @@ func GetExadbVmClusterSummaryLifecycleStateEnumStringValues() []string {
 // GetMappingExadbVmClusterSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterSummaryLifecycleStateEnum(val string) (ExadbVmClusterSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingExadbVmClusterSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadbVmClusterSummaryGridImageTypeEnum Enum with underlying type: string
+type ExadbVmClusterSummaryGridImageTypeEnum string
+
+// Set of constants representing the allowable values for ExadbVmClusterSummaryGridImageTypeEnum
+const (
+	ExadbVmClusterSummaryGridImageTypeReleaseUpdate ExadbVmClusterSummaryGridImageTypeEnum = "RELEASE_UPDATE"
+	ExadbVmClusterSummaryGridImageTypeCustomImage   ExadbVmClusterSummaryGridImageTypeEnum = "CUSTOM_IMAGE"
+)
+
+var mappingExadbVmClusterSummaryGridImageTypeEnum = map[string]ExadbVmClusterSummaryGridImageTypeEnum{
+	"RELEASE_UPDATE": ExadbVmClusterSummaryGridImageTypeReleaseUpdate,
+	"CUSTOM_IMAGE":   ExadbVmClusterSummaryGridImageTypeCustomImage,
+}
+
+var mappingExadbVmClusterSummaryGridImageTypeEnumLowerCase = map[string]ExadbVmClusterSummaryGridImageTypeEnum{
+	"release_update": ExadbVmClusterSummaryGridImageTypeReleaseUpdate,
+	"custom_image":   ExadbVmClusterSummaryGridImageTypeCustomImage,
+}
+
+// GetExadbVmClusterSummaryGridImageTypeEnumValues Enumerates the set of values for ExadbVmClusterSummaryGridImageTypeEnum
+func GetExadbVmClusterSummaryGridImageTypeEnumValues() []ExadbVmClusterSummaryGridImageTypeEnum {
+	values := make([]ExadbVmClusterSummaryGridImageTypeEnum, 0)
+	for _, v := range mappingExadbVmClusterSummaryGridImageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadbVmClusterSummaryGridImageTypeEnumStringValues Enumerates the set of values in String for ExadbVmClusterSummaryGridImageTypeEnum
+func GetExadbVmClusterSummaryGridImageTypeEnumStringValues() []string {
+	return []string{
+		"RELEASE_UPDATE",
+		"CUSTOM_IMAGE",
+	}
+}
+
+// GetMappingExadbVmClusterSummaryGridImageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadbVmClusterSummaryGridImageTypeEnum(val string) (ExadbVmClusterSummaryGridImageTypeEnum, bool) {
+	enum, ok := mappingExadbVmClusterSummaryGridImageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

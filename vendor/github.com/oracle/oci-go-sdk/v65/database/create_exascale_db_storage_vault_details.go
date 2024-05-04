@@ -29,11 +29,16 @@ type CreateExascaleDbStorageVaultDetails struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
+	ExtremeFlashDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
+
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`
 
 	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
+
+	// The size of additional Flash Cache in percentage of High Capacity database storage.
+	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

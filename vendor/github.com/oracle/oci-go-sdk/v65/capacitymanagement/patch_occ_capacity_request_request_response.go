@@ -14,7 +14,7 @@ import (
 // PatchOccCapacityRequestRequest wrapper for the PatchOccCapacityRequest operation
 type PatchOccCapacityRequestRequest struct {
 
-	// Request to update the properties of the capacity request.
+	// Request to update the details of the capacity request.
 	PatchOccCapacityRequestDetails `contributesTo:"body"`
 
 	// The OCID of the capacity request.

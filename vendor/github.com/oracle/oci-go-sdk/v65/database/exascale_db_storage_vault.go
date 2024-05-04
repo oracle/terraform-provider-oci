@@ -35,6 +35,8 @@ type ExascaleDbStorageVault struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
+	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
+
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -66,6 +68,9 @@ type ExascaleDbStorageVault struct {
 
 	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
 	ExaDbVmClusterCount *int `mandatory:"false" json:"exaDbVmClusterCount"`
+
+	// The size of additional Flash Cache in percentage of High Capacity database storage.
+	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`
 }
 
 func (m ExascaleDbStorageVault) String() string {

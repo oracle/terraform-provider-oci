@@ -20,9 +20,6 @@ type VolumeDetails struct {
 
 	// Volume Name
 	Name *string `mandatory:"true" json:"name"`
-
-	// Volume Size
-	Size *int `mandatory:"false" json:"size"`
 }
 
 func (m VolumeDetails) String() string {

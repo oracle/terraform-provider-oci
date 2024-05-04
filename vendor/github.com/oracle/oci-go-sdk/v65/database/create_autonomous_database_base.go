@@ -108,6 +108,9 @@ type CreateAutonomousDatabaseBase interface {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum
 
+	// The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+	GetByolComputeCountLimit() *float32
+
 	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	GetIsPreviewVersionWithServiceTermsAccepted() *bool
 
@@ -274,6 +277,7 @@ type createautonomousdatabasebase struct {
 	AdminPassword                            *string                                                           `mandatory:"false" json:"adminPassword"`
 	DisplayName                              *string                                                           `mandatory:"false" json:"displayName"`
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `mandatory:"false" json:"licenseModel,omitempty"`
+	ByolComputeCountLimit                    *float32                                                          `mandatory:"false" json:"byolComputeCountLimit"`
 	IsPreviewVersionWithServiceTermsAccepted *bool                                                             `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 	IsAutoScalingEnabled                     *bool                                                             `mandatory:"false" json:"isAutoScalingEnabled"`
 	IsDevTier                                *bool                                                             `mandatory:"false" json:"isDevTier"`
@@ -339,6 +343,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.AdminPassword = s.Model.AdminPassword
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
+	m.ByolComputeCountLimit = s.Model.ByolComputeCountLimit
 	m.IsPreviewVersionWithServiceTermsAccepted = s.Model.IsPreviewVersionWithServiceTermsAccepted
 	m.IsAutoScalingEnabled = s.Model.IsAutoScalingEnabled
 	m.IsDevTier = s.Model.IsDevTier
@@ -518,6 +523,11 @@ func (m createautonomousdatabasebase) GetDisplayName() *string {
 // GetLicenseModel returns LicenseModel
 func (m createautonomousdatabasebase) GetLicenseModel() CreateAutonomousDatabaseBaseLicenseModelEnum {
 	return m.LicenseModel
+}
+
+// GetByolComputeCountLimit returns ByolComputeCountLimit
+func (m createautonomousdatabasebase) GetByolComputeCountLimit() *float32 {
+	return m.ByolComputeCountLimit
 }
 
 // GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted

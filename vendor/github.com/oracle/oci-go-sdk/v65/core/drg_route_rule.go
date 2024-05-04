@@ -71,7 +71,7 @@ type DrgRouteRule struct {
 	Attributes *interface{} `mandatory:"false" json:"attributes"`
 
 	// A list of ASNs in AS_Path.
-	AsPath []int `mandatory:"false" json:"asPath"`
+	AsPath []int64 `mandatory:"false" json:"asPath"`
 
 	// List of BGP Communities
 	BgpCommunities []string `mandatory:"false" json:"bgpCommunities"`

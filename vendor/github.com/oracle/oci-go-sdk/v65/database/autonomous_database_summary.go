@@ -173,6 +173,9 @@ type AutonomousDatabaseSummary struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel AutonomousDatabaseSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
+	// The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+	ByolComputeCountLimit *float32 `mandatory:"false" json:"byolComputeCountLimit"`
+
 	// The amount of storage that has been used for Autonomous Databases in dedicated infrastructure, in terabytes.
 	UsedDataStorageSizeInTBs *int `mandatory:"false" json:"usedDataStorageSizeInTBs"`
 
@@ -584,6 +587,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		ConnectionUrls                          *AutonomousDatabaseConnectionUrls                              `json:"connectionUrls"`
 		PublicConnectionUrls                    *AutonomousDatabaseConnectionUrls                              `json:"publicConnectionUrls"`
 		LicenseModel                            AutonomousDatabaseSummaryLicenseModelEnum                      `json:"licenseModel"`
+		ByolComputeCountLimit                   *float32                                                       `json:"byolComputeCountLimit"`
 		UsedDataStorageSizeInTBs                *int                                                           `json:"usedDataStorageSizeInTBs"`
 		FreeformTags                            map[string]string                                              `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{}                              `json:"definedTags"`
@@ -764,6 +768,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.PublicConnectionUrls = model.PublicConnectionUrls
 
 	m.LicenseModel = model.LicenseModel
+
+	m.ByolComputeCountLimit = model.ByolComputeCountLimit
 
 	m.UsedDataStorageSizeInTBs = model.UsedDataStorageSizeInTBs
 

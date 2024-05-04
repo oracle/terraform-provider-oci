@@ -35,6 +35,8 @@ type ExascaleDbStorageVaultSummary struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
+	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
+
 	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
@@ -59,6 +61,9 @@ type ExascaleDbStorageVaultSummary struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The size of additional Flash Cache in percentage of High Capacity database storage.
+	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`
 
 	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
 	ExaDbVmClusterCount *int `mandatory:"false" json:"exaDbVmClusterCount"`

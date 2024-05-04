@@ -17,6 +17,9 @@ type ListGiVersionMinorVersionsRequest struct {
 	// The Oracle Grid Infrastructure major version.
 	Version *string `mandatory:"true" contributesTo:"path" name:"version"`
 
+	// The target availability domain. Only passed if the limit is AD-specific.
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 

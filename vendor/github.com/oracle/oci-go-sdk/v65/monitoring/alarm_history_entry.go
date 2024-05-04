@@ -31,6 +31,12 @@ type AlarmHistoryEntry struct {
 	// Example: `2023-02-01T01:02:29.600Z`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 
+	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
+	// and transition timestamp.
+	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
+	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
+	AlarmSummary *string `mandatory:"true" json:"alarmSummary"`
+
 	// Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing.
 	// Available for state transition entries only. Note: A three-minute lag for this value accounts for any late-arriving metrics.
 	// Example: `2023-02-01T0:59:00.789Z`

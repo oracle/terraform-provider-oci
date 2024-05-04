@@ -20,15 +20,15 @@ import (
 // AccessTargetDetails Details of the targets that can be accessed by the private endpoint.
 type AccessTargetDetails struct {
 
-	// The Object Storage namespace which the private endpoint can access.
+	// The Object Storage namespace which the private endpoint can access. Wildcards ('*') are allowed. If value is '*', it means all namespaces can be accessed. It cannot be a regex.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// The compartment ID which the private endpoint can access.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+	// The compartment ID which the private endpoint can access. Wildcards ('*') are allowed. If value is '*', it means all compartments in the specified namespace can be accessed. It cannot be a regex.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the bucket. Avoid entering confidential information.
+	// The name of the bucket. Avoid entering confidential information. Wildcards ('*') are allowed. If value is '*', it means all buckets in the specified namespace and compartment can be accessed. It cannot be a regex.
 	// Example: my-new-bucket1
-	Bucket *string `mandatory:"false" json:"bucket"`
+	Bucket *string `mandatory:"true" json:"bucket"`
 }
 
 func (m AccessTargetDetails) String() string {

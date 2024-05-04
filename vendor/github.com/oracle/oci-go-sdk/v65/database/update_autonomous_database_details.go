@@ -114,6 +114,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel UpdateAutonomousDatabaseDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
+	// The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+	ByolComputeCountLimit *float32 `mandatory:"false" json:"byolComputeCountLimit"`
+
 	// Indicates if the database-level access control is enabled.
 	// If disabled, database access is defined by the network security rules.
 	// If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional,
@@ -347,6 +350,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags                          map[string]map[string]interface{}                                    `json:"definedTags"`
 		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum                        `json:"dbWorkload"`
 		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum                      `json:"licenseModel"`
+		ByolComputeCountLimit                *float32                                                             `json:"byolComputeCountLimit"`
 		IsAccessControlEnabled               *bool                                                                `json:"isAccessControlEnabled"`
 		WhitelistedIps                       []string                                                             `json:"whitelistedIps"`
 		ArePrimaryWhitelistedIpsUsed         *bool                                                                `json:"arePrimaryWhitelistedIpsUsed"`
@@ -426,6 +430,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DbWorkload = model.DbWorkload
 
 	m.LicenseModel = model.LicenseModel
+
+	m.ByolComputeCountLimit = model.ByolComputeCountLimit
 
 	m.IsAccessControlEnabled = model.IsAccessControlEnabled
 

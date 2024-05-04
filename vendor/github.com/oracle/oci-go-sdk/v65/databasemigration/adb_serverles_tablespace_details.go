@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// AdbServerlesTablespaceDetails Migration tablespace settings valid for ADB-D target type using remap feature
+// AdbServerlesTablespaceDetails Migration tablespace settings valid for Autonomous Database Serverless target type using remap feature.
 type AdbServerlesTablespaceDetails struct {
 
-	// Name of tablespace at target to which the source database tablespace need to be remapped.
+	// Name of the tablespace on the target database to which the source database tablespace is to be remapped.
 	RemapTarget AdbServerlesTablespaceDetailsRemapTargetEnum `mandatory:"false" json:"remapTarget,omitempty"`
 }
 

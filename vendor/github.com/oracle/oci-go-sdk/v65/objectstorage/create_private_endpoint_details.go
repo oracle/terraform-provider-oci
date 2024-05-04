@@ -36,6 +36,9 @@ type CreatePrivateEndpointDetails struct {
 	// Example: If the prefix chosen is "abc", then the endpointFqdn will be 'abc.private.objectstorage.<region>.oraclecloud.com'
 	Prefix *string `mandatory:"true" json:"prefix"`
 
+	// A list of targets that can be accessed by the private endpoint.
+	AccessTargets []AccessTargetDetails `mandatory:"true" json:"accessTargets"`
+
 	// A list of additional prefix that you can provide along with any other prefix. These resulting endpointFqdn's are added to the
 	// customer VCN's DNS record.
 	AdditionalPrefixes []string `mandatory:"false" json:"additionalPrefixes"`
@@ -50,9 +53,6 @@ type CreatePrivateEndpointDetails struct {
 	// For more information about NSGs, see
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
-	// A list of targets that can be accessed by the private endpoint.
-	AccessTargets []AccessTargetDetails `mandatory:"false" json:"accessTargets"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

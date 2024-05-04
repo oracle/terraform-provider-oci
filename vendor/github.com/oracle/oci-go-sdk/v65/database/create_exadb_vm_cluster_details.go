@@ -51,10 +51,25 @@ type CreateExadbVmClusterDetails struct {
 	// The number of nodes in the Exadata VM cluster on Exascale Infrastructure.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
+	// The number of Total ECPUs for a Exadata VM cluster on Exascale Infrastructure.
+	TotalECpuCount *int `mandatory:"true" json:"totalECpuCount"`
+
+	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
+	EnabledECpuCount *int `mandatory:"true" json:"enabledECpuCount"`
+
+	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
+	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
+
+	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
+	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
+
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 	ExascaleDbStorageVaultId *string `mandatory:"true" json:"exascaleDbStorageVaultId"`
+
+	// Grid Setup will be done using this grid image id
+	GridImageId *string `mandatory:"true" json:"gridImageId"`
 
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"true" json:"giVersion"`

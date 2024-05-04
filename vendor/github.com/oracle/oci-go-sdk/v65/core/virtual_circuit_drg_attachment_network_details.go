@@ -63,6 +63,14 @@ type VirtualCircuitDrgAttachmentNetworkDetails struct {
 	// throughput mode.
 	CommonImportRT *string `mandatory:"false" json:"commonImportRT"`
 
+	// This indicates whether the DRG route table associated with the DRG attachment is whitelisted for High Throughput mode.
+	// Example: `true`
+	IsIngressDisintermediationEnabled *bool `mandatory:"false" json:"isIngressDisintermediationEnabled"`
+
+	// This indicates whether the DRG route table associated with the DRG attachment is whitelisted for route unification.
+	// Example: `true`
+	IsRouteUnificationEnabled *bool `mandatory:"false" json:"isRouteUnificationEnabled"`
+
 	// Boolean flag that determines wether all traffic over the virtual circuits is encrypted.
 	// Example: `true`
 	TransportOnlyMode *bool `mandatory:"false" json:"transportOnlyMode"`

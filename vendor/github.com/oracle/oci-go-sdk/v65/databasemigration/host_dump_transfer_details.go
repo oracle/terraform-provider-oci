@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// HostDumpTransferDetails Optional additional properties for dump transfer in source or target host. Default kind is CURL
+// HostDumpTransferDetails Optional additional properties for dump transfer in source or target host. Default kind is CURL.
 type HostDumpTransferDetails interface {
 
 	// Directory path to OCI SSL wallet location on Db server node.

@@ -42,6 +42,8 @@ type InstanceReservationConfig struct {
 
 	ClusterConfig *ClusterConfigDetails `mandatory:"false" json:"clusterConfig"`
 
+	RecycleConfig *RecycleConfigDetails `mandatory:"false" json:"recycleConfig"`
+
 	InstanceShapeConfig *InstanceReservationShapeConfigDetails `mandatory:"false" json:"instanceShapeConfig"`
 
 	// The OCID of the cluster placement group for this instance reservation capacity configuration.

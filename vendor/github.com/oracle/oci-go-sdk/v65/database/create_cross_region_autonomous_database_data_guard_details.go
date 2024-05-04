@@ -107,6 +107,9 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// The user-friendly name for the Autonomous Database. The name does not have to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The maximum number of CPUs allowed with a Bring Your Own License (BYOL), including those used for auto-scaling, disaster recovery, tools, etc. Any CPU usage above this limit is considered as License Included and billed.
+	ByolComputeCountLimit *float32 `mandatory:"false" json:"byolComputeCountLimit"`
+
 	// If set to `TRUE`, indicates that an Autonomous Database preview version is being provisioned, and that the preview version's terms of service have been accepted. Note that preview version software is only available for Autonomous Database Serverless instances (https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/).
 	IsPreviewVersionWithServiceTermsAccepted *bool `mandatory:"false" json:"isPreviewVersionWithServiceTermsAccepted"`
 
@@ -366,6 +369,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetLicenseModel() C
 	return m.LicenseModel
 }
 
+// GetByolComputeCountLimit returns ByolComputeCountLimit
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetByolComputeCountLimit() *float32 {
+	return m.ByolComputeCountLimit
+}
+
 // GetIsPreviewVersionWithServiceTermsAccepted returns IsPreviewVersionWithServiceTermsAccepted
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetIsPreviewVersionWithServiceTermsAccepted() *bool {
 	return m.IsPreviewVersionWithServiceTermsAccepted
@@ -587,6 +595,7 @@ func (m *CreateCrossRegionAutonomousDatabaseDataGuardDetails) UnmarshalJSON(data
 		AdminPassword                            *string                                                           `json:"adminPassword"`
 		DisplayName                              *string                                                           `json:"displayName"`
 		LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `json:"licenseModel"`
+		ByolComputeCountLimit                    *float32                                                          `json:"byolComputeCountLimit"`
 		IsPreviewVersionWithServiceTermsAccepted *bool                                                             `json:"isPreviewVersionWithServiceTermsAccepted"`
 		IsAutoScalingEnabled                     *bool                                                             `json:"isAutoScalingEnabled"`
 		IsDevTier                                *bool                                                             `json:"isDevTier"`
@@ -670,6 +679,8 @@ func (m *CreateCrossRegionAutonomousDatabaseDataGuardDetails) UnmarshalJSON(data
 	m.DisplayName = model.DisplayName
 
 	m.LicenseModel = model.LicenseModel
+
+	m.ByolComputeCountLimit = model.ByolComputeCountLimit
 
 	m.IsPreviewVersionWithServiceTermsAccepted = model.IsPreviewVersionWithServiceTermsAccepted
 

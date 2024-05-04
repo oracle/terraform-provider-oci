@@ -21,9 +21,6 @@ type GiVersionSummary struct {
 
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	Version *string `mandatory:"true" json:"version"`
-
-	// Grid Infrastructure Image Id
-	GridImageId *string `mandatory:"false" json:"gridImageId"`
 }
 
 func (m GiVersionSummary) String() string {

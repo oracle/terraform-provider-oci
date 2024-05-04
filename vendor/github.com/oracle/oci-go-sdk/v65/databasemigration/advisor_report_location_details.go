@@ -15,11 +15,11 @@ import (
 	"strings"
 )
 
-// AdvisorReportLocationDetails Details to access Pre-Migration Advisor report.
+// AdvisorReportLocationDetails Details to access Premigration Advisor report.
 type AdvisorReportLocationDetails struct {
 	ObjectStorageDetails *AdvisorReportBucketDetails `mandatory:"false" json:"objectStorageDetails"`
 
-	// Path in the Source Registered Connection where the Pre-Migration advisor report can be accessed.
+	// File system path on the Source Database host where the Premigration Advisor report can be accessed.
 	LocationInSource *string `mandatory:"false" json:"locationInSource"`
 }
 

@@ -28,9 +28,6 @@ type UpdatePrivateEndpointDetails struct {
 	// The Object Storage namespace which will associated with the private endpoint.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
-	// The ID of the compartment in which to create the Private Endpoint.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
 	// A list of targets that can be accessed by the private endpoint.
 	AccessTargets []AccessTargetDetails `mandatory:"false" json:"accessTargets"`
 

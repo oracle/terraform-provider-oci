@@ -27,7 +27,7 @@ type OccAvailabilityCatalogSummary struct {
 	// The OCID of the tenancy where the availability catalog resides.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// An user-friendly name for the availability catalog. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	// An user-friendly name for the availability catalog. Does not have to be unique, and is changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The Customer Group OCID to which the availability catalog belongs.

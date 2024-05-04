@@ -10,7 +10,6 @@
 package capacitymanagement
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,9 +20,6 @@ type CreateOccCapacityRequestDetails struct {
 
 	// Since all resources are at tenancy level hence this will be the ocid of the tenancy where operation is to be performed.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// The OCID of the availability catalog against which capacity request is made.
-	OccAvailabilityCatalogId *string `mandatory:"true" json:"occAvailabilityCatalogId"`
 
 	// The name of the OCI service in consideration. For example, Compute, Exadata, and so on.
 	Namespace NamespaceEnum `mandatory:"true" json:"namespace"`
@@ -42,6 +38,12 @@ type CreateOccCapacityRequestDetails struct {
 
 	// A list of different resources requested by the user.
 	Details []OccCapacityRequestBaseDetails `mandatory:"true" json:"details"`
+
+	// The OCID of the availability catalog against which capacity request is made.
+	OccAvailabilityCatalogId *string `mandatory:"false" json:"occAvailabilityCatalogId"`
+
+	// Type of Capacity Request(New or Transfer)
+	RequestType OccCapacityRequestRequestTypeEnum `mandatory:"false" json:"requestType,omitempty"`
 
 	// Meaningful text about the capacity request.
 	Description *string `mandatory:"false" json:"description"`
@@ -74,6 +76,9 @@ func (m CreateOccCapacityRequestDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Namespace: %s. Supported values are: %s.", m.Namespace, strings.Join(GetNamespaceEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOccCapacityRequestRequestTypeEnum(string(m.RequestType)); !ok && m.RequestType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestType: %s. Supported values are: %s.", m.RequestType, strings.Join(GetOccCapacityRequestRequestTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingCreateOccCapacityRequestDetailsRequestStateEnum(string(m.RequestState)); !ok && m.RequestState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestState: %s. Supported values are: %s.", m.RequestState, strings.Join(GetCreateOccCapacityRequestDetailsRequestStateEnumStringValues(), ",")))
 	}
@@ -81,68 +86,6 @@ func (m CreateOccCapacityRequestDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *CreateOccCapacityRequestDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description                  *string                                         `json:"description"`
-		FreeformTags                 map[string]string                               `json:"freeformTags"`
-		DefinedTags                  map[string]map[string]interface{}               `json:"definedTags"`
-		LifecycleDetails             *string                                         `json:"lifecycleDetails"`
-		RequestState                 CreateOccCapacityRequestDetailsRequestStateEnum `json:"requestState"`
-		CompartmentId                *string                                         `json:"compartmentId"`
-		OccAvailabilityCatalogId     *string                                         `json:"occAvailabilityCatalogId"`
-		Namespace                    NamespaceEnum                                   `json:"namespace"`
-		Region                       *string                                         `json:"region"`
-		DisplayName                  *string                                         `json:"displayName"`
-		AvailabilityDomain           *string                                         `json:"availabilityDomain"`
-		DateExpectedCapacityHandover *common.SDKTime                                 `json:"dateExpectedCapacityHandover"`
-		Details                      []occcapacityrequestbasedetails                 `json:"details"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Description = model.Description
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.RequestState = model.RequestState
-
-	m.CompartmentId = model.CompartmentId
-
-	m.OccAvailabilityCatalogId = model.OccAvailabilityCatalogId
-
-	m.Namespace = model.Namespace
-
-	m.Region = model.Region
-
-	m.DisplayName = model.DisplayName
-
-	m.AvailabilityDomain = model.AvailabilityDomain
-
-	m.DateExpectedCapacityHandover = model.DateExpectedCapacityHandover
-
-	m.Details = make([]OccCapacityRequestBaseDetails, len(model.Details))
-	for i, n := range model.Details {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Details[i] = nn.(OccCapacityRequestBaseDetails)
-		} else {
-			m.Details[i] = nil
-		}
-	}
-	return
 }
 
 // CreateOccCapacityRequestDetailsRequestStateEnum Enum with underlying type: string

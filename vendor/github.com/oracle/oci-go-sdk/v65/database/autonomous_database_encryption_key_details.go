@@ -50,6 +50,10 @@ func (m *autonomousdatabaseencryptionkeydetails) UnmarshalPolymorphicJSON(data [
 
 	var err error
 	switch m.Provider {
+	case "OKV":
+		mm := OkvKeyDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AZURE":
 		mm := AzureKeyDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -97,6 +101,7 @@ const (
 	AutonomousDatabaseEncryptionKeyDetailsProviderAzure         AutonomousDatabaseEncryptionKeyDetailsProviderEnum = "AZURE"
 	AutonomousDatabaseEncryptionKeyDetailsProviderOci           AutonomousDatabaseEncryptionKeyDetailsProviderEnum = "OCI"
 	AutonomousDatabaseEncryptionKeyDetailsProviderOracleManaged AutonomousDatabaseEncryptionKeyDetailsProviderEnum = "ORACLE_MANAGED"
+	AutonomousDatabaseEncryptionKeyDetailsProviderOkv           AutonomousDatabaseEncryptionKeyDetailsProviderEnum = "OKV"
 )
 
 var mappingAutonomousDatabaseEncryptionKeyDetailsProviderEnum = map[string]AutonomousDatabaseEncryptionKeyDetailsProviderEnum{
@@ -104,6 +109,7 @@ var mappingAutonomousDatabaseEncryptionKeyDetailsProviderEnum = map[string]Auton
 	"AZURE":          AutonomousDatabaseEncryptionKeyDetailsProviderAzure,
 	"OCI":            AutonomousDatabaseEncryptionKeyDetailsProviderOci,
 	"ORACLE_MANAGED": AutonomousDatabaseEncryptionKeyDetailsProviderOracleManaged,
+	"OKV":            AutonomousDatabaseEncryptionKeyDetailsProviderOkv,
 }
 
 var mappingAutonomousDatabaseEncryptionKeyDetailsProviderEnumLowerCase = map[string]AutonomousDatabaseEncryptionKeyDetailsProviderEnum{
@@ -111,6 +117,7 @@ var mappingAutonomousDatabaseEncryptionKeyDetailsProviderEnumLowerCase = map[str
 	"azure":          AutonomousDatabaseEncryptionKeyDetailsProviderAzure,
 	"oci":            AutonomousDatabaseEncryptionKeyDetailsProviderOci,
 	"oracle_managed": AutonomousDatabaseEncryptionKeyDetailsProviderOracleManaged,
+	"okv":            AutonomousDatabaseEncryptionKeyDetailsProviderOkv,
 }
 
 // GetAutonomousDatabaseEncryptionKeyDetailsProviderEnumValues Enumerates the set of values for AutonomousDatabaseEncryptionKeyDetailsProviderEnum
@@ -129,6 +136,7 @@ func GetAutonomousDatabaseEncryptionKeyDetailsProviderEnumStringValues() []strin
 		"AZURE",
 		"OCI",
 		"ORACLE_MANAGED",
+		"OKV",
 	}
 }
 

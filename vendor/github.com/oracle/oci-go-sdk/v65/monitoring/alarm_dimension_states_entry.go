@@ -28,9 +28,14 @@ type AlarmDimensionStatesEntry struct {
 	// Example: `FIRING`
 	Status AlarmDimensionStatesEntryStatusEnum `mandatory:"true" json:"status"`
 
+	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
+	// and transition timestamp.
+	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
+	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
+	AlarmSummary *string `mandatory:"true" json:"alarmSummary"`
+
 	// Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.
-	// A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.
-	// Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
+	// Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
 	RuleName *string `mandatory:"true" json:"ruleName"`
 
 	// Transition time associated with the alarm state entry. Format defined by RFC3339.

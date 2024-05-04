@@ -93,6 +93,26 @@ type AlarmSummary struct {
 	// The configuration details for suppressing an alarm.
 	Suppression *Suppression `mandatory:"false" json:"suppression"`
 
+	// Notification title that can be customized to include alarm attributes.
+	// It is used to generate customize title in the alarm notification.
+	NotificationTitle *string `mandatory:"false" json:"notificationTitle"`
+
+	// The period of time to wait for metric ingestion before alarm evaluation.
+	// The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
+	// for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M.
+	EvaluationSlackTime *string `mandatory:"false" json:"evaluationSlackTime"`
+
+	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
+	// and transition timestamp.
+	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
+	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
+	AlarmSummary *string `mandatory:"false" json:"alarmSummary"`
+
+	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
 	// Whether the alarm sends a separate message for each metric stream.
 	// See Creating an Alarm That Splits Messages by Metric Stream (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-alarm-split.htm).
 	// Example: `true`
@@ -113,8 +133,7 @@ type AlarmSummary struct {
 	Overrides []AlarmOverride `mandatory:"false" json:"overrides"`
 
 	// Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.
-	// A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.
-	// Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
+	// Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
 	RuleName *string `mandatory:"false" json:"ruleName"`
 
 	// The version of the alarm notification to be delivered. Allowed value: `1.X`

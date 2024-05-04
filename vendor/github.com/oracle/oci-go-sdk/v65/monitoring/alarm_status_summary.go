@@ -42,8 +42,7 @@ type AlarmStatusSummary struct {
 	Severity AlarmStatusSummarySeverityEnum `mandatory:"true" json:"severity"`
 
 	// Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.
-	// A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.
-	// Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
+	// Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
 	RuleName *string `mandatory:"true" json:"ruleName"`
 
 	// Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing.
@@ -56,6 +55,12 @@ type AlarmStatusSummary struct {
 	// To list alarm status for each metric stream, use RetrieveDimensionStates.
 	// Example: `FIRING`
 	Status AlarmStatusSummaryStatusEnum `mandatory:"true" json:"status"`
+
+	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
+	// and transition timestamp.
+	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
+	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
+	AlarmSummary *string `mandatory:"true" json:"alarmSummary"`
 
 	// The configuration details for suppressing an alarm.
 	Suppression *Suppression `mandatory:"false" json:"suppression"`
