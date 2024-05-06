@@ -63,6 +63,13 @@ type LoadBalancer struct {
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
 
+	// Whether or not the load balancer has delete protection enabled.
+	// If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
+	// If "false", the loadbalancer will not be protected against deletion.
+	// Delete protection is not be enabled unless this field is set to "true".
+	// Example: `true`
+	IsDeleteProtectionEnabled *bool `mandatory:"false" json:"isDeleteProtectionEnabled"`
+
 	// An array of subnet OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubnetIds []string `mandatory:"false" json:"subnetIds"`
 

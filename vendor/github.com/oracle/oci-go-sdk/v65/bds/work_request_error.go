@@ -18,13 +18,13 @@ import (
 // WorkRequestError An error encountered while executing a work request.
 type WorkRequestError struct {
 
-	// A machine-usable code for the error that occured. Error codes are listed on (https://docs.oracle.com/en-us/iaas/Content/API/References/apierrors.htm).
+	// A machine-usable code for the error that occurred. Error codes are listed on (https://docs.oracle.com/en-us/iaas/Content/API/References/apierrors.htm).
 	Code *string `mandatory:"true" json:"code"`
 
 	// A human readable description of the issue encountered.
 	Message *string `mandatory:"true" json:"message"`
 
-	// The time the error occured, shown as an RFC 3339 formatted datetime string.
+	// The time the error occurred, shown as an RFC 3339 formatted datetime string.
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
 }
 

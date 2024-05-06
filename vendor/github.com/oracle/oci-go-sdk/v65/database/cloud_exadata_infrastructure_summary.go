@@ -128,6 +128,9 @@ type CloudExadataInfrastructureSummary struct {
 	// The monthly software version of the database servers (dom0) in the cloud Exadata infrastructure.
 	// Example: 20.1.15
 	MonthlyDbServerVersion *string `mandatory:"false" json:"monthlyDbServerVersion"`
+
+	// Details of the file system configuration of the Exadata infrastructure.
+	DefinedFileSystemConfigurations []DefinedFileSystemConfiguration `mandatory:"false" json:"definedFileSystemConfigurations"`
 }
 
 func (m CloudExadataInfrastructureSummary) String() string {

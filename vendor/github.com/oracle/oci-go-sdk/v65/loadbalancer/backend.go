@@ -55,6 +55,10 @@ type Backend struct {
 	// traffic.
 	// Example: `false`
 	Offline *bool `mandatory:"true" json:"offline"`
+
+	// The maximum number of simultaneous connections the load balancer can make to the backend.
+	// Example: `300`
+	MaxConnections *int `mandatory:"false" json:"maxConnections"`
 }
 
 func (m Backend) String() string {

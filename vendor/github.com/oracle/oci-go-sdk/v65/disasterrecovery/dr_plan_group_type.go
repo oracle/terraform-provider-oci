@@ -21,21 +21,24 @@ type DrPlanGroupTypeEnum string
 
 // Set of constants representing the allowable values for DrPlanGroupTypeEnum
 const (
-	DrPlanGroupTypeUserDefined     DrPlanGroupTypeEnum = "USER_DEFINED"
-	DrPlanGroupTypeBuiltIn         DrPlanGroupTypeEnum = "BUILT_IN"
-	DrPlanGroupTypeBuiltInPrecheck DrPlanGroupTypeEnum = "BUILT_IN_PRECHECK"
+	DrPlanGroupTypeUserDefined      DrPlanGroupTypeEnum = "USER_DEFINED"
+	DrPlanGroupTypeBuiltIn          DrPlanGroupTypeEnum = "BUILT_IN"
+	DrPlanGroupTypeBuiltInPrecheck  DrPlanGroupTypeEnum = "BUILT_IN_PRECHECK"
+	DrPlanGroupTypeUserDefinedPause DrPlanGroupTypeEnum = "USER_DEFINED_PAUSE"
 )
 
 var mappingDrPlanGroupTypeEnum = map[string]DrPlanGroupTypeEnum{
-	"USER_DEFINED":      DrPlanGroupTypeUserDefined,
-	"BUILT_IN":          DrPlanGroupTypeBuiltIn,
-	"BUILT_IN_PRECHECK": DrPlanGroupTypeBuiltInPrecheck,
+	"USER_DEFINED":       DrPlanGroupTypeUserDefined,
+	"BUILT_IN":           DrPlanGroupTypeBuiltIn,
+	"BUILT_IN_PRECHECK":  DrPlanGroupTypeBuiltInPrecheck,
+	"USER_DEFINED_PAUSE": DrPlanGroupTypeUserDefinedPause,
 }
 
 var mappingDrPlanGroupTypeEnumLowerCase = map[string]DrPlanGroupTypeEnum{
-	"user_defined":      DrPlanGroupTypeUserDefined,
-	"built_in":          DrPlanGroupTypeBuiltIn,
-	"built_in_precheck": DrPlanGroupTypeBuiltInPrecheck,
+	"user_defined":       DrPlanGroupTypeUserDefined,
+	"built_in":           DrPlanGroupTypeBuiltIn,
+	"built_in_precheck":  DrPlanGroupTypeBuiltInPrecheck,
+	"user_defined_pause": DrPlanGroupTypeUserDefinedPause,
 }
 
 // GetDrPlanGroupTypeEnumValues Enumerates the set of values for DrPlanGroupTypeEnum
@@ -53,6 +56,7 @@ func GetDrPlanGroupTypeEnumStringValues() []string {
 		"USER_DEFINED",
 		"BUILT_IN",
 		"BUILT_IN_PRECHECK",
+		"USER_DEFINED_PAUSE",
 	}
 }
 
