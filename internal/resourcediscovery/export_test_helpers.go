@@ -11,15 +11,21 @@ import (
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-exec/tfinstall"
 
 	"github.com/oracle/terraform-provider-oci/internal/globalvar"
 	tf_provider "github.com/oracle/terraform-provider-oci/internal/provider"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+
+	hcinstall "github.com/hashicorp/hc-install"
+	"github.com/hashicorp/hc-install/fs"
+	"github.com/hashicorp/hc-install/product"
+	"github.com/hashicorp/hc-install/src"
 )
 
 var (
-	tfinstallVar               = tfinstall.Find
+	hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
+		return installer.Ensure(ctx, sources)
+	}
 	testExportCompartmentVar   = TestExportCompartment
 	isResourceSupportImportVar = isResourceSupportImport
 	newTerraformVar            = tfexec.NewTerraform
@@ -150,7 +156,8 @@ func TestExportCompartment(compartmentId *string, exportCommandArgs *tf_export.E
 	terraformBinPath := getEnvSettingWithBlankDefaultVar(globalvar.TerraformBinPathName)
 	if terraformBinPath == "" {
 		var err error
-		terraformBinPath, err = tfinstallVar(context.Background(), tfinstall.LookPath())
+		terraformBinPath, err = hcInstallerEnsure(hcinstall.NewInstaller(), context.Background(),
+			[]src.Source{src.Findable(&fs.AnyVersion{Product: &product.Terraform})})
 		if err != nil {
 			return err
 		}
