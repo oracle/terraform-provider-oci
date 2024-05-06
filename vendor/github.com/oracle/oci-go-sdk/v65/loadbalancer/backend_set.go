@@ -40,6 +40,11 @@ type BackendSet struct {
 
 	HealthChecker *HealthChecker `mandatory:"true" json:"healthChecker"`
 
+	// The maximum number of simultaneous connections the load balancer can make to any backend
+	// in the backend set unless the backend has its own maxConnections setting.
+	// Example: `300`
+	BackendMaxConnections *int `mandatory:"false" json:"backendMaxConnections"`
+
 	SslConfiguration *SslConfiguration `mandatory:"false" json:"sslConfiguration"`
 
 	SessionPersistenceConfiguration *SessionPersistenceConfigurationDetails `mandatory:"false" json:"sessionPersistenceConfiguration"`

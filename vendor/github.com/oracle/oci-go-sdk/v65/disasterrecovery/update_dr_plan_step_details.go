@@ -31,13 +31,16 @@ type UpdateDrPlanStepDetails struct {
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// The error mode for this step.
+	// The default error mode for the step is `STOP_ON_ERROR`.
 	ErrorMode DrPlanStepErrorModeEnum `mandatory:"false" json:"errorMode,omitempty"`
 
 	// The timeout in seconds for executing this step.
+	// When creating a new step, if no timeout is specified, the default timeout is set to `3600` seconds.
 	// Example: `600`
 	Timeout *int `mandatory:"false" json:"timeout"`
 
 	// A flag indicating whether this step should be enabled for execution.
+	// The default value for the isEnabled flag is `true`.
 	// Example: `true`
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
