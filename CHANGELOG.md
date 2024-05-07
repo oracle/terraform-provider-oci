@@ -1,4 +1,4 @@
-## 5.41.0 (Unreleased)
+## 5.41.0 (May 07, 2024)
 
 ### Added
 - Support for ExaDB-D@D Resize of Local Files Systems (non /u02)
