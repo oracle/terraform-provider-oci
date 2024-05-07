@@ -77,6 +77,12 @@ type Node struct {
 
 	// The date and time the instance is expected to be stopped / started, in the format defined by RFC3339.
 	TimeMaintenanceRebootDue *common.SDKTime `mandatory:"false" json:"timeMaintenanceRebootDue"`
+
+	// BDS-assigned Operating System version for the node.
+	OsVersion *string `mandatory:"false" json:"osVersion"`
+
+	// Indicates if the node requires a reboot to either reflect the latest os kernel or take actions for maintenance reboot.
+	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 }
 
 func (m Node) String() string {

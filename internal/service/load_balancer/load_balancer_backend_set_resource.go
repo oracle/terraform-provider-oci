@@ -110,6 +110,11 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 			},
 
 			// Optional
+			"backend_max_connections": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"lb_cookie_session_persistence_configuration": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -280,6 +285,11 @@ func LoadBalancerBackendSetResource() *schema.Resource {
 							Optional: true,
 							Default:  false,
 						},
+						"max_connections": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"offline": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -396,6 +406,11 @@ func (s *LoadBalancerBackendSetResourceCrud) DeletedTarget() []string {
 
 func (s *LoadBalancerBackendSetResourceCrud) Create() error {
 	request := oci_load_balancer.CreateBackendSetRequest{}
+
+	if backendMaxConnections, ok := s.D.GetOkExists("backend_max_connections"); ok {
+		tmp := backendMaxConnections.(int)
+		request.BackendMaxConnections = &tmp
+	}
 
 	if healthChecker, ok := s.D.GetOkExists("health_checker"); ok {
 		if tmpList := healthChecker.([]interface{}); len(tmpList) > 0 {
@@ -552,6 +567,11 @@ func (s *LoadBalancerBackendSetResourceCrud) Update() error {
 	}
 	request.Backends = tmp
 
+	if backendMaxConnections, ok := s.D.GetOkExists("backend_max_connections"); ok {
+		tmp := backendMaxConnections.(int)
+		request.BackendMaxConnections = &tmp
+	}
+
 	if backendSetName, ok := s.D.GetOkExists("name"); ok {
 		tmp := backendSetName.(string)
 		request.BackendSetName = &tmp
@@ -705,6 +725,10 @@ func (s *LoadBalancerBackendSetResourceCrud) SetData() error {
 	}
 	s.D.Set("backend", schema.NewSet(backendHashCodeForSets, backend))
 
+	if s.Res.BackendMaxConnections != nil {
+		s.D.Set("backend_max_connections", *s.Res.BackendMaxConnections)
+	}
+
 	if s.Res.HealthChecker != nil {
 		s.D.Set("health_checker", []interface{}{HealthCheckerToMap(s.Res.HealthChecker)})
 	} else {
@@ -809,6 +833,10 @@ func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
 
 	if obj.IpAddress != nil {
 		result["ip_address"] = string(*obj.IpAddress)
+	}
+
+	if obj.MaxConnections != nil {
+		result["max_connections"] = int(*obj.MaxConnections)
 	}
 
 	if obj.Name != nil {
@@ -1154,6 +1182,9 @@ func backendHashCodeForSets(v interface{}) int {
 	}
 	if ipAddress, ok := m["ip_address"]; ok && ipAddress != "" {
 		buf.WriteString(fmt.Sprintf("%v-", ipAddress))
+	}
+	if maxConnections, ok := m["max_connections"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", maxConnections))
 	}
 	if offline, ok := m["offline"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", offline))

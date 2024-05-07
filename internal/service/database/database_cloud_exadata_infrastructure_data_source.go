@@ -116,6 +116,12 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("db_server_version", *s.Res.DbServerVersion)
 	}
 
+	definedFileSystemConfigurations := []interface{}{}
+	for _, item := range s.Res.DefinedFileSystemConfigurations {
+		definedFileSystemConfigurations = append(definedFileSystemConfigurations, DefinedFileSystemConfigurationToMap(item))
+	}
+	s.D.Set("defined_file_system_configurations", definedFileSystemConfigurations)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}

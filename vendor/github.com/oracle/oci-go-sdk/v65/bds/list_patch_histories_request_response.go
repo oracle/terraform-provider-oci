@@ -27,11 +27,11 @@ type ListPatchHistoriesRequest struct {
 	// The status of the patch.
 	LifecycleState PatchHistorySummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
-	SortBy ListPatchHistoriesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
-
 	// The version of the patch
 	PatchVersion *string `mandatory:"false" contributesTo:"query" name:"patchVersion"`
+
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending. Default order for displayName is ascending. If no value is specified timeCreated is default.
+	SortBy ListPatchHistoriesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The sort order to use, either 'asc' or 'desc'.
 	SortOrder ListPatchHistoriesSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`

@@ -54,6 +54,7 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 								"EXTEND_HTTP_REQUEST_HEADER_VALUE",
 								"EXTEND_HTTP_RESPONSE_HEADER_VALUE",
 								"HTTP_HEADER",
+								"IP_BASED_MAX_CONNECTIONS",
 								"REDIRECT",
 								"REMOVE_HTTP_REQUEST_HEADER",
 								"REMOVE_HTTP_RESPONSE_HEADER",
@@ -109,6 +110,11 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 								},
 							},
 						},
+						"default_max_connections": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"description": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -123,6 +129,33 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
+						},
+						"ip_max_connections": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"ip_addresses": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"max_connections": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"prefix": {
 							Type:     schema.TypeString,
@@ -533,6 +566,42 @@ func parseRuleSetCompositeId(compositeId string) (loadBalancerId string, name st
 	return
 }
 
+func (s *LoadBalancerRuleSetResourceCrud) mapToIpMaxConnections(fieldKeyFormat string) (oci_load_balancer.IpMaxConnections, error) {
+	result := oci_load_balancer.IpMaxConnections{}
+
+	if ipAddresses, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip_addresses")); ok {
+		interfaces := ipAddresses.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ip_addresses")) {
+			result.IpAddresses = tmp
+		}
+	}
+
+	if maxConnections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_connections")); ok {
+		tmp := maxConnections.(int)
+		result.MaxConnections = &tmp
+	}
+
+	return result, nil
+}
+
+func IpMaxConnectionsToMap(obj oci_load_balancer.IpMaxConnections) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["ip_addresses"] = obj.IpAddresses
+
+	if obj.MaxConnections != nil {
+		result["max_connections"] = int(*obj.MaxConnections)
+	}
+
+	return result
+}
+
 func (s *LoadBalancerRuleSetResourceCrud) mapToRedirectUri(fieldKeyFormat string) (oci_load_balancer.RedirectUri, error) {
 	result := oci_load_balancer.RedirectUri{}
 
@@ -707,6 +776,29 @@ func (s *LoadBalancerRuleSetResourceCrud) mapToRule(fieldKeyFormat string) (oci_
 			details.HttpLargeHeaderSizeInKB = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("IP_BASED_MAX_CONNECTIONS"):
+		details := oci_load_balancer.IpBasedMaxConnectionsRule{}
+		if defaultMaxConnections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "default_max_connections")); ok {
+			tmp := defaultMaxConnections.(int)
+			details.DefaultMaxConnections = &tmp
+		}
+		if ipMaxConnections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip_max_connections")); ok {
+			interfaces := ipMaxConnections.([]interface{})
+			tmp := make([]oci_load_balancer.IpMaxConnections, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ip_max_connections"), stateDataIndex)
+				converted, err := s.mapToIpMaxConnections(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ip_max_connections")) {
+				details.IpMaxConnections = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("REDIRECT"):
 		details := oci_load_balancer.RedirectRule{}
 		if conditions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "conditions")); ok {
@@ -851,6 +943,18 @@ func RuleToMap(obj oci_load_balancer.Rule, datasource bool) map[string]interface
 		if v.HttpLargeHeaderSizeInKB != nil {
 			result["http_large_header_size_in_kb"] = int(*v.HttpLargeHeaderSizeInKB)
 		}
+	case oci_load_balancer.IpBasedMaxConnectionsRule:
+		result["action"] = "IP_BASED_MAX_CONNECTIONS"
+
+		if v.DefaultMaxConnections != nil {
+			result["default_max_connections"] = int(*v.DefaultMaxConnections)
+		}
+
+		ipMaxConnections := []interface{}{}
+		for _, item := range v.IpMaxConnections {
+			ipMaxConnections = append(ipMaxConnections, IpMaxConnectionsToMap(item))
+		}
+		result["ip_max_connections"] = ipMaxConnections
 	case oci_load_balancer.RedirectRule:
 		result["action"] = "REDIRECT"
 
@@ -1007,6 +1111,9 @@ func itemsHashCodeForSets(v interface{}) int {
 			}
 		}
 	}
+	if defaultMaxConnections, ok := m["default_max_connections"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", defaultMaxConnections))
+	}
 	if description, ok := m["description"]; ok && description != "" {
 		buf.WriteString(fmt.Sprintf("%v-", description))
 	}
@@ -1015,6 +1122,9 @@ func itemsHashCodeForSets(v interface{}) int {
 	}
 	if httpLargeHeaderSizeInKB, ok := m["http_large_header_size_in_kb"]; ok {
 		buf.WriteString(fmt.Sprintf("%v-", httpLargeHeaderSizeInKB))
+	}
+	if ipMaxConnections, ok := m["ip_max_connections"]; ok {
+		buf.WriteString(fmt.Sprintf("%v-", ipMaxConnections))
 	}
 	if prefix, ok := m["prefix"]; ok && prefix != "" {
 		buf.WriteString(fmt.Sprintf("%v-", prefix))

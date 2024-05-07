@@ -44,6 +44,12 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	db_servers = var.cloud_vm_cluster_db_servers
 	defined_tags = var.cloud_vm_cluster_defined_tags
 	domain = var.cloud_vm_cluster_domain
+	file_system_configuration_details {
+
+		#Optional
+		file_system_size_gb = var.cloud_vm_cluster_file_system_configuration_details_file_system_size_gb
+		mount_point = var.cloud_vm_cluster_file_system_configuration_details_mount_point
+	}
 	freeform_tags = {"Department"= "Finance"}
 	is_local_backup_enabled = var.cloud_vm_cluster_is_local_backup_enabled
 	is_sparse_diskgroup_enabled = var.cloud_vm_cluster_is_sparse_diskgroup_enabled
@@ -87,6 +93,9 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - (Optional) A domain name used for the cloud VM cluster. If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. Applies to Exadata Cloud Service instances only. 
+* `file_system_configuration_details` - (Optional) (Updatable) Details of the file system configuration of the VM cluster.
+	* `file_system_size_gb` - (Optional) (Updatable) The file system size to be allocated in GBs.
+	* `mount_point` - (Optional) (Updatable) The mount point of file system.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - (Required) A valid Oracle Grid Infrastructure (GI) software version.
 * `hostname` - (Required) The hostname for the cloud VM cluster. The hostname must begin with an alphabetic character, and can contain alphanumeric characters and hyphens (-). The maximum length of the hostname is 16 characters for bare metal and virtual machine DB systems, and 12 characters for Exadata systems.
@@ -138,6 +147,9 @@ The following attributes are exported:
 * `disk_redundancy` - The type of redundancy configured for the cloud Vm cluster. NORMAL is 2-way redundancy. HIGH is 3-way redundancy. 
 * `display_name` - The user-friendly name for the cloud VM cluster. The name does not need to be unique.
 * `domain` - The domain name for the cloud VM cluster.
+* `file_system_configuration_details` - Details of the file system configuration of the VM cluster.
+	* `file_system_size_gb` - The file system size to be allocated in GBs.
+	* `mount_point` - The mount point of file system.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
 * `hostname` - The hostname for the cloud VM cluster.
