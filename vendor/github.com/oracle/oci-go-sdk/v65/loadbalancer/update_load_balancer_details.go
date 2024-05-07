@@ -25,6 +25,13 @@ type UpdateLoadBalancerDetails struct {
 	// Example: `example_load_balancer`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Whether or not the load balancer has delete protection enabled.
+	// If "true", the loadbalancer will be protected against deletion if configured to accept traffic.
+	// If "false", the loadbalancer will not be protected against deletion.
+	// If null or unset, the value for delete protection will not be changed.
+	// Example: `true`
+	IsDeleteProtectionEnabled *bool `mandatory:"false" json:"isDeleteProtectionEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

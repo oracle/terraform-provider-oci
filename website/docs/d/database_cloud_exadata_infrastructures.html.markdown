@@ -60,6 +60,11 @@ The following attributes are exported:
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the cloud Exadata infrastructure. Example: 20.1.15 
+* `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
+	* `is_backup_partition` - If true, the file system is used to create a backup prior to Exadata VM OS update.
+	* `is_resizable` - If true, the file system resize is allowed for the Exadata Infrastructure cluster. If false, the file system resize is not allowed.
+	* `min_size_gb` - The minimum size of file system.
+	* `mount_point` - The mount point of file system.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-friendly name for the cloud Exadata infrastructure resource. The name does not need to be unique.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 

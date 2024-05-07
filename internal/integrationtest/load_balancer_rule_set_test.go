@@ -150,6 +150,19 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 		are_invalid_characters_allowed = true
 		http_large_header_size_in_kb = 8
 	}
+	items {
+		#Required
+		action = "IP_BASED_MAX_CONNECTIONS"
+		default_max_connections = 20
+		ip_max_connections {
+			ip_addresses = ["10.10.1.0/24", "150.136.187.0/24"]
+			max_connections = 300
+		}
+		ip_max_connections {
+			ip_addresses = ["10.10.2.0/24", "151.0.0.0/8"]
+			max_connections = 10
+		}
+	}
 	load_balancer_id = "${oci_load_balancer_load_balancer.test_load_balancer.id}"
 	name = "example_rule_set"
 }
@@ -208,7 +221,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 				RuleSetResourceWithMultipleRules,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "items.#", "11"),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "12"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 					"action": "ADD_HTTP_REQUEST_HEADER",
 					"header": "example_header_name",
@@ -272,6 +285,15 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 					"action":                         "HTTP_HEADER",
 					"are_invalid_characters_allowed": "true",
 					"http_large_header_size_in_kb":   "8",
+				},
+					[]string{}),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"action":                               "IP_BASED_MAX_CONNECTIONS",
+					"default_max_connections":              "20",
+					"ip_max_connections.0.ip_addresses.0":  "10.10.1.0/24",
+					"ip_max_connections.0.max_connections": "300",
+					"ip_max_connections.1.ip_addresses.1":  "151.0.0.0/8",
+					"ip_max_connections.1.max_connections": "10",
 				},
 					[]string{}),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),

@@ -23,11 +23,11 @@ type UpdateSslCipherSuiteDetails struct {
 	// A list of SSL ciphers the load balancer must support for HTTPS or SSL connections.
 	// The following ciphers are valid values for this property:
 	// *  __TLSv1.3 ciphers__
-	//         "TLS-AES-128-GCM-SHA256"
-	//         "TLS-AES-256-GCM-SHA384"
-	//         "TLS-CHACHA20-POLY1305-SHA256"
-	//         "TLS-AES-128-CCM-SHA256"
-	//         "TLS-AES-128-CCM-8-SHA256"
+	//         "TLS_AES_128_GCM_SHA256"
+	//         "TLS_AES_256_GCM_SHA384"
+	//         "TLS_CHACHA20_POLY1305_SHA256"
+	//         "TLS_AES_128_CCM_SHA256"
+	//         "TLS_AES_128_CCM_8_SHA256"
 	// *  __TLSv1.2 ciphers__
 	//         "AES128-GCM-SHA256"
 	//         "AES128-SHA256"

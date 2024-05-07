@@ -33,6 +33,11 @@ type UpdateDrPlanGroupDetails struct {
 	// Example: `BUILT_IN`
 	Type DrPlanGroupTypeEnum `mandatory:"false" json:"type,omitempty"`
 
+	// A flag indicating whether this group should be enabled for execution.
+	// This flag is only applicable to the `USER_DEFINED_PAUSE` group. The flag should be null for the remaining group types.
+	// Example: `true`
+	IsPauseEnabled *bool `mandatory:"false" json:"isPauseEnabled"`
+
 	// The list of steps in this group.
 	Steps []UpdateDrPlanStepDetails `mandatory:"false" json:"steps"`
 }

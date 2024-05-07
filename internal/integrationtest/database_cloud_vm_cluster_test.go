@@ -51,6 +51,14 @@ var (
 	}
 
 	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
+		"file_system_configuration_details": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation2},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation3},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation4},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation5},
+			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation6}},
 		"backup_subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.t2.id}`},
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -109,6 +117,40 @@ var (
 		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `20`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/`, Update: `/`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `250`, Update: `260`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/u01`, Update: `/u01`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation2 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `15`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/tmp`, Update: `/tmp`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation3 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `15`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var`, Update: `/var`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation4 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `40`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var/log`, Update: `/var/log`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation5 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `4`, Update: `10`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/home`, Update: `/home`},
+	}
+
+	DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation6 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var/log/audit`},
 	}
 
 	zoneRepresentation = map[string]interface{}{
@@ -371,6 +413,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
@@ -423,6 +468,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "cloudVmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
@@ -471,6 +519,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(resourceName, "domain"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.9.0.0.0"),
@@ -529,6 +580,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.disk_redundancy"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "20"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.domain", "sicdbaas.exacs.zonetest"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.system_tags.%", "0"),
@@ -575,6 +629,9 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_storage_percentage", "40"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "disk_redundancy"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "20"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "domain", "sicdbaas.exacs.zonetest"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),
