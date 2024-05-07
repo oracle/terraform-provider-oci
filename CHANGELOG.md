@@ -1,3 +1,11 @@
+## 5.41.0 (Unreleased)
+
+### Added
+- Support for ExaDB-D@D Resize of Local Files Systems (non /u02)
+- Support for adding pause step in DR Plan
+- Support for Load Balancer LSE Prevention: Delete Protection, backend Max Connections, and Listener Max Connections
+- Support for [DMS] Fixing AWS_S3 issue in the example file
+
 ## 5.40.0 (Unreleased)
 
 ### Added
