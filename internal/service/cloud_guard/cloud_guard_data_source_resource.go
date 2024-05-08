@@ -63,6 +63,7 @@ func CloudGuardDataSourceResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"LOGGINGQUERY",
+								"SCHEDULEDQUERY",
 							}, true),
 						},
 
@@ -72,7 +73,17 @@ func CloudGuardDataSourceResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"interval_in_minutes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"interval_in_seconds": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -158,6 +169,38 @@ func CloudGuardDataSourceResource() *schema.Resource {
 							Computed: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
+							},
+						},
+						"scheduled_query_scope_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"region": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"resource_ids": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"resource_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
 							},
 						},
 						"threshold": {
@@ -787,6 +830,37 @@ func (s *CloudGuardDataSourceResourceCrud) mapToDataSourceDetails(fieldKeyFormat
 			details.Threshold = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("SCHEDULEDQUERY"):
+		details := oci_cloud_guard.ScheduledQueryDataSourceObjDetails{}
+		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if intervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interval_in_seconds")); ok {
+			tmp := intervalInSeconds.(int)
+			details.IntervalInSeconds = &tmp
+		}
+		if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+			tmp := query.(string)
+			details.Query = &tmp
+		}
+		if scheduledQueryScopeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scheduled_query_scope_details")); ok {
+			interfaces := scheduledQueryScopeDetails.([]interface{})
+			tmp := make([]oci_cloud_guard.ScheduledQueryScopeDetail, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "scheduled_query_scope_details"), stateDataIndex)
+				converted, err := s.mapToScheduledQueryScopeDetail(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "scheduled_query_scope_details")) {
+				details.ScheduledQueryScopeDetails = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown data_source_feed_provider '%v' was specified", dataSourceFeedProvider)
 	}
@@ -836,6 +910,26 @@ func DataSourceDetailsToMap(obj *oci_cloud_guard.DataSourceDetails) map[string]i
 		if v.Threshold != nil {
 			result["threshold"] = int(*v.Threshold)
 		}
+	case oci_cloud_guard.ScheduledQueryDataSourceObjDetails:
+		result["data_source_feed_provider"] = "SCHEDULEDQUERY"
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.IntervalInSeconds != nil {
+			result["interval_in_seconds"] = int(*v.IntervalInSeconds)
+		}
+
+		if v.Query != nil {
+			result["query"] = string(*v.Query)
+		}
+
+		scheduledQueryScopeDetails := []interface{}{}
+		for _, item := range v.ScheduledQueryScopeDetails {
+			scheduledQueryScopeDetails = append(scheduledQueryScopeDetails, ScheduledQueryScopeDetailToMap(item))
+		}
+		result["scheduled_query_scope_details"] = scheduledQueryScopeDetails
 	default:
 		log.Printf("[WARN] Received 'data_source_feed_provider' of unknown type %v", *obj)
 		return nil
@@ -916,6 +1010,80 @@ func DataSourceSummaryToMap(obj oci_cloud_guard.DataSourceSummary) map[string]in
 	return result
 }
 
+func DataSourceSummaryDetailsToMap(obj *oci_cloud_guard.DataSourceSummaryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_cloud_guard.LoggingQueryDataSourceSummaryDetails:
+		result["data_source_feed_provider"] = "LOGGINGQUERY"
+
+		dataSourceDetectorMappingInfo := []interface{}{}
+		for _, item := range v.DataSourceDetectorMappingInfo {
+			dataSourceDetectorMappingInfo = append(dataSourceDetectorMappingInfo, DataSourceMappingInfoToMap(item))
+		}
+		result["data_source_detector_mapping_info"] = dataSourceDetectorMappingInfo
+
+		regionStatusDetail := []interface{}{}
+		for _, item := range v.RegionStatusDetail {
+			regionStatusDetail = append(regionStatusDetail, RegionStatusDetailToMap(item))
+		}
+		result["region_status_detail"] = regionStatusDetail
+
+		result["regions"] = v.Regions
+	case oci_cloud_guard.ScheduledQueryDataSourceSummaryObjDetails:
+		result["data_source_feed_provider"] = "SCHEDULEDQUERY"
+
+		if v.Description != nil {
+			result["description"] = string(*v.Description)
+		}
+
+		if v.IntervalInSeconds != nil {
+			result["interval_in_seconds"] = int(*v.IntervalInSeconds)
+		}
+
+		regionStatusDetail := []interface{}{}
+		for _, item := range v.RegionStatusDetail {
+			regionStatusDetail = append(regionStatusDetail, RegionStatusDetailToMap(item))
+		}
+		result["region_status_detail"] = regionStatusDetail
+
+		scheduledQueryScopeDetails := []interface{}{}
+		for _, item := range v.ScheduledQueryScopeDetails {
+			scheduledQueryScopeDetails = append(scheduledQueryScopeDetails, ScheduledQueryScopeDetailToMap(item))
+		}
+		result["scheduled_query_scope_details"] = scheduledQueryScopeDetails
+	default:
+		log.Printf("[WARN] Received 'data_source_feed_provider' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+/*
+	func (s *CloudGuardDataSourceResourceCrud) mapToLoggingQueryDetails(fieldKeyFormat string) (oci_cloud_guard.LoggingQueryDetails, error) {
+		var baseObject oci_cloud_guard.LoggingQueryDetails
+		//discriminator
+		loggingQueryTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "logging_query_type"))
+		var loggingQueryType string
+		if ok {
+			loggingQueryType = loggingQueryTypeRaw.(string)
+		} else {
+			loggingQueryType = "" // default value
+		}
+		switch strings.ToLower(loggingQueryType) {
+		case strings.ToLower("INSIGHT"):
+			details := oci_cloud_guard.InsightTypeLoggingQueryDetails{}
+			if keyEntitiesCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_entities_count")); ok {
+				tmp := keyEntitiesCount.(int)
+				details.KeyEntitiesCount = &tmp
+			}
+			baseObject = details
+		default:
+			return nil, fmt.Errorf("unknown logging_query_type '%v' was specified", loggingQueryType)
+		}
+		return baseObject, nil
+	}
+*/
 func LoggingQueryDetailsToMap(obj *oci_cloud_guard.LoggingQueryDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
@@ -941,6 +1109,51 @@ func RegionStatusDetailToMap(obj oci_cloud_guard.RegionStatusDetail) map[string]
 	}
 
 	result["status"] = string(obj.Status)
+
+	return result
+}
+
+func (s *CloudGuardDataSourceResourceCrud) mapToScheduledQueryScopeDetail(fieldKeyFormat string) (oci_cloud_guard.ScheduledQueryScopeDetail, error) {
+	result := oci_cloud_guard.ScheduledQueryScopeDetail{}
+
+	if region, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "region")); ok {
+		tmp := region.(string)
+		result.Region = &tmp
+	}
+
+	if resourceIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_ids")); ok {
+		interfaces := resourceIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "resource_ids")) {
+			result.ResourceIds = tmp
+		}
+	}
+
+	if resourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_type")); ok {
+		tmp := resourceType.(string)
+		result.ResourceType = &tmp
+	}
+
+	return result, nil
+}
+
+func ScheduledQueryScopeDetailToMap(obj oci_cloud_guard.ScheduledQueryScopeDetail) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Region != nil {
+		result["region"] = string(*obj.Region)
+	}
+
+	result["resource_ids"] = obj.ResourceIds
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
+	}
 
 	return result
 }

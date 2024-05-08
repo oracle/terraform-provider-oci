@@ -6,6 +6,8 @@ package cloud_guard
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_cloud_guard_adhoc_queries", CloudGuardAdhocQueriesDataSource())
+	tfresource.RegisterDatasource("oci_cloud_guard_adhoc_query", CloudGuardAdhocQueryDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_cloud_guard_configuration", CloudGuardCloudGuardConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_data_mask_rule", CloudGuardDataMaskRuleDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_data_mask_rules", CloudGuardDataMaskRulesDataSource())
@@ -21,6 +23,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_cloud_guard_problem_entity", CloudGuardProblemEntityDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_responder_recipe", CloudGuardResponderRecipeDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_responder_recipes", CloudGuardResponderRecipesDataSource())
+	tfresource.RegisterDatasource("oci_cloud_guard_saved_queries", CloudGuardSavedQueriesDataSource())
+	tfresource.RegisterDatasource("oci_cloud_guard_saved_query", CloudGuardSavedQueryDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_security_policies", CloudGuardSecurityPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_security_policy", CloudGuardSecurityPolicyDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_security_recipe", CloudGuardSecurityRecipeDataSource())
@@ -29,4 +33,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_cloud_guard_security_zones", CloudGuardSecurityZonesDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_target", CloudGuardTargetDataSource())
 	tfresource.RegisterDatasource("oci_cloud_guard_targets", CloudGuardTargetsDataSource())
+	tfresource.RegisterDatasource("oci_cloud_guard_wlp_agent", CloudGuardWlpAgentDataSource())
+	tfresource.RegisterDatasource("oci_cloud_guard_wlp_agents", CloudGuardWlpAgentsDataSource())
 }
