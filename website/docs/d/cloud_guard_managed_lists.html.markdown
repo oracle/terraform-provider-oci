@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_cloud_guard_managed_lists
 This data source provides the list of Managed Lists in Oracle Cloud Infrastructure Cloud Guard service.
 
-Returns a list of all ManagedList objects in a compartment, identified by compartmentId.
+Returns a list of all ManagedList resources in a compartment, identified by compartmentId.
 The ListManagedLists operation returns only the managed lists in `compartmentId` passed.
 The list does not include any subcompartments of the compartmentId passed.
 
@@ -48,12 +48,12 @@ data "oci_cloud_guard_managed_lists" "test_managed_lists" {
 The following arguments are supported:
 
 * `access_level` - (Optional) Valid values are `RESTRICTED` and `ACCESSIBLE`. Default is `RESTRICTED`. Setting this to `ACCESSIBLE` returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to `RESTRICTED` permissions are checked and no partial results are displayed. 
-* `compartment_id` - (Required) The ID of the compartment in which to list resources.
-* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the the setting of `accessLevel`. 
+* `compartment_id` - (Required) The OCID of the compartment in which to list resources.
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned depending on the setting of `accessLevel`. 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `list_type` - (Optional) The type of the ManagedList.
-* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle Managed Resources Metadata supported by Cloud Guard are returned. 
-* `state` - (Optional) The field life cycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
+* `list_type` - (Optional) The type of managed list.
+* `resource_metadata_only` - (Optional) Default is false. When set to true, the list of all Oracle-managed resources metadata supported by Cloud Guard is returned. 
+* `state` - (Optional) The field lifecycle state. Only one state can be provided. Default value for state is active. If no value is specified state is active.
 
 
 ## Attributes Reference
@@ -66,22 +66,22 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `compartment_id` - Compartment Identifier where the resource is created
+* `compartment_id` - Compartment OCID where the resource is created
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - ManagedList description.
-* `display_name` - ManagedList display name.
-* `feed_provider` - provider of the feed
+* `description` - Managed list description
+* `display_name` - Managed list display name
+* `feed_provider` - Provider of the managed list feed
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
-* `id` - Unique identifier that is immutable on creation
-* `is_editable` - If this list is editable or not
-* `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `list_items` - List of ManagedListItem
-* `list_type` - type of the list
-* `source_managed_list_id` - OCID of the Source ManagedList
-* `state` - The current state of the resource.
+* `id` - Unique identifier that can't be changed after creation
+* `is_editable` - Is this list editable?
+* `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. [DEPRECATE]
+* `list_items` - List of items in the managed list
+* `list_type` - Type of information contained in the managed list
+* `source_managed_list_id` - OCID of the source managed list
+* `state` - The current lifecycle state of the resource
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the managed list was created. Format defined by RFC3339.
-* `time_updated` - The date and time the managed list was updated. Format defined by RFC3339.
+* `time_updated` - The date and time the managed list was last updated. Format defined by RFC3339.
 

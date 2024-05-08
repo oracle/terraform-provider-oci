@@ -110,6 +110,39 @@ var exportCloudGuardDataSourceHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCloudGuardWlpAgentHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_cloud_guard_wlp_agent",
+	DatasourceClass:        "oci_cloud_guard_wlp_agents",
+	DatasourceItemsAttr:    "wlp_agent_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "wlp_agent",
+	RequireResourceRefresh: true,
+}
+
+var exportCloudGuardAdhocQueryHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_cloud_guard_adhoc_query",
+	DatasourceClass:        "oci_cloud_guard_adhoc_queries",
+	DatasourceItemsAttr:    "adhoc_query_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "adhoc_query",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
+var exportCloudGuardSavedQueryHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_cloud_guard_saved_query",
+	DatasourceClass:        "oci_cloud_guard_saved_queries",
+	DatasourceItemsAttr:    "saved_query_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "saved_query",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_cloud_guard.LifecycleStateActive),
+	},
+}
+
 var cloudGuardResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCloudGuardTargetHints},
@@ -119,6 +152,9 @@ var cloudGuardResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCloudGuardSecurityRecipeHints},
 		{TerraformResourceHints: exportCloudGuardSecurityZoneHints},
 		{TerraformResourceHints: exportCloudGuardDataSourceHints},
+		{TerraformResourceHints: exportCloudGuardWlpAgentHints},
+		{TerraformResourceHints: exportCloudGuardAdhocQueryHints},
+		{TerraformResourceHints: exportCloudGuardSavedQueryHints},
 	},
 }
 
