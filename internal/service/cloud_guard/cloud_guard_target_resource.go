@@ -309,6 +309,10 @@ func CloudGuardTargetResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"detector_recipe_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1338,6 +1342,8 @@ func TargetDetectorRecipeToMap(obj oci_cloud_guard.TargetDetectorRecipe) map[str
 	if obj.DetectorRecipeId != nil {
 		result["detector_recipe_id"] = string(*obj.DetectorRecipeId)
 	}
+
+	result["detector_recipe_type"] = string(obj.DetectorRecipeType)
 
 	detectorRules := []interface{}{}
 	for _, item := range obj.DetectorRules {

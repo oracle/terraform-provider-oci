@@ -2,9 +2,9 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
+//variable "user_ocid" {}
+//variable "fingerprint" {}
+//variable "private_key_path" {}
 variable "region" {}
 variable "compartment_id" {}
 
@@ -81,11 +81,16 @@ variable "target_target_responder_recipes_responder_rules_details_mode" {
 }
 
 provider "oci" {
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  //version             = "5.39.0"
+  /*
   tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
   fingerprint      = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  */
 }
 
 /*
@@ -94,7 +99,7 @@ For more explanation refer to detector_recipe.tf or responder_recipe.tf
 */
 data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   #Optional
   state          = "ACTIVE"
   //Adding this to make sure the detector rule id is compatible with the returned detector recipes
@@ -103,7 +108,7 @@ data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {
 
 data "oci_cloud_guard_responder_recipes" "test_responder_recipes" {
   #Required
-  compartment_id = "${var.tenancy_ocid}"
+  compartment_id = var.tenancy_ocid
   #Optional
   state          = "ACTIVE"
 }
@@ -112,19 +117,19 @@ data "oci_cloud_guard_responder_recipes" "test_responder_recipes" {
 
 resource "oci_cloud_guard_target" "test_target" {
   #Required
-  compartment_id       = "${var.compartment_id}"
-  display_name         = "${var.target_display_name}"
+  compartment_id       = var.compartment_id
+  display_name         = var.target_display_name
   //For now target resource id has to be equal to comaprtment id
-  target_resource_id   = "${var.compartment_id}"
-  target_resource_type = "${var.target_target_resource_type}"
+  target_resource_id   = var.compartment_id
+  target_resource_type = var.target_target_resource_type
 
   #Optional
-  description   = "${var.target_description}"
-  state         = "${var.target_state}"
+  description   = var.target_description
+  state         = var.target_state
 
   target_detector_recipes {
     #Required
-    detector_recipe_id = "${data.oci_cloud_guard_detector_recipes.test_detector_recipes.detector_recipe_collection.0.items.0.id}"
+    detector_recipe_id = data.oci_cloud_guard_detector_recipes.test_detector_recipes.detector_recipe_collection.0.items.0.id
 
     #Optional
     detector_rules {
@@ -133,8 +138,8 @@ resource "oci_cloud_guard_target" "test_target" {
         #Optional
         condition_groups {
           #Required
-          compartment_id = "${var.compartment_id}"
-          condition      = "${var.target_target_detector_recipes_detector_rules_details_condition_groups_condition}"
+          compartment_id = var.compartment_id
+          condition      = var.target_target_detector_recipes_detector_rules_details_condition_groups_condition
         }
       }
 
@@ -144,23 +149,23 @@ resource "oci_cloud_guard_target" "test_target" {
 
   target_responder_recipes {
     #Required
-    responder_recipe_id = "${data.oci_cloud_guard_responder_recipes.test_responder_recipes.responder_recipe_collection.0.items.0.id}"
+    responder_recipe_id = data.oci_cloud_guard_responder_recipes.test_responder_recipes.responder_recipe_collection.0.items.0.id
 
     #Optional
     responder_rules {
       #Required
       details {
         #Optional
-        condition = "${var.target_target_responder_recipes_responder_rules_details_condition}"
+        condition = var.target_target_responder_recipes_responder_rules_details_condition
 
         configurations {
           #Required
-          config_key = "${var.target_target_responder_recipes_responder_rules_details_configurations_config_key}"
-          name       = "${var.target_target_responder_recipes_responder_rules_details_configurations_name}"
-          value      = "${var.target_target_responder_recipes_responder_rules_details_configurations_value}"
+          config_key = var.target_target_responder_recipes_responder_rules_details_configurations_config_key
+          name       = var.target_target_responder_recipes_responder_rules_details_configurations_name
+          value      = var.target_target_responder_recipes_responder_rules_details_configurations_value
         }
 
-        mode = "${var.target_target_responder_recipes_responder_rules_details_mode}"
+        mode = var.target_target_responder_recipes_responder_rules_details_mode
       }
 
       responder_rule_id = "ENABLE_DB_BACKUP"
@@ -170,11 +175,11 @@ resource "oci_cloud_guard_target" "test_target" {
 
 data "oci_cloud_guard_targets" "test_targets" {
   #Required
-  compartment_id = "${var.compartment_id}"
+  compartment_id = var.compartment_id
 
   #Optional
-  access_level              = "${var.target_access_level}"
-  compartment_id_in_subtree = "${var.target_compartment_id_in_subtree}"
-  display_name              = "${var.target_display_name}"
-  state                     = "${var.target_state}"
+  access_level              = var.target_access_level
+  compartment_id_in_subtree = var.target_compartment_id_in_subtree
+  display_name              = var.target_display_name
+  state                     = var.target_state
 }

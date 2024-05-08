@@ -28,11 +28,21 @@ var (
 	CloudGuardDataSourceRequiredOnlyResource = CloudGuardDataSourceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source", acctest.Required, acctest.Create, CloudGuardDataSourceRepresentation)
 
+	CloudGuardDataSourceSQRequiredOnlyResource = CloudGuardDataSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Required, acctest.Create, CloudGuardScheduledQueryDataSourceRepresentation)
+
 	CloudGuardDataSourceResourceConfig = CloudGuardDataSourceResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source", acctest.Optional, acctest.Update, CloudGuardDataSourceRepresentation)
 
+	CloudGuardDataSourceSQResourceConfig = CloudGuardDataSourceResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Update, CloudGuardScheduledQueryDataSourceRepresentation)
+
 	CloudGuardCloudGuardDataSourceSingularDataSourceRepresentation = map[string]interface{}{
 		"data_source_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_data_source.test_data_source.id}`},
+	}
+
+	CloudGuardCloudGuardDataSourceSQSingularDataSourceRepresentation = map[string]interface{}{
+		"data_source_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_cloud_guard_data_source.test_data_source_sq.id}`},
 	}
 
 	CloudGuardCloudGuardDataSourceDataSourceRepresentation = map[string]interface{}{
@@ -44,9 +54,22 @@ var (
 		"logging_query_type":        acctest.Representation{RepType: acctest.Optional, Create: `INSIGHT`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardDataSourceDataSourceFilterRepresentation}}
+
+	CloudGuardCloudGuardScheduledQueryDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
+		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
+		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"data_source_feed_provider": acctest.Representation{RepType: acctest.Optional, Create: `SCHEDULEDQUERY`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: CloudGuardDataSourceSQDataSourceFilterRepresentation}}
 	CloudGuardDataSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_data_source.test_data_source.id}`}},
+	}
+	CloudGuardDataSourceSQDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_cloud_guard_data_source.test_data_source_sq.id}`}},
 	}
 
 	CloudGuardDataSourceRepresentation = map[string]interface{}{
@@ -54,6 +77,16 @@ var (
 		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `LOGGINGQUERY`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"data_source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsRepresentation},
+		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+	}
+
+	CloudGuardScheduledQueryDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `SCHEDULEDQUERY`},
+		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"data_source_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsScheduledQueryRepresentation},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"status":                    acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
@@ -70,6 +103,18 @@ var (
 		"regions":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`us-phoenix-1`}, Update: []string{`us-phoenix-1`}},
 		"threshold":                 acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `0`},
 	}
+
+	CloudGuardDataSourceDataSourceDetailsScheduledQueryRepresentation = map[string]interface{}{
+		"data_source_feed_provider": acctest.Representation{RepType: acctest.Required, Create: `SCHEDULEDQUERY`},
+		"query":                     acctest.Representation{RepType: acctest.Optional, Create: `select pid from processes`, Update: `select pid from processes`},
+		//"query_start_time":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsQueryStartTimeRepresentation},
+		//"regions":   acctest.Representation{RepType: acctest.Optional, Create: []string{`us-phoenix-1`}, Update: []string{`us-phoenix-1`}},
+		"threshold": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `0`},
+		//parameter for data_source_feed_provider with value SCHEDULEDQUERY
+		"scheduled_query_scope_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CloudGuardDataSourceDataSourceDetailsScheduledQueryScopeDetailsRepresentation},
+		"interval_in_seconds":           acctest.Representation{RepType: acctest.Optional, Create: `14400`, Update: `21600`},
+	}
+
 	CloudGuardDataSourceDataSourceDetailsLoggingQueryDetailsRepresentation = map[string]interface{}{
 		"logging_query_type": acctest.Representation{RepType: acctest.Required, Create: `INSIGHT`},
 		"key_entities_count": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
@@ -78,6 +123,11 @@ var (
 	CloudGuardDataSourceDataSourceDetailsQueryStartTimeRepresentation = map[string]interface{}{
 		"start_policy_type": acctest.Representation{RepType: acctest.Required, Create: `ABSOLUTE_TIME_START_POLICY`},
 		"query_start_time":  acctest.Representation{RepType: acctest.Optional, Create: queryStartTime.Format(time.RFC3339Nano)},
+	}
+	CloudGuardDataSourceDataSourceDetailsScheduledQueryScopeDetailsRepresentation = map[string]interface{}{
+		"region":        acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`, Update: `us-phoenix-1`},
+		"resource_ids":  acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.tenancy_ocid}`}, Update: []string{`${var.tenancy_ocid}`}},
+		"resource_type": acctest.Representation{RepType: acctest.Optional, Create: `TENANCY`, Update: `TENANCY`},
 	}
 
 	CloudGuardDataSourceResourceDependencies = DefinedTagsDependencies
@@ -275,11 +325,195 @@ func TestCloudGuardDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				//parameters for data_source_feed_provider with value SCHEDULEDQUERY
+				/*resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.interval_in_seconds", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.region", "region2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_type", "resourceType2"),*/
 			),
 		},
 		// verify resource import
 		{
 			Config:                  config + CloudGuardDataSourceRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+	})
+}
+
+func TestCloudGuardDataSourceResourceScheduledQuery_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCloudGuardDataSourceResourceScheduledQuery_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	tenantId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_cloud_guard_data_source.test_data_source_sq"
+	datasourceName := "data.oci_cloud_guard_data_sources.test_data_sources_sq"
+	singularDatasourceName := "data.oci_cloud_guard_data_source.test_data_source_sq"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CloudGuardDataSourceResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Create, CloudGuardScheduledQueryDataSourceRepresentation), "cloudguard", "dataSource", t)
+
+	acctest.ResourceTest(t, testAccCheckCloudGuardDataSourceDestroy, []resource.TestStep{
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardDataSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Create, CloudGuardScheduledQueryDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.threshold", "0"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				//parameters for data_source_feed_provider with value SCHEDULEDQUERY
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_type", "TENANCY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.interval_in_seconds", "14400"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CloudGuardDataSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(CloudGuardScheduledQueryDataSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.query", "select pid from processes"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.threshold", "0"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				//parameters for data_source_feed_provider with value SCHEDULEDQUERY
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_type", "TENANCY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.interval_in_seconds", "14400"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + CloudGuardDataSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Update, CloudGuardScheduledQueryDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.threshold", "0"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				//parameters for data_source_feed_provider with value SCHEDULEDQUERY
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_type", "TENANCY"),
+				resource.TestCheckResourceAttr(resourceName, "data_source_details.0.interval_in_seconds", "21600"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_sources", "test_data_sources_sq", acctest.Optional, acctest.Update, CloudGuardCloudGuardScheduledQueryDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardDataSourceResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Optional, acctest.Update, CloudGuardScheduledQueryDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenantId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "data_source_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "data_source_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_cloud_guard_data_source", "test_data_source_sq", acctest.Required, acctest.Create, CloudGuardCloudGuardDataSourceSQSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + CloudGuardDataSourceSQResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_source_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.threshold", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_detector_mapping_info.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_feed_provider", "SCHEDULEDQUERY"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				//parameters for data_source_feed_provider with value SCHEDULEDQUERY
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.interval_in_seconds", "21600"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_ids.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_details.0.scheduled_query_scope_details.0.resource_type", "TENANCY"),
+			),
+		},
+		// verify resource import
+		{
+			Config:                  config + CloudGuardDataSourceSQRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
