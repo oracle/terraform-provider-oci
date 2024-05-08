@@ -5,6 +5,7 @@ package devops
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"log"
 	"strings"
@@ -381,114 +382,9 @@ func DevopsDeploymentResource() *schema.Resource {
 
 						// Computed
 						"deploy_stage_execution_progress": {
-							Type:     schema.TypeList,
+							Type:     schema.TypeMap,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-
-									"deploy_stage_display_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"deploy_stage_execution_progress_details": {
-										Type:     schema.TypeList,
-										Computed: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-
-												"target_id": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"target_group": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"steps": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															"name": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"state": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"time_started": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"time_finished": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
-												"rollback_steps": {
-													Type:     schema.TypeList,
-													Computed: true,
-													Elem: &schema.Resource{
-														Schema: map[string]*schema.Schema{
-															"name": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"state": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"time_started": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-															"time_finished": {
-																Type:     schema.TypeString,
-																Computed: true,
-															},
-														},
-													},
-												},
-											},
-										},
-									},
-									"deploy_stage_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"deploy_stage_type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"status": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"deploy_stage_predecessors": {
-										Type:     schema.TypeList,
-										Computed: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												"deploy_stage_predecessor": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-											},
-										},
-									},
-									"time_finished": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_started": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     schema.TypeString,
 						},
 						"time_finished": {
 							Type:     schema.TypeString,
@@ -774,6 +670,7 @@ func (s *DevopsDeploymentResourceCrud) SetData() error {
 		} else {
 			s.D.Set("deployment_arguments", nil)
 		}
+
 		if v.DeploymentExecutionProgress != nil {
 			s.D.Set("deployment_execution_progress", []interface{}{DeploymentExecutionProgressToMap(v.DeploymentExecutionProgress)})
 		} else {
@@ -1115,63 +1012,6 @@ func DeployStageExecutionStepToMap(obj oci_devops.DeployStageExecutionStep) map[
 	return result
 }
 
-func DeploymentExecutionProgressToMap(obj *oci_devops.DeploymentExecutionProgress) map[string]interface{} {
-	result := map[string]interface{}{}
-	deployStageExecutionProgressInfo := []interface{}{}
-
-	for _, item := range obj.DeployStageExecutionProgress {
-		deployStageExecutionProgressInfo = append(deployStageExecutionProgressInfo, DeploymentStageExecutionProgressToMap(item))
-	}
-
-	result["deploy_stage_execution_progress"] = deployStageExecutionProgressInfo
-
-	if obj.TimeFinished != nil {
-		result["time_finished"] = obj.TimeFinished.String()
-	}
-
-	if obj.TimeStarted != nil {
-		result["time_started"] = obj.TimeStarted.String()
-	}
-
-	return result
-}
-
-func DeploymentStageExecutionProgressToMap(obj oci_devops.DeployStageExecutionProgress) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	deployStageExecutionProgressDetails := []interface{}{}
-
-	for _, item := range obj.GetDeployStageExecutionProgressDetails() {
-		deployStageExecutionProgressDetails = append(deployStageExecutionProgressDetails, DeployStageExecutionProgressDetailsToMap(item))
-	}
-
-	result["deploy_stage_execution_progress_details"] = deployStageExecutionProgressDetails
-
-	if obj.GetDeployStageDisplayName() != nil {
-		result["deploy_stage_display_name"] = string(*obj.GetDeployStageDisplayName())
-	}
-
-	if obj.GetDeployStageId() != nil {
-		result["deploy_stage_id"] = string(*obj.GetDeployStageId())
-	}
-
-	if obj.GetTimeFinished() != nil {
-		result["time_finished"] = obj.GetTimeFinished().String()
-	}
-
-	if obj.GetTimeStarted() != nil {
-		result["time_started"] = obj.GetTimeStarted().String()
-	}
-
-	if obj.GetDeployStagePredecessors() != nil {
-		result["deploy_stage_predecessors"] = obj.GetDeployStagePredecessors
-	}
-
-	result["status"] = obj.GetStatus()
-
-	return result
-}
-
 func (s *DevopsDeploymentResourceCrud) mapToDeployStageOverrideArgument(fieldKeyFormat string) (oci_devops.DeployStageOverrideArgument, error) {
 	result := oci_devops.DeployStageOverrideArgument{}
 
@@ -1307,6 +1147,30 @@ func DeploymentArgumentCollectionToMap(obj *oci_devops.DeploymentArgumentCollect
 		items = append(items, DeploymentArgumentToMap(item))
 	}
 	result["items"] = items
+
+	return result
+}
+
+func DeploymentExecutionProgressToMap(obj *oci_devops.DeploymentExecutionProgress) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	deployStageExecutionProgress := map[string]interface{}{}
+	for key, value := range obj.DeployStageExecutionProgress {
+		bytes, err := json.Marshal(value)
+		if err != nil {
+			continue
+		}
+		deployStageExecutionProgress[key] = string(bytes)
+	}
+	result["deploy_stage_execution_progress"] = deployStageExecutionProgress
+
+	if obj.TimeFinished != nil {
+		result["time_finished"] = obj.TimeFinished.String()
+	}
+
+	if obj.TimeStarted != nil {
+		result["time_started"] = obj.TimeStarted.String()
+	}
 
 	return result
 }
