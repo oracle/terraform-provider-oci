@@ -60,10 +60,10 @@ type PerformanceTuningAnalysisResult struct {
 	// The time the result is compiled.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The time the JFR capture started.
+	// The time the JFR recording has started.
 	TimeStarted *common.SDKTime `mandatory:"true" json:"timeStarted"`
 
-	// The time the JFR capture finished.
+	// The time the JFR recording has finished.
 	TimeFinished *common.SDKTime `mandatory:"true" json:"timeFinished"`
 
 	// The OCID of the work request to start the analysis.

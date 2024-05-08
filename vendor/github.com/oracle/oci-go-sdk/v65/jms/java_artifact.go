@@ -44,7 +44,7 @@ type JavaArtifact struct {
 
 	// The endpoint that returns a short-lived artifact download URL in the response payload.
 	// This download url can then be used for downloading the artifact.
-	// See this API (https://docs.oracle.com/en-us/iaas/api/#/en/jms/20230601/JavaArtifact/GenerateArtifactDownloadUrl) for more details.
+	// See this API (https://docs.oracle.com/en-us/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl) for more details.
 	DownloadUrl *string `mandatory:"true" json:"downloadUrl"`
 
 	// The endpoint for downloading this artifact from command line, automatically in scripts and dockerfiles.

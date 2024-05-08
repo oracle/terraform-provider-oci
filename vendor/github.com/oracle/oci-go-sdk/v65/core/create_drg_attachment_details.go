@@ -56,6 +56,10 @@ type CreateDrgAttachmentDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// zprTags for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
 	// If you don't specify a route table here, the DRG attachment is created without an associated route
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
@@ -107,6 +111,7 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 		NetworkDetails           drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
 		DefinedTags              map[string]map[string]interface{}                      `json:"definedTags"`
 		FreeformTags             map[string]string                                      `json:"freeformTags"`
+		ZprTags                  map[string]map[string]interface{}                      `json:"zprTags"`
 		RouteTableId             *string                                                `json:"routeTableId"`
 		VcnId                    *string                                                `json:"vcnId"`
 		TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
@@ -139,6 +144,8 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.ZprTags = model.ZprTags
 
 	m.RouteTableId = model.RouteTableId
 

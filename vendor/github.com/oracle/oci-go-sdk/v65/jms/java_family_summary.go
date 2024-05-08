@@ -40,6 +40,9 @@ type JavaFamilySummary struct {
 	// Whether or not this Java release family is under active support.
 	// Refer Java Support Roadmap (https://www.oracle.com/java/technologies/java-se-support-roadmap.html) for more details.
 	IsSupportedVersion *bool `mandatory:"true" json:"isSupportedVersion"`
+
+	// The date on which the Java release family was first made available (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	ReleaseDate *common.SDKTime `mandatory:"false" json:"releaseDate"`
 }
 
 func (m JavaFamilySummary) String() string {

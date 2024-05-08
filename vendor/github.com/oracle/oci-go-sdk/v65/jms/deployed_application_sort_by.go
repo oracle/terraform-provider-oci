@@ -18,30 +18,36 @@ type DeployedApplicationSortByEnum string
 
 // Set of constants representing the allowable values for DeployedApplicationSortByEnum
 const (
-	DeployedApplicationSortByApplicationName         DeployedApplicationSortByEnum = "applicationName"
-	DeployedApplicationSortByApplicationType         DeployedApplicationSortByEnum = "applicationType"
-	DeployedApplicationSortByIsClustered             DeployedApplicationSortByEnum = "isClustered"
-	DeployedApplicationSortByJavaServerInstanceCount DeployedApplicationSortByEnum = "javaServerInstanceCount"
-	DeployedApplicationSortByTimeFirstSeen           DeployedApplicationSortByEnum = "timeFirstSeen"
-	DeployedApplicationSortByTimeLastSeen            DeployedApplicationSortByEnum = "timeLastSeen"
+	DeployedApplicationSortByApplicationName                    DeployedApplicationSortByEnum = "applicationName"
+	DeployedApplicationSortByApplicationType                    DeployedApplicationSortByEnum = "applicationType"
+	DeployedApplicationSortByIsClustered                        DeployedApplicationSortByEnum = "isClustered"
+	DeployedApplicationSortByJavaServerInstanceCount            DeployedApplicationSortByEnum = "javaServerInstanceCount"
+	DeployedApplicationSortByApproximateJavaServerInstanceCount DeployedApplicationSortByEnum = "approximateJavaServerInstanceCount"
+	DeployedApplicationSortByApproximateLibraryCount            DeployedApplicationSortByEnum = "approximateLibraryCount"
+	DeployedApplicationSortByTimeFirstSeen                      DeployedApplicationSortByEnum = "timeFirstSeen"
+	DeployedApplicationSortByTimeLastSeen                       DeployedApplicationSortByEnum = "timeLastSeen"
 )
 
 var mappingDeployedApplicationSortByEnum = map[string]DeployedApplicationSortByEnum{
-	"applicationName":         DeployedApplicationSortByApplicationName,
-	"applicationType":         DeployedApplicationSortByApplicationType,
-	"isClustered":             DeployedApplicationSortByIsClustered,
-	"javaServerInstanceCount": DeployedApplicationSortByJavaServerInstanceCount,
-	"timeFirstSeen":           DeployedApplicationSortByTimeFirstSeen,
-	"timeLastSeen":            DeployedApplicationSortByTimeLastSeen,
+	"applicationName":                    DeployedApplicationSortByApplicationName,
+	"applicationType":                    DeployedApplicationSortByApplicationType,
+	"isClustered":                        DeployedApplicationSortByIsClustered,
+	"javaServerInstanceCount":            DeployedApplicationSortByJavaServerInstanceCount,
+	"approximateJavaServerInstanceCount": DeployedApplicationSortByApproximateJavaServerInstanceCount,
+	"approximateLibraryCount":            DeployedApplicationSortByApproximateLibraryCount,
+	"timeFirstSeen":                      DeployedApplicationSortByTimeFirstSeen,
+	"timeLastSeen":                       DeployedApplicationSortByTimeLastSeen,
 }
 
 var mappingDeployedApplicationSortByEnumLowerCase = map[string]DeployedApplicationSortByEnum{
-	"applicationname":         DeployedApplicationSortByApplicationName,
-	"applicationtype":         DeployedApplicationSortByApplicationType,
-	"isclustered":             DeployedApplicationSortByIsClustered,
-	"javaserverinstancecount": DeployedApplicationSortByJavaServerInstanceCount,
-	"timefirstseen":           DeployedApplicationSortByTimeFirstSeen,
-	"timelastseen":            DeployedApplicationSortByTimeLastSeen,
+	"applicationname":                    DeployedApplicationSortByApplicationName,
+	"applicationtype":                    DeployedApplicationSortByApplicationType,
+	"isclustered":                        DeployedApplicationSortByIsClustered,
+	"javaserverinstancecount":            DeployedApplicationSortByJavaServerInstanceCount,
+	"approximatejavaserverinstancecount": DeployedApplicationSortByApproximateJavaServerInstanceCount,
+	"approximatelibrarycount":            DeployedApplicationSortByApproximateLibraryCount,
+	"timefirstseen":                      DeployedApplicationSortByTimeFirstSeen,
+	"timelastseen":                       DeployedApplicationSortByTimeLastSeen,
 }
 
 // GetDeployedApplicationSortByEnumValues Enumerates the set of values for DeployedApplicationSortByEnum
@@ -60,6 +66,8 @@ func GetDeployedApplicationSortByEnumStringValues() []string {
 		"applicationType",
 		"isClustered",
 		"javaServerInstanceCount",
+		"approximateJavaServerInstanceCount",
+		"approximateLibraryCount",
 		"timeFirstSeen",
 		"timeLastSeen",
 	}

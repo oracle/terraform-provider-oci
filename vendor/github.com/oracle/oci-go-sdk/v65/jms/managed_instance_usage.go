@@ -49,6 +49,9 @@ type ManagedInstanceUsage struct {
 	// DRS file status
 	DrsFileStatus DrsFileStatusEnum `mandatory:"false" json:"drsFileStatus,omitempty"`
 
+	// Comma separated list of user names that invoked applications within this managed instance.
+	ApplicationInvokedBy *string `mandatory:"false" json:"applicationInvokedBy"`
+
 	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 

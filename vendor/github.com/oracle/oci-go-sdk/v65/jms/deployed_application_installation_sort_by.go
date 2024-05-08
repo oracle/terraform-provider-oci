@@ -18,33 +18,39 @@ type DeployedApplicationInstallationSortByEnum string
 
 // Set of constants representing the allowable values for DeployedApplicationInstallationSortByEnum
 const (
-	DeployedApplicationInstallationSortByApplicationName         DeployedApplicationInstallationSortByEnum = "applicationName"
-	DeployedApplicationInstallationSortByApplicationType         DeployedApplicationInstallationSortByEnum = "applicationType"
-	DeployedApplicationInstallationSortByApplicationSourcePath   DeployedApplicationInstallationSortByEnum = "applicationSourcePath"
-	DeployedApplicationInstallationSortByIsClustered             DeployedApplicationInstallationSortByEnum = "isClustered"
-	DeployedApplicationInstallationSortByJavaServerInstanceCount DeployedApplicationInstallationSortByEnum = "javaServerInstanceCount"
-	DeployedApplicationInstallationSortByTimeFirstSeen           DeployedApplicationInstallationSortByEnum = "timeFirstSeen"
-	DeployedApplicationInstallationSortByTimeLastSeen            DeployedApplicationInstallationSortByEnum = "timeLastSeen"
+	DeployedApplicationInstallationSortByApplicationName                    DeployedApplicationInstallationSortByEnum = "applicationName"
+	DeployedApplicationInstallationSortByApplicationType                    DeployedApplicationInstallationSortByEnum = "applicationType"
+	DeployedApplicationInstallationSortByApplicationSourcePath              DeployedApplicationInstallationSortByEnum = "applicationSourcePath"
+	DeployedApplicationInstallationSortByIsClustered                        DeployedApplicationInstallationSortByEnum = "isClustered"
+	DeployedApplicationInstallationSortByJavaServerInstanceCount            DeployedApplicationInstallationSortByEnum = "javaServerInstanceCount"
+	DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount DeployedApplicationInstallationSortByEnum = "approximateJavaServerInstanceCount"
+	DeployedApplicationInstallationSortByApproximateLibraryCount            DeployedApplicationInstallationSortByEnum = "approximateLibraryCount"
+	DeployedApplicationInstallationSortByTimeFirstSeen                      DeployedApplicationInstallationSortByEnum = "timeFirstSeen"
+	DeployedApplicationInstallationSortByTimeLastSeen                       DeployedApplicationInstallationSortByEnum = "timeLastSeen"
 )
 
 var mappingDeployedApplicationInstallationSortByEnum = map[string]DeployedApplicationInstallationSortByEnum{
-	"applicationName":         DeployedApplicationInstallationSortByApplicationName,
-	"applicationType":         DeployedApplicationInstallationSortByApplicationType,
-	"applicationSourcePath":   DeployedApplicationInstallationSortByApplicationSourcePath,
-	"isClustered":             DeployedApplicationInstallationSortByIsClustered,
-	"javaServerInstanceCount": DeployedApplicationInstallationSortByJavaServerInstanceCount,
-	"timeFirstSeen":           DeployedApplicationInstallationSortByTimeFirstSeen,
-	"timeLastSeen":            DeployedApplicationInstallationSortByTimeLastSeen,
+	"applicationName":                    DeployedApplicationInstallationSortByApplicationName,
+	"applicationType":                    DeployedApplicationInstallationSortByApplicationType,
+	"applicationSourcePath":              DeployedApplicationInstallationSortByApplicationSourcePath,
+	"isClustered":                        DeployedApplicationInstallationSortByIsClustered,
+	"javaServerInstanceCount":            DeployedApplicationInstallationSortByJavaServerInstanceCount,
+	"approximateJavaServerInstanceCount": DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount,
+	"approximateLibraryCount":            DeployedApplicationInstallationSortByApproximateLibraryCount,
+	"timeFirstSeen":                      DeployedApplicationInstallationSortByTimeFirstSeen,
+	"timeLastSeen":                       DeployedApplicationInstallationSortByTimeLastSeen,
 }
 
 var mappingDeployedApplicationInstallationSortByEnumLowerCase = map[string]DeployedApplicationInstallationSortByEnum{
-	"applicationname":         DeployedApplicationInstallationSortByApplicationName,
-	"applicationtype":         DeployedApplicationInstallationSortByApplicationType,
-	"applicationsourcepath":   DeployedApplicationInstallationSortByApplicationSourcePath,
-	"isclustered":             DeployedApplicationInstallationSortByIsClustered,
-	"javaserverinstancecount": DeployedApplicationInstallationSortByJavaServerInstanceCount,
-	"timefirstseen":           DeployedApplicationInstallationSortByTimeFirstSeen,
-	"timelastseen":            DeployedApplicationInstallationSortByTimeLastSeen,
+	"applicationname":                    DeployedApplicationInstallationSortByApplicationName,
+	"applicationtype":                    DeployedApplicationInstallationSortByApplicationType,
+	"applicationsourcepath":              DeployedApplicationInstallationSortByApplicationSourcePath,
+	"isclustered":                        DeployedApplicationInstallationSortByIsClustered,
+	"javaserverinstancecount":            DeployedApplicationInstallationSortByJavaServerInstanceCount,
+	"approximatejavaserverinstancecount": DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount,
+	"approximatelibrarycount":            DeployedApplicationInstallationSortByApproximateLibraryCount,
+	"timefirstseen":                      DeployedApplicationInstallationSortByTimeFirstSeen,
+	"timelastseen":                       DeployedApplicationInstallationSortByTimeLastSeen,
 }
 
 // GetDeployedApplicationInstallationSortByEnumValues Enumerates the set of values for DeployedApplicationInstallationSortByEnum
@@ -64,6 +70,8 @@ func GetDeployedApplicationInstallationSortByEnumStringValues() []string {
 		"applicationSourcePath",
 		"isClustered",
 		"javaServerInstanceCount",
+		"approximateJavaServerInstanceCount",
+		"approximateLibraryCount",
 		"timeFirstSeen",
 		"timeLastSeen",
 	}

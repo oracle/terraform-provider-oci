@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ExportSetting An export settings for JMS fleets.
+// ExportSetting Export settings of a fleet.
 type ExportSetting struct {
 
 	// ExportSetting flag to store enabled or disabled status.
@@ -42,7 +42,7 @@ type ExportSetting struct {
 	// The namespace of the bucket where data will be exported.
 	TargetBucketNamespace *string `mandatory:"false" json:"targetBucketNamespace"`
 
-	// The namespace of the bucket where data will be exported.
+	// The id of the region of the target bucket.
 	TargetBucketRegion *string `mandatory:"false" json:"targetBucketRegion"`
 
 	// Schedule at which data will be exported.

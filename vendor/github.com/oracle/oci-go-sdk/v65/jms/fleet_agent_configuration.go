@@ -38,6 +38,12 @@ type FleetAgentConfiguration struct {
 
 	// Agent polling interval in minutes
 	AgentPollingIntervalInMinutes *int `mandatory:"false" json:"agentPollingIntervalInMinutes"`
+
+	// Collect JMS agent metrics on all managed instances in the fleet.
+	IsCollectingManagedInstanceMetricsEnabled *bool `mandatory:"false" json:"isCollectingManagedInstanceMetricsEnabled"`
+
+	// Collect username for application invocations for all managed instances in the fleet.
+	IsCollectingUsernamesEnabled *bool `mandatory:"false" json:"isCollectingUsernamesEnabled"`
 }
 
 func (m FleetAgentConfiguration) String() string {

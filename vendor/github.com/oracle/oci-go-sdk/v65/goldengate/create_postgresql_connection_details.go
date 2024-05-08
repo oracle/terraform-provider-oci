@@ -28,12 +28,6 @@ type CreatePostgresqlConnectionDetails struct {
 	// The name of the database.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
 
-	// The name or address of a host.
-	Host *string `mandatory:"true" json:"host"`
-
-	// The port of an endpoint usually specified for a connection.
-	Port *int `mandatory:"true" json:"port"`
-
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
@@ -73,6 +67,12 @@ type CreatePostgresqlConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// The name or address of a host.
+	Host *string `mandatory:"false" json:"host"`
+
+	// The port of an endpoint usually specified for a connection.
+	Port *int `mandatory:"false" json:"port"`
+
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
@@ -98,6 +98,9 @@ type CreatePostgresqlConnectionDetails struct {
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system being referenced.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.

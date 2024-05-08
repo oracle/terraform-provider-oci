@@ -19,14 +19,17 @@ type DatabaseTypeEnum string
 // Set of constants representing the allowable values for DatabaseTypeEnum
 const (
 	DatabaseTypeOracle DatabaseTypeEnum = "ORACLE"
+	DatabaseTypeMysql  DatabaseTypeEnum = "MYSQL"
 )
 
 var mappingDatabaseTypeEnum = map[string]DatabaseTypeEnum{
 	"ORACLE": DatabaseTypeOracle,
+	"MYSQL":  DatabaseTypeMysql,
 }
 
 var mappingDatabaseTypeEnumLowerCase = map[string]DatabaseTypeEnum{
 	"oracle": DatabaseTypeOracle,
+	"mysql":  DatabaseTypeMysql,
 }
 
 // GetDatabaseTypeEnumValues Enumerates the set of values for DatabaseTypeEnum
@@ -42,6 +45,7 @@ func GetDatabaseTypeEnumValues() []DatabaseTypeEnum {
 func GetDatabaseTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE",
+		"MYSQL",
 	}
 }
 

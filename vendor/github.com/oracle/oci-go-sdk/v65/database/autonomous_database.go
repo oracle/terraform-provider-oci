@@ -125,12 +125,16 @@ type AutonomousDatabase struct {
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
 	// The quantity of data in the database, in terabytes.
+	// The following points apply to Autonomous Databases on Serverless Infrastructure:
+	// - This is an integer field whose value remains null when the data size is in GBs and cannot be converted to TBs (by dividing the GB value by 1024) without rounding error.
+	// - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
 	// The amount of memory (in GBs) enabled per ECPU or OCPU.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
+	// For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The storage space consumed by Autonomous Database in GBs.

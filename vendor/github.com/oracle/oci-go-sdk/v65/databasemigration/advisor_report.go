@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// AdvisorReport Premigration Advisor report details.
+// AdvisorReport Pre-Migration advisor report details.
 type AdvisorReport struct {
 
-	// Premigration Advisor result.
+	// Pre-Migration advisor result.
 	Result AdvisorResultsEnum `mandatory:"true" json:"result"`
 
 	// Number of Fatal results in the advisor report.

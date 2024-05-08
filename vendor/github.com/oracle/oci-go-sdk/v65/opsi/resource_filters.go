@@ -50,6 +50,9 @@ type ResourceFilters struct {
 
 	// A flag to consider all resources within a given compartment and all sub-compartments.
 	CompartmentIdInSubtree *bool `mandatory:"false" json:"compartmentIdInSubtree"`
+
+	// Filter resources by status, multiple options could be chosen to show authorized resources even if those are disabled or deleted.
+	ResourceStatus []ResourceStatusEnum `mandatory:"false" json:"resourceStatus,omitempty"`
 }
 
 func (m ResourceFilters) String() string {
@@ -61,6 +64,12 @@ func (m ResourceFilters) String() string {
 // Not recommended for calling this function directly
 func (m ResourceFilters) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+
+	for _, val := range m.ResourceStatus {
+		if _, ok := GetMappingResourceStatusEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceStatus: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

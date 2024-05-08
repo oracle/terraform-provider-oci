@@ -70,6 +70,12 @@ type CryptoAnalysisResult struct {
 
 	// The time the result is compiled.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// The time the JFR recording has started.
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
+
+	// The time the JFR recording has finished.
+	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
 }
 
 func (m CryptoAnalysisResult) String() string {

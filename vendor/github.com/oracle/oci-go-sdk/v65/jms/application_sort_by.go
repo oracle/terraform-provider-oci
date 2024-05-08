@@ -24,6 +24,7 @@ const (
 	ApplicationSortByApproximateJreCount             ApplicationSortByEnum = "approximateJreCount"
 	ApplicationSortByApproximateInstallationCount    ApplicationSortByEnum = "approximateInstallationCount"
 	ApplicationSortByApproximateManagedInstanceCount ApplicationSortByEnum = "approximateManagedInstanceCount"
+	ApplicationSortByApproximateLibraryCount         ApplicationSortByEnum = "approximateLibraryCount"
 	ApplicationSortByOsName                          ApplicationSortByEnum = "osName"
 )
 
@@ -34,6 +35,7 @@ var mappingApplicationSortByEnum = map[string]ApplicationSortByEnum{
 	"approximateJreCount":             ApplicationSortByApproximateJreCount,
 	"approximateInstallationCount":    ApplicationSortByApproximateInstallationCount,
 	"approximateManagedInstanceCount": ApplicationSortByApproximateManagedInstanceCount,
+	"approximateLibraryCount":         ApplicationSortByApproximateLibraryCount,
 	"osName":                          ApplicationSortByOsName,
 }
 
@@ -44,6 +46,7 @@ var mappingApplicationSortByEnumLowerCase = map[string]ApplicationSortByEnum{
 	"approximatejrecount":             ApplicationSortByApproximateJreCount,
 	"approximateinstallationcount":    ApplicationSortByApproximateInstallationCount,
 	"approximatemanagedinstancecount": ApplicationSortByApproximateManagedInstanceCount,
+	"approximatelibrarycount":         ApplicationSortByApproximateLibraryCount,
 	"osname":                          ApplicationSortByOsName,
 }
 
@@ -65,6 +68,7 @@ func GetApplicationSortByEnumStringValues() []string {
 		"approximateJreCount",
 		"approximateInstallationCount",
 		"approximateManagedInstanceCount",
+		"approximateLibraryCount",
 		"osName",
 	}
 }

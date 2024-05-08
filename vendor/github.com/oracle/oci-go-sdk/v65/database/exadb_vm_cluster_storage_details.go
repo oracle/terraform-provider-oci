@@ -19,7 +19,7 @@ import (
 type ExadbVmClusterStorageDetails struct {
 
 	// Total Capacity
-	TotalSizeInGbs *int `mandatory:"false" json:"totalSizeInGbs"`
+	TotalSizeInGbs *int `mandatory:"true" json:"totalSizeInGbs"`
 }
 
 func (m ExadbVmClusterStorageDetails) String() string {

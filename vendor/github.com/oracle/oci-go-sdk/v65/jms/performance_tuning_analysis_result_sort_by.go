@@ -21,18 +21,21 @@ const (
 	PerformanceTuningAnalysisResultSortByTimeCreated       PerformanceTuningAnalysisResultSortByEnum = "timeCreated"
 	PerformanceTuningAnalysisResultSortByManagedInstanceId PerformanceTuningAnalysisResultSortByEnum = "managedInstanceId"
 	PerformanceTuningAnalysisResultSortByWorkRequestId     PerformanceTuningAnalysisResultSortByEnum = "workRequestId"
+	PerformanceTuningAnalysisResultSortByWarningCount      PerformanceTuningAnalysisResultSortByEnum = "warningCount"
 )
 
 var mappingPerformanceTuningAnalysisResultSortByEnum = map[string]PerformanceTuningAnalysisResultSortByEnum{
 	"timeCreated":       PerformanceTuningAnalysisResultSortByTimeCreated,
 	"managedInstanceId": PerformanceTuningAnalysisResultSortByManagedInstanceId,
 	"workRequestId":     PerformanceTuningAnalysisResultSortByWorkRequestId,
+	"warningCount":      PerformanceTuningAnalysisResultSortByWarningCount,
 }
 
 var mappingPerformanceTuningAnalysisResultSortByEnumLowerCase = map[string]PerformanceTuningAnalysisResultSortByEnum{
 	"timecreated":       PerformanceTuningAnalysisResultSortByTimeCreated,
 	"managedinstanceid": PerformanceTuningAnalysisResultSortByManagedInstanceId,
 	"workrequestid":     PerformanceTuningAnalysisResultSortByWorkRequestId,
+	"warningcount":      PerformanceTuningAnalysisResultSortByWarningCount,
 }
 
 // GetPerformanceTuningAnalysisResultSortByEnumValues Enumerates the set of values for PerformanceTuningAnalysisResultSortByEnum
@@ -50,6 +53,7 @@ func GetPerformanceTuningAnalysisResultSortByEnumStringValues() []string {
 		"timeCreated",
 		"managedInstanceId",
 		"workRequestId",
+		"warningCount",
 	}
 }
 

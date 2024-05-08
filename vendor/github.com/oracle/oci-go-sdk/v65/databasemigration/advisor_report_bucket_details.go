@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// AdvisorReportBucketDetails Details to access Premigration Advisor report in the specified Object Storage bucket.
+// AdvisorReportBucketDetails Details to access Pre-Migration Advisor report in the specified Object Storage bucket, if any.
 type AdvisorReportBucketDetails struct {
 
-	// Name of the bucket containing the Premigration Advisor report.
+	// Name of the bucket containing the Pre-Migration Advisor report.
 	BucketName *string `mandatory:"true" json:"bucketName"`
 
 	// Object Storage namespace.
 	Namespace *string `mandatory:"true" json:"namespace"`
 
-	// Premigration Advisor report object name.
+	// Pre-Migration Advisor report object name.
 	ObjectName *string `mandatory:"true" json:"objectName"`
 }
 

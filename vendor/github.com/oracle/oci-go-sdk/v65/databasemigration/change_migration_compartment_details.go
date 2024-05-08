@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeMigrationCompartmentDetails Details pertaining to change of a migration's compartment.
+// ChangeMigrationCompartmentDetails Change Migration compartment details.
 type ChangeMigrationCompartmentDetails struct {
 
-	// The OCID of the resource being referenced.
+	// The OCID of the compartment to move the resource to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

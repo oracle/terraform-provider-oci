@@ -18,7 +18,7 @@ import (
 // OperatingSystem Operating System of the platform on which the Java Runtime was reported.
 type OperatingSystem struct {
 
-	// The operating system type, such as Windows or Linux
+	// The operating system type, such as Windows, Linux or macOS
 	Family OsFamilyEnum `mandatory:"true" json:"family"`
 
 	// The name of the operating system as provided by the Java system property os.name.

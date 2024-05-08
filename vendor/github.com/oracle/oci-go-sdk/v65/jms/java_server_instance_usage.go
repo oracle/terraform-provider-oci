@@ -33,6 +33,9 @@ type JavaServerInstanceUsage struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related managed instance.
 	ManagedInstanceId *string `mandatory:"true" json:"managedInstanceId"`
 
+	// The port of the Java Server instance.
+	ServerInstancePort *int `mandatory:"false" json:"serverInstancePort"`
+
 	// The name of the Java Server.
 	ServerName *string `mandatory:"false" json:"serverName"`
 

@@ -26,6 +26,7 @@ const (
 	ApplicationInstallationSortByApproximateJreCount             ApplicationInstallationSortByEnum = "approximateJreCount"
 	ApplicationInstallationSortByApproximateInstallationCount    ApplicationInstallationSortByEnum = "approximateInstallationCount"
 	ApplicationInstallationSortByApproximateManagedInstanceCount ApplicationInstallationSortByEnum = "approximateManagedInstanceCount"
+	ApplicationInstallationSortByApproximateLibraryCount         ApplicationInstallationSortByEnum = "approximateLibraryCount"
 )
 
 var mappingApplicationInstallationSortByEnum = map[string]ApplicationInstallationSortByEnum{
@@ -37,6 +38,7 @@ var mappingApplicationInstallationSortByEnum = map[string]ApplicationInstallatio
 	"approximateJreCount":             ApplicationInstallationSortByApproximateJreCount,
 	"approximateInstallationCount":    ApplicationInstallationSortByApproximateInstallationCount,
 	"approximateManagedInstanceCount": ApplicationInstallationSortByApproximateManagedInstanceCount,
+	"approximateLibraryCount":         ApplicationInstallationSortByApproximateLibraryCount,
 }
 
 var mappingApplicationInstallationSortByEnumLowerCase = map[string]ApplicationInstallationSortByEnum{
@@ -48,6 +50,7 @@ var mappingApplicationInstallationSortByEnumLowerCase = map[string]ApplicationIn
 	"approximatejrecount":             ApplicationInstallationSortByApproximateJreCount,
 	"approximateinstallationcount":    ApplicationInstallationSortByApproximateInstallationCount,
 	"approximatemanagedinstancecount": ApplicationInstallationSortByApproximateManagedInstanceCount,
+	"approximatelibrarycount":         ApplicationInstallationSortByApproximateLibraryCount,
 }
 
 // GetApplicationInstallationSortByEnumValues Enumerates the set of values for ApplicationInstallationSortByEnum
@@ -70,6 +73,7 @@ func GetApplicationInstallationSortByEnumStringValues() []string {
 		"approximateJreCount",
 		"approximateInstallationCount",
 		"approximateManagedInstanceCount",
+		"approximateLibraryCount",
 	}
 }
 

@@ -16,18 +16,16 @@ import (
 	"strings"
 )
 
-// CreateAdbDedicatedAutoCreateTablespaceDetails Auto create tablespace settings that are valid for Dedicated Autonomous Databases.
+// CreateAdbDedicatedAutoCreateTablespaceDetails Migration tablespace settings valid for ADB-D target type using auto create feature.
 type CreateAdbDedicatedAutoCreateTablespaceDetails struct {
 
-	// Set this property to true to auto-create tablespaces in the target Database.
-	// Note: This is not applicable for Autonomous Database Serverless databases.
+	// True to auto-create tablespace in the target Database.
 	IsAutoCreate *bool `mandatory:"false" json:"isAutoCreate"`
 
-	// Set this property to true to enable tablespace of the type big file.
+	// True set tablespace to big file.
 	IsBigFile *bool `mandatory:"false" json:"isBigFile"`
 
-	// Size to extend the tablespace in MB.
-	// Note: Only applicable if 'isBigFile' property is set to true.
+	// Size of extend in MB. Can only be specified if 'isBigFile' property is set to true.
 	ExtendSizeInMBs *int `mandatory:"false" json:"extendSizeInMBs"`
 
 	// Size of Oracle database blocks in KB.

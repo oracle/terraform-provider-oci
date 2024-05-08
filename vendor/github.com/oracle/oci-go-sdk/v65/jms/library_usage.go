@@ -30,6 +30,9 @@ type LibraryUsage struct {
 	// The version of the library.
 	LibraryVersion *string `mandatory:"false" json:"libraryVersion"`
 
+	// The Common Vulnerabilities and Exposures (CVE) ID.
+	CveId *string `mandatory:"false" json:"cveId"`
+
 	// The Common Vulnerability Scoring System (CVSS) score.
 	CvssScore *float32 `mandatory:"false" json:"cvssScore"`
 
@@ -62,6 +65,9 @@ type LibraryUsage struct {
 	// For example, a resource can be last reported to JMS before the start of a specified time period,
 	// if it is also reported during the time period.
 	TimeLastSeen *common.SDKTime `mandatory:"false" json:"timeLastSeen"`
+
+	// The date and time of the last CVEs refresh was completed.
+	TimeLastCveRefreshed *common.SDKTime `mandatory:"false" json:"timeLastCveRefreshed"`
 }
 
 func (m LibraryUsage) String() string {

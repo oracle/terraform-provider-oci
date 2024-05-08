@@ -137,7 +137,7 @@ const (
 	ListGiVersionMinorVersionsShapeFamilyVirtualmachine ListGiVersionMinorVersionsShapeFamilyEnum = "VIRTUALMACHINE"
 	ListGiVersionMinorVersionsShapeFamilyExadata        ListGiVersionMinorVersionsShapeFamilyEnum = "EXADATA"
 	ListGiVersionMinorVersionsShapeFamilyExacc          ListGiVersionMinorVersionsShapeFamilyEnum = "EXACC"
-	ListGiVersionMinorVersionsShapeFamilyExadbxs        ListGiVersionMinorVersionsShapeFamilyEnum = "EXADBXS"
+	ListGiVersionMinorVersionsShapeFamilyExadbXs        ListGiVersionMinorVersionsShapeFamilyEnum = "EXADB_XS"
 )
 
 var mappingListGiVersionMinorVersionsShapeFamilyEnum = map[string]ListGiVersionMinorVersionsShapeFamilyEnum{
@@ -146,7 +146,7 @@ var mappingListGiVersionMinorVersionsShapeFamilyEnum = map[string]ListGiVersionM
 	"VIRTUALMACHINE": ListGiVersionMinorVersionsShapeFamilyVirtualmachine,
 	"EXADATA":        ListGiVersionMinorVersionsShapeFamilyExadata,
 	"EXACC":          ListGiVersionMinorVersionsShapeFamilyExacc,
-	"EXADBXS":        ListGiVersionMinorVersionsShapeFamilyExadbxs,
+	"EXADB_XS":       ListGiVersionMinorVersionsShapeFamilyExadbXs,
 }
 
 var mappingListGiVersionMinorVersionsShapeFamilyEnumLowerCase = map[string]ListGiVersionMinorVersionsShapeFamilyEnum{
@@ -155,7 +155,7 @@ var mappingListGiVersionMinorVersionsShapeFamilyEnumLowerCase = map[string]ListG
 	"virtualmachine": ListGiVersionMinorVersionsShapeFamilyVirtualmachine,
 	"exadata":        ListGiVersionMinorVersionsShapeFamilyExadata,
 	"exacc":          ListGiVersionMinorVersionsShapeFamilyExacc,
-	"exadbxs":        ListGiVersionMinorVersionsShapeFamilyExadbxs,
+	"exadb_xs":       ListGiVersionMinorVersionsShapeFamilyExadbXs,
 }
 
 // GetListGiVersionMinorVersionsShapeFamilyEnumValues Enumerates the set of values for ListGiVersionMinorVersionsShapeFamilyEnum
@@ -175,7 +175,7 @@ func GetListGiVersionMinorVersionsShapeFamilyEnumStringValues() []string {
 		"VIRTUALMACHINE",
 		"EXADATA",
 		"EXACC",
-		"EXADBXS",
+		"EXADB_XS",
 	}
 }
 

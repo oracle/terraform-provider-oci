@@ -117,7 +117,7 @@ const (
 	ListBackupsShapeFamilyVirtualmachine ListBackupsShapeFamilyEnum = "VIRTUALMACHINE"
 	ListBackupsShapeFamilyExadata        ListBackupsShapeFamilyEnum = "EXADATA"
 	ListBackupsShapeFamilyExacc          ListBackupsShapeFamilyEnum = "EXACC"
-	ListBackupsShapeFamilyExadbxs        ListBackupsShapeFamilyEnum = "EXADBXS"
+	ListBackupsShapeFamilyExadbXs        ListBackupsShapeFamilyEnum = "EXADB_XS"
 )
 
 var mappingListBackupsShapeFamilyEnum = map[string]ListBackupsShapeFamilyEnum{
@@ -126,7 +126,7 @@ var mappingListBackupsShapeFamilyEnum = map[string]ListBackupsShapeFamilyEnum{
 	"VIRTUALMACHINE": ListBackupsShapeFamilyVirtualmachine,
 	"EXADATA":        ListBackupsShapeFamilyExadata,
 	"EXACC":          ListBackupsShapeFamilyExacc,
-	"EXADBXS":        ListBackupsShapeFamilyExadbxs,
+	"EXADB_XS":       ListBackupsShapeFamilyExadbXs,
 }
 
 var mappingListBackupsShapeFamilyEnumLowerCase = map[string]ListBackupsShapeFamilyEnum{
@@ -135,7 +135,7 @@ var mappingListBackupsShapeFamilyEnumLowerCase = map[string]ListBackupsShapeFami
 	"virtualmachine": ListBackupsShapeFamilyVirtualmachine,
 	"exadata":        ListBackupsShapeFamilyExadata,
 	"exacc":          ListBackupsShapeFamilyExacc,
-	"exadbxs":        ListBackupsShapeFamilyExadbxs,
+	"exadb_xs":       ListBackupsShapeFamilyExadbXs,
 }
 
 // GetListBackupsShapeFamilyEnumValues Enumerates the set of values for ListBackupsShapeFamilyEnum
@@ -155,7 +155,7 @@ func GetListBackupsShapeFamilyEnumStringValues() []string {
 		"VIRTUALMACHINE",
 		"EXADATA",
 		"EXACC",
-		"EXADBXS",
+		"EXADB_XS",
 	}
 }
 

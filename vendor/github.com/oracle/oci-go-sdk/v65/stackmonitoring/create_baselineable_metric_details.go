@@ -32,6 +32,9 @@ type CreateBaselineableMetricDetails struct {
 
 	// Resource group of the metric
 	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
+	// Resource type of the metric
+	ResourceType *string `mandatory:"false" json:"resourceType"`
 }
 
 func (m CreateBaselineableMetricDetails) String() string {

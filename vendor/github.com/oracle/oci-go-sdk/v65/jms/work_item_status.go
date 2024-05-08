@@ -25,6 +25,7 @@ const (
 	WorkItemStatusSucceeded      WorkItemStatusEnum = "SUCCEEDED"
 	WorkItemStatusNeedsAttention WorkItemStatusEnum = "NEEDS_ATTENTION"
 	WorkItemStatusRetrying       WorkItemStatusEnum = "RETRYING"
+	WorkItemStatusSkipped        WorkItemStatusEnum = "SKIPPED"
 )
 
 var mappingWorkItemStatusEnum = map[string]WorkItemStatusEnum{
@@ -35,6 +36,7 @@ var mappingWorkItemStatusEnum = map[string]WorkItemStatusEnum{
 	"SUCCEEDED":       WorkItemStatusSucceeded,
 	"NEEDS_ATTENTION": WorkItemStatusNeedsAttention,
 	"RETRYING":        WorkItemStatusRetrying,
+	"SKIPPED":         WorkItemStatusSkipped,
 }
 
 var mappingWorkItemStatusEnumLowerCase = map[string]WorkItemStatusEnum{
@@ -45,6 +47,7 @@ var mappingWorkItemStatusEnumLowerCase = map[string]WorkItemStatusEnum{
 	"succeeded":       WorkItemStatusSucceeded,
 	"needs_attention": WorkItemStatusNeedsAttention,
 	"retrying":        WorkItemStatusRetrying,
+	"skipped":         WorkItemStatusSkipped,
 }
 
 // GetWorkItemStatusEnumValues Enumerates the set of values for WorkItemStatusEnum
@@ -66,6 +69,7 @@ func GetWorkItemStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"NEEDS_ATTENTION",
 		"RETRYING",
+		"SKIPPED",
 	}
 }
 

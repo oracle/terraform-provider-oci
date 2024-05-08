@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateExportSettingDetails Attributes to update a Export setting.
+// UpdateExportSettingDetails Attributes to update an export setting.
 type UpdateExportSettingDetails struct {
 
 	// ExportSetting flag to store enabled or disabled status.
@@ -36,7 +36,7 @@ type UpdateExportSettingDetails struct {
 	// The namespace of the bucket where data will be exported.
 	TargetBucketNamespace *string `mandatory:"false" json:"targetBucketNamespace"`
 
-	// The namespace of the bucket where data will be exported.
+	// The id of the region of the target bucket.
 	TargetBucketRegion *string `mandatory:"false" json:"targetBucketRegion"`
 
 	// Schedule at which data will be exported.

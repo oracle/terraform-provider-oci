@@ -88,6 +88,9 @@ type IntegrationInstanceSummary struct {
 	Shape IntegrationInstanceSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	PrivateEndpointOutboundConnection OutboundConnection `mandatory:"false" json:"privateEndpointOutboundConnection"`
+
+	// Is Disaster Recovery enabled for the integrationInstance
+	IsDisasterRecoveryEnabled *bool `mandatory:"false" json:"isDisasterRecoveryEnabled"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
@@ -136,6 +139,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		SystemTags                        map[string]map[string]interface{}                     `json:"systemTags"`
 		Shape                             IntegrationInstanceSummaryShapeEnum                   `json:"shape"`
 		PrivateEndpointOutboundConnection outboundconnection                                    `json:"privateEndpointOutboundConnection"`
+		IsDisasterRecoveryEnabled         *bool                                                 `json:"isDisasterRecoveryEnabled"`
 		Id                                *string                                               `json:"id"`
 		DisplayName                       *string                                               `json:"displayName"`
 		CompartmentId                     *string                                               `json:"compartmentId"`
@@ -195,6 +199,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PrivateEndpointOutboundConnection = nil
 	}
+
+	m.IsDisasterRecoveryEnabled = model.IsDisasterRecoveryEnabled
 
 	m.Id = model.Id
 
@@ -279,6 +285,7 @@ const (
 	IntegrationInstanceSummaryLifecycleStateDeleting IntegrationInstanceSummaryLifecycleStateEnum = "DELETING"
 	IntegrationInstanceSummaryLifecycleStateDeleted  IntegrationInstanceSummaryLifecycleStateEnum = "DELETED"
 	IntegrationInstanceSummaryLifecycleStateFailed   IntegrationInstanceSummaryLifecycleStateEnum = "FAILED"
+	IntegrationInstanceSummaryLifecycleStateStandby  IntegrationInstanceSummaryLifecycleStateEnum = "STANDBY"
 )
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -289,6 +296,7 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]Integration
 	"DELETING": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"DELETED":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"FAILED":   IntegrationInstanceSummaryLifecycleStateFailed,
+	"STANDBY":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -299,6 +307,7 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]In
 	"deleting": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"deleted":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"failed":   IntegrationInstanceSummaryLifecycleStateFailed,
+	"standby":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 // GetIntegrationInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for IntegrationInstanceSummaryLifecycleStateEnum
@@ -320,6 +329,7 @@ func GetIntegrationInstanceSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"STANDBY",
 	}
 }
 

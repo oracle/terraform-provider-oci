@@ -85,6 +85,10 @@ type InternalVnicAttachment struct {
 
 	// Indicates if the VNIC supports encryption.
 	IsEncryptionSupported *bool `mandatory:"false" json:"isEncryptionSupported"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
+	// for the ServiceVnic placement.
+	CpgId *string `mandatory:"false" json:"cpgId"`
 }
 
 func (m InternalVnicAttachment) String() string {

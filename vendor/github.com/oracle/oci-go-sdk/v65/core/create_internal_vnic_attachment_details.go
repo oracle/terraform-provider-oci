@@ -81,6 +81,10 @@ type CreateInternalVnicAttachmentDetails struct {
 	// Specifies the shard to attach the VNIC to.
 	ShardId *string `mandatory:"false" json:"shardId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
+	// for the ServiceVnic placement.
+	CpgId *string `mandatory:"false" json:"cpgId"`
+
 	// This parameter captures if a VNIC needs to be attached with latency sensitivity condition.
 	// This ensures that the VNIC will be placed in a dedicated latency sensitive configuration
 	// Only applicable in case of PE and NLB VNICs.

@@ -19,7 +19,7 @@ import (
 type ExascaleDbStorageInputDetails struct {
 
 	// Total Capacity
-	TotalSizeInGbs *int `mandatory:"false" json:"totalSizeInGbs"`
+	TotalSizeInGbs *int `mandatory:"true" json:"totalSizeInGbs"`
 }
 
 func (m ExascaleDbStorageInputDetails) String() string {

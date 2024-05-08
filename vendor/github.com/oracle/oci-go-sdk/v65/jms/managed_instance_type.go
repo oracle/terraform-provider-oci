@@ -19,14 +19,17 @@ type ManagedInstanceTypeEnum string
 // Set of constants representing the allowable values for ManagedInstanceTypeEnum
 const (
 	ManagedInstanceTypeOracleManagementAgent ManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
+	ManagedInstanceTypeOracleCloudAgent      ManagedInstanceTypeEnum = "ORACLE_CLOUD_AGENT"
 )
 
 var mappingManagedInstanceTypeEnum = map[string]ManagedInstanceTypeEnum{
 	"ORACLE_MANAGEMENT_AGENT": ManagedInstanceTypeOracleManagementAgent,
+	"ORACLE_CLOUD_AGENT":      ManagedInstanceTypeOracleCloudAgent,
 }
 
 var mappingManagedInstanceTypeEnumLowerCase = map[string]ManagedInstanceTypeEnum{
 	"oracle_management_agent": ManagedInstanceTypeOracleManagementAgent,
+	"oracle_cloud_agent":      ManagedInstanceTypeOracleCloudAgent,
 }
 
 // GetManagedInstanceTypeEnumValues Enumerates the set of values for ManagedInstanceTypeEnum
@@ -42,6 +45,7 @@ func GetManagedInstanceTypeEnumValues() []ManagedInstanceTypeEnum {
 func GetManagedInstanceTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE_MANAGEMENT_AGENT",
+		"ORACLE_CLOUD_AGENT",
 	}
 }
 

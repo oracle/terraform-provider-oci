@@ -36,6 +36,9 @@ type DeployedApplicationUsage struct {
 	// The approximate count of Java Server instances running the deployed application.
 	ApproximateJavaServerInstanceCount *int `mandatory:"false" json:"approximateJavaServerInstanceCount"`
 
+	// The approximate count of libraries in the deployed application.
+	ApproximateLibraryCount *int `mandatory:"false" json:"approximateLibraryCount"`
+
 	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 

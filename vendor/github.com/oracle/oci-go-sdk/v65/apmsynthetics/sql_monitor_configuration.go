@@ -29,6 +29,9 @@ type SqlMonitorConfiguration struct {
 
 	DatabaseAuthenticationDetails *BasicAuthenticationDetails `mandatory:"false" json:"databaseAuthenticationDetails"`
 
+	// Database role.
+	DatabaseRole *string `mandatory:"false" json:"databaseRole"`
+
 	// Database connection string.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
@@ -37,10 +40,7 @@ type SqlMonitorConfiguration struct {
 	// Database type.
 	DatabaseType DatabaseTypeEnum `mandatory:"false" json:"databaseType,omitempty"`
 
-	// Database role.
-	DatabaseRole DatabaseRoleEnum `mandatory:"false" json:"databaseRole,omitempty"`
-
-	// Database connection type.
+	// Database connection type. Only CUSTOM_JDBC is supported for MYSQL database type.
 	DatabaseConnectionType DatabaseConnectionTypeEnum `mandatory:"false" json:"databaseConnectionType,omitempty"`
 }
 
@@ -66,9 +66,6 @@ func (m SqlMonitorConfiguration) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDatabaseTypeEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingDatabaseRoleEnum(string(m.DatabaseRole)); !ok && m.DatabaseRole != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseRole: %s. Supported values are: %s.", m.DatabaseRole, strings.Join(GetDatabaseRoleEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDatabaseConnectionTypeEnum(string(m.DatabaseConnectionType)); !ok && m.DatabaseConnectionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseConnectionType: %s. Supported values are: %s.", m.DatabaseConnectionType, strings.Join(GetDatabaseConnectionTypeEnumStringValues(), ",")))
