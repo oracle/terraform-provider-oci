@@ -80,11 +80,15 @@ variable "detector_recipe_state" {
 }
 
 provider "oci" {
-  tenancy_ocid     = "${var.tenancy_ocid}"
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
+  region              = var.region
+  //version             = "5.39.0"
+  /*tenancy_ocid     = "${var.tenancy_ocid}"
   user_ocid        = "${var.user_ocid}"
   fingerprint      = "${var.fingerprint}"
   private_key_path = "${var.private_key_path}"
-  region           = "${var.region}"
+  region           = "${var.region}"*/
 }
 
 data "oci_cloud_guard_detector_recipes" "test_detector_recipes" {

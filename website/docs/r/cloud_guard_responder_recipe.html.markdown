@@ -10,7 +10,8 @@ description: |-
 # oci_cloud_guard_responder_recipe
 This resource provides the Responder Recipe resource in Oracle Cloud Infrastructure Cloud Guard service.
 
-Create a ResponderRecipe.
+Creates a responder recipe (ResponderRecipe resource), from values passed in a
+CreateResponderRecipeDetails resource.
 
 
 ## Example Usage
@@ -41,7 +42,7 @@ resource "oci_cloud_guard_responder_recipe" "test_responder_recipe" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) (Updatable) Compartment Identifier
+* `compartment_id` - (Required) (Updatable) Compartment OCID
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) Responder recipe description.
 
@@ -52,12 +53,12 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
-* `responder_rules` - (Optional) (Updatable) Responder Rules to override from source responder recipe
-	* `compartment_id` - (Optional) (Updatable) Compartment Identifier
-	* `details` - (Required) (Updatable) Details of UpdateResponderRuleDetails.
-		* `is_enabled` - (Required) (Updatable) Identifies state for ResponderRule
-	* `responder_rule_id` - (Required) (Updatable) ResponderRecipeRule Identifier
-* `source_responder_recipe_id` - (Required) The id of the source responder recipe.
+* `responder_rules` - (Optional) (Updatable) List of responder rules to override from source responder recipe
+	* `compartment_id` - (Optional) (Updatable) Compartment OCID
+	* `details` - (Required) (Updatable) Parameters to be updated for a responder rule within a responder recipe.
+		* `is_enabled` - (Required) (Updatable) Enablement state for the responder rule
+	* `responder_rule_id` - (Required) (Updatable) Unique identifier for the responder rule
+* `source_responder_recipe_id` - (Required) The unique identifier of the source responder recipe
 
 
 ** IMPORTANT **
@@ -67,61 +68,63 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - Compartment Identifier
+* `compartment_id` - Compartment OCID
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - ResponderRecipe description.
-* `display_name` - ResponderRecipe display name.
-* `effective_responder_rules` - List of responder rules associated with the recipe
-	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule description.
-	* `details` - Details of ResponderRule.
-		* `condition` - Base condition object
-		* `configurations` - ResponderRule configurations
-			* `config_key` - Unique name of the configuration
-			* `name` - configuration name
-			* `value` - configuration value
-		* `is_enabled` - Identifies state for ResponderRule
-		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule display name.
+* `description` - Responder recipe description
+* `display_name` - Responder recipe display name
+* `effective_responder_rules` - List of currently enabled responder rules for the responder type, for recipe after applying defaults
+	* `compartment_id` - Compartment OCID
+	* `description` - Responder rule description
+	* `details` - Detailed information for a responder rule
+		* `condition` - The base condition resource.
+		* `configurations` - List of responder rule configurations
+			* `config_key` - Unique identifier of the configuration
+			* `name` - Configuration name
+			* `value` - Configuration value
+		* `is_enabled` - Enabled state for the responder rule
+		* `mode` - Execution mode for the responder rule
+	* `display_name` - Responder rule display name
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	* `policies` - List of Policy
-	* `responder_rule_id` - Identifier for ResponderRule.
-	* `state` - The current state of the ResponderRule.
-	* `supported_modes` - Supported Execution Modes
+
+	* `policies` - List of policies
+	* `responder_rule_id` - Unique identifier for the responder rule
+	* `state` - The current lifecycle state of the responder rule
+	* `supported_modes` - Supported execution modes for the responder rule
 	* `time_created` - The date and time the responder recipe rule was created. Format defined by RFC3339.
-	* `time_updated` - The date and time the responder recipe rule was updated. Format defined by RFC3339.
-	* `type` - Type of Responder
+	* `time_updated` - The date and time the responder recipe rule was last updated. Format defined by RFC3339.
+	* `type` - Type of responder
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 
 	Avoid entering confidential information. 
-* `id` - Identifier for ResponderRecipe.
+* `id` - Unique identifier for the responder recip
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `owner` - Owner of ResponderRecipe
+* `owner` - Owner of responder recipe
 * `responder_rules` - List of responder rules associated with the recipe
-	* `compartment_id` - Compartment Identifier
-	* `description` - ResponderRule description.
-	* `details` - Details of ResponderRule.
-		* `condition` - Base condition object
-		* `configurations` - ResponderRule configurations
-			* `config_key` - Unique name of the configuration
-			* `name` - configuration name
-			* `value` - configuration value
-		* `is_enabled` - Identifies state for ResponderRule
-		* `mode` - Execution Mode for ResponderRule
-	* `display_name` - ResponderRule display name.
+	* `compartment_id` - Compartment OCID
+	* `description` - Responder rule description
+	* `details` - Detailed information for a responder rule
+		* `condition` - The base condition resource.
+		* `configurations` - List of responder rule configurations
+			* `config_key` - Unique identifier of the configuration
+			* `name` - Configuration name
+			* `value` - Configuration value
+		* `is_enabled` - Enabled state for the responder rule
+		* `mode` - Execution mode for the responder rule
+	* `display_name` - Responder rule display name
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	* `policies` - List of Policy
-	* `responder_rule_id` - Identifier for ResponderRule.
-	* `state` - The current state of the ResponderRule.
-	* `supported_modes` - Supported Execution Modes
+
+	* `policies` - List of policies
+	* `responder_rule_id` - Unique identifier for the responder rule
+	* `state` - The current lifecycle state of the responder rule
+	* `supported_modes` - Supported execution modes for the responder rule
 	* `time_created` - The date and time the responder recipe rule was created. Format defined by RFC3339.
-	* `time_updated` - The date and time the responder recipe rule was updated. Format defined by RFC3339.
-	* `type` - Type of Responder
-* `source_responder_recipe_id` - The id of the source responder recipe.
-* `state` - The current state of the Example.
+	* `time_updated` - The date and time the responder recipe rule was last updated. Format defined by RFC3339.
+	* `type` - Type of responder
+* `source_responder_recipe_id` - The unique identifier of the source responder recipe
+* `state` - The current lifecycle state of the example
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the responder recipe was created. Format defined by RFC3339.
-* `time_updated` - The date and time the responder recipe was updated. Format defined by RFC3339.
+* `time_updated` - The date and time the responder recipe was last updated. Format defined by RFC3339.
 
 ## Timeouts
 

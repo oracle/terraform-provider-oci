@@ -80,6 +80,8 @@ func (s *CloudGuardDetectorRecipeDataSourceCrud) SetData() error {
 
 	s.D.Set("detector", s.Res.Detector)
 
+	s.D.Set("detector_recipe_type", s.Res.DetectorRecipeType)
+
 	detectorRules := []interface{}{}
 	for _, item := range s.Res.DetectorRules {
 		detectorRules = append(detectorRules, DetectorRecipeDetectorRuleToMap(item))
