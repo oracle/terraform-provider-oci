@@ -285,6 +285,7 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+
 						"managed_list_types": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -333,6 +334,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 			},
 
 			// Computed
+			"detector_recipe_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"effective_detector_rules": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -444,6 +449,39 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 											},
 										},
 									},
+									"data_source_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"entities_mappings": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"entity_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"query_field": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
 									"is_configuration_allowed": {
 										Type:     schema.TypeBool,
 										Computed: true,
@@ -458,6 +496,10 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 										Elem: &schema.Schema{
 											Type: schema.TypeString,
 										},
+									},
+									"recommendation": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"risk_level": {
 										Type:     schema.TypeString,
@@ -507,6 +549,7 @@ func CloudGuardDetectorRecipeResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+
 						"managed_list_types": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -817,6 +860,8 @@ func (s *CloudGuardDetectorRecipeResourceCrud) SetData() error {
 
 	s.D.Set("detector", s.Res.Detector)
 
+	s.D.Set("detector_recipe_type", s.Res.DetectorRecipeType)
+
 	detectorRules := []interface{}{}
 	for _, item := range s.Res.DetectorRules {
 		detectorRules = append(detectorRules, DetectorRecipeDetectorRuleToMap(item))
@@ -937,6 +982,20 @@ func DetectorDetailsToMap(obj *oci_cloud_guard.DetectorDetails) map[string]inter
 	}
 	result["configurations"] = configurations
 
+	if obj.DataSourceId != nil {
+		result["data_source_id"] = string(*obj.DataSourceId)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	entitiesMappings := []interface{}{}
+	for _, item := range obj.EntitiesMappings {
+		entitiesMappings = append(entitiesMappings, EntitiesMappingToMap(item))
+	}
+	result["entities_mappings"] = entitiesMappings
+
 	if obj.IsConfigurationAllowed != nil {
 		result["is_configuration_allowed"] = bool(*obj.IsConfigurationAllowed)
 	}
@@ -946,6 +1005,10 @@ func DetectorDetailsToMap(obj *oci_cloud_guard.DetectorDetails) map[string]inter
 	}
 
 	result["labels"] = obj.Labels
+
+	if obj.Recommendation != nil {
+		result["recommendation"] = string(*obj.Recommendation)
+	}
 
 	result["risk_level"] = string(obj.RiskLevel)
 
@@ -1036,6 +1099,8 @@ func DetectorRecipeSummaryToMap(obj oci_cloud_guard.DetectorRecipeSummary) map[s
 	}
 
 	result["detector"] = string(obj.Detector)
+
+	result["detector_recipe_type"] = string(obj.DetectorRecipeType)
 
 	detectorRules := []interface{}{}
 	for _, item := range obj.DetectorRules {

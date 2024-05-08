@@ -487,6 +487,9 @@ cloud_guard
 * oci\_cloud\_guard\_security\_recipe
 * oci\_cloud\_guard\_security\_zone
 * oci\_cloud\_guard\_data\_source
+* oci\_cloud\_guard\_wlp\_agent
+* oci\_cloud\_guard\_adhoc\_query
+* oci\_cloud\_guard\_saved\_query
 
 cloud_migrations
 

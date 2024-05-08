@@ -36,7 +36,7 @@ var (
 	}
 
 	CloudGuardCloudGuardDetectorRecipeDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
@@ -53,7 +53,7 @@ var (
 	detectorRecipeId = `${[for recipe in data.oci_cloud_guard_detector_recipes.oracle_detector_recipe.detector_recipe_collection.0.items : recipe.id if recipe.display_name=="OCI Configuration Detector Recipe"][0]}`
 
 	CloudGuardDetectorRecipeRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
@@ -111,8 +111,11 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	//compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	//compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	tenantId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", tenantId)
 
 	resourceName := "oci_cloud_guard_detector_recipe.test_detector_recipe"
 	datasourceName := "data.oci_cloud_guard_detector_recipes.test_detector_recipes"
@@ -129,7 +132,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
@@ -149,7 +152,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
@@ -182,7 +185,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &tenantId, resourceName); errExport != nil {
 							return errExport
 						}
 					}
@@ -196,10 +199,10 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(CloudGuardDetectorRecipeRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
@@ -243,7 +246,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Update, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
@@ -289,7 +292,7 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Update, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_metadata_only", "false"),
@@ -306,8 +309,9 @@ func TestCloudGuardDetectorRecipeResource_basic(t *testing.T) {
 				compartmentIdVariableStr + CloudGuardDetectorRecipeResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_recipe_id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "detector_recipe_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "detector_rules.#", "1"),
 				//This field may or may not be present - depends on the rule.
@@ -366,8 +370,8 @@ func TestCloudGuardDetectorRecipeResource_updateOptionalParamsWithoutDestroy(t *
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
-	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	tenantId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", tenantId)
 
 	resourceName := "oci_cloud_guard_detector_recipe.test_detector_recipe"
 	var resId string
@@ -381,7 +385,7 @@ func TestCloudGuardDetectorRecipeResource_updateOptionalParamsWithoutDestroy(t *
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Required, acctest.Create, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_detector_recipe_id"),
 
@@ -396,7 +400,7 @@ func TestCloudGuardDetectorRecipeResource_updateOptionalParamsWithoutDestroy(t *
 			Config: config + compartmentIdVariableStr + CloudGuardDetectorRecipeResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_cloud_guard_detector_recipe", "test_detector_recipe", acctest.Optional, acctest.Create, CloudGuardDetectorRecipeRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenantId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "detector", "IAAS_CONFIGURATION_DETECTOR"),
 				resource.TestCheckResourceAttr(resourceName, "detector_rules.#", "1"),
@@ -429,7 +433,7 @@ func TestCloudGuardDetectorRecipeResource_updateOptionalParamsWithoutDestroy(t *
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &tenantId, resourceName); errExport != nil {
 							return errExport
 						}
 					}

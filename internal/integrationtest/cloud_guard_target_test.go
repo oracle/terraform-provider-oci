@@ -313,6 +313,7 @@ func TestCloudGuardTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_recipe_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.description"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "target_detector_recipes.0.detector_rules.0.details.#", "1"),
