@@ -51,7 +51,7 @@ var (
 	}
 	deployCommandSpecArtifactDeployArtifactSourceRepresentation = map[string]interface{}{
 		"deploy_artifact_source_type": acctest.Representation{RepType: acctest.Required, Create: `INLINE`},
-		"base64encoded_content":       acctest.Representation{RepType: acctest.Required, Create: " base64_encode", Update: "base64_encode_update"},
+		"base64encoded_content":       acctest.Representation{RepType: acctest.Required, Create: "base64_encode", Update: "base64_encode_update"},
 	}
 
 	DevopsDeployCommandSpecArtifactResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
