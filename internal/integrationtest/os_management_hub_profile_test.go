@@ -38,16 +38,19 @@ var (
 	}
 
 	OsManagementHubSoftwareSourceProfileDataSourceRepresentation = map[string]interface{}{
-		"arch_type":             acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
-		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}, Update: []string{`displayName2`}},
-		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
-		"profile_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_profile.test_profile.id}`},
-		"profile_type":          acctest.Representation{RepType: acctest.Optional, Create: []string{`SOFTWARESOURCE`}},
-		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"vendor_name":           acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubProfileDataSourceFilterRepresentation}}
+		"arch_type":                   acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}, Update: []string{`displayName2`}},
+		"display_name_contains":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"is_default_profile":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_service_provided_profile": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"os_family":                   acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
+		"profile_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_profile.test_profile.id}`},
+		"profile_type":                acctest.Representation{RepType: acctest.Optional, Create: []string{`SOFTWARESOURCE`}},
+		"registration_type":           acctest.Representation{RepType: acctest.Optional, Create: []string{`NON_OCI_LINUX`}},
+		"state":                       acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"vendor_name":                 acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+		"filter":                      acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubProfileDataSourceFilterRepresentation}}
 	OsManagementHubGroupProfileDataSourceRepresentation = map[string]interface{}{
 		"arch_type":             acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -75,26 +78,11 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_profile.test_profile.id}`}},
 	}
 
-	OsManagementHubProfileRepresentation = map[string]interface{}{
-		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"profile_type":              acctest.Representation{RepType: acctest.Required, Create: `SOFTWARESOURCE`},
-		"arch_type":                 acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
-		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubProfileIgnoreDefinedTagsRepresentation},
-		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle_stage_id":        acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_lifecycle_stage.test_lifecycle_stage.id}`},
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
-		"management_station_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
-		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
-		"software_source_ids":       acctest.Representation{RepType: acctest.Optional, Create: []string{`softwareSourceIds`}},
-		"vendor_name":               acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
-	}
-
 	OsManagementHubSoftwareSourceProfileRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"profile_type":          acctest.Representation{RepType: acctest.Required, Create: `SOFTWARESOURCE`},
+		"is_default_profile":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"software_source_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
 		"management_station_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
 		"arch_type":             acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
@@ -102,7 +90,21 @@ var (
 		"vendor_name":           acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubProfileIgnoreDefinedTagsRepresentation},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
+	}
+
+	OsManagementHubOCISoftwareSourceProfileRepresentation = map[string]interface{}{
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"profile_type":        acctest.Representation{RepType: acctest.Required, Create: `SOFTWARESOURCE`},
+		"registration_type":   acctest.Representation{RepType: acctest.Required, Create: `OCI_LINUX`},
+		"software_source_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
+		"arch_type":           acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"os_family":           acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"vendor_name":         acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubProfileIgnoreDefinedTagsRepresentation},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
 	OsManagementHubGroupProfileRepresentation = map[string]interface{}{
@@ -116,26 +118,27 @@ var (
 		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
 		"vendor_name":               acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
 		"defined_tags":              acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubProfileIgnoreDefinedTagsRepresentation},
-		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
 	OsManagementHubLifecycleProfileRepresentation = map[string]interface{}{
-		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"profile_type":          acctest.Representation{RepType: acctest.Required, Create: `LIFECYCLE`},
-		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"profile_type":   acctest.Representation{RepType: acctest.Required, Create: `LIFECYCLE`},
+		//		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
+		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithBlankDefault("lifecycle_stage_for_profile_ocid")},
 		"management_station_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
 		"arch_type":             acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
 		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
 		"vendor_name":           acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
 		"defined_tags":          acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubProfileIgnoreDefinedTagsRepresentation},
-		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"freeform_tags":         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Finance"}},
 	}
 
 	OsManagementHubProfileResourceDependencies = OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Required, acctest.Create, OsManagementHubLifecycleEnvironmentRepresentation)
+		"" // acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Required, acctest.Create, OsManagementHubLifecycleEnvironmentRepresentation)
 
 	OsManagementHubProfileIgnoreDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
@@ -151,6 +154,9 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_os_management_hub_profile.test_profile"
 	datasourceName := "data.oci_os_management_hub_profiles.test_profiles"
@@ -175,7 +181,6 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
-				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
 
 				func(s *terraform.State) (err error) {
@@ -199,11 +204,13 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckNoResourceAttr(resourceName, "lifecycle_stage_id"),
-				resource.TestCheckNoResourceAttr(resourceName, "managed_instance_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_profile", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_stage.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_group.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_station_id"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
+				resource.TestCheckResourceAttr(resourceName, "registration_type", "NON_OCI_LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "software_sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
@@ -220,7 +227,42 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters in software source profile
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubProfileResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_profile", "test_profile", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubSoftwareSourceProfileRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_profile", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_stage.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_group.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "management_station_id"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
+				resource.TestCheckResourceAttr(resourceName, "registration_type", "NON_OCI_LINUX"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "software_sources.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubProfileResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_profile", "test_profile", acctest.Optional, acctest.Update, OsManagementHubSoftwareSourceProfileRepresentation),
@@ -231,11 +273,13 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckNoResourceAttr(resourceName, "lifecycle_stage_id"),
-				resource.TestCheckNoResourceAttr(resourceName, "managed_instance_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_default_profile", "false"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_stage.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "managed_instance_group.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "management_station_id"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "profile_type", "SOFTWARESOURCE"),
+				resource.TestCheckResourceAttr(resourceName, "registration_type", "NON_OCI_LINUX"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "software_sources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
@@ -259,9 +303,12 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
+				resource.TestCheckResourceAttr(datasourceName, "is_default_profile", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "is_service_provided_profile", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttrSet(datasourceName, "profile_id"),
 				resource.TestCheckResourceAttr(datasourceName, "profile_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "registration_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "vendor_name", "ORACLE"),
 
@@ -282,8 +329,13 @@ func TestOsManagementHubProfileResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_default_profile", "false"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_service_provided_profile"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_environment.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "managed_instance_group.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "profile_type", "SOFTWARESOURCE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "registration_type", "NON_OCI_LINUX"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "software_sources.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

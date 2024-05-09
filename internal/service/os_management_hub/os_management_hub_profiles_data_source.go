@@ -37,6 +37,14 @@ func OsManagementHubProfilesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_default_profile": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"is_service_provided_profile": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"os_family": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -46,6 +54,13 @@ func OsManagementHubProfilesDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"profile_type": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"registration_type": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Elem: &schema.Schema{
@@ -126,6 +141,16 @@ func (s *OsManagementHubProfilesDataSourceCrud) Get() error {
 		request.DisplayNameContains = &tmp
 	}
 
+	if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+		tmp := isDefaultProfile.(bool)
+		request.IsDefaultProfile = &tmp
+	}
+
+	if isServiceProvidedProfile, ok := s.D.GetOkExists("is_service_provided_profile"); ok {
+		tmp := isServiceProvidedProfile.(bool)
+		request.IsServiceProvidedProfile = &tmp
+	}
+
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 		request.OsFamily = oci_os_management_hub.ListProfilesOsFamilyEnum(osFamily.(string))
 	}
@@ -145,6 +170,19 @@ func (s *OsManagementHubProfilesDataSourceCrud) Get() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("profile_type") {
 			request.ProfileType = tmp
+		}
+	}
+
+	if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+		interfaces := registrationType.([]interface{})
+		tmp := make([]oci_os_management_hub.ProfileRegistrationTypeEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ProfileRegistrationTypeEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("profile_type") {
+			request.RegistrationType = tmp
 		}
 	}
 

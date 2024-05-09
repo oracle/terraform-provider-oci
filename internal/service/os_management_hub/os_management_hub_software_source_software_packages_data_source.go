@@ -5,7 +5,6 @@ package os_management_hub
 
 import (
 	"context"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -144,6 +143,13 @@ func OsManagementHubSoftwareSourceSoftwarePackagesDataSource() *schema.Resource 
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"os_families": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"size_in_bytes": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -168,6 +174,10 @@ func OsManagementHubSoftwareSourceSoftwarePackagesDataSource() *schema.Resource 
 												},
 												"id": {
 													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"is_mandatory_for_autonomous_linux": {
+													Type:     schema.TypeBool,
 													Computed: true,
 												},
 												"software_source_type": {

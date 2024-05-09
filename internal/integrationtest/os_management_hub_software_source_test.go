@@ -35,18 +35,21 @@ var (
 	}
 
 	OsManagementHubSoftwareSourceDataSourceRepresentation = map[string]interface{}{
-		"arch_type":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
-		"availability":              acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `ol8_baseos_latest-x86_64`},
-		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `ol8_baseos_latest-x86_64`},
-		"display_name_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
-		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
-		"software_source_id":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
-		"software_source_type":      acctest.Representation{RepType: acctest.Optional, Create: []string{`VENDOR`}},
-		"state":                     acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
-		"vendor_name":               acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceDataSourceFilterRepresentation},
+		"arch_type":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`X86_64`}},
+		"availability":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_anywhere":             acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"availability_at_oci":               acctest.Representation{RepType: acctest.Optional, Create: []string{`SELECTED`}},
+		"compartment_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                      acctest.Representation{RepType: acctest.Optional, Create: `ol8_baseos_latest-x86_64`},
+		"display_name_contains":             acctest.Representation{RepType: acctest.Optional, Create: `ol8_baseos_latest-x86_64`},
+		"display_name_not_equal_to":         acctest.Representation{RepType: acctest.Optional, Create: []string{`displayNameNotEqualTo`}},
+		"is_mandatory_for_autonomous_linux": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"os_family":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE_LINUX_8`}},
+		"software_source_id":                acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
+		"software_source_type":              acctest.Representation{RepType: acctest.Optional, Create: []string{`VENDOR`}},
+		"state":                             acctest.Representation{RepType: acctest.Optional, Create: []string{`ACTIVE`}},
+		"vendor_name":                       acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+		"filter":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceDataSourceFilterRepresentation},
 	}
 	OsManagementHubSoftwareSourceDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -80,14 +83,28 @@ var (
 
 	OsManagementHubSoftwareSourceRepresentation = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"software_source_type":          acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
-		"vendor_software_sources":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}},
+		"vendor_software_sources":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}},
 		"custom_software_source_filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceCustomSoftwareSourceFilterRepresentation},
-		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+		"is_auto_resolve_dependencies":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_automatically_updated":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"is_created_from_package_list":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	OsManagementHubSoftwareSourceCustomRepresentation = map[string]interface{}{
+		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubIgnoreDefinedTagsRepresentation},
+		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
+		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
+		"software_source_type":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
+		"vendor_software_sources":      []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}},
+		"is_auto_resolve_dependencies": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_automatically_updated":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_created_from_package_list": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 	OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `ol8_appstream-x86_64`},
@@ -111,8 +128,6 @@ var (
 	OsManagementHubSoftwareSourceCustomSoftwareSourceFilterPackageFiltersRepresentation = map[string]interface{}{
 		"filter_type":  acctest.Representation{RepType: acctest.Required, Create: `INCLUDE`},
 		"package_name": acctest.Representation{RepType: acctest.Required, Create: `ed`},
-		// "package_name_pattern": acctest.Representation{RepType: acctest.Optional, Create: `ed`},
-		// "package_version":      acctest.Representation{RepType: acctest.Optional, Create: `packageVersion`, Update: `packageVersion2`},
 	}
 	OsManagementHubSoftwareSourceCustomSoftwareSourceFilterPackageGroupFiltersRepresentation = map[string]interface{}{
 		"filter_type":    acctest.Representation{RepType: acctest.Required, Create: `INCLUDE`},
@@ -129,6 +144,9 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_os_management_hub_software_source.test_software_source"
 	datasourceName := "data.oci_os_management_hub_software_sources.test_software_sources"
@@ -167,6 +185,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.#", "1"),
@@ -184,8 +203,11 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
+				resource.TestCheckResourceAttrSet(resourceName, "package_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_type", "CUSTOM"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -206,12 +228,66 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubSoftwareSourceRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.0.filter_type", "INCLUDE"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.0.module_name", "php"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.0.profile_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.0.stream_name"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_filters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_filters.0.filter_type", "INCLUDE"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_filters.0.package_name", "ed"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_filters.0.package_name_pattern", ""),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_filters.0.package_version", ""),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_group_filters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_group_filters.0.filter_type", "INCLUDE"),
+				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.package_group_filters.0.package_groups.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
+				resource.TestCheckResourceAttr(resourceName, "packages.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_type", "CUSTOM"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "url"),
+				resource.TestCheckResourceAttr(resourceName, "vendor_software_sources.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "vendor_software_sources.0.display_name", "ol8_baseos_latest-x86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "vendor_software_sources.0.id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubVendorSoftwareSourceOl8AppstreamX8664Config + acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_software_source", "test_software_source", acctest.Optional, acctest.Update, OsManagementHubSoftwareSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "arch_type"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "custom_software_source_filter.0.module_stream_profile_filters.#", "1"),
@@ -229,8 +305,11 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
+				resource.TestCheckResourceAttr(resourceName, "packages.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_type", "CUSTOM"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -262,10 +341,13 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "arch_type.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "availability.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_anywhere.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "availability_at_oci.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "ol8_baseos_latest-x86_64"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "ol8_baseos_latest-x86_64"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_not_equal_to.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "is_mandatory_for_autonomous_linux", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "software_source_type.#", "1"),
@@ -283,15 +365,16 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "arch_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_at_oci"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "ol8_baseos_latest-x86_64"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_fingerprint"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "gpg_key_url"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_mandatory_for_autonomous_linux"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "package_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "repo_id"),
