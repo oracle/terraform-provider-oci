@@ -121,6 +121,13 @@ func OsManagementHubSoftwareSourceSoftwarePackageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"os_families": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"size_in_bytes": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -145,6 +152,10 @@ func OsManagementHubSoftwareSourceSoftwarePackageDataSource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_mandatory_for_autonomous_linux": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"software_source_type": {
@@ -215,9 +226,7 @@ func (s *OsManagementHubSoftwareSourceSoftwarePackageDataSourceCrud) SetData() e
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OsManagementHubSoftwareSourceSoftwarePackageDataSource-", OsManagementHubSoftwareSourceSoftwarePackageDataSource(), s.D))
 
-	//if s.Res.Architecture != nil {
-	//	s.D.Set("architecture", *s.Res.Architecture)
-	//}
+	s.D.Set("architecture", s.Res.Architecture)
 
 	if s.Res.Checksum != nil {
 		s.D.Set("checksum", *s.Res.Checksum)
@@ -258,6 +267,8 @@ func (s *OsManagementHubSoftwareSourceSoftwarePackageDataSourceCrud) SetData() e
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
+
+	s.D.Set("os_families", s.Res.OsFamilies)
 
 	if s.Res.SizeInBytes != nil {
 		s.D.Set("size_in_bytes", strconv.FormatInt(*s.Res.SizeInBytes, 10))

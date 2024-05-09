@@ -35,7 +35,6 @@ func OsManagementHubLifecycleEnvironmentResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -63,6 +62,11 @@ func OsManagementHubLifecycleEnvironmentResource() *schema.Resource {
 						},
 
 						// Optional
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"defined_tags": {
 							Type:             schema.TypeMap,
 							Optional:         true,
@@ -82,15 +86,15 @@ func OsManagementHubLifecycleEnvironmentResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
-						"compartment_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 						"lifecycle_environment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"location": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -139,6 +143,10 @@ func OsManagementHubLifecycleEnvironmentResource() *schema.Resource {
 									},
 									"id": {
 										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_mandatory_for_autonomous_linux": {
+										Type:     schema.TypeBool,
 										Computed: true,
 									},
 									"software_source_type": {
@@ -196,6 +204,12 @@ func OsManagementHubLifecycleEnvironmentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"location": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -343,6 +357,10 @@ func (s *OsManagementHubLifecycleEnvironmentResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if location, ok := s.D.GetOkExists("location"); ok {
+		request.Location = oci_os_management_hub.ManagedInstanceLocationEnum(location.(string))
+	}
+
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 		request.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
 	}
@@ -397,6 +415,22 @@ func (s *OsManagementHubLifecycleEnvironmentResourceCrud) Get() error {
 }
 
 func (s *OsManagementHubLifecycleEnvironmentResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
+		err := s.ChangeLifecycleEnvironmentCompartment()
+		if err != nil {
+			return err
+		}
+	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_os_management_hub.UpdateLifecycleEnvironmentRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -485,6 +519,8 @@ func (s *OsManagementHubLifecycleEnvironmentResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("location", s.Res.Location)
+
 	managedInstanceIds := []interface{}{}
 	for _, item := range s.Res.ManagedInstanceIds {
 		managedInstanceIds = append(managedInstanceIds, ManagedInstanceDetailsToMap(item))
@@ -514,6 +550,31 @@ func (s *OsManagementHubLifecycleEnvironmentResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vendor_name", s.Res.VendorName)
+
+	return nil
+}
+
+func (s *OsManagementHubLifecycleEnvironmentResourceCrud) ChangeLifecycleEnvironmentCompartment() error {
+	request := oci_os_management_hub.ChangeLifecycleEnvironmentCompartmentRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.LifecycleEnvironmentId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeLifecycleEnvironmentCompartment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
 
 	return nil
 }
@@ -601,6 +662,8 @@ func LifecycleStageToMap(obj oci_os_management_hub.LifecycleStage) map[string]in
 		result["lifecycle_environment_id"] = string(*obj.LifecycleEnvironmentId)
 	}
 
+	result["location"] = string(obj.Location)
+
 	managedInstanceIds := []interface{}{}
 	for _, item := range obj.ManagedInstanceIds {
 		managedInstanceIds = append(managedInstanceIds, ManagedInstanceDetailsToMap(item))
@@ -663,6 +726,8 @@ func LifecycleEnvironmentSummaryToMap(obj oci_os_management_hub.LifecycleEnviron
 		result["id"] = string(*obj.Id)
 	}
 
+	result["location"] = string(obj.Location)
+
 	result["os_family"] = string(obj.OsFamily)
 
 	stages := []interface{}{}
@@ -690,80 +755,25 @@ func LifecycleEnvironmentSummaryToMap(obj oci_os_management_hub.LifecycleEnviron
 	return result
 }
 
-func LifecycleStageSummaryToMap(obj oci_os_management_hub.LifecycleStageSummary) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *OsManagementHubLifecycleEnvironmentResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_os_management_hub.ChangeLifecycleEnvironmentCompartmentRequest{}
 
-	result["arch_type"] = string(obj.ArchType)
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
 
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
+	idTmp := s.D.Id()
+	changeCompartmentRequest.LifecycleEnvironmentId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeLifecycleEnvironmentCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
 	}
 
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	//if obj.LifecycleEnvironmentDisplayName != nil {
-	//	result["lifecycle_environment_display_name"] = string(*obj.LifecycleEnvironmentDisplayName)
-	//}
-
-	if obj.LifecycleEnvironmentId != nil {
-		result["lifecycle_environment_id"] = string(*obj.LifecycleEnvironmentId)
-	}
-
-	//if obj.ManagedInstances != nil {
-	//	result["managed_instances"] = int(*obj.ManagedInstances)
-	//}
-
-	result["os_family"] = string(obj.OsFamily)
-
-	if obj.Rank != nil {
-		result["rank"] = int(*obj.Rank)
-	}
-
-	if obj.SoftwareSourceId != nil {
-		result["software_source_id"] = []interface{}{SoftwareSourceDetailsToMap(*obj.SoftwareSourceId)}
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.SystemTags != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
-	}
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeModified != nil {
-		result["time_modified"] = obj.TimeModified.String()
-	}
-
-	result["vendor_name"] = string(obj.VendorName)
-
-	return result
-}
-
-func ManagedInstanceDetailsToMap(obj oci_os_management_hub.ManagedInstanceDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	return result
+	return nil
 }

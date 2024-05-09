@@ -33,11 +33,11 @@ data "oci_os_management_hub_managed_instance_group_available_packages" "test_man
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list.
+* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
-* `is_latest` - (Optional) A boolean variable that is used to list only the latest versions of packages, module streams, and stream profiles when set to true. All packages, module streams, and stream profiles are returned when set to false. 
-* `managed_instance_group_id` - (Required) The managed instance group OCID.
+* `is_latest` - (Optional) Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
+* `managed_instance_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 
 
 ## Attributes Reference
@@ -53,13 +53,14 @@ The following attributes are exported:
 * `items` - List of available packages.
 	* `architecture` - The architecture for which this package was built.
 	* `display_name` - Package name.
-	* `is_latest` - Flag to return only latest package versions.
-	* `name` - Unique identifier for the package. NOTE - This is not an OCID.
+	* `is_latest` - Indicates whether this is the latest package version.
+	* `name` - Unique identifier for the package. Note that this is not an OCID.
 	* `software_sources` - List of software sources that provide the software package.
 		* `description` - Software source description.
 		* `display_name` - Software source name.
-		* `id` - The OCID of the software source.
+		* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
+		* `is_mandatory_for_autonomous_linux` - Indicates whether this is a required software source for Autonomous Linux instances. If true, the user can't unselect it.
 		* `software_source_type` - Type of the software source.
 	* `type` - Type of the package.
-	* `version` - Version of the installed package.
+	* `version` - Version of the available package.
 

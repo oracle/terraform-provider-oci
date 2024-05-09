@@ -37,6 +37,24 @@ func OsManagementHubManagedInstanceGroupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_managed_by_autonomous_linux": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"location": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"location_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"managed_instance_group_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -117,6 +135,37 @@ func (s *OsManagementHubManagedInstanceGroupsDataSourceCrud) Get() error {
 	if displayNameContains, ok := s.D.GetOkExists("display_name_contains"); ok {
 		tmp := displayNameContains.(string)
 		request.DisplayNameContains = &tmp
+	}
+
+	if isManagedByAutonomousLinux, ok := s.D.GetOkExists("is_managed_by_autonomous_linux"); ok {
+		tmp := isManagedByAutonomousLinux.(bool)
+		request.IsManagedByAutonomousLinux = &tmp
+	}
+
+	if location, ok := s.D.GetOkExists("location"); ok {
+		interfaces := location.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location") {
+			request.Location = tmp
+		}
+	}
+
+	if locationNotEqualTo, ok := s.D.GetOkExists("location_not_equal_to"); ok {
+		interfaces := locationNotEqualTo.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.LocationNotEqualTo = tmp
+		}
 	}
 
 	if managedInstanceGroupId, ok := s.D.GetOkExists("id"); ok {

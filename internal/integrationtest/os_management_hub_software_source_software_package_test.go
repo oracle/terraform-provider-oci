@@ -67,7 +67,7 @@ func TestOsManagementHubSoftwareSourceSoftwarePackageResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "architecture"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "checksum_type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "dependencies.#"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dependencies.#", "23"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "files.#"),
@@ -75,8 +75,11 @@ func TestOsManagementHubSoftwareSourceSoftwarePackageResource_basic(t *testing.T
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "last_modified_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_bytes"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.#"),
+
+				// TODO - API bug returns null osFamilies and/or softwareSources
+				//resource.TestCheckResourceAttr(singularDatasourceName, "os_families.#", "1"),
 			),
 		},
 	})

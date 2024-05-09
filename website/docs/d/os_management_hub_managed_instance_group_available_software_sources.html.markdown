@@ -10,8 +10,7 @@ description: |-
 # Data Source: oci_os_management_hub_managed_instance_group_available_software_sources
 This data source provides the list of Managed Instance Group Available Software Sources in Oracle Cloud Infrastructure Os Management Hub service.
 
-Lists available software sources for a specified managed instance group. Filter the list against a variety of 
-criteria including but not limited to its name.
+Lists available software sources for a specified managed instance group. Filter the list against a variety of criteria including but not limited to the software source name. The results list only software sources that have not already been added to the group.
 
 
 ## Example Usage
@@ -32,10 +31,10 @@ data "oci_os_management_hub_managed_instance_group_available_software_sources" "
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list.
+* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
 * `display_name` - (Optional) A filter to return resources that match the given display names.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
-* `managed_instance_group_id` - (Required) The managed instance group OCID.
+* `managed_instance_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 
 
 ## Attributes Reference
@@ -49,7 +48,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of available software sources.
-	* `compartment_id` - The OCID for the compartment.
-	* `display_name` - User friendly name for the software source.
-	* `id` - unique identifier that is immutable on creation.
+	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the software source.
+	* `display_name` - User-friendly name for the software source.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 

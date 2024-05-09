@@ -26,8 +26,12 @@ var (
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}},
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"lifecycle_stage_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.stages[0].id}`},
+		"location":              acctest.Representation{RepType: acctest.Optional, Create: []string{`ON_PREMISE`}},
+		"location_not_equal_to": acctest.Representation{RepType: acctest.Optional, Create: []string{`OCI_COMPUTE`}},
 		"os_family":             acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
-		"filter":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: OsManagementHubLifecycleStageGroupDataSourceFilterRepresentation},
+		"software_source_id":    acctest.Representation{RepType: acctest.Optional, Create: nil},
+		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubLifecycleStageGroupDataSourceFilterRepresentation},
 	}
 
 	OsManagementHubLifecycleStageGroupDataSourceFilterRepresentation = map[string]interface{}{
@@ -65,7 +69,12 @@ func TestOsManagementHubLifecycleStageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "lifecycle_stage_id"),
+				resource.TestCheckResourceAttr(datasourceName, "location.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "location_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(datasourceName, "software_source_id.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "lifecycle_stage_collection.#"),
 			),
 		},
 		// verify singular datasource
@@ -80,6 +89,8 @@ func TestOsManagementHubLifecycleStageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_environment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "location"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "managed_instance_ids.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "os_family"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "rank"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

@@ -10,8 +10,8 @@ description: |-
 # Data Source: oci_os_management_hub_software_source_module_streams
 This data source provides the list of Software Source Module Streams in Oracle Cloud Infrastructure Os Management Hub service.
 
-Lists module streams from the specified software source OCID. Filter the list against a variety of 
-criteria including but not limited to its module name and (stream) name.
+Lists module streams from the specified software source [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm). 
+Filter the list against a variety of criteria including but not limited to its module name and (stream) name.
 
 
 ## Example Usage
@@ -33,11 +33,11 @@ data "oci_os_management_hub_software_source_module_streams" "test_software_sourc
 
 The following arguments are supported:
 
-* `is_latest` - (Optional) A boolean variable that is used to list only the latest versions of packages, module streams, and stream profiles when set to true. All packages, module streams, and stream profiles are returned when set to false. 
+* `is_latest` - (Optional) Indicates whether to list only the latest versions of packages, module streams, and stream profiles.
 * `module_name` - (Optional) The name of a module. This parameter is required if a streamName is specified. 
 * `module_name_contains` - (Optional) A filter to return resources that may partially match the module name given.
 * `name` - (Optional) The name of the entity to be queried.
-* `software_source_id` - (Required) The software source OCID.
+* `software_source_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 
 
 ## Attributes Reference
@@ -58,5 +58,5 @@ The following attributes are exported:
 * `name` - The name of the stream.
 * `packages` - A list of packages that are contained by the stream.  Each element in the list is the name of a package.  The name is suitable to use as an argument to other OS Management Hub APIs that interact directly with packages. 
 * `profiles` - A list of profiles that are part of the stream.  Each element in the list is the name of a profile.  The name is suitable to use as an argument to other OS Management Hub APIs that interact directly with module stream profiles.  However, it is not URL encoded. 
-* `software_source_id` - The OCID of the software source that provides this module stream.
+* `software_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that provides this module stream.
 

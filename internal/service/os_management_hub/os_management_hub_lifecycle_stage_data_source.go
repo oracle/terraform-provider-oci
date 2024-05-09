@@ -48,6 +48,10 @@ func OsManagementHubLifecycleStageDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"location": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"managed_instance_ids": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -97,6 +101,10 @@ func OsManagementHubLifecycleStageDataSource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_mandatory_for_autonomous_linux": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"software_source_type": {
@@ -194,6 +202,8 @@ func (s *OsManagementHubLifecycleStageDataSourceCrud) SetData() error {
 	if s.Res.LifecycleEnvironmentId != nil {
 		s.D.Set("lifecycle_environment_id", *s.Res.LifecycleEnvironmentId)
 	}
+
+	s.D.Set("location", s.Res.Location)
 
 	managedInstanceIds := []interface{}{}
 	for _, item := range s.Res.ManagedInstanceIds {

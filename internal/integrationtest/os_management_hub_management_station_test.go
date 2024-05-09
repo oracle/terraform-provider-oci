@@ -26,11 +26,9 @@ import (
 )
 
 var (
-	OsManagementHubManagementStationRequiredOnlyResource = OsManagementHubManagementStationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation)
+	OsManagementHubManagementStationRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation)
 
-	OsManagementHubManagementStationResourceConfig = OsManagementHubManagementStationResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Update, OsManagementHubManagementStationRepresentation)
+	OsManagementHubManagementStationResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Update, OsManagementHubManagementStationRepresentation)
 
 	OsManagementHubManagementStationSingularDataSourceRepresentation = map[string]interface{}{
 		"management_station_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
@@ -41,6 +39,7 @@ var (
 		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"display_name_contains": acctest.Representation{RepType: acctest.Optional, Create: `displayNameContains`},
 		"id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_management_station.test_management_station.id}`},
+		"managed_instance_id":   acctest.Representation{RepType: acctest.Optional, Create: `${var.managed_instance_id}`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationDataSourceFilterRepresentation}}
 	OsManagementHubManagementStationDataSourceFilterRepresentation = map[string]interface{}{
@@ -54,9 +53,10 @@ var (
 		"hostname":       acctest.Representation{RepType: acctest.Required, Create: `hostname`, Update: `hostname2`},
 		"mirror":         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationMirrorRepresentation},
 		"proxy":          acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagementStationProxyRepresentation},
-		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		// "refresh_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 	OsManagementHubManagementStationMirrorRepresentation = map[string]interface{}{
 		"directory": acctest.Representation{RepType: acctest.Required, Create: `/directory`, Update: `/directory2`},
@@ -67,9 +67,9 @@ var (
 	OsManagementHubManagementStationProxyRepresentation = map[string]interface{}{
 		"hosts":      acctest.Representation{RepType: acctest.Required, Create: []string{`host`}},
 		"is_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"forward":    acctest.Representation{RepType: acctest.Required, Create: `https://forward.com`},
+		"port":       acctest.Representation{RepType: acctest.Required, Create: `1029`},
 	}
-
-	OsManagementHubManagementStationResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: os_management_hub/default
@@ -82,19 +82,25 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	managedInstanceId := utils.GetEnvSettingWithBlankDefault("managed_instance_for_station_ocid")
+	managedInstanceIdVariableStr := fmt.Sprintf("variable \"managed_instance_id\" { default = \"%s\" }\n", managedInstanceId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_os_management_hub_management_station.test_management_station"
 	datasourceName := "data.oci_os_management_hub_management_stations.test_management_stations"
 	singularDatasourceName := "data.oci_os_management_hub_management_station.test_management_station"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagementStationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create, OsManagementHubManagementStationRepresentation), "osmanagementhub", "managementStation", t)
 
 	acctest.ResourceTest(t, testAccCheckOsManagementHubManagementStationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagementStationResourceDependencies +
+			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Required, acctest.Create, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -116,11 +122,11 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagementStationResourceDependencies,
+			Config: config + compartmentIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagementStationResourceDependencies +
+			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -149,9 +155,44 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubManagementStationRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "mirror.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "mirror.0.directory", "/directory"),
+				resource.TestCheckResourceAttr(resourceName, "mirror.0.port", "50001"),
+				resource.TestCheckResourceAttr(resourceName, "mirror.0.sslcert", "/sslcert"),
+				resource.TestCheckResourceAttr(resourceName, "mirror.0.sslport", "50002"),
+				resource.TestCheckResourceAttr(resourceName, "proxy.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "proxy.0.forward", "https://forward.com"),
+				resource.TestCheckResourceAttr(resourceName, "proxy.0.hosts.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "proxy.0.is_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "proxy.0.port", "1029"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubManagementStationResourceDependencies +
+			Config: config + compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Update, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -179,9 +220,9 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config +
+			Config: config + managedInstanceIdVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_management_stations", "test_management_stations", acctest.Optional, acctest.Update, OsManagementHubManagementStationDataSourceRepresentation) +
-				compartmentIdVariableStr + OsManagementHubManagementStationResourceDependencies +
+				compartmentIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_management_station", "test_management_station", acctest.Optional, acctest.Update, OsManagementHubManagementStationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -206,6 +247,7 @@ func TestOsManagementHubManagementStationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "health.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "hostname", "hostname2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "mirror.#", "1"),

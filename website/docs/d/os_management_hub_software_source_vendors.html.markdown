@@ -30,7 +30,7 @@ data "oci_os_management_hub_software_source_vendors" "test_software_source_vendo
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the compartment that contains the resources to list. This parameter is required.
+* `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment. This parameter is required and returns only resources contained within the specified compartment.
 * `name` - (Optional) The name of the entity to be queried.
 
 
@@ -44,8 +44,8 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - List of SoftwareSourceVendor.
-	* `arch_types` - List of corresponding archTypes.
+* `items` - List of software source vendors.
+	* `arch_types` - List of corresponding architecture types.
 	* `name` - Name of the vendor providing the software source.
-	* `os_families` - List of corresponding osFamilies.
+	* `os_families` - List of corresponding operating system families.
 

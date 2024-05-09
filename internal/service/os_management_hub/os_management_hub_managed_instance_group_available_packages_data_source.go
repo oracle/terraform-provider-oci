@@ -99,6 +99,10 @@ func OsManagementHubManagedInstanceGroupAvailablePackagesDataSource() *schema.Re
 													Type:     schema.TypeString,
 													Computed: true,
 												},
+												"is_mandatory_for_autonomous_linux": {
+													Type:     schema.TypeBool,
+													Computed: true,
+												},
 												"software_source_type": {
 													Type:     schema.TypeString,
 													Computed: true,

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_os_management_hub_software_source_module_stream_profile
 This data source provides details about a specific Software Source Module Stream Profile resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Gets information about the specified module stream profile in a software source.
+Returns information about the specified module stream profile in a software source.
 
 
 ## Example Usage
@@ -30,8 +30,8 @@ data "oci_os_management_hub_software_source_module_stream_profile" "test_softwar
 The following arguments are supported:
 
 * `module_name` - (Required) The name of a module. 
-* `profile_name` - (Required) The name of the profile of the containing module stream.
-* `software_source_id` - (Required) The software source OCID.
+* `profile_name` - (Required) The name of the module stream profile.
+* `software_source_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source.
 * `stream_name` - (Required) The name of the stream of the containing module. 
 
 
