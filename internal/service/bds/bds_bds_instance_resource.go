@@ -477,6 +477,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
@@ -770,6 +771,18 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"is_reboot_required": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"local_disks_total_size_in_gbs": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
+						"os_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -853,12 +866,12 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		return tfresource.ReadResource(sync)
 	}
 
-	if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
-		err := sync.InstallOsPatch()
-		if err != nil {
-			return err
-		}
-	}
+	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+	//	err := sync.InstallOsPatch()
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 
 	if powerOff {
 		if err := sync.StopBdsInstance(); err != nil {
@@ -900,12 +913,12 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
 	}
 
-	if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
-		err := sync.InstallOsPatch()
-		if err != nil {
-			return err
-		}
-	}
+	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+	//	err := sync.InstallOsPatch()
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
@@ -2159,36 +2172,6 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
-func (s *BdsBdsInstanceResourceCrud) InstallOsPatch() error {
-	request := oci_bds.InstallOsPatchRequest{}
-
-	idTmp := s.D.Id()
-	request.BdsInstanceId = &idTmp
-
-	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-		tmp := clusterAdminPassword.(string)
-		request.ClusterAdminPassword = &tmp
-	}
-
-	if osPatchVersion, ok := s.D.GetOkExists("os_patch_version"); ok {
-		tmp := osPatchVersion.(string)
-		request.OsPatchVersion = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
-
-	_, err := s.Client.InstallOsPatch(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	return nil
-}
-
 func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -2359,6 +2342,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 		result["ip_address"] = string(*obj.IpAddress)
 	}
 
+	if obj.IsRebootRequired != nil {
+		result["is_reboot_required"] = bool(*obj.IsRebootRequired)
+	}
+
 	if obj.LocalDisksTotalSizeInGBs != nil {
 		result["local_disks_total_size_in_gbs"] = float64(*obj.LocalDisksTotalSizeInGBs)
 	}
@@ -2375,6 +2362,10 @@ func BdsNodeToMap(obj oci_bds.Node) map[string]interface{} {
 
 	if obj.Ocpus != nil {
 		result["ocpus"] = int(*obj.Ocpus)
+	}
+
+	if obj.OsVersion != nil {
+		result["os_version"] = string(*obj.OsVersion)
 	}
 
 	if obj.Shape != nil {

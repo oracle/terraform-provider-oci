@@ -12,4 +12,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_operation_certificate_managements_management", BdsBdsInstanceOperationCertificateManagementsManagementResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_patch_action", BdsBdsInstancePatchActionResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_os_patch_action", BdsBdsInstanceOSPatchActionResource())
 }
