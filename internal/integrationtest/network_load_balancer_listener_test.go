@@ -44,6 +44,7 @@ var (
 		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"is_ppv2enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `UDP`, Update: `TCP`},
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 	}
@@ -103,6 +104,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
@@ -125,6 +127,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerListenerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
@@ -160,6 +163,7 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "listener_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_ppv2enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
