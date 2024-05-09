@@ -77,19 +77,31 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 			s.D.Set("custom_software_source_filter", nil)
 		}
 
+		if v.IsAutoResolveDependencies != nil {
+			s.D.Set("is_auto_resolve_dependencies", *v.IsAutoResolveDependencies)
+		}
+
 		if v.IsAutomaticallyUpdated != nil {
 			s.D.Set("is_automatically_updated", *v.IsAutomaticallyUpdated)
 		}
 
+		if v.IsCreatedFromPackageList != nil {
+			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		s.D.Set("packages", v.Packages)
+
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
+			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
 		}
 		s.D.Set("vendor_software_sources", vendorSoftwareSources)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -131,6 +143,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		if v.RepoId != nil {
 			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -149,11 +165,21 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 	case oci_os_management_hub.VendorSoftwareSource:
 		s.D.Set("software_source_type", "VENDOR")
 
+		if v.IsMandatoryForAutonomousLinux != nil {
+			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
+		}
+
+		if v.OriginSoftwareSourceId != nil {
+			s.D.Set("origin_software_source_id", *v.OriginSoftwareSourceId)
+		}
+
 		s.D.Set("vendor_name", v.VendorName)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -187,6 +213,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 			s.D.Set("gpg_key_url", *v.GpgKeyUrl)
 		}
 
+		if v.IsMandatoryForAutonomousLinux != nil {
+			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
+		}
+
 		s.D.Set("os_family", v.OsFamily)
 
 		if v.PackageCount != nil {
@@ -195,6 +225,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		if v.RepoId != nil {
 			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -221,19 +255,31 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 			s.D.Set("custom_software_source_filter", nil)
 		}
 
+		if v.IsAutoResolveDependencies != nil {
+			s.D.Set("is_auto_resolve_dependencies", *v.IsAutoResolveDependencies)
+		}
+
+		if v.IsCreatedFromPackageList != nil {
+			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		s.D.Set("packages", v.Packages)
+
 		if v.SoftwareSourceVersion != nil {
 			s.D.Set("software_source_version", *v.SoftwareSourceVersion)
 		}
 
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
+			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
 		}
 		s.D.Set("vendor_software_sources", vendorSoftwareSources)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -275,6 +321,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		if v.RepoId != nil {
 			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
 		}
 
 		s.D.Set("state", v.LifecycleState)

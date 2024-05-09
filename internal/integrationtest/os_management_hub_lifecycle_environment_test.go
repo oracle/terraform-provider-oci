@@ -42,7 +42,10 @@ var (
 		"display_name":             acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}, Update: []string{`displayName2`}},
 		"display_name_contains":    acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"lifecycle_environment_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_lifecycle_environment.test_lifecycle_environment.id}`},
+		"location":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`OCI_COMPUTE`}},
+		"location_not_equal_to":    acctest.Representation{RepType: acctest.Optional, Create: []string{`ON_PREMISE`}},
 		"os_family":                acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
+		"state":                    acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubLifecycleEnvironmentDataSourceFilterRepresentation}}
 	OsManagementHubLifecycleEnvironmentDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -56,10 +59,10 @@ var (
 		"os_family":      acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
 		"stages":         []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubLifecycleEnvironmentStagesRepresentation}, {RepType: acctest.Required, Group: OsManagementHubLifecycleEnvironmentStagesProdRepresentation}},
 		"vendor_name":    acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
-		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: ignoreDefinedTagsChangesForOsmhLERep},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: ignoreDefinedTagsChangesForOsmhLERep},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"location":       acctest.Representation{RepType: acctest.Optional, Create: `OCI_COMPUTE`},
 	}
 	OsManagementHubLifecycleEnvironmentStagesRepresentation = map[string]interface{}{
 		"display_name": acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
@@ -92,6 +95,9 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
 	resourceName := "oci_os_management_hub_lifecycle_environment.test_lifecycle_environment"
 	datasourceName := "data.oci_os_management_hub_lifecycle_environments.test_lifecycle_environments"
@@ -141,6 +147,7 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "stages.0.compartment_id"),
@@ -165,6 +172,40 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubLifecycleEnvironmentResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_lifecycle_environment", "test_lifecycle_environment", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubLifecycleEnvironmentRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(resourceName, "stages.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "stages.0.display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "stages.0.freeform_tags.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "stages.0.rank", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + OsManagementHubLifecycleEnvironmentResourceDependencies +
@@ -176,6 +217,7 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "stages.0.compartment_id"),
@@ -208,8 +250,10 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "displayName"),
 				resource.TestCheckResourceAttrSet(datasourceName, "lifecycle_environment_id"),
+				resource.TestCheckResourceAttr(datasourceName, "location.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "location_not_equal_to.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_8"),
-
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "lifecycle_environment_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "lifecycle_environment_collection.0.items.#", "1"),
 			),
@@ -228,14 +272,18 @@ func TestOsManagementHubLifecycleEnvironmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "location", "OCI_COMPUTE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "managed_instance_ids.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.arch_type"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.compartment_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stages.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "stages.0.display_name", "displayName2"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "stages.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.lifecycle_environment_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.location"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "stages.0.managed_instance_ids.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.os_family"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "stages.0.rank", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "stages.0.state"),

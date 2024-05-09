@@ -1050,11 +1050,35 @@ optimizer
 
 os_management_hub
     
-* oci\_os\_management\_hub\_lifecycle\_environment
-* oci\_os\_management\_hub\_software\_source
-* oci\_os\_management\_hub\_managed\_instance\_group
-* oci\_os\_management\_hub\_management\_station
+* oci\_os\_management\_hub\_managed\_instance
+* oci\_os\_management\_hub\_managed\_instance\_update\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_install\_windows\_updates\_management
+* oci\_os\_management\_hub\_managed\_instance\_attach\_profile\_management
+* oci\_os\_management\_hub\_managed\_instance\_detach\_profile\_management
 * oci\_os\_management\_hub\_profile
+* oci\_os\_management\_hub\_scheduled\_job
+* oci\_os\_management\_hub\_lifecycle\_environment
+* oci\_os\_management\_hub\_lifecycle\_stage\_attach\_managed\_instances\_management
+* oci\_os\_management\_hub\_lifecycle\_stage\_detach\_managed\_instances\_management
+* oci\_os\_management\_hub\_lifecycle\_stage\_promote\_software\_source\_management
+* oci\_os\_management\_hub\_managed\_instance\_group
+* oci\_os\_management\_hub\_managed\_instance\_group\_attach\_managed\_instances\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_detach\_managed\_instances\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_attach\_software\_sources\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_detach\_software\_sources\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_install\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_remove\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_update\_all\_packages\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_manage\_module\_streams\_management
+* oci\_os\_management\_hub\_managed\_instance\_group\_install\_windows\_updates\_management
+* oci\_os\_management\_hub\_management\_station
+* oci\_os\_management\_hub\_management\_station\_refresh\_management
+* oci\_os\_management\_hub\_management\_station\_synchronize\_mirrors\_management
+* oci\_os\_management\_hub\_management\_station\_mirror\_synchronize\_management
+* oci\_os\_management\_hub\_software\_source
+* oci\_os\_management\_hub\_software\_source\_change\_availability\_management
+* oci\_os\_management\_hub\_software\_source\_add\_packages\_management
+* oci\_os\_management\_hub\_event
 
 osmanagement
 

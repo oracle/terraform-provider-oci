@@ -68,6 +68,12 @@ func (s *OsManagementHubManagedInstanceGroupDataSourceCrud) SetData() error {
 
 	s.D.Set("arch_type", s.Res.ArchType)
 
+	if s.Res.AutonomousSettings != nil {
+		s.D.Set("autonomous_settings", []interface{}{AutonomousSettingsToMap(s.Res.AutonomousSettings)})
+	} else {
+		s.D.Set("autonomous_settings", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -86,11 +92,21 @@ func (s *OsManagementHubManagedInstanceGroupDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsManagedByAutonomousLinux != nil {
+		s.D.Set("is_managed_by_autonomous_linux", *s.Res.IsManagedByAutonomousLinux)
+	}
+
+	s.D.Set("location", s.Res.Location)
+
 	if s.Res.ManagedInstanceCount != nil {
 		s.D.Set("managed_instance_count", *s.Res.ManagedInstanceCount)
 	}
 
 	s.D.Set("managed_instance_ids", s.Res.ManagedInstanceIds)
+
+	if s.Res.NotificationTopicId != nil {
+		s.D.Set("notification_topic_id", *s.Res.NotificationTopicId)
+	}
 
 	s.D.Set("os_family", s.Res.OsFamily)
 

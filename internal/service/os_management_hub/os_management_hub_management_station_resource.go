@@ -30,7 +30,6 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -129,8 +128,33 @@ func OsManagementHubManagementStationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"refresh_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
+			"health": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -210,7 +234,18 @@ func createOsManagementHubManagementStation(d *schema.ResourceData, m interface{
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementStationClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("refresh_trigger"); ok {
+		err := sync.RefreshManagementStationConfig()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readOsManagementHubManagementStation(d *schema.ResourceData, m interface{}) error {
@@ -226,7 +261,27 @@ func updateOsManagementHubManagementStation(d *schema.ResourceData, m interface{
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ManagementStationClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("refresh_trigger"); ok && sync.D.HasChange("refresh_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("refresh_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.RefreshManagementStationConfig()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("refresh_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteOsManagementHubManagementStation(d *schema.ResourceData, m interface{}) error {
@@ -359,6 +414,22 @@ func (s *OsManagementHubManagementStationResourceCrud) Get() error {
 }
 
 func (s *OsManagementHubManagementStationResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
+		err := s.ChangeManagementStationCompartment()
+		if err != nil {
+			return err
+		}
+	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_os_management_hub.UpdateManagementStationRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -455,6 +526,12 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Health != nil {
+		s.D.Set("health", []interface{}{StationHealthToMap(s.Res.Health)})
+	} else {
+		s.D.Set("health", nil)
+	}
+
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}
@@ -507,6 +584,54 @@ func (s *OsManagementHubManagementStationResourceCrud) SetData() error {
 
 	if s.Res.TotalMirrors != nil {
 		s.D.Set("total_mirrors", *s.Res.TotalMirrors)
+	}
+
+	return nil
+}
+
+func (s *OsManagementHubManagementStationResourceCrud) RefreshManagementStationConfig() error {
+	request := oci_os_management_hub.RefreshManagementStationConfigRequest{}
+
+	idTmp := s.D.Id()
+	request.ManagementStationId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.RefreshManagementStationConfig(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("refresh_trigger")
+	s.D.Set("refresh_trigger", val)
+
+	return s.Get()
+}
+
+func (s *OsManagementHubManagementStationResourceCrud) ChangeManagementStationCompartment() error {
+	request := oci_os_management_hub.ChangeManagementStationCompartmentRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.ManagementStationId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeManagementStationCompartment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
@@ -695,6 +820,8 @@ func ManagementStationSummaryToMap(obj oci_os_management_hub.ManagementStationSu
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	result["health_state"] = string(obj.HealthState)
+
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
 	}
@@ -762,4 +889,39 @@ func MirrorSyncStatusToMap(obj *oci_os_management_hub.MirrorSyncStatus) map[stri
 	}
 
 	return result
+}
+
+func StationHealthToMap(obj *oci_os_management_hub.StationHealth) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	result["state"] = string(obj.State)
+
+	return result
+}
+
+func (s *OsManagementHubManagementStationResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_os_management_hub.ChangeManagementStationCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.ManagementStationId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeManagementStationCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }

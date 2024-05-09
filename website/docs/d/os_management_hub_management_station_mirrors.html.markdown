@@ -31,9 +31,9 @@ data "oci_os_management_hub_management_station_mirrors" "test_management_station
 
 The following arguments are supported:
 
-* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable.  Example: `My new resource` 
+* `display_name` - (Optional) A filter to return resources that match the given user-friendly name.
 * `display_name_contains` - (Optional) A filter to return resources that may partially match the given display name.
-* `management_station_id` - (Required) The OCID of the management station.
+* `management_station_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
 * `mirror_states` - (Optional) List of Mirror state to filter by
 
 
