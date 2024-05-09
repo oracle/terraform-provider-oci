@@ -43,9 +43,11 @@ var (
 	listenerConnectionConfigurationRepresentation = map[string]interface{}{
 		"idle_timeout_in_seconds": acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 	}
+
 	listenerSslConfigurationRepresentationOciCerts = map[string]interface{}{
 		// note: cannot specify certificate_name along with trusted_certificate_authority_ids
 		"certificate_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{certificateIds}, Update: []string{certificateIds2}},
+		"has_session_resumption":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"cipher_suite_name":                 acctest.Representation{RepType: acctest.Optional, Create: `oci-default-ssl-cipher-suite-v1`, Update: `oci-default-ssl-cipher-suite-v1`},
 		"protocols":                         acctest.Representation{RepType: acctest.Optional, Create: []string{`TLSv1.2`}, Update: []string{`TLSv1.2`}},
 		"server_order_preference":           acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
@@ -297,6 +299,7 @@ func TestLoadBalancerListenerResourceLBCert_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
 				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.has_session_resumption", "false"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
@@ -432,6 +435,7 @@ func TestLoadBalancerListenerResourceLBCertToOciCerts_combo(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "routing_policy_name"),
 				resource.TestCheckResourceAttr(resourceName, "rule_set_names.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.has_session_resumption", "true"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.certificate_name.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.cipher_suite_name", "oci-default-ssl-cipher-suite-v1"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.protocols.#", "1"),
