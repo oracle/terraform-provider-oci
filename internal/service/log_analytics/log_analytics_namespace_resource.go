@@ -6,6 +6,9 @@ package log_analytics
 import (
 	"context"
 	"fmt"
+	"log"
+	"net/url"
+	"regexp"
 	"strings"
 	"time"
 
@@ -21,9 +24,12 @@ import (
 
 func LogAnalyticsNamespaceResource() *schema.Resource {
 	return &schema.Resource{
+		Importer: &schema.ResourceImporter{
+			State: schema.ImportStatePassthrough,
+		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("2m"),
-			Update: tfresource.GetTimeoutDuration("2m"),
+			Create: tfresource.GetTimeoutDuration("30m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createLogAnalyticsNamespace,
 		Read:   readLogAnalyticsNamespace,
@@ -82,7 +88,7 @@ type LogAnalyticsNamespaceResourceCrud struct {
 }
 
 func (s *LogAnalyticsNamespaceResourceCrud) ID() string {
-	return s.D.Get("namespace").(string)
+	return GetNamespaceCompositeId(s.D.Get("compartment_id").(string), s.D.Get("namespace").(string))
 }
 
 func (s *LogAnalyticsNamespaceResourceCrud) Create() error {
@@ -152,7 +158,14 @@ func (s *LogAnalyticsNamespaceResourceCrud) getNamespaceFromWorkRequest(workId *
 	if err != nil {
 		return err
 	}
-	s.D.SetId(*namespaceName)
+
+	var compartmentId *string
+	if compartmentIdFromD, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentIdFromD.(string)
+		compartmentId = &tmp
+	}
+
+	s.D.SetId(GetNamespaceCompositeId(*compartmentId, *namespaceName))
 
 	return s.Get()
 }
@@ -166,6 +179,13 @@ func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	} else {
+		compartmentId, _, err := parseCompartmentIdCompositeId(s.D.Id())
+		if err == nil {
+			request.CompartmentId = &compartmentId
+		} else {
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "log_analytics")
@@ -179,6 +199,13 @@ func (s *LogAnalyticsNamespaceResourceCrud) Get() error {
 	if ns, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := ns.(string)
 		namespace = &tmp
+	} else {
+		_, namespaceFromId, err := parseCompartmentIdCompositeId(s.D.Id())
+		if err == nil {
+			namespace = &namespaceFromId
+		} else {
+			log.Printf("[WARN] Get() unable to parse current ID: %s", s.D.Id())
+		}
 	}
 
 	for _, item := range response.Items {
@@ -306,4 +333,24 @@ func getErrorFromLogAnalyticsWorkRequest(client *oci_log_analytics.LogAnalyticsC
 	errorMessage := strings.Join(allErrs, "\n")
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *wId, entityType, action, errorMessage)
 	return workRequestErr
+}
+
+func parseCompartmentIdCompositeId(compositeId string) (compartmentId string, namespace string, err error) {
+	parts := strings.Split(compositeId, "/")
+	match, _ := regexp.MatchString("compartmentId/.*/namespace/.*", compositeId)
+	if !match || len(parts) != 4 {
+		err = fmt.Errorf("illegal compositeId %s encountered", compositeId)
+		return
+	}
+	compartmentId, _ = url.PathUnescape(parts[1])
+	namespace, _ = url.PathUnescape(parts[3])
+
+	return
+}
+
+func GetNamespaceCompositeId(compartmentId string, namespace string) string {
+	namespace = url.PathEscape(namespace)
+	compartmentId = url.PathEscape(compartmentId)
+	compositeId := "compartmentId/" + compartmentId + "/namespace/" + namespace
+	return compositeId
 }

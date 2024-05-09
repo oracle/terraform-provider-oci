@@ -11,6 +11,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
 
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
@@ -104,5 +105,26 @@ func TestLogAnalyticsNamespaceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_onboarded", "false"),
 			),
 		},
+		// verify resource import
+		{
+			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_log_analytics_namespace", "test_namespace", acctest.Required, acctest.Create, LogAnalyticsLogAnalyticsNamespaceResourceOffBoardRepresentation) +
+				compartmentIdVariableStr + LogAnalyticsLogAnalyticsNameSpaceResourceDependencies,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateIdFunc:       getLogAnalyticsNamespaceOnBoardImportId(resourceName),
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
 	})
+}
+
+func getLogAnalyticsNamespaceOnBoardImportId(resourceName string) resource.ImportStateIdFunc {
+	return func(s *terraform.State) (string, error) {
+		rs, ok := s.RootModule().Resources[resourceName]
+		if !ok {
+			return "", fmt.Errorf("not found: %s", resourceName)
+		}
+		return fmt.Sprintf("compartmentId/" + rs.Primary.Attributes["compartment_id"] + "/namespace/" + rs.Primary.Attributes["namespace"]), nil
+	}
 }
