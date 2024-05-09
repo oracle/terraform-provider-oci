@@ -345,8 +345,10 @@ func TestBdsBdsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.shape"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "number_of_nodes"),

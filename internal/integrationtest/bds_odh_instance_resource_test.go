@@ -65,7 +65,7 @@ var (
 		"kerberos_realm_name":      acctest.Representation{RepType: acctest.Optional, Create: `BDSCLOUDSERVICE.ORACLE.COM`},
 		"master_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"util_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
-		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeDenseShapeRepresentation},
+		"worker_node":              acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesOdhWorkerRepresentation},
 		"bootstrap_script_url":     acctest.Representation{RepType: acctest.Optional, Create: `${var.bootstrap_script_url}`, Update: `${var.bootstrap_script_urlU}`},
 		"compute_only_worker_node": acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
 		"edge_node":                acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeFlexShapeRepresentation},
@@ -76,9 +76,9 @@ var (
 
 		//Uncomment this when running in home region (PHX)
 		//	"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		//"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceOdhNetworkConfigRepresentation},
-		//"os_patch_version": acctest.Representation{RepType: acctest.Optional, Update: `ol7.9-x86_64-1.24.0.100-0.0`}, // Test when patch is available
+		//"os_patch_version": acctest.Representation{RepType: acctest.Optional, Update: `ol7.9-x86_64-1.28.0.619-0.0`}, // Test when patch is available
 	}
 
 	bdsInstanceOdhWithFlexComputeAndRegularMasterUtilRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceOdhRepresentation,
@@ -164,7 +164,7 @@ var (
 	}
 	bdsInstanceOdhNetworkConfigRepresentation = map[string]interface{}{
 		"cidr_block":              acctest.Representation{RepType: acctest.Optional, Create: `111.112.0.0/16`},
-		"is_nat_gateway_required": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_nat_gateway_required": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 	bdsInstanceKafkaBrokerNodeFlexShapeRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
@@ -683,6 +683,17 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.is_reboot_required"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.local_disks_total_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.memory_in_gbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.0.node_type", "MASTER"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.nvmes"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ocpus"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.os_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.0.shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ssh_fingerprint"),
+
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.state"),
