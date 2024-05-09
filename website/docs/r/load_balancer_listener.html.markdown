@@ -38,6 +38,7 @@ resource "oci_load_balancer_listener" "test_listener" {
 	ssl_configuration {
         #Optional
 		certificate_name = oci_load_balancer_certificate.test_certificate.name
+		has_session_resumption = var.listener_ssl_configuration_has_session_resumption
 		certificate_ids = var.listener_ssl_configuration_certificate_ids
 		cipher_suite_name = var.listener_ssl_configuration_cipher_suite_name
 		protocols = var.listener_ssl_configuration_protocols
@@ -78,6 +79,7 @@ The following arguments are supported:
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 
 	* `certificate_ids` - (Optional) (Updatable) Ids for Oracle Cloud Infrastructure certificates service certificates. Currently only a single Id may be passed.  Example: `[ocid1.certificate.oc1.us-ashburn-1.amaaaaaaav3bgsaa5o2q7rh5nfmkkukfkogasqhk6af2opufhjlqg7m6jqzq]` 
 	* `certificate_name` - (Optional) (Updatable) A friendly name for the certificate bundle. It must be unique and it cannot be changed. Valid certificate bundle names include only alphanumeric characters, dashes, and underscores. Certificate bundle names cannot contain spaces. Avoid entering confidential information.  Example: `example_certificate_bundle` 
+	* `has_session_resumption` - (Optional) (Updatable) Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again. If "true", the service resumes the previous TLS encrypted session. If "false", the service starts a new TLS encrypted session. Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.  Example: `true` 
 	* `cipher_suite_name` - (Optional) (Updatable) The name of the cipher suite to use for HTTPS or SSL connections.
 
 		If this field is not specified, the default is `oci-default-ssl-cipher-suite-v1`.

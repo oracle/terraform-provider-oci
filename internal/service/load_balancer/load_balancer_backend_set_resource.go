@@ -1122,6 +1122,10 @@ func SSLConfigurationToMap(obj *oci_load_balancer.SslConfiguration) map[string]i
 
 	result["server_order_preference"] = string(obj.ServerOrderPreference)
 
+	if obj.HasSessionResumption != nil {
+		result["has_session_resumption"] = bool(*obj.HasSessionResumption)
+	}
+
 	if obj.TrustedCertificateAuthorityIds != nil {
 		result["trusted_certificate_authority_ids"] = obj.TrustedCertificateAuthorityIds
 	}

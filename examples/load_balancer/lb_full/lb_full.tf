@@ -461,6 +461,7 @@ resource "oci_load_balancer_listener" "lb-listener2" {
     protocols               = ["TLSv1.1", "TLSv1.2"]
     server_order_preference = "ENABLED"
     cipher_suite_name       = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite.name
+    has_session_resumption  = true
   }
 }
 
@@ -492,6 +493,7 @@ resource "oci_load_balancer_listener" "lb-listener4" {
     protocols                          = ["TLSv1.1", "TLSv1.2"]
     server_order_preference            = "ENABLED"
     cipher_suite_name                  = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite3.name
+    has_session_resumption             = true
   }
 }
 
