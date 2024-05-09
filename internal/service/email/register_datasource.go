@@ -11,6 +11,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_email_dkims", EmailDkimsDataSource())
 	tfresource.RegisterDatasource("oci_email_email_domain", EmailEmailDomainDataSource())
 	tfresource.RegisterDatasource("oci_email_email_domains", EmailEmailDomainsDataSource())
+	tfresource.RegisterDatasource("oci_email_email_return_path", EmailEmailReturnPathDataSource())
+	tfresource.RegisterDatasource("oci_email_email_return_paths", EmailEmailReturnPathsDataSource())
 	tfresource.RegisterDatasource("oci_email_sender", EmailSenderDataSource())
 	tfresource.RegisterDatasource("oci_email_senders", EmailSendersDataSource())
 	tfresource.RegisterDatasource("oci_email_suppression", EmailSuppressionDataSource())

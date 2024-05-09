@@ -8,6 +8,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_email_dkim", EmailDkimResource())
 	tfresource.RegisterResource("oci_email_email_domain", EmailEmailDomainResource())
+	tfresource.RegisterResource("oci_email_email_return_path", EmailEmailReturnPathResource())
 	tfresource.RegisterResource("oci_email_sender", EmailSenderResource())
 	tfresource.RegisterResource("oci_email_suppression", EmailSuppressionResource())
 }

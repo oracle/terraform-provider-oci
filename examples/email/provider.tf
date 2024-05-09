@@ -22,7 +22,7 @@ variable "compartment_ocid" {
 }
 
 variable "region" {
-  default = "us-ashburn-1"
+  default = "ap-mumbai-1"
 }
 
 provider "oci" {

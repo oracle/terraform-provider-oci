@@ -82,6 +82,12 @@ func (s *EmailEmailDomainDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.DomainVerificationId != nil {
+		s.D.Set("domain_verification_id", *s.Res.DomainVerificationId)
+	}
+
+	s.D.Set("domain_verification_status", s.Res.DomainVerificationStatus)
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsSpf != nil {
