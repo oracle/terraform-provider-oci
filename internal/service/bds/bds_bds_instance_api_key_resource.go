@@ -29,6 +29,7 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 		},
 		Timeouts: tfresource.DefaultTimeout,
 		Create:   createBdsBdsInstanceApiKey,
+		Update:   updateBdsBdsInstanceApiKey,
 		Read:     readBdsBdsInstanceApiKey,
 		Delete:   deleteBdsBdsInstanceApiKey,
 		Schema: map[string]*schema.Schema{
@@ -41,7 +42,7 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 			"key_alias": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
+				//ForceNew: true,
 			},
 			"passphrase": {
 				Type:      schema.TypeString,
@@ -89,6 +90,14 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 }
 
 func createBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
+	sync := &BdsBdsInstanceApiKeyResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).BdsClient()
+
+	return tfresource.CreateResource(d, sync)
+}
+
+func updateBdsBdsInstanceApiKey(d *schema.ResourceData, m interface{}) error {
 	sync := &BdsBdsInstanceApiKeyResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).BdsClient()
