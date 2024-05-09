@@ -68,6 +68,13 @@ resource "oci_golden_gate_connection" "test_connection" {
 	key_id = oci_kms_key.test_key.id
 	key_store = var.connection_key_store
 	key_store_password = var.connection_key_store_password
+	locks {
+		#Required
+		type = var.connection_locks_type
+
+		#Optional
+		message = var.connection_locks_message
+	}
 	nsg_ids = var.connection_nsg_ids
 	password = var.connection_password
 	port = var.connection_port
@@ -156,6 +163,9 @@ The following arguments are supported:
 * `key_id` - (Optional) (Updatable) Refers to the customer's master key OCID.  If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key. 
 * `key_store` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The base64 encoded content of the KeyStore file. 
 * `key_store_password` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | REDIS) (Updatable) The KeyStore password. 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `type` - (Required) Type of the lock.
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `password` - (Required when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. 
 * `port` - (Required when connection_type=DB2 | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The port of an endpoint usually specified for a connection. 
@@ -252,6 +262,11 @@ The following attributes are exported:
 * `jndi_security_principal` - Specifies the identity of the principal (user) to be authenticated. e.g.: 'admin2'
 * `key_id` - Refers to the customer's master key OCID.  If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 * `port` - The port of an endpoint usually specified for a connection.
 * `private_ip` - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.

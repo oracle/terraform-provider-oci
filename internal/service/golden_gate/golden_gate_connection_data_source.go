@@ -108,6 +108,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -182,6 +188,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -251,6 +263,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -336,6 +354,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -411,6 +435,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -580,6 +610,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -649,6 +685,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -736,6 +778,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -801,6 +849,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -868,6 +922,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -933,6 +993,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1040,6 +1106,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1122,6 +1194,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1201,6 +1279,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1304,6 +1388,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1381,6 +1471,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1481,6 +1577,13 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1558,6 +1661,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1645,6 +1754,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1722,6 +1837,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1823,6 +1944,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1905,6 +2032,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1980,6 +2113,12 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {

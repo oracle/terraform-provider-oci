@@ -100,6 +100,12 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.NamespaceName != nil {
 		s.D.Set("namespace", *s.Res.NamespaceName)
 	}

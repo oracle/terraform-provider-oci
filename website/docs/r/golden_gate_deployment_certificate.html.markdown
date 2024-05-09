@@ -21,6 +21,9 @@ resource "oci_golden_gate_deployment_certificate" "test_deployment_certificate" 
 	certificate_content = var.deployment_certificate_certificate_content
 	deployment_id = oci_golden_gate_deployment.test_deployment.id
 	key = var.deployment_certificate_key
+
+	#Optional
+	is_lock_override = var.deployment_certificate_is_lock_override
 }
 ```
 
@@ -30,6 +33,7 @@ The following arguments are supported:
 
 * `certificate_content` - (Required) The base64 encoded content of the PEM file containing the SSL certificate. 
 * `deployment_id` - (Required) A unique Deployment identifier. 
+* `is_lock_override` - (Optional) Whether to override locks (if any exist).
 * `key` - (Required) The identifier key (unique name in the scope of the deployment) of the certificate being referenced.  It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
 
 
