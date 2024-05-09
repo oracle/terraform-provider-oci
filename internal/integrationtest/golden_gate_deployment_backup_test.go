@@ -68,6 +68,21 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
 
+		deploymentBackupLocksRepresentation = map[string]interface{}{
+			"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+			"message": acctest.Representation{RepType: acctest.Required, Create: `message`},
+		}
+
+		ignoreDefinedTagsAndLocks = map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`locks`, `defined_tags`, `is_lock_override`}},
+		}
+
+		lockedDeploymentBackupRepresentation = acctest.RepresentationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
+			"locks":            acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentBackupLocksRepresentation},
+			"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+			"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
+		})
+
 		DeploymentBackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation)
 
 		deploymentBackupDataSourceFilterRepresentation = map[string]interface{}{
@@ -106,10 +121,10 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create, deploymentBackupRepresentation))
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentBackupDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create with Lock
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, lockedDeploymentBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
@@ -118,6 +133,9 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -126,7 +144,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// delete Locked before next Create
 		{
 			Config: config,
 		},
@@ -333,6 +351,9 @@ func sweepGoldenGateDeploymentBackupResource(compartment string) error {
 			deleteDeploymentBackupRequest := oci_golden_gate.DeleteDeploymentBackupRequest{}
 
 			deleteDeploymentBackupRequest.DeploymentBackupId = &deploymentBackupId
+
+			var overrideLock = true
+			deleteDeploymentBackupRequest.IsLockOverride = &overrideLock
 
 			deleteDeploymentBackupRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDeploymentBackup(context.Background(), deleteDeploymentBackupRequest)

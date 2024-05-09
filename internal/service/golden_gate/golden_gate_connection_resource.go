@@ -292,6 +292,45 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Computed:  true,
 				Sensitive: true,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -792,6 +831,11 @@ func (s *GoldenGateConnectionResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.ConnectionId = &tmp
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.DeleteConnection(context.Background(), request)
@@ -852,6 +896,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -931,6 +981,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1004,6 +1060,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1093,6 +1155,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1170,6 +1238,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1347,6 +1421,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1420,6 +1500,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1511,6 +1597,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1580,6 +1672,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1651,6 +1749,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1720,6 +1824,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -1831,6 +1941,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1917,6 +2033,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2000,6 +2122,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -2107,6 +2235,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2188,6 +2322,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -2293,6 +2433,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2374,6 +2520,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -2465,6 +2617,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2546,6 +2704,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
 
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
@@ -2651,6 +2815,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2737,6 +2907,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2817,6 +2993,12 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -2851,6 +3033,21 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		return nil
 	}
 	return nil
+}
+
+func (s *GoldenGateConnectionResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_golden_gate.AddResourceLockDetails, error) {
+	result := oci_golden_gate.AddResourceLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_golden_gate.AddResourceLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bool) map[string]interface{} {
@@ -3495,6 +3692,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -3563,6 +3776,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -3626,6 +3855,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -3714,6 +3959,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -3781,6 +4042,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -3969,6 +4246,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4028,6 +4321,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -4109,6 +4418,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4168,6 +4493,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -4229,6 +4570,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4288,6 +4645,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -4416,6 +4789,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4531,6 +4920,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4625,6 +5030,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -4733,6 +5154,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -4804,6 +5241,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -4927,6 +5380,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -5006,6 +5475,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -5093,6 +5578,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -5172,6 +5673,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
+		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
 		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
@@ -5295,6 +5812,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -5390,6 +5923,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -5469,6 +6018,22 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := keyId.(string)
 			details.KeyId = &tmp
 		}
+		if locks, ok := s.D.GetOkExists("locks"); ok {
+			interfaces := locks.([]interface{})
+			tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+				converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("locks") {
+				details.Locks = tmp
+			}
+		}
 		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 			set := nsgIds.(*schema.Set)
 			interfaces := set.List()
@@ -5540,6 +6105,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -5603,6 +6172,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -5661,6 +6234,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -5744,6 +6321,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -5806,6 +6387,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -5983,6 +6568,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6037,6 +6626,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -6113,6 +6706,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6167,6 +6764,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -6223,6 +6824,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6277,6 +6882,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -6399,6 +7008,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6509,6 +7122,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6598,6 +7215,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -6701,6 +7322,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6767,6 +7392,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -6885,6 +7514,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -6959,6 +7592,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -7041,6 +7678,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -7115,6 +7756,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		}
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
 		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
@@ -7233,6 +7878,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -7322,6 +7971,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -7396,6 +8049,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+			tmp := isLockOverride.(bool)
+			request.IsLockOverride = &tmp
+		}
 		if keyId, ok := s.D.GetOkExists("key_id"); ok {
 			tmp := keyId.(string)
 			details.KeyId = &tmp
@@ -7439,6 +8096,11 @@ func (s *GoldenGateConnectionResourceCrud) updateCompartment(compartment interfa
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.ConnectionId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
