@@ -2310,7 +2310,13 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDirectoryObject(fiel
 		result.Name = &tmp
 	}
 
-	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+	/*if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+		tmp := path.(string)
+		result.Path = &tmp
+	}*/
+
+	path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path"))
+	if ok && s.D.HasChange("path") {
 		tmp := path.(string)
 		result.Path = &tmp
 	}
