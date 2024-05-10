@@ -466,5 +466,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-singapore-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "gda",
+        "realmKey": "oc38",
+        "regionIdentifier": "us-tukwila-2",
+        "realmDomainComponent": "oraclecloud38.com"
     }
 ]
