@@ -18,35 +18,21 @@ import (
 	"strings"
 )
 
-// UpdateEmailDomainDetails The attributes to update in the email domain.
-type UpdateEmailDomainDetails struct {
+// EmailReturnPathCollection Results of a ReturnPath search. Contains both ReturnPathSummary items and other information, such as metadata.
+type EmailReturnPathCollection struct {
 
-	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
-	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
-
-	// A string that describes the details about the domain. It does not have to be unique,
-	// and you can change it. Avoid entering confidential information.
-	Description *string `mandatory:"false" json:"description"`
-
-	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Department": "Finance"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	// List of email return paths.
+	Items []EmailReturnPathSummary `mandatory:"true" json:"items"`
 }
 
-func (m UpdateEmailDomainDetails) String() string {
+func (m EmailReturnPathCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateEmailDomainDetails) ValidateEnumValue() (bool, error) {
+func (m EmailReturnPathCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

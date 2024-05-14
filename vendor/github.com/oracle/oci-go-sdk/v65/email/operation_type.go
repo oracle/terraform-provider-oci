@@ -29,6 +29,9 @@ const (
 	OperationTypeDeleteEmailDomain OperationTypeEnum = "DELETE_EMAIL_DOMAIN"
 	OperationTypeMoveEmailDomain   OperationTypeEnum = "MOVE_EMAIL_DOMAIN"
 	OperationTypeUpdateEmailDomain OperationTypeEnum = "UPDATE_EMAIL_DOMAIN"
+	OperationTypeCreateReturnPath  OperationTypeEnum = "CREATE_RETURN_PATH"
+	OperationTypeDeleteReturnPath  OperationTypeEnum = "DELETE_RETURN_PATH"
+	OperationTypeUpdateReturnPath  OperationTypeEnum = "UPDATE_RETURN_PATH"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -40,6 +43,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"DELETE_EMAIL_DOMAIN": OperationTypeDeleteEmailDomain,
 	"MOVE_EMAIL_DOMAIN":   OperationTypeMoveEmailDomain,
 	"UPDATE_EMAIL_DOMAIN": OperationTypeUpdateEmailDomain,
+	"CREATE_RETURN_PATH":  OperationTypeCreateReturnPath,
+	"DELETE_RETURN_PATH":  OperationTypeDeleteReturnPath,
+	"UPDATE_RETURN_PATH":  OperationTypeUpdateReturnPath,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -51,6 +57,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"delete_email_domain": OperationTypeDeleteEmailDomain,
 	"move_email_domain":   OperationTypeMoveEmailDomain,
 	"update_email_domain": OperationTypeUpdateEmailDomain,
+	"create_return_path":  OperationTypeCreateReturnPath,
+	"delete_return_path":  OperationTypeDeleteReturnPath,
+	"update_return_path":  OperationTypeUpdateReturnPath,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -73,6 +82,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_EMAIL_DOMAIN",
 		"MOVE_EMAIL_DOMAIN",
 		"UPDATE_EMAIL_DOMAIN",
+		"CREATE_RETURN_PATH",
+		"DELETE_RETURN_PATH",
+		"UPDATE_RETURN_PATH",
 	}
 }
 

@@ -18,24 +18,10 @@ import (
 	"strings"
 )
 
-// CreateEmailDomainDetails The configuration details for creating a new email domain.
-type CreateEmailDomainDetails struct {
+// UpdateEmailReturnPathDetails The attributes to update in the email return path.
+type UpdateEmailReturnPathDetails struct {
 
-	// The name of the email domain in the Internet Domain Name System (DNS).
-	// The email domain name must be unique in the region for this tenancy.
-	// Domain names limited to ASCII characters use alphanumeric, dash ("-"), and dot (".") characters.
-	// The dash and dot are only allowed between alphanumeric characters.
-	// For details, see RFC 5321, section 4.1.2 (https://tools.ietf.org/html/rfc5321#section-4.1.2)
-	// Non-ASCII domain names should adopt IDNA2008 normalization (RFC 5891-5892).
-	Name *string `mandatory:"true" json:"name"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for this email domain.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
-	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
-
-	// A string that describes the details about the domain. It does not have to be unique,
+	// A string that describes the details about the email return path. It does not have to be unique,
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -50,14 +36,14 @@ type CreateEmailDomainDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateEmailDomainDetails) String() string {
+func (m UpdateEmailReturnPathDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateEmailDomainDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateEmailReturnPathDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
