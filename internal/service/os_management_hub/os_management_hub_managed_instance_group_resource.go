@@ -5,6 +5,7 @@ package os_management_hub
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -34,7 +35,6 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -45,14 +45,6 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"software_source_ids": {
-				Type:     schema.TypeList,
-				Required: true,
-				ForceNew: true,
-				Elem: &schema.Schema{
-					Type: schema.TypeString,
-				},
-			},
 			"vendor_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -60,6 +52,31 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 			},
 
 			// Optional
+			"autonomous_settings": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_data_collection_authorized": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"scheduled_job_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -78,17 +95,39 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"location": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"managed_instance_ids": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"notification_topic_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"software_source_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
 			},
 
 			// Computed
+			"is_managed_by_autonomous_linux": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"managed_instance_count": {
 				Type:     schema.TypeInt,
 				Computed: true,
@@ -117,6 +156,10 @@ func OsManagementHubManagedInstanceGroupResource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_mandatory_for_autonomous_linux": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"software_source_type": {
@@ -222,6 +265,17 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Create() error {
 		request.ArchType = oci_os_management_hub.ArchTypeEnum(archType.(string))
 	}
 
+	if autonomousSettings, ok := s.D.GetOkExists("autonomous_settings"); ok {
+		if tmpList := autonomousSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_settings", 0)
+			tmp, err := s.mapToUpdatableAutonomousSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AutonomousSettings = &tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -249,6 +303,10 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if location, ok := s.D.GetOkExists("location"); ok {
+		request.Location = oci_os_management_hub.ManagedInstanceLocationEnum(location.(string))
+	}
+
 	if managedInstanceIds, ok := s.D.GetOkExists("managed_instance_ids"); ok {
 		interfaces := managedInstanceIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -260,6 +318,11 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("managed_instance_ids") {
 			request.ManagedInstanceIds = tmp
 		}
+	}
+
+	if notificationTopicId, ok := s.D.GetOkExists("notification_topic_id"); ok {
+		tmp := notificationTopicId.(string)
+		request.NotificationTopicId = &tmp
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
@@ -312,7 +375,35 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Get() error {
 }
 
 func (s *OsManagementHubManagedInstanceGroupResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
+		err := s.ChangeManagedInstanceGroupCompartment()
+		if err != nil {
+			return err
+		}
+	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_os_management_hub.UpdateManagedInstanceGroupRequest{}
+
+	isManagedByAutonomousLinux, _ := s.D.GetOkExists("is_managed_by_autonomous_linux")
+	if autonomousSettings, ok := s.D.GetOkExists("autonomous_settings"); ok && isManagedByAutonomousLinux.(bool) {
+		if tmpList := autonomousSettings.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "autonomous_settings", 0)
+			tmp, err := s.mapToUpdatableAutonomousSettings(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AutonomousSettings = &tmp
+		}
+	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
@@ -338,6 +429,11 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.ManagedInstanceGroupId = &tmp
+
+	if notificationTopicId, ok := s.D.GetOkExists("notification_topic_id"); ok {
+		tmp := notificationTopicId.(string)
+		request.NotificationTopicId = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
 
@@ -365,6 +461,12 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) Delete() error {
 func (s *OsManagementHubManagedInstanceGroupResourceCrud) SetData() error {
 	s.D.Set("arch_type", s.Res.ArchType)
 
+	if s.Res.AutonomousSettings != nil {
+		s.D.Set("autonomous_settings", []interface{}{AutonomousSettingsToMap(s.Res.AutonomousSettings)})
+	} else {
+		s.D.Set("autonomous_settings", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -383,11 +485,21 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsManagedByAutonomousLinux != nil {
+		s.D.Set("is_managed_by_autonomous_linux", *s.Res.IsManagedByAutonomousLinux)
+	}
+
+	s.D.Set("location", s.Res.Location)
+
 	if s.Res.ManagedInstanceCount != nil {
 		s.D.Set("managed_instance_count", *s.Res.ManagedInstanceCount)
 	}
 
 	s.D.Set("managed_instance_ids", s.Res.ManagedInstanceIds)
+
+	if s.Res.NotificationTopicId != nil {
+		s.D.Set("notification_topic_id", *s.Res.NotificationTopicId)
+	}
 
 	s.D.Set("os_family", s.Res.OsFamily)
 
@@ -424,10 +536,39 @@ func (s *OsManagementHubManagedInstanceGroupResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *OsManagementHubManagedInstanceGroupResourceCrud) ChangeManagedInstanceGroupCompartment() error {
+	request := oci_os_management_hub.ChangeManagedInstanceGroupCompartmentRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.ManagedInstanceGroupId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeManagedInstanceGroupCompartment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func ManagedInstanceGroupSummaryToMap(obj oci_os_management_hub.ManagedInstanceGroupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["arch_type"] = string(obj.ArchType)
+
+	if obj.AutonomousSettings != nil {
+		result["autonomous_settings"] = []interface{}{AutonomousSettingsToMap(obj.AutonomousSettings)}
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -451,8 +592,18 @@ func ManagedInstanceGroupSummaryToMap(obj oci_os_management_hub.ManagedInstanceG
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsManagedByAutonomousLinux != nil {
+		result["is_managed_by_autonomous_linux"] = bool(*obj.IsManagedByAutonomousLinux)
+	}
+
+	result["location"] = string(obj.Location)
+
 	if obj.ManagedInstanceCount != nil {
 		result["managed_instance_count"] = int(*obj.ManagedInstanceCount)
+	}
+
+	if obj.NotificationTopicId != nil {
+		result["notification_topic_id"] = string(*obj.NotificationTopicId)
 	}
 
 	result["os_family"] = string(obj.OsFamily)
@@ -474,4 +625,38 @@ func ManagedInstanceGroupSummaryToMap(obj oci_os_management_hub.ManagedInstanceG
 	result["vendor_name"] = string(obj.VendorName)
 
 	return result
+}
+
+func (s *OsManagementHubManagedInstanceGroupResourceCrud) mapToUpdatableAutonomousSettings(fieldKeyFormat string) (oci_os_management_hub.UpdatableAutonomousSettings, error) {
+	result := oci_os_management_hub.UpdatableAutonomousSettings{}
+
+	if isDataCollectionAuthorized, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_data_collection_authorized")); ok {
+		tmp := isDataCollectionAuthorized.(bool)
+		result.IsDataCollectionAuthorized = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *OsManagementHubManagedInstanceGroupResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_os_management_hub.ChangeManagedInstanceGroupCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.ManagedInstanceGroupId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeManagedInstanceGroupCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
 }

@@ -28,6 +28,7 @@ var exportEmailSenderHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "sender",
 	DiscoverableLifecycleStates: []string{
 		string(oci_email.SenderLifecycleStateActive),
+		string(oci_email.SenderLifecycleStateNeedsAttention),
 	},
 }
 
@@ -56,10 +57,24 @@ var exportEmailDkimHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportEmailEmailReturnPathHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_email_email_return_path",
+	DatasourceClass:        "oci_email_email_return_paths",
+	DatasourceItemsAttr:    "email_return_path_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "email_return_path",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_email.EmailReturnPathLifecycleStateActive),
+		string(oci_email.EmailReturnPathLifecycleStateNeedsAttention),
+	},
+}
+
 var emailResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportEmailSenderHints},
 		{TerraformResourceHints: exportEmailEmailDomainHints},
+		{TerraformResourceHints: exportEmailEmailReturnPathHints},
 	},
 	"oci_email_email_domain": {
 		{

@@ -33,7 +33,6 @@ func OsManagementHubProfileResource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
@@ -49,6 +48,7 @@ func OsManagementHubProfileResource() *schema.Resource {
 					"LIFECYCLE",
 					"SOFTWARESOURCE",
 					"STATION",
+					"WINDOWS_STANDALONE",
 				}, true),
 			},
 
@@ -77,6 +77,11 @@ func OsManagementHubProfileResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_default_profile": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"lifecycle_stage_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -101,6 +106,12 @@ func OsManagementHubProfileResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"registration_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"software_source_ids": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -118,6 +129,10 @@ func OsManagementHubProfileResource() *schema.Resource {
 			},
 
 			// Computed
+			"is_service_provided_profile": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_environment": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -201,6 +216,10 @@ func OsManagementHubProfileResource() *schema.Resource {
 						},
 						"id": {
 							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_mandatory_for_autonomous_linux": {
+							Type:     schema.TypeBool,
 							Computed: true,
 						},
 						"software_source_type": {
@@ -332,6 +351,22 @@ func (s *OsManagementHubProfileResourceCrud) Get() error {
 }
 
 func (s *OsManagementHubProfileResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
+		err := s.ChangeProfileCompartment()
+		if err != nil {
+			return err
+		}
+	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_os_management_hub.UpdateProfileRequest{}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -354,6 +389,11 @@ func (s *OsManagementHubProfileResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+		tmp := isDefaultProfile.(bool)
+		request.IsDefaultProfile = &tmp
 	}
 
 	tmp := s.D.Id()
@@ -419,11 +459,21 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 		s.D.Set("lifecycle_stage", nil)
 		s.D.Set("lifecycle_stage_id", nil)
 
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
 		if v.ManagementStationId != nil {
 			s.D.Set("management_station_id", *v.ManagementStationId)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
+
+		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -476,11 +526,21 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 		s.D.Set("managed_instance_group", nil)
 		s.D.Set("managed_instance_group_id", nil)
 
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
 		if v.ManagementStationId != nil {
 			s.D.Set("management_station_id", *v.ManagementStationId)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
+
+		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -526,11 +586,21 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 		s.D.Set("lifecycle_environment", nil)
 		s.D.Set("lifecycle_stage", nil)
 
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
 		if v.ManagementStationId != nil {
 			s.D.Set("management_station_id", *v.ManagementStationId)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
+
+		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -566,11 +636,79 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
 		if v.ManagementStationId != nil {
 			s.D.Set("management_station_id", *v.ManagementStationId)
 		}
 
 		s.D.Set("os_family", v.OsFamily)
+
+		s.D.Set("registration_type", v.RegistrationType)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		s.D.Set("vendor_name", v.VendorName)
+	case oci_os_management_hub.WindowsStandaloneProfile:
+		s.D.Set("profile_type", "WINDOWS_STANDALONE")
+
+		s.D.Set("arch_type", v.ArchType)
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.Set("id", *v.Id)
+		}
+
+		if v.IsDefaultProfile != nil {
+			s.D.Set("is_default_profile", *v.IsDefaultProfile)
+		}
+
+		if v.IsServiceProvidedProfile != nil {
+			s.D.Set("is_service_provided_profile", *v.IsServiceProvidedProfile)
+		}
+
+		if v.ManagementStationId != nil {
+			s.D.Set("management_station_id", *v.ManagementStationId)
+		}
+
+		s.D.Set("os_family", v.OsFamily)
+
+		s.D.Set("registration_type", v.RegistrationType)
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -587,6 +725,31 @@ func (s *OsManagementHubProfileResourceCrud) SetData() error {
 		log.Printf("[WARN] Received 'profile_type' of unknown type %v", *s.Res)
 		return nil
 	}
+	return nil
+}
+
+func (s *OsManagementHubProfileResourceCrud) ChangeProfileCompartment() error {
+	request := oci_os_management_hub.ChangeProfileCompartmentRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.ProfileId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeProfileCompartment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -707,6 +870,14 @@ func ProfileSummaryToMap(obj oci_os_management_hub.ProfileSummary) map[string]in
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsDefaultProfile != nil {
+		result["is_default_profile"] = bool(*obj.IsDefaultProfile)
+	}
+
+	if obj.IsServiceProvidedProfile != nil {
+		result["is_service_provided_profile"] = bool(*obj.IsServiceProvidedProfile)
+	}
+
 	if obj.ManagementStationId != nil {
 		result["management_station_id"] = string(*obj.ManagementStationId)
 	}
@@ -714,6 +885,8 @@ func ProfileSummaryToMap(obj oci_os_management_hub.ProfileSummary) map[string]in
 	result["os_family"] = string(obj.OsFamily)
 
 	result["profile_type"] = string(obj.ProfileType)
+
+	result["registration_type"] = string(obj.RegistrationType)
 
 	result["state"] = string(obj.LifecycleState)
 
@@ -746,6 +919,11 @@ func (s *OsManagementHubProfileResourceCrud) mapToSoftwareSourceDetails(fieldKey
 	if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
 		tmp := id.(string)
 		result.Id = &tmp
+	}
+
+	if isMandatoryForAutonomousLinux, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_mandatory_for_autonomous_linux")); ok {
+		tmp := isMandatoryForAutonomousLinux.(bool)
+		result.IsMandatoryForAutonomousLinux = &tmp
 	}
 
 	if softwareSourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "software_source_type")); ok {
@@ -793,9 +971,16 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+			tmp := isDefaultProfile.(bool)
+			details.IsDefaultProfile = &tmp
+		}
 		if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
 			tmp := managementStationId.(string)
 			details.ManagementStationId = &tmp
+		}
+		if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+			details.RegistrationType = oci_os_management_hub.ProfileRegistrationTypeEnum(registrationType.(string))
 		}
 		request.CreateProfileDetails = details
 	case strings.ToLower("LIFECYCLE"):
@@ -826,9 +1011,16 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+			tmp := isDefaultProfile.(bool)
+			details.IsDefaultProfile = &tmp
+		}
 		if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
 			tmp := managementStationId.(string)
 			details.ManagementStationId = &tmp
+		}
+		if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+			details.RegistrationType = oci_os_management_hub.ProfileRegistrationTypeEnum(registrationType.(string))
 		}
 		request.CreateProfileDetails = details
 	case strings.ToLower("SOFTWARESOURCE"):
@@ -879,12 +1071,19 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+			tmp := isDefaultProfile.(bool)
+			details.IsDefaultProfile = &tmp
+		}
 		if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
 			tmp := managementStationId.(string)
 			details.ManagementStationId = &tmp
 		}
 		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+			details.RegistrationType = oci_os_management_hub.ProfileRegistrationTypeEnum(registrationType.(string))
 		}
 		if vendorName, ok := s.D.GetOkExists("vendor_name"); ok {
 			details.VendorName = oci_os_management_hub.VendorNameEnum(vendorName.(string))
@@ -926,12 +1125,19 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		if isDefaultProfile, ok := s.D.GetOkExists("is_default_profile"); ok {
+			tmp := isDefaultProfile.(bool)
+			details.IsDefaultProfile = &tmp
+		}
 		if managementStationId, ok := s.D.GetOkExists("management_station_id"); ok {
 			tmp := managementStationId.(string)
 			details.ManagementStationId = &tmp
 		}
 		if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 			details.OsFamily = oci_os_management_hub.OsFamilyEnum(osFamily.(string))
+		}
+		if registrationType, ok := s.D.GetOkExists("registration_type"); ok {
+			details.RegistrationType = oci_os_management_hub.ProfileRegistrationTypeEnum(registrationType.(string))
 		}
 		if vendorName, ok := s.D.GetOkExists("vendor_name"); ok {
 			details.VendorName = oci_os_management_hub.VendorNameEnum(vendorName.(string))
@@ -940,5 +1146,28 @@ func (s *OsManagementHubProfileResourceCrud) populateTopLevelPolymorphicCreatePr
 	default:
 		return fmt.Errorf("unknown profile_type '%v' was specified", profileType)
 	}
+	return nil
+}
+
+func (s *OsManagementHubProfileResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_os_management_hub.ChangeProfileCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.ProfileId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeProfileCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }

@@ -32,6 +32,20 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"availability_anywhere": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"availability_at_oci": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -50,6 +64,10 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"is_mandatory_for_autonomous_linux": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"os_family": {
 				Type:     schema.TypeList,
@@ -89,7 +107,128 @@ func OsManagementHubSoftwareSourcesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(OsManagementHubSoftwareSourceResource()),
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"software_source_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"software_source_version": {
+										Type:     schema.TypeString,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vendor_software_sources": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"display_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"arch_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"availability": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"availability_at_oci": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_mandatory_for_autonomous_linux": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"os_family": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"package_count": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"repo_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"size": {
+										Type:     schema.TypeFloat,
+										Computed: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"url": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vendor_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -145,6 +284,32 @@ func (s *OsManagementHubSoftwareSourcesDataSourceCrud) Get() error {
 		}
 	}
 
+	if availabilityAnywhere, ok := s.D.GetOkExists("availability_anywhere"); ok {
+		interfaces := availabilityAnywhere.([]interface{})
+		tmp := make([]oci_os_management_hub.AvailabilityEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.AvailabilityEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("availability_anywhere") {
+			request.AvailabilityAnywhere = tmp
+		}
+	}
+
+	if availabilityAtOci, ok := s.D.GetOkExists("availability_at_oci"); ok {
+		interfaces := availabilityAtOci.([]interface{})
+		tmp := make([]oci_os_management_hub.AvailabilityEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.AvailabilityEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("availability") {
+			request.AvailabilityAtOci = tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -171,6 +336,11 @@ func (s *OsManagementHubSoftwareSourcesDataSourceCrud) Get() error {
 		if len(tmp) != 0 || s.D.HasChange("display_name_not_equal_to") {
 			request.DisplayNameNotEqualTo = tmp
 		}
+	}
+
+	if isMandatoryForAutonomousLinux, ok := s.D.GetOkExists("is_mandatory_for_autonomous_linux"); ok {
+		tmp := isMandatoryForAutonomousLinux.(bool)
+		request.IsMandatoryForAutonomousLinux = &tmp
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {

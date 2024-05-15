@@ -1,3 +1,17 @@
+## 5.42.0 (May 15, 2024)
+
+### Added
+- VCNIP Provide IP Inventory view and IP Utilization alerts
+- Support for ExaDB-C@C Resize of Local Files Systems (non /u02)
+- Support for [DMS] Fixing AWS_S3 issue in the example file
+- Support for OCI NLB Proxy Protocol Support
+- Support for Email Delivery: Custom Return Path API
+session resumption support for LB
+- Support for OS Management Hub - OCI Instance Support & ALX Support
+- Create_management resource for Masking Report in Data Safe
+### Bug Fix
+- fix oci_log_analytics_namespace import issue
+
 ## 5.41.0 (May 07, 2024)
 
 ### Added

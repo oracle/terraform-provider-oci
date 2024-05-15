@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -60,6 +60,14 @@ var (
 		"db_node_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
 		"db_servers":                  acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"file_system_configuration_details": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation1},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation2},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation3},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation4},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation5},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation6}},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_local_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_sparse_diskgroup_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -78,6 +86,42 @@ var (
 		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `250`, Update: `260`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/u01`, Update: `/u01`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation1 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `25`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/`, Update: `/`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation2 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `20`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/tmp`, Update: `/tmp`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation3 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `20`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var`, Update: `/var`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation4 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `30`, Update: `40`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var/log`, Update: `/var/log`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation5 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `4`, Update: `14`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/home`, Update: `/home`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation6 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var/log/audit`},
+	}
+
 	DatabaseVmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
 )
 
@@ -143,6 +187,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -184,6 +231,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -220,6 +270,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -264,6 +317,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_servers.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "260"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.id"),
@@ -299,6 +355,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -306,9 +365,9 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_sparse_diskgroup_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "license_model", "LICENSE_INCLUDED"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "memory_size_in_gbs", "90"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
 			),

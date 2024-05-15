@@ -132,6 +132,11 @@ func LoadBalancerListenerResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"has_session_resumption": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"protocols": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -713,6 +718,11 @@ func (s *LoadBalancerListenerResourceCrud) mapToSSLConfigurationDetails(fieldKey
 
 	if serverOrderPreference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "server_order_preference")); ok {
 		result.ServerOrderPreference = oci_load_balancer.SslConfigurationDetailsServerOrderPreferenceEnum(serverOrderPreference.(string))
+	}
+
+	if hasSessionResumption, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "has_session_resumption")); ok {
+		tmp := hasSessionResumption.(bool)
+		result.HasSessionResumption = &tmp
 	}
 
 	if trustedCertificateAuthorityIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "trusted_certificate_authority_ids")); ok {

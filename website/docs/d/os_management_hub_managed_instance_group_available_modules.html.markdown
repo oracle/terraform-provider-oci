@@ -10,8 +10,7 @@ description: |-
 # Data Source: oci_os_management_hub_managed_instance_group_available_modules
 This data source provides the list of Managed Instance Group Available Modules in Oracle Cloud Infrastructure Os Management Hub service.
 
-Lists available modules that for the specified managed instance group. Filter the list against a variety of 
-criteria including but not limited to its name.
+List modules that are available for installation on the specified managed instance group. Filter the list against a variety of criteria including but not limited to module name.
 
 
 ## Example Usage
@@ -32,8 +31,8 @@ data "oci_os_management_hub_managed_instance_group_available_modules" "test_mana
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list.
-* `managed_instance_group_id` - (Required) The managed instance group OCID.
+* `compartment_id` - (Optional) The OCID of the compartment that contains the resources to list. This filter returns only resources contained within the specified compartment.
+* `managed_instance_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance group.
 * `name` - (Optional) The resource name. 
 * `name_contains` - (Optional) A filter to return resources that may partially match the name given.
 
@@ -48,7 +47,7 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - List of module stream profile.
-	* `name` - The name of the module that is available to be enabled on the managed instance group.
-	* `software_source_id` - The OCID of the software source that provides this module.
+* `items` - List of available modules.
+	* `name` - The name of the module that is available to the managed instance group.
+	* `software_source_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the software source that provides the module.
 

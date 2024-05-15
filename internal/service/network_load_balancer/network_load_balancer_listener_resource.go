@@ -63,6 +63,13 @@ func NetworkLoadBalancerListenerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+
+			"is_ppv2enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+
 			// Computed
 		},
 	}
@@ -122,6 +129,12 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
 		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
+
+	if isPpv2Enabled, ok := s.D.GetOkExists("is_ppv2enabled"); ok {
+		tmp := isPpv2Enabled.(bool)
+		request.IsPpv2Enabled = &tmp
+	}
+
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
@@ -312,6 +325,12 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 	if ipVersion, ok := s.D.GetOkExists("ip_version"); ok {
 		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
+
+	if isPpv2Enabled, ok := s.D.GetOkExists("is_ppv2enabled"); ok {
+		tmp := isPpv2Enabled.(bool)
+		request.IsPpv2Enabled = &tmp
+	}
+
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
 		tmp := listenerName.(string)
 		request.ListenerName = &tmp
@@ -383,6 +402,11 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 		s.D.Set("default_backend_set_name", *s.Res.DefaultBackendSetName)
 	}
 	s.D.Set("ip_version", s.Res.IpVersion)
+
+	if s.Res.IsPpv2Enabled != nil {
+		s.D.Set("is_ppv2enabled", *s.Res.IsPpv2Enabled)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -423,6 +447,11 @@ func NlbListenerSummaryToMap(obj oci_network_load_balancer.ListenerSummary) map[
 		result["default_backend_set_name"] = string(*obj.DefaultBackendSetName)
 	}
 	result["ip_version"] = string(obj.IpVersion)
+
+	if obj.IsPpv2Enabled != nil {
+		result["is_ppv2enabled"] = bool(*obj.IsPpv2Enabled)
+	}
+
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}

@@ -24,6 +24,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_library_masking_format", DataSafeLibraryMaskingFormatResource())
 	tfresource.RegisterResource("oci_data_safe_masking_policies_masking_column", DataSafeMaskingPoliciesMaskingColumnResource())
 	tfresource.RegisterResource("oci_data_safe_masking_policy", DataSafeMaskingPolicyResource())
+	tfresource.RegisterResource("oci_data_safe_masking_report_management", DataSafeMaskingReportManagementResource())
 	tfresource.RegisterResource("oci_data_safe_on_prem_connector", DataSafeOnPremConnectorResource())
 	tfresource.RegisterResource("oci_data_safe_report", DataSafeReportResource())
 	tfresource.RegisterResource("oci_data_safe_report_definition", DataSafeReportDefinitionResource())

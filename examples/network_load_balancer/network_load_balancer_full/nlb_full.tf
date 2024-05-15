@@ -380,7 +380,8 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
     interval_in_millis  = 10000
     retries             = 3
   }
-  depends_on   = [oci_network_load_balancer_backend_set.nlb-bes1]
+
+  depends_on            = [oci_network_load_balancer_backend_set.nlb-bes1]
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
@@ -388,7 +389,7 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
   policy                   = "THREE_TUPLE"
   is_fail_open = false
-  is_instant_failover_enabled = false
+  is_instant_failover_enabled = true
 
 
   health_checker {
@@ -414,6 +415,7 @@ resource "oci_network_load_balancer_listener" "nlb-listener1" {
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes1.name
   port                        = 80
   protocol                    = "TCP"
+  is_ppv2enabled	          = true
   depends_on = [oci_network_load_balancer_backend_set.nlb-bes3]
 }
 

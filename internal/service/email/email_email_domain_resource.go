@@ -55,6 +55,11 @@ func EmailEmailDomainResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"domain_verification_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -64,6 +69,10 @@ func EmailEmailDomainResource() *schema.Resource {
 
 			// Computed
 			"active_dkim_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"domain_verification_status": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -175,6 +184,11 @@ func (s *EmailEmailDomainResourceCrud) Create() error {
 	if description, ok := s.D.GetOkExists("description"); ok {
 		tmp := description.(string)
 		request.Description = &tmp
+	}
+
+	if domainVerificationId, ok := s.D.GetOkExists("domain_verification_id"); ok {
+		tmp := domainVerificationId.(string)
+		request.DomainVerificationId = &tmp
 	}
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
@@ -361,6 +375,11 @@ func (s *EmailEmailDomainResourceCrud) Update() error {
 		request.Description = &tmp
 	}
 
+	if domainVerificationId, ok := s.D.GetOkExists("domain_verification_id"); ok {
+		tmp := domainVerificationId.(string)
+		request.DomainVerificationId = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.EmailDomainId = &tmp
 
@@ -415,6 +434,12 @@ func (s *EmailEmailDomainResourceCrud) SetData() error {
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}
+
+	if s.Res.DomainVerificationId != nil {
+		s.D.Set("domain_verification_id", *s.Res.DomainVerificationId)
+	}
+
+	s.D.Set("domain_verification_status", s.Res.DomainVerificationStatus)
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 

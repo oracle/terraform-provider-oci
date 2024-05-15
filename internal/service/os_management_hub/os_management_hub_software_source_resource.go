@@ -38,10 +38,6 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"software_source_type": {
 				Type:             schema.TypeString,
 				Required:         true,
@@ -51,27 +47,6 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 					"VENDOR",
 					"VERSIONED",
 				}, true),
-			},
-			"vendor_software_sources": {
-				Type:     schema.TypeList,
-				Required: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"display_name": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-
-						// Computed
-					},
-				},
 			},
 
 			// Optional
@@ -93,16 +68,18 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
+
+									// Optional
 									"filter_type": {
 										Type:     schema.TypeString,
-										Required: true,
+										Optional: true,
+										Computed: true,
 									},
 									"module_name": {
 										Type:     schema.TypeString,
-										Required: true,
+										Optional: true,
+										Computed: true,
 									},
-
-									// Optional
 									"profile_name": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -125,12 +102,13 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"filter_type": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"filter_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"package_name": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -158,12 +136,13 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"filter_type": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 
 									// Optional
+									"filter_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"package_groups": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -194,22 +173,77 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"display_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_auto_resolve_dependencies": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_automatically_updated": {
 				Type:     schema.TypeBool,
 				Optional: true,
 				Computed: true,
+			},
+			"is_created_from_package_list": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"origin_software_source_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"packages": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"software_source_version": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"vendor_software_sources": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 
 			// Computed
@@ -218,6 +252,10 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 			},
 			"availability": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"availability_at_oci": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -237,6 +275,10 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"is_mandatory_for_autonomous_linux": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"os_family": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -247,6 +289,10 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 			},
 			"repo_id": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"size": {
+				Type:     schema.TypeFloat,
 				Computed: true,
 			},
 			"state": {
@@ -499,6 +545,22 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) Get() error {
 }
 
 func (s *OsManagementHubSoftwareSourceResourceCrud) Update() error {
+
+	if _, ok := s.D.GetOkExists("compartmentId"); ok && s.D.HasChange("compartmentId") {
+		err := s.ChangeSoftwareSourceCompartment()
+		if err != nil {
+			return err
+		}
+	}
+	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
+		oldRaw, newRaw := s.D.GetChange("compartment_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateCompartment(compartment)
+			if err != nil {
+				return err
+			}
+		}
+	}
 	request := oci_os_management_hub.UpdateSoftwareSourceRequest{}
 	err := s.populateTopLevelPolymorphicUpdateSoftwareSourceRequest(&request)
 	if err != nil {
@@ -544,19 +606,31 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("custom_software_source_filter", nil)
 		}
 
+		if v.IsAutoResolveDependencies != nil {
+			s.D.Set("is_auto_resolve_dependencies", *v.IsAutoResolveDependencies)
+		}
+
 		if v.IsAutomaticallyUpdated != nil {
 			s.D.Set("is_automatically_updated", *v.IsAutomaticallyUpdated)
 		}
 
+		if v.IsCreatedFromPackageList != nil {
+			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		s.D.Set("packages", v.Packages)
+
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
+			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
 		}
 		s.D.Set("vendor_software_sources", vendorSoftwareSources)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -600,6 +674,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("repo_id", *v.RepoId)
 		}
 
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -616,11 +694,21 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 	case oci_os_management_hub.VendorSoftwareSource:
 		s.D.Set("software_source_type", "VENDOR")
 
+		if v.IsMandatoryForAutonomousLinux != nil {
+			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
+		}
+
+		if v.OriginSoftwareSourceId != nil {
+			s.D.Set("origin_software_source_id", *v.OriginSoftwareSourceId)
+		}
+
 		s.D.Set("vendor_name", v.VendorName)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -658,6 +746,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("id", *v.Id)
 		}
 
+		if v.IsMandatoryForAutonomousLinux != nil {
+			s.D.Set("is_mandatory_for_autonomous_linux", *v.IsMandatoryForAutonomousLinux)
+		}
+
 		s.D.Set("os_family", v.OsFamily)
 
 		if v.PackageCount != nil {
@@ -666,6 +758,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		if v.RepoId != nil {
 			s.D.Set("repo_id", *v.RepoId)
+		}
+
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
 		}
 
 		s.D.Set("state", v.LifecycleState)
@@ -692,19 +788,31 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("custom_software_source_filter", nil)
 		}
 
+		if v.IsAutoResolveDependencies != nil {
+			s.D.Set("is_auto_resolve_dependencies", *v.IsAutoResolveDependencies)
+		}
+
+		if v.IsCreatedFromPackageList != nil {
+			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		s.D.Set("packages", v.Packages)
+
 		if v.SoftwareSourceVersion != nil {
 			s.D.Set("software_source_version", *v.SoftwareSourceVersion)
 		}
 
 		vendorSoftwareSources := []interface{}{}
 		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
+			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(&item))
 		}
 		s.D.Set("vendor_software_sources", vendorSoftwareSources)
 
 		s.D.Set("arch_type", v.ArchType)
 
 		s.D.Set("availability", v.Availability)
+
+		s.D.Set("availability_at_oci", v.AvailabilityAtOci)
 
 		s.D.Set("checksum_type", v.ChecksumType)
 
@@ -752,6 +860,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("repo_id", *v.RepoId)
 		}
 
+		if v.Size != nil {
+			s.D.Set("size", *v.Size)
+		}
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.SystemTags != nil {
@@ -769,6 +881,31 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 		log.Printf("[WARN] Received 'software_source_type' of unknown type %v", *s.Res)
 		return nil
 	}
+	return nil
+}
+
+func (s *OsManagementHubSoftwareSourceResourceCrud) ChangeSoftwareSourceCompartment() error {
+	request := oci_os_management_hub.ChangeSoftwareSourceCompartmentRequest{}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	idTmp := s.D.Id()
+	request.SoftwareSourceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeSoftwareSourceCompartment(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
 
@@ -867,20 +1004,6 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) mapToId(fieldKeyFormat strin
 	}
 
 	return result, nil
-}
-
-func IdToMap(obj oci_os_management_hub.Id) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	return result
 }
 
 func (s *OsManagementHubSoftwareSourceResourceCrud) mapToModuleStreamProfileFilter(fieldKeyFormat string) (oci_os_management_hub.ModuleStreamProfileFilter, error) {
@@ -1012,64 +1135,6 @@ func PackageGroupFilterToMap(obj oci_os_management_hub.PackageGroupFilter) map[s
 	return result
 }
 
-func SoftwareSourceSummaryToMap(obj oci_os_management_hub.SoftwareSourceSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["id"] = obj.GetId()
-	result["compartment_id"] = obj.GetCompartmentId()
-	result["display_name"] = obj.GetDisplayName()
-	result["repo_id"] = obj.GetRepoId()
-	result["url"] = obj.GetUrl()
-	if obj.GetTimeCreated() != nil {
-		result["time_created"] = obj.GetTimeCreated().String()
-	}
-	result["availability"] = obj.GetAvailability()
-	result["os_family"] = obj.GetOsFamily()
-	result["arch_type"] = obj.GetArchType()
-	result["description"] = obj.GetDescription()
-	result["package_count"] = strconv.FormatInt(*obj.GetPackageCount(), 10)
-	result["state"] = obj.GetLifecycleState()
-	result["freeform_tags"] = obj.GetFreeformTags()
-	if obj.GetDefinedTags() != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.GetDefinedTags())
-	}
-	if obj.GetSystemTags() != nil {
-		result["system_tags"] = tfresource.SystemTagsToMap(obj.GetSystemTags())
-	}
-
-	switch v := (obj).(type) {
-	case oci_os_management_hub.CustomSoftwareSourceSummary:
-		result["software_source_type"] = "CUSTOM"
-
-		vendorSoftwareSources := []interface{}{}
-		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
-		}
-		result["vendor_software_sources"] = vendorSoftwareSources
-	case oci_os_management_hub.VendorSoftwareSourceSummary:
-		result["software_source_type"] = "VENDOR"
-
-		result["vendor_name"] = string(v.VendorName)
-	case oci_os_management_hub.VersionedCustomSoftwareSourceSummary:
-		result["software_source_type"] = "VERSIONED"
-
-		if v.SoftwareSourceVersion != nil {
-			result["software_source_version"] = string(*v.SoftwareSourceVersion)
-		}
-
-		vendorSoftwareSources := []interface{}{}
-		for _, item := range v.VendorSoftwareSources {
-			vendorSoftwareSources = append(vendorSoftwareSources, IdToMap(item))
-		}
-		result["vendor_software_sources"] = vendorSoftwareSources
-	default:
-		log.Printf("[WARN] Received 'software_source_type' of unknown type %v", obj)
-		return nil
-	}
-
-	return result
-}
-
 func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicCreateSoftwareSourceRequest(request *oci_os_management_hub.CreateSoftwareSourceRequest) error {
 	//discriminator
 	softwareSourceTypeRaw, ok := s.D.GetOkExists("software_source_type")
@@ -1092,9 +1157,29 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 				details.CustomSoftwareSourceFilter = &tmp
 			}
 		}
+		if isAutoResolveDependencies, ok := s.D.GetOkExists("is_auto_resolve_dependencies"); ok {
+			tmp := isAutoResolveDependencies.(bool)
+			details.IsAutoResolveDependencies = &tmp
+		}
 		if isAutomaticallyUpdated, ok := s.D.GetOkExists("is_automatically_updated"); ok {
 			tmp := isAutomaticallyUpdated.(bool)
 			details.IsAutomaticallyUpdated = &tmp
+		}
+		if isCreatedFromPackageList, ok := s.D.GetOkExists("is_created_from_package_list"); ok {
+			tmp := isCreatedFromPackageList.(bool)
+			details.IsCreatedFromPackageList = &tmp
+		}
+		if packages, ok := s.D.GetOkExists("packages"); ok {
+			interfaces := packages.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("packages") {
+				details.Packages = tmp
+			}
 		}
 		if vendorSoftwareSources, ok := s.D.GetOkExists("vendor_software_sources"); ok {
 			interfaces := vendorSoftwareSources.([]interface{})
@@ -1135,6 +1220,35 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateSoftwareSourceDetails = details
+	case strings.ToLower("VENDOR"):
+		details := oci_os_management_hub.CreateVendorSoftwareSourceDetails{}
+		if originSoftwareSourceId, ok := s.D.GetOkExists("origin_software_source_id"); ok {
+			tmp := originSoftwareSourceId.(string)
+			details.OriginSoftwareSourceId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateSoftwareSourceDetails = details
 	case strings.ToLower("VERSIONED"):
 		details := oci_os_management_hub.CreateVersionedCustomSoftwareSourceDetails{}
 		if customSoftwareSourceFilter, ok := s.D.GetOkExists("custom_software_source_filter"); ok {
@@ -1145,6 +1259,26 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 					return err
 				}
 				details.CustomSoftwareSourceFilter = &tmp
+			}
+		}
+		if isAutoResolveDependencies, ok := s.D.GetOkExists("is_auto_resolve_dependencies"); ok {
+			tmp := isAutoResolveDependencies.(bool)
+			details.IsAutoResolveDependencies = &tmp
+		}
+		if isCreatedFromPackageList, ok := s.D.GetOkExists("is_created_from_package_list"); ok {
+			tmp := isCreatedFromPackageList.(bool)
+			details.IsCreatedFromPackageList = &tmp
+		}
+		if packages, ok := s.D.GetOkExists("packages"); ok {
+			interfaces := packages.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("packages") {
+				details.Packages = tmp
 			}
 		}
 		if softwareSourceVersion, ok := s.D.GetOkExists("software_source_version"); ok {
@@ -1218,6 +1352,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicU
 				details.CustomSoftwareSourceFilter = &tmp
 			}
 		}
+		if isAutoResolveDependencies, ok := s.D.GetOkExists("is_auto_resolve_dependencies"); ok {
+			tmp := isAutoResolveDependencies.(bool)
+			details.IsAutoResolveDependencies = &tmp
+		}
 		if isAutomaticallyUpdated, ok := s.D.GetOkExists("is_automatically_updated"); ok {
 			tmp := isAutomaticallyUpdated.(bool)
 			details.IsAutomaticallyUpdated = &tmp
@@ -1290,8 +1428,58 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicU
 		tmp := s.D.Id()
 		request.SoftwareSourceId = &tmp
 		request.UpdateSoftwareSourceDetails = details
+	case strings.ToLower("VERSIONED"):
+		details := oci_os_management_hub.UpdateVersionedCustomSoftwareSourceDetails{}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		tmp := s.D.Id()
+		request.SoftwareSourceId = &tmp
+		request.UpdateSoftwareSourceDetails = details
 	default:
 		return fmt.Errorf("unknown software_source_type '%v' was specified", softwareSourceType)
 	}
+	return nil
+}
+
+func (s *OsManagementHubSoftwareSourceResourceCrud) updateCompartment(compartment interface{}) error {
+	changeCompartmentRequest := oci_os_management_hub.ChangeSoftwareSourceCompartmentRequest{}
+
+	compartmentTmp := compartment.(string)
+	changeCompartmentRequest.CompartmentId = &compartmentTmp
+
+	idTmp := s.D.Id()
+	changeCompartmentRequest.SoftwareSourceId = &idTmp
+
+	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "os_management_hub")
+
+	_, err := s.Client.ChangeSoftwareSourceCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
 	return nil
 }
