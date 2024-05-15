@@ -41,6 +41,20 @@ func OsManagementHubLifecycleEnvironmentsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"location": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"location_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"os_family": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -54,11 +68,82 @@ func OsManagementHubLifecycleEnvironmentsDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(OsManagementHubLifecycleEnvironmentResource()),
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"arch_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"defined_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"location": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"os_family": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"stages": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem:     OsManagementHubLifecycleStagesDataSource().Schema["lifecycle_stage_collection"].Elem.(*schema.Resource).Schema["items"].Elem,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_modified": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"vendor_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},
@@ -118,6 +203,32 @@ func (s *OsManagementHubLifecycleEnvironmentsDataSourceCrud) Get() error {
 	if lifecycleEnvironmentId, ok := s.D.GetOkExists("id"); ok {
 		tmp := lifecycleEnvironmentId.(string)
 		request.LifecycleEnvironmentId = &tmp
+	}
+
+	if location, ok := s.D.GetOkExists("location"); ok {
+		interfaces := location.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.Location = tmp
+		}
+	}
+
+	if locationNotEqualTo, ok := s.D.GetOkExists("location_not_equal_to"); ok {
+		interfaces := locationNotEqualTo.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.LocationNotEqualTo = tmp
+		}
 	}
 
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {

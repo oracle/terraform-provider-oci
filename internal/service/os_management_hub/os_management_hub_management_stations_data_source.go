@@ -51,7 +51,92 @@ func OsManagementHubManagementStationsDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem:     tfresource.GetDataSourceItemSchema(OsManagementHubManagementStationResource()),
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"compartment_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"display_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"hostname": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"time_next_execution": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+									},
+									"defined_tags": {
+										Type:             schema.TypeMap,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+										Elem:             schema.TypeString,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"freeform_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"managed_instance_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"profile_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"scheduled_job_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"overall_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"health_state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"overall_percentage": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"mirror_capacity": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"state": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
 						},
 					},
 				},

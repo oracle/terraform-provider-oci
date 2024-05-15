@@ -21,6 +21,9 @@ import (
 // UpdateEmailDomainDetails The attributes to update in the email domain.
 type UpdateEmailDomainDetails struct {
 
+	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
+	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
+
 	// A string that describes the details about the domain. It does not have to be unique,
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`

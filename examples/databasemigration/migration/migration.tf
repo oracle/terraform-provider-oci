@@ -241,6 +241,12 @@ resource "oci_database_migration_connection" "test_connection_target_usr_managed
   }
 }
 
+variable "secret_access_key" {
+  default = ""
+}
+variable "access_key_id" {
+  default = ""
+}
 resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
 
@@ -263,14 +269,14 @@ resource "oci_database_migration_migration" "test_migration" {
   }
   data_transfer_medium_details_v2 {
     type = "AWS_S3"
-    access_key_id = "AKIA4XMMNYWWF4PYZ3EW"
+    access_key_id = var.access_key_id
     object_storage_bucket {
       bucket = "bucket"
       namespace = "namespace"
     }
     name = "AWS-S3"
     region = "Ashburn"
-    secret_access_key = "3xYJLMQkRDROe7/QzrZTgRDzeq2akfkn+Hb+C95D"
+    secret_access_key = var.secret_access_key
   }
   datapump_settings {
     export_directory_object {

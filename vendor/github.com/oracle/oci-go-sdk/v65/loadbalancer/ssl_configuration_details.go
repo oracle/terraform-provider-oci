@@ -28,6 +28,13 @@ type SslConfigurationDetails struct {
 	// Example: `true`
 	VerifyPeerCertificate *bool `mandatory:"false" json:"verifyPeerCertificate"`
 
+	// Whether the load balancer listener should resume an encrypted session by reusing the cryptographic parameters of a previous TLS session, without having to perform a full handshake again.
+	// If "true", the service resumes the previous TLS encrypted session.
+	// If "false", the service starts a new TLS encrypted session.
+	// Enabling session resumption improves performance but provides a lower level of security. Disabling session resumption improves security but reduces performance.
+	// Example: `true`
+	HasSessionResumption *bool `mandatory:"false" json:"hasSessionResumption"`
+
 	// Ids for OCI certificates service CA or CA bundles for the load balancer to trust.
 	// Example: `[ocid1.cabundle.oc1.us-ashburn-1.amaaaaaaav3bgsaagl4zzyqdop5i2vuwoqewdvauuw34llqa74otq2jdsfyq]`
 	TrustedCertificateAuthorityIds []string `mandatory:"false" json:"trustedCertificateAuthorityIds"`

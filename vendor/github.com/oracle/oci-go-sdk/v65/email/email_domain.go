@@ -43,6 +43,12 @@ type EmailDomain struct {
 	// SPF Authentication (https://docs.cloud.oracle.com/iaas/Content/Email/Concepts/overview.htm#components).
 	IsSpf *bool `mandatory:"false" json:"isSpf"`
 
+	// The current domain verification status.
+	DomainVerificationStatus DomainVerificationStatusTypeEnum `mandatory:"false" json:"domainVerificationStatus,omitempty"`
+
+	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
+	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
+
 	// The description of an email domain.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -78,6 +84,9 @@ func (m EmailDomain) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingEmailDomainLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEmailDomainLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDomainVerificationStatusTypeEnum(string(m.DomainVerificationStatus)); !ok && m.DomainVerificationStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DomainVerificationStatus: %s. Supported values are: %s.", m.DomainVerificationStatus, strings.Join(GetDomainVerificationStatusTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

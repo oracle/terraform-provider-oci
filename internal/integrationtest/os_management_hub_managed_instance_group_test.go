@@ -35,34 +35,45 @@ var (
 	}
 
 	OsManagementHubManagedInstanceGroupDataSourceRepresentation = map[string]interface{}{
-		"arch_type":                 acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
-		"compartment_id":            acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}, Update: []string{`displayName2`}},
-		"display_name_contains":     acctest.Representation{RepType: acctest.Optional, Create: `display`},
-		"managed_instance_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
-		"os_family":                 acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
-		"software_source_id":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceGroupDataSourceFilterRepresentation}}
+		"arch_type":                      acctest.Representation{RepType: acctest.Optional, Create: `X86_64`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"display_name":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`displayName`}, Update: []string{`displayName2`}},
+		"display_name_contains":          acctest.Representation{RepType: acctest.Optional, Create: `display`},
+		"is_managed_by_autonomous_linux": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"location":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`OCI_COMPUTE`}},
+		"location_not_equal_to":          acctest.Representation{RepType: acctest.Optional, Create: []string{`ON_PREMISE`}},
+		"managed_instance_group_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`},
+		"os_family":                      acctest.Representation{RepType: acctest.Optional, Create: `ORACLE_LINUX_8`},
+		"software_source_id":             acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`},
+		"filter":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubManagedInstanceGroupDataSourceFilterRepresentation},
+	}
 	OsManagementHubManagedInstanceGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_os_management_hub_managed_instance_group.test_managed_instance_group.id}`}},
 	}
 
 	OsManagementHubManagedInstanceGroupRepresentation = map[string]interface{}{
-		"arch_type":           acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"os_family":           acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
-		"software_source_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
-		"vendor_name":         acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
-		"description":         acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubManagedInstanceGroupIgnoreDefinedTagsRepresentation},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"arch_type":            acctest.Representation{RepType: acctest.Required, Create: `X86_64`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":         acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"os_family":            acctest.Representation{RepType: acctest.Required, Create: `ORACLE_LINUX_8`},
+		"vendor_name":          acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: OsManagementHubManagedInstanceGroupIgnoreDefinedTagsRepresentation},
+		"description":          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"location":             acctest.Representation{RepType: acctest.Optional, Create: `OCI_COMPUTE`},
+		"managed_instance_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"software_source_ids":  acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id}`}},
+	}
+	OsManagementHubManagedInstanceGroupAutonomousSettingsRepresentation = map[string]interface{}{
+		"is_data_collection_authorized": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	OsManagementHubManagedInstanceGroupIgnoreDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
+
+	OsManagementHubManagedInstanceGroupResourceDependencies = OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config
 )
 
 // issue-routing-tag: os_management_hub/default
@@ -75,19 +86,22 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
 	resourceName := "oci_os_management_hub_managed_instance_group.test_managed_instance_group"
 	datasourceName := "data.oci_os_management_hub_managed_instance_groups.test_managed_instance_groups"
 	singularDatasourceName := "data.oci_os_management_hub_managed_instance_group.test_managed_instance_group"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+OsManagementHubManagedInstanceGroupResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation), "osmanagementhub", "managedInstanceGroup", t)
 
 	acctest.ResourceTest(t, testAccCheckOsManagementHubManagedInstanceGroupDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
@@ -106,19 +120,22 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DefinedTagsDependencies,
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create, OsManagementHubManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_settings.0.is_data_collection_authorized", "false"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "software_sources.0.id"),
@@ -138,17 +155,52 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 			),
 		},
 
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(OsManagementHubManagedInstanceGroupRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_settings.0.is_data_collection_authorized", "false"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
+				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
+				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "software_sources.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "vendor_name", "ORACLE"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "location", "OCI_COMPUTE"),
 				resource.TestCheckResourceAttr(resourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttr(resourceName, "software_source_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "software_sources.0.id"),
@@ -167,7 +219,7 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_groups", "test_managed_instance_groups", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceGroupDataSourceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Optional, acctest.Update, OsManagementHubManagedInstanceGroupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -175,6 +227,7 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name_contains", "display"),
+				resource.TestCheckResourceAttr(datasourceName, "is_managed_by_autonomous_linux", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "managed_instance_group_id"),
 				resource.TestCheckResourceAttr(datasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttrSet(datasourceName, "software_source_id"),
@@ -182,17 +235,21 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 		},
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + DefinedTagsDependencies + OsManagementHubVendorSoftwareSourceOl8BaseosLatestX8664Config + OsManagementHubManagedInstanceGroupResourceConfig +
+			Config: config + compartmentIdVariableStr + OsManagementHubManagedInstanceGroupResourceDependencies + OsManagementHubManagedInstanceGroupResourceConfig +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_os_management_hub_managed_instance_group", "test_managed_instance_group", acctest.Required, acctest.Create, OsManagementHubManagedInstanceGroupSingularDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_group_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "arch_type", "X86_64"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_settings.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_settings.0.is_data_collection_authorized", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_managed_by_autonomous_linux"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "location", "OCI_COMPUTE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_instance_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "os_family", "ORACLE_LINUX_8"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "pending_job_count"),
@@ -200,7 +257,10 @@ func TestOsManagementHubManagedInstanceGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.0.description"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.0.display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.0.id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.0.is_mandatory_for_autonomous_linux"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "software_sources.0.software_source_type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_sources.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_modified"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vendor_name", "ORACLE"),

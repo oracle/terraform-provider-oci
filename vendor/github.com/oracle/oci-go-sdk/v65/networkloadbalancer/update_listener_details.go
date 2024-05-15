@@ -37,6 +37,9 @@ type UpdateListenerDetails struct {
 
 	// IP version associated with the listener.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
+
+	// Property to enable/disable PPv2 feature for this listener.
+	IsPpv2Enabled *bool `mandatory:"false" json:"isPpv2Enabled"`
 }
 
 func (m UpdateListenerDetails) String() string {

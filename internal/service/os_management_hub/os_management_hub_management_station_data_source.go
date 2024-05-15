@@ -84,6 +84,12 @@ func (s *OsManagementHubManagementStationDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.Health != nil {
+		s.D.Set("health", []interface{}{StationHealthToMap(s.Res.Health)})
+	} else {
+		s.D.Set("health", nil)
+	}
+
 	if s.Res.Hostname != nil {
 		s.D.Set("hostname", *s.Res.Hostname)
 	}

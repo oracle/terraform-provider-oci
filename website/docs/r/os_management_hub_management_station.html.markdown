@@ -10,7 +10,7 @@ description: |-
 # oci_os_management_hub_management_station
 This resource provides the Management Station resource in Oracle Cloud Infrastructure Os Management Hub service.
 
-Creates a management station.
+Create a management station. You must provide proxy and mirror configuration information.
 
 
 ## Example Usage
@@ -51,22 +51,23 @@ resource "oci_os_management_hub_management_station" "test_management_station" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Required) The OCID of the tenancy containing the Management Station.
+* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `description` - (Optional) (Updatable) Details describing the Management Station config.
-* `display_name` - (Required) (Updatable) Management Station name
+* `description` - (Optional) (Updatable) User-specified description of the management station. Avoid entering confidential information.
+* `display_name` - (Required) (Updatable) User-friendly name for the management station. Does not have to be unique and you can change the name later. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `hostname` - (Required) (Updatable) Name of the host
-* `mirror` - (Required) (Updatable) Information for creating a mirror configuration
-	* `directory` - (Required) (Updatable) Directory for the mirroring
-	* `port` - (Required) (Updatable) Default port for the mirror
-	* `sslcert` - (Optional) (Updatable) Local path for the sslcert
-	* `sslport` - (Required) (Updatable) Default sslport for the mirror
-* `proxy` - (Required) (Updatable) Information for creating a proxy configuration
-	* `forward` - (Optional) (Updatable) URL that the proxy will forward to
-	* `hosts` - (Optional) (Updatable) List of hosts
-	* `is_enabled` - (Required) (Updatable) To enable or disable the proxy (default true)
-	* `port` - (Optional) (Updatable) Port that the proxy will use
+* `hostname` - (Required) (Updatable) Hostname of the management station.
+* `mirror` - (Required) (Updatable) Information used to create the mirror configuration for a management station.
+	* `directory` - (Required) (Updatable) Path to the data volume on the management station where software source mirrors are stored.
+	* `port` - (Required) (Updatable) Default mirror listening port for http.
+	* `sslcert` - (Optional) (Updatable) Path to the SSL cerfificate.
+	* `sslport` - (Required) (Updatable) Default mirror listening port for https.
+* `proxy` - (Required) (Updatable) Information used to create the proxy configuration for a management station.
+	* `forward` - (Optional) (Updatable) The URL the proxy will forward to.
+	* `hosts` - (Optional) (Updatable) List of hosts.
+	* `is_enabled` - (Required) (Updatable) Indicates if the proxy should be enabled or disabled. Default is enabled.
+	* `port` - (Optional) (Updatable) Listening port used for the proxy.
+* `refresh_trigger` - (Optional) (Updatable) An optional property when incremented triggers Refresh. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -76,38 +77,41 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `compartment_id` - The OCID of the tenancy containing the Management Station.
+* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the management station.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `description` - Details describing the ManagementStation config.
-* `display_name` - ManagementStation name
+* `description` - User-specified description for the management station.
+* `display_name` - A user-friendly name for the management station.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `hostname` - Name of the host
-* `id` - OCID for the ManagementStation config
-* `managed_instance_id` - OCID for the Instance associated with the Management Station.
-* `mirror` - Information for a mirror configuration
-	* `directory` - Directory for the mirroring
-	* `port` - Default port for the mirror
-	* `sslcert` - Local path for the sslcert
-	* `sslport` - Default sslport for the mirror
-* `mirror_capacity` - A decimal number representing the mirror capacity
-* `mirror_sync_status` - Status summary of all repos
-	* `failed` - Total of mirrors in 'failed' state
-	* `queued` - Total of mirrors in 'queued' state
-	* `synced` - Total of mirrors in 'synced' state
-	* `syncing` - Total of mirrors in 'syncing' state
-	* `unsynced` - Total of mirrors in 'failed' state
-* `overall_percentage` - A decimal number representing the completeness percentage
-* `overall_state` - Current state of the mirroring
-* `profile_id` - OCID of the Profile associated with the Station
-* `proxy` - Information for a proxy configuration
-	* `forward` - URL that the proxy will forward to
-	* `hosts` - List of hosts
-	* `is_enabled` - To enable or disable the proxy (default true)
-	* `port` - Port that the proxy will use
-* `scheduled_job_id` - OCID of the Scheduled Job for mirror sync
-* `state` - The current state of the Management Station config.
+* `health` - Overall health information of the management station.
+	* `description` - Explanation of the health status.
+	* `state` - Overall health status of the management station.
+* `hostname` - Hostname of the management station.
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station.
+* `managed_instance_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance that is acting as the management station.
+* `mirror` - Mirror information used for the management station configuration.
+	* `directory` - Path to the data volume on the management station where software source mirrors are stored.
+	* `port` - Default mirror listening port for http.
+	* `sslcert` - Path to the SSL cerfificate.
+	* `sslport` - Default mirror listening port for https.
+* `mirror_capacity` - A decimal number representing the amount of mirror capacity used by the sync.
+* `mirror_sync_status` - Status summary of the mirror sync.
+	* `failed` - Total number of software sources that failed to sync.
+	* `queued` - Total number of software sources that are queued for sync.
+	* `synced` - Total number of software sources that successfully synced.
+	* `syncing` - Total number of software sources currently syncing.
+	* `unsynced` - Total number of software sources that have not yet been synced.
+* `overall_percentage` - A decimal number representing the progress of the current mirror sync.
+* `overall_state` - Current state of the mirror sync for the management station.
+* `profile_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the registration profile used for the management station.
+* `proxy` - Proxy information used for the management station configuration.
+	* `forward` - The URL the proxy will forward to.
+	* `hosts` - List of hosts.
+	* `is_enabled` - Indicates if the proxy should be enabled or disabled. Default is enabled.
+	* `port` - Listening port used for the proxy.
+* `scheduled_job_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the scheduled job for the mirror sync.
+* `state` - The current state of the management station.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `total_mirrors` - A decimal number representing the total of repos
+* `total_mirrors` - The number of software sources that the station is mirroring.
 
 ## Timeouts
 

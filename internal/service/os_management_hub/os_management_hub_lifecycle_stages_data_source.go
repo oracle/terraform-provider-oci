@@ -41,6 +41,20 @@ func OsManagementHubLifecycleStagesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"location": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"location_not_equal_to": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"os_family": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -98,26 +112,17 @@ func OsManagementHubLifecycleStagesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
-									"managed_instance_ids": {
-										Type:     schema.TypeList,
+									"lifecycle_environment_display_name": {
+										Type:     schema.TypeString,
 										Computed: true,
-										Elem: &schema.Resource{
-											Schema: map[string]*schema.Schema{
-												// Required
-
-												// Optional
-
-												// Computed
-												"display_name": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-												"id": {
-													Type:     schema.TypeString,
-													Computed: true,
-												},
-											},
-										},
+									},
+									"location": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"managed_instances": {
+										Type:     schema.TypeInt,
+										Computed: true,
 									},
 									"os_family": {
 										Type:     schema.TypeString,
@@ -147,6 +152,10 @@ func OsManagementHubLifecycleStagesDataSource() *schema.Resource {
 												},
 												"id": {
 													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"is_mandatory_for_autonomous_linux": {
+													Type:     schema.TypeBool,
 													Computed: true,
 												},
 												"software_source_type": {
@@ -240,6 +249,32 @@ func (s *OsManagementHubLifecycleStagesDataSourceCrud) Get() error {
 		request.LifecycleStageId = &tmp
 	}
 
+	if location, ok := s.D.GetOkExists("location"); ok {
+		interfaces := location.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.Location = tmp
+		}
+	}
+
+	if locationNotEqualTo, ok := s.D.GetOkExists("location_not_equal_to"); ok {
+		interfaces := locationNotEqualTo.([]interface{})
+		tmp := make([]oci_os_management_hub.ManagedInstanceLocationEnum, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = oci_os_management_hub.ManagedInstanceLocationEnum(interfaces[i].(string))
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("location_not_equal_to") {
+			request.LocationNotEqualTo = tmp
+		}
+	}
+
 	if osFamily, ok := s.D.GetOkExists("os_family"); ok {
 		request.OsFamily = oci_os_management_hub.ListLifecycleStagesOsFamilyEnum(osFamily.(string))
 	}
@@ -302,4 +337,85 @@ func (s *OsManagementHubLifecycleStagesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func LifecycleStageSummaryToMap(obj oci_os_management_hub.LifecycleStageSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["arch_type"] = string(obj.ArchType)
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.LifecycleEnvironmentDisplayName != nil {
+		result["lifecycle_environment_display_name"] = string(*obj.LifecycleEnvironmentDisplayName)
+	}
+
+	if obj.LifecycleEnvironmentId != nil {
+		result["lifecycle_environment_id"] = string(*obj.LifecycleEnvironmentId)
+	}
+
+	result["location"] = string(obj.Location)
+
+	if obj.ManagedInstances != nil {
+		result["managed_instances"] = int(*obj.ManagedInstances)
+		//result["managed_instance_ids"] = []string{}
+	}
+
+	result["os_family"] = string(obj.OsFamily)
+
+	if obj.Rank != nil {
+		result["rank"] = int(*obj.Rank)
+	}
+
+	if obj.SoftwareSourceId != nil {
+		result["software_source_id"] = []interface{}{SoftwareSourceDetailsToMap(*obj.SoftwareSourceId)}
+	}
+
+	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeModified != nil {
+		result["time_modified"] = obj.TimeModified.String()
+	}
+
+	result["vendor_name"] = string(obj.VendorName)
+
+	return result
+}
+
+func ManagedInstanceDetailsToMap(obj oci_os_management_hub.ManagedInstanceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	return result
 }

@@ -5,7 +5,6 @@ package os_management_hub
 
 import (
 	"context"
-	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_os_management_hub "github.com/oracle/oci-go-sdk/v65/osmanagementhub"
@@ -144,6 +143,13 @@ func OsManagementHubSoftwareSourceSoftwarePackagesDataSource() *schema.Resource 
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"os_families": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"size_in_bytes": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -168,6 +174,10 @@ func OsManagementHubSoftwareSourceSoftwarePackagesDataSource() *schema.Resource 
 												},
 												"id": {
 													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"is_mandatory_for_autonomous_linux": {
+													Type:     schema.TypeBool,
 													Computed: true,
 												},
 												"software_source_type": {
@@ -285,112 +295,4 @@ func (s *OsManagementHubSoftwareSourceSoftwarePackagesDataSourceCrud) SetData() 
 	}
 
 	return nil
-}
-
-func SoftwarePackageDependencyToMap(obj oci_os_management_hub.SoftwarePackageDependency) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Dependency != nil {
-		result["dependency"] = string(*obj.Dependency)
-	}
-
-	if obj.DependencyModifier != nil {
-		result["dependency_modifier"] = string(*obj.DependencyModifier)
-	}
-
-	if obj.DependencyType != nil {
-		result["dependency_type"] = string(*obj.DependencyType)
-	}
-
-	return result
-}
-
-func SoftwarePackageFileToMap(obj oci_os_management_hub.SoftwarePackageFile) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Checksum != nil {
-		result["checksum"] = string(*obj.Checksum)
-	}
-
-	if obj.ChecksumType != nil {
-		result["checksum_type"] = string(*obj.ChecksumType)
-	}
-
-	if obj.Path != nil {
-		result["path"] = string(*obj.Path)
-	}
-
-	if obj.SizeInBytes != nil {
-		result["size_in_bytes"] = strconv.FormatInt(*obj.SizeInBytes, 10)
-	}
-
-	if obj.TimeModified != nil {
-		result["time_modified"] = obj.TimeModified.String()
-	}
-
-	if obj.Type != nil {
-		result["type"] = string(*obj.Type)
-	}
-
-	return result
-}
-
-func SoftwarePackageSummaryToMap(obj oci_os_management_hub.SoftwarePackageSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-	result["architecture"] = string(obj.Architecture)
-	if obj.Checksum != nil {
-		result["checksum"] = string(*obj.Checksum)
-	}
-
-	if obj.ChecksumType != nil {
-		result["checksum_type"] = string(*obj.ChecksumType)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.IsLatest != nil {
-		result["is_latest"] = bool(*obj.IsLatest)
-	}
-
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
-	}
-
-	softwareSources := []interface{}{}
-	for _, item := range obj.SoftwareSources {
-		softwareSources = append(softwareSources, SoftwareSourceDetailsToMap(item))
-	}
-	result["software_sources"] = softwareSources
-
-	if obj.Type != nil {
-		result["type"] = string(*obj.Type)
-	}
-
-	if obj.Version != nil {
-		result["version"] = string(*obj.Version)
-	}
-
-	return result
-}
-
-func SoftwareSourceDetailsToMap(obj oci_os_management_hub.SoftwareSourceDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	result["software_source_type"] = string(obj.SoftwareSourceType)
-
-	return result
 }

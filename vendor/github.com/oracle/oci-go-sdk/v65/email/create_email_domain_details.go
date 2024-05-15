@@ -32,6 +32,9 @@ type CreateEmailDomainDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for this email domain.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
+	// Id for Domain in Domain Management (under governance) if DOMAINID verification method used.
+	DomainVerificationId *string `mandatory:"false" json:"domainVerificationId"`
+
 	// A string that describes the details about the domain. It does not have to be unique,
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`

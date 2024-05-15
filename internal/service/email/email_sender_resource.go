@@ -130,6 +130,7 @@ func (s *EmailSenderResourceCrud) CreatedPending() []string {
 func (s *EmailSenderResourceCrud) CreatedTarget() []string {
 	return []string{
 		string(oci_email.SenderLifecycleStateActive),
+		string(oci_email.SenderLifecycleStateNeedsAttention),
 	}
 }
 

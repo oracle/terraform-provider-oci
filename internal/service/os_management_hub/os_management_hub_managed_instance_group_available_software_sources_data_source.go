@@ -178,21 +178,3 @@ func (s *OsManagementHubManagedInstanceGroupAvailableSoftwareSourcesDataSourceCr
 
 	return nil
 }
-
-func AvailableSoftwareSourceSummaryToMap(obj oci_os_management_hub.AvailableSoftwareSourceSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	return result
-}

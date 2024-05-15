@@ -83,24 +83,33 @@ type SenderLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SenderLifecycleStateEnum
 const (
-	SenderLifecycleStateCreating SenderLifecycleStateEnum = "CREATING"
-	SenderLifecycleStateActive   SenderLifecycleStateEnum = "ACTIVE"
-	SenderLifecycleStateDeleting SenderLifecycleStateEnum = "DELETING"
-	SenderLifecycleStateDeleted  SenderLifecycleStateEnum = "DELETED"
+	SenderLifecycleStateCreating       SenderLifecycleStateEnum = "CREATING"
+	SenderLifecycleStateActive         SenderLifecycleStateEnum = "ACTIVE"
+	SenderLifecycleStateNeedsAttention SenderLifecycleStateEnum = "NEEDS_ATTENTION"
+	SenderLifecycleStateInactive       SenderLifecycleStateEnum = "INACTIVE"
+	SenderLifecycleStateFailed         SenderLifecycleStateEnum = "FAILED"
+	SenderLifecycleStateDeleting       SenderLifecycleStateEnum = "DELETING"
+	SenderLifecycleStateDeleted        SenderLifecycleStateEnum = "DELETED"
 )
 
 var mappingSenderLifecycleStateEnum = map[string]SenderLifecycleStateEnum{
-	"CREATING": SenderLifecycleStateCreating,
-	"ACTIVE":   SenderLifecycleStateActive,
-	"DELETING": SenderLifecycleStateDeleting,
-	"DELETED":  SenderLifecycleStateDeleted,
+	"CREATING":        SenderLifecycleStateCreating,
+	"ACTIVE":          SenderLifecycleStateActive,
+	"NEEDS_ATTENTION": SenderLifecycleStateNeedsAttention,
+	"INACTIVE":        SenderLifecycleStateInactive,
+	"FAILED":          SenderLifecycleStateFailed,
+	"DELETING":        SenderLifecycleStateDeleting,
+	"DELETED":         SenderLifecycleStateDeleted,
 }
 
 var mappingSenderLifecycleStateEnumLowerCase = map[string]SenderLifecycleStateEnum{
-	"creating": SenderLifecycleStateCreating,
-	"active":   SenderLifecycleStateActive,
-	"deleting": SenderLifecycleStateDeleting,
-	"deleted":  SenderLifecycleStateDeleted,
+	"creating":        SenderLifecycleStateCreating,
+	"active":          SenderLifecycleStateActive,
+	"needs_attention": SenderLifecycleStateNeedsAttention,
+	"inactive":        SenderLifecycleStateInactive,
+	"failed":          SenderLifecycleStateFailed,
+	"deleting":        SenderLifecycleStateDeleting,
+	"deleted":         SenderLifecycleStateDeleted,
 }
 
 // GetSenderLifecycleStateEnumValues Enumerates the set of values for SenderLifecycleStateEnum
@@ -117,6 +126,9 @@ func GetSenderLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"NEEDS_ATTENTION",
+		"INACTIVE",
+		"FAILED",
 		"DELETING",
 		"DELETED",
 	}

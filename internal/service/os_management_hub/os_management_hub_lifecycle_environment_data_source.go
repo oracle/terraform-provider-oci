@@ -86,6 +86,8 @@ func (s *OsManagementHubLifecycleEnvironmentDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("location", s.Res.Location)
+
 	managedInstanceIds := []interface{}{}
 	for _, item := range s.Res.ManagedInstanceIds {
 		managedInstanceIds = append(managedInstanceIds, ManagedInstanceDetailsToMap(item))
