@@ -828,7 +828,20 @@ func (s *CoreInstancePoolResourceCrud) mapToUpdateInstancePoolPlacementConfigura
 
 	if primarySubnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_subnet_id")); ok {
 		tmp := primarySubnetId.(string)
-		result.PrimarySubnetId = &tmp
+		if tmp != "" {
+			result.PrimarySubnetId = &tmp
+		}
+	}
+
+	if primaryVnicSubnets, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets")); ok {
+		if tmpList := primaryVnicSubnets.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "primary_vnic_subnets"), 0)
+			tmp, err := s.mapToInstancePoolPlacementPrimarySubnet(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert primary_vnic_subnets, encountered error: %v", err)
+			}
+			result.PrimaryVnicSubnets = &tmp
+		}
 	}
 
 	result.SecondaryVnicSubnets = []oci_core.InstancePoolPlacementSecondaryVnicSubnet{}
