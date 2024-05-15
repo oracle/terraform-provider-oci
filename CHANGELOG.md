@@ -1,4 +1,4 @@
-## 5.42.0 (Unreleased)
+## 5.42.0 (May 15, 2024)
 
 ### Added
 - VCNIP Provide IP Inventory view and IP Utilization alerts
