@@ -201,6 +201,22 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.EncryptionKey != nil {
+		encryptionKeyArray := []interface{}{}
+		if encryptionKeyMap := AutonomousDatabaseEncryptionKeyDetailsToMap(&s.Res.EncryptionKey); encryptionKeyMap != nil {
+			encryptionKeyArray = append(encryptionKeyArray, encryptionKeyMap)
+		}
+		s.D.Set("encryption_key", encryptionKeyArray)
+	} else {
+		s.D.Set("encryption_key", nil)
+	}
+
+	encryptionKeyHistoryEntry := []interface{}{}
+	for _, item := range s.Res.EncryptionKeyHistoryEntry {
+		encryptionKeyHistoryEntry = append(encryptionKeyHistoryEntry, AutonomousDatabaseEncryptionKeyHistoryEntryToMap(item))
+	}
+	s.D.Set("encryption_key_history_entry", encryptionKeyHistoryEntry)
+
 	if s.Res.FailedDataRecoveryInSeconds != nil {
 		s.D.Set("failed_data_recovery_in_seconds", *s.Res.FailedDataRecoveryInSeconds)
 	}
