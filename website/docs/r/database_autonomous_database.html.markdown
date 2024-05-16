@@ -61,6 +61,24 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	defined_tags = var.autonomous_database_defined_tags
 	disaster_recovery_type = var.autonomous_database_disaster_recovery_type
 	display_name = var.autonomous_database_display_name
+	encryption_key {
+
+		#Optional
+		arn_role = var.autonomous_database_encryption_key_arn_role
+		autonomous_database_provider = var.autonomous_database_encryption_key_autonomous_database_provider
+		certificate_directory_name = var.autonomous_database_encryption_key_certificate_directory_name
+		certificate_id = oci_apigateway_certificate.test_certificate.id
+		directory_name = var.autonomous_database_encryption_key_directory_name
+		external_id = oci_database_external.test_external.id
+		key_arn = var.autonomous_database_encryption_key_key_arn
+		key_name = oci_kms_key.test_key.name
+		kms_key_id = oci_kms_key.test_key.id
+		okv_kms_key = var.autonomous_database_encryption_key_okv_kms_key
+		okv_uri = var.autonomous_database_encryption_key_okv_uri
+		service_endpoint_uri = var.autonomous_database_encryption_key_service_endpoint_uri
+		vault_id = oci_kms_vault.test_vault.id
+		vault_uri = var.autonomous_database_encryption_key_vault_uri
+	}
 	freeform_tags = {"Department"= "Finance"}
     in_memory_percentage = var.autonomous_database_in_memory_percentage
 	is_access_control_enabled = var.autonomous_database_is_access_control_enabled
@@ -157,7 +175,7 @@ The following arguments are supported:
 * `data_storage_size_in_tbs` - (Optional) (Updatable) The size, in terabytes, of the data volume that will be created and attached to the database. This storage can later be scaled up if needed. For Autonomous Databases on dedicated Exadata infrastructure, the maximum storage value is determined by the infrastructure shape. See [Characteristics of Infrastructure Shapes](https://www.oracle.com/pls/topic/lookup?ctx=en/cloud/paas/autonomous-database&id=ATPFG-GUID-B0F033C1-CC5A-42F0-B2E7-3CECFEDA1FD1) for shape details.  A full Exadata service is allocated when the Autonomous Database size is set to the upper limit (384 TB).
 
 	**Note:** This parameter cannot be used with the `dataStorageSizeInGBs` parameter. This input is ignored for Always Free resources.
-* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases. It can be set to `ENTERPRISE_EDITION` or `STANDARD_EDITION`. 
+* `database_edition` - (Optional) (Updatable) The Oracle Database Edition that applies to the Autonomous databases. It can be set to `ENTERPRISE_EDITION` or `STANDARD_EDITION`.
 * `db_name` - (Optional) The database name. The name must begin with an alphabetic character and can contain a maximum of 14 alphanumeric characters. Special characters are not permitted. The database name must be unique in the tenancy. It is required in all cases except when creating a cross-region Autonomous Data Guard standby instance or a cross-region disaster recovery standby instance.
 * `db_tools_details` - (Optional) (Updatable) The list of database tools details.
 
@@ -177,6 +195,21 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `disaster_recovery_type` - (Required when source=CROSS_TENANCY_DISASTER_RECOVERY) Indicates the disaster recovery (DR) type of the standby Autonomous Database Serverless instance. Autonomous Data Guard (ADG) DR type provides business critical DR with a faster recovery time objective (RTO) during failover or switchover. Backup-based DR type provides lower cost DR with a slower RTO during failover or switchover. 
 * `display_name` - (Optional) (Updatable) The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `encryption_key` - (Optional) (Updatable) Details of the Autonomous Database encryption key.
+	* `arn_role` - (Applicable when provider=AWS) (Updatable) AWS ARN role
+	* `autonomous_database_provider` - (Optional) (Updatable) The provider for the Autonomous Database encryption key.
+	* `certificate_directory_name` - (Required when provider=OKV) (Updatable) OKV certificate directory name
+	* `certificate_id` - (Applicable when provider=OKV) (Updatable) OKV certificate id
+	* `directory_name` - (Required when provider=OKV) (Updatable) OKV wallet directory name
+	* `external_id` - (Applicable when provider=AWS) (Updatable) AWS external ID
+	* `key_arn` - (Required when provider=AWS) (Updatable) AWS key ARN
+	* `key_name` - (Required when provider=AZURE) (Updatable) Azure key name
+	* `kms_key_id` - (Required when provider=OCI) (Updatable) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `okv_kms_key` - (Required when provider=OKV) (Updatable) UUID of OKV KMS Key
+	* `okv_uri` - (Required when provider=OKV) (Updatable) URI of OKV server
+	* `service_endpoint_uri` - (Required when provider=AWS) (Updatable) AWS key service endpoint URI
+	* `vault_id` - (Required when provider=OCI) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	* `vault_uri` - (Required when provider=AZURE) (Updatable) Azure vault URI
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `in_memory_percentage` - (Optional) (Updatable) The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database. This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 * `is_access_control_enabled` - (Optional) (Updatable) Indicates if the database-level access control is enabled. If disabled, database access is defined by the network security rules. If enabled, database access is restricted to the IP addresses defined by the rules specified with the `whitelistedIps` property. While specifying `whitelistedIps` rules is optional, if database-level access control is enabled and no rules are specified, the database will become inaccessible. The rules can be added later using the `UpdateAutonomousDatabase` API operation or edit option in console. When creating a database clone, the desired access control setting should be specified. By default, database-level access control will be disabled for the clone.
@@ -384,10 +417,42 @@ The following attributes are exported:
 	* AJD - indicates an Autonomous JSON Database
 	* APEX - indicates an Autonomous Database with the Oracle APEX Application Development workload type.
 
-	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 
+	This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `disaster_recovery_region_type` - **Deprecated** The disaster recovery (DR) region type of the Autonomous Database. For Serverless Autonomous Databases, DR associations have designated primary (`PRIMARY`) and standby (`REMOTE`) regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `encryption_key` - Details of the Autonomous Database encryption key.
+	* `arn_role` - AWS ARN role
+	* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
+	* `certificate_directory_name` - OKV certificate directory name
+	* `certificate_id` - OKV certificate id
+	* `directory_name` - OKV wallet directory name
+	* `external_id` - AWS external ID
+	* `key_arn` - AWS key ARN
+	* `key_name` - Azure key name
+	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `okv_kms_key` - UUID of OKV KMS Key
+	* `okv_uri` - URI of OKV server
+	* `service_endpoint_uri` - AWS key service endpoint URI
+	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	* `vault_uri` - Azure vault URI
+* `encryption_key_history_entry` - Key History Entry.
+	* `encryption_key` - Details of the Autonomous Database encryption key.
+		* `arn_role` - AWS ARN role
+		* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
+		* `certificate_directory_name` - OKV certificate directory name
+		* `certificate_id` - OKV certificate id
+		* `directory_name` - OKV wallet directory name
+		* `external_id` - AWS external ID
+		* `key_arn` - AWS key ARN
+		* `key_name` - Azure key name
+		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `okv_kms_key` - UUID of OKV KMS Key
+		* `okv_uri` - URI of OKV server
+		* `service_endpoint_uri` - AWS key service endpoint URI
+		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+		* `vault_uri` - Azure vault URI
+	* `time_activated` - The date and time the encryption key was activated.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
