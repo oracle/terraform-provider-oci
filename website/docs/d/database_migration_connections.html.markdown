@@ -12,6 +12,8 @@ This data source provides the list of Connections in Oracle Cloud Infrastructure
 
 List all Database Connections.
 
+Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
+
 ## Example Usage
 
 ```hcl
@@ -20,8 +22,11 @@ data "oci_database_migration_connections" "test_connections" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	connection_type = var.connection_connection_type
 	display_name = var.connection_display_name
+	source_connection_id = oci_database_migration_connection.test_connection.id
 	state = var.connection_state
+	technology_type = var.connection_technology_type
 }
 ```
 
@@ -30,8 +35,11 @@ data "oci_database_migration_connections" "test_connections" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) The ID of the compartment in which to list resources. 
+* `connection_type` - (Optional) The array of connection types.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. 
+* `source_connection_id` - (Optional) The OCID of the source database connection.
 * `state` - (Optional) The current state of the Database Migration Deployment. 
+* `technology_type` - (Optional) The array of technology types.
 
 
 ## Attributes Reference
@@ -44,42 +52,44 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `admin_credentials` - Database Administrator Credentials details. 
-	* `username` - Administrator username 
-* `certificate_tdn` - This name is the distinguished name used while creating the certificate on target database. 
-* `compartment_id` - OCID of the compartment 
-* `connect_descriptor` - Connect Descriptor details. 
-	* `connect_string` - Connect string. 
-	* `database_service_name` - Database service name. 
-	* `host` - Host of the connect descriptor. 
-	* `port` - Port of the connect descriptor. 
-* `credentials_secret_id` - OCID of the Secret in the Oracle Cloud Infrastructure vault containing the Database Connection credentials. 
-* `database_id` - The OCID of the cloud database. 
-* `database_type` - Database connection type. 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `display_name` - Database Connection display name identifier. 
-* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `manual_database_sub_type` - Database manual connection subtype. This value can only be specified for manual connections.
-* `id` - The OCID of the resource 
-* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
+* `additional_attributes` - An array of name-value pair attribute entries.
+	* `name` - The name of the property entry.
+	* `value` - The value of the property entry.
+* `compartment_id` - The OCID of the compartment.
+* `connection_string` - Connect descriptor or Easy Connect Naming method used to connect to a database. 
+* `connection_type` - Defines the type of connection. For example, ORACLE.
+* `database_id` - The OCID of the database being referenced. 
+* `database_name` - The name of the database being referenced.
+* `db_system_id` - The OCID of the database system being referenced. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
+* `description` - A user-friendly description. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"} 
+* `host` - The IP Address of the host.
+* `id` - The OCID of the connection being referenced.
+* `ingress_ips` - List of ingress IP addresses from where to connect to this connection's privateIp.
+	* `ingress_ip` - A Private Endpoint IPv4 or IPv6 Address created in the customer's subnet.
+* `key_id` - The OCID of the key used in cryptographic operations.
+* `lifecycle_details` - The message describing the current state of the connection's lifecycle in detail. For example, can be used to provide actionable information for a connection in a Failed state.
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for Connections. 
-* `private_endpoint` - Oracle Cloud Infrastructure Private Endpoint configuration details. 
-	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
-	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
-	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
-	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
-* `replication_credentials` - Database Administrator Credentials details. 
-	* `username` - Administrator username 
-* `ssh_details` - Details of the SSH key that will be used. 
-	* `host` - Name of the host the SSH key is valid for. 
-	* `sudo_location` - Sudo location 
-	* `user` - SSH user 
-* `state` - The current state of the Connection resource. 
+* `password` - The password (credential) used when creating or updating this resource. 
+* `port` - The port to be used for the connection.
+* `private_endpoint_id` - The OCID of the resource being referenced.
+* `replication_password` - The password (credential) used when creating or updating this resource. 
+* `replication_username` - The username (credential) used when creating or updating this resource. 
+* `secret_id` - The OCID of the resource being referenced.
+* `security_protocol` - Security Protocol to be used for the connection.
+* `ssh_host` - Name of the host the SSH key is valid for. 
+* `ssh_key` - Private SSH key string. 
+* `ssh_sudo_location` - Sudo location 
+* `ssh_user` - The username (credential) used when creating or updating this resource. 
+* `ssl_mode` - SSL mode to be used for the connection.
+* `state` - The Connection's current lifecycle state.
+* `subnet_id` - Oracle Cloud Infrastructure resource ID.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time the Connection resource was created. An RFC3339 formatted datetime string. 
-* `time_updated` - The time of the last Connection resource details update. An RFC3339 formatted datetime string. 
-* `vault_details` - Oracle Cloud Infrastructure Vault details to store migration and connection credentials secrets 
-	* `compartment_id` - OCID of the compartment where the secret containing the credentials will be created. 
-	* `key_id` - OCID of the vault encryption key 
-	* `vault_id` - OCID of the vault 
+* `technology_type` - The type of MySQL source or target connection. Example: OCI_MYSQL represents Oracle Cloud Infrastructure MySQL HeatWave Database Service 
+* `time_created` - The time when this resource was created. An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`. 
+* `time_updated` - The time when this resource was updated. An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`. 
+* `username` - The username (credential) used when creating or updating this resource. 
+* `vault_id` - Oracle Cloud Infrastructure resource ID.
 
