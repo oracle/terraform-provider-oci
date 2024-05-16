@@ -12,6 +12,8 @@ This data source provides details about a specific Job Advisor Report resource i
 
 Get the Pre-Migration Advisor report details
 
+Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
+
 
 ## Example Usage
 
@@ -37,11 +39,11 @@ The following attributes are exported:
 * `number_of_fatal_blockers` - Number of Fatal Blocker results in the advisor report. 
 * `number_of_informational_results` - Number of Informational results in the advisor report. 
 * `number_of_warnings` - Number of Warning results in the advisor report. 
-* `report_location_details` - Details to access Pre-Migration Advisor report. 
-	* `location_in_source` - Path in the Source Registered Connection where the Pre-Migration advisor report can be accessed. 
-	* `object_storage_details` - Details to access Pre-Migration Advisor report in the specified Object Storage bucket, if any. 
-		* `bucket` - Name of the bucket containing the Pre-Migration Advisor report. 
+* `report_location_details` - Details to access Premigration Advisor report. 
+	* `location_in_source` - File system path on the Source Database host where the Premigration Advisor report can be accessed. 
+	* `object_storage_details` - Details to access Premigration Advisor report in the specified Object Storage bucket. 
+		* `bucket` - Name of the bucket containing the Premigration Advisor report. 
 		* `namespace` - Object Storage namespace. 
-		* `object` - Pre-Migration Advisor report object name. 
-* `result` - Pre-Migration advisor result. 
+		* `object` - Premigration Advisor report object name. 
+* `result` - Premigration Advisor result. 
 
