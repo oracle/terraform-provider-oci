@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_databases_clones"
 sidebar_current: "docs-oci-datasource-database-autonomous_databases_clones"
 description: |-
-Provides the list of Autonomous Databases Clones in Oracle Cloud Infrastructure Database service
+  Provides the list of Autonomous Databases Clones in Oracle Cloud Infrastructure Database service
 ---
 
 # Data Source: oci_database_autonomous_databases_clones
@@ -128,6 +128,38 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `disaster_recovery_region_type` - **Deprecated.** The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region. 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `encryption_key` - Details of the Autonomous Database encryption key.
+	* `arn_role` - AWS ARN role
+	* `autonomous_databases_clone_provider` - The provider for the Autonomous Database encryption key.
+	* `certificate_directory_name` - OKV certificate directory name
+	* `certificate_id` - OKV certificate id
+	* `directory_name` - OKV wallet directory name
+	* `external_id` - AWS external ID
+	* `key_arn` - AWS key ARN
+	* `key_name` - Azure key name
+	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `okv_kms_key` - UUID of OKV KMS Key
+	* `okv_uri` - URI of OKV server
+	* `service_endpoint_uri` - AWS key service endpoint URI
+	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	* `vault_uri` - Azure vault URI
+* `encryption_key_history_entry` - Key History Entry.
+	* `encryption_key` - Details of the Autonomous Database encryption key.
+		* `arn_role` - AWS ARN role
+		* `autonomous_databases_clone_provider` - The provider for the Autonomous Database encryption key.
+		* `certificate_directory_name` - OKV certificate directory name
+		* `certificate_id` - OKV certificate id
+		* `directory_name` - OKV wallet directory name
+		* `external_id` - AWS external ID
+		* `key_arn` - AWS key ARN
+		* `key_name` - Azure key name
+		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `okv_kms_key` - UUID of OKV KMS Key
+		* `okv_uri` - URI of OKV server
+		* `service_endpoint_uri` - AWS key service endpoint URI
+		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+		* `vault_uri` - Azure vault URI
+	* `time_activated` - The date and time the encryption key was activated.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.

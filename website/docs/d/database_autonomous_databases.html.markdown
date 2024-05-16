@@ -42,7 +42,18 @@ data "oci_database_autonomous_databases" "test_autonomous_databases" {
 
 The following arguments are supported:
 
-* `autonomous_database_id` - (Required) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `autonomous_container_database_id` - (Optional) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `db_version` - (Optional) A filter to return only autonomous database resources that match the specified dbVersion.
+* `db_workload` - (Optional) A filter to return only autonomous database resources that match the specified workload type.
+* `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
+* `infrastructure_type` - (Optional) A filter to return only resources that match the given Infrastructure Type.
+* `is_data_guard_enabled` - (Optional) A filter to return only resources that have Data Guard enabled.
+* `is_free_tier` - (Optional) Filter on the value of the resource's 'isFreeTier' property. A value of `true` returns only Always Free resources. A value of `false` excludes Always Free resources from the returned results. Omitting this parameter returns both Always Free and paid resources. 
+* `is_refreshable_clone` - (Optional) Filter on the value of the resource's 'isRefreshableClone' property. A value of `true` returns only refreshable clones. A value of `false` excludes refreshable clones from the returned results. Omitting this parameter returns both refreshable clones and databases that are not refreshable clones. 
+* `is_resource_pool_leader` - (Optional) Filter if the resource is the resource pool leader. A value of `true` returns only resource pool leader. 
+* `resource_pool_leader_id` - (Optional) The database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the resourcepool Leader Autonomous Database.
+* `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
 
 
 ## Attributes Reference
@@ -128,6 +139,38 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 * `disaster_recovery_region_type` - **Deprecated.** The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region. 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
+* `encryption_key` - Details of the Autonomous Database encryption key.
+	* `arn_role` - AWS ARN role
+	* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
+	* `certificate_directory_name` - OKV certificate directory name
+	* `certificate_id` - OKV certificate id
+	* `directory_name` - OKV wallet directory name
+	* `external_id` - AWS external ID
+	* `key_arn` - AWS key ARN
+	* `key_name` - Azure key name
+	* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+	* `okv_kms_key` - UUID of OKV KMS Key
+	* `okv_uri` - URI of OKV server
+	* `service_endpoint_uri` - AWS key service endpoint URI
+	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+	* `vault_uri` - Azure vault URI
+* `encryption_key_history_entry` - Key History Entry.
+	* `encryption_key` - Details of the Autonomous Database encryption key.
+		* `arn_role` - AWS ARN role
+		* `autonomous_database_provider` - The provider for the Autonomous Database encryption key.
+		* `certificate_directory_name` - OKV certificate directory name
+		* `certificate_id` - OKV certificate id
+		* `directory_name` - OKV wallet directory name
+		* `external_id` - AWS external ID
+		* `key_arn` - AWS key ARN
+		* `key_name` - Azure key name
+		* `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
+		* `okv_kms_key` - UUID of OKV KMS Key
+		* `okv_uri` - URI of OKV server
+		* `service_endpoint_uri` - AWS key service endpoint URI
+		* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
+		* `vault_uri` - Azure vault URI
+	* `time_activated` - The date and time the encryption key was activated.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Autonomous Database.
