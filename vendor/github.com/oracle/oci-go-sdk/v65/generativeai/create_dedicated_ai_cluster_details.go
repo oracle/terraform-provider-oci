@@ -37,10 +37,10 @@ type CreateDedicatedAiClusterDetails struct {
 	// Allowed values are:
 	// - LARGE_COHERE
 	// - SMALL_COHERE
+	// - SMALL_COHERE_V2
 	// - EMBED_COHERE
 	// - LLAMA2_70
 	// - LARGE_GENERIC
-	// - LARGE_COHERE_V2
 	UnitShape DedicatedAiClusterUnitShapeEnum `mandatory:"true" json:"unitShape"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.

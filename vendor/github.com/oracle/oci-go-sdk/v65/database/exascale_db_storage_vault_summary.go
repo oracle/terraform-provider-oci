@@ -35,8 +35,6 @@ type ExascaleDbStorageVaultSummary struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
-
 	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 

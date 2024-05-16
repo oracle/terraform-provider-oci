@@ -27,12 +27,6 @@ type UpdateExadbVmClusterDetails struct {
 	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledECpuCount *int `mandatory:"false" json:"enabledECpuCount"`
 
-	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
-	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
-
-	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
-	EnabledCpuCoreCount *int `mandatory:"false" json:"enabledCpuCoreCount"`
-
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"vmFileSystemStorage"`
 
 	// The number of nodes to be added in the Exadata VM cluster on Exascale Infrastructure.
@@ -68,9 +62,6 @@ type UpdateExadbVmClusterDetails struct {
 
 	// Grid Setup will be done using this grid image id
 	GridImageId *string `mandatory:"false" json:"gridImageId"`
-
-	// A valid Oracle Grid Infrastructure (GI) software version.
-	GiVersion *string `mandatory:"false" json:"giVersion"`
 
 	// The update action.
 	UpdateAction UpdateExadbVmClusterDetailsUpdateActionEnum `mandatory:"false" json:"updateAction,omitempty"`

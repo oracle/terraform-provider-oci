@@ -24,9 +24,6 @@ type ListBaselineableMetricsRequest struct {
 	// Resource Type
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
-	// Is the baselineable metric defined out of box by Oracle or by end-user
-	IsOutOfBox ListBaselineableMetricsIsOutOfBoxEnum `mandatory:"false" contributesTo:"query" name:"isOutOfBox" omitEmpty:"true"`
-
 	// Metric Name
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
@@ -91,9 +88,6 @@ func (request ListBaselineableMetricsRequest) RetryPolicy() *common.RetryPolicy 
 // Not recommended for calling this function directly
 func (request ListBaselineableMetricsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListBaselineableMetricsIsOutOfBoxEnum(string(request.IsOutOfBox)); !ok && request.IsOutOfBox != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IsOutOfBox: %s. Supported values are: %s.", request.IsOutOfBox, strings.Join(GetListBaselineableMetricsIsOutOfBoxEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingListBaselineableMetricsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListBaselineableMetricsSortOrderEnumStringValues(), ",")))
 	}
@@ -135,52 +129,6 @@ func (response ListBaselineableMetricsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListBaselineableMetricsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
-}
-
-// ListBaselineableMetricsIsOutOfBoxEnum Enum with underlying type: string
-type ListBaselineableMetricsIsOutOfBoxEnum string
-
-// Set of constants representing the allowable values for ListBaselineableMetricsIsOutOfBoxEnum
-const (
-	ListBaselineableMetricsIsOutOfBoxTrue  ListBaselineableMetricsIsOutOfBoxEnum = "true"
-	ListBaselineableMetricsIsOutOfBoxFalse ListBaselineableMetricsIsOutOfBoxEnum = "false"
-	ListBaselineableMetricsIsOutOfBoxAll   ListBaselineableMetricsIsOutOfBoxEnum = "all"
-)
-
-var mappingListBaselineableMetricsIsOutOfBoxEnum = map[string]ListBaselineableMetricsIsOutOfBoxEnum{
-	"true":  ListBaselineableMetricsIsOutOfBoxTrue,
-	"false": ListBaselineableMetricsIsOutOfBoxFalse,
-	"all":   ListBaselineableMetricsIsOutOfBoxAll,
-}
-
-var mappingListBaselineableMetricsIsOutOfBoxEnumLowerCase = map[string]ListBaselineableMetricsIsOutOfBoxEnum{
-	"true":  ListBaselineableMetricsIsOutOfBoxTrue,
-	"false": ListBaselineableMetricsIsOutOfBoxFalse,
-	"all":   ListBaselineableMetricsIsOutOfBoxAll,
-}
-
-// GetListBaselineableMetricsIsOutOfBoxEnumValues Enumerates the set of values for ListBaselineableMetricsIsOutOfBoxEnum
-func GetListBaselineableMetricsIsOutOfBoxEnumValues() []ListBaselineableMetricsIsOutOfBoxEnum {
-	values := make([]ListBaselineableMetricsIsOutOfBoxEnum, 0)
-	for _, v := range mappingListBaselineableMetricsIsOutOfBoxEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListBaselineableMetricsIsOutOfBoxEnumStringValues Enumerates the set of values in String for ListBaselineableMetricsIsOutOfBoxEnum
-func GetListBaselineableMetricsIsOutOfBoxEnumStringValues() []string {
-	return []string{
-		"true",
-		"false",
-		"all",
-	}
-}
-
-// GetMappingListBaselineableMetricsIsOutOfBoxEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListBaselineableMetricsIsOutOfBoxEnum(val string) (ListBaselineableMetricsIsOutOfBoxEnum, bool) {
-	enum, ok := mappingListBaselineableMetricsIsOutOfBoxEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
 
 // ListBaselineableMetricsSortOrderEnum Enum with underlying type: string

@@ -115,9 +115,6 @@ type UpdatePrivateEndpointResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular
 	// request, provide this request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The entity tag (ETag) for the updated bucket.
-	ETag *string `presentIn:"header" name:"etag"`
 }
 
 func (response UpdatePrivateEndpointResponse) String() string {

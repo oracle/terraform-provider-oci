@@ -10,29 +10,68 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// MigrationObjectCollection Database objects to migrate.
-type MigrationObjectCollection struct {
-
-	// Database objects to exclude/include from migration
-	Items []MigrationObjectSummary `mandatory:"true" json:"items"`
-
-	// Database objects to exclude/include from migration in CSV format. The items field will be ignored if this field is not null.
-	CsvText *string `mandatory:"false" json:"csvText"`
+// MigrationObjectCollection Common Migration Objects collection.
+type MigrationObjectCollection interface {
 }
 
-func (m MigrationObjectCollection) String() string {
+type migrationobjectcollection struct {
+	JsonData            []byte
+	DatabaseCombination string `json:"databaseCombination"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *migrationobjectcollection) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalermigrationobjectcollection migrationobjectcollection
+	s := struct {
+		Model Unmarshalermigrationobjectcollection
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.DatabaseCombination = s.Model.DatabaseCombination
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *migrationobjectcollection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.DatabaseCombination {
+	case "MYSQL":
+		mm := MySqlMigrationObjectCollection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE":
+		mm := OracleMigrationObjectCollection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Recieved unsupported enum value for MigrationObjectCollection: %s.", m.DatabaseCombination)
+		return *m, nil
+	}
+}
+
+func (m migrationobjectcollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MigrationObjectCollection) ValidateEnumValue() (bool, error) {
+func (m migrationobjectcollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

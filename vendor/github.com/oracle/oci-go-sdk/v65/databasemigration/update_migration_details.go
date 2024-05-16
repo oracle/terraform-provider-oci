@@ -16,70 +16,137 @@ import (
 	"strings"
 )
 
-// UpdateMigrationDetails Update Migration resource parameters.
-type UpdateMigrationDetails struct {
+// UpdateMigrationDetails Common Update Migration details.
+type UpdateMigrationDetails interface {
 
-	// Migration type.
-	Type MigrationTypesEnum `mandatory:"false" json:"type,omitempty"`
+	// A user-friendly description. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDescription() *string
 
-	// Migration Display Name
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// The type of the migration to be performed.
+	// Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
+	GetType() MigrationTypesEnum
 
-	// The OCID of the registered ODMS Agent.
-	AgentId *string `mandatory:"false" json:"agentId"`
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDisplayName() *string
 
-	// The OCID of the Source Database Connection.
-	SourceDatabaseConnectionId *string `mandatory:"false" json:"sourceDatabaseConnectionId"`
+	// The OCID of the resource being referenced.
+	GetSourceDatabaseConnectionId() *string
 
-	// The OCID of the Source Container Database Connection. Only used for Online migrations.
-	// Only Connections of type Non-Autonomous can be used as source container databases.
-	// An empty value would remove the stored Connection ID.
-	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
+	// The OCID of the resource being referenced.
+	GetTargetDatabaseConnectionId() *string
 
-	// The OCID of the Target Database Connection.
-	TargetDatabaseConnectionId *string `mandatory:"false" json:"targetDatabaseConnectionId"`
-
-	DataTransferMediumDetailsV2 DataTransferMediumDetailsV2 `mandatory:"false" json:"dataTransferMediumDetailsV2"`
-
-	DataTransferMediumDetails *UpdateDataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
-
-	DumpTransferDetails *UpdateDumpTransferDetails `mandatory:"false" json:"dumpTransferDetails"`
-
-	DatapumpSettings *UpdateDataPumpSettings `mandatory:"false" json:"datapumpSettings"`
-
-	AdvisorSettings *UpdateAdvisorSettings `mandatory:"false" json:"advisorSettings"`
-
-	// Database objects to exclude from migration, cannot be specified alongside 'includeObjects'.
-	// If specified, the list will be replaced entirely. Empty list will remove stored excludeObjects details.
-	ExcludeObjects []DatabaseObject `mandatory:"false" json:"excludeObjects"`
-
-	// Database objects to include from migration, cannot be specified alongside 'excludeObjects'.
-	// If specified, the list will be replaced entirely. Empty list will remove stored includeObjects details.
-	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
-
-	GoldenGateServiceDetails *UpdateGoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`
-
-	GoldenGateDetails *UpdateGoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
-
-	VaultDetails *UpdateVaultDetails `mandatory:"false" json:"vaultDetails"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags. Example: {"Department": "Finance"}
+	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	GetDefinedTags() map[string]map[string]interface{}
 }
 
-func (m UpdateMigrationDetails) String() string {
+type updatemigrationdetails struct {
+	JsonData                   []byte
+	Description                *string                           `mandatory:"false" json:"description"`
+	Type                       MigrationTypesEnum                `mandatory:"false" json:"type,omitempty"`
+	DisplayName                *string                           `mandatory:"false" json:"displayName"`
+	SourceDatabaseConnectionId *string                           `mandatory:"false" json:"sourceDatabaseConnectionId"`
+	TargetDatabaseConnectionId *string                           `mandatory:"false" json:"targetDatabaseConnectionId"`
+	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	DatabaseCombination        string                            `json:"databaseCombination"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *updatemigrationdetails) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalerupdatemigrationdetails updatemigrationdetails
+	s := struct {
+		Model Unmarshalerupdatemigrationdetails
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.Description = s.Model.Description
+	m.Type = s.Model.Type
+	m.DisplayName = s.Model.DisplayName
+	m.SourceDatabaseConnectionId = s.Model.SourceDatabaseConnectionId
+	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
+	m.DatabaseCombination = s.Model.DatabaseCombination
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *updatemigrationdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.DatabaseCombination {
+	case "MYSQL":
+		mm := UpdateMySqlMigrationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE":
+		mm := UpdateOracleMigrationDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Recieved unsupported enum value for UpdateMigrationDetails: %s.", m.DatabaseCombination)
+		return *m, nil
+	}
+}
+
+// GetDescription returns Description
+func (m updatemigrationdetails) GetDescription() *string {
+	return m.Description
+}
+
+// GetType returns Type
+func (m updatemigrationdetails) GetType() MigrationTypesEnum {
+	return m.Type
+}
+
+// GetDisplayName returns DisplayName
+func (m updatemigrationdetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetSourceDatabaseConnectionId returns SourceDatabaseConnectionId
+func (m updatemigrationdetails) GetSourceDatabaseConnectionId() *string {
+	return m.SourceDatabaseConnectionId
+}
+
+// GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
+func (m updatemigrationdetails) GetTargetDatabaseConnectionId() *string {
+	return m.TargetDatabaseConnectionId
+}
+
+// GetFreeformTags returns FreeformTags
+func (m updatemigrationdetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m updatemigrationdetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+func (m updatemigrationdetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m UpdateMigrationDetails) ValidateEnumValue() (bool, error) {
+func (m updatemigrationdetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if _, ok := GetMappingMigrationTypesEnum(string(m.Type)); !ok && m.Type != "" {
@@ -89,79 +156,4 @@ func (m UpdateMigrationDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *UpdateMigrationDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Type                                MigrationTypesEnum                `json:"type"`
-		DisplayName                         *string                           `json:"displayName"`
-		AgentId                             *string                           `json:"agentId"`
-		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
-		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
-		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
-		DataTransferMediumDetailsV2         datatransfermediumdetailsv2       `json:"dataTransferMediumDetailsV2"`
-		DataTransferMediumDetails           *UpdateDataTransferMediumDetails  `json:"dataTransferMediumDetails"`
-		DumpTransferDetails                 *UpdateDumpTransferDetails        `json:"dumpTransferDetails"`
-		DatapumpSettings                    *UpdateDataPumpSettings           `json:"datapumpSettings"`
-		AdvisorSettings                     *UpdateAdvisorSettings            `json:"advisorSettings"`
-		ExcludeObjects                      []DatabaseObject                  `json:"excludeObjects"`
-		IncludeObjects                      []DatabaseObject                  `json:"includeObjects"`
-		GoldenGateServiceDetails            *UpdateGoldenGateServiceDetails   `json:"goldenGateServiceDetails"`
-		GoldenGateDetails                   *UpdateGoldenGateDetails          `json:"goldenGateDetails"`
-		VaultDetails                        *UpdateVaultDetails               `json:"vaultDetails"`
-		FreeformTags                        map[string]string                 `json:"freeformTags"`
-		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Type = model.Type
-
-	m.DisplayName = model.DisplayName
-
-	m.AgentId = model.AgentId
-
-	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
-
-	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
-
-	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
-
-	nn, e = model.DataTransferMediumDetailsV2.UnmarshalPolymorphicJSON(model.DataTransferMediumDetailsV2.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.DataTransferMediumDetailsV2 = nn.(DataTransferMediumDetailsV2)
-	} else {
-		m.DataTransferMediumDetailsV2 = nil
-	}
-
-	m.DataTransferMediumDetails = model.DataTransferMediumDetails
-
-	m.DumpTransferDetails = model.DumpTransferDetails
-
-	m.DatapumpSettings = model.DatapumpSettings
-
-	m.AdvisorSettings = model.AdvisorSettings
-
-	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
-	copy(m.ExcludeObjects, model.ExcludeObjects)
-	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
-	copy(m.IncludeObjects, model.IncludeObjects)
-	m.GoldenGateServiceDetails = model.GoldenGateServiceDetails
-
-	m.GoldenGateDetails = model.GoldenGateDetails
-
-	m.VaultDetails = model.VaultDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	return
 }

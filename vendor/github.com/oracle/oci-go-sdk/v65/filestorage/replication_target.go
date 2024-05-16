@@ -75,9 +75,6 @@ type ReplicationTarget struct {
 	// If no application is in progress then this value is 100. Value is 0 before the initial snapshot is applied.
 	ApplyingReplicationProgress *int64 `mandatory:"false" json:"applyingReplicationProgress"`
 
-	// The resume snapshot num which represents point of replication continuinity.
-	ResumeSnapshotNum *int64 `mandatory:"false" json:"resumeSnapshotNum"`
-
 	// Percentage progress of the current replication cycle.
 	DeltaProgress *int64 `mandatory:"false" json:"deltaProgress"`
 

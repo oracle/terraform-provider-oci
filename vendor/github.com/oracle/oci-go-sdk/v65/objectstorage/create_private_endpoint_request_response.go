@@ -96,9 +96,6 @@ type CreatePrivateEndpointResponse struct {
 
 	// Echoes back the value passed in the opc-client-request-id header, for use by clients when debugging.
 	OpcClientRequestId *string `presentIn:"header" name:"opc-client-request-id"`
-
-	// The entity tag (ETag) for the Private Endpoint.
-	ETag *string `presentIn:"header" name:"etag"`
 }
 
 func (response CreatePrivateEndpointResponse) String() string {

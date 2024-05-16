@@ -17,6 +17,9 @@ type ListQuotaRulesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
+	// The type of the owner of this quota rule and usage.
+	PrincipalType ListQuotaRulesPrincipalTypeEnum `mandatory:"true" contributesTo:"query" name:"principalType" omitEmpty:"true"`
+
 	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
 	// identify a user or group to manage access control.
 	PrincipalId *int `mandatory:"true" contributesTo:"query" name:"principalId"`
@@ -34,11 +37,6 @@ type ListQuotaRulesRequest struct {
 	// For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
-
-	// The field to sort by. You can choose any value.
-	// By default, when you sort by default user type, results are shown
-	// in descending order.
-	SortBy ListQuotaRulesSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// An option to only display the users or groups that violate their quota rules.
 	// If `areViolatorsOnly` is false, the list result will display all the quota and usage report.
@@ -98,8 +96,8 @@ func (request ListQuotaRulesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListQuotaRulesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingListQuotaRulesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListQuotaRulesSortByEnumStringValues(), ",")))
+	if _, ok := GetMappingListQuotaRulesPrincipalTypeEnum(string(request.PrincipalType)); !ok && request.PrincipalType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PrincipalType: %s. Supported values are: %s.", request.PrincipalType, strings.Join(GetListQuotaRulesPrincipalTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListQuotaRulesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListQuotaRulesSortOrderEnumStringValues(), ",")))
@@ -140,45 +138,45 @@ func (response ListQuotaRulesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }
 
-// ListQuotaRulesSortByEnum Enum with underlying type: string
-type ListQuotaRulesSortByEnum string
+// ListQuotaRulesPrincipalTypeEnum Enum with underlying type: string
+type ListQuotaRulesPrincipalTypeEnum string
 
-// Set of constants representing the allowable values for ListQuotaRulesSortByEnum
+// Set of constants representing the allowable values for ListQuotaRulesPrincipalTypeEnum
 const (
-	ListQuotaRulesSortByFileSystemLevel ListQuotaRulesSortByEnum = "FILE_SYSTEM_LEVEL"
-	ListQuotaRulesSortByDefaultGroup    ListQuotaRulesSortByEnum = "DEFAULT_GROUP"
-	ListQuotaRulesSortByDefaultUser     ListQuotaRulesSortByEnum = "DEFAULT_USER"
-	ListQuotaRulesSortByIndividualGroup ListQuotaRulesSortByEnum = "INDIVIDUAL_GROUP"
-	ListQuotaRulesSortByIndividualUser  ListQuotaRulesSortByEnum = "INDIVIDUAL_USER"
+	ListQuotaRulesPrincipalTypeFileSystemLevel ListQuotaRulesPrincipalTypeEnum = "FILE_SYSTEM_LEVEL"
+	ListQuotaRulesPrincipalTypeDefaultGroup    ListQuotaRulesPrincipalTypeEnum = "DEFAULT_GROUP"
+	ListQuotaRulesPrincipalTypeDefaultUser     ListQuotaRulesPrincipalTypeEnum = "DEFAULT_USER"
+	ListQuotaRulesPrincipalTypeIndividualGroup ListQuotaRulesPrincipalTypeEnum = "INDIVIDUAL_GROUP"
+	ListQuotaRulesPrincipalTypeIndividualUser  ListQuotaRulesPrincipalTypeEnum = "INDIVIDUAL_USER"
 )
 
-var mappingListQuotaRulesSortByEnum = map[string]ListQuotaRulesSortByEnum{
-	"FILE_SYSTEM_LEVEL": ListQuotaRulesSortByFileSystemLevel,
-	"DEFAULT_GROUP":     ListQuotaRulesSortByDefaultGroup,
-	"DEFAULT_USER":      ListQuotaRulesSortByDefaultUser,
-	"INDIVIDUAL_GROUP":  ListQuotaRulesSortByIndividualGroup,
-	"INDIVIDUAL_USER":   ListQuotaRulesSortByIndividualUser,
+var mappingListQuotaRulesPrincipalTypeEnum = map[string]ListQuotaRulesPrincipalTypeEnum{
+	"FILE_SYSTEM_LEVEL": ListQuotaRulesPrincipalTypeFileSystemLevel,
+	"DEFAULT_GROUP":     ListQuotaRulesPrincipalTypeDefaultGroup,
+	"DEFAULT_USER":      ListQuotaRulesPrincipalTypeDefaultUser,
+	"INDIVIDUAL_GROUP":  ListQuotaRulesPrincipalTypeIndividualGroup,
+	"INDIVIDUAL_USER":   ListQuotaRulesPrincipalTypeIndividualUser,
 }
 
-var mappingListQuotaRulesSortByEnumLowerCase = map[string]ListQuotaRulesSortByEnum{
-	"file_system_level": ListQuotaRulesSortByFileSystemLevel,
-	"default_group":     ListQuotaRulesSortByDefaultGroup,
-	"default_user":      ListQuotaRulesSortByDefaultUser,
-	"individual_group":  ListQuotaRulesSortByIndividualGroup,
-	"individual_user":   ListQuotaRulesSortByIndividualUser,
+var mappingListQuotaRulesPrincipalTypeEnumLowerCase = map[string]ListQuotaRulesPrincipalTypeEnum{
+	"file_system_level": ListQuotaRulesPrincipalTypeFileSystemLevel,
+	"default_group":     ListQuotaRulesPrincipalTypeDefaultGroup,
+	"default_user":      ListQuotaRulesPrincipalTypeDefaultUser,
+	"individual_group":  ListQuotaRulesPrincipalTypeIndividualGroup,
+	"individual_user":   ListQuotaRulesPrincipalTypeIndividualUser,
 }
 
-// GetListQuotaRulesSortByEnumValues Enumerates the set of values for ListQuotaRulesSortByEnum
-func GetListQuotaRulesSortByEnumValues() []ListQuotaRulesSortByEnum {
-	values := make([]ListQuotaRulesSortByEnum, 0)
-	for _, v := range mappingListQuotaRulesSortByEnum {
+// GetListQuotaRulesPrincipalTypeEnumValues Enumerates the set of values for ListQuotaRulesPrincipalTypeEnum
+func GetListQuotaRulesPrincipalTypeEnumValues() []ListQuotaRulesPrincipalTypeEnum {
+	values := make([]ListQuotaRulesPrincipalTypeEnum, 0)
+	for _, v := range mappingListQuotaRulesPrincipalTypeEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetListQuotaRulesSortByEnumStringValues Enumerates the set of values in String for ListQuotaRulesSortByEnum
-func GetListQuotaRulesSortByEnumStringValues() []string {
+// GetListQuotaRulesPrincipalTypeEnumStringValues Enumerates the set of values in String for ListQuotaRulesPrincipalTypeEnum
+func GetListQuotaRulesPrincipalTypeEnumStringValues() []string {
 	return []string{
 		"FILE_SYSTEM_LEVEL",
 		"DEFAULT_GROUP",
@@ -188,9 +186,9 @@ func GetListQuotaRulesSortByEnumStringValues() []string {
 	}
 }
 
-// GetMappingListQuotaRulesSortByEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListQuotaRulesSortByEnum(val string) (ListQuotaRulesSortByEnum, bool) {
-	enum, ok := mappingListQuotaRulesSortByEnumLowerCase[strings.ToLower(val)]
+// GetMappingListQuotaRulesPrincipalTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListQuotaRulesPrincipalTypeEnum(val string) (ListQuotaRulesPrincipalTypeEnum, bool) {
+	enum, ok := mappingListQuotaRulesPrincipalTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

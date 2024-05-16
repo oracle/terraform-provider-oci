@@ -86,6 +86,58 @@ type ExtensionSocialIdentityProvider struct {
 	//  - uniqueness: none
 	ServiceProviderName *string `mandatory:"true" json:"serviceProviderName"`
 
+	// Whether social auto redirect is enabled. The IDP policy should be configured with only one Social IDP, and without username/password selected.
+	// **Added In:** 2310202314
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	AutoRedirectEnabled *bool `mandatory:"false" json:"autoRedirectEnabled"`
+
+	// Whether Social JIT Provisioning is enabled
+	// **Added In:** 2307282043
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - idcsSearchable: true
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	SocialJitProvisioningEnabled *bool `mandatory:"false" json:"socialJitProvisioningEnabled"`
+
+	// Set to true to indicate Social JIT User Provisioning Groups should be assigned from a static list
+	// **Added In:** 2310202314
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: boolean
+	//  - uniqueness: none
+	JitProvGroupStaticListEnabled *bool `mandatory:"false" json:"jitProvGroupStaticListEnabled"`
+
+	// Lists the groups each social JIT-provisioned user is a member. Just-in-Time user-provisioning applies this static list when jitProvGroupStaticListEnabled:true.
+	// **Added In:** 2310202314
+	// **SCIM++ Properties:**
+	//  - idcsCompositeKey: [value]
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: readWrite
+	//  - required: false
+	//  - returned: default
+	//  - type: complex
+	//  - uniqueness: none
+	JitProvAssignedGroups []IdentityProviderJitProvAssignedGroups `mandatory:"false" json:"jitProvAssignedGroups"`
+
 	// Status
 	// **Added In:** 20.1.3
 	// **SCIM++ Properties:**

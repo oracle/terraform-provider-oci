@@ -35,9 +35,6 @@ type CreateReplicationTargetDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replicationtarget.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The base64 encoded string of the tagSlug for replication resource. We pass it to target to let replicationTarget inherit it
-	ParentExistingTags *string `mandatory:"false" json:"parentExistingTags"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

@@ -64,6 +64,11 @@ type CreateNatGatewayDetails struct {
 	// table. The Networking service does NOT automatically associate the attached VCN's default route table
 	// with the NAT gateway.
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
+	// Set to `FAILOVER_TO_INTERNET` (the default) to allow the replication of customer data from flowing
+	// over public Internet,set to `DO_NOT_FAILOVER_TO_INTERNET` to prevent replication of customer data from
+	// flowing over public Internet.
+	BackboneFailoverPolicy BackboneFailoverPolicyEnum `mandatory:"false" json:"backboneFailoverPolicy,omitempty"`
 }
 
 func (m CreateNatGatewayDetails) String() string {
@@ -78,6 +83,9 @@ func (m CreateNatGatewayDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCreateNatGatewayDetailsInternalPublicIpPoolNameEnum(string(m.InternalPublicIpPoolName)); !ok && m.InternalPublicIpPoolName != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for InternalPublicIpPoolName: %s. Supported values are: %s.", m.InternalPublicIpPoolName, strings.Join(GetCreateNatGatewayDetailsInternalPublicIpPoolNameEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackboneFailoverPolicyEnum(string(m.BackboneFailoverPolicy)); !ok && m.BackboneFailoverPolicy != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackboneFailoverPolicy: %s. Supported values are: %s.", m.BackboneFailoverPolicy, strings.Join(GetBackboneFailoverPolicyEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

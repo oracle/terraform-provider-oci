@@ -29,8 +29,6 @@ type UpdateExascaleDbStorageVaultDetails struct {
 	// The size of additional Flash Cache in percentage of High Capacity database storage.
 	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"false" json:"extremeFlashDatabaseStorage"`
-
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

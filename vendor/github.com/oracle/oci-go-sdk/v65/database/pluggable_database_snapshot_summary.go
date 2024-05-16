@@ -52,8 +52,8 @@ type PluggableDatabaseSnapshotSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
-	ExadbVmClusterId *string `mandatory:"false" json:"exadbVmClusterId"`
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the VM cluster.
+	ClusterId *string `mandatory:"false" json:"clusterId"`
 }
 
 func (m PluggableDatabaseSnapshotSummary) String() string {

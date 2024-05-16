@@ -57,12 +57,6 @@ type CreateExadbVmClusterDetails struct {
 	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledECpuCount *int `mandatory:"true" json:"enabledECpuCount"`
 
-	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
-	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
-
-	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
-	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
-
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
@@ -71,15 +65,8 @@ type CreateExadbVmClusterDetails struct {
 	// Grid Setup will be done using this grid image id
 	GridImageId *string `mandatory:"true" json:"gridImageId"`
 
-	// A valid Oracle Grid Infrastructure (GI) software version.
-	GiVersion *string `mandatory:"true" json:"giVersion"`
-
 	// The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
-
-	// The percentage assigned to DATA storage (user data and database files).
-	// The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See Storage Configuration (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
-	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
 
 	// A domain name used for the Exadata VM cluster on Exascale Infrastructure. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, the domain name for the subnet is used
@@ -89,12 +76,6 @@ type CreateExadbVmClusterDetails struct {
 
 	// The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel CreateExadbVmClusterDetailsLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
-
-	// If true, database backup on local Exadata storage is configured for the Exadata VM cluster on Exascale Infrastructure. If false, database backup on local Exadata storage is not available in the Exadata VM cluster on Exascale Infrastructure.
-	IsLocalBackupEnabled *bool `mandatory:"false" json:"isLocalBackupEnabled"`
-
-	// If true, sparse disk group is configured for the Exadata VM cluster on Exascale Infrastructure. If false, sparse disk group is not created.
-	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
 
 	// The time zone to use for the Exadata VM cluster on Exascale Infrastructure. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`

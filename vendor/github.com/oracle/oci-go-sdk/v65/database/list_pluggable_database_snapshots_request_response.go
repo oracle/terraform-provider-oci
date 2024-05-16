@@ -35,8 +35,8 @@ type ListPluggableDatabaseSnapshotsRequest struct {
 	// A filter to return only Exadata Pluggable Database Snapshots that match the given lifecycle state exactly.
 	LifecycleState PluggableDatabaseSnapshotLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only Exadata Pluggable Database Snapshots that match the given exadb VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
-	ExadbVmClusterId *string `mandatory:"false" contributesTo:"query" name:"exadbVmClusterId"`
+	// A filter to return only Exadata Database Node Snapshots that match the given VM cluster.
+	ClusterId *string `mandatory:"false" contributesTo:"query" name:"clusterId"`
 
 	// A filter to return only Exadata Pluggable Database Snapshots that match the given database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	PluggableDatabaseId *string `mandatory:"false" contributesTo:"query" name:"pluggableDatabaseId"`

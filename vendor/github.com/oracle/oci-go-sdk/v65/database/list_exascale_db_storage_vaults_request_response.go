@@ -23,6 +23,9 @@ type ListExascaleDbStorageVaultsRequest struct {
 	// The pagination token to continue listing from.
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// A filter to return only resources that match the given availability domain exactly.
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
 	// The field to sort by.  You can provide one sort order (`sortOrder`).  Default order for TIMECREATED is descending.  Default order for DISPLAYNAME is ascending. The DISPLAYNAME sort order is case sensitive.
 	SortBy ListExascaleDbStorageVaultsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 

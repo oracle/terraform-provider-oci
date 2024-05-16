@@ -60,9 +60,6 @@ type ExadbVmClusterSummary struct {
 	// Applies to Exadata Cloud Service instances only.
 	Domain *string `mandatory:"true" json:"domain"`
 
-	// A valid Oracle Grid Infrastructure (GI) software version.
-	GiVersion *string `mandatory:"true" json:"giVersion"`
-
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
@@ -71,12 +68,6 @@ type ExadbVmClusterSummary struct {
 
 	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
 	EnabledECpuCount *int `mandatory:"true" json:"enabledECpuCount"`
-
-	// The number of Total CPU cores for a Exadata VM cluster on Exascale Infrastructure.
-	TotalCpuCoreCount *int `mandatory:"true" json:"totalCpuCoreCount"`
-
-	// The number of CPU cores to enable for a Exadata VM cluster on Exascale Infrastructure.
-	EnabledCpuCoreCount *int `mandatory:"true" json:"enabledCpuCoreCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
 
@@ -109,15 +100,8 @@ type ExadbVmClusterSummary struct {
 	// The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.
 	ClusterName *string `mandatory:"false" json:"clusterName"`
 
-	// The percentage assigned to DATA storage (user data and database files).
-	// The remaining percentage is assigned to RECO storage (database redo logs, archive logs, and recovery manager backups). Accepted values are 35, 40, 60 and 80. The default is 80 percent assigned to DATA storage. See Storage Configuration (https://docs.cloud.oracle.com/Content/Database/Concepts/exaoverview.htm#Exadata) in the Exadata documentation for details on the impact of the configuration settings on storage.
-	DataStoragePercentage *int `mandatory:"false" json:"dataStoragePercentage"`
-
-	// If true, database backup on local Exadata storage is configured for the Exadata VM cluster on Exascale Infrastructure. If false, database backup on local Exadata storage is not available in the Exadata VM cluster on Exascale Infrastructure.
-	IsLocalBackupEnabled *bool `mandatory:"false" json:"isLocalBackupEnabled"`
-
-	// If true, sparse disk group is configured for the Exadata VM cluster on Exascale Infrastructure. If false, sparse disk group is not created.
-	IsSparseDiskgroupEnabled *bool `mandatory:"false" json:"isSparseDiskgroupEnabled"`
+	// A valid Oracle Grid Infrastructure (GI) software version.
+	GiVersion *string `mandatory:"false" json:"giVersion"`
 
 	// Grid Setup will be done using this grid image id
 	GridImageId *string `mandatory:"false" json:"gridImageId"`
@@ -130,11 +114,6 @@ type ExadbVmClusterSummary struct {
 
 	// The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE.
 	LicenseModel ExadbVmClusterSummaryLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
-
-	// The type of redundancy configured for the Exadata VM cluster on Exascale Infrastructure.
-	// NORMAL is 2-way redundancy.
-	// HIGH is 3-way redundancy.
-	DiskRedundancy ExadbVmClusterSummaryDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the Exadata VM cluster on Exascale Infrastructure.
 	// SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
@@ -207,9 +186,6 @@ func (m ExadbVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadbVmClusterSummaryLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetExadbVmClusterSummaryLicenseModelEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingExadbVmClusterSummaryDiskRedundancyEnum(string(m.DiskRedundancy)); !ok && m.DiskRedundancy != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetExadbVmClusterSummaryDiskRedundancyEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -360,47 +336,5 @@ func GetExadbVmClusterSummaryLicenseModelEnumStringValues() []string {
 // GetMappingExadbVmClusterSummaryLicenseModelEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadbVmClusterSummaryLicenseModelEnum(val string) (ExadbVmClusterSummaryLicenseModelEnum, bool) {
 	enum, ok := mappingExadbVmClusterSummaryLicenseModelEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ExadbVmClusterSummaryDiskRedundancyEnum Enum with underlying type: string
-type ExadbVmClusterSummaryDiskRedundancyEnum string
-
-// Set of constants representing the allowable values for ExadbVmClusterSummaryDiskRedundancyEnum
-const (
-	ExadbVmClusterSummaryDiskRedundancyHigh   ExadbVmClusterSummaryDiskRedundancyEnum = "HIGH"
-	ExadbVmClusterSummaryDiskRedundancyNormal ExadbVmClusterSummaryDiskRedundancyEnum = "NORMAL"
-)
-
-var mappingExadbVmClusterSummaryDiskRedundancyEnum = map[string]ExadbVmClusterSummaryDiskRedundancyEnum{
-	"HIGH":   ExadbVmClusterSummaryDiskRedundancyHigh,
-	"NORMAL": ExadbVmClusterSummaryDiskRedundancyNormal,
-}
-
-var mappingExadbVmClusterSummaryDiskRedundancyEnumLowerCase = map[string]ExadbVmClusterSummaryDiskRedundancyEnum{
-	"high":   ExadbVmClusterSummaryDiskRedundancyHigh,
-	"normal": ExadbVmClusterSummaryDiskRedundancyNormal,
-}
-
-// GetExadbVmClusterSummaryDiskRedundancyEnumValues Enumerates the set of values for ExadbVmClusterSummaryDiskRedundancyEnum
-func GetExadbVmClusterSummaryDiskRedundancyEnumValues() []ExadbVmClusterSummaryDiskRedundancyEnum {
-	values := make([]ExadbVmClusterSummaryDiskRedundancyEnum, 0)
-	for _, v := range mappingExadbVmClusterSummaryDiskRedundancyEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetExadbVmClusterSummaryDiskRedundancyEnumStringValues Enumerates the set of values in String for ExadbVmClusterSummaryDiskRedundancyEnum
-func GetExadbVmClusterSummaryDiskRedundancyEnumStringValues() []string {
-	return []string{
-		"HIGH",
-		"NORMAL",
-	}
-}
-
-// GetMappingExadbVmClusterSummaryDiskRedundancyEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingExadbVmClusterSummaryDiskRedundancyEnum(val string) (ExadbVmClusterSummaryDiskRedundancyEnum, bool) {
-	enum, ok := mappingExadbVmClusterSummaryDiskRedundancyEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

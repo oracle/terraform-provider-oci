@@ -56,6 +56,9 @@ type CreateCloudVmClusterDetails struct {
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"true" json:"giVersion"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The number of OCPU cores to enable for a cloud VM cluster. Only 1 decimal place is allowed for the fractional part.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 

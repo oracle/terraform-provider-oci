@@ -35,8 +35,6 @@ type ExascaleDbStorageVault struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
-	ExtremeFlashDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"extremeFlashDatabaseStorage"`
-
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`
 
