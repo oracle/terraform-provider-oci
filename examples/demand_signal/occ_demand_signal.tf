@@ -12,7 +12,7 @@ variable "occ_demand_signal_display_name"{
 }
 
 variable "occ_demand_signal_id" {
-  default = "ocid1.service.oc17.us-dcc-phoenix-1.amaaaaaaujlzuraaubiigpp72ftrx7pdok7l3cpt6ejybth24tsr4qeykeeq"
+  default = "occ_demand_signal_id"
 }
 
 variable "occ_demand_signal_resource_type" {
