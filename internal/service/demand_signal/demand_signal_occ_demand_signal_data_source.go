@@ -1,0 +1,112 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package demand_signal
+
+import (
+	"context"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_demand_signal "github.com/oracle/oci-go-sdk/v65/demandsignal"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+)
+
+func DemandSignalOccDemandSignalDataSource() *schema.Resource {
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["occ_demand_signal_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchema(DemandSignalOccDemandSignalResource(), fieldMap, readSingularDemandSignalOccDemandSignal)
+}
+
+func readSingularDemandSignalOccDemandSignal(d *schema.ResourceData, m interface{}) error {
+	sync := &DemandSignalOccDemandSignalDataSourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).OccDemandSignalClient()
+
+	return tfresource.ReadResource(sync)
+}
+
+type DemandSignalOccDemandSignalDataSourceCrud struct {
+	D      *schema.ResourceData
+	Client *oci_demand_signal.OccDemandSignalClient
+	Res    *oci_demand_signal.GetOccDemandSignalResponse
+}
+
+func (s *DemandSignalOccDemandSignalDataSourceCrud) VoidState() {
+	s.D.SetId("")
+}
+
+func (s *DemandSignalOccDemandSignalDataSourceCrud) Get() error {
+	request := oci_demand_signal.GetOccDemandSignalRequest{}
+
+	if occDemandSignalId, ok := s.D.GetOkExists("occ_demand_signal_id"); ok {
+		tmp := occDemandSignalId.(string)
+		request.OccDemandSignalId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "demand_signal")
+
+	response, err := s.Client.GetOccDemandSignal(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	s.Res = &response
+	return nil
+}
+
+func (s *DemandSignalOccDemandSignalDataSourceCrud) SetData() error {
+	if s.Res == nil {
+		return nil
+	}
+
+	s.D.SetId(*s.Res.Id)
+
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
+
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.IsActive != nil {
+		s.D.Set("is_active", *s.Res.IsActive)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	occDemandSignals := []interface{}{}
+	for _, item := range s.Res.OccDemandSignals {
+		occDemandSignals = append(occDemandSignals, OccDemandSignalDataToMap(item))
+	}
+	s.D.Set("occ_demand_signals", occDemandSignals)
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	return nil
+}

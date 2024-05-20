@@ -158,6 +158,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
+    * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
@@ -691,6 +692,10 @@ datascience
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
 * oci\_datascience\_model\_version\_set
+
+demand_signal
+    
+* oci\_demand\_signal\_occ\_demand\_signal
 
 devops
 
