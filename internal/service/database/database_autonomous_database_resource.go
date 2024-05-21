@@ -4,8 +4,10 @@
 package database
 
 import (
+	"bytes"
 	"context"
 	"fmt"
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"io"
 	"log"
 	"os"
@@ -402,7 +404,8 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				},
 			},
 			"scheduled_operations": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
+				Set:      scheduledOperationsForSets,
 				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -1761,11 +1764,12 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok && s.D.HasChange("scheduled_operations") {
-		interfaces := scheduledOperations.([]interface{})
+	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+		set := scheduledOperations.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := scheduledOperationsForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 			converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 			if err != nil {
@@ -2228,7 +2232,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.ScheduledOperations {
 		scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
 	}
-	s.D.Set("scheduled_operations", scheduledOperations)
+	s.D.Set("scheduled_operations", schema.NewSet(scheduledOperationsForSets, scheduledOperations))
 
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
@@ -2947,10 +2951,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -3223,10 +3228,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -3499,10 +3505,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -3757,10 +3764,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -4248,10 +4256,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -4508,10 +4517,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -4768,10 +4778,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			}
 		}
 		if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
-			interfaces := scheduledOperations.([]interface{})
+			set := scheduledOperations.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := scheduledOperationsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "scheduled_operations", stateDataIndex)
 				converted, err := s.mapToScheduledOperationDetails(fieldKeyFormat)
 				if err != nil {
@@ -5341,4 +5352,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) UpdateLocalAdg(adg bool, limit 
 	}
 
 	return nil
+}
+
+func scheduledOperationsForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if dayOfWeek, ok := m["day_of_week"]; ok && dayOfWeek != "" {
+		if tmpList, ok := dayOfWeek.([]interface{}); ok && len(tmpList) > 0 && tmpList[0] != "" {
+			buf.WriteString("day_of_week-")
+			for _, dayOfWeekTemp := range tmpList {
+				buf.WriteString(fmt.Sprintf("%v-", dayOfWeekTemp))
+			}
+		}
+	}
+	if startTime, ok := m["scheduled_start_time"]; ok && startTime != "" {
+		buf.WriteString(fmt.Sprintf("%v-", startTime))
+	}
+	if stopTime, ok := m["scheduled_stop_time"]; ok && stopTime != "" {
+		buf.WriteString(fmt.Sprintf("%v-", strings.ToLower(stopTime.(string))))
+	}
+	return utils.GetStringHashcode(buf.String())
 }
