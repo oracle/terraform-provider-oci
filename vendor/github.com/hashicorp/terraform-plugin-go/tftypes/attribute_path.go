@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package tftypes
 
 import (
@@ -77,29 +80,23 @@ func (a *AttributePath) String() string {
 // AttributePaths are considered equal if they have the same number of steps,
 // the steps are all the same types, and the steps have all the same values.
 func (a *AttributePath) Equal(o *AttributePath) bool {
-	if len(a.Steps()) == 0 && len(o.Steps()) == 0 {
-		return true
+	if a == nil {
+		return o == nil || len(o.steps) == 0
 	}
-	if len(a.Steps()) != len(o.Steps()) {
+
+	if o == nil {
+		return len(a.steps) == 0
+	}
+
+	if len(a.steps) != len(o.steps) {
 		return false
 	}
-	for pos, aStep := range a.Steps() {
-		oStep := o.Steps()[pos]
-		switch aStep.(type) {
-		case AttributeName, ElementKeyString, ElementKeyInt:
-			if oStep != aStep {
-				return false
-			}
-		case ElementKeyValue:
-			oVal, ok := oStep.(ElementKeyValue)
-			if !ok {
-				return false
-			}
-			if !Value(aStep.(ElementKeyValue)).Equal(Value(oVal)) {
-				return false
-			}
-		default:
-			panic(fmt.Sprintf("unknown step %T in AttributePath.Equal", aStep))
+
+	for pos, aStep := range a.steps {
+		oStep := o.steps[pos]
+
+		if !aStep.Equal(oStep) {
+			return false
 		}
 	}
 	return true
@@ -129,51 +126,112 @@ func (a *AttributePath) NewError(err error) error {
 	}
 }
 
+// LastStep returns the last step in the path. If the path is nil or empty, nil
+// is returned.
+func (a *AttributePath) LastStep() AttributePathStep {
+	if a == nil || len(a.steps) == 0 {
+		return nil
+	}
+
+	return a.steps[len(a.steps)-1]
+}
+
+// NextStep returns the next step in the path. If the path is nil or empty, nil
+// is returned.
+func (a *AttributePath) NextStep() AttributePathStep {
+	if a == nil || len(a.steps) == 0 {
+		return nil
+	}
+
+	return a.steps[0]
+}
+
 // WithAttributeName adds an AttributeName step to `a`, using `name` as the
 // attribute's name. `a` is copied, not modified.
 func (a *AttributePath) WithAttributeName(name string) *AttributePath {
-	steps := a.Steps()
+	if a == nil {
+		return &AttributePath{
+			steps: []AttributePathStep{AttributeName(name)},
+		}
+	}
+
+	// Avoid re-allocating larger slice
+	steps := make([]AttributePathStep, len(a.steps)+1)
+	copy(steps, a.steps)
+	steps[len(steps)-1] = AttributeName(name)
+
 	return &AttributePath{
-		steps: append(steps, AttributeName(name)),
+		steps: steps,
 	}
 }
 
 // WithElementKeyString adds an ElementKeyString step to `a`, using `key` as
 // the element's key. `a` is copied, not modified.
 func (a *AttributePath) WithElementKeyString(key string) *AttributePath {
-	steps := a.Steps()
+	if a == nil {
+		return &AttributePath{
+			steps: []AttributePathStep{ElementKeyString(key)},
+		}
+	}
+
+	// Avoid re-allocating larger slice
+	steps := make([]AttributePathStep, len(a.steps)+1)
+	copy(steps, a.steps)
+	steps[len(steps)-1] = ElementKeyString(key)
+
 	return &AttributePath{
-		steps: append(steps, ElementKeyString(key)),
+		steps: steps,
 	}
 }
 
 // WithElementKeyInt adds an ElementKeyInt step to `a`, using `key` as the
 // element's key. `a` is copied, not modified.
-func (a *AttributePath) WithElementKeyInt(key int64) *AttributePath {
-	steps := a.Steps()
+func (a *AttributePath) WithElementKeyInt(key int) *AttributePath {
+	if a == nil {
+		return &AttributePath{
+			steps: []AttributePathStep{ElementKeyInt(key)},
+		}
+	}
+
+	// Avoid re-allocating larger slice
+	steps := make([]AttributePathStep, len(a.steps)+1)
+	copy(steps, a.steps)
+	steps[len(steps)-1] = ElementKeyInt(key)
+
 	return &AttributePath{
-		steps: append(steps, ElementKeyInt(key)),
+		steps: steps,
 	}
 }
 
 // WithElementKeyValue adds an ElementKeyValue to `a`, using `key` as the
 // element's key. `a` is copied, not modified.
 func (a *AttributePath) WithElementKeyValue(key Value) *AttributePath {
-	steps := a.Steps()
+	if a == nil {
+		return &AttributePath{
+			steps: []AttributePathStep{ElementKeyValue(key)},
+		}
+	}
+
+	// Avoid re-allocating larger slice
+	steps := make([]AttributePathStep, len(a.steps)+1)
+	copy(steps, a.steps)
+	steps[len(steps)-1] = ElementKeyValue(key)
+
 	return &AttributePath{
-		steps: append(steps, ElementKeyValue(key.Copy())),
+		steps: steps,
 	}
 }
 
 // WithoutLastStep removes the last step, whatever kind of step it was, from
 // `a`. `a` is copied, not modified.
 func (a *AttributePath) WithoutLastStep() *AttributePath {
-	steps := a.Steps()
-	if len(steps) == 0 {
+	if a == nil || len(a.steps) == 0 {
 		return nil
 	}
+
 	return &AttributePath{
-		steps: steps[:len(steps)-1],
+		// Paths are immutable, so this should be safe without copying.
+		steps: a.steps[:len(a.steps)-1],
 	}
 }
 
@@ -185,6 +243,9 @@ func (a *AttributePath) WithoutLastStep() *AttributePath {
 // indicating a specific attribute or element that is the next value in the
 // path.
 type AttributePathStep interface {
+	// Equal returns true if the AttributePathStep is equal to the other.
+	Equal(AttributePathStep) bool
+
 	unfulfillable() // make this interface fillable only by this package
 }
 
@@ -199,12 +260,36 @@ var (
 // AttributeName is the name of the attribute to be selected.
 type AttributeName string
 
+// Equal returns true if the other AttributePathStep is an AttributeName and
+// has the same value.
+func (a AttributeName) Equal(other AttributePathStep) bool {
+	otherA, ok := other.(AttributeName)
+
+	if !ok {
+		return false
+	}
+
+	return string(a) == string(otherA)
+}
+
 func (a AttributeName) unfulfillable() {}
 
 // ElementKeyString is an AttributePathStep implementation that indicates the
 // next step in the AttributePath is to select an element using a string key.
 // The value of the ElementKeyString is the key of the element to select.
 type ElementKeyString string
+
+// Equal returns true if the other AttributePathStep is an ElementKeyString and
+// has the same value.
+func (e ElementKeyString) Equal(other AttributePathStep) bool {
+	otherE, ok := other.(ElementKeyString)
+
+	if !ok {
+		return false
+	}
+
+	return string(e) == string(otherE)
+}
 
 func (e ElementKeyString) unfulfillable() {}
 
@@ -213,6 +298,18 @@ func (e ElementKeyString) unfulfillable() {}
 // value of the ElementKeyInt is the key of the element to select.
 type ElementKeyInt int64
 
+// Equal returns true if the other AttributePathStep is an ElementKeyInt and
+// has the same value.
+func (e ElementKeyInt) Equal(other AttributePathStep) bool {
+	otherE, ok := other.(ElementKeyInt)
+
+	if !ok {
+		return false
+	}
+
+	return int(e) == int(otherE)
+}
+
 func (e ElementKeyInt) unfulfillable() {}
 
 // ElementKeyValue is an AttributePathStep implementation that indicates the
@@ -220,6 +317,18 @@ func (e ElementKeyInt) unfulfillable() {}
 // itself as a key. The value of the ElementKeyValue is the key of the element
 // to select.
 type ElementKeyValue Value
+
+// Equal returns true if the other AttributePathStep is an ElementKeyValue and
+// has the same value.
+func (e ElementKeyValue) Equal(other AttributePathStep) bool {
+	otherE, ok := other.(ElementKeyValue)
+
+	if !ok {
+		return false
+	}
+
+	return Value(e).Equal(Value(otherE))
+}
 
 func (e ElementKeyValue) unfulfillable() {}
 
@@ -233,16 +342,16 @@ type AttributePathStepper interface {
 	ApplyTerraform5AttributePathStep(AttributePathStep) (interface{}, error)
 }
 
-// WalkAttributePath will return the value that `path` is pointing to, using
-// `in` as the root. If an error is returned, the AttributePath returned will
-// indicate the steps that remained to be applied when the error was
+// WalkAttributePath will return the Type or Value that `path` is pointing to,
+// using `in` as the root. If an error is returned, the AttributePath returned
+// will indicate the steps that remained to be applied when the error was
 // encountered.
 //
 // map[string]interface{} and []interface{} types have built-in support. Other
 // types need to use the AttributePathStepper interface to tell
 // WalkAttributePath how to traverse themselves.
 func WalkAttributePath(in interface{}, path *AttributePath) (interface{}, *AttributePath, error) {
-	if len(path.Steps()) < 1 {
+	if path == nil || len(path.steps) == 0 {
 		return in, path, nil
 	}
 	stepper, ok := in.(AttributePathStepper)
@@ -252,11 +361,11 @@ func WalkAttributePath(in interface{}, path *AttributePath) (interface{}, *Attri
 			return in, path, ErrNotAttributePathStepper
 		}
 	}
-	next, err := stepper.ApplyTerraform5AttributePathStep(path.Steps()[0])
+	next, err := stepper.ApplyTerraform5AttributePathStep(path.NextStep())
 	if err != nil {
 		return in, path, err
 	}
-	return WalkAttributePath(next, &AttributePath{steps: path.Steps()[1:]})
+	return WalkAttributePath(next, NewAttributePathWithSteps(path.steps[1:]))
 }
 
 func builtinAttributePathStepper(in interface{}) (AttributePathStepper, bool) {
@@ -273,17 +382,17 @@ func builtinAttributePathStepper(in interface{}) (AttributePathStepper, bool) {
 type mapStringInterfaceAttributePathStepper map[string]interface{}
 
 func (m mapStringInterfaceAttributePathStepper) ApplyTerraform5AttributePathStep(step AttributePathStep) (interface{}, error) {
-	_, isAttributeName := step.(AttributeName)
-	_, isElementKeyString := step.(ElementKeyString)
+	attributeName, isAttributeName := step.(AttributeName)
+	elementKeyString, isElementKeyString := step.(ElementKeyString)
 	if !isAttributeName && !isElementKeyString {
 		return nil, ErrInvalidStep
 	}
 	var stepValue string
 	if isAttributeName {
-		stepValue = string(step.(AttributeName))
+		stepValue = string(attributeName)
 	}
 	if isElementKeyString {
-		stepValue = string(step.(ElementKeyString))
+		stepValue = string(elementKeyString)
 	}
 	v, ok := m[stepValue]
 	if !ok {

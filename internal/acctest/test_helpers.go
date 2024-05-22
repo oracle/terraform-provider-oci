@@ -688,11 +688,7 @@ func ProviderTestCopy(configfn schema.ConfigureFunc) *schema.Provider {
 }
 
 func ProviderTestConfig() string {
-	return `
-	# Need to have this block even though it's empty; for import testing
-	provider "oci" {
-	}
-	` + CommonTestVariables()
+	return CommonTestVariables()
 }
 
 func CommonTestVariables() string {

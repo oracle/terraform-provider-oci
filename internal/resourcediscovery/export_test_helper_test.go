@@ -11,8 +11,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
-	"github.com/hashicorp/terraform-exec/tfinstall"
 	"github.com/stretchr/testify/assert"
+
+	hcinstall "github.com/hashicorp/hc-install"
+	"github.com/hashicorp/hc-install/src"
 )
 
 func TestUnitResourceSupportImport(t *testing.T) {
@@ -69,7 +71,7 @@ func TestUnitExportCompartment(t *testing.T) {
 		{
 			name: "Test response with no resource name",
 			mockFunc: func() {
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -91,7 +93,7 @@ func TestUnitExportCompartment(t *testing.T) {
 		{
 			name: "Test response with new terraform struct",
 			mockFunc: func() {
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -114,7 +116,7 @@ func TestUnitExportCompartment(t *testing.T) {
 			name: "Test response with no resource name, empty provider bin and go path",
 			mockFunc: func() {
 
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -141,7 +143,7 @@ func TestUnitExportCompartment(t *testing.T) {
 			name: "Test response with no resource name, empty go path",
 			mockFunc: func() {
 
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -203,7 +205,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 				isResourceSupportImportVar = func(string) (support bool, err error) {
 					return true, nil
 				}
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -229,7 +231,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 				isResourceSupportImportVar = func(string) (support bool, err error) {
 					return true, nil
 				}
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
@@ -252,7 +254,7 @@ func TestUnitExportCompartmentWithResourceName(t *testing.T) {
 				isResourceSupportImportVar = func(string) (support bool, err error) {
 					return true, nil
 				}
-				tfinstallVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", nil
 				}
 				tfInitVar = func(tf *tfexec.Terraform, initArgs []tfexec.InitOption) error {
