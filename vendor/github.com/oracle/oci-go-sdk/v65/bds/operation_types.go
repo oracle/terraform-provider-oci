@@ -54,6 +54,15 @@ const (
 	OperationTypesRemoveKafka                 OperationTypesEnum = "REMOVE_KAFKA"
 	OperationTypesExecuteBootstrapScript      OperationTypesEnum = "EXECUTE_BOOTSTRAP_SCRIPT"
 	OperationTypesOdhServiceCertificateUpdate OperationTypesEnum = "ODH_SERVICE_CERTIFICATE_UPDATE"
+	OperationTypesCreateBackupConfig          OperationTypesEnum = "CREATE_BACKUP_CONFIG"
+	OperationTypesUpdateBackupConfig          OperationTypesEnum = "UPDATE_BACKUP_CONFIG"
+	OperationTypesDeleteBackupConfig          OperationTypesEnum = "DELETE_BACKUP_CONFIG"
+	OperationTypesCreateNodeReplaceConfig     OperationTypesEnum = "CREATE_NODE_REPLACE_CONFIG"
+	OperationTypesUpdateNodeReplaceConfig     OperationTypesEnum = "UPDATE_NODE_REPLACE_CONFIG"
+	OperationTypesDeleteNodeReplaceConfig     OperationTypesEnum = "DELETE_NODE_REPLACE_CONFIG"
+	OperationTypesBackupNodes                 OperationTypesEnum = "BACKUP_NODES"
+	OperationTypesDeleteNodeBackup            OperationTypesEnum = "DELETE_NODE_BACKUP"
+	OperationTypesReplaceNode                 OperationTypesEnum = "REPLACE_NODE"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -93,6 +102,15 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"REMOVE_KAFKA":                   OperationTypesRemoveKafka,
 	"EXECUTE_BOOTSTRAP_SCRIPT":       OperationTypesExecuteBootstrapScript,
 	"ODH_SERVICE_CERTIFICATE_UPDATE": OperationTypesOdhServiceCertificateUpdate,
+	"CREATE_BACKUP_CONFIG":           OperationTypesCreateBackupConfig,
+	"UPDATE_BACKUP_CONFIG":           OperationTypesUpdateBackupConfig,
+	"DELETE_BACKUP_CONFIG":           OperationTypesDeleteBackupConfig,
+	"CREATE_NODE_REPLACE_CONFIG":     OperationTypesCreateNodeReplaceConfig,
+	"UPDATE_NODE_REPLACE_CONFIG":     OperationTypesUpdateNodeReplaceConfig,
+	"DELETE_NODE_REPLACE_CONFIG":     OperationTypesDeleteNodeReplaceConfig,
+	"BACKUP_NODES":                   OperationTypesBackupNodes,
+	"DELETE_NODE_BACKUP":             OperationTypesDeleteNodeBackup,
+	"REPLACE_NODE":                   OperationTypesReplaceNode,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -132,6 +150,15 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"remove_kafka":                   OperationTypesRemoveKafka,
 	"execute_bootstrap_script":       OperationTypesExecuteBootstrapScript,
 	"odh_service_certificate_update": OperationTypesOdhServiceCertificateUpdate,
+	"create_backup_config":           OperationTypesCreateBackupConfig,
+	"update_backup_config":           OperationTypesUpdateBackupConfig,
+	"delete_backup_config":           OperationTypesDeleteBackupConfig,
+	"create_node_replace_config":     OperationTypesCreateNodeReplaceConfig,
+	"update_node_replace_config":     OperationTypesUpdateNodeReplaceConfig,
+	"delete_node_replace_config":     OperationTypesDeleteNodeReplaceConfig,
+	"backup_nodes":                   OperationTypesBackupNodes,
+	"delete_node_backup":             OperationTypesDeleteNodeBackup,
+	"replace_node":                   OperationTypesReplaceNode,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -182,6 +209,15 @@ func GetOperationTypesEnumStringValues() []string {
 		"REMOVE_KAFKA",
 		"EXECUTE_BOOTSTRAP_SCRIPT",
 		"ODH_SERVICE_CERTIFICATE_UPDATE",
+		"CREATE_BACKUP_CONFIG",
+		"UPDATE_BACKUP_CONFIG",
+		"DELETE_BACKUP_CONFIG",
+		"CREATE_NODE_REPLACE_CONFIG",
+		"UPDATE_NODE_REPLACE_CONFIG",
+		"DELETE_NODE_REPLACE_CONFIG",
+		"BACKUP_NODES",
+		"DELETE_NODE_BACKUP",
+		"REPLACE_NODE",
 	}
 }
 

@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -22,6 +23,8 @@ type PipelineStepOverrideDetails struct {
 	StepName *string `mandatory:"true" json:"stepName"`
 
 	StepConfigurationDetails *PipelineStepConfigurationDetails `mandatory:"true" json:"stepConfigurationDetails"`
+
+	StepContainerConfigurationDetails PipelineContainerConfigurationDetails `mandatory:"false" json:"stepContainerConfigurationDetails"`
 }
 
 func (m PipelineStepOverrideDetails) String() string {
@@ -38,4 +41,34 @@ func (m PipelineStepOverrideDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *PipelineStepOverrideDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		StepContainerConfigurationDetails pipelinecontainerconfigurationdetails `json:"stepContainerConfigurationDetails"`
+		StepName                          *string                               `json:"stepName"`
+		StepConfigurationDetails          *PipelineStepConfigurationDetails     `json:"stepConfigurationDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.StepContainerConfigurationDetails.UnmarshalPolymorphicJSON(model.StepContainerConfigurationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.StepContainerConfigurationDetails = nn.(PipelineContainerConfigurationDetails)
+	} else {
+		m.StepContainerConfigurationDetails = nil
+	}
+
+	m.StepName = model.StepName
+
+	m.StepConfigurationDetails = model.StepConfigurationDetails
+
+	return
 }

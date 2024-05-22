@@ -34,6 +34,9 @@ type CancelPipelineRunRequest struct {
 	// provide matches the resource's current `etag` value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// A boolean value to specify whether to terminate pipeline run gracefully.
+	TerminateGracefully *bool `mandatory:"false" contributesTo:"query" name:"terminateGracefully"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
