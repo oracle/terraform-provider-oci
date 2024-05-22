@@ -145,7 +145,7 @@ func (client ClusterPlacementGroupsCPClient) activateClusterPlacementGroup(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/ActivateClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ActivateClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +203,7 @@ func (client ClusterPlacementGroupsCPClient) cancelWorkRequest(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -268,7 +268,7 @@ func (client ClusterPlacementGroupsCPClient) changeClusterPlacementGroupCompartm
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/ChangeClusterPlacementGroupCompartment"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ChangeClusterPlacementGroupCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -331,7 +331,7 @@ func (client ClusterPlacementGroupsCPClient) createClusterPlacementGroup(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/CreateClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "CreateClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}
@@ -394,7 +394,7 @@ func (client ClusterPlacementGroupsCPClient) deactivateClusterPlacementGroup(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/DeactivateClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "DeactivateClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}
@@ -452,7 +452,7 @@ func (client ClusterPlacementGroupsCPClient) deleteClusterPlacementGroup(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/DeleteClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "DeleteClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}
@@ -510,7 +510,7 @@ func (client ClusterPlacementGroupsCPClient) getClusterPlacementGroup(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/GetClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "GetClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}
@@ -568,7 +568,7 @@ func (client ClusterPlacementGroupsCPClient) getWorkRequest(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -626,7 +626,7 @@ func (client ClusterPlacementGroupsCPClient) listClusterPlacementGroups(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroupCollection/ListClusterPlacementGroups"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ListClusterPlacementGroups", apiReferenceLink)
 		return response, err
 	}
@@ -684,7 +684,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestErrors(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -742,7 +742,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequestLogs(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -800,7 +800,7 @@ func (client ClusterPlacementGroupsCPClient) listWorkRequests(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -858,7 +858,7 @@ func (client ClusterPlacementGroupsCPClient) updateClusterPlacementGroup(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/clusterplacementgroups/20230801/ClusterPlacementGroup/UpdateClusterPlacementGroup"
 		err = common.PostProcessServiceError(err, "ClusterPlacementGroupsCP", "UpdateClusterPlacementGroup", apiReferenceLink)
 		return response, err
 	}

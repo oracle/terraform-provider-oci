@@ -24,6 +24,9 @@ type PipelineInfrastructureConfigurationDetails struct {
 	// The size of the block storage volume to attach to the instance.
 	BlockStorageSizeInGBs *int `mandatory:"true" json:"blockStorageSizeInGBs"`
 
+	// The subnet to create a secondary vnic in to attach to the instance running the pipeline step.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	ShapeConfigDetails *PipelineShapeConfigDetails `mandatory:"false" json:"shapeConfigDetails"`
 }
 
