@@ -83,6 +83,12 @@ type Node struct {
 
 	// Indicates if the node requires a reboot to either reflect the latest os kernel or take actions for maintenance reboot.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
+
+	// The date and time the instance was replaced by a new vm with a node backup.
+	TimeReplaced *common.SDKTime `mandatory:"false" json:"timeReplaced"`
+
+	// The node back id that was used for replacing the node.
+	NodeBackupId *string `mandatory:"false" json:"nodeBackupId"`
 }
 
 func (m Node) String() string {

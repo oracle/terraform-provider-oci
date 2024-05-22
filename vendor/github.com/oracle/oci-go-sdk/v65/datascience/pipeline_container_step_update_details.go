@@ -16,8 +16,8 @@ import (
 	"strings"
 )
 
-// PipelineCustomScriptStepUpdateDetails The type of step where user provides the step artifact to be executed on an execution engine managed by the pipelines service.
-type PipelineCustomScriptStepUpdateDetails struct {
+// PipelineContainerStepUpdateDetails Update the details for a container step type.
+type PipelineContainerStepUpdateDetails struct {
 
 	// The name of the step.
 	StepName *string `mandatory:"true" json:"stepName"`
@@ -31,28 +31,28 @@ type PipelineCustomScriptStepUpdateDetails struct {
 }
 
 // GetStepName returns StepName
-func (m PipelineCustomScriptStepUpdateDetails) GetStepName() *string {
+func (m PipelineContainerStepUpdateDetails) GetStepName() *string {
 	return m.StepName
 }
 
 // GetDescription returns Description
-func (m PipelineCustomScriptStepUpdateDetails) GetDescription() *string {
+func (m PipelineContainerStepUpdateDetails) GetDescription() *string {
 	return m.Description
 }
 
 // GetStepConfigurationDetails returns StepConfigurationDetails
-func (m PipelineCustomScriptStepUpdateDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
+func (m PipelineContainerStepUpdateDetails) GetStepConfigurationDetails() *PipelineStepConfigurationDetails {
 	return m.StepConfigurationDetails
 }
 
-func (m PipelineCustomScriptStepUpdateDetails) String() string {
+func (m PipelineContainerStepUpdateDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m PipelineCustomScriptStepUpdateDetails) ValidateEnumValue() (bool, error) {
+func (m PipelineContainerStepUpdateDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -62,14 +62,14 @@ func (m PipelineCustomScriptStepUpdateDetails) ValidateEnumValue() (bool, error)
 }
 
 // MarshalJSON marshals to json representation
-func (m PipelineCustomScriptStepUpdateDetails) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypePipelineCustomScriptStepUpdateDetails PipelineCustomScriptStepUpdateDetails
+func (m PipelineContainerStepUpdateDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypePipelineContainerStepUpdateDetails PipelineContainerStepUpdateDetails
 	s := struct {
 		DiscriminatorParam string `json:"stepType"`
-		MarshalTypePipelineCustomScriptStepUpdateDetails
+		MarshalTypePipelineContainerStepUpdateDetails
 	}{
-		"CUSTOM_SCRIPT",
-		(MarshalTypePipelineCustomScriptStepUpdateDetails)(m),
+		"CONTAINER",
+		(MarshalTypePipelineContainerStepUpdateDetails)(m),
 	}
 
 	return json.Marshal(&s)
