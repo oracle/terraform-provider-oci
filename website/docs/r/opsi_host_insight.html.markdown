@@ -82,6 +82,7 @@ The following attributes are exported:
 * `platform_name` - Platform name.
 * `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX]. 
 * `platform_version` - Platform version.
+* `root_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 * `root_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
 * `state` - The current state of the host.
 * `status` - Indicates the status of a host insight in Operations Insights
