@@ -126,12 +126,12 @@ The following arguments are supported:
             * `protocol` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Protocol used for connection requests for private endpoint accssed database resource.
             * `service_name` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Database service name used for connection requests.
         * `credential_details` - (Required when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database.
-            * `credential_source_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-            * `credential_type` - (Required) Credential type.
-            * `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-            * `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
-            * `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
-            * `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
+			* `credential_source_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
+			* `credential_type` - (Required) CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
+			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
+			* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.This is used for TCPS support in BM/VM/ExaCS cases.
         * `database_id` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
         * `database_resource_type` - (Required when entity_source=MACS_MANAGED_CLOUD_EXADATA | PE_COMANAGED_EXADATA) Oracle Cloud Infrastructure database resource type
         * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_EXADATA) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
