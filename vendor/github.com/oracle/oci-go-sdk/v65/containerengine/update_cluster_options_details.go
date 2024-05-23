@@ -28,6 +28,8 @@ type UpdateClusterOptionsDetails struct {
 	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
 
 	OpenIdConnectTokenAuthenticationConfig *OpenIdConnectTokenAuthenticationConfig `mandatory:"false" json:"openIdConnectTokenAuthenticationConfig"`
+
+	OpenIdConnectDiscovery *OpenIdConnectDiscovery `mandatory:"false" json:"openIdConnectDiscovery"`
 }
 
 func (m UpdateClusterOptionsDetails) String() string {

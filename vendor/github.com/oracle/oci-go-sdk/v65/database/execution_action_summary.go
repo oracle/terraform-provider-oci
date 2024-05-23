@@ -59,6 +59,9 @@ type ExecutionActionSummary struct {
 	// The estimated time of the execution action in minutes.
 	EstimatedTimeInMins *int `mandatory:"false" json:"estimatedTimeInMins"`
 
+	// The total time taken by corresponding resource activity in minutes.
+	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
+
 	// The priority order of the execution action.
 	ExecutionActionOrder *int `mandatory:"false" json:"executionActionOrder"`
 
@@ -174,18 +177,21 @@ const (
 	ExecutionActionSummaryLifecycleSubstateDurationExceeded      ExecutionActionSummaryLifecycleSubstateEnum = "DURATION_EXCEEDED"
 	ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress ExecutionActionSummaryLifecycleSubstateEnum = "MAINTENANCE_IN_PROGRESS"
 	ExecutionActionSummaryLifecycleSubstateWaiting               ExecutionActionSummaryLifecycleSubstateEnum = "WAITING"
+	ExecutionActionSummaryLifecycleSubstateRescheduled           ExecutionActionSummaryLifecycleSubstateEnum = "RESCHEDULED"
 )
 
 var mappingExecutionActionSummaryLifecycleSubstateEnum = map[string]ExecutionActionSummaryLifecycleSubstateEnum{
 	"DURATION_EXCEEDED":       ExecutionActionSummaryLifecycleSubstateDurationExceeded,
 	"MAINTENANCE_IN_PROGRESS": ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress,
 	"WAITING":                 ExecutionActionSummaryLifecycleSubstateWaiting,
+	"RESCHEDULED":             ExecutionActionSummaryLifecycleSubstateRescheduled,
 }
 
 var mappingExecutionActionSummaryLifecycleSubstateEnumLowerCase = map[string]ExecutionActionSummaryLifecycleSubstateEnum{
 	"duration_exceeded":       ExecutionActionSummaryLifecycleSubstateDurationExceeded,
 	"maintenance_in_progress": ExecutionActionSummaryLifecycleSubstateMaintenanceInProgress,
 	"waiting":                 ExecutionActionSummaryLifecycleSubstateWaiting,
+	"rescheduled":             ExecutionActionSummaryLifecycleSubstateRescheduled,
 }
 
 // GetExecutionActionSummaryLifecycleSubstateEnumValues Enumerates the set of values for ExecutionActionSummaryLifecycleSubstateEnum
@@ -203,6 +209,7 @@ func GetExecutionActionSummaryLifecycleSubstateEnumStringValues() []string {
 		"DURATION_EXCEEDED",
 		"MAINTENANCE_IN_PROGRESS",
 		"WAITING",
+		"RESCHEDULED",
 	}
 }
 

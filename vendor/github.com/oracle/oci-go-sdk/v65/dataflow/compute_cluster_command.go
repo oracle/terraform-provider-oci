@@ -34,6 +34,9 @@ type ComputeClusterCommand struct {
 
 	// Command to be executed.
 	Command *string `mandatory:"false" json:"command"`
+
+	// Spark events details for the command.
+	Events *interface{} `mandatory:"false" json:"events"`
 }
 
 func (m ComputeClusterCommand) String() string {

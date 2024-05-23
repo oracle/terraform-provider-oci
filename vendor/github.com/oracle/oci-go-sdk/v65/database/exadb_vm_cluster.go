@@ -24,7 +24,7 @@ type ExadbVmCluster struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the availability domain that VM cluster on Exascale Infrastructure is located in.
+	// The name of the availability domain in which the Exadata VM cluster on Exascale Infrastructure is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure.
@@ -46,16 +46,14 @@ type ExadbVmCluster struct {
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The hostname for the Exadata VM cluster on Exascale Infrastructure. The hostname must begin with an alphabetic character, and
-	// can contain alphanumeric characters and hyphens (-). The maximum length of the hostname is 12 characters for Exadata systems.
-	//
+	// can contain alphanumeric characters and hyphens (-). For Exadata systems, the maximum length of the hostname is 12 characters.
 	// The maximum length of the combined hostname and domain is 63 characters.
-	//
 	// **Note:** The hostname must be unique within the subnet. If it is not unique,
-	// the Exadata VM cluster on Exascale Infrastructure will fail to provision.
+	// then the Exadata VM cluster on Exascale Infrastructure will fail to provision.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
 	// A domain name used for the Exadata VM cluster on Exascale Infrastructure. If the Oracle-provided internet and VCN
-	// resolver is enabled for the specified subnet, the domain name for the subnet is used
+	// resolver is enabled for the specified subnet, then the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
 	// Applies to Exadata Cloud Service instances only.
 	Domain *string `mandatory:"true" json:"domain"`
@@ -63,10 +61,10 @@ type ExadbVmCluster struct {
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
-	// The number of Total ECPUs for a Exadata VM cluster on Exascale Infrastructure.
+	// The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure.
 	TotalECpuCount *int `mandatory:"true" json:"totalECpuCount"`
 
-	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
+	// The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure.
 	EnabledECpuCount *int `mandatory:"true" json:"enabledECpuCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"true" json:"vmFileSystemStorage"`
@@ -123,8 +121,7 @@ type ExadbVmCluster struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the Exadata VM cluster on Exascale Infrastructure.
 	// The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to
-	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
-	// **Note:** For a single-node DB system, this list is empty.
+	// enable failover. If one node fails, then the VIP is reassigned to another active node in the cluster.
 	VipIds []string `mandatory:"false" json:"vipIds"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure.
@@ -146,16 +143,16 @@ type ExadbVmCluster struct {
 	// The FQDN of the DNS record for the SCAN IP addresses that are associated with the Exadata VM cluster on Exascale Infrastructure.
 	ScanDnsName *string `mandatory:"false" json:"scanDnsName"`
 
-	// The OCID of the zone the Exadata VM cluster on Exascale Infrastructure is associated with.
+	// The OCID of the zone with which the Exadata VM cluster on Exascale Infrastructure is associated.
 	ZoneId *string `mandatory:"false" json:"zoneId"`
 
 	// The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 	ScanListenerPortTcp *int `mandatory:"false" json:"scanListenerPortTcp"`
 
-	// The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+	// The Secured Communication (TCPS) protocol Single Client Access Name (SCAN) port. The default port is 2484.
 	ScanListenerPortTcpSsl *int `mandatory:"false" json:"scanListenerPortTcpSsl"`
 
-	// The private zone id in which DNS records needs to be created.
+	// The private zone ID in which you want DNS records to be created.
 	PrivateZoneId *string `mandatory:"false" json:"privateZoneId"`
 
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
@@ -164,7 +161,7 @@ type ExadbVmCluster struct {
 
 	TotalFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"totalFileSystemStorage"`
 
-	// The memory to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.
+	// The memory that you want to be allocated in GBs. Memory is calculated based on 11 GB per VM core reserved.
 	MemorySizeInGBs *int `mandatory:"false" json:"memorySizeInGBs"`
 
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`

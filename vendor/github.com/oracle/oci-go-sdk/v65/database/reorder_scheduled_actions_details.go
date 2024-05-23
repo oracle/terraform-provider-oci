@@ -18,6 +18,9 @@ import (
 // ReorderScheduledActionsDetails Describes the re-order parameters for the Scheduled Action resources.
 type ReorderScheduledActionsDetails struct {
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Scheduling Window.
+	SchedulingWindowId *string `mandatory:"true" json:"schedulingWindowId"`
+
 	// List of action resources in a specific order.
 	// Example: [{actionOrder: 1, actionResourceId: "resourceId1"}, {actionOrder: 2, actionResourceId: "resourceId2"}]
 	ScheduledActionIdOrders []ActionOrderDetails `mandatory:"true" json:"scheduledActionIdOrders"`

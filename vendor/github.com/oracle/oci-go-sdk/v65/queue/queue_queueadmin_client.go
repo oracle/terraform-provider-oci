@@ -91,60 +91,6 @@ func (client *QueueAdminClient) ConfigurationProvider() *common.ConfigurationPro
 	return client.config
 }
 
-// AddCapability Adds a capability to the queue such as CONSUMER_GROUPS.
-// A default retry strategy applies to this operation AddCapability()
-func (client QueueAdminClient) AddCapability(ctx context.Context, request AddCapabilityRequest) (response AddCapabilityResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.addCapability, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AddCapabilityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AddCapabilityResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AddCapabilityResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AddCapabilityResponse")
-	}
-	return
-}
-
-// addCapability implements the OCIOperation interface (enables retrying operations)
-func (client QueueAdminClient) addCapability(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/queues/{queueId}/actions/addCapability", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AddCapabilityResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/AddCapability"
-		err = common.PostProcessServiceError(err, "QueueAdmin", "AddCapability", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // ChangeQueueCompartment Moves a queue from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeQueueCompartment()
 func (client QueueAdminClient) ChangeQueueCompartment(ctx context.Context, request ChangeQueueCompartmentRequest) (response ChangeQueueCompartmentResponse, err error) {
@@ -909,60 +855,6 @@ func (client QueueAdminClient) purgeQueue(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/PurgeQueue"
 		err = common.PostProcessServiceError(err, "QueueAdmin", "PurgeQueue", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// RemoveCapability Removes a capability from the queue such as CONSUMER_GROUPS.
-// A default retry strategy applies to this operation RemoveCapability()
-func (client QueueAdminClient) RemoveCapability(ctx context.Context, request RemoveCapabilityRequest) (response RemoveCapabilityResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.removeCapability, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = RemoveCapabilityResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = RemoveCapabilityResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(RemoveCapabilityResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into RemoveCapabilityResponse")
-	}
-	return
-}
-
-// removeCapability implements the OCIOperation interface (enables retrying operations)
-func (client QueueAdminClient) removeCapability(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/queues/{queueId}/actions/removeCapability", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response RemoveCapabilityResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/queue/20210201/Queue/RemoveCapability"
-		err = common.PostProcessServiceError(err, "QueueAdmin", "RemoveCapability", apiReferenceLink)
 		return response, err
 	}
 

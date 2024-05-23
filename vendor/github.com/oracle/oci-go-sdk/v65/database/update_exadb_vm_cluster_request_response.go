@@ -14,7 +14,7 @@ import (
 // UpdateExadbVmClusterRequest wrapper for the UpdateExadbVmCluster operation
 type UpdateExadbVmClusterRequest struct {
 
-	// The exadbv cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) on Exascale Infrastructure.
 	ExadbVmClusterId *string `mandatory:"true" contributesTo:"path" name:"exadbVmClusterId"`
 
 	// Request to update the attributes of a Exadata VM cluster on Exascale Infrastructure.

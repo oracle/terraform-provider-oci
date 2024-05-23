@@ -24,6 +24,9 @@ type VirtualNodeEvictionVirtualNodePoolSettings struct {
 	// PT0M will indicate you want to delete the virtual node without cordon and drain.
 	// Default PT60M, Min PT0M, Max: PT60M. Format ISO 8601 e.g PT30M
 	EvictionGraceDuration *string `mandatory:"false" json:"evictionGraceDuration"`
+
+	// If the underlying virtual node should be force deleted if all the pods are not evicted in the evictionGraceDuration.
+	IsForceDeleteAfterGraceDuration *bool `mandatory:"false" json:"isForceDeleteAfterGraceDuration"`
 }
 
 func (m VirtualNodeEvictionVirtualNodePoolSettings) String() string {

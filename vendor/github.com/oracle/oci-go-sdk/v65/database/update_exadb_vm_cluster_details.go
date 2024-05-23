@@ -21,10 +21,10 @@ type UpdateExadbVmClusterDetails struct {
 	// The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The number of Total ECPUs for a Exadata VM cluster on Exascale Infrastructure.
+	// The number of Total ECPUs for an Exadata VM cluster on Exascale Infrastructure.
 	TotalECpuCount *int `mandatory:"false" json:"totalECpuCount"`
 
-	// The number of ECPUs to enable for a Exadata VM cluster on Exascale Infrastructure.
+	// The number of ECPUs to enable for an Exadata VM cluster on Exascale Infrastructure.
 	EnabledECpuCount *int `mandatory:"false" json:"enabledECpuCount"`
 
 	VmFileSystemStorage *ExadbVmClusterStorageDetails `mandatory:"false" json:"vmFileSystemStorage"`

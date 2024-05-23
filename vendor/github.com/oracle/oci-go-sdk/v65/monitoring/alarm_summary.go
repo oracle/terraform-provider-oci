@@ -93,26 +93,6 @@ type AlarmSummary struct {
 	// The configuration details for suppressing an alarm.
 	Suppression *Suppression `mandatory:"false" json:"suppression"`
 
-	// Notification title that can be customized to include alarm attributes.
-	// It is used to generate customize title in the alarm notification.
-	NotificationTitle *string `mandatory:"false" json:"notificationTitle"`
-
-	// The period of time to wait for metric ingestion before alarm evaluation.
-	// The duration is specified as a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
-	// for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M.
-	EvaluationSlackTime *string `mandatory:"false" json:"evaluationSlackTime"`
-
-	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
-	// and transition timestamp.
-	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
-	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
-	AlarmSummary *string `mandatory:"false" json:"alarmSummary"`
-
-	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
-	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
-	// Example: `frontend-fleet`
-	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
-
 	// Whether the alarm sends a separate message for each metric stream.
 	// See Creating an Alarm That Splits Messages by Metric Stream (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-alarm-split.htm).
 	// Example: `true`
@@ -139,6 +119,31 @@ type AlarmSummary struct {
 	// The version of the alarm notification to be delivered. Allowed value: `1.X`
 	// The value must start with a number (up to four digits), followed by a period and an uppercase X.
 	NotificationVersion *string `mandatory:"false" json:"notificationVersion"`
+
+	// Customizable notification title (`title` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// The notification title appears as the subject line in a formatted email message and as the title in a Slack message.
+	NotificationTitle *string `mandatory:"false" json:"notificationTitle"`
+
+	// Customizable slack period to wait for metric ingestion before evaluating the alarm.
+	// Specify a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
+	// for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M.
+	// For more information about the slack period, see
+	// About the Internal Reset Period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#reset).
+	EvaluationSlackDuration *string `mandatory:"false" json:"evaluationSlackDuration"`
+
+	// Customizable alarm summary (`alarmSummary` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// The alarm summary appears within the body of the alarm message and in responses to
+	// ListAlarmsStatus
+	// GetAlarmHistory and
+	// RetrieveDimensionStates.
+	AlarmSummary *string `mandatory:"false" json:"alarmSummary"`
+
+	// Resource group that you want to match. A null value returns only metric data that has no resource groups. The specified resource group must exist in the definition of the posted metric. Only one resource group can be applied per metric.
+	// A valid resourceGroup value starts with an alphabetical character and includes only alphanumeric characters, periods (.), underscores (_), hyphens (-), and dollar signs ($).
+	// Example: `frontend-fleet`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
 }
 
 func (m AlarmSummary) String() string {

@@ -24,6 +24,9 @@ type ListBaselineableMetricsRequest struct {
 	// Resource Type
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
+	// Is the baseline enabled metric defined out of box by Oracle or by end-user
+	IsOutOfBox *bool `mandatory:"false" contributesTo:"query" name:"isOutOfBox"`
+
 	// Metric Name
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 

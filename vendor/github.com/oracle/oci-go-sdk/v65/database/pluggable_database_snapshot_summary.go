@@ -30,7 +30,7 @@ type PluggableDatabaseSnapshotSummary struct {
 	// The current state of the Exadata Pluggable Database Snapshot.
 	LifecycleState PluggableDatabaseSnapshotLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// The date and time that the Exadata Pluggable Database Snapshot was created, as expressed in RFC 3339 format. For example, 2023-06-27T21:10:29Z
+	// The date and time that the Exadata Pluggable Database Snapshot was created, as expressed in RFC 3339 format. For example: 2023-06-27T21:10:29Z
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
 	// Additional information about the current lifecycle state of the Exadata Pluggable Database Snapshot.

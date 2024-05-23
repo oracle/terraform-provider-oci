@@ -14,7 +14,7 @@ import (
 // GetExadbVmClusterRequest wrapper for the GetExadbVmCluster operation
 type GetExadbVmClusterRequest struct {
 
-	// The exadbv cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) on Exascale Infrastructure.
 	ExadbVmClusterId *string `mandatory:"true" contributesTo:"path" name:"exadbVmClusterId"`
 
 	// Unique identifier for the request.

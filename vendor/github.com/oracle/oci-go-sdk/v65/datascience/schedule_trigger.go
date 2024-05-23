@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ScheduleTrigger The trigger of the schedule.
+// ScheduleTrigger The trigger of the schedule can be UNIX cron or iCal expression or simple interval
 type ScheduleTrigger interface {
 
 	// The schedule starting date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
@@ -60,6 +60,10 @@ func (m *scheduletrigger) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.TriggerType {
+	case "ICAL":
+		mm := ScheduleICalTrigger{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTERVAL":
 		mm := ScheduleIntervalTrigger{}
 		err = json.Unmarshal(data, &mm)
@@ -107,16 +111,19 @@ type ScheduleTriggerTriggerTypeEnum string
 const (
 	ScheduleTriggerTriggerTypeCron     ScheduleTriggerTriggerTypeEnum = "CRON"
 	ScheduleTriggerTriggerTypeInterval ScheduleTriggerTriggerTypeEnum = "INTERVAL"
+	ScheduleTriggerTriggerTypeIcal     ScheduleTriggerTriggerTypeEnum = "ICAL"
 )
 
 var mappingScheduleTriggerTriggerTypeEnum = map[string]ScheduleTriggerTriggerTypeEnum{
 	"CRON":     ScheduleTriggerTriggerTypeCron,
 	"INTERVAL": ScheduleTriggerTriggerTypeInterval,
+	"ICAL":     ScheduleTriggerTriggerTypeIcal,
 }
 
 var mappingScheduleTriggerTriggerTypeEnumLowerCase = map[string]ScheduleTriggerTriggerTypeEnum{
 	"cron":     ScheduleTriggerTriggerTypeCron,
 	"interval": ScheduleTriggerTriggerTypeInterval,
+	"ical":     ScheduleTriggerTriggerTypeIcal,
 }
 
 // GetScheduleTriggerTriggerTypeEnumValues Enumerates the set of values for ScheduleTriggerTriggerTypeEnum
@@ -133,6 +140,7 @@ func GetScheduleTriggerTriggerTypeEnumStringValues() []string {
 	return []string{
 		"CRON",
 		"INTERVAL",
+		"ICAL",
 	}
 }
 

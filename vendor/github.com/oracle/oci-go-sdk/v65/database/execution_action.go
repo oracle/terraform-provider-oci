@@ -59,6 +59,9 @@ type ExecutionAction struct {
 	// The estimated time of the execution action in minutes.
 	EstimatedTimeInMins *int `mandatory:"false" json:"estimatedTimeInMins"`
 
+	// The total time taken by corresponding resource activity in minutes.
+	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
+
 	// The priority order of the execution action.
 	ExecutionActionOrder *int `mandatory:"false" json:"executionActionOrder"`
 
@@ -174,18 +177,21 @@ const (
 	ExecutionActionLifecycleSubstateDurationExceeded      ExecutionActionLifecycleSubstateEnum = "DURATION_EXCEEDED"
 	ExecutionActionLifecycleSubstateMaintenanceInProgress ExecutionActionLifecycleSubstateEnum = "MAINTENANCE_IN_PROGRESS"
 	ExecutionActionLifecycleSubstateWaiting               ExecutionActionLifecycleSubstateEnum = "WAITING"
+	ExecutionActionLifecycleSubstateRescheduled           ExecutionActionLifecycleSubstateEnum = "RESCHEDULED"
 )
 
 var mappingExecutionActionLifecycleSubstateEnum = map[string]ExecutionActionLifecycleSubstateEnum{
 	"DURATION_EXCEEDED":       ExecutionActionLifecycleSubstateDurationExceeded,
 	"MAINTENANCE_IN_PROGRESS": ExecutionActionLifecycleSubstateMaintenanceInProgress,
 	"WAITING":                 ExecutionActionLifecycleSubstateWaiting,
+	"RESCHEDULED":             ExecutionActionLifecycleSubstateRescheduled,
 }
 
 var mappingExecutionActionLifecycleSubstateEnumLowerCase = map[string]ExecutionActionLifecycleSubstateEnum{
 	"duration_exceeded":       ExecutionActionLifecycleSubstateDurationExceeded,
 	"maintenance_in_progress": ExecutionActionLifecycleSubstateMaintenanceInProgress,
 	"waiting":                 ExecutionActionLifecycleSubstateWaiting,
+	"rescheduled":             ExecutionActionLifecycleSubstateRescheduled,
 }
 
 // GetExecutionActionLifecycleSubstateEnumValues Enumerates the set of values for ExecutionActionLifecycleSubstateEnum
@@ -203,6 +209,7 @@ func GetExecutionActionLifecycleSubstateEnumStringValues() []string {
 		"DURATION_EXCEEDED",
 		"MAINTENANCE_IN_PROGRESS",
 		"WAITING",
+		"RESCHEDULED",
 	}
 }
 

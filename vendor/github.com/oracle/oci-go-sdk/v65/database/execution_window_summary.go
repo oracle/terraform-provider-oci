@@ -67,6 +67,9 @@ type ExecutionWindowSummary struct {
 	// The estimated time of the execution window in minutes.
 	EstimatedTimeInMins *int `mandatory:"false" json:"estimatedTimeInMins"`
 
+	// The total time taken by corresponding resource activity in minutes.
+	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
+
 	// The execution window is of PLANNED or UNPLANNED type.
 	WindowType ExecutionWindowSummaryWindowTypeEnum `mandatory:"false" json:"windowType,omitempty"`
 
@@ -119,6 +122,8 @@ const (
 	ExecutionWindowSummaryLifecycleStateDeleted        ExecutionWindowSummaryLifecycleStateEnum = "DELETED"
 	ExecutionWindowSummaryLifecycleStateSucceeded      ExecutionWindowSummaryLifecycleStateEnum = "SUCCEEDED"
 	ExecutionWindowSummaryLifecycleStatePartialSuccess ExecutionWindowSummaryLifecycleStateEnum = "PARTIAL_SUCCESS"
+	ExecutionWindowSummaryLifecycleStateCreating       ExecutionWindowSummaryLifecycleStateEnum = "CREATING"
+	ExecutionWindowSummaryLifecycleStateDeleting       ExecutionWindowSummaryLifecycleStateEnum = "DELETING"
 )
 
 var mappingExecutionWindowSummaryLifecycleStateEnum = map[string]ExecutionWindowSummaryLifecycleStateEnum{
@@ -131,6 +136,8 @@ var mappingExecutionWindowSummaryLifecycleStateEnum = map[string]ExecutionWindow
 	"DELETED":         ExecutionWindowSummaryLifecycleStateDeleted,
 	"SUCCEEDED":       ExecutionWindowSummaryLifecycleStateSucceeded,
 	"PARTIAL_SUCCESS": ExecutionWindowSummaryLifecycleStatePartialSuccess,
+	"CREATING":        ExecutionWindowSummaryLifecycleStateCreating,
+	"DELETING":        ExecutionWindowSummaryLifecycleStateDeleting,
 }
 
 var mappingExecutionWindowSummaryLifecycleStateEnumLowerCase = map[string]ExecutionWindowSummaryLifecycleStateEnum{
@@ -143,6 +150,8 @@ var mappingExecutionWindowSummaryLifecycleStateEnumLowerCase = map[string]Execut
 	"deleted":         ExecutionWindowSummaryLifecycleStateDeleted,
 	"succeeded":       ExecutionWindowSummaryLifecycleStateSucceeded,
 	"partial_success": ExecutionWindowSummaryLifecycleStatePartialSuccess,
+	"creating":        ExecutionWindowSummaryLifecycleStateCreating,
+	"deleting":        ExecutionWindowSummaryLifecycleStateDeleting,
 }
 
 // GetExecutionWindowSummaryLifecycleStateEnumValues Enumerates the set of values for ExecutionWindowSummaryLifecycleStateEnum
@@ -166,6 +175,8 @@ func GetExecutionWindowSummaryLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"SUCCEEDED",
 		"PARTIAL_SUCCESS",
+		"CREATING",
+		"DELETING",
 	}
 }
 
@@ -183,18 +194,21 @@ const (
 	ExecutionWindowSummaryLifecycleSubstateDurationExceeded      ExecutionWindowSummaryLifecycleSubstateEnum = "DURATION_EXCEEDED"
 	ExecutionWindowSummaryLifecycleSubstateMaintenanceInProgress ExecutionWindowSummaryLifecycleSubstateEnum = "MAINTENANCE_IN_PROGRESS"
 	ExecutionWindowSummaryLifecycleSubstateWaiting               ExecutionWindowSummaryLifecycleSubstateEnum = "WAITING"
+	ExecutionWindowSummaryLifecycleSubstateRescheduled           ExecutionWindowSummaryLifecycleSubstateEnum = "RESCHEDULED"
 )
 
 var mappingExecutionWindowSummaryLifecycleSubstateEnum = map[string]ExecutionWindowSummaryLifecycleSubstateEnum{
 	"DURATION_EXCEEDED":       ExecutionWindowSummaryLifecycleSubstateDurationExceeded,
 	"MAINTENANCE_IN_PROGRESS": ExecutionWindowSummaryLifecycleSubstateMaintenanceInProgress,
 	"WAITING":                 ExecutionWindowSummaryLifecycleSubstateWaiting,
+	"RESCHEDULED":             ExecutionWindowSummaryLifecycleSubstateRescheduled,
 }
 
 var mappingExecutionWindowSummaryLifecycleSubstateEnumLowerCase = map[string]ExecutionWindowSummaryLifecycleSubstateEnum{
 	"duration_exceeded":       ExecutionWindowSummaryLifecycleSubstateDurationExceeded,
 	"maintenance_in_progress": ExecutionWindowSummaryLifecycleSubstateMaintenanceInProgress,
 	"waiting":                 ExecutionWindowSummaryLifecycleSubstateWaiting,
+	"rescheduled":             ExecutionWindowSummaryLifecycleSubstateRescheduled,
 }
 
 // GetExecutionWindowSummaryLifecycleSubstateEnumValues Enumerates the set of values for ExecutionWindowSummaryLifecycleSubstateEnum
@@ -212,6 +226,7 @@ func GetExecutionWindowSummaryLifecycleSubstateEnumStringValues() []string {
 		"DURATION_EXCEEDED",
 		"MAINTENANCE_IN_PROGRESS",
 		"WAITING",
+		"RESCHEDULED",
 	}
 }
 

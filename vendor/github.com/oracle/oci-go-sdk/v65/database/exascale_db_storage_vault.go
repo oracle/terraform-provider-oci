@@ -24,7 +24,7 @@ type ExascaleDbStorageVault struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the availability domain that the Exadata Database Storage Vault is located in.
+	// The name of the availability domain in which the Exadata Database Storage Vault is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The current state of the Exadata Database Storage Vault.
@@ -44,12 +44,15 @@ type ExascaleDbStorageVault struct {
 	// Additional information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone that you want to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
-	// The List of Exadata VM cluster on Exascale Infrastructure OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	// The List of Exadata VM cluster on Exascale Infrastructure OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	// **Note:** If Exadata Database Storage Vault is not used for any Exadata VM cluster on Exascale Infrastructure, this list is empty.
-	ExaDbVmClusterIds []string `mandatory:"false" json:"exaDbVmClusterIds"`
+	VmClusterIds []string `mandatory:"false" json:"vmClusterIds"`
+
+	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
+	VmClusterCount *int `mandatory:"false" json:"vmClusterCount"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -63,9 +66,6 @@ type ExascaleDbStorageVault struct {
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-
-	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
-	ExaDbVmClusterCount *int `mandatory:"false" json:"exaDbVmClusterCount"`
 
 	// The size of additional Flash Cache in percentage of High Capacity database storage.
 	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`

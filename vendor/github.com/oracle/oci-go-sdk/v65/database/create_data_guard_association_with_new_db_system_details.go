@@ -77,6 +77,11 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The hostname for the DB node.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// A domain name used for the DB system. If the Oracle-provided Internet and VCN
+	// Resolver is enabled for the specified subnet, the domain name for the subnet is used
+	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
+	Domain *string `mandatory:"false" json:"domain"`
+
 	// The time zone of the dataguard standby DB system. For details, see DB System Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 

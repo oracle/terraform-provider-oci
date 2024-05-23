@@ -24,7 +24,7 @@ type CreateExascaleDbStorageVaultDetails struct {
 	// The user-friendly name for the Exadata Database Storage Vault. The name does not need to be unique.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The name of the availability domain that the Exadata Database Storage Vault is located in.
+	// The name of the availability domain in which the Exadata Database Storage Vault is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageInputDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
@@ -32,7 +32,7 @@ type CreateExascaleDbStorageVaultDetails struct {
 	// Exadata Database Storage Vault description.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone that you want to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// The size of additional Flash Cache in percentage of High Capacity database storage.

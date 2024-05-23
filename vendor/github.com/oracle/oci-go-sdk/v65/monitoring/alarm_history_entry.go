@@ -22,6 +22,14 @@ import (
 // If the entry corresponds to a state transition, such as OK to Firing, then the entry also includes a transition timestamp.
 type AlarmHistoryEntry struct {
 
+	// Customizable alarm summary (`alarmSummary` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// The alarm summary appears within the body of the alarm message and in responses to
+	// ListAlarmsStatus
+	// GetAlarmHistory and
+	// RetrieveDimensionStates.
+	AlarmSummary *string `mandatory:"true" json:"alarmSummary"`
+
 	// Description for this alarm history entry.
 	// Example 1 - alarm state history entry: `The alarm state is FIRING`
 	// Example 2 - alarm state transition history entry: `State transitioned from OK to Firing`
@@ -30,12 +38,6 @@ type AlarmHistoryEntry struct {
 	// Timestamp for this alarm history entry. Format defined by RFC3339.
 	// Example: `2023-02-01T01:02:29.600Z`
 	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
-
-	// Alarm summary that can be customized to include critical alarm attributes such as alarm status, query
-	// and transition timestamp.
-	// It is used to generate customize alarmSummary field in the alarm notification or capture the summary of
-	// the alarm state change when returned in history, ListAlarmsStatus, and retrieveDimensionStates APIs.
-	AlarmSummary *string `mandatory:"true" json:"alarmSummary"`
 
 	// Timestamp for the transition of the alarm state. For example, the time when the alarm transitioned from OK to Firing.
 	// Available for state transition entries only. Note: A three-minute lag for this value accounts for any late-arriving metrics.

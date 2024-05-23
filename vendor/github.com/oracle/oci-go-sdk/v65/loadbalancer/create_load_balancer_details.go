@@ -64,17 +64,29 @@ type CreateLoadBalancerDetails struct {
 	// Example: "ipMode":"IPV6"
 	IpMode CreateLoadBalancerDetailsIpModeEnum `mandatory:"false" json:"ipMode,omitempty"`
 
-	// Request ID is an identifier given to every request that goes through the load balancer.
-	// The same request id will be generated for both incoming request and the corresponding outgoing response.
-	// The header X-Request-ID (default name) holding the value of the request ID will be added to both request and response.
-	// If the header already exists i.e. it was sent by the caller or returned by the backend then its value will not be changed.
-	// Request ID header property allows:
-	// 1. specifying name of the header holding the request ID;
-	// 2. switching this feature off by setting the header name to empty string.
+	// Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
+	// If "true", the load balancer will attach a unique request id header to every request
+	// passed through from the load balancer to load balancer backends. This same request id
+	// header also will be added to the response the lb received from the backend handling
+	// the request before the load balancer returns the response to the requestor. The name
+	// of the unique request id header is set the by value of requestIdHeader.
+	// If "false", the loadbalancer not add this unique request id header to either the request
+	// passed through to the load balancer backends nor to the reponse returned to the user.
+	// New load balancers have the Request Id feature disabled unless isRequestIdEnabled is set to true.
+	// Example: `true`
+	IsRequestIdEnabled *bool `mandatory:"false" json:"isRequestIdEnabled"`
+
+	// If isRequestIdEnabled is true then this field contains the name of the header field
+	// that contains the unique request id that is attached to every request from
+	// the load balancer to the load balancer backends and to every response from the load
+	// balancer.
+	// If a request to the load balancer already contains a header with same name as specified
+	// in requestIdHeader then the load balancer will not change the value of that field.
+	// If isRequestIdEnabled is false then this field is ignored.
+	// If this field is not set or is set to "" then this field defaults to X-Request-Id
 	// **Notes:**
-	// * The header name must conform to the
-	//   RFC 7230 - Hypertext Transfer Protocol (HTTP/1.1) (https://datatracker.ietf.org/doc/html/rfc7230) standard.
-	// * The header name must start with "X-" prefix.
+	// * Unless the header name is "" it must start with "X-" prefix.
+	// * Setting the header name to "" will set it to the default: X-Request-Id.
 	RequestIdHeader *string `mandatory:"false" json:"requestIdHeader"`
 
 	// An array of reserved Ips.
@@ -115,7 +127,7 @@ type CreateLoadBalancerDetails struct {
 
 	// Extended Defined tags for ZPR for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit", "usagetype" : "zpr"}}}`
-	DefinedTagsExtended map[string]map[string]map[string]interface{} `mandatory:"false" json:"definedTagsExtended"`
+	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
 
 	RuleSets map[string]RuleSetDetails `mandatory:"false" json:"ruleSets"`
 }

@@ -14,7 +14,7 @@ import (
 // GetExadbVmClusterUpdateHistoryEntryRequest wrapper for the GetExadbVmClusterUpdateHistoryEntry operation
 type GetExadbVmClusterUpdateHistoryEntryRequest struct {
 
-	// The exadbv cloud VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+	// The Exadata VM cluster OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) on Exascale Infrastructure.
 	ExadbVmClusterId *string `mandatory:"true" contributesTo:"path" name:"exadbVmClusterId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the maintenance update history entry.

@@ -23,7 +23,7 @@ type UpdateTargetDetectorRecipe struct {
 	TargetDetectorRecipeId *string `mandatory:"true" json:"targetDetectorRecipeId"`
 
 	// Updates to be applied to detector rules in target detector recipe
-	DetectorRules []UpdateTargetRecipeDetectorRuleDetails `mandatory:"true" json:"detectorRules"`
+	DetectorRules []UpdateTargetRecipeDetectorRuleDetails `mandatory:"false" json:"detectorRules"`
 }
 
 func (m UpdateTargetDetectorRecipe) String() string {

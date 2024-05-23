@@ -35,6 +35,9 @@ type ListSchedulingPlansRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState SchedulingPlanSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources that match the given scheduling policy id exactly.
+	SchedulingPolicyId *string `mandatory:"false" contributesTo:"query" name:"schedulingPolicyId"`
+
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

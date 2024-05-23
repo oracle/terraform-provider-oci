@@ -37,6 +37,9 @@ type ExecutionActionMember struct {
 
 	// The estimated time of the execution action member in minutes.
 	EstimatedTimeInMins *int `mandatory:"false" json:"estimatedTimeInMins"`
+
+	// The total time taken by corresponding resource activity in minutes.
+	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
 }
 
 func (m ExecutionActionMember) String() string {

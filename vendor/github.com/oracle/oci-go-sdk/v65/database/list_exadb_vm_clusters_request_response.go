@@ -29,10 +29,10 @@ type ListExadbVmClustersRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListExadbVmClustersSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to return only exadbv cloud VM clusters that match the given lifecycle state exactly.
+	// A filter to return only Exadata VM clusters on Exascale Infrastructure that match the given lifecycle state exactly.
 	LifecycleState ExadbVmClusterSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only exadbv cloud VM clusters that match the given Exascale Database Storage Vault Id.
+	// A filter to return only Exadata VM clusters on Exascale Infrastructure that match the given Exascale Database Storage Vault ID.
 	ExascaleDbStorageVaultId *string `mandatory:"false" contributesTo:"query" name:"exascaleDbStorageVaultId"`
 
 	// A filter to return only resources that match the entire display name given. The match is not case sensitive.

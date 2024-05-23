@@ -421,6 +421,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateAutonomousDatabaseFromBackupTimestampDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REGISTER_CONTAINER":
+		mm := RegisterAsCustomerOwnedContainerDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CROSS_REGION_DATAGUARD":
 		mm := CreateCrossRegionAutonomousDatabaseDataGuardDetails{}
 		err = json.Unmarshal(data, &mm)

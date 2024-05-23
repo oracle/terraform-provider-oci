@@ -50,8 +50,7 @@ type OpenIdConnectTokenAuthenticationConfig struct {
 	// in the ID Token with a matching value. Repeat this flag to specify multiple claims.
 	RequiredClaims []KeyValue `mandatory:"false" json:"requiredClaims"`
 
-	// The path to the certificate for the CA that signed your identity provider's web certificate. Defaults to the
-	// host's root CAs.
+	// A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate.
 	CaCertificate *string `mandatory:"false" json:"caCertificate"`
 
 	// The signing algorithms accepted. Default is ["RS256"].

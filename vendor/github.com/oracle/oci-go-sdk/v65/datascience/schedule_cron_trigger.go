@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ScheduleCronTrigger The scheduled cron definition.
+// ScheduleCronTrigger The scheduled UNIX cron definition.
 type ScheduleCronTrigger struct {
 
 	// Schedule cron expression

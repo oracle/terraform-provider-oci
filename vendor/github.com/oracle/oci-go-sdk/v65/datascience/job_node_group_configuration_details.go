@@ -25,6 +25,9 @@ type JobNodeGroupConfigurationDetails struct {
 	// The number of nodes.
 	Replicas *int `mandatory:"false" json:"replicas"`
 
+	// The minimum threshold of successful replicas for node group to be successful. All replicas need to succeed if this is not specified.
+	MinimumSuccessReplicas *int `mandatory:"false" json:"minimumSuccessReplicas"`
+
 	JobInfrastructureConfigurationDetails JobInfrastructureConfigurationDetails `mandatory:"false" json:"jobInfrastructureConfigurationDetails"`
 
 	JobConfigurationDetails JobConfigurationDetails `mandatory:"false" json:"jobConfigurationDetails"`
@@ -52,6 +55,7 @@ func (m JobNodeGroupConfigurationDetails) ValidateEnumValue() (bool, error) {
 func (m *JobNodeGroupConfigurationDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Replicas                              *int                                  `json:"replicas"`
+		MinimumSuccessReplicas                *int                                  `json:"minimumSuccessReplicas"`
 		JobInfrastructureConfigurationDetails jobinfrastructureconfigurationdetails `json:"jobInfrastructureConfigurationDetails"`
 		JobConfigurationDetails               jobconfigurationdetails               `json:"jobConfigurationDetails"`
 		JobEnvironmentConfigurationDetails    jobenvironmentconfigurationdetails    `json:"jobEnvironmentConfigurationDetails"`
@@ -64,6 +68,8 @@ func (m *JobNodeGroupConfigurationDetails) UnmarshalJSON(data []byte) (e error) 
 	}
 	var nn interface{}
 	m.Replicas = model.Replicas
+
+	m.MinimumSuccessReplicas = model.MinimumSuccessReplicas
 
 	nn, e = model.JobInfrastructureConfigurationDetails.UnmarshalPolymorphicJSON(model.JobInfrastructureConfigurationDetails.JsonData)
 	if e != nil {

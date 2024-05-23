@@ -2664,6 +2664,65 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 	return response, err
 }
 
+// ChangeQosTemplateCompartment Moves a Quality of Service template into a different compartment within the same tenancy. For information | about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes). When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeQosTemplateCompartment()
+func (client VirtualNetworkClient) ChangeQosTemplateCompartment(ctx context.Context, request ChangeQosTemplateCompartmentRequest) (response ChangeQosTemplateCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeQosTemplateCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeQosTemplateCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeQosTemplateCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeQosTemplateCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeQosTemplateCompartmentResponse")
+	}
+	return
+}
+
+// changeQosTemplateCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeQosTemplateCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/qosTemplates/{qosTemplateId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeQosTemplateCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/ChangeQosTemplateCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeQosTemplateCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeRemotePeeringConnectionCompartment Moves a remote peering connection (RPC) into a different compartment within the same tenancy. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -6603,6 +6662,65 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 	return response, err
 }
 
+// CreateQosTemplate Creates a Quality of Service template. There can be only one Quality of Service template for a tenancy.
+// A default retry strategy applies to this operation CreateQosTemplate()
+func (client VirtualNetworkClient) CreateQosTemplate(ctx context.Context, request CreateQosTemplateRequest) (response CreateQosTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createQosTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateQosTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateQosTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateQosTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateQosTemplateResponse")
+	}
+	return
+}
+
+// createQosTemplate implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createQosTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/qosTemplates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateQosTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/CreateQosTemplate"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateQosTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateRemotePeeringConnection Creates a new remote peering connection (RPC) for the specified DRG.
 // A default retry strategy applies to this operation CreateRemotePeeringConnection()
 func (client VirtualNetworkClient) CreateRemotePeeringConnection(ctx context.Context, request CreateRemotePeeringConnectionRequest) (response CreateRemotePeeringConnectionResponse, err error) {
@@ -10069,6 +10187,59 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/DeletePublicIpPool"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeletePublicIpPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteQosTemplate A Quality of Service template is deleted and does not appear in the results of a `ListQosTemplates` operation and can't be used in a `GetQosTemplate` operation.
+func (client VirtualNetworkClient) DeleteQosTemplate(ctx context.Context, request DeleteQosTemplateRequest) (response DeleteQosTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteQosTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteQosTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteQosTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteQosTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteQosTemplateResponse")
+	}
+	return
+}
+
+// deleteQosTemplate implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteQosTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/qosTemplates/{qosTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteQosTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/DeleteQosTemplate"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteQosTemplate", apiReferenceLink)
 		return response, err
 	}
 
@@ -16763,6 +16934,60 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 	return response, err
 }
 
+// GetQosTemplate Gets information for a specified Quality of Service template.
+// A default retry strategy applies to this operation GetQosTemplate()
+func (client VirtualNetworkClient) GetQosTemplate(ctx context.Context, request GetQosTemplateRequest) (response GetQosTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getQosTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetQosTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetQosTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetQosTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetQosTemplateResponse")
+	}
+	return
+}
+
+// getQosTemplate implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getQosTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/qosTemplates/{qosTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetQosTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/GetQosTemplate"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetQosTemplate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRemotePeeringConnection Get the specified remote peering connection's information.
 // A default retry strategy applies to this operation GetRemotePeeringConnection()
 func (client VirtualNetworkClient) GetRemotePeeringConnection(ctx context.Context, request GetRemotePeeringConnectionRequest) (response GetRemotePeeringConnectionResponse, err error) {
@@ -22261,6 +22486,60 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIp/ListPublicIps"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListPublicIps", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListQosTemplates Lists the Quality of Service template in the specified compartment. There will be a single Quality of Service template in a given compartment.
+// A default retry strategy applies to this operation ListQosTemplates()
+func (client VirtualNetworkClient) ListQosTemplates(ctx context.Context, request ListQosTemplatesRequest) (response ListQosTemplatesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listQosTemplates, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListQosTemplatesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListQosTemplatesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListQosTemplatesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListQosTemplatesResponse")
+	}
+	return
+}
+
+// listQosTemplates implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listQosTemplates(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/qosTemplates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListQosTemplatesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/ListQosTemplates"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListQosTemplates", apiReferenceLink)
 		return response, err
 	}
 
@@ -28550,6 +28829,60 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PublicIpPool/UpdatePublicIpPool"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdatePublicIpPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateQosTemplate Updates the specified QosTemplate's display name or definedTags or freeformTags or qosMappings.Avoid entering confidential information.Note that the qosMappings` object you provide replaces the entire existing set of qosMappings.
+// A default retry strategy applies to this operation UpdateQosTemplate()
+func (client VirtualNetworkClient) UpdateQosTemplate(ctx context.Context, request UpdateQosTemplateRequest) (response UpdateQosTemplateResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateQosTemplate, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateQosTemplateResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateQosTemplateResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateQosTemplateResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateQosTemplateResponse")
+	}
+	return
+}
+
+// updateQosTemplate implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateQosTemplate(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/qosTemplates/{qosTemplateId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateQosTemplateResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosTemplate/UpdateQosTemplate"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateQosTemplate", apiReferenceLink)
 		return response, err
 	}
 

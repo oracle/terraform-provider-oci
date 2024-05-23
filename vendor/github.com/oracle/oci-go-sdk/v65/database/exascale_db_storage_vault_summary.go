@@ -24,7 +24,7 @@ type ExascaleDbStorageVaultSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the availability domain that the Exadata Database Storage Vault is located in.
+	// The name of the availability domain in which the Exadata Database Storage Vault is located.
 	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The current state of the Exadata Database Storage Vault.
@@ -35,7 +35,7 @@ type ExascaleDbStorageVaultSummary struct {
 
 	HighCapacityDatabaseStorage *ExascaleDbStorageDetails `mandatory:"true" json:"highCapacityDatabaseStorage"`
 
-	// The time zone to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
+	// The time zone that you want to use for the Exadata Database Storage Vault. For details, see Time Zones (https://docs.cloud.oracle.com/Content/Database/References/timezones.htm).
 	TimeZone *string `mandatory:"false" json:"timeZone"`
 
 	// Exadata Database Storage Vault description.
@@ -64,7 +64,7 @@ type ExascaleDbStorageVaultSummary struct {
 	AdditionalFlashCacheInPercent *int `mandatory:"false" json:"additionalFlashCacheInPercent"`
 
 	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
-	ExaDbVmClusterCount *int `mandatory:"false" json:"exaDbVmClusterCount"`
+	VmClusterCount *int `mandatory:"false" json:"vmClusterCount"`
 }
 
 func (m ExascaleDbStorageVaultSummary) String() string {

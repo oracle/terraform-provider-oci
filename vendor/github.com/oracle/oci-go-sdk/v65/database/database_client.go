@@ -497,6 +497,122 @@ func (client DatabaseClient) cancelBackup(ctx context.Context, request common.OC
 	return response, err
 }
 
+// CancelExecutionWindow Cancels the in progress maintenance activity under this execution window.
+func (client DatabaseClient) CancelExecutionWindow(ctx context.Context, request CancelExecutionWindowRequest) (response CancelExecutionWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cancelExecutionWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelExecutionWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelExecutionWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelExecutionWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelExecutionWindowResponse")
+	}
+	return
+}
+
+// cancelExecutionWindow implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) cancelExecutionWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/executionWindows/{executionWindowId}/actions/cancel", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelExecutionWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionWindow/CancelExecutionWindow"
+		err = common.PostProcessServiceError(err, "Database", "CancelExecutionWindow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CascadingDeleteSchedulingPlan Delete the scheduling plan resource along with all the scheduled actions associated with this resource.
+func (client DatabaseClient) CascadingDeleteSchedulingPlan(ctx context.Context, request CascadingDeleteSchedulingPlanRequest) (response CascadingDeleteSchedulingPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.cascadingDeleteSchedulingPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadingDeleteSchedulingPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadingDeleteSchedulingPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadingDeleteSchedulingPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadingDeleteSchedulingPlanResponse")
+	}
+	return
+}
+
+// cascadingDeleteSchedulingPlan implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) cascadingDeleteSchedulingPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/schedulingPlans/{schedulingPlanId}/actions/cascadingDeleteSchedulingPlan", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadingDeleteSchedulingPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/SchedulingPlan/CascadingDeleteSchedulingPlan"
+		err = common.PostProcessServiceError(err, "Database", "CascadingDeleteSchedulingPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeAutonomousContainerDatabaseCompartment Move the Autonomous Container Database and its dependent resources to the specified compartment.
 // For more information about moving Autonomous Container Databases, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).

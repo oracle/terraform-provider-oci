@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ScheduleIntervalTrigger The interval schedule definition.
+// ScheduleIntervalTrigger The interval schedule trigger.
 type ScheduleIntervalTrigger struct {
 
 	// The interval of frequency.
@@ -28,13 +28,10 @@ type ScheduleIntervalTrigger struct {
 	// The schedule end date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// the count that the schedule repeats
-	Count *int `mandatory:"false" json:"count"`
-
 	// if timeStart missing, by default it is Now, this flag allows to generate a random start time
 	IsRandomStartTime *bool `mandatory:"false" json:"isRandomStartTime"`
 
-	// The frequency
+	// The type of frequency
 	Frequency ScheduleIntervalTriggerFrequencyEnum `mandatory:"true" json:"frequency"`
 }
 
@@ -86,27 +83,18 @@ type ScheduleIntervalTriggerFrequencyEnum string
 
 // Set of constants representing the allowable values for ScheduleIntervalTriggerFrequencyEnum
 const (
-	ScheduleIntervalTriggerFrequencyMinutely ScheduleIntervalTriggerFrequencyEnum = "MINUTELY"
-	ScheduleIntervalTriggerFrequencyHourly   ScheduleIntervalTriggerFrequencyEnum = "HOURLY"
-	ScheduleIntervalTriggerFrequencyDaily    ScheduleIntervalTriggerFrequencyEnum = "DAILY"
-	ScheduleIntervalTriggerFrequencyWeekly   ScheduleIntervalTriggerFrequencyEnum = "WEEKLY"
-	ScheduleIntervalTriggerFrequencyMonthly  ScheduleIntervalTriggerFrequencyEnum = "MONTHLY"
+	ScheduleIntervalTriggerFrequencyHourly ScheduleIntervalTriggerFrequencyEnum = "HOURLY"
+	ScheduleIntervalTriggerFrequencyDaily  ScheduleIntervalTriggerFrequencyEnum = "DAILY"
 )
 
 var mappingScheduleIntervalTriggerFrequencyEnum = map[string]ScheduleIntervalTriggerFrequencyEnum{
-	"MINUTELY": ScheduleIntervalTriggerFrequencyMinutely,
-	"HOURLY":   ScheduleIntervalTriggerFrequencyHourly,
-	"DAILY":    ScheduleIntervalTriggerFrequencyDaily,
-	"WEEKLY":   ScheduleIntervalTriggerFrequencyWeekly,
-	"MONTHLY":  ScheduleIntervalTriggerFrequencyMonthly,
+	"HOURLY": ScheduleIntervalTriggerFrequencyHourly,
+	"DAILY":  ScheduleIntervalTriggerFrequencyDaily,
 }
 
 var mappingScheduleIntervalTriggerFrequencyEnumLowerCase = map[string]ScheduleIntervalTriggerFrequencyEnum{
-	"minutely": ScheduleIntervalTriggerFrequencyMinutely,
-	"hourly":   ScheduleIntervalTriggerFrequencyHourly,
-	"daily":    ScheduleIntervalTriggerFrequencyDaily,
-	"weekly":   ScheduleIntervalTriggerFrequencyWeekly,
-	"monthly":  ScheduleIntervalTriggerFrequencyMonthly,
+	"hourly": ScheduleIntervalTriggerFrequencyHourly,
+	"daily":  ScheduleIntervalTriggerFrequencyDaily,
 }
 
 // GetScheduleIntervalTriggerFrequencyEnumValues Enumerates the set of values for ScheduleIntervalTriggerFrequencyEnum
@@ -121,11 +109,8 @@ func GetScheduleIntervalTriggerFrequencyEnumValues() []ScheduleIntervalTriggerFr
 // GetScheduleIntervalTriggerFrequencyEnumStringValues Enumerates the set of values in String for ScheduleIntervalTriggerFrequencyEnum
 func GetScheduleIntervalTriggerFrequencyEnumStringValues() []string {
 	return []string{
-		"MINUTELY",
 		"HOURLY",
 		"DAILY",
-		"WEEKLY",
-		"MONTHLY",
 	}
 }
 

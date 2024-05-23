@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Queue API
+// Data Flow API
 //
-// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
+// Use the Data Flow APIs to run any Apache Spark application at any scale without deploying or managing any infrastructure.
 //
 
-package queue
+package dataflow
 
 import (
 	"fmt"
@@ -15,26 +15,38 @@ import (
 	"strings"
 )
 
-// RemoveCapabilityDetails The details of the capability to remove
-type RemoveCapabilityDetails struct {
+// Job Spark job details.
+type Job struct {
 
-	// The type of the capability to remove.
-	Type QueueCapabilityEnum `mandatory:"false" json:"type,omitempty"`
+	// Spark job id.
+	Id *int `mandatory:"true" json:"id"`
+
+	// Spark job result.
+	JobResult *string `mandatory:"false" json:"jobResult"`
+
+	// Spark job name.
+	Name *string `mandatory:"false" json:"name"`
+
+	// The time when a Spark stage started.
+	StartTime *int64 `mandatory:"false" json:"startTime"`
+
+	// The time when a Spark stage ended.
+	EndTime *int64 `mandatory:"false" json:"endTime"`
+
+	// Spark stages details within the job.
+	Stages *interface{} `mandatory:"false" json:"stages"`
 }
 
-func (m RemoveCapabilityDetails) String() string {
+func (m Job) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RemoveCapabilityDetails) ValidateEnumValue() (bool, error) {
+func (m Job) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingQueueCapabilityEnum(string(m.Type)); !ok && m.Type != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetQueueCapabilityEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

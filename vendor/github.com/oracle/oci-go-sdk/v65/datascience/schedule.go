@@ -62,7 +62,7 @@ type Schedule struct {
 	// Example: `2022-09-05T01:02:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
+	// A message describing the current state in more detail.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
