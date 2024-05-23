@@ -1,3 +1,25 @@
+## 5.43.0 (Unreleased)
+
+### Added
+- Support for ODSC - Nested Resource Principal Support
+- Support for ODSC - Pipelines v2
+- Create_management resource for set baseline for Security Assessment and User Assessment in Data Safe
+- Support for CloudGuard - Container Workload Integrationn
+- Support for OS Management Hub - OCI Instance Support & ALX Support
+- VCNIP Provide IP Inventory view and IP Utilization alerts
+- Support for ExaDB-C@C Resize of Local Files Systems (non /u02)
+- Support for [DMS] Fixing AWS_S3 issue in the example file
+- Support for OCI NLB Proxy Protocol Support
+- Support for Email Delivery: Custom Return Path API
+session resumption support for LB
+- Support for OS Management Hub - OCI Instance Support & ALX Support
+- Create_management resource for Masking Report in Data Safe
+### Bug Fix
+- API_KEY_UPDATE
+- purge_trigger and purge_queue bugs in Queue provider
+- revert Devops Deploy Deployment Execution Progress
+- fix oci_log_analytics_namespace import issue
+
 ## 5.42.0 (Unreleased)
 
 ### Added
