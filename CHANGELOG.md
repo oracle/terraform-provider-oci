@@ -1,3 +1,17 @@
+## 5.43.0 (Unreleased)
+
+### Added
+- Support for Fix missing TLSv1.3 protocol documentation from Load Balancer provider
+- Support for ODSC - Nested Resource Principal Support
+- Support for ODSC - Pipelines v2
+- Create_management resource for set baseline for Security Assessment and User Assessment in Data Safe
+- Support for CloudGuard - Container Workload Integrationn
+- Upgraded golang version to 1.21.8 and terraform-plugin-sdk to v2.33.0
+### Bug Fix
+- API_KEY_UPDATE
+- purge_trigger and purge_queue bugs in Queue provider
+- revert Devops Deploy Deployment Execution Progress
+
 ## 5.42.0 (Unreleased)
 
 ### Added
