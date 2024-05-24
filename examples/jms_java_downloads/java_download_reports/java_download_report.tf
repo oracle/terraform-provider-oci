@@ -28,6 +28,14 @@ variable "java_download_report_time_start" {
   default = "2023-08-01T03:07:27Z"
 }
 
+variable "java_download_report_freeform_tags" {
+  default = { "bar-key" = "value" }
+}
+
+variable "java_download_report_defined_tags" {
+  default  = { "example-tag-namespace-all.example-tag" = "value" }
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -42,8 +50,13 @@ resource "oci_jms_java_downloads_java_download_report" "test_java_download_repor
   format         = var.java_download_report_format
 
   #Optional
-  time_end   = var.java_download_report_time_end
-  time_start = var.java_download_report_time_start
+  time_end      = var.java_download_report_time_end
+  time_start    = var.java_download_report_time_start
+  freeform_tags = var.java_download_report_freeform_tags
+
+  # Create the Tag namespace in OCI before enabling
+  # See user guide: https://docs.oracle.com/en-us/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm
+  # defined_tags  = var.java_download_report_defined_tags
 }
 
 data "oci_jms_java_downloads_java_download_reports" "test_java_download_reports" {

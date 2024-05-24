@@ -23,6 +23,8 @@ resource "oci_jms_java_downloads_java_download_report" "test_java_download_repor
 	format = var.java_download_report_format
 
 	#Optional
+	defined_tags = {"foo-namespace.bar-key"= "value"}
+	freeform_tags = {"bar-key"= "value"}
 	time_end = var.java_download_report_time_end
 	time_start = var.java_download_report_time_start
 }
@@ -33,7 +35,9 @@ resource "oci_jms_java_downloads_java_download_report" "test_java_download_repor
 The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) here should be the tenancy OCID. 
+* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`. (See [Understanding Free-form Tags](https://docs.cloud.oracle.com/iaas/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)). 
 * `format` - (Required) The format of the report that is generated.
+* `freeform_tags` - (Optional) Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`. (See [Managing Tags and Tag Namespaces](https://docs.cloud.oracle.com/iaas/Content/Tagging/Concepts/understandingfreeformtags.htm).) 
 * `time_end` - (Optional) The end time until when the download records have to be included (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 * `time_start` - (Optional) The start time from when download records have to be included (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 
@@ -60,7 +64,9 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Java download report. 
 * `state` - The current state of the Java download report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time the Java download report was created. An RFC3339 formatted datetime string.
+* `time_created` - The time the Java download report was created, displayed as an [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+* `time_end` - The end time until when the download records are included (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
+* `time_start` - The start time from when the download records are included (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 
 ## Timeouts
 

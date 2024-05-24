@@ -6,6 +6,7 @@ package jms_java_downloads
 import (
 	"context"
 	"strconv"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_jms_java_downloads "github.com/oracle/oci-go-sdk/v65/jmsjavadownloads"
@@ -102,12 +103,23 @@ func (s *JmsJavaDownloadsJavaDownloadReportDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("sort_by", s.Res.SortBy)
+	s.D.Set("sort_order", s.Res.SortOrder)
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeEnd != nil {
+		s.D.Set("time_end", s.Res.TimeEnd.Format(time.RFC3339Nano))
+	}
+
+	if s.Res.TimeStart != nil {
+		s.D.Set("time_start", s.Res.TimeStart.Format(time.RFC3339Nano))
 	}
 
 	return nil
