@@ -33,6 +33,9 @@ resource "oci_jms_java_downloads_java_license_acceptance_record" "test_java_lice
   compartment_id            = var.tenancy_ocid
   license_acceptance_status = var.java_license_acceptance_record_status
   license_type              = var.java_license_acceptance_record_license_type
+  lifecycle {
+    ignore_changes = [defined_tags, system_tags]
+  }
 }
 
 data "oci_jms_java_downloads_java_license_acceptance_records" "test_java_license_acceptance_records" {

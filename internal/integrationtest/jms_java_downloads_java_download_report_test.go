@@ -26,8 +26,9 @@ import (
 )
 
 var (
-	JmsJdReportTimeStartedTime = time.Now().AddDate(0, -1, 0).UTC()
-	JmsJdReportTimeStarted     = JmsJdReportTimeStartedTime.Format(time.RFC3339)
+	JmsJavaDownloadsJavaDownloadReportResourceDependencies = DefinedTagsDependencies
+	JmsJdReportTimeStartedTime                             = time.Now().AddDate(0, -1, 0).UTC()
+	JmsJdReportTimeStarted                                 = JmsJdReportTimeStartedTime.Format(time.RFC3339)
 
 	JmsJdReportTimeEndedTime = time.Now().UTC()
 	JmsJdReportTimeEnded     = JmsJdReportTimeEndedTime.Format(time.RFC3339)
@@ -46,6 +47,7 @@ var (
 			Create:  `${oci_jms_java_downloads_java_download_report.test_java_download_report.id}`},
 		"state":  acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: JmsJavaDownloadsJavaDownloadReportDataSourceFilterRepresentation}}
+
 	JmsJavaDownloadsJavaDownloadReportDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_jms_java_downloads_java_download_report.test_java_download_report.id}`}},
@@ -54,12 +56,22 @@ var (
 	JmsJavaDownloadsJavaDownloadReportRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"format":         acctest.Representation{RepType: acctest.Required, Create: `CSV`},
-		"time_end":       acctest.Representation{RepType: acctest.Optional, Create: JmsJdReportTimeEnded},
-		"time_start":     acctest.Representation{RepType: acctest.Optional, Create: JmsJdReportTimeStarted},
+		"defined_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`,
+			Update:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  map[string]string{"bar-key": "bar-value"},
+			Update:  map[string]string{"bar-key": "updatedValue"}},
+		"time_end":   acctest.Representation{RepType: acctest.Optional, Create: JmsJdReportTimeEnded},
+		"time_start": acctest.Representation{RepType: acctest.Optional, Create: JmsJdReportTimeStarted},
 		"lifecycle": acctest.RepresentationGroup{
 			RepType: acctest.Required,
 			Group: map[string]interface{}{
-				"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+				"ignore_changes": acctest.Representation{
+					RepType: acctest.Required,
+					Create:  []string{`defined_tags`, `system_tags`}},
 			},
 		},
 	}
@@ -81,6 +93,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+
+		JmsJavaDownloadsJavaDownloadReportResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap(
 			"oci_jms_java_downloads_java_download_report",
 			"test_java_download_report",
@@ -96,6 +109,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config +
+				JmsJavaDownloadsJavaDownloadReportResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_download_report",
 					"test_java_download_report",
@@ -111,6 +125,9 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "file_size_in_bytes"),
 				resource.TestCheckResourceAttr(resourceName, "format", "CSV"),
+				resource.TestCheckResourceAttrSet(resourceName, "sort_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "sort_order"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -131,6 +148,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
+				JmsJavaDownloadsJavaDownloadReportResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_download_reports",
 					"test_java_download_reports",
@@ -156,6 +174,7 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
+				JmsJavaDownloadsJavaDownloadReportResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_download_report",
 					"test_java_download_report",
@@ -179,9 +198,14 @@ func TestJmsJavaDownloadsJavaDownloadReportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "file_size_in_bytes"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "format", "CSV"),
+				resource.TestCheckResourceAttrSet(resourceName, "sort_by"),
+				resource.TestCheckResourceAttrSet(resourceName, "sort_order"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_end"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_start"),
 			),
 		},
 	})
