@@ -25,7 +25,8 @@ import (
 )
 
 var (
-	JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceConfig = acctest.GenerateResourceFromRepresentationMap(
+	JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies = DefinedTagsDependencies
+	JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceConfig       = acctest.GenerateResourceFromRepresentationMap(
 		"oci_jms_java_downloads_java_license_acceptance_record",
 		"test_java_license_acceptance_record",
 		acctest.Optional,
@@ -57,10 +58,17 @@ var (
 		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"license_acceptance_status": acctest.Representation{RepType: acctest.Required, Create: `ACCEPTED`, Update: `REVOKED`},
 		"license_type":              acctest.Representation{RepType: acctest.Required, Create: `OTN`},
+		"defined_tags": acctest.Representation{
+			RepType: acctest.Optional,
+			Create:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`,
+			Update:  `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"lifecycle": acctest.RepresentationGroup{
 			RepType: acctest.Required,
 			Group: map[string]interface{}{
-				"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+				"ignore_changes": acctest.Representation{
+					RepType: acctest.Required,
+					Create:  []string{`defined_tags`, `system_tags`},
+					Update:  []string{`defined_tags`, `system_tags`}},
 			},
 		},
 	}
@@ -82,6 +90,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 	var resId, resId2 string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
 	acctest.SaveConfigContent(config+
+		JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap(
 			"oci_jms_java_downloads_java_license_acceptance_record",
 			"test_java_license_acceptance_record",
@@ -97,6 +106,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 		// verify Create
 		{
 			Config: config +
+				JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_license_acceptance_record",
 					"test_java_license_acceptance_record",
@@ -107,6 +117,35 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
 				resource.TestCheckResourceAttr(resourceName, "license_acceptance_status", "ACCEPTED"),
 				resource.TestCheckResourceAttr(resourceName, "license_type", "OTN"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config +
+				JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_jms_java_downloads_java_license_acceptance_record",
+					"test_java_license_acceptance_record",
+					acctest.Optional,
+					acctest.Create,
+					JmsJavaDownloadsJavaLicenseAcceptanceRecordRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", tenancyId),
+				resource.TestCheckResourceAttr(resourceName, "created_by.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "license_acceptance_status", "ACCEPTED"),
+				resource.TestCheckResourceAttr(resourceName, "license_type", "OTN"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_accepted"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -123,6 +162,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 		// verify updates to updatable parameters
 		{
 			Config: config +
+				JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_license_acceptance_record",
 					"test_java_license_acceptance_record",
@@ -149,6 +189,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 		// verify datasource
 		{
 			Config: config +
+				JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_license_acceptance_records",
 					"test_java_license_acceptance_records",
@@ -175,6 +216,7 @@ func TestJmsJavaDownloadsJavaLicenseAcceptanceRecordResource_basic(t *testing.T)
 		// verify singular datasource
 		{
 			Config: config +
+				JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceDependencies +
 				acctest.GenerateDataSourceFromRepresentationMap(
 					"oci_jms_java_downloads_java_license_acceptance_record",
 					"test_java_license_acceptance_record",
