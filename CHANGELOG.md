@@ -1,3 +1,12 @@
+## 5.44.0 (Unreleased)
+
+### Added
+- Support for OS Patching in Batch API Design
+- Support for Java Management Service API enhancements to support SPLAT tagstore feature (API only)
+- Support for Database Management : Standby Database Monitoring
+### Bug Fix
+fix dbHome deletion and CEI polling workrequest.
+
 ## 5.43.0 (Unreleased)
 
 ### Added
