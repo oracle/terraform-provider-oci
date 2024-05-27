@@ -1,3 +1,20 @@
+## 5.44.0 (Unreleased)
+
+### Added
+- Support for Fix missing TLSv1.3 protocol documentation from Load Balancer provider
+- Support for OS Patching in Batch API Design
+- Support for Java Management Service API enhancements to support SPLAT tagstore feature (API only)
+- Support for Database Management : Standby Database Monitoring
+- Support for ODSC - Nested Resource Principal Support
+- Support for ODSC - Pipelines v2
+- Create_management resource for set baseline for Security Assessment and User Assessment in Data Safe
+- Support for CloudGuard - Container Workload Integrationn
+### Bug Fix
+fix dbHome deletion and CEI polling workrequest.
+- API_KEY_UPDATE
+- purge_trigger and purge_queue bugs in Queue provider
+- revert Devops Deploy Deployment Execution Progress
+
 ## 5.43.0 (Unreleased)
 
 ### Added
