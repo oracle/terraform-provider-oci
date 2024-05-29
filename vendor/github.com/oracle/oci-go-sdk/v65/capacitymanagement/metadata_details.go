@@ -47,14 +47,17 @@ type MetadataDetailsFormatVersionEnum string
 // Set of constants representing the allowable values for MetadataDetailsFormatVersionEnum
 const (
 	MetadataDetailsFormatVersionV1 MetadataDetailsFormatVersionEnum = "V1"
+	MetadataDetailsFormatVersionV2 MetadataDetailsFormatVersionEnum = "V2"
 )
 
 var mappingMetadataDetailsFormatVersionEnum = map[string]MetadataDetailsFormatVersionEnum{
 	"V1": MetadataDetailsFormatVersionV1,
+	"V2": MetadataDetailsFormatVersionV2,
 }
 
 var mappingMetadataDetailsFormatVersionEnumLowerCase = map[string]MetadataDetailsFormatVersionEnum{
 	"v1": MetadataDetailsFormatVersionV1,
+	"v2": MetadataDetailsFormatVersionV2,
 }
 
 // GetMetadataDetailsFormatVersionEnumValues Enumerates the set of values for MetadataDetailsFormatVersionEnum
@@ -70,6 +73,7 @@ func GetMetadataDetailsFormatVersionEnumValues() []MetadataDetailsFormatVersionE
 func GetMetadataDetailsFormatVersionEnumStringValues() []string {
 	return []string{
 		"V1",
+		"V2",
 	}
 }
 

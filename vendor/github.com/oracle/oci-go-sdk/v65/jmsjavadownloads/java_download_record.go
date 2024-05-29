@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -42,7 +42,7 @@ type JavaDownloadRecord struct {
 	// The target Operating System architecture for the artifact.
 	Architecture *string `mandatory:"false" json:"architecture"`
 
-	// The package type(typically the file extension) of the artifact.
+	// The package type (typically the file extension) of the artifact.
 	PackageType *string `mandatory:"false" json:"packageType"`
 
 	// Additional information about the package type.

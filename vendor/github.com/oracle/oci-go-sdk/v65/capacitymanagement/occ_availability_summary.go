@@ -31,19 +31,29 @@ type OccAvailabilitySummary struct {
 	DateExpectedCapacityHandover *common.SDKTime `mandatory:"true" json:"dateExpectedCapacityHandover"`
 
 	// The different types of resources against which customers can place capacity requests.
-	ResourceType OccAvailabilitySummaryResourceTypeEnum `mandatory:"true" json:"resourceType"`
+	ResourceType *string `mandatory:"true" json:"resourceType"`
 
 	// The type of workload (Generic/ROW).
-	WorkloadType OccAvailabilitySummaryWorkloadTypeEnum `mandatory:"true" json:"workloadType"`
+	WorkloadType *string `mandatory:"true" json:"workloadType"`
 
 	// The name of the resource that the customer can request.
 	ResourceName *string `mandatory:"true" json:"resourceName"`
 
-	// The quantity of available resource that the customer can request.
+	// The quantity of resource currently available that the customer can request.
 	AvailableQuantity *int64 `mandatory:"true" json:"availableQuantity"`
+
+	// The total quantity of resource that the customer can request.
+	TotalAvailableQuantity *int64 `mandatory:"true" json:"totalAvailableQuantity"`
+
+	// The quantity of resource currently demanded by the customer.
+	DemandedQuantity *int64 `mandatory:"true" json:"demandedQuantity"`
 
 	// The unit in which the resource available is measured.
 	Unit *string `mandatory:"true" json:"unit"`
+
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m OccAvailabilitySummary) String() string {
@@ -58,103 +68,9 @@ func (m OccAvailabilitySummary) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingNamespaceEnum(string(m.Namespace)); !ok && m.Namespace != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Namespace: %s. Supported values are: %s.", m.Namespace, strings.Join(GetNamespaceEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingOccAvailabilitySummaryResourceTypeEnum(string(m.ResourceType)); !ok && m.ResourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", m.ResourceType, strings.Join(GetOccAvailabilitySummaryResourceTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingOccAvailabilitySummaryWorkloadTypeEnum(string(m.WorkloadType)); !ok && m.WorkloadType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkloadType: %s. Supported values are: %s.", m.WorkloadType, strings.Join(GetOccAvailabilitySummaryWorkloadTypeEnumStringValues(), ",")))
-	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// OccAvailabilitySummaryResourceTypeEnum Enum with underlying type: string
-type OccAvailabilitySummaryResourceTypeEnum string
-
-// Set of constants representing the allowable values for OccAvailabilitySummaryResourceTypeEnum
-const (
-	OccAvailabilitySummaryResourceTypeServerHw           OccAvailabilitySummaryResourceTypeEnum = "SERVER_HW"
-	OccAvailabilitySummaryResourceTypeCapacityConstraint OccAvailabilitySummaryResourceTypeEnum = "CAPACITY_CONSTRAINT"
-)
-
-var mappingOccAvailabilitySummaryResourceTypeEnum = map[string]OccAvailabilitySummaryResourceTypeEnum{
-	"SERVER_HW":           OccAvailabilitySummaryResourceTypeServerHw,
-	"CAPACITY_CONSTRAINT": OccAvailabilitySummaryResourceTypeCapacityConstraint,
-}
-
-var mappingOccAvailabilitySummaryResourceTypeEnumLowerCase = map[string]OccAvailabilitySummaryResourceTypeEnum{
-	"server_hw":           OccAvailabilitySummaryResourceTypeServerHw,
-	"capacity_constraint": OccAvailabilitySummaryResourceTypeCapacityConstraint,
-}
-
-// GetOccAvailabilitySummaryResourceTypeEnumValues Enumerates the set of values for OccAvailabilitySummaryResourceTypeEnum
-func GetOccAvailabilitySummaryResourceTypeEnumValues() []OccAvailabilitySummaryResourceTypeEnum {
-	values := make([]OccAvailabilitySummaryResourceTypeEnum, 0)
-	for _, v := range mappingOccAvailabilitySummaryResourceTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetOccAvailabilitySummaryResourceTypeEnumStringValues Enumerates the set of values in String for OccAvailabilitySummaryResourceTypeEnum
-func GetOccAvailabilitySummaryResourceTypeEnumStringValues() []string {
-	return []string{
-		"SERVER_HW",
-		"CAPACITY_CONSTRAINT",
-	}
-}
-
-// GetMappingOccAvailabilitySummaryResourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingOccAvailabilitySummaryResourceTypeEnum(val string) (OccAvailabilitySummaryResourceTypeEnum, bool) {
-	enum, ok := mappingOccAvailabilitySummaryResourceTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// OccAvailabilitySummaryWorkloadTypeEnum Enum with underlying type: string
-type OccAvailabilitySummaryWorkloadTypeEnum string
-
-// Set of constants representing the allowable values for OccAvailabilitySummaryWorkloadTypeEnum
-const (
-	OccAvailabilitySummaryWorkloadTypeGeneric OccAvailabilitySummaryWorkloadTypeEnum = "GENERIC"
-	OccAvailabilitySummaryWorkloadTypeRow     OccAvailabilitySummaryWorkloadTypeEnum = "ROW"
-	OccAvailabilitySummaryWorkloadTypeUsProd  OccAvailabilitySummaryWorkloadTypeEnum = "US_PROD"
-)
-
-var mappingOccAvailabilitySummaryWorkloadTypeEnum = map[string]OccAvailabilitySummaryWorkloadTypeEnum{
-	"GENERIC": OccAvailabilitySummaryWorkloadTypeGeneric,
-	"ROW":     OccAvailabilitySummaryWorkloadTypeRow,
-	"US_PROD": OccAvailabilitySummaryWorkloadTypeUsProd,
-}
-
-var mappingOccAvailabilitySummaryWorkloadTypeEnumLowerCase = map[string]OccAvailabilitySummaryWorkloadTypeEnum{
-	"generic": OccAvailabilitySummaryWorkloadTypeGeneric,
-	"row":     OccAvailabilitySummaryWorkloadTypeRow,
-	"us_prod": OccAvailabilitySummaryWorkloadTypeUsProd,
-}
-
-// GetOccAvailabilitySummaryWorkloadTypeEnumValues Enumerates the set of values for OccAvailabilitySummaryWorkloadTypeEnum
-func GetOccAvailabilitySummaryWorkloadTypeEnumValues() []OccAvailabilitySummaryWorkloadTypeEnum {
-	values := make([]OccAvailabilitySummaryWorkloadTypeEnum, 0)
-	for _, v := range mappingOccAvailabilitySummaryWorkloadTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetOccAvailabilitySummaryWorkloadTypeEnumStringValues Enumerates the set of values in String for OccAvailabilitySummaryWorkloadTypeEnum
-func GetOccAvailabilitySummaryWorkloadTypeEnumStringValues() []string {
-	return []string{
-		"GENERIC",
-		"ROW",
-		"US_PROD",
-	}
-}
-
-// GetMappingOccAvailabilitySummaryWorkloadTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingOccAvailabilitySummaryWorkloadTypeEnum(val string) (OccAvailabilitySummaryWorkloadTypeEnum, bool) {
-	enum, ok := mappingOccAvailabilitySummaryWorkloadTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

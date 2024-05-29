@@ -72,16 +72,19 @@ type DatabaseSecretCredentialDetailsRoleEnum string
 const (
 	DatabaseSecretCredentialDetailsRoleNormal DatabaseSecretCredentialDetailsRoleEnum = "NORMAL"
 	DatabaseSecretCredentialDetailsRoleSysdba DatabaseSecretCredentialDetailsRoleEnum = "SYSDBA"
+	DatabaseSecretCredentialDetailsRoleSysdg  DatabaseSecretCredentialDetailsRoleEnum = "SYSDG"
 )
 
 var mappingDatabaseSecretCredentialDetailsRoleEnum = map[string]DatabaseSecretCredentialDetailsRoleEnum{
 	"NORMAL": DatabaseSecretCredentialDetailsRoleNormal,
 	"SYSDBA": DatabaseSecretCredentialDetailsRoleSysdba,
+	"SYSDG":  DatabaseSecretCredentialDetailsRoleSysdg,
 }
 
 var mappingDatabaseSecretCredentialDetailsRoleEnumLowerCase = map[string]DatabaseSecretCredentialDetailsRoleEnum{
 	"normal": DatabaseSecretCredentialDetailsRoleNormal,
 	"sysdba": DatabaseSecretCredentialDetailsRoleSysdba,
+	"sysdg":  DatabaseSecretCredentialDetailsRoleSysdg,
 }
 
 // GetDatabaseSecretCredentialDetailsRoleEnumValues Enumerates the set of values for DatabaseSecretCredentialDetailsRoleEnum
@@ -98,6 +101,7 @@ func GetDatabaseSecretCredentialDetailsRoleEnumStringValues() []string {
 	return []string{
 		"NORMAL",
 		"SYSDBA",
+		"SYSDG",
 	}
 }
 
