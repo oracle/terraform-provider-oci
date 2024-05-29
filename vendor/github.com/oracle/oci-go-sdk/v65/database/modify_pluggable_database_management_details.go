@@ -109,16 +109,19 @@ type ModifyPluggableDatabaseManagementDetailsRoleEnum string
 const (
 	ModifyPluggableDatabaseManagementDetailsRoleSysdba ModifyPluggableDatabaseManagementDetailsRoleEnum = "SYSDBA"
 	ModifyPluggableDatabaseManagementDetailsRoleNormal ModifyPluggableDatabaseManagementDetailsRoleEnum = "NORMAL"
+	ModifyPluggableDatabaseManagementDetailsRoleSysdg  ModifyPluggableDatabaseManagementDetailsRoleEnum = "SYSDG"
 )
 
 var mappingModifyPluggableDatabaseManagementDetailsRoleEnum = map[string]ModifyPluggableDatabaseManagementDetailsRoleEnum{
 	"SYSDBA": ModifyPluggableDatabaseManagementDetailsRoleSysdba,
 	"NORMAL": ModifyPluggableDatabaseManagementDetailsRoleNormal,
+	"SYSDG":  ModifyPluggableDatabaseManagementDetailsRoleSysdg,
 }
 
 var mappingModifyPluggableDatabaseManagementDetailsRoleEnumLowerCase = map[string]ModifyPluggableDatabaseManagementDetailsRoleEnum{
 	"sysdba": ModifyPluggableDatabaseManagementDetailsRoleSysdba,
 	"normal": ModifyPluggableDatabaseManagementDetailsRoleNormal,
+	"sysdg":  ModifyPluggableDatabaseManagementDetailsRoleSysdg,
 }
 
 // GetModifyPluggableDatabaseManagementDetailsRoleEnumValues Enumerates the set of values for ModifyPluggableDatabaseManagementDetailsRoleEnum
@@ -135,6 +138,7 @@ func GetModifyPluggableDatabaseManagementDetailsRoleEnumStringValues() []string 
 	return []string{
 		"SYSDBA",
 		"NORMAL",
+		"SYSDG",
 	}
 }
 

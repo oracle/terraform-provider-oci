@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -35,10 +35,10 @@ type JavaDownloadToken struct {
 	// Uniquely generated value for the JavaDownloadToken.
 	Value *string `mandatory:"true" json:"value"`
 
-	// The time the JavaDownloadToken was created. An RFC3339 formatted datetime string.
+	// The time the JavaDownloadToken was created, displayed as an RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The expiry time of the JavaDownloadToken. An RFC3339 formatted datetime string.
+	// The expiry time of the JavaDownloadToken, displayed as an RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeExpires *common.SDKTime `mandatory:"true" json:"timeExpires"`
 
 	// The associated Java version of the JavaDownloadToken.
@@ -49,10 +49,10 @@ type JavaDownloadToken struct {
 
 	LastUpdatedBy *Principal `mandatory:"false" json:"lastUpdatedBy"`
 
-	// The time the JavaDownloadToken was updated. An RFC3339 formatted datetime string.
+	// The time the JavaDownloadToken was updated, displayed as an RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The time the JavaDownloadToken was last used for download. An RFC3339 formatted datetime string.
+	// The time the JavaDownloadToken was last used for download, displayed as an RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeLastUsed *common.SDKTime `mandatory:"false" json:"timeLastUsed"`
 
 	// The license type(s) associated with the JavaDownloadToken.

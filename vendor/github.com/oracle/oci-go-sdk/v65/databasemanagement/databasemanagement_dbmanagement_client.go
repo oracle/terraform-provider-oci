@@ -4415,6 +4415,65 @@ func (client DbManagementClient) getDatabaseHomeMetrics(ctx context.Context, req
 	return response, err
 }
 
+// GetDataguardPerformanceMetrics Gets a historical summary of the Database Guard performance metrics for Managed Databases.
+// If the peerDatabaseCompartmentId is specified, then the metrics are only retrieved from the specified compartment.
+// If the peerDatabaseCompartmentId is not specified, then the metrics are retrieved from the compartment of the Managed Database specified by the ManagedDatabaseId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetDataguardPerformanceMetrics.go.html to see an example of how to use GetDataguardPerformanceMetrics API.
+func (client DbManagementClient) GetDataguardPerformanceMetrics(ctx context.Context, request GetDataguardPerformanceMetricsRequest) (response GetDataguardPerformanceMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDataguardPerformanceMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDataguardPerformanceMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDataguardPerformanceMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDataguardPerformanceMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDataguardPerformanceMetricsResponse")
+	}
+	return
+}
+
+// getDataguardPerformanceMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDataguardPerformanceMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/dataguardPerformanceMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDataguardPerformanceMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DataguardPerformanceMetrics/GetDataguardPerformanceMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDataguardPerformanceMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDbManagementPrivateEndpoint Gets the details of a specific Database Management private endpoint.
 //
 // # See also
@@ -6026,6 +6085,65 @@ func (client DbManagementClient) getPdbMetrics(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PdbMetrics/GetPdbMetrics"
 		err = common.PostProcessServiceError(err, "DbManagement", "GetPdbMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetPeerDatabaseMetrics Gets a comparative summary of the baseline and target values of the Data Guard performance metrics for Managed Databases.
+// If the peerDatabaseCompartmentId is specified, then the metrics are only retrieved from the specified compartment.
+// If the peerDatabaseCompartmentId is not specified, then the metrics are retrieved from the compartment of the Managed Database specified by the ManagedDatabaseId.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemanagement/GetPeerDatabaseMetrics.go.html to see an example of how to use GetPeerDatabaseMetrics API.
+func (client DbManagementClient) GetPeerDatabaseMetrics(ctx context.Context, request GetPeerDatabaseMetricsRequest) (response GetPeerDatabaseMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPeerDatabaseMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPeerDatabaseMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPeerDatabaseMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPeerDatabaseMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPeerDatabaseMetricsResponse")
+	}
+	return
+}
+
+// getPeerDatabaseMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getPeerDatabaseMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/peerDatabaseMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPeerDatabaseMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/PeerDatabaseMetrics/GetPeerDatabaseMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetPeerDatabaseMetrics", apiReferenceLink)
 		return response, err
 	}
 

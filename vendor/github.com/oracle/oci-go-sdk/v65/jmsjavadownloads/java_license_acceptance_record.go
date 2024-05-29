@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -32,12 +32,12 @@ type JavaLicenseAcceptanceRecord struct {
 
 	CreatedBy *Principal `mandatory:"true" json:"createdBy"`
 
-	// The date and time of license acceptance(formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	// The date and time of license acceptance (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
 	LastUpdatedBy *Principal `mandatory:"false" json:"lastUpdatedBy"`
 
-	// The date and time of last update(formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	// The date and time of last update (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeLastUpdated *common.SDKTime `mandatory:"false" json:"timeLastUpdated"`
 
 	// The current state of the JavaLicenseAcceptanceRecord.

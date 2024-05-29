@@ -10,7 +10,6 @@
 package capacitymanagement
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -64,6 +63,9 @@ type OccCapacityRequest struct {
 	// Meaningful text about the capacity request.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Type of Capacity Request(New or Transfer)
+	RequestType OccCapacityRequestRequestTypeEnum `mandatory:"false" json:"requestType,omitempty"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed State.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -99,90 +101,55 @@ func (m OccCapacityRequest) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetOccCapacityRequestLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingOccCapacityRequestRequestTypeEnum(string(m.RequestType)); !ok && m.RequestType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestType: %s. Supported values are: %s.", m.RequestType, strings.Join(GetOccCapacityRequestRequestTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
 }
 
-// UnmarshalJSON unmarshals from json
-func (m *OccCapacityRequest) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Description                  *string                              `json:"description"`
-		LifecycleDetails             *string                              `json:"lifecycleDetails"`
-		FreeformTags                 map[string]string                    `json:"freeformTags"`
-		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
-		SystemTags                   map[string]map[string]interface{}    `json:"systemTags"`
-		Id                           *string                              `json:"id"`
-		CompartmentId                *string                              `json:"compartmentId"`
-		OccAvailabilityCatalogId     *string                              `json:"occAvailabilityCatalogId"`
-		DisplayName                  *string                              `json:"displayName"`
-		Namespace                    NamespaceEnum                        `json:"namespace"`
-		OccCustomerGroupId           *string                              `json:"occCustomerGroupId"`
-		Region                       *string                              `json:"region"`
-		AvailabilityDomain           *string                              `json:"availabilityDomain"`
-		DateExpectedCapacityHandover *common.SDKTime                      `json:"dateExpectedCapacityHandover"`
-		RequestState                 OccCapacityRequestRequestStateEnum   `json:"requestState"`
-		TimeCreated                  *common.SDKTime                      `json:"timeCreated"`
-		TimeUpdated                  *common.SDKTime                      `json:"timeUpdated"`
-		LifecycleState               OccCapacityRequestLifecycleStateEnum `json:"lifecycleState"`
-		Details                      []occcapacityrequestbasedetails      `json:"details"`
-	}{}
+// OccCapacityRequestRequestTypeEnum Enum with underlying type: string
+type OccCapacityRequestRequestTypeEnum string
 
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
+// Set of constants representing the allowable values for OccCapacityRequestRequestTypeEnum
+const (
+	OccCapacityRequestRequestTypeNew      OccCapacityRequestRequestTypeEnum = "NEW"
+	OccCapacityRequestRequestTypeTransfer OccCapacityRequestRequestTypeEnum = "TRANSFER"
+)
+
+var mappingOccCapacityRequestRequestTypeEnum = map[string]OccCapacityRequestRequestTypeEnum{
+	"NEW":      OccCapacityRequestRequestTypeNew,
+	"TRANSFER": OccCapacityRequestRequestTypeTransfer,
+}
+
+var mappingOccCapacityRequestRequestTypeEnumLowerCase = map[string]OccCapacityRequestRequestTypeEnum{
+	"new":      OccCapacityRequestRequestTypeNew,
+	"transfer": OccCapacityRequestRequestTypeTransfer,
+}
+
+// GetOccCapacityRequestRequestTypeEnumValues Enumerates the set of values for OccCapacityRequestRequestTypeEnum
+func GetOccCapacityRequestRequestTypeEnumValues() []OccCapacityRequestRequestTypeEnum {
+	values := make([]OccCapacityRequestRequestTypeEnum, 0)
+	for _, v := range mappingOccCapacityRequestRequestTypeEnum {
+		values = append(values, v)
 	}
-	var nn interface{}
-	m.Description = model.Description
+	return values
+}
 
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
-
-	m.Id = model.Id
-
-	m.CompartmentId = model.CompartmentId
-
-	m.OccAvailabilityCatalogId = model.OccAvailabilityCatalogId
-
-	m.DisplayName = model.DisplayName
-
-	m.Namespace = model.Namespace
-
-	m.OccCustomerGroupId = model.OccCustomerGroupId
-
-	m.Region = model.Region
-
-	m.AvailabilityDomain = model.AvailabilityDomain
-
-	m.DateExpectedCapacityHandover = model.DateExpectedCapacityHandover
-
-	m.RequestState = model.RequestState
-
-	m.TimeCreated = model.TimeCreated
-
-	m.TimeUpdated = model.TimeUpdated
-
-	m.LifecycleState = model.LifecycleState
-
-	m.Details = make([]OccCapacityRequestBaseDetails, len(model.Details))
-	for i, n := range model.Details {
-		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
-		if e != nil {
-			return e
-		}
-		if nn != nil {
-			m.Details[i] = nn.(OccCapacityRequestBaseDetails)
-		} else {
-			m.Details[i] = nil
-		}
+// GetOccCapacityRequestRequestTypeEnumStringValues Enumerates the set of values in String for OccCapacityRequestRequestTypeEnum
+func GetOccCapacityRequestRequestTypeEnumStringValues() []string {
+	return []string{
+		"NEW",
+		"TRANSFER",
 	}
-	return
+}
+
+// GetMappingOccCapacityRequestRequestTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOccCapacityRequestRequestTypeEnum(val string) (OccCapacityRequestRequestTypeEnum, bool) {
+	enum, ok := mappingOccCapacityRequestRequestTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // OccCapacityRequestRequestStateEnum Enum with underlying type: string
