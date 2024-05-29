@@ -85,9 +85,28 @@ type SnowflakeConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The username Oracle GoldenGate uses to connect to Snowflake.
 	// This username must already exist and be available by Snowflake platform to be connected to.
 	Username *string `mandatory:"false" json:"username"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
+	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	// Note: When provided, 'privateKeyFile' field must not be provided.
+	PrivateKeyFileSecretId *string `mandatory:"false" json:"privateKeyFileSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password for the private key file.
+	// Note: When provided, 'privateKeyPassphrase' field must not be provided.
+	PrivateKeyPassphraseSecretId *string `mandatory:"false" json:"privateKeyPassphraseSecretId"`
 
 	// The Snowflake technology type.
 	TechnologyType SnowflakeConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -193,6 +212,11 @@ func (m SnowflakeConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m SnowflakeConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m SnowflakeConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m SnowflakeConnection) String() string {

@@ -38,6 +38,7 @@ const (
 	OperationTypeGoldengateConnectionUpdate            OperationTypeEnum = "GOLDENGATE_CONNECTION_UPDATE"
 	OperationTypeGoldengateConnectionDelete            OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
 	OperationTypeGoldengateConnectionMove              OperationTypeEnum = "GOLDENGATE_CONNECTION_MOVE"
+	OperationTypeGoldengateConnectionRefresh           OperationTypeEnum = "GOLDENGATE_CONNECTION_REFRESH"
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
 	OperationTypeGoldengateConnectionAssignmentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
@@ -72,6 +73,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_UPDATE":             OperationTypeGoldengateConnectionUpdate,
 	"GOLDENGATE_CONNECTION_DELETE":             OperationTypeGoldengateConnectionDelete,
 	"GOLDENGATE_CONNECTION_MOVE":               OperationTypeGoldengateConnectionMove,
+	"GOLDENGATE_CONNECTION_REFRESH":            OperationTypeGoldengateConnectionRefresh,
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
@@ -106,6 +108,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_update":             OperationTypeGoldengateConnectionUpdate,
 	"goldengate_connection_delete":             OperationTypeGoldengateConnectionDelete,
 	"goldengate_connection_move":               OperationTypeGoldengateConnectionMove,
+	"goldengate_connection_refresh":            OperationTypeGoldengateConnectionRefresh,
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
 	"goldengate_connection_assignment_delete":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
@@ -151,6 +154,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_UPDATE",
 		"GOLDENGATE_CONNECTION_DELETE",
 		"GOLDENGATE_CONNECTION_MOVE",
+		"GOLDENGATE_CONNECTION_REFRESH",
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",

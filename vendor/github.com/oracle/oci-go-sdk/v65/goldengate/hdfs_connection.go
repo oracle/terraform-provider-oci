@@ -81,6 +81,9 @@ type HdfsConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The Hadoop Distributed File System technology type.
 	TechnologyType HdfsConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -182,6 +185,11 @@ func (m HdfsConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m HdfsConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m HdfsConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m HdfsConnection) String() string {

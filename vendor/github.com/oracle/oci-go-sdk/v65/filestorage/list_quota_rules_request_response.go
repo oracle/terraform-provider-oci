@@ -20,13 +20,9 @@ type ListQuotaRulesRequest struct {
 	// The type of the owner of this quota rule and usage.
 	PrincipalType ListQuotaRulesPrincipalTypeEnum `mandatory:"true" contributesTo:"query" name:"principalType" omitEmpty:"true"`
 
-	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
-	// identify a user or group to manage access control.
-	PrincipalId *int `mandatory:"true" contributesTo:"query" name:"principalId"`
-
 	// For list pagination. The maximum number of results per page,
 	// or items to return in a paginated "List" call.
-	// 1 is the minimum, 1000 is the maximum.
+	// 1 is the minimum, 4096 is the maximum.
 	// For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `500`
@@ -37,6 +33,10 @@ type ListQuotaRulesRequest struct {
 	// For important details about how pagination works,
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
+
+	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
+	// identify a user or group to manage access control.
+	PrincipalId *int `mandatory:"false" contributesTo:"query" name:"principalId"`
 
 	// An option to only display the users or groups that violate their quota rules.
 	// If `areViolatorsOnly` is false, the list result will display all the quota and usage report.

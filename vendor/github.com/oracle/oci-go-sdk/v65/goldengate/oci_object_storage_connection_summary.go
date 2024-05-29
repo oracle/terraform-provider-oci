@@ -85,11 +85,23 @@ type OciObjectStorageConnectionSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related OCI tenancy.
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
 	// The name of the region. e.g.: us-ashburn-1
 	Region *string `mandatory:"false" json:"region"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
+	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	// Note: When provided, 'privateKeyFile' field must not be provided.
+	PrivateKeyFileSecretId *string `mandatory:"false" json:"privateKeyFileSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the passphrase of the private key.
+	// Note: When provided, 'privateKeyPassphrase' field must not be provided.
+	PrivateKeyPassphraseSecretId *string `mandatory:"false" json:"privateKeyPassphraseSecretId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -192,6 +204,11 @@ func (m OciObjectStorageConnectionSummary) GetRoutingMethod() RoutingMethodEnum 
 // GetLocks returns Locks
 func (m OciObjectStorageConnectionSummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m OciObjectStorageConnectionSummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m OciObjectStorageConnectionSummary) String() string {

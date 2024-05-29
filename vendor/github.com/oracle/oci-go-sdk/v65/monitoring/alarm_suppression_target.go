@@ -57,6 +57,10 @@ func (m *alarmsuppressiontarget) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := AlarmSuppressionAlarmTarget{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPARTMENT":
+		mm := AlarmSuppressionCompartmentTarget{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for AlarmSuppressionTarget: %s.", m.TargetType)
 		return *m, nil

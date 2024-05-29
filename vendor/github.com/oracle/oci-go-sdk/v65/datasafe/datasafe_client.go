@@ -14847,7 +14847,8 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 	return response, err
 }
 
-// UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment. The saved security assessment is no longer considered a baseline.
+// UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment associated with the targetId passed via body.
+// If no body or empty body is passed then the baseline settings of all the saved security assessments pertaining to the baseline assessment OCID provided in the path will be removed.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
 // A default retry strategy applies to this operation UnsetSecurityAssessmentBaseline()
 func (client DataSafeClient) UnsetSecurityAssessmentBaseline(ctx context.Context, request UnsetSecurityAssessmentBaselineRequest) (response UnsetSecurityAssessmentBaselineResponse, err error) {
@@ -14907,7 +14908,8 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 	return response, err
 }
 
-// UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment. The saved user assessment is no longer considered a baseline.
+// UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment associated with the targetId passed via body.
+// If no body or empty body is passed then the baseline settings of all the saved user assessments pertaining to the baseline assessment OCID provided in the path will be removed.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
 // A default retry strategy applies to this operation UnsetUserAssessmentBaseline()
 func (client DataSafeClient) UnsetUserAssessmentBaseline(ctx context.Context, request UnsetUserAssessmentBaselineRequest) (response UnsetUserAssessmentBaselineResponse, err error) {

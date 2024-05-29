@@ -24,6 +24,9 @@ type UpdateSecurityAssessmentDetails struct {
 	// The description of the security assessment.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// This is applicable only for save schedule and latest assessment. It updates the existing schedule in a specified format:
 	// <version-string>;<version-specific-schedule>
 	// Allowed version strings - "v1"

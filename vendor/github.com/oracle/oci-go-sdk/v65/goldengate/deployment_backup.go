@@ -94,6 +94,9 @@ type DeploymentBackup struct {
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Parameter to allow users to create backup without trails
+	IsMetadataOnly *bool `mandatory:"false" json:"isMetadataOnly"`
+
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }

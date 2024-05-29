@@ -84,6 +84,9 @@ type Node struct {
 	// Indicates if the node requires a reboot to either reflect the latest os kernel or take actions for maintenance reboot.
 	IsRebootRequired *bool `mandatory:"false" json:"isRebootRequired"`
 
+	// Version of the ODH (Oracle Distribution including Apache Hadoop) for the node.
+	OdhVersion *string `mandatory:"false" json:"odhVersion"`
+
 	// The date and time the instance was replaced by a new vm with a node backup.
 	TimeReplaced *common.SDKTime `mandatory:"false" json:"timeReplaced"`
 

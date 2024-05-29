@@ -87,10 +87,20 @@ type ElasticsearchConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The Elasticsearch technology type.
 	TechnologyType ElasticsearchConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -199,6 +209,11 @@ func (m ElasticsearchConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m ElasticsearchConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m ElasticsearchConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m ElasticsearchConnection) String() string {

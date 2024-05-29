@@ -14,12 +14,12 @@ import (
 // ListAlarmSuppressionsRequest wrapper for the ListAlarmSuppressions operation
 type ListAlarmSuppressionsRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm that is the target of the alarm suppression.
-	AlarmId *string `mandatory:"true" contributesTo:"query" name:"alarmId"`
-
 	// Customer part of the request identifier token. If you need to contact Oracle about a particular
 	// request, please provide the complete request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm that is the target of the alarm suppression.
+	AlarmId *string `mandatory:"false" contributesTo:"query" name:"alarmId"`
 
 	// A filter to return only resources that match the given display name exactly.
 	// Use this filter to list a alarm suppression by name.
@@ -28,6 +28,30 @@ type ListAlarmSuppressionsRequest struct {
 
 	// A filter to return only resources that match the given lifecycle state exactly. When not specified, only resources in the ACTIVE lifecycle state are listed.
 	LifecycleState AlarmSuppressionLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
+	// The level of this alarm suppression.
+	// `ALARM` indicates a suppression of the entire alarm, regardless of dimension.
+	// `DIMENSION` indicates a suppression configured for specified dimensions.
+	Level AlarmSuppressionLevelEnum `mandatory:"false" contributesTo:"query" name:"level" omitEmpty:"true"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for searching.
+	// Use tenancyId to search in the root compartment.
+	// If targetType is not specified, this parameter results in all the suppressions defined under the compartment.
+	// If targetType is `COMPARTMENT`, this parameter results in suppressions with the compartment ID as target.
+	// Example: `ocid1.compartment.oc1..exampleuniqueID`
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// When true, returns resources from all compartments and subcompartments. The parameter can
+	// only be set to true when compartmentId is the tenancy OCID (the tenancy is the root compartment).
+	// A true value requires the user to have tenancy-level permissions. If this requirement is not met,
+	// then the call is rejected. When false, returns resources from only the compartment specified in
+	// compartmentId. Default is false.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
+	// The target type to use when listing alarm suppressions.
+	// `ALARM` lists all suppression records targeting an alarm.
+	// `COMPARTMENT` lists all suppression records targeting alarms in a compartment / tenancy.
+	TargetType ListAlarmSuppressionsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
 
 	// The field to use when sorting returned alarm suppressions. Only one sorting level is provided.
 	// Example: `timeCreated`
@@ -88,6 +112,12 @@ func (request ListAlarmSuppressionsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingAlarmSuppressionLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAlarmSuppressionLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingAlarmSuppressionLevelEnum(string(request.Level)); !ok && request.Level != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Level: %s. Supported values are: %s.", request.Level, strings.Join(GetAlarmSuppressionLevelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListAlarmSuppressionsTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListAlarmSuppressionsTargetTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListAlarmSuppressionsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListAlarmSuppressionsSortByEnumStringValues(), ",")))
 	}
@@ -131,6 +161,48 @@ func (response ListAlarmSuppressionsResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListAlarmSuppressionsResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListAlarmSuppressionsTargetTypeEnum Enum with underlying type: string
+type ListAlarmSuppressionsTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListAlarmSuppressionsTargetTypeEnum
+const (
+	ListAlarmSuppressionsTargetTypeAlarm       ListAlarmSuppressionsTargetTypeEnum = "ALARM"
+	ListAlarmSuppressionsTargetTypeCompartment ListAlarmSuppressionsTargetTypeEnum = "COMPARTMENT"
+)
+
+var mappingListAlarmSuppressionsTargetTypeEnum = map[string]ListAlarmSuppressionsTargetTypeEnum{
+	"ALARM":       ListAlarmSuppressionsTargetTypeAlarm,
+	"COMPARTMENT": ListAlarmSuppressionsTargetTypeCompartment,
+}
+
+var mappingListAlarmSuppressionsTargetTypeEnumLowerCase = map[string]ListAlarmSuppressionsTargetTypeEnum{
+	"alarm":       ListAlarmSuppressionsTargetTypeAlarm,
+	"compartment": ListAlarmSuppressionsTargetTypeCompartment,
+}
+
+// GetListAlarmSuppressionsTargetTypeEnumValues Enumerates the set of values for ListAlarmSuppressionsTargetTypeEnum
+func GetListAlarmSuppressionsTargetTypeEnumValues() []ListAlarmSuppressionsTargetTypeEnum {
+	values := make([]ListAlarmSuppressionsTargetTypeEnum, 0)
+	for _, v := range mappingListAlarmSuppressionsTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListAlarmSuppressionsTargetTypeEnumStringValues Enumerates the set of values in String for ListAlarmSuppressionsTargetTypeEnum
+func GetListAlarmSuppressionsTargetTypeEnumStringValues() []string {
+	return []string{
+		"ALARM",
+		"COMPARTMENT",
+	}
+}
+
+// GetMappingListAlarmSuppressionsTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListAlarmSuppressionsTargetTypeEnum(val string) (ListAlarmSuppressionsTargetTypeEnum, bool) {
+	enum, ok := mappingListAlarmSuppressionsTargetTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListAlarmSuppressionsSortByEnum Enum with underlying type: string

@@ -84,6 +84,9 @@ type JavaMessageServiceConnectionSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The Connection Factory can be looked up using this name.
 	// e.g.: 'ConnectionFactory'
 	JndiConnectionFactory *string `mandatory:"false" json:"jndiConnectionFactory"`
@@ -122,6 +125,36 @@ type JavaMessageServiceConnectionSummary struct {
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
+	// Note: When provided, 'jndiSecurityCredentials' field must not be provided.
+	JndiSecurityCredentialsSecretId *string `mandatory:"false" json:"jndiSecurityCredentialsSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// that Oracle GoldenGate uses to connect the associated Java Message Service.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
+	// Note: When provided, 'trustStore' field must not be provided.
+	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
+	// Note: When provided, 'trustStorePassword' field must not be provided.
+	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
+	// Note: When provided, 'keyStore' field must not be provided.
+	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
+	// Note: When provided, 'keyStorePassword' field must not be provided.
+	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.
+	// In case it differs from the KeyStore password, it should be provided.
+	// Note: When provided, 'sslKeyPassword' field must not be provided.
+	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -232,6 +265,11 @@ func (m JavaMessageServiceConnectionSummary) GetRoutingMethod() RoutingMethodEnu
 // GetLocks returns Locks
 func (m JavaMessageServiceConnectionSummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m JavaMessageServiceConnectionSummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m JavaMessageServiceConnectionSummary) String() string {

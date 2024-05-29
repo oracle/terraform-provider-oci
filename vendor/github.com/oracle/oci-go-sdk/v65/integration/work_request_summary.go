@@ -90,6 +90,7 @@ const (
 	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
+	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -101,6 +102,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
+	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -112,6 +114,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
+	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -134,6 +137,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
 		"DISASTER_RECOVERY_FAILOVER",
+		"EXTEND_DATA_RETENTION",
 	}
 }
 

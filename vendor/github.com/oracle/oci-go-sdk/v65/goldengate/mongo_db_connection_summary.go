@@ -81,6 +81,9 @@ type MongoDbConnectionSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// MongoDB connection string.
 	// e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords'
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -91,6 +94,10 @@ type MongoDbConnectionSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Autonomous Json Database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated database.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -193,6 +200,11 @@ func (m MongoDbConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 // GetLocks returns Locks
 func (m MongoDbConnectionSummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m MongoDbConnectionSummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m MongoDbConnectionSummary) String() string {

@@ -67,6 +67,10 @@ func (m *tokenauthenticationvalidationpolicy) UnmarshalPolymorphicJSON(data []by
 		mm := TokenAuthenticationStaticKeysValidationPolicy{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "IDCS_INFRA_STRIPE":
+		mm := TokenAuthenticationIdcsInfraStripeValidationPolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for TokenAuthenticationValidationPolicy: %s.", m.Type)
 		return *m, nil
@@ -102,18 +106,21 @@ const (
 	TokenAuthenticationValidationPolicyTypeStaticKeys      TokenAuthenticationValidationPolicyTypeEnum = "STATIC_KEYS"
 	TokenAuthenticationValidationPolicyTypeRemoteJwks      TokenAuthenticationValidationPolicyTypeEnum = "REMOTE_JWKS"
 	TokenAuthenticationValidationPolicyTypeRemoteDiscovery TokenAuthenticationValidationPolicyTypeEnum = "REMOTE_DISCOVERY"
+	TokenAuthenticationValidationPolicyTypeIdcsInfraStripe TokenAuthenticationValidationPolicyTypeEnum = "IDCS_INFRA_STRIPE"
 )
 
 var mappingTokenAuthenticationValidationPolicyTypeEnum = map[string]TokenAuthenticationValidationPolicyTypeEnum{
-	"STATIC_KEYS":      TokenAuthenticationValidationPolicyTypeStaticKeys,
-	"REMOTE_JWKS":      TokenAuthenticationValidationPolicyTypeRemoteJwks,
-	"REMOTE_DISCOVERY": TokenAuthenticationValidationPolicyTypeRemoteDiscovery,
+	"STATIC_KEYS":       TokenAuthenticationValidationPolicyTypeStaticKeys,
+	"REMOTE_JWKS":       TokenAuthenticationValidationPolicyTypeRemoteJwks,
+	"REMOTE_DISCOVERY":  TokenAuthenticationValidationPolicyTypeRemoteDiscovery,
+	"IDCS_INFRA_STRIPE": TokenAuthenticationValidationPolicyTypeIdcsInfraStripe,
 }
 
 var mappingTokenAuthenticationValidationPolicyTypeEnumLowerCase = map[string]TokenAuthenticationValidationPolicyTypeEnum{
-	"static_keys":      TokenAuthenticationValidationPolicyTypeStaticKeys,
-	"remote_jwks":      TokenAuthenticationValidationPolicyTypeRemoteJwks,
-	"remote_discovery": TokenAuthenticationValidationPolicyTypeRemoteDiscovery,
+	"static_keys":       TokenAuthenticationValidationPolicyTypeStaticKeys,
+	"remote_jwks":       TokenAuthenticationValidationPolicyTypeRemoteJwks,
+	"remote_discovery":  TokenAuthenticationValidationPolicyTypeRemoteDiscovery,
+	"idcs_infra_stripe": TokenAuthenticationValidationPolicyTypeIdcsInfraStripe,
 }
 
 // GetTokenAuthenticationValidationPolicyTypeEnumValues Enumerates the set of values for TokenAuthenticationValidationPolicyTypeEnum
@@ -131,6 +138,7 @@ func GetTokenAuthenticationValidationPolicyTypeEnumStringValues() []string {
 		"STATIC_KEYS",
 		"REMOTE_JWKS",
 		"REMOTE_DISCOVERY",
+		"IDCS_INFRA_STRIPE",
 	}
 }
 

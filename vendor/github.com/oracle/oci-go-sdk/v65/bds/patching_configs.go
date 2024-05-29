@@ -58,6 +58,10 @@ func (m *patchingconfigs) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		mm := DowntimeBasedPatchingConfigs{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DOMAIN_BASED":
+		mm := DomainBasedPatchingConfigs{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for PatchingConfigs: %s.", m.PatchingConfigStrategy)
 		return *m, nil
@@ -87,16 +91,19 @@ type PatchingConfigsPatchingConfigStrategyEnum string
 const (
 	PatchingConfigsPatchingConfigStrategyDowntimeBased PatchingConfigsPatchingConfigStrategyEnum = "DOWNTIME_BASED"
 	PatchingConfigsPatchingConfigStrategyBatchingBased PatchingConfigsPatchingConfigStrategyEnum = "BATCHING_BASED"
+	PatchingConfigsPatchingConfigStrategyDomainBased   PatchingConfigsPatchingConfigStrategyEnum = "DOMAIN_BASED"
 )
 
 var mappingPatchingConfigsPatchingConfigStrategyEnum = map[string]PatchingConfigsPatchingConfigStrategyEnum{
 	"DOWNTIME_BASED": PatchingConfigsPatchingConfigStrategyDowntimeBased,
 	"BATCHING_BASED": PatchingConfigsPatchingConfigStrategyBatchingBased,
+	"DOMAIN_BASED":   PatchingConfigsPatchingConfigStrategyDomainBased,
 }
 
 var mappingPatchingConfigsPatchingConfigStrategyEnumLowerCase = map[string]PatchingConfigsPatchingConfigStrategyEnum{
 	"downtime_based": PatchingConfigsPatchingConfigStrategyDowntimeBased,
 	"batching_based": PatchingConfigsPatchingConfigStrategyBatchingBased,
+	"domain_based":   PatchingConfigsPatchingConfigStrategyDomainBased,
 }
 
 // GetPatchingConfigsPatchingConfigStrategyEnumValues Enumerates the set of values for PatchingConfigsPatchingConfigStrategyEnum
@@ -113,6 +120,7 @@ func GetPatchingConfigsPatchingConfigStrategyEnumStringValues() []string {
 	return []string{
 		"DOWNTIME_BASED",
 		"BATCHING_BASED",
+		"DOMAIN_BASED",
 	}
 }
 

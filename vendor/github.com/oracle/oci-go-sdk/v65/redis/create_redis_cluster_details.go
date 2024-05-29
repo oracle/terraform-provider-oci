@@ -36,7 +36,9 @@ type CreateRedisClusterDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster's subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
-	// OCIDs of the NSGs to control access in the customer network
+	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
+	// associated with this cluster. For more information,
+	// see Using an NSG for Redis Clusters (https://docs.cloud.oracle.com/iaas/Content/redis/connecttorediscluster.htm#connecttorediscluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

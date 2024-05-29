@@ -439,6 +439,59 @@ func (client DatabaseClient) autonomousDatabaseManualRefresh(ctx context.Context
 	return response, err
 }
 
+// BackfillFawInstanceIdOnAdbDetails Backfills the specified Autonomous Database with FAW instance Id.
+func (client DatabaseClient) BackfillFawInstanceIdOnAdbDetails(ctx context.Context, request BackfillFawInstanceIdOnAdbDetailsRequest) (response BackfillFawInstanceIdOnAdbDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.backfillFawInstanceIdOnAdbDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BackfillFawInstanceIdOnAdbDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BackfillFawInstanceIdOnAdbDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BackfillFawInstanceIdOnAdbDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BackfillFawInstanceIdOnAdbDetailsResponse")
+	}
+	return
+}
+
+// backfillFawInstanceIdOnAdbDetails implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) backfillFawInstanceIdOnAdbDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/backfillFawInstanceId", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BackfillFawInstanceIdOnAdbDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/BackfillFawInstanceIdOnAdbDetails"
+		err = common.PostProcessServiceError(err, "Database", "BackfillFawInstanceIdOnAdbDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CancelBackup Cancel automatic/standalone full/incremental create backup workrequests specified by the backup Id.
 func (client DatabaseClient) CancelBackup(ctx context.Context, request CancelBackupRequest) (response CancelBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -13045,6 +13098,59 @@ func (client DatabaseClient) getVmClusterUpdateHistoryEntry(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/VmClusterUpdateHistoryEntry/GetVmClusterUpdateHistoryEntry"
 		err = common.PostProcessServiceError(err, "Database", "GetVmClusterUpdateHistoryEntry", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// HeadAutonomousDatabase Identify if Autonomous Database exists.
+func (client DatabaseClient) HeadAutonomousDatabase(ctx context.Context, request HeadAutonomousDatabaseRequest) (response HeadAutonomousDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.headAutonomousDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = HeadAutonomousDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = HeadAutonomousDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(HeadAutonomousDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into HeadAutonomousDatabaseResponse")
+	}
+	return
+}
+
+// headAutonomousDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) headAutonomousDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodHead, "/autonomousDatabases/{autonomousDatabaseId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response HeadAutonomousDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/HeadAutonomousDatabase"
+		err = common.PostProcessServiceError(err, "Database", "HeadAutonomousDatabase", apiReferenceLink)
 		return response, err
 	}
 

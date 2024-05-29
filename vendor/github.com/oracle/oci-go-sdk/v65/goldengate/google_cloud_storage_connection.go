@@ -81,6 +81,14 @@ type GoogleCloudStorageConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the service account key file is stored,
+	// which containing the credentials required to use Google Cloud Storage.
+	// Note: When provided, 'serviceAccountKeyFile' field must not be provided.
+	ServiceAccountKeyFileSecretId *string `mandatory:"false" json:"serviceAccountKeyFileSecretId"`
+
 	// The Google Cloud Storage technology type.
 	TechnologyType GoogleCloudStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -182,6 +190,11 @@ func (m GoogleCloudStorageConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m GoogleCloudStorageConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m GoogleCloudStorageConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m GoogleCloudStorageConnection) String() string {

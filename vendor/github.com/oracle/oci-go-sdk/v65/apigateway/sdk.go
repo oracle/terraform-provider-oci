@@ -78,6 +78,10 @@ type Sdk struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Additional optional configurations passed.
 	// The applicable config keys are listed under "parameters" when "/sdkLanguageTypes" is called.
 	// Example: `{"configName": "configValue"}`

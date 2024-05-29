@@ -60,6 +60,10 @@ func (m *validationfailurepolicy) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := OAuth2ResponseValidationFailurePolicy{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "INFRA_STRIPE":
+		mm := InfraStripeValidationFailurePolicy{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ValidationFailurePolicy: %s.", m.Type)
 		return *m, nil
@@ -89,16 +93,19 @@ type ValidationFailurePolicyTypeEnum string
 const (
 	ValidationFailurePolicyTypeModifyResponse ValidationFailurePolicyTypeEnum = "MODIFY_RESPONSE"
 	ValidationFailurePolicyTypeOauth2         ValidationFailurePolicyTypeEnum = "OAUTH2"
+	ValidationFailurePolicyTypeInfraStripe    ValidationFailurePolicyTypeEnum = "INFRA_STRIPE"
 )
 
 var mappingValidationFailurePolicyTypeEnum = map[string]ValidationFailurePolicyTypeEnum{
 	"MODIFY_RESPONSE": ValidationFailurePolicyTypeModifyResponse,
 	"OAUTH2":          ValidationFailurePolicyTypeOauth2,
+	"INFRA_STRIPE":    ValidationFailurePolicyTypeInfraStripe,
 }
 
 var mappingValidationFailurePolicyTypeEnumLowerCase = map[string]ValidationFailurePolicyTypeEnum{
 	"modify_response": ValidationFailurePolicyTypeModifyResponse,
 	"oauth2":          ValidationFailurePolicyTypeOauth2,
+	"infra_stripe":    ValidationFailurePolicyTypeInfraStripe,
 }
 
 // GetValidationFailurePolicyTypeEnumValues Enumerates the set of values for ValidationFailurePolicyTypeEnum
@@ -115,6 +122,7 @@ func GetValidationFailurePolicyTypeEnumStringValues() []string {
 	return []string{
 		"MODIFY_RESPONSE",
 		"OAUTH2",
+		"INFRA_STRIPE",
 	}
 }
 

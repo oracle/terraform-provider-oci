@@ -219,7 +219,7 @@ func (client MonitoringClient) createAlarm(ctx context.Context, request common.O
 	return response, err
 }
 
-// CreateAlarmSuppression Creates a dimension-specific suppression for an alarm.
+// CreateAlarmSuppression Creates a new alarm suppression.
 // For important limits information, see
 // Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits).
 // This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.
@@ -579,7 +579,6 @@ func (client MonitoringClient) getAlarmSuppression(ctx context.Context, request 
 }
 
 // ListAlarmSuppressions Lists alarm suppressions for the specified alarm.
-// Only dimension-level suppressions are listed. Alarm-level suppressions are not listed.
 // For important limits information, see
 // Limits on Monitoring (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#limits).
 // This call is subject to a Monitoring limit that applies to the total number of requests across all alarm operations.

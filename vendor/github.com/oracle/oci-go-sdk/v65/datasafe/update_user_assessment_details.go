@@ -24,6 +24,9 @@ type UpdateUserAssessmentDetails struct {
 	// The display name of the user assessment.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// The schedule for periodically saving the assessment. This is applicable only for assessments of type save schedule and latest assessment. It updates the existing schedule in a specified format:
 	// <version-string>;<version-specific-schedule>
 	// Allowed version strings - "v1"

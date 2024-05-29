@@ -31,6 +31,9 @@ type ImportDeploymentWalletDetails struct {
 	// Name of the secret with which secret is shown in vault
 	WalletBackupSecretName *string `mandatory:"false" json:"walletBackupSecretName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment, where the secret will be created in.
+	WalletBackupSecretCompartmentId *string `mandatory:"false" json:"walletBackupSecretCompartmentId"`
+
 	// Refers to the customer's master key OCID.
 	// If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 	MasterEncryptionKeyId *string `mandatory:"false" json:"masterEncryptionKeyId"`

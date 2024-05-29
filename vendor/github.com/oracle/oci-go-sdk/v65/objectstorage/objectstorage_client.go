@@ -101,27 +101,7 @@ func (client *ObjectStorageClient) getEndpointTemplatePerRealm(region string) st
 	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
 		realm, _ := common.StringToRegion(region).RealmID()
 		templatePerRealmDict := map[string]string{
-			"oc1":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.customer-oci.com",
-			"oc2":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc3":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc4":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc8":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc9":  "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc10": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc14": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc15": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc16": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc17": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc18": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc19": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc20": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc21": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc23": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc24": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc26": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc27": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc28": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
-			"oc29": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.{secondLevelDomain}",
+			"oc1": "https://{namespaceName+Dot}{dualStack?ds.:}objectstorage.{region}.oci.customer-oci.com",
 		}
 		if template, ok := templatePerRealmDict[realm]; ok {
 			return template

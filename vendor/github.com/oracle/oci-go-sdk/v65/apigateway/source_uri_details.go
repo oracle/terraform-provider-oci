@@ -60,6 +60,10 @@ func (m *sourceuridetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := ValidationBlockSourceUriDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "IDCS_INFRA_PATTERN":
+		mm := IdcsInfraPatternSourceUriDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for SourceUriDetails: %s.", m.Type)
 		return *m, nil
@@ -87,18 +91,21 @@ type SourceUriDetailsTypeEnum string
 
 // Set of constants representing the allowable values for SourceUriDetailsTypeEnum
 const (
-	SourceUriDetailsTypeDiscoveryUri    SourceUriDetailsTypeEnum = "DISCOVERY_URI"
-	SourceUriDetailsTypeValidationBlock SourceUriDetailsTypeEnum = "VALIDATION_BLOCK"
+	SourceUriDetailsTypeDiscoveryUri     SourceUriDetailsTypeEnum = "DISCOVERY_URI"
+	SourceUriDetailsTypeValidationBlock  SourceUriDetailsTypeEnum = "VALIDATION_BLOCK"
+	SourceUriDetailsTypeIdcsInfraPattern SourceUriDetailsTypeEnum = "IDCS_INFRA_PATTERN"
 )
 
 var mappingSourceUriDetailsTypeEnum = map[string]SourceUriDetailsTypeEnum{
-	"DISCOVERY_URI":    SourceUriDetailsTypeDiscoveryUri,
-	"VALIDATION_BLOCK": SourceUriDetailsTypeValidationBlock,
+	"DISCOVERY_URI":      SourceUriDetailsTypeDiscoveryUri,
+	"VALIDATION_BLOCK":   SourceUriDetailsTypeValidationBlock,
+	"IDCS_INFRA_PATTERN": SourceUriDetailsTypeIdcsInfraPattern,
 }
 
 var mappingSourceUriDetailsTypeEnumLowerCase = map[string]SourceUriDetailsTypeEnum{
-	"discovery_uri":    SourceUriDetailsTypeDiscoveryUri,
-	"validation_block": SourceUriDetailsTypeValidationBlock,
+	"discovery_uri":      SourceUriDetailsTypeDiscoveryUri,
+	"validation_block":   SourceUriDetailsTypeValidationBlock,
+	"idcs_infra_pattern": SourceUriDetailsTypeIdcsInfraPattern,
 }
 
 // GetSourceUriDetailsTypeEnumValues Enumerates the set of values for SourceUriDetailsTypeEnum
@@ -115,6 +122,7 @@ func GetSourceUriDetailsTypeEnumStringValues() []string {
 	return []string{
 		"DISCOVERY_URI",
 		"VALIDATION_BLOCK",
+		"IDCS_INFRA_PATTERN",
 	}
 }
 

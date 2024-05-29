@@ -60,22 +60,26 @@ type CreateConnectionDetails interface {
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
 	GetRoutingMethod() RoutingMethodEnum
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	GetDoesUseSecretIds() *bool
 }
 
 type createconnectiondetails struct {
-	JsonData       []byte
-	Description    *string                           `mandatory:"false" json:"description"`
-	FreeformTags   map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags    map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	Locks          []AddResourceLockDetails          `mandatory:"false" json:"locks"`
-	VaultId        *string                           `mandatory:"false" json:"vaultId"`
-	KeyId          *string                           `mandatory:"false" json:"keyId"`
-	NsgIds         []string                          `mandatory:"false" json:"nsgIds"`
-	SubnetId       *string                           `mandatory:"false" json:"subnetId"`
-	RoutingMethod  RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
-	DisplayName    *string                           `mandatory:"true" json:"displayName"`
-	CompartmentId  *string                           `mandatory:"true" json:"compartmentId"`
-	ConnectionType string                            `json:"connectionType"`
+	JsonData         []byte
+	Description      *string                           `mandatory:"false" json:"description"`
+	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Locks            []AddResourceLockDetails          `mandatory:"false" json:"locks"`
+	VaultId          *string                           `mandatory:"false" json:"vaultId"`
+	KeyId            *string                           `mandatory:"false" json:"keyId"`
+	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
+	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
+	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
+	DisplayName      *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
+	ConnectionType   string                            `json:"connectionType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -100,6 +104,7 @@ func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
 	m.NsgIds = s.Model.NsgIds
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
+	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -259,6 +264,11 @@ func (m createconnectiondetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m createconnectiondetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m createconnectiondetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 // GetDisplayName returns DisplayName

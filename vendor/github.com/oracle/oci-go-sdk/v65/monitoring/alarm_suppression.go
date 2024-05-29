@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// AlarmSuppression The configuration details for a dimension-specific alarm suppression.
+// AlarmSuppression The configuration details for a alarm suppression.
 type AlarmSuppression struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
@@ -29,6 +29,11 @@ type AlarmSuppression struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	AlarmSuppressionTarget AlarmSuppressionTarget `mandatory:"true" json:"alarmSuppressionTarget"`
+
+	// The level of this alarm suppression.
+	// `ALARM` indicates a suppression of the entire alarm, regardless of dimension.
+	// `DIMENSION` indicates a suppression configured for specified dimensions.
+	Level AlarmSuppressionLevelEnum `mandatory:"true" json:"level"`
 
 	// A user-friendly name for the alarm suppression. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
@@ -57,6 +62,14 @@ type AlarmSuppression struct {
 	// Example: `2018-02-03T01:02:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
+	// Array of all preconditions for alarm suppression.
+	// Example: `[{
+	//   conditionType: "RECURRENCE",
+	//   suppressionRecurrence: "FRQ=DAILY;BYHOUR=10",
+	//   suppressionDuration: "PT1H"
+	// }]`
+	SuppressionConditions []SuppressionCondition `mandatory:"false" json:"suppressionConditions"`
+
 	// Human-readable reason for this alarm suppression.
 	// It does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
@@ -83,6 +96,9 @@ func (m AlarmSuppression) String() string {
 // Not recommended for calling this function directly
 func (m AlarmSuppression) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingAlarmSuppressionLevelEnum(string(m.Level)); !ok && m.Level != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Level: %s. Supported values are: %s.", m.Level, strings.Join(GetAlarmSuppressionLevelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingAlarmSuppressionLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetAlarmSuppressionLifecycleStateEnumStringValues(), ",")))
 	}
@@ -96,12 +112,14 @@ func (m AlarmSuppression) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		SuppressionConditions  []suppressioncondition             `json:"suppressionConditions"`
 		Description            *string                            `json:"description"`
 		FreeformTags           map[string]string                  `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{}  `json:"definedTags"`
 		Id                     *string                            `json:"id"`
 		CompartmentId          *string                            `json:"compartmentId"`
 		AlarmSuppressionTarget alarmsuppressiontarget             `json:"alarmSuppressionTarget"`
+		Level                  AlarmSuppressionLevelEnum          `json:"level"`
 		DisplayName            *string                            `json:"displayName"`
 		Dimensions             map[string]string                  `json:"dimensions"`
 		TimeSuppressFrom       *common.SDKTime                    `json:"timeSuppressFrom"`
@@ -116,6 +134,18 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.SuppressionConditions = make([]SuppressionCondition, len(model.SuppressionConditions))
+	for i, n := range model.SuppressionConditions {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.SuppressionConditions[i] = nn.(SuppressionCondition)
+		} else {
+			m.SuppressionConditions[i] = nil
+		}
+	}
 	m.Description = model.Description
 
 	m.FreeformTags = model.FreeformTags
@@ -136,6 +166,8 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 		m.AlarmSuppressionTarget = nil
 	}
 
+	m.Level = model.Level
+
 	m.DisplayName = model.DisplayName
 
 	m.Dimensions = model.Dimensions
@@ -151,6 +183,48 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	return
+}
+
+// AlarmSuppressionLevelEnum Enum with underlying type: string
+type AlarmSuppressionLevelEnum string
+
+// Set of constants representing the allowable values for AlarmSuppressionLevelEnum
+const (
+	AlarmSuppressionLevelAlarm     AlarmSuppressionLevelEnum = "ALARM"
+	AlarmSuppressionLevelDimension AlarmSuppressionLevelEnum = "DIMENSION"
+)
+
+var mappingAlarmSuppressionLevelEnum = map[string]AlarmSuppressionLevelEnum{
+	"ALARM":     AlarmSuppressionLevelAlarm,
+	"DIMENSION": AlarmSuppressionLevelDimension,
+}
+
+var mappingAlarmSuppressionLevelEnumLowerCase = map[string]AlarmSuppressionLevelEnum{
+	"alarm":     AlarmSuppressionLevelAlarm,
+	"dimension": AlarmSuppressionLevelDimension,
+}
+
+// GetAlarmSuppressionLevelEnumValues Enumerates the set of values for AlarmSuppressionLevelEnum
+func GetAlarmSuppressionLevelEnumValues() []AlarmSuppressionLevelEnum {
+	values := make([]AlarmSuppressionLevelEnum, 0)
+	for _, v := range mappingAlarmSuppressionLevelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetAlarmSuppressionLevelEnumStringValues Enumerates the set of values in String for AlarmSuppressionLevelEnum
+func GetAlarmSuppressionLevelEnumStringValues() []string {
+	return []string{
+		"ALARM",
+		"DIMENSION",
+	}
+}
+
+// GetMappingAlarmSuppressionLevelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingAlarmSuppressionLevelEnum(val string) (AlarmSuppressionLevelEnum, bool) {
+	enum, ok := mappingAlarmSuppressionLevelEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // AlarmSuppressionLifecycleStateEnum Enum with underlying type: string

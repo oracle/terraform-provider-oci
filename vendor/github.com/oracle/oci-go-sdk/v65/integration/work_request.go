@@ -90,6 +90,7 @@ const (
 	WorkRequestOperationTypeChangePrivateEndpointOutboundConnection WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestOperationTypeEnableProcessAutomation                 WorkRequestOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 	WorkRequestOperationTypeDisasterRecoveryFailover                WorkRequestOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
+	WorkRequestOperationTypeExtendDataRetention                     WorkRequestOperationTypeEnum = "EXTEND_DATA_RETENTION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -101,6 +102,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestOperationTypeEnableProcessAutomation,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestOperationTypeDisasterRecoveryFailover,
+	"EXTEND_DATA_RETENTION":                       WorkRequestOperationTypeExtendDataRetention,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -112,6 +114,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"change_private_endpoint_outbound_connection": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestOperationTypeEnableProcessAutomation,
 	"disaster_recovery_failover":                  WorkRequestOperationTypeDisasterRecoveryFailover,
+	"extend_data_retention":                       WorkRequestOperationTypeExtendDataRetention,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -134,6 +137,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
 		"DISASTER_RECOVERY_FAILOVER",
+		"EXTEND_DATA_RETENTION",
 	}
 }
 

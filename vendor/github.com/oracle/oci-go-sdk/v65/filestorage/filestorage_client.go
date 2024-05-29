@@ -463,6 +463,59 @@ func (client FileStorageClient) addSnapshotLock(ctx context.Context, request com
 	return response, err
 }
 
+// CancelMountTargetShapeDowngrade Cancel scheduled downgrade shape request for mount target.
+func (client FileStorageClient) CancelMountTargetShapeDowngrade(ctx context.Context, request CancelMountTargetShapeDowngradeRequest) (response CancelMountTargetShapeDowngradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cancelMountTargetShapeDowngrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CancelMountTargetShapeDowngradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CancelMountTargetShapeDowngradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CancelMountTargetShapeDowngradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CancelMountTargetShapeDowngradeResponse")
+	}
+	return
+}
+
+// cancelMountTargetShapeDowngrade implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) cancelMountTargetShapeDowngrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/cancelShapeDowngrade", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CancelMountTargetShapeDowngradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/CancelMountTargetShapeDowngrade"
+		err = common.PostProcessServiceError(err, "FileStorage", "CancelMountTargetShapeDowngrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeFileSystemCompartment Moves a file system and its associated snapshots into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes)
 func (client FileStorageClient) ChangeFileSystemCompartment(ctx context.Context, request ChangeFileSystemCompartmentRequest) (response ChangeFileSystemCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4579,6 +4632,59 @@ func (client FileStorageClient) reserveTargetNum(ctx context.Context, request co
 	return response, err
 }
 
+// ScheduleMountTargetShapeDowngrade Schedule a downgrade shape of the mount target.
+func (client FileStorageClient) ScheduleMountTargetShapeDowngrade(ctx context.Context, request ScheduleMountTargetShapeDowngradeRequest) (response ScheduleMountTargetShapeDowngradeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.scheduleMountTargetShapeDowngrade, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ScheduleMountTargetShapeDowngradeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ScheduleMountTargetShapeDowngradeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ScheduleMountTargetShapeDowngradeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ScheduleMountTargetShapeDowngradeResponse")
+	}
+	return
+}
+
+// scheduleMountTargetShapeDowngrade implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) scheduleMountTargetShapeDowngrade(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/scheduleShapeDowngrade", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ScheduleMountTargetShapeDowngradeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/ScheduleMountTargetShapeDowngrade"
+		err = common.PostProcessServiceError(err, "FileStorage", "ScheduleMountTargetShapeDowngrade", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ShareSetJoinDomain Perform a join domain operation for the mount target share set to a domain controller for SMB access.
 func (client FileStorageClient) ShareSetJoinDomain(ctx context.Context, request ShareSetJoinDomainRequest) (response ShareSetJoinDomainResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -5708,6 +5814,59 @@ func (client FileStorageClient) updateSnapshot(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/Snapshot/UpdateSnapshot"
 		err = common.PostProcessServiceError(err, "FileStorage", "UpdateSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpgradeShapeMountTarget Upgrade shape request for mount target.
+func (client FileStorageClient) UpgradeShapeMountTarget(ctx context.Context, request UpgradeShapeMountTargetRequest) (response UpgradeShapeMountTargetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.upgradeShapeMountTarget, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpgradeShapeMountTargetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpgradeShapeMountTargetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpgradeShapeMountTargetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpgradeShapeMountTargetResponse")
+	}
+	return
+}
+
+// upgradeShapeMountTarget implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) upgradeShapeMountTarget(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/mountTargets/{mountTargetId}/actions/upgradeShape", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpgradeShapeMountTargetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/MountTarget/UpgradeShapeMountTarget"
+		err = common.PostProcessServiceError(err, "FileStorage", "UpgradeShapeMountTarget", apiReferenceLink)
 		return response, err
 	}
 
