@@ -1,4 +1,4 @@
-## 5.44.0 (Unreleased)
+## 5.44.0 (May 29, 2024)
 
 ### Added
 - Support for Fix missing TLSv1.3 protocol documentation from Load Balancer provider
@@ -9,7 +9,7 @@
 ### Bug Fix
 - fix dbHome deletion and CEI polling workrequest.
 
-## 5.43.0 (Unreleased)
+## 5.43.0 (May 29, 2024)
 
 ### Added
 - Support for ODSC - Nested Resource Principal Support
@@ -31,7 +31,7 @@ session resumption support for LB
 - revert Devops Deploy Deployment Execution Progress
 - fix oci_log_analytics_namespace import issue
 
-## 5.42.0 (Unreleased)
+## 5.42.0 (May 29, 2024)
 
 ### Added
 - VCNIP Provide IP Inventory view and IP Utilization alerts
