@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/PatchOccCapacityRequest.go.html to see an example of how to use PatchOccCapacityRequestRequest.
 type PatchOccCapacityRequestRequest struct {
 
-	// Request to update the properties of the capacity request.
+	// Request to update the details of the capacity request.
 	PatchOccCapacityRequestDetails `contributesTo:"body"`
 
 	// The OCID of the capacity request.

@@ -22,16 +22,19 @@ type RoleEnum string
 const (
 	RoleNormal RoleEnum = "NORMAL"
 	RoleSysdba RoleEnum = "SYSDBA"
+	RoleSysdg  RoleEnum = "SYSDG"
 )
 
 var mappingRoleEnum = map[string]RoleEnum{
 	"NORMAL": RoleNormal,
 	"SYSDBA": RoleSysdba,
+	"SYSDG":  RoleSysdg,
 }
 
 var mappingRoleEnumLowerCase = map[string]RoleEnum{
 	"normal": RoleNormal,
 	"sysdba": RoleSysdba,
+	"sysdg":  RoleSysdg,
 }
 
 // GetRoleEnumValues Enumerates the set of values for RoleEnum
@@ -48,6 +51,7 @@ func GetRoleEnumStringValues() []string {
 	return []string{
 		"NORMAL",
 		"SYSDBA",
+		"SYSDG",
 	}
 }
 

@@ -140,13 +140,13 @@ func (s *CapacityManagementOccAvailabilityCatalogOccAvailabilitiesDataSourceCrud
 		request.ResourceName = &tmp
 	}
 
-	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
-		request.ResourceType = oci_capacity_management.OccAvailabilitySummaryResourceTypeEnum(resourceType.(string))
-	}
+	// if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+	// 	request.ResourceType = oci_capacity_management.OccAvailabilitySummaryResourceTypeEnum(resourceType.(string))
+	// }
 
-	if workloadType, ok := s.D.GetOkExists("workload_type"); ok {
-		request.WorkloadType = oci_capacity_management.OccAvailabilitySummaryWorkloadTypeEnum(workloadType.(string))
-	}
+	// if workloadType, ok := s.D.GetOkExists("workload_type"); ok {
+	// 	request.WorkloadType = oci_capacity_management.OccAvailabilitySummaryWorkloadTypeEnum(workloadType.(string))
+	// }
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "capacity_management")
 

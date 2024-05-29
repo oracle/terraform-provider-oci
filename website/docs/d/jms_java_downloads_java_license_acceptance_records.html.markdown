@@ -65,6 +65,6 @@ The following attributes are exported:
 * `license_type` - License type associated with the acceptance.
 * `state` - The current state of the JavaLicenseAcceptanceRecord.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_accepted` - The date and time of license acceptance(formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
-* `time_last_updated` - The date and time of last update(formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
+* `time_accepted` - The date and time of license acceptance (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
+* `time_last_updated` - The date and time of last update (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 

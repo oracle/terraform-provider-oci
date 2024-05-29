@@ -1,3 +1,6 @@
+// Copyright (c) HashiCorp, Inc.
+// SPDX-License-Identifier: MPL-2.0
+
 package tftypes
 
 import (
@@ -8,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/vmihailenco/msgpack"
+	msgpack "github.com/vmihailenco/msgpack/v5"
 )
 
 // ValueConverter is an interface that provider-defined types can implement to
@@ -45,6 +48,10 @@ type Value struct {
 
 func (val Value) String() string {
 	typ := val.Type()
+
+	if typ == nil {
+		return "invalid typeless tftypes.Value<>"
+	}
 
 	// null and unknown values we use static strings for
 	if val.IsNull() {
@@ -127,15 +134,17 @@ func (val Value) ApplyTerraform5AttributePathStep(step AttributePathStep) (inter
 	if !val.IsKnown() || val.IsNull() {
 		return nil, ErrInvalidStep
 	}
+
+	// Since this logic is very hot path, it is optimized to use Value
+	// implementation details rather than As() to avoid memory allocations.
 	switch s := step.(type) {
 	case AttributeName:
-		if !val.Type().Is(Object{}) {
+		if _, ok := val.Type().(Object); !ok {
 			return nil, ErrInvalidStep
 		}
-		o := map[string]Value{}
-		err := val.As(&o)
-		if err != nil {
-			return nil, err
+		o, ok := val.value.(map[string]Value)
+		if !ok {
+			return nil, fmt.Errorf("cannot convert %T into map[string]tftypes.Value", val.value)
 		}
 		res, ok := o[string(s)]
 		if !ok {
@@ -143,13 +152,12 @@ func (val Value) ApplyTerraform5AttributePathStep(step AttributePathStep) (inter
 		}
 		return res, nil
 	case ElementKeyString:
-		if !val.Type().Is(Map{}) {
+		if _, ok := val.Type().(Map); !ok {
 			return nil, ErrInvalidStep
 		}
-		m := map[string]Value{}
-		err := val.As(&m)
-		if err != nil {
-			return nil, err
+		m, ok := val.value.(map[string]Value)
+		if !ok {
+			return nil, fmt.Errorf("cannot convert %T into map[string]tftypes.Value", val.value)
 		}
 		res, ok := m[string(s)]
 		if !ok {
@@ -157,36 +165,37 @@ func (val Value) ApplyTerraform5AttributePathStep(step AttributePathStep) (inter
 		}
 		return res, nil
 	case ElementKeyInt:
-		if !val.Type().Is(List{}) && !val.Type().Is(Tuple{}) {
+		_, listOk := val.Type().(List)
+		_, tupleOk := val.Type().(Tuple)
+		if !listOk && !tupleOk {
 			return nil, ErrInvalidStep
 		}
 		if int64(s) < 0 {
 			return nil, ErrInvalidStep
 		}
-		sl := []Value{}
-		err := val.As(&sl)
-		if err != nil {
-			return nil, err
+		sl, ok := val.value.([]Value)
+		if !ok {
+			return nil, fmt.Errorf("cannot convert %T into []tftypes.Value", val.value)
 		}
 		if int64(len(sl)) <= int64(s) {
 			return nil, ErrInvalidStep
 		}
 		return sl[int64(s)], nil
 	case ElementKeyValue:
-		if !val.Type().Is(Set{}) {
+		if _, ok := val.Type().(Set); !ok {
 			return nil, ErrInvalidStep
 		}
-		sl := []Value{}
-		err := val.As(&sl)
-		if err != nil {
-			return nil, err
+		sl, ok := val.value.([]Value)
+		if !ok {
+			return nil, fmt.Errorf("cannot convert %T into []tftypes.Value", val.value)
 		}
+		stepValue := Value(s)
 		for _, el := range sl {
-			diffs, err := el.Diff(Value(s))
+			deepEqual, err := stepValue.deepEqual(el)
 			if err != nil {
 				return nil, err
 			}
-			if len(diffs) == 0 {
+			if deepEqual {
 				return el, nil
 			}
 		}
@@ -200,17 +209,23 @@ func (val Value) ApplyTerraform5AttributePathStep(step AttributePathStep) (inter
 // considered equal if their types are considered equal and if they represent
 // data that is considered equal.
 func (val Value) Equal(o Value) bool {
-	if val.typ == nil && o.typ == nil && val.value == nil && o.value == nil {
+	if val.Type() == nil && o.Type() == nil && val.value == nil && o.value == nil {
 		return true
 	}
-	if !val.Type().Is(o.Type()) {
+	if val.Type() == nil {
 		return false
 	}
-	diff, err := val.Diff(o)
+	if o.Type() == nil {
+		return false
+	}
+	if !val.Type().Equal(o.Type()) {
+		return false
+	}
+	deepEqual, err := val.deepEqual(o)
 	if err != nil {
 		panic(err)
 	}
-	return len(diff) < 1
+	return deepEqual
 }
 
 // Copy returns a defensively-copied clone of Value that shares no underlying
@@ -250,17 +265,13 @@ func (val Value) Copy() Value {
 //
 // The builtin Value representations are:
 //
-// * String: string, *string
-//
-// * Number: *big.Float, int64, *int64, int32, *int32, int16, *int16, int8,
-//           *int8, int, *int, uint64, *uint64, uint32, *uint32, uint16,
-//           *uint16, uint8, *uint8, uint, *uint, float64, *float64
-//
-// * Bool: bool, *bool
-//
-// * Map and Object: map[string]Value
-//
-// * Tuple, List, and Set: []Value
+//   - String: string, *string
+//   - Number: *big.Float, int64, *int64, int32, *int32, int16, *int16, int8,
+//     *int8, int, *int, uint64, *uint64, uint32, *uint32, uint16,
+//     *uint16, uint8, *uint8, uint, *uint, float64, *float64
+//   - Bool: bool, *bool
+//   - Map and Object: map[string]Value
+//   - Tuple, List, and Set: []Value
 func NewValue(t Type, val interface{}) Value {
 	v, err := newValue(t, val)
 	if err != nil {
@@ -284,6 +295,7 @@ func newValue(t Type, val interface{}) (Value, error) {
 			value: val,
 		}, nil
 	}
+
 	if creator, ok := val.(ValueCreator); ok {
 		var err error
 		val, err = creator.ToTerraform5Value()
@@ -292,57 +304,62 @@ func newValue(t Type, val interface{}) (Value, error) {
 		}
 	}
 
-	switch {
-	case t.Is(DynamicPseudoType):
-		v, err := valueFromDynamicPseudoType(val)
+	switch typ := t.(type) {
+	case primitive:
+		switch typ.name {
+		case String.name:
+			v, err := valueFromString(val)
+			if err != nil {
+				return Value{}, err
+			}
+			return v, nil
+		case Number.name:
+			v, err := valueFromNumber(val)
+			if err != nil {
+				return Value{}, err
+			}
+			return v, nil
+		case Bool.name:
+			v, err := valueFromBool(val)
+			if err != nil {
+				return Value{}, err
+			}
+			return v, nil
+		case DynamicPseudoType.name:
+			v, err := valueFromDynamicPseudoType(val)
+			if err != nil {
+				return Value{}, err
+			}
+			return v, nil
+		default:
+			return Value{}, fmt.Errorf("unknown primitive type %v passed to tftypes.NewValue", typ)
+		}
+	case Map:
+		v, err := valueFromMap(typ.ElementType, val)
 		if err != nil {
 			return Value{}, err
 		}
 		return v, nil
-	case t.Is(String):
-		v, err := valueFromString(val)
+	case Object:
+		v, err := valueFromObject(typ.AttributeTypes, typ.OptionalAttributes, val)
 		if err != nil {
 			return Value{}, err
 		}
 		return v, nil
-	case t.Is(Number):
-		v, err := valueFromNumber(val)
+	case List:
+		v, err := valueFromList(typ.ElementType, val)
 		if err != nil {
 			return Value{}, err
 		}
 		return v, nil
-	case t.Is(Bool):
-		v, err := valueFromBool(val)
+	case Set:
+		v, err := valueFromSet(typ.ElementType, val)
 		if err != nil {
 			return Value{}, err
 		}
 		return v, nil
-	case t.Is(Map{}):
-		v, err := valueFromMap(t.(Map).AttributeType, val)
-		if err != nil {
-			return Value{}, err
-		}
-		return v, nil
-	case t.Is(Object{}):
-		v, err := valueFromObject(t.(Object).AttributeTypes, t.(Object).OptionalAttributes, val)
-		if err != nil {
-			return Value{}, err
-		}
-		return v, nil
-	case t.Is(List{}):
-		v, err := valueFromList(t.(List).ElementType, val)
-		if err != nil {
-			return Value{}, err
-		}
-		return v, nil
-	case t.Is(Set{}):
-		v, err := valueFromSet(t.(Set).ElementType, val)
-		if err != nil {
-			return Value{}, err
-		}
-		return v, nil
-	case t.Is(Tuple{}):
-		v, err := valueFromTuple(t.(Tuple).ElementTypes, val)
+	case Tuple:
+		v, err := valueFromTuple(typ.ElementTypes, val)
 		if err != nil {
 			return Value{}, err
 		}
@@ -415,6 +432,10 @@ func (val Value) As(dst interface{}) error {
 			*target = nil
 			return nil
 		}
+		if *target == nil {
+			var s string
+			*target = &s
+		}
 		return val.As(*target)
 	case *big.Float:
 		if val.IsNull() {
@@ -425,12 +446,15 @@ func (val Value) As(dst interface{}) error {
 		if !ok {
 			return fmt.Errorf("can't unmarshal %s into %T, expected *big.Float", val.Type(), dst)
 		}
-		target.Set(v)
+		target.Copy(v)
 		return nil
 	case **big.Float:
 		if val.IsNull() {
 			*target = nil
 			return nil
+		}
+		if *target == nil {
+			*target = big.NewFloat(0)
 		}
 		return val.As(*target)
 	case *bool:
@@ -449,6 +473,10 @@ func (val Value) As(dst interface{}) error {
 			*target = nil
 			return nil
 		}
+		if *target == nil {
+			var b bool
+			*target = &b
+		}
 		return val.As(*target)
 	case *map[string]Value:
 		if val.IsNull() {
@@ -466,6 +494,10 @@ func (val Value) As(dst interface{}) error {
 			*target = nil
 			return nil
 		}
+		if *target == nil {
+			m := map[string]Value{}
+			*target = &m
+		}
 		return val.As(*target)
 	case *[]Value:
 		if val.IsNull() {
@@ -482,6 +514,10 @@ func (val Value) As(dst interface{}) error {
 		if val.IsNull() {
 			*target = nil
 			return nil
+		}
+		if *target == nil {
+			l := []Value{}
+			*target = &l
 		}
 		return val.As(*target)
 	}
@@ -514,6 +550,7 @@ func (val Value) IsFullyKnown() bool {
 	case primitive:
 		return true
 	case List, Set, Tuple:
+		//nolint:forcetypeassert // NewValue func validates the type
 		for _, v := range val.value.([]Value) {
 			if !v.IsFullyKnown() {
 				return false
@@ -521,6 +558,7 @@ func (val Value) IsFullyKnown() bool {
 		}
 		return true
 	case Map, Object:
+		//nolint:forcetypeassert // NewValue func validates the type
 		for _, v := range val.value.(map[string]Value) {
 			if !v.IsFullyKnown() {
 				return false

@@ -157,16 +157,19 @@ type ModifyDatabaseManagementDetailsRoleEnum string
 const (
 	ModifyDatabaseManagementDetailsRoleSysdba ModifyDatabaseManagementDetailsRoleEnum = "SYSDBA"
 	ModifyDatabaseManagementDetailsRoleNormal ModifyDatabaseManagementDetailsRoleEnum = "NORMAL"
+	ModifyDatabaseManagementDetailsRoleSysdg  ModifyDatabaseManagementDetailsRoleEnum = "SYSDG"
 )
 
 var mappingModifyDatabaseManagementDetailsRoleEnum = map[string]ModifyDatabaseManagementDetailsRoleEnum{
 	"SYSDBA": ModifyDatabaseManagementDetailsRoleSysdba,
 	"NORMAL": ModifyDatabaseManagementDetailsRoleNormal,
+	"SYSDG":  ModifyDatabaseManagementDetailsRoleSysdg,
 }
 
 var mappingModifyDatabaseManagementDetailsRoleEnumLowerCase = map[string]ModifyDatabaseManagementDetailsRoleEnum{
 	"sysdba": ModifyDatabaseManagementDetailsRoleSysdba,
 	"normal": ModifyDatabaseManagementDetailsRoleNormal,
+	"sysdg":  ModifyDatabaseManagementDetailsRoleSysdg,
 }
 
 // GetModifyDatabaseManagementDetailsRoleEnumValues Enumerates the set of values for ModifyDatabaseManagementDetailsRoleEnum
@@ -183,6 +186,7 @@ func GetModifyDatabaseManagementDetailsRoleEnumStringValues() []string {
 	return []string{
 		"SYSDBA",
 		"NORMAL",
+		"SYSDG",
 	}
 }
 

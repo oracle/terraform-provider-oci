@@ -27,6 +27,9 @@ type ListOccCapacityRequestsRequest struct {
 	// The namespace by which we would filter the list.
 	Namespace ListOccCapacityRequestsNamespaceEnum `mandatory:"false" contributesTo:"query" name:"namespace" omitEmpty:"true"`
 
+	// A filter to return only the resources that match the request type. The match is not case sensitive.
+	RequestType OccCapacityRequestRequestTypeEnum `mandatory:"false" contributesTo:"query" name:"requestType" omitEmpty:"true"`
+
 	// A filter to return only the resources that match the entire display name. The match is not case sensitive.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -87,6 +90,9 @@ func (request ListOccCapacityRequestsRequest) ValidateEnumValue() (bool, error) 
 	errMessage := []string{}
 	if _, ok := GetMappingListOccCapacityRequestsNamespaceEnum(string(request.Namespace)); !ok && request.Namespace != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Namespace: %s. Supported values are: %s.", request.Namespace, strings.Join(GetListOccCapacityRequestsNamespaceEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingOccCapacityRequestRequestTypeEnum(string(request.RequestType)); !ok && request.RequestType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RequestType: %s. Supported values are: %s.", request.RequestType, strings.Join(GetOccCapacityRequestRequestTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListOccCapacityRequestsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOccCapacityRequestsSortOrderEnumStringValues(), ",")))

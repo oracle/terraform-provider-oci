@@ -927,11 +927,7 @@ func TestUnitProviderTestConfig(t *testing.T) {
 	}{
 		{
 			name: "Test positive case",
-			want: `
-	# Need to have this block even though it's empty; for import testing
-	provider "oci" {
-	}
-	` + CommonTestVariables(),
+			want: CommonTestVariables(),
 		},
 	}
 	for _, tt := range tests {

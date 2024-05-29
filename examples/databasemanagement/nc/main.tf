@@ -105,3 +105,21 @@ data "oci_database_management_named_credentials" "oracle_named_credentials" {
   #Required
   compartment_id = oci_database_management_named_credential.oracle_named_credential.compartment_id
 }
+
+
+# Create named credential with SYSDG role
+resource "oci_database_management_named_credential" "oracle_named_credential_with_sysdg" {
+  #Required
+  compartment_id = var.compartment_id
+  name           = "named_credential_with_sysdg"
+  type           = "ORACLE_DB"
+  scope          = "GLOBAL"
+  content {
+    user_name                   = var.nc_user
+    credential_type             = "BASIC"
+    password_secret_id          = var.key_id
+    role                        = "SYSDG"
+    password_secret_access_mode = "USER_PRINCIPAL"
+  }
+  freeform_tags = var.nc_freeform_tags
+}

@@ -783,11 +783,6 @@ func (s *DatabaseDbHomeResourceCrud) Delete() error {
 	deleteDbHomeRetryDurationFn := tfresource.GetDbHomeRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDbHomeRetryDurationFn)
 
-	dbErr := s.deleteNestedDB()
-	if dbErr != nil {
-		log.Printf("[WARN] Could not delete nested database in DbHome. Will proceed to delete dbHome: %v", dbErr)
-	}
-
 	_, err := s.Client.DeleteDbHome(context.Background(), request)
 	if err != nil {
 		return err

@@ -23,8 +23,6 @@ import (
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 
-	"github.com/hashicorp/terraform-exec/tfinstall"
-
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/hashicorp/terraform-exec/tfexec"
@@ -41,6 +39,9 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+
+	hcinstall "github.com/hashicorp/hc-install"
+	"github.com/hashicorp/hc-install/src"
 )
 
 const (
@@ -2342,7 +2343,7 @@ func TestUnitCreateTerraformStruct(t *testing.T) {
 				getEnvSettingWithBlankDefaultVar = func(varName string) string {
 					return ""
 				}
-				tfInstallFindVar = func(ctx context.Context, opts ...tfinstall.ExecPathFinder) (string, error) {
+				hcInstallerEnsure = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
 					return "", fmt.Errorf("error")
 				}
 			},

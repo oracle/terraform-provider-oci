@@ -64,7 +64,7 @@ The following attributes are exported:
 	* `family_display_name` - The Java family display name.
 	* `family_version` - The Java family version identifier.
 	* `os_family` - The target Operating System family for the artifact.
-	* `package_type` - The package type(typically the file extension) of the artifact.
+	* `package_type` - The package type (typically the file extension) of the artifact.
 	* `package_type_detail` - Additional information about the package type.
 	* `release_version` - The Java release version identifier.
 	* `time_downloaded` - Timestamp of download.

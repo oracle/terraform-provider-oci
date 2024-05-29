@@ -1,4 +1,37 @@
-## 5.42.0 (May 15, 2024)
+## 5.44.0 (May 29, 2024)
+
+### Added
+- Support for Fix missing TLSv1.3 protocol documentation from Load Balancer provider
+- Support for OS Patching in Batch API Design
+- Support for Java Management Service API enhancements to support SPLAT tagstore feature (API only)
+- Support for Database Management : Standby Database Monitoring.
+- Added golang and plug-in SDK version upgrade
+### Bug Fix
+- fix dbHome deletion and CEI polling workrequest.
+
+## 5.43.0 (May 29, 2024)
+
+### Added
+- Support for ODSC - Nested Resource Principal Support
+- Support for ODSC - Pipelines v2
+- Create_management resource for set baseline for Security Assessment and User Assessment in Data Safe
+- Support for CloudGuard - Container Workload Integrationn
+- Support for OS Management Hub - OCI Instance Support & ALX Support
+- VCNIP Provide IP Inventory view and IP Utilization alerts
+- Support for ExaDB-C@C Resize of Local Files Systems (non /u02)
+- Support for [DMS] Fixing AWS_S3 issue in the example file
+- Support for OCI NLB Proxy Protocol Support
+- Support for Email Delivery: Custom Return Path API
+session resumption support for LB
+- Support for OS Management Hub - OCI Instance Support & ALX Support
+- Create_management resource for Masking Report in Data Safe
+### Bug Fix
+- API_KEY_UPDATE
+- purge_trigger and purge_queue bugs in Queue provider
+- revert Devops Deploy Deployment Execution Progress
+- fix oci_log_analytics_namespace import issue
+
+## 5.42.0 (May 29, 2024)
 
 ### Added
 - VCNIP Provide IP Inventory view and IP Utilization alerts

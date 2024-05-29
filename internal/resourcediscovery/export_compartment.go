@@ -27,8 +27,6 @@ import (
 
 	"golang.org/x/mod/semver"
 
-	"github.com/hashicorp/terraform-exec/tfinstall"
-
 	"github.com/hashicorp/terraform-exec/tfexec"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -37,6 +35,11 @@ import (
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
 	tf_provider "github.com/oracle/terraform-provider-oci/internal/provider"
 	utils "github.com/oracle/terraform-provider-oci/internal/utils"
+
+	hcinstall "github.com/hashicorp/hc-install"
+	"github.com/hashicorp/hc-install/fs"
+	"github.com/hashicorp/hc-install/product"
+	"github.com/hashicorp/hc-install/src"
 )
 
 type ResourceDiscoveryStage int
@@ -60,8 +63,10 @@ var (
 	getProviderEnvSettingWithDefaultVar = utils.GetProviderEnvSettingWithDefault
 	getExportConfigVar                  = getExportConfig
 	osStatvar                           = os.Stat
-	tfInstallFindVar                    = tfinstall.Find
-	isDirVar                            = func(file os.FileInfo) bool {
+	hcInstallerEnsureVar                = func(installer *hcinstall.Installer, ctx context.Context, sources []src.Source) (string, error) {
+		return installer.Ensure(ctx, sources)
+	}
+	isDirVar = func(file os.FileInfo) bool {
 		return file.IsDir()
 	}
 	tfVersionVar = func(tf *tfexec.Terraform, backgroundCtx context.Context) (*version.Version, map[string]*version.Version, error) {
@@ -1295,7 +1300,8 @@ func createTerraformStruct(args *tf_export.ExportCommandArgs) (*tfexec.Terraform
 	utils.Logf("terraform bin path --- %s", terraformBinPath)
 	if terraformBinPath == "" {
 		utils.Logf("terraform bin path --- %s", terraformBinPath)
-		terraformBinPath, err = tfInstallFindVar(context.Background(), tfinstall.LookPath())
+		terraformBinPath, err = hcInstallerEnsureVar(hcinstall.NewInstaller(), context.Background(),
+			[]src.Source{src.Findable(&fs.AnyVersion{Product: &product.Terraform})})
 		if err != nil {
 			return nil, "", fmt.Errorf("[ERROR] error finding terraform CLI, either specify the path to terraform CLI "+
 				"including name using env var 'terraform_bin_path' or add terraform CLI to your system path: %s", err.Error())
