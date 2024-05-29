@@ -40,6 +40,21 @@ func JmsJavaDownloadsJavaDownloadReportResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
+			"freeform_tags": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem:     schema.TypeString,
+			},
 			"time_end": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -89,11 +104,6 @@ func JmsJavaDownloadsJavaDownloadReportResource() *schema.Resource {
 					},
 				},
 			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -102,12 +112,15 @@ func JmsJavaDownloadsJavaDownloadReportResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sort_by": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"sort_order": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -193,8 +206,20 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if format, ok := s.D.GetOkExists("format"); ok {
 		request.Format = oci_jms_java_downloads.JavaDownloadReportFormatEnum(format.(string))
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
 	if timeEnd, ok := s.D.GetOkExists("time_end"); ok {
@@ -428,12 +453,24 @@ func (s *JmsJavaDownloadsJavaDownloadReportResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	s.D.Set("sort_by", s.Res.SortBy)
+
+	s.D.Set("sort_order", s.Res.SortOrder)
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeEnd != nil {
+		s.D.Set("time_end", s.Res.TimeEnd.Format(time.RFC3339Nano))
+	}
+
+	if s.Res.TimeStart != nil {
+		s.D.Set("time_start", s.Res.TimeStart.Format(time.RFC3339Nano))
 	}
 
 	return nil
@@ -477,6 +514,10 @@ func JavaDownloadReportSummaryToMap(obj oci_jms_java_downloads.JavaDownloadRepor
 		result["id"] = string(*obj.Id)
 	}
 
+	result["sort_by"] = string(obj.SortBy)
+
+	result["sort_order"] = string(obj.SortOrder)
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.SystemTags != nil {
@@ -485,6 +526,14 @@ func JavaDownloadReportSummaryToMap(obj oci_jms_java_downloads.JavaDownloadRepor
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeEnd != nil {
+		result["time_end"] = obj.TimeEnd.String()
+	}
+
+	if obj.TimeStart != nil {
+		result["time_start"] = obj.TimeStart.String()
 	}
 
 	return result

@@ -39,6 +39,13 @@ func JmsJavaDownloadsJavaLicenseAcceptanceRecordResource() *schema.Resource {
 			},
 
 			// Optional
+			"defined_tags": {
+				Type:             schema.TypeMap,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+				Elem:             schema.TypeString,
+			},
 
 			// Computed
 			"created_by": {
@@ -65,11 +72,6 @@ func JmsJavaDownloadsJavaLicenseAcceptanceRecordResource() *schema.Resource {
 						},
 					},
 				},
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -199,6 +201,14 @@ func (s *JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceCrud) Create() error
 		request.CompartmentId = &tmp
 	}
 
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
 	if licenseAcceptanceStatus, ok := s.D.GetOkExists("license_acceptance_status"); ok {
 		request.LicenseAcceptanceStatus = oci_jms_java_downloads.LicenseAcceptanceStatusEnum(licenseAcceptanceStatus.(string))
 	}
@@ -237,6 +247,14 @@ func (s *JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceCrud) Get() error {
 
 func (s *JmsJavaDownloadsJavaLicenseAcceptanceRecordResourceCrud) Update() error {
 	request := oci_jms_java_downloads.UpdateJavaLicenseAcceptanceRecordRequest{}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
 
 	tmp := s.D.Id()
 	request.JavaLicenseAcceptanceRecordId = &tmp

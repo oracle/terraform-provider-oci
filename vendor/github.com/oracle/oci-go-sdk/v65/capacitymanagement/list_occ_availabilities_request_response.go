@@ -28,10 +28,10 @@ type ListOccAvailabilitiesRequest struct {
 	ResourceName *string `mandatory:"false" contributesTo:"query" name:"resourceName"`
 
 	// Resource type using which the capacity constraints of an availability catalog can be filtered.
-	ResourceType OccAvailabilitySummaryResourceTypeEnum `mandatory:"false" contributesTo:"query" name:"resourceType" omitEmpty:"true"`
+	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
 	// Workload type using the resources in an availability catalog can be filtered.
-	WorkloadType OccAvailabilitySummaryWorkloadTypeEnum `mandatory:"false" contributesTo:"query" name:"workloadType" omitEmpty:"true"`
+	WorkloadType *string `mandatory:"false" contributesTo:"query" name:"workloadType"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
@@ -85,12 +85,6 @@ func (request ListOccAvailabilitiesRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListOccAvailabilitiesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingOccAvailabilitySummaryResourceTypeEnum(string(request.ResourceType)); !ok && request.ResourceType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ResourceType: %s. Supported values are: %s.", request.ResourceType, strings.Join(GetOccAvailabilitySummaryResourceTypeEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingOccAvailabilitySummaryWorkloadTypeEnum(string(request.WorkloadType)); !ok && request.WorkloadType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for WorkloadType: %s. Supported values are: %s.", request.WorkloadType, strings.Join(GetOccAvailabilitySummaryWorkloadTypeEnumStringValues(), ",")))
-	}
 	if _, ok := GetMappingListOccAvailabilitiesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListOccAvailabilitiesSortOrderEnumStringValues(), ",")))
 	}

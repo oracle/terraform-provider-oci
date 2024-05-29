@@ -52,9 +52,9 @@ The following attributes are exported:
 * `lifecycle_details` - Possible lifecycle substates.
 * `state` - The current state of the JavaDownloadToken.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). System tags can be viewed by users, but can only be created by the system.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The time the JavaDownloadToken was created. An RFC3339 formatted datetime string.
-* `time_expires` - The expiry time of the JavaDownloadToken. An RFC3339 formatted datetime string.
-* `time_last_used` - The time the JavaDownloadToken was last used for download. An RFC3339 formatted datetime string.
-* `time_updated` - The time the JavaDownloadToken was updated. An RFC3339 formatted datetime string.
+* `time_created` - The time the JavaDownloadToken was created, displayed as an [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+* `time_expires` - The expiry time of the JavaDownloadToken, displayed as an [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+* `time_last_used` - The time the JavaDownloadToken was last used for download, displayed as an [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+* `time_updated` - The time the JavaDownloadToken was updated, displayed as an [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 * `value` - Uniquely generated value for the JavaDownloadToken.
 

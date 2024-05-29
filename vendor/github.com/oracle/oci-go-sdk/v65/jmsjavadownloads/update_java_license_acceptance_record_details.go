@@ -4,7 +4,7 @@
 
 // Java Management Service Download API
 //
-// The APIs for the download engine of the Java Management Service.
+// The APIs for the <a href="https://docs.oracle.com/en-us/iaas/jms/doc/java-download.html">Java Download</a> feature of Java Management Service.
 //
 
 package jmsjavadownloads
@@ -20,6 +20,14 @@ type UpdateJavaLicenseAcceptanceRecordDetails struct {
 
 	// Status of license acceptance.
 	LicenseAcceptanceStatus LicenseAcceptanceStatusEnum `mandatory:"true" json:"licenseAcceptanceStatus"`
+
+	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
+	// Example: `{"bar-key": "value"}`. (See Managing Tags and Tag Namespaces (https://docs.cloud.oracle.com/Content/Tagging/Concepts/understandingfreeformtags.htm).)
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
+	// Example: `{"foo-namespace": {"bar-key": "value"}}`. (See Understanding Free-form Tags (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm)).
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
 func (m UpdateJavaLicenseAcceptanceRecordDetails) String() string {

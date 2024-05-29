@@ -82,16 +82,19 @@ type DatabaseSslConnectionCredentialsRoleEnum string
 const (
 	DatabaseSslConnectionCredentialsRoleSysdba DatabaseSslConnectionCredentialsRoleEnum = "SYSDBA"
 	DatabaseSslConnectionCredentialsRoleNormal DatabaseSslConnectionCredentialsRoleEnum = "NORMAL"
+	DatabaseSslConnectionCredentialsRoleSysdg  DatabaseSslConnectionCredentialsRoleEnum = "SYSDG"
 )
 
 var mappingDatabaseSslConnectionCredentialsRoleEnum = map[string]DatabaseSslConnectionCredentialsRoleEnum{
 	"SYSDBA": DatabaseSslConnectionCredentialsRoleSysdba,
 	"NORMAL": DatabaseSslConnectionCredentialsRoleNormal,
+	"SYSDG":  DatabaseSslConnectionCredentialsRoleSysdg,
 }
 
 var mappingDatabaseSslConnectionCredentialsRoleEnumLowerCase = map[string]DatabaseSslConnectionCredentialsRoleEnum{
 	"sysdba": DatabaseSslConnectionCredentialsRoleSysdba,
 	"normal": DatabaseSslConnectionCredentialsRoleNormal,
+	"sysdg":  DatabaseSslConnectionCredentialsRoleSysdg,
 }
 
 // GetDatabaseSslConnectionCredentialsRoleEnumValues Enumerates the set of values for DatabaseSslConnectionCredentialsRoleEnum
@@ -108,6 +111,7 @@ func GetDatabaseSslConnectionCredentialsRoleEnumStringValues() []string {
 	return []string{
 		"SYSDBA",
 		"NORMAL",
+		"SYSDG",
 	}
 }
 

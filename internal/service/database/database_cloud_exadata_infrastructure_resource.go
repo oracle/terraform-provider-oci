@@ -340,6 +340,7 @@ func createDatabaseCloudExadataInfrastructure(d *schema.ResourceData, m interfac
 	sync := &DatabaseCloudExadataInfrastructureResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.CreateResource(d, sync)
 }
@@ -504,6 +505,20 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 		return err
 	}
 
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		var identifier *string
+		var err error
+		identifier = response.Id
+		if identifier != nil {
+			s.D.SetId(*identifier)
+		}
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+
 	s.Res = &response.CloudExadataInfrastructure
 	return nil
 }
@@ -607,6 +622,7 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Update() error {
 	retentionPolicyFunc := func() bool {
 		return s.Res.LifecycleState == oci_database.CloudExadataInfrastructureLifecycleStateAvailable
 	}
+	// Cannot poll by workrequest because we do not set affected resources during update. We only set them during scale.
 	if err := tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate)); err != nil {
 		return err
 	}
@@ -988,13 +1004,17 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) addStorageMVM() error {
 
 	addStorageRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
-	_, err := s.Client.AddStorageCapacityCloudExadataInfrastructure(context.Background(), addStorageRequest)
+	response, err := s.Client.AddStorageCapacityCloudExadataInfrastructure(context.Background(), addStorageRequest)
 	if err != nil {
 		return err
 	}
 
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "cloudExadataInfrastructure", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
