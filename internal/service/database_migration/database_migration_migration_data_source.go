@@ -159,6 +159,12 @@ func (s *DatabaseMigrationMigrationDataSourceCrud) SetData() error {
 	case oci_database_migration.OracleMigration:
 		s.D.Set("database_combination", "ORACLE")
 
+		advancedParameters := []interface{}{}
+		for _, item := range v.AdvancedParameters {
+			advancedParameters = append(advancedParameters, migrationParameterDetailsToMap(item))
+		}
+		s.D.Set("advanced_parameters", advancedParameters)
+
 		if v.AdvisorSettings != nil {
 			s.D.Set("advisor_settings", []interface{}{OracleAdvisorSettingsToMap(v.AdvisorSettings)})
 		} else {

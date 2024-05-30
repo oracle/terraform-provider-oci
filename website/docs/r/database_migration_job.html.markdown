@@ -12,7 +12,7 @@ This resource provides the Job resource in Oracle Cloud Infrastructure Database 
 
 Update Migration Job resource details.
 
-Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
+Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.47.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
 
 ## Example Usage
 
