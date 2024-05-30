@@ -103,13 +103,14 @@ data "oci_database_migration_job" "test_job" {
   job_id = var.jobId
 }
 
-data "oci_database_migration_agent" "test_agent" {
-  agent_id = "agentId"
-}
 
+
+variable "migration_id" {
+  default = ""
+}
 data "oci_database_migration_migrations" "test_migrations" {
   #Required
-  compartment_id =  var.compartment_id
+  migration_id = var.migration_id
 }
 
 data "oci_database_migration_job_advisor_report" "test_job_advisor_report" {
@@ -123,8 +124,43 @@ data "oci_database_migration_job_output" "test_job_output" {
 data "oci_database_migration_migration_object_types" "test_migration_object_types" {
   connection_type = "MYSQL"
 }
+variable "connection_string" {
+  default = ""
+}
+variable "nsg_ids" {
+  default = ""
+}
+resource "oci_database_migration_connection" "test_connection_rds_source" {
+  compartment_id = var.compartment_id
+  display_name = "TF_display_test_rds_source"
+  connection_type = "ORACLE"
+  key_id = var.kms_key_id
+  vault_id = var.kms_vault_id
+  connection_string = var.connection_string
+  password = "BEstrO0ng_#11"
+  technology_type = "AMAZON_RDS_ORACLE"
+  username = "ggfe"
+  nsg_ids = var.nsg_ids
+  replication_password="replicationPassword"
+  replication_username="replicationUsername"
+}
 
-data "oci_database_migration_agent_images" "test_agent_images" {}
+variable "database_autonomous_id" {
+  default = ""
+}
+resource "oci_database_migration_connection" "test_connection_rds_target" {
+  compartment_id = var.compartment_id
+  display_name = "TF_display_test_rds_target"
+  connection_type = "ORACLE"
+  key_id = var.kms_key_id
+  vault_id = var.kms_vault_id
+  database_id = var.database_autonomous_id
+  password = "BEstrO0ng_#11"
+  technology_type = "OCI_AUTONOMOUS_DATABASE"
+  username = "ggfe"
+  replication_password="replicationPassword"
+  replication_username="replicationUsername"
+}
 
 resource "oci_database_migration_connection" "test_connection_target" {
   compartment_id = var.compartment_id
@@ -196,6 +232,70 @@ resource "oci_database_migration_migration" "test_migration" {
   database_combination = "MYSQL"
   source_database_connection_id = var.source_connection_mysql_id
   target_database_connection_id = var.target_connection_mysql_id
+  type = "ONLINE"
+  display_name = "displayName"
+}
+
+resource "oci_database_migration_migration" "test_offline_migration" {
+  compartment_id = var.compartment_id
+  database_combination = "MYSQL"
+  source_database_connection_id = var.source_connection_mysql_id
+  target_database_connection_id = var.target_connection_mysql_id
+  type = "OFFLINE"
+  display_name = "displayName"
+}
+
+variable "source_connection_oracle_id" {
+  default = ""
+}
+variable "source_connection_container_oracle_id" {
+  default = ""
+}
+variable "target_connection_oracle_id" {
+  default = ""
+}
+variable "bucket_oracle_id" {
+  default = ""
+}
+resource "oci_database_migration_migration" "test_oracle_migration" {
+  compartment_id = var.compartment_id
+  database_combination = "ORACLE"
+  source_database_connection_id = var.source_connection_oracle_id
+  source_container_database_connection_id = var.source_connection_container_oracle_id
+  target_database_connection_id = var.target_connection_oracle_id
+  advanced_parameters {
+    data_type = "STRING"
+    name = "DATAPUMPSETTINGS_METADATAONLY"
+    value = "True"
+  }
+  data_transfer_medium_details {
+    type = "OBJECT_STORAGE"
+    object_storage_bucket {
+      bucket = var.bucket_oracle_id
+      namespace = "namespace"
+    }
+  }
+  type = "ONLINE"
+  display_name = "displayName"
+}
+
+resource "oci_database_migration_migration" "test_oracle_rds_migration" {
+  compartment_id = var.compartment_id
+  database_combination = "ORACLE"
+  source_database_connection_id = oci_database_migration_connection.test_connection_rds_source.id
+  target_database_connection_id = oci_database_migration_connection.test_connection_rds_target.id
+
+  data_transfer_medium_details {
+    type = "AWS_S3"
+    name = "rdsbucket"
+    region = "us-east-1"
+    secret_access_key = "12345/12345"
+    access_key_id = "12345"
+    object_storage_bucket {
+      bucket = var.bucket_oracle_id
+      namespace = "namespace"
+    }
+  }
   type = "ONLINE"
   display_name = "displayName"
 }
