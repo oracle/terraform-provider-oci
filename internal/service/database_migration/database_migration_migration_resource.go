@@ -62,6 +62,35 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 			},
 
 			// Optional
+			"advanced_parameters": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"data_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"value": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"advisor_settings": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1221,6 +1250,14 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 	case oci_database_migration.OracleMigration:
 		s.D.Set("database_combination", "ORACLE")
 
+		if v.AdvancedParameters != nil {
+			advancedParameters := []interface{}{}
+			for _, item := range v.AdvancedParameters {
+				advancedParameters = append(advancedParameters, migrationParameterDetailsToMap(item))
+			}
+			s.D.Set("advanced_parameters", advancedParameters)
+		}
+
 		if v.AdvisorSettings != nil {
 			s.D.Set("advisor_settings", []interface{}{OracleAdvisorSettingsToMap(v.AdvisorSettings)})
 		} else {
@@ -1321,6 +1358,22 @@ func (s *DatabaseMigrationMigrationResourceCrud) SetData() error {
 		return nil
 	}
 	return nil
+}
+
+func migrationParameterDetailsToMap(obj oci_database_migration.MigrationParameterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	result["data_type"] = obj.DataType
+
+	return result
 }
 
 func (s *DatabaseMigrationMigrationResourceCrud) mapToAdminCredentials(fieldKeyFormat string) (oci_database_migration.AdminCredentials, error) {
@@ -2708,6 +2761,26 @@ func MetadataRemapToMap(obj oci_database_migration.MetadataRemap) map[string]int
 	result["type"] = string(obj.Type)
 
 	return result
+}
+
+func (s *DatabaseMigrationMigrationResourceCrud) mapToMigrationParameterDetails(fieldKeyFormat string) (oci_database_migration.MigrationParameterDetails, error) {
+	result := oci_database_migration.MigrationParameterDetails{}
+
+	if dataType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "data_type")); ok {
+		result.DataType = oci_database_migration.AdvancedParameterDataTypesEnum(dataType.(string))
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
 }
 
 func MigrationSummaryToMap(obj oci_database_migration.MigrationSummary) map[string]interface{} {
@@ -4783,6 +4856,22 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicCrea
 		request.CreateMigrationDetails = details
 	case strings.ToLower("ORACLE"):
 		details := oci_database_migration.CreateOracleMigrationDetails{}
+		if advancedParameters, ok := s.D.GetOkExists("advanced_parameters"); ok {
+			interfaces := advancedParameters.([]interface{})
+			tmp := make([]oci_database_migration.MigrationParameterDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advanced_parameters", stateDataIndex)
+				converted, err := s.mapToMigrationParameterDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("advanced_parameters") {
+				details.AdvancedParameters = tmp
+			}
+		}
 		if advisorSettings, ok := s.D.GetOkExists("advisor_settings"); ok {
 			if tmpList := advisorSettings.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advisor_settings", 0)
@@ -5010,6 +5099,22 @@ func (s *DatabaseMigrationMigrationResourceCrud) populateTopLevelPolymorphicUpda
 		request.UpdateMigrationDetails = details
 	case strings.ToLower("ORACLE"):
 		details := oci_database_migration.UpdateOracleMigrationDetails{}
+		if advancedParameters, ok := s.D.GetOkExists("advanced_parameters"); ok {
+			interfaces := advancedParameters.([]interface{})
+			tmp := make([]oci_database_migration.MigrationParameterDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advanced_parameters", stateDataIndex)
+				converted, err := s.mapToMigrationParameterDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("advanced_parameters") {
+				details.AdvancedParameters = tmp
+			}
+		}
 		if advisorSettings, ok := s.D.GetOkExists("advisor_settings"); ok {
 			if tmpList := advisorSettings.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "advisor_settings", 0)
