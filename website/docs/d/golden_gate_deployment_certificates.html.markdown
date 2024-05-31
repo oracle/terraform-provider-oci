@@ -42,10 +42,24 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `key` - The identifier key (unique name in the scope of the deployment) of the certificate being referenced.  It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
-* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
-* `is_self_signed` - Indicates if the certificate is self signed.
-* `state` - Possible certificate lifecycle states.
-* `subject` - The Certificate subject.
-* `time_valid_to` - The time the certificate is valid to. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
+* `authority_key_id` - The Certificate authority key id. 
+* `certificate_content` - The base64 encoded content of the PEM file containing the SSL certificate. 
+* `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
+* `is_ca` - Indicates if the certificate is ca. 
+* `is_self_signed` - Indicates if the certificate is self signed. 
+* `issuer` - The Certificate issuer. 
+* `key` - The identifier key (unique name in the scope of the deployment) of the certificate being referenced.  It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+* `md5hash` - The Certificate md5Hash. 
+* `public_key` - The Certificate public key. 
+* `public_key_algorithm` - The Certificate public key algorithm. 
+* `public_key_size` - The Certificate public key size. 
+* `serial` - The Certificate serial. 
+* `sha1hash` - The Certificate sha1 hash. 
+* `state` - Possible certificate lifecycle states. 
+* `subject` - The Certificate subject. 
+* `subject_key_id` - The Certificate subject key id. 
+* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_valid_from` - The time the certificate is valid from. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_valid_to` - The time the certificate is valid to. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `version` - The Certificate version. 
 

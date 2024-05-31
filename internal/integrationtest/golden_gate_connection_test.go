@@ -89,7 +89,7 @@ var (
 		oci_golden_gate.ConnectionTypeAzureDataLakeStorage,
 		oci_golden_gate.ConnectionTypeAzureSynapseAnalytics,
 		//		oci_golden_gate.ConnectionTypeCassandra, //TODO 2023. 09. 19. lmadaras: to be tested
-		//		oci_golden_gate.ConnectionTypeDb2, //TODO 2023. 09. 19. lmadaras: to be tested
+		oci_golden_gate.ConnectionTypeDb2,
 		oci_golden_gate.ConnectionTypeElasticsearch,
 		oci_golden_gate.ConnectionTypeGoldengate,
 		oci_golden_gate.ConnectionTypeGeneric,
@@ -214,18 +214,17 @@ var (
 		//	},
 		//},
 		//
-		//// DB2
-		//{connectionType: oci_golden_gate.ConnectionTypeDb2, technologyType: oci_golden_gate.TechnologyTypeDb2Zos,
-		//	representation: map[string]interface{}{
-		//		"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database1`, Update: `database2`},
-		//		"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever1.fqdn.com`, Update: `whatever2.fqdn.com`},
-		//		"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
-		//		"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
-		//		"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
-		//		"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
-		//		"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
-		//	},
-		//},
+		// DB2
+		{connectionType: oci_golden_gate.ConnectionTypeDb2, technologyType: oci_golden_gate.TechnologyTypeDb2Zos,
+			representation: map[string]interface{}{
+				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database1`, Update: `database2`},
+				"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever1.fqdn.com`, Update: `whatever2.fqdn.com`},
+				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
+				"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
+			},
+		},
 
 		// Elasticsearch
 		{connectionType: oci_golden_gate.ConnectionTypeElasticsearch, technologyType: oci_golden_gate.TechnologyTypeElasticsearch,

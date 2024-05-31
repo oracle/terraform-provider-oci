@@ -84,6 +84,8 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}
 
+	s.D.Set("deployment_type", s.Res.DeploymentType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}

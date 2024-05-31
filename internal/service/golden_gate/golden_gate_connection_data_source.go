@@ -441,6 +441,96 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.VaultId != nil {
 			s.D.Set("vault_id", *v.VaultId)
 		}
+	case oci_golden_gate.Db2Connection:
+		s.D.Set("connection_type", "DB2")
+
+		additionalAttributes := []interface{}{}
+		for _, item := range v.AdditionalAttributes {
+			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
+		}
+		s.D.Set("additional_attributes", additionalAttributes)
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.Host != nil {
+			s.D.Set("host", *v.Host)
+		}
+
+		if v.Port != nil {
+			s.D.Set("port", *v.Port)
+		}
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
 	case oci_golden_gate.ElasticsearchConnection:
 		s.D.Set("connection_type", "ELASTICSEARCH")
 
@@ -1391,7 +1481,6 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
-
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1469,6 +1558,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
+
 		nsgIds := []interface{}{}
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
@@ -1500,6 +1590,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		}
 	case oci_golden_gate.OracleConnection:
 		s.D.Set("connection_type", "ORACLE")
+
+		s.D.Set("authentication_mode", v.AuthenticationMode)
 
 		if v.ConnectionString != nil {
 			s.D.Set("connection_string", *v.ConnectionString)
@@ -1673,6 +1765,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 			s.D.Set("database_name", *v.DatabaseName)
 		}
 
+		if v.DbSystemId != nil {
+			s.D.Set("db_system_id", *v.DbSystemId)
+		}
+
 		if v.Host != nil {
 			s.D.Set("host", *v.Host)
 		}
@@ -1760,6 +1856,10 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		s.D.Set("connection_type", "REDIS")
 
 		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.RedisClusterId != nil {
+			s.D.Set("redis_cluster_id", *v.RedisClusterId)
+		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
@@ -1885,7 +1985,7 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		for _, item := range v.NsgIds {
 			nsgIds = append(nsgIds, item)
 		}
-		s.D.Set("nsg_ids", nsgIds)
+		s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
 		s.D.Set("routing_method", v.RoutingMethod)
 
@@ -1898,6 +1998,8 @@ func (s *GoldenGateConnectionDataSourceCrud) SetData() error {
 		if v.SystemTags != nil {
 			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())

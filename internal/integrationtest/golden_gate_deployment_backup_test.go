@@ -36,6 +36,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		OBJECTSTORAGE_BUCKET_NAME = "objectstorage_bucket_name"
 		OBJECTSTORAGE_NAMESPACE   = "objectstorage_namespace"
 		TEST_DEPLOYMENT_ID        = "test_deployment_id"
+		TEST_DEPLOYMENT_TYPE      = "test_deployment_type"
 	)
 
 	var (
@@ -46,6 +47,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		testCompartmentId    = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
 		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
 		resId                string
+		testDeploymentType   = utils.GetEnvSettingWithBlankDefault(TEST_DEPLOYMENT_TYPE)
 	)
 
 	var (
@@ -112,6 +114,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "object"),
@@ -136,7 +139,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -167,6 +170,8 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdForMove),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
+				resource.TestCheckResourceAttrSet(resourceName, "deployment_type"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -192,6 +197,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -217,6 +223,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -235,6 +242,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", testCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
