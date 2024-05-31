@@ -36,7 +36,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `authority_key_id` - The Certificate authority key id. 
-* `certificate_content` - A PEM-encoded SSL certificate. 
+* `certificate_content` - The base64 encoded content of the PEM file containing the SSL certificate. 
 * `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `is_ca` - Indicates if the certificate is ca. 
 * `is_self_signed` - Indicates if the certificate is self signed. 

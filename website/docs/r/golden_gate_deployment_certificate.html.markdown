@@ -28,7 +28,7 @@ resource "oci_golden_gate_deployment_certificate" "test_deployment_certificate" 
 
 The following arguments are supported:
 
-* `certificate_content` - (Required) A PEM-encoded SSL certificate. 
+* `certificate_content` - (Required) The base64 encoded content of the PEM file containing the SSL certificate. 
 * `deployment_id` - (Required) A unique Deployment identifier. 
 * `key` - (Required) The identifier key (unique name in the scope of the deployment) of the certificate being referenced.  It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
 
@@ -41,7 +41,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `authority_key_id` - The Certificate authority key id. 
-* `certificate_content` - A PEM-encoded SSL certificate. 
+* `certificate_content` - The base64 encoded content of the PEM file containing the SSL certificate. 
 * `deployment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `is_ca` - Indicates if the certificate is ca. 
 * `is_self_signed` - Indicates if the certificate is self signed. 
