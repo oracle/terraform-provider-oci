@@ -82,6 +82,10 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"deployment_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"is_automatic": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -481,6 +485,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}
 
+	s.D.Set("deployment_type", s.Res.DeploymentType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -556,6 +562,8 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 	if obj.DeploymentId != nil {
 		result["deployment_id"] = string(*obj.DeploymentId)
 	}
+
+	result["deployment_type"] = string(obj.DeploymentType)
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)

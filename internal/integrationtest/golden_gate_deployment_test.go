@@ -325,8 +325,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId == resId2 {
-						return fmt.Errorf("resource updated in place when it was supposed to be recreated for public access")
+					if resId != resId2 {
+						return fmt.Errorf("resource has been recreated meanwhile it was supposed to be updated")
 					}
 					return err
 				},

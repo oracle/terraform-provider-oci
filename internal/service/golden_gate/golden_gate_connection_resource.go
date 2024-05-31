@@ -48,6 +48,7 @@ func GoldenGateConnectionResource() *schema.Resource {
 					"AMAZON_S3",
 					"AZURE_DATA_LAKE_STORAGE",
 					"AZURE_SYNAPSE_ANALYTICS",
+					"DB2",
 					"ELASTICSEARCH",
 					"GENERIC",
 					"GOLDENGATE",
@@ -117,6 +118,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 						// Computed
 					},
 				},
+			},
+			"authentication_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"authentication_type": {
 				Type:     schema.TypeString,
@@ -333,6 +339,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"redis_cluster_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"region": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -393,6 +404,16 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"ssl_client_keystash": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"ssl_client_keystoredb": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"ssl_crl": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -410,6 +431,11 @@ func GoldenGateConnectionResource() *schema.Resource {
 				Sensitive: true,
 			},
 			"ssl_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"ssl_server_certificate": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -1102,6 +1128,100 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		if v.ConnectionString != nil {
 			s.D.Set("connection_string", *v.ConnectionString)
 		}
+
+		s.D.Set("technology_type", v.TechnologyType)
+
+		if v.Username != nil {
+			s.D.Set("username", *v.Username)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.Description != nil {
+			s.D.Set("description", *v.Description)
+		}
+
+		if v.DisplayName != nil {
+			s.D.Set("display_name", *v.DisplayName)
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.Id != nil {
+			s.D.SetId(*v.Id)
+		}
+
+		ingressIps := []interface{}{}
+		for _, item := range v.IngressIps {
+			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
+		}
+		s.D.Set("ingress_ips", ingressIps)
+
+		if v.KeyId != nil {
+			s.D.Set("key_id", *v.KeyId)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		nsgIds := []interface{}{}
+		for _, item := range v.NsgIds {
+			nsgIds = append(nsgIds, item)
+		}
+		s.D.Set("nsg_ids", nsgIds)
+
+		s.D.Set("routing_method", v.RoutingMethod)
+
+		s.D.Set("state", v.LifecycleState)
+
+		if v.SubnetId != nil {
+			s.D.Set("subnet_id", *v.SubnetId)
+		}
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
+
+		if v.VaultId != nil {
+			s.D.Set("vault_id", *v.VaultId)
+		}
+	case oci_golden_gate.Db2Connection:
+		s.D.Set("connection_type", "DB2")
+
+		additionalAttributes := []interface{}{}
+		for _, item := range v.AdditionalAttributes {
+			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
+		}
+		s.D.Set("additional_attributes", additionalAttributes)
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.Host != nil {
+			s.D.Set("host", *v.Host)
+		}
+
+		if v.Port != nil {
+			s.D.Set("port", *v.Port)
+		}
+
+		s.D.Set("security_protocol", v.SecurityProtocol)
 
 		s.D.Set("technology_type", v.TechnologyType)
 
@@ -2287,6 +2407,8 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 	case oci_golden_gate.OracleConnection:
 		s.D.Set("connection_type", "ORACLE")
 
+		s.D.Set("authentication_mode", v.AuthenticationMode)
+
 		if v.ConnectionString != nil {
 			s.D.Set("connection_string", *v.ConnectionString)
 		}
@@ -2467,6 +2589,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 			s.D.Set("database_name", *v.DatabaseName)
 		}
 
+		if v.DbSystemId != nil {
+			s.D.Set("db_system_id", *v.DbSystemId)
+		}
+
 		if v.Host != nil {
 			s.D.Set("host", *v.Host)
 		}
@@ -2558,6 +2684,10 @@ func (s *GoldenGateConnectionResourceCrud) SetData() error {
 		s.D.Set("connection_type", "REDIS")
 
 		s.D.Set("authentication_type", v.AuthenticationType)
+
+		if v.RedisClusterId != nil {
+			s.D.Set("redis_cluster_id", *v.RedisClusterId)
+		}
 
 		s.D.Set("security_protocol", v.SecurityProtocol)
 
@@ -2837,6 +2967,34 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		if v.Username != nil {
 			result["username"] = string(*v.Username)
 		}
+	case oci_golden_gate.Db2ConnectionSummary:
+		result["connection_type"] = "DB2"
+
+		additionalAttributes := []interface{}{}
+		for _, item := range v.AdditionalAttributes {
+			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
+		}
+		result["additional_attributes"] = additionalAttributes
+
+		if v.DatabaseName != nil {
+			result["database_name"] = string(*v.DatabaseName)
+		}
+
+		if v.Host != nil {
+			result["host"] = string(*v.Host)
+		}
+
+		if v.Port != nil {
+			result["port"] = int(*v.Port)
+		}
+
+		result["security_protocol"] = string(v.SecurityProtocol)
+
+		result["technology_type"] = string(v.TechnologyType)
+
+		if v.Username != nil {
+			result["username"] = string(*v.Username)
+		}
 	case oci_golden_gate.ElasticsearchConnectionSummary:
 		result["connection_type"] = "ELASTICSEARCH"
 
@@ -3092,6 +3250,8 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 	case oci_golden_gate.OracleConnectionSummary:
 		result["connection_type"] = "ORACLE"
 
+		result["authentication_mode"] = string(v.AuthenticationMode)
+
 		if v.ConnectionString != nil {
 			result["connection_string"] = string(*v.ConnectionString)
 		}
@@ -3140,6 +3300,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 			result["database_name"] = string(*v.DatabaseName)
 		}
 
+		if v.DbSystemId != nil {
+			result["db_system_id"] = string(*v.DbSystemId)
+		}
+
 		if v.Host != nil {
 			result["host"] = string(*v.Host)
 		}
@@ -3165,6 +3329,10 @@ func ConnectionSummaryToMap(obj oci_golden_gate.ConnectionSummary, datasource bo
 		result["connection_type"] = "REDIS"
 
 		result["authentication_type"] = string(v.AuthenticationType)
+
+		if v.RedisClusterId != nil {
+			result["redis_cluster_id"] = string(*v.RedisClusterId)
+		}
 
 		result["security_protocol"] = string(v.SecurityProtocol)
 
@@ -3583,6 +3751,113 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		}
 		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
 			details.TechnologyType = oci_golden_gate.AzureSynapseConnectionTechnologyTypeEnum(technologyType.(string))
+		}
+		if username, ok := s.D.GetOkExists("username"); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.CreateConnectionDetails = details
+	case strings.ToLower("DB2"):
+		details := oci_golden_gate.CreateDb2ConnectionDetails{}
+		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+			interfaces := additionalAttributes.([]interface{})
+			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_attributes", stateDataIndex)
+				converted, err := s.mapToNameValuePair(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("additional_attributes") {
+				details.AdditionalAttributes = tmp
+			}
+		}
+		if databaseName, ok := s.D.GetOkExists("database_name"); ok {
+			tmp := databaseName.(string)
+			details.DatabaseName = &tmp
+		}
+		if host, ok := s.D.GetOkExists("host"); ok {
+			tmp := host.(string)
+			details.Host = &tmp
+		}
+		if password, ok := s.D.GetOkExists("password"); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if port, ok := s.D.GetOkExists("port"); ok {
+			tmp := port.(int)
+			details.Port = &tmp
+		}
+		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
+			details.SecurityProtocol = oci_golden_gate.Db2ConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if sslClientKeystash, ok := s.D.GetOkExists("ssl_client_keystash"); ok {
+			tmp := sslClientKeystash.(string)
+			details.SslClientKeystash = &tmp
+		}
+		if sslClientKeystoredb, ok := s.D.GetOkExists("ssl_client_keystoredb"); ok {
+			tmp := sslClientKeystoredb.(string)
+			details.SslClientKeystoredb = &tmp
+		}
+		if sslServerCertificate, ok := s.D.GetOkExists("ssl_server_certificate"); ok {
+			tmp := sslServerCertificate.(string)
+			details.SslServerCertificate = &tmp
+		}
+		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
+			details.TechnologyType = oci_golden_gate.Db2ConnectionTechnologyTypeEnum(technologyType.(string))
 		}
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
@@ -4759,6 +5034,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		request.CreateConnectionDetails = details
 	case strings.ToLower("ORACLE"):
 		details := oci_golden_gate.CreateOracleConnectionDetails{}
+		if authenticationMode, ok := s.D.GetOkExists("authentication_mode"); ok {
+			details.AuthenticationMode = oci_golden_gate.OracleConnectionAuthenticationModeEnum(authenticationMode.(string))
+		}
 		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
 			tmp := connectionString.(string)
 			details.ConnectionString = &tmp
@@ -4942,6 +5220,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 			tmp := databaseName.(string)
 			details.DatabaseName = &tmp
 		}
+		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
 		if host, ok := s.D.GetOkExists("host"); ok {
 			tmp := host.(string)
 			details.Host = &tmp
@@ -5054,6 +5336,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicCreateConn
 		if password, ok := s.D.GetOkExists("password"); ok {
 			tmp := password.(string)
 			details.Password = &tmp
+		}
+		if redisClusterId, ok := s.D.GetOkExists("redis_cluster_id"); ok {
+			tmp := redisClusterId.(string)
+			details.RedisClusterId = &tmp
 		}
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.RedisConnectionSecurityProtocolEnum(securityProtocol.(string))
@@ -5496,6 +5782,108 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if password, ok := s.D.GetOkExists("password"); ok {
 			tmp := password.(string)
 			details.Password = &tmp
+		}
+		if username, ok := s.D.GetOkExists("username"); ok {
+			tmp := username.(string)
+			details.Username = &tmp
+		}
+		tmp := s.D.Id()
+		request.ConnectionId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if description, ok := s.D.GetOkExists("description"); ok {
+			tmp := description.(string)
+			details.Description = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists("display_name"); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		if keyId, ok := s.D.GetOkExists("key_id"); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+			set := nsgIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+				details.NsgIds = tmp
+			}
+		}
+		if routingMethod, ok := s.D.GetOkExists("routing_method"); ok {
+			details.RoutingMethod = oci_golden_gate.RoutingMethodEnum(routingMethod.(string))
+		}
+		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		request.UpdateConnectionDetails = details
+	case strings.ToLower("DB2"):
+		details := oci_golden_gate.UpdateDb2ConnectionDetails{}
+		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
+			interfaces := additionalAttributes.([]interface{})
+			tmp := make([]oci_golden_gate.NameValuePair, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_attributes", stateDataIndex)
+				converted, err := s.mapToNameValuePair(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("additional_attributes") {
+				details.AdditionalAttributes = tmp
+			}
+		}
+		if databaseName, ok := s.D.GetOkExists("database_name"); ok {
+			tmp := databaseName.(string)
+			details.DatabaseName = &tmp
+		}
+		if host, ok := s.D.GetOkExists("host"); ok {
+			tmp := host.(string)
+			details.Host = &tmp
+		}
+		if password, ok := s.D.GetOkExists("password"); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		if port, ok := s.D.GetOkExists("port"); ok {
+			tmp := port.(int)
+			details.Port = &tmp
+		}
+		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
+			details.SecurityProtocol = oci_golden_gate.Db2ConnectionSecurityProtocolEnum(securityProtocol.(string))
+		}
+		if sslClientKeystash, ok := s.D.GetOkExists("ssl_client_keystash"); ok {
+			tmp := sslClientKeystash.(string)
+			details.SslClientKeystash = &tmp
+		}
+		if sslClientKeystoredb, ok := s.D.GetOkExists("ssl_client_keystoredb"); ok {
+			tmp := sslClientKeystoredb.(string)
+			details.SslClientKeystoredb = &tmp
+		}
+		if sslServerCertificate, ok := s.D.GetOkExists("ssl_server_certificate"); ok {
+			tmp := sslServerCertificate.(string)
+			details.SslServerCertificate = &tmp
 		}
 		if username, ok := s.D.GetOkExists("username"); ok {
 			tmp := username.(string)
@@ -6603,6 +6991,9 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		request.UpdateConnectionDetails = details
 	case strings.ToLower("ORACLE"):
 		details := oci_golden_gate.UpdateOracleConnectionDetails{}
+		if authenticationMode, ok := s.D.GetOkExists("authentication_mode"); ok {
+			details.AuthenticationMode = oci_golden_gate.OracleConnectionAuthenticationModeEnum(authenticationMode.(string))
+		}
 		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
 			tmp := connectionString.(string)
 			details.ConnectionString = &tmp
@@ -6776,6 +7167,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 			tmp := databaseName.(string)
 			details.DatabaseName = &tmp
 		}
+		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
+			tmp := dbSystemId.(string)
+			details.DbSystemId = &tmp
+		}
 		if host, ok := s.D.GetOkExists("host"); ok {
 			tmp := host.(string)
 			details.Host = &tmp
@@ -6883,6 +7278,10 @@ func (s *GoldenGateConnectionResourceCrud) populateTopLevelPolymorphicUpdateConn
 		if password, ok := s.D.GetOkExists("password"); ok {
 			tmp := password.(string)
 			details.Password = &tmp
+		}
+		if redisClusterId, ok := s.D.GetOkExists("redis_cluster_id"); ok {
+			tmp := redisClusterId.(string)
+			details.RedisClusterId = &tmp
 		}
 		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
 			details.SecurityProtocol = oci_golden_gate.RedisConnectionSecurityProtocolEnum(securityProtocol.(string))

@@ -108,7 +108,6 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"maintenance_configuration": {
 				Type:     schema.TypeList,
@@ -880,6 +879,11 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 
 	if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 		request.LicenseModel = oci_golden_gate.LicenseModelEnum(licenseModel.(string))
+	}
+
+	if loadBalancerSubnetId, ok := s.D.GetOkExists("load_balancer_subnet_id"); ok {
+		tmp := loadBalancerSubnetId.(string)
+		request.LoadBalancerSubnetId = &tmp
 	}
 
 	if maintenanceConfiguration, ok := s.D.GetOkExists("maintenance_configuration"); ok {
