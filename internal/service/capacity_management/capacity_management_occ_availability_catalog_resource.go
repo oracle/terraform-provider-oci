@@ -537,13 +537,17 @@ func OccAvailabilitySummaryToMap(obj oci_capacity_management.OccAvailabilitySumm
 		result["resource_name"] = string(*obj.ResourceName)
 	}
 
-	// result["resource_type"] = string(obj.ResourceType)
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
+	}
 
 	if obj.Unit != nil {
 		result["unit"] = string(*obj.Unit)
 	}
 
-	// result["workload_type"] = string(obj.WorkloadType)
+	if obj.WorkloadType != nil {
+		result["workload_type"] = string(*obj.WorkloadType)
+	}
 
 	return result
 }
