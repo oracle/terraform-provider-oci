@@ -1551,15 +1551,18 @@ func (s *SchServiceConnectorResourceCrud) mapToTargetDetails(fieldKeyFormat stri
 	switch strings.ToLower(kind) {
 	case strings.ToLower("functions"):
 		details := oci_sch.FunctionsTargetDetails{}
-		if batchSizeInKbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_kbs")); ok {
+		batchSizeInKbs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_kbs"))
+		if ok && batchSizeInKbs != 0 {
 			tmp := batchSizeInKbs.(int)
 			details.BatchSizeInKbs = &tmp
 		}
-		if batchSizeInNum, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_num")); ok {
+		batchSizeInNum, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size_in_num"))
+		if ok && batchSizeInNum != 0 {
 			tmp := batchSizeInNum.(int)
 			details.BatchSizeInNum = &tmp
 		}
-		if batchTimeInSec, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_time_in_sec")); ok {
+		batchTimeInSec, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_time_in_sec"))
+		if ok && batchTimeInSec != 0 {
 			tmp := batchTimeInSec.(int)
 			details.BatchTimeInSec = &tmp
 		}

@@ -138,16 +138,16 @@ resource "oci_sch_service_connector" "test_service_connector" {
     "Department" = "Accounting"
   }
 
- /* source {
-    kind = "logging"
+  /* source {
+     kind = "logging"
 
-    log_sources {
-      compartment_id = var.compartment_ocid
-      log_group_id   = oci_logging_log_group.test_log_group.id
-      log_id         = oci_logging_log.test_log.id
-    }
-  }
-  */
+     log_sources {
+       compartment_id = var.compartment_ocid
+       log_group_id   = oci_logging_log_group.test_log_group.id
+       log_id         = oci_logging_log.test_log.id
+     }
+   }
+   */
 
   // If using streaming source
   source {
@@ -243,6 +243,6 @@ resource "oci_sch_service_connector" "test_connector_plugins" {
     // Optional
     batch_size_in_kbs = "5000"
     // Optional
-    batch_time_in_sec = "61"
+    batch_time_in_sec = "62"
   }
 }
