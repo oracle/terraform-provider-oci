@@ -19,6 +19,7 @@ import (
 	"path"
 	"path/filepath"
 	"reflect"
+	"regexp"
 	"runtime"
 	"strconv"
 	"strings"
@@ -118,6 +119,14 @@ const (
 
 	//defaultRefreshIntervalForCustomCerts is the default refresh interval in minutes
 	defaultRefreshIntervalForCustomCerts = 30
+
+	// Environment variable to check whether dual stack endpoints should be enabled
+	ociDualStackEndpointEnabledEnvVar = "OCI_DUAL_STACK_ENDPOINT_ENABLED"
+
+	// Checks for template for endpoint options
+	patternForEndpointTemplateOptions = "\\{\\w*\\?(\\w*.|\\s*)\\:(\\w*.|\\s*)\\}*"
+
+	dualStackOption = "{dualStack"
 )
 
 // OciGlobalRefreshIntervalForCustomCerts is the global policy for overriding the refresh interval in minutes.
@@ -136,11 +145,24 @@ type HTTPRequestDispatcher interface {
 	Do(req *http.Request) (*http.Response, error)
 }
 
-// CustomClientConfiguration contains configurations set at client level, currently it only includes RetryPolicy
+// CustomClientConfiguration contains configurations set at client level
 type CustomClientConfiguration struct {
-	RetryPolicy                                 *RetryPolicy
-	CircuitBreaker                              *OciCircuitBreaker
+
+	// Retry policy used on calls made by the client
+	RetryPolicy *RetryPolicy
+
+	// The Circuit Breaker used to regulate calls made by the client
+	CircuitBreaker *OciCircuitBreaker
+
+	// Allows user to decide if they want to use realm specific endpoints
 	RealmSpecificServiceEndpointTemplateEnabled *bool
+
+	// Allows user to decide if they want to use dual stack endpoints
+	enableDualStackEndpoints *bool
+
+	// Set on creation of the client, based on the below flag from the service spec
+	// x-obmcs-endpoint-template-options: dualStack: true/false
+	serviceUsesDualStackByDefault *bool
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -186,6 +208,51 @@ func (client *BaseClient) Endpoint() string {
 	return host
 }
 
+func UpdateEndpointTemplateForOptions(client *BaseClient) {
+	templateRegex := regexp.MustCompile(patternForEndpointTemplateOptions)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, option := range templates {
+		optionParam := ""
+		optionEnabledParam := option[strings.Index(option, "?")+1 : strings.Index(option, ":")]
+		optionDisabledParam := option[strings.Index(option, ":")+1 : strings.Index(option, "}")]
+
+		// Option case: Dual Stack Endpoints
+		if strings.Contains(option, dualStackOption) {
+			dualStackEnvVarValue := os.Getenv(ociDualStackEndpointEnabledEnvVar)
+			if *client.Configuration.serviceUsesDualStackByDefault {
+				if !client.IsDualStackEndpointEnabled() || (dualStackEnvVarValue != "" && strings.ToLower(dualStackEnvVarValue) == "false") {
+					optionParam = optionDisabledParam
+				} else {
+					optionParam = optionEnabledParam
+				}
+			} else {
+				if client.IsDualStackEndpointEnabled() || (dualStackEnvVarValue != "" && strings.ToLower(dualStackEnvVarValue) == "true") {
+					optionParam = optionEnabledParam
+				} else {
+					optionParam = optionDisabledParam
+				}
+			}
+		}
+		client.Host = strings.Replace(client.Host, option, optionParam, -1)
+	}
+}
+
+// UseDualStackEndpointsByDefault sets whether dual stack endpoints are used by default
+func (client *BaseClient) UseDualStackEndpointsByDefault(useByDefault bool) {
+	client.Configuration.enableDualStackEndpoints = &useByDefault
+	client.Configuration.serviceUsesDualStackByDefault = &useByDefault
+}
+
+// EnableDualStackEndpoints sets whether dual stack endpoints should be used for this client
+func (client *BaseClient) EnableDualStackEndpoints(EnableDualStack bool) {
+	client.Configuration.enableDualStackEndpoints = &EnableDualStack
+}
+
+// IsDualStackEndpointEnabled is used to check if Dual Stack Endpoints are Enabled
+func (client *BaseClient) IsDualStackEndpointEnabled() bool {
+	return *client.Configuration.enableDualStackEndpoints
+}
+
 func defaultUserAgent() string {
 	userAgent := fmt.Sprintf(defaultUserAgentTemplate, defaultSDKMarker, Version(), runtime.GOOS, runtime.GOARCH, runtime.Version())
 	appendUA := os.Getenv(appendUserAgentEnv)
@@ -224,6 +291,8 @@ func newBaseClient(signer HTTPRequestSigner, dispatcher HTTPRequestDispatcher) B
 	if GlobalRetry != nil {
 		baseClient.Configuration.RetryPolicy = GlobalRetry
 	}
+
+	baseClient.UseDualStackEndpointsByDefault(false)
 
 	return baseClient
 }
