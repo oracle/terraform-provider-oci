@@ -64,6 +64,9 @@ type OracleConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -100,6 +103,10 @@ type OracleConnection struct {
 
 	// The Oracle technology type.
 	TechnologyType OracleConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
+
+	// Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections,
+	// when a databaseId is provided. The default value is MTLS.
+	AuthenticationMode OracleConnectionAuthenticationModeEnum `mandatory:"false" json:"authenticationMode,omitempty"`
 
 	// The mode of the database connection session to be established by the data client.
 	// 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database.
@@ -172,6 +179,11 @@ func (m OracleConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+// GetLocks returns Locks
+func (m OracleConnection) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
 // GetVaultId returns VaultId
 func (m OracleConnection) GetVaultId() *string {
 	return m.VaultId
@@ -214,6 +226,9 @@ func (m OracleConnection) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingOracleConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetOracleConnectionTechnologyTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingOracleConnectionAuthenticationModeEnum(string(m.AuthenticationMode)); !ok && m.AuthenticationMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for AuthenticationMode: %s. Supported values are: %s.", m.AuthenticationMode, strings.Join(GetOracleConnectionAuthenticationModeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingOracleConnectionSessionModeEnum(string(m.SessionMode)); !ok && m.SessionMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SessionMode: %s. Supported values are: %s.", m.SessionMode, strings.Join(GetOracleConnectionSessionModeEnumStringValues(), ",")))
 	}
@@ -249,24 +264,27 @@ type OracleConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for OracleConnectionTechnologyTypeEnum
 const (
-	OracleConnectionTechnologyTypeAmazonRdsOracle       OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
-	OracleConnectionTechnologyTypeOciAutonomousDatabase OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
-	OracleConnectionTechnologyTypeOracleDatabase        OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
-	OracleConnectionTechnologyTypeOracleExadata         OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeAmazonRdsOracle              OracleConnectionTechnologyTypeEnum = "AMAZON_RDS_ORACLE"
+	OracleConnectionTechnologyTypeOciAutonomousDatabase        OracleConnectionTechnologyTypeEnum = "OCI_AUTONOMOUS_DATABASE"
+	OracleConnectionTechnologyTypeOracleDatabase               OracleConnectionTechnologyTypeEnum = "ORACLE_DATABASE"
+	OracleConnectionTechnologyTypeOracleExadata                OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA"
+	OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure OracleConnectionTechnologyTypeEnum = "ORACLE_EXADATA_DATABASE_AT_AZURE"
 )
 
 var mappingOracleConnectionTechnologyTypeEnum = map[string]OracleConnectionTechnologyTypeEnum{
-	"AMAZON_RDS_ORACLE":       OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"OCI_AUTONOMOUS_DATABASE": OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"ORACLE_DATABASE":         OracleConnectionTechnologyTypeOracleDatabase,
-	"ORACLE_EXADATA":          OracleConnectionTechnologyTypeOracleExadata,
+	"AMAZON_RDS_ORACLE":                OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"OCI_AUTONOMOUS_DATABASE":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"ORACLE_DATABASE":                  OracleConnectionTechnologyTypeOracleDatabase,
+	"ORACLE_EXADATA":                   OracleConnectionTechnologyTypeOracleExadata,
+	"ORACLE_EXADATA_DATABASE_AT_AZURE": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
 }
 
 var mappingOracleConnectionTechnologyTypeEnumLowerCase = map[string]OracleConnectionTechnologyTypeEnum{
-	"amazon_rds_oracle":       OracleConnectionTechnologyTypeAmazonRdsOracle,
-	"oci_autonomous_database": OracleConnectionTechnologyTypeOciAutonomousDatabase,
-	"oracle_database":         OracleConnectionTechnologyTypeOracleDatabase,
-	"oracle_exadata":          OracleConnectionTechnologyTypeOracleExadata,
+	"amazon_rds_oracle":                OracleConnectionTechnologyTypeAmazonRdsOracle,
+	"oci_autonomous_database":          OracleConnectionTechnologyTypeOciAutonomousDatabase,
+	"oracle_database":                  OracleConnectionTechnologyTypeOracleDatabase,
+	"oracle_exadata":                   OracleConnectionTechnologyTypeOracleExadata,
+	"oracle_exadata_database_at_azure": OracleConnectionTechnologyTypeOracleExadataDatabaseAtAzure,
 }
 
 // GetOracleConnectionTechnologyTypeEnumValues Enumerates the set of values for OracleConnectionTechnologyTypeEnum
@@ -285,12 +303,55 @@ func GetOracleConnectionTechnologyTypeEnumStringValues() []string {
 		"OCI_AUTONOMOUS_DATABASE",
 		"ORACLE_DATABASE",
 		"ORACLE_EXADATA",
+		"ORACLE_EXADATA_DATABASE_AT_AZURE",
 	}
 }
 
 // GetMappingOracleConnectionTechnologyTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingOracleConnectionTechnologyTypeEnum(val string) (OracleConnectionTechnologyTypeEnum, bool) {
 	enum, ok := mappingOracleConnectionTechnologyTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// OracleConnectionAuthenticationModeEnum Enum with underlying type: string
+type OracleConnectionAuthenticationModeEnum string
+
+// Set of constants representing the allowable values for OracleConnectionAuthenticationModeEnum
+const (
+	OracleConnectionAuthenticationModeTls  OracleConnectionAuthenticationModeEnum = "TLS"
+	OracleConnectionAuthenticationModeMtls OracleConnectionAuthenticationModeEnum = "MTLS"
+)
+
+var mappingOracleConnectionAuthenticationModeEnum = map[string]OracleConnectionAuthenticationModeEnum{
+	"TLS":  OracleConnectionAuthenticationModeTls,
+	"MTLS": OracleConnectionAuthenticationModeMtls,
+}
+
+var mappingOracleConnectionAuthenticationModeEnumLowerCase = map[string]OracleConnectionAuthenticationModeEnum{
+	"tls":  OracleConnectionAuthenticationModeTls,
+	"mtls": OracleConnectionAuthenticationModeMtls,
+}
+
+// GetOracleConnectionAuthenticationModeEnumValues Enumerates the set of values for OracleConnectionAuthenticationModeEnum
+func GetOracleConnectionAuthenticationModeEnumValues() []OracleConnectionAuthenticationModeEnum {
+	values := make([]OracleConnectionAuthenticationModeEnum, 0)
+	for _, v := range mappingOracleConnectionAuthenticationModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetOracleConnectionAuthenticationModeEnumStringValues Enumerates the set of values in String for OracleConnectionAuthenticationModeEnum
+func GetOracleConnectionAuthenticationModeEnumStringValues() []string {
+	return []string{
+		"TLS",
+		"MTLS",
+	}
+}
+
+// GetMappingOracleConnectionAuthenticationModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOracleConnectionAuthenticationModeEnum(val string) (OracleConnectionAuthenticationModeEnum, bool) {
+	enum, ok := mappingOracleConnectionAuthenticationModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 
