@@ -39,6 +39,7 @@ const (
 	OperationTypeGoldengateConnectionDelete            OperationTypeEnum = "GOLDENGATE_CONNECTION_DELETE"
 	OperationTypeGoldengateConnectionMove              OperationTypeEnum = "GOLDENGATE_CONNECTION_MOVE"
 	OperationTypeGoldengateConnectionAssignmentCreate  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE"
+	OperationTypeGoldengateConnectionAssignmentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE"
 	OperationTypeGoldengateConnectionAssigmnentDelete  OperationTypeEnum = "GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE"
 	OperationTypeGoldengateDeploymentDiagnosticCollect OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT"
 	OperationTypeGoldengateDeploymentWalletExport      OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_WALLET_EXPORT"
@@ -72,6 +73,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_CONNECTION_DELETE":             OperationTypeGoldengateConnectionDelete,
 	"GOLDENGATE_CONNECTION_MOVE":               OperationTypeGoldengateConnectionMove,
 	"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE":  OperationTypeGoldengateConnectionAssignmentCreate,
+	"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT": OperationTypeGoldengateDeploymentDiagnosticCollect,
 	"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT":      OperationTypeGoldengateDeploymentWalletExport,
@@ -105,6 +107,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_connection_delete":             OperationTypeGoldengateConnectionDelete,
 	"goldengate_connection_move":               OperationTypeGoldengateConnectionMove,
 	"goldengate_connection_assignment_create":  OperationTypeGoldengateConnectionAssignmentCreate,
+	"goldengate_connection_assignment_delete":  OperationTypeGoldengateConnectionAssignmentDelete,
 	"goldengate_connection_assigmnent_delete":  OperationTypeGoldengateConnectionAssigmnentDelete,
 	"goldengate_deployment_diagnostic_collect": OperationTypeGoldengateDeploymentDiagnosticCollect,
 	"goldengate_deployment_wallet_export":      OperationTypeGoldengateDeploymentWalletExport,
@@ -149,6 +152,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_CONNECTION_DELETE",
 		"GOLDENGATE_CONNECTION_MOVE",
 		"GOLDENGATE_CONNECTION_ASSIGNMENT_CREATE",
+		"GOLDENGATE_CONNECTION_ASSIGNMENT_DELETE",
 		"GOLDENGATE_CONNECTION_ASSIGMNENT_DELETE",
 		"GOLDENGATE_DEPLOYMENT_DIAGNOSTIC_COLLECT",
 		"GOLDENGATE_DEPLOYMENT_WALLET_EXPORT",

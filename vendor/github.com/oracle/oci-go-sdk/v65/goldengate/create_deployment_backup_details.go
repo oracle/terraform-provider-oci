@@ -44,6 +44,9 @@ type CreateDeploymentBackupDetails struct {
 	// Tags defined for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 }
 
 func (m CreateDeploymentBackupDetails) String() string {

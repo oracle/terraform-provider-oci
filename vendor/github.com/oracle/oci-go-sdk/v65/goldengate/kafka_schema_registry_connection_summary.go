@@ -82,6 +82,9 @@ type KafkaSchemaRegistryConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The username to access Schema Registry using basic authentation.
 	// This value is injected into 'schema.registry.basic.auth.user.info=user:password' configuration property.
 	Username *string `mandatory:"false" json:"username"`
@@ -194,6 +197,11 @@ func (m KafkaSchemaRegistryConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m KafkaSchemaRegistryConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m KafkaSchemaRegistryConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m KafkaSchemaRegistryConnectionSummary) String() string {

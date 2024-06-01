@@ -65,6 +65,9 @@ type RedisConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -88,6 +91,9 @@ type RedisConnection struct {
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
+	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
 
 	// The Redis technology type.
 	TechnologyType RedisConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -161,6 +167,11 @@ func (m RedisConnection) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m RedisConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetLocks returns Locks
+func (m RedisConnection) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId
@@ -243,15 +254,18 @@ type RedisConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for RedisConnectionTechnologyTypeEnum
 const (
-	RedisConnectionTechnologyTypeRedis RedisConnectionTechnologyTypeEnum = "REDIS"
+	RedisConnectionTechnologyTypeRedis             RedisConnectionTechnologyTypeEnum = "REDIS"
+	RedisConnectionTechnologyTypeOciCacheWithRedis RedisConnectionTechnologyTypeEnum = "OCI_CACHE_WITH_REDIS"
 )
 
 var mappingRedisConnectionTechnologyTypeEnum = map[string]RedisConnectionTechnologyTypeEnum{
-	"REDIS": RedisConnectionTechnologyTypeRedis,
+	"REDIS":                RedisConnectionTechnologyTypeRedis,
+	"OCI_CACHE_WITH_REDIS": RedisConnectionTechnologyTypeOciCacheWithRedis,
 }
 
 var mappingRedisConnectionTechnologyTypeEnumLowerCase = map[string]RedisConnectionTechnologyTypeEnum{
-	"redis": RedisConnectionTechnologyTypeRedis,
+	"redis":                RedisConnectionTechnologyTypeRedis,
+	"oci_cache_with_redis": RedisConnectionTechnologyTypeOciCacheWithRedis,
 }
 
 // GetRedisConnectionTechnologyTypeEnumValues Enumerates the set of values for RedisConnectionTechnologyTypeEnum
@@ -267,6 +281,7 @@ func GetRedisConnectionTechnologyTypeEnumValues() []RedisConnectionTechnologyTyp
 func GetRedisConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
 		"REDIS",
+		"OCI_CACHE_WITH_REDIS",
 	}
 }
 

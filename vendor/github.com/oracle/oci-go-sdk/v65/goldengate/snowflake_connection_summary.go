@@ -82,6 +82,9 @@ type SnowflakeConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The username Oracle GoldenGate uses to connect to Snowflake.
 	// This username must already exist and be available by Snowflake platform to be connected to.
 	Username *string `mandatory:"false" json:"username"`
@@ -185,6 +188,11 @@ func (m SnowflakeConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m SnowflakeConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m SnowflakeConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m SnowflakeConnectionSummary) String() string {
