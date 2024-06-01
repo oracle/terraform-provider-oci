@@ -1,3 +1,14 @@
+## 5.45.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Cross-Tenancy Autonomous Data Guard standby
+examples and tests
+- Support for GoldenGate - Resource Locking
+- Support for Add DB2 deployment and additional connection types (R5)
+### Bug Fix
+- Fix function batching terraform bug
+- Capacity Management Breaking change fix
+
 ## 5.44.0 (May 29, 2024)
 
 ### Added
