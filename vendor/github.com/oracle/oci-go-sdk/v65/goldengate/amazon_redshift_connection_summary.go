@@ -87,6 +87,9 @@ type AmazonRedshiftConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
@@ -183,6 +186,11 @@ func (m AmazonRedshiftConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AmazonRedshiftConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m AmazonRedshiftConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m AmazonRedshiftConnectionSummary) String() string {

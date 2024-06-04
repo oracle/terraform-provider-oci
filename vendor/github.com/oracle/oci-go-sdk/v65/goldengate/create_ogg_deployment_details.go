@@ -40,10 +40,10 @@ type CreateOggDeploymentDetails struct {
 	// This field will be deprecated and replaced by "passwordSecretId".
 	AdminPassword *string `mandatory:"false" json:"adminPassword"`
 
-	// A PEM-encoded SSL certificate.
+	// The base64 encoded content of the PEM file containing the SSL certificate.
 	Certificate *string `mandatory:"false" json:"certificate"`
 
-	// A PEM-encoded private key.
+	// The base64 encoded content of the PEM file containing the private key.
 	Key *string `mandatory:"false" json:"key"`
 
 	// Version of OGG

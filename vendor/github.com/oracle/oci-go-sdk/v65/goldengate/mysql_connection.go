@@ -64,6 +64,9 @@ type MysqlConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -182,6 +185,11 @@ func (m MysqlConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
 }
 
+// GetLocks returns Locks
+func (m MysqlConnection) GetLocks() []ResourceLock {
+	return m.Locks
+}
+
 // GetVaultId returns VaultId
 func (m MysqlConnection) GetVaultId() *string {
 	return m.VaultId
@@ -262,42 +270,48 @@ type MysqlConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for MysqlConnectionTechnologyTypeEnum
 const (
-	MysqlConnectionTechnologyTypeAmazonAuroraMysql   MysqlConnectionTechnologyTypeEnum = "AMAZON_AURORA_MYSQL"
-	MysqlConnectionTechnologyTypeAmazonRdsMariadb    MysqlConnectionTechnologyTypeEnum = "AMAZON_RDS_MARIADB"
-	MysqlConnectionTechnologyTypeAmazonRdsMysql      MysqlConnectionTechnologyTypeEnum = "AMAZON_RDS_MYSQL"
-	MysqlConnectionTechnologyTypeAzureMysql          MysqlConnectionTechnologyTypeEnum = "AZURE_MYSQL"
-	MysqlConnectionTechnologyTypeGoogleCloudSqlMysql MysqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
-	MysqlConnectionTechnologyTypeMariadb             MysqlConnectionTechnologyTypeEnum = "MARIADB"
-	MysqlConnectionTechnologyTypeMysqlServer         MysqlConnectionTechnologyTypeEnum = "MYSQL_SERVER"
-	MysqlConnectionTechnologyTypeOciMysql            MysqlConnectionTechnologyTypeEnum = "OCI_MYSQL"
-	MysqlConnectionTechnologyTypeSinglestoredb       MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB"
-	MysqlConnectionTechnologyTypeSinglestoredbCloud  MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
+	MysqlConnectionTechnologyTypeAmazonAuroraMysql    MysqlConnectionTechnologyTypeEnum = "AMAZON_AURORA_MYSQL"
+	MysqlConnectionTechnologyTypeAmazonRdsMariadb     MysqlConnectionTechnologyTypeEnum = "AMAZON_RDS_MARIADB"
+	MysqlConnectionTechnologyTypeAmazonRdsMysql       MysqlConnectionTechnologyTypeEnum = "AMAZON_RDS_MYSQL"
+	MysqlConnectionTechnologyTypeAzureMysql           MysqlConnectionTechnologyTypeEnum = "AZURE_MYSQL"
+	MysqlConnectionTechnologyTypeGoogleCloudSqlMysql  MysqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_MYSQL"
+	MysqlConnectionTechnologyTypeMariadb              MysqlConnectionTechnologyTypeEnum = "MARIADB"
+	MysqlConnectionTechnologyTypeMysqlHeatwaveOnAzure MysqlConnectionTechnologyTypeEnum = "MYSQL_HEATWAVE_ON_AZURE"
+	MysqlConnectionTechnologyTypeMysqlHeatwaveOnAws   MysqlConnectionTechnologyTypeEnum = "MYSQL_HEATWAVE_ON_AWS"
+	MysqlConnectionTechnologyTypeMysqlServer          MysqlConnectionTechnologyTypeEnum = "MYSQL_SERVER"
+	MysqlConnectionTechnologyTypeOciMysql             MysqlConnectionTechnologyTypeEnum = "OCI_MYSQL"
+	MysqlConnectionTechnologyTypeSinglestoredb        MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB"
+	MysqlConnectionTechnologyTypeSinglestoredbCloud   MysqlConnectionTechnologyTypeEnum = "SINGLESTOREDB_CLOUD"
 )
 
 var mappingMysqlConnectionTechnologyTypeEnum = map[string]MysqlConnectionTechnologyTypeEnum{
-	"AMAZON_AURORA_MYSQL":    MysqlConnectionTechnologyTypeAmazonAuroraMysql,
-	"AMAZON_RDS_MARIADB":     MysqlConnectionTechnologyTypeAmazonRdsMariadb,
-	"AMAZON_RDS_MYSQL":       MysqlConnectionTechnologyTypeAmazonRdsMysql,
-	"AZURE_MYSQL":            MysqlConnectionTechnologyTypeAzureMysql,
-	"GOOGLE_CLOUD_SQL_MYSQL": MysqlConnectionTechnologyTypeGoogleCloudSqlMysql,
-	"MARIADB":                MysqlConnectionTechnologyTypeMariadb,
-	"MYSQL_SERVER":           MysqlConnectionTechnologyTypeMysqlServer,
-	"OCI_MYSQL":              MysqlConnectionTechnologyTypeOciMysql,
-	"SINGLESTOREDB":          MysqlConnectionTechnologyTypeSinglestoredb,
-	"SINGLESTOREDB_CLOUD":    MysqlConnectionTechnologyTypeSinglestoredbCloud,
+	"AMAZON_AURORA_MYSQL":     MysqlConnectionTechnologyTypeAmazonAuroraMysql,
+	"AMAZON_RDS_MARIADB":      MysqlConnectionTechnologyTypeAmazonRdsMariadb,
+	"AMAZON_RDS_MYSQL":        MysqlConnectionTechnologyTypeAmazonRdsMysql,
+	"AZURE_MYSQL":             MysqlConnectionTechnologyTypeAzureMysql,
+	"GOOGLE_CLOUD_SQL_MYSQL":  MysqlConnectionTechnologyTypeGoogleCloudSqlMysql,
+	"MARIADB":                 MysqlConnectionTechnologyTypeMariadb,
+	"MYSQL_HEATWAVE_ON_AZURE": MysqlConnectionTechnologyTypeMysqlHeatwaveOnAzure,
+	"MYSQL_HEATWAVE_ON_AWS":   MysqlConnectionTechnologyTypeMysqlHeatwaveOnAws,
+	"MYSQL_SERVER":            MysqlConnectionTechnologyTypeMysqlServer,
+	"OCI_MYSQL":               MysqlConnectionTechnologyTypeOciMysql,
+	"SINGLESTOREDB":           MysqlConnectionTechnologyTypeSinglestoredb,
+	"SINGLESTOREDB_CLOUD":     MysqlConnectionTechnologyTypeSinglestoredbCloud,
 }
 
 var mappingMysqlConnectionTechnologyTypeEnumLowerCase = map[string]MysqlConnectionTechnologyTypeEnum{
-	"amazon_aurora_mysql":    MysqlConnectionTechnologyTypeAmazonAuroraMysql,
-	"amazon_rds_mariadb":     MysqlConnectionTechnologyTypeAmazonRdsMariadb,
-	"amazon_rds_mysql":       MysqlConnectionTechnologyTypeAmazonRdsMysql,
-	"azure_mysql":            MysqlConnectionTechnologyTypeAzureMysql,
-	"google_cloud_sql_mysql": MysqlConnectionTechnologyTypeGoogleCloudSqlMysql,
-	"mariadb":                MysqlConnectionTechnologyTypeMariadb,
-	"mysql_server":           MysqlConnectionTechnologyTypeMysqlServer,
-	"oci_mysql":              MysqlConnectionTechnologyTypeOciMysql,
-	"singlestoredb":          MysqlConnectionTechnologyTypeSinglestoredb,
-	"singlestoredb_cloud":    MysqlConnectionTechnologyTypeSinglestoredbCloud,
+	"amazon_aurora_mysql":     MysqlConnectionTechnologyTypeAmazonAuroraMysql,
+	"amazon_rds_mariadb":      MysqlConnectionTechnologyTypeAmazonRdsMariadb,
+	"amazon_rds_mysql":        MysqlConnectionTechnologyTypeAmazonRdsMysql,
+	"azure_mysql":             MysqlConnectionTechnologyTypeAzureMysql,
+	"google_cloud_sql_mysql":  MysqlConnectionTechnologyTypeGoogleCloudSqlMysql,
+	"mariadb":                 MysqlConnectionTechnologyTypeMariadb,
+	"mysql_heatwave_on_azure": MysqlConnectionTechnologyTypeMysqlHeatwaveOnAzure,
+	"mysql_heatwave_on_aws":   MysqlConnectionTechnologyTypeMysqlHeatwaveOnAws,
+	"mysql_server":            MysqlConnectionTechnologyTypeMysqlServer,
+	"oci_mysql":               MysqlConnectionTechnologyTypeOciMysql,
+	"singlestoredb":           MysqlConnectionTechnologyTypeSinglestoredb,
+	"singlestoredb_cloud":     MysqlConnectionTechnologyTypeSinglestoredbCloud,
 }
 
 // GetMysqlConnectionTechnologyTypeEnumValues Enumerates the set of values for MysqlConnectionTechnologyTypeEnum
@@ -318,6 +332,8 @@ func GetMysqlConnectionTechnologyTypeEnumStringValues() []string {
 		"AZURE_MYSQL",
 		"GOOGLE_CLOUD_SQL_MYSQL",
 		"MARIADB",
+		"MYSQL_HEATWAVE_ON_AZURE",
+		"MYSQL_HEATWAVE_ON_AWS",
 		"MYSQL_SERVER",
 		"OCI_MYSQL",
 		"SINGLESTOREDB",

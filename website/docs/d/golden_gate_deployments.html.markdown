@@ -85,6 +85,11 @@ The following attributes are exported:
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
 * `load_balancer_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the loadbalancer in the customer's subnet. The loadbalancer of the public deployment created in the customer subnet. 
 * `load_balancer_subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a public subnet in the customer tenancy. Can be provided only for public deployments. If provided, the loadbalancer will be created in this subnet instead of the service tenancy. For backward compatiblity this is an optional property for now, but it will become mandatory (for public deployments only) after October 1, 2024. 
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `maintenance_configuration` - Attributes for configuring automatic deployment maintenance. 
 	* `bundle_release_upgrade_period_in_days` - Defines auto upgrade period for bundle releases. Manually configured period cannot be longer than service defined period for bundle releases. This period must be shorter or equal to major release upgrade period. Not passing this field during create will equate to using the service default. 
 	* `interim_release_upgrade_period_in_days` - Defines auto upgrade period for interim releases. This period must be shorter or equal to bundle release upgrade period. 
@@ -99,7 +104,7 @@ The following attributes are exported:
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
 * `ogg_data` - Deployment Data for an OggDeployment 
 	* `admin_username` - The GoldenGate deployment console username. 
-	* `certificate` - A PEM-encoded SSL certificate. 
+	* `certificate` - The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - The type of credential store for OGG. 
 	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
 	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
@@ -109,7 +114,7 @@ The following attributes are exported:
 * `public_ip_address` - The public IP address representing the access point for the Deployment. 
 * `state` - Possible lifecycle states. 
 * `storage_utilization_in_bytes` - The amount of storage being utilized (in bytes) 
-* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. 
+* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet of the deployment's private endpoint. The subnet must be a private subnet. For backward compatibility, public subnets are allowed until May 31 2025, after which the private subnet will be enforced. 
 * `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
 * `time_of_next_maintenance` - The time of next maintenance schedule. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 

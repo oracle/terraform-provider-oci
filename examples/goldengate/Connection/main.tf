@@ -9,6 +9,18 @@ variable "subnet_id" {}
 variable "vault_id" {}
 variable "kms_key_id" {}
 
+variable "locks_type" {
+  default = "FULL"
+}
+
+variable "locks_message" {
+  default = "message"
+}
+
+variable "is_lock_override" {
+  default = true
+}
+
 variable "username" {
   default = "admin"
 }
@@ -76,4 +88,12 @@ resource "oci_golden_gate_connection" "test_connection"{
 
   #Optional for Postgresql connection_type
   private_ip = var.private_ip
+  locks {
+    type = var.locks_type
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
+  lifecycle {
+    ignore_changes = [defined_tags, locks, freeform_tags, is_lock_override]
+  }
 }

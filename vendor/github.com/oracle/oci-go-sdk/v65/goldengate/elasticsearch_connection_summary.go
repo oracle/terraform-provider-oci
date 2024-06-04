@@ -84,6 +84,9 @@ type ElasticsearchConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
@@ -191,6 +194,11 @@ func (m ElasticsearchConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m ElasticsearchConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m ElasticsearchConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m ElasticsearchConnectionSummary) String() string {

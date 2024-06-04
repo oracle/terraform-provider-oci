@@ -84,10 +84,16 @@ type RedisConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"false" json:"username"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
+	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -191,6 +197,11 @@ func (m RedisConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m RedisConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m RedisConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m RedisConnectionSummary) String() string {

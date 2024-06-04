@@ -89,7 +89,7 @@ var (
 		oci_golden_gate.ConnectionTypeAzureDataLakeStorage,
 		oci_golden_gate.ConnectionTypeAzureSynapseAnalytics,
 		//		oci_golden_gate.ConnectionTypeCassandra, //TODO 2023. 09. 19. lmadaras: to be tested
-		//		oci_golden_gate.ConnectionTypeDb2, //TODO 2023. 09. 19. lmadaras: to be tested
+		oci_golden_gate.ConnectionTypeDb2,
 		oci_golden_gate.ConnectionTypeElasticsearch,
 		oci_golden_gate.ConnectionTypeGoldengate,
 		oci_golden_gate.ConnectionTypeGeneric,
@@ -120,14 +120,22 @@ var (
 		"routing_method": acctest.Representation{RepType: acctest.Optional, Create: `SHARED_DEPLOYMENT_ENDPOINT`, Update: `DEDICATED_ENDPOINT`},
 	}
 
+	connectionLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
 	ConnectionTestDescriptors = []ConnectionTestDescriptor{
-		// AmazonS3
+		// AmazonS3, create a locked resource, only for this type. Resource locking is generic it applies the same way for the other types
 		{connectionType: oci_golden_gate.ConnectionTypeAmazonS3, technologyType: oci_golden_gate.TechnologyTypeAmazonS3,
 			representation: map[string]interface{}{
 				// Override compartment to test move compartment too.
 				"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id_for_move}`},
 				"access_key_id":     acctest.Representation{RepType: acctest.Required, Create: `AKIAIOSFODNN7EXAMPLE`, Update: `AKIAIOSFODNN7UPDATED`},
 				"secret_access_key": acctest.Representation{RepType: acctest.Required, Create: `mysecret`},
+				"locks":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: connectionLocksRepresentation},
+				"is_lock_override":  acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+				"lifecycle":         acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
 			},
 		},
 
@@ -214,18 +222,17 @@ var (
 		//	},
 		//},
 		//
-		//// DB2
-		//{connectionType: oci_golden_gate.ConnectionTypeDb2, technologyType: oci_golden_gate.TechnologyTypeDb2Zos,
-		//	representation: map[string]interface{}{
-		//		"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database1`, Update: `database2`},
-		//		"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever1.fqdn.com`, Update: `whatever2.fqdn.com`},
-		//		"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
-		//		"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
-		//		"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
-		//		"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
-		//		"private_ip":        acctest.Representation{RepType: acctest.Required, Create: `10.0.0.1`, Update: `10.0.0.2`},
-		//	},
-		//},
+		// DB2
+		{connectionType: oci_golden_gate.ConnectionTypeDb2, technologyType: oci_golden_gate.TechnologyTypeDb2Zos,
+			representation: map[string]interface{}{
+				"database_name":     acctest.Representation{RepType: acctest.Required, Create: `database1`, Update: `database2`},
+				"host":              acctest.Representation{RepType: acctest.Required, Create: `whatever1.fqdn.com`, Update: `whatever2.fqdn.com`},
+				"port":              acctest.Representation{RepType: acctest.Required, Create: `10000`, Update: `10001`},
+				"username":          acctest.Representation{RepType: acctest.Required, Create: `admin`, Update: `new_admin`},
+				"password":          acctest.Representation{RepType: acctest.Required, Create: `${var.password}`, Update: `${var.new_password}`},
+				"security_protocol": acctest.Representation{RepType: acctest.Required, Create: string(oci_golden_gate.Db2ConnectionSecurityProtocolPlain)},
+			},
+		},
 
 		// Elasticsearch
 		{connectionType: oci_golden_gate.ConnectionTypeElasticsearch, technologyType: oci_golden_gate.TechnologyTypeElasticsearch,
@@ -505,6 +512,7 @@ var (
 		"core_site_xml",
 		"secret_access_key",
 		"service_account_key_file",
+		"is_lock_override",
 	}
 )
 
@@ -760,6 +768,9 @@ func sweepGoldenGateConnectionResource(compartment string) error {
 			deleteConnectionRequest := oci_golden_gate.DeleteConnectionRequest{}
 
 			deleteConnectionRequest.ConnectionId = &connectionId
+
+			var overrideLock = true
+			deleteConnectionRequest.IsLockOverride = &overrideLock
 
 			deleteConnectionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteConnection(context.Background(), deleteConnectionRequest)

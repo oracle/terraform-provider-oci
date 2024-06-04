@@ -81,6 +81,9 @@ type AzureDataLakeStorageConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
 	AzureTenantId *string `mandatory:"false" json:"azureTenantId"`
@@ -192,6 +195,11 @@ func (m AzureDataLakeStorageConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AzureDataLakeStorageConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m AzureDataLakeStorageConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m AzureDataLakeStorageConnectionSummary) String() string {

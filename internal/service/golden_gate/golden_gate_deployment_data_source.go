@@ -151,6 +151,12 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 		s.D.Set("load_balancer_subnet_id", *s.Res.LoadBalancerSubnetId)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.MaintenanceConfiguration != nil {
 		s.D.Set("maintenance_configuration", []interface{}{MaintenanceConfigurationToMap(s.Res.MaintenanceConfiguration)})
 	} else {

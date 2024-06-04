@@ -28,7 +28,7 @@ type OggDeployment struct {
 	// Version of OGG
 	OggVersion *string `mandatory:"false" json:"oggVersion"`
 
-	// A PEM-encoded SSL certificate.
+	// The base64 encoded content of the PEM file containing the SSL certificate.
 	Certificate *string `mandatory:"false" json:"certificate"`
 
 	// The type of credential store for OGG.

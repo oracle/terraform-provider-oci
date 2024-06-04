@@ -25,12 +25,6 @@ type CreateRedisConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
-	// If port is not specified, it defaults to 6379.
-	// Used for establishing the initial connection to the Redis cluster.
-	// Example: `"server1.example.com:6379,server2.example.com:6379"`
-	Servers *string `mandatory:"true" json:"servers"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -42,6 +36,9 @@ type CreateRedisConnectionDetails struct {
 	// Tags defined for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Locks associated with this resource.
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
@@ -57,6 +54,12 @@ type CreateRedisConnectionDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Comma separated list of Redis server addresses, specified as host:port entries, where :port is optional.
+	// If port is not specified, it defaults to 6379.
+	// Used for establishing the initial connection to the Redis cluster.
+	// Example: `"server1.example.com:6379,server2.example.com:6379"`
+	Servers *string `mandatory:"false" json:"servers"`
 
 	// The username Oracle GoldenGate uses to connect the associated system of the given technology.
 	// This username must already exist and be available by the system/application to be connected to
@@ -78,6 +81,9 @@ type CreateRedisConnectionDetails struct {
 
 	// The KeyStore password.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Redis cluster.
+	RedisClusterId *string `mandatory:"false" json:"redisClusterId"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
@@ -118,6 +124,11 @@ func (m CreateRedisConnectionDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m CreateRedisConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m CreateRedisConnectionDetails) GetLocks() []AddResourceLockDetails {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId

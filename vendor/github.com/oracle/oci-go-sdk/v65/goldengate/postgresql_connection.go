@@ -73,6 +73,9 @@ type PostgresqlConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -104,6 +107,9 @@ type PostgresqlConnection struct {
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system being referenced.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// The PostgreSQL technology type.
 	TechnologyType PostgresqlConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -177,6 +183,11 @@ func (m PostgresqlConnection) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m PostgresqlConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetLocks returns Locks
+func (m PostgresqlConnection) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId
@@ -259,27 +270,33 @@ type PostgresqlConnectionTechnologyTypeEnum string
 
 // Set of constants representing the allowable values for PostgresqlConnectionTechnologyTypeEnum
 const (
-	PostgresqlConnectionTechnologyTypePostgresqlServer         PostgresqlConnectionTechnologyTypeEnum = "POSTGRESQL_SERVER"
-	PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql   PostgresqlConnectionTechnologyTypeEnum = "AMAZON_AURORA_POSTGRESQL"
-	PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql      PostgresqlConnectionTechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
-	PostgresqlConnectionTechnologyTypeAzurePostgresql          PostgresqlConnectionTechnologyTypeEnum = "AZURE_POSTGRESQL"
-	PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeOciPostgresql              PostgresqlConnectionTechnologyTypeEnum = "OCI_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypePostgresqlServer           PostgresqlConnectionTechnologyTypeEnum = "POSTGRESQL_SERVER"
+	PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql     PostgresqlConnectionTechnologyTypeEnum = "AMAZON_AURORA_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql        PostgresqlConnectionTechnologyTypeEnum = "AMAZON_RDS_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeAzurePostgresql            PostgresqlConnectionTechnologyTypeEnum = "AZURE_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql PostgresqlConnectionTechnologyTypeEnum = "AZURE_COSMOS_DB_FOR_POSTGRESQL"
+	PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql   PostgresqlConnectionTechnologyTypeEnum = "GOOGLE_CLOUD_SQL_POSTGRESQL"
 )
 
 var mappingPostgresqlConnectionTechnologyTypeEnum = map[string]PostgresqlConnectionTechnologyTypeEnum{
-	"POSTGRESQL_SERVER":           PostgresqlConnectionTechnologyTypePostgresqlServer,
-	"AMAZON_AURORA_POSTGRESQL":    PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql,
-	"AMAZON_RDS_POSTGRESQL":       PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
-	"AZURE_POSTGRESQL":            PostgresqlConnectionTechnologyTypeAzurePostgresql,
-	"GOOGLE_CLOUD_SQL_POSTGRESQL": PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
+	"OCI_POSTGRESQL":                 PostgresqlConnectionTechnologyTypeOciPostgresql,
+	"POSTGRESQL_SERVER":              PostgresqlConnectionTechnologyTypePostgresqlServer,
+	"AMAZON_AURORA_POSTGRESQL":       PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql,
+	"AMAZON_RDS_POSTGRESQL":          PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
+	"AZURE_POSTGRESQL":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
+	"AZURE_COSMOS_DB_FOR_POSTGRESQL": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
+	"GOOGLE_CLOUD_SQL_POSTGRESQL":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
 }
 
 var mappingPostgresqlConnectionTechnologyTypeEnumLowerCase = map[string]PostgresqlConnectionTechnologyTypeEnum{
-	"postgresql_server":           PostgresqlConnectionTechnologyTypePostgresqlServer,
-	"amazon_aurora_postgresql":    PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql,
-	"amazon_rds_postgresql":       PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
-	"azure_postgresql":            PostgresqlConnectionTechnologyTypeAzurePostgresql,
-	"google_cloud_sql_postgresql": PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
+	"oci_postgresql":                 PostgresqlConnectionTechnologyTypeOciPostgresql,
+	"postgresql_server":              PostgresqlConnectionTechnologyTypePostgresqlServer,
+	"amazon_aurora_postgresql":       PostgresqlConnectionTechnologyTypeAmazonAuroraPostgresql,
+	"amazon_rds_postgresql":          PostgresqlConnectionTechnologyTypeAmazonRdsPostgresql,
+	"azure_postgresql":               PostgresqlConnectionTechnologyTypeAzurePostgresql,
+	"azure_cosmos_db_for_postgresql": PostgresqlConnectionTechnologyTypeAzureCosmosDbForPostgresql,
+	"google_cloud_sql_postgresql":    PostgresqlConnectionTechnologyTypeGoogleCloudSqlPostgresql,
 }
 
 // GetPostgresqlConnectionTechnologyTypeEnumValues Enumerates the set of values for PostgresqlConnectionTechnologyTypeEnum
@@ -294,10 +311,12 @@ func GetPostgresqlConnectionTechnologyTypeEnumValues() []PostgresqlConnectionTec
 // GetPostgresqlConnectionTechnologyTypeEnumStringValues Enumerates the set of values in String for PostgresqlConnectionTechnologyTypeEnum
 func GetPostgresqlConnectionTechnologyTypeEnumStringValues() []string {
 	return []string{
+		"OCI_POSTGRESQL",
 		"POSTGRESQL_SERVER",
 		"AMAZON_AURORA_POSTGRESQL",
 		"AMAZON_RDS_POSTGRESQL",
 		"AZURE_POSTGRESQL",
+		"AZURE_COSMOS_DB_FOR_POSTGRESQL",
 		"GOOGLE_CLOUD_SQL_POSTGRESQL",
 	}
 }

@@ -90,6 +90,7 @@ resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
   	lifecycle {
   		ignore_changes = [defined_tags, system_tags, freeform_tags]
   	}
+	locks {}
 }
 
 resource "oci_golden_gate_deployment" "test_deployment" {
@@ -106,6 +107,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
     	admin_username  = var.deployment_ogg_data_admin_username
     	deployment_name = var.deployment_ogg_data_deployment_name
   	}
+	locks {}
 }
 
 resource "oci_golden_gate_deployment" "test_deployment_GOLDENGATE" {

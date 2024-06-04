@@ -144,6 +144,21 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"maintenance_window":        acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentMaintenanceWindowRepresentation},
 		}
 
+		deploymentLocksRepresentation = map[string]interface{}{
+			"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+			"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+		}
+
+		ignoreDefinedTagsAndLocks = map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`locks`, `defined_tags`, `is_lock_override`}},
+		}
+
+		lockedDeploymentRepresentation = acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+			"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: deploymentLocksRepresentation},
+			"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+			"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
+		})
+
 		goldenGateDeploymentSingularDataSourceRepresentation = map[string]interface{}{
 			"deployment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_golden_gate_deployment.depl_test_ggs_deployment.id}`},
 		}
@@ -325,8 +340,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId == resId2 {
-						return fmt.Errorf("resource updated in place when it was supposed to be recreated for public access")
+					if resId != resId2 {
+						return fmt.Errorf("resource has been recreated meanwhile it was supposed to be updated")
 					}
 					return err
 				},
@@ -558,11 +573,11 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			Config: config,
 		},
 		/* Start/stop/upgrade test*/
-		// 0. create a new deployment and stop it right after the creation
+		// 0. create a new and locked deployment and stop it right after the creation
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(lockedDeploymentRepresentation, map[string]interface{}{
 						"state":    acctest.Representation{RepType: acctest.Optional, Create: string(oci_golden_gate.LifecycleStateInactive)},
 						"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataForUpgradeRepresentation},
 					})),
@@ -570,17 +585,21 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_golden_gate.LifecycleStateInactive)),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.ogg_version", baseOggVersion),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
-		// 1. start the deployment and upgrade it at the same time
+		// 1. start the locked deployment and upgrade it at the same time
 		{
 			Config: config +
 				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Update,
-					acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(lockedDeploymentRepresentation, map[string]interface{}{
 						"state":    acctest.Representation{RepType: acctest.Optional, Create: string(oci_golden_gate.LifecycleStateActive)},
 						"ogg_data": acctest.RepresentationGroup{RepType: acctest.Required, Group: oggDataForUpgradeRepresentation},
 					})),
@@ -588,6 +607,9 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "state", string(oci_golden_gate.LifecycleStateActive)),
 				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.ogg_version", upgradedOggVersion),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
@@ -730,6 +752,9 @@ func sweepGoldenGateDeploymentResource(compartment string) error {
 			deleteDeploymentRequest := oci_golden_gate.DeleteDeploymentRequest{}
 
 			deleteDeploymentRequest.DeploymentId = &deploymentId
+
+			var overrideLock = true
+			deleteDeploymentRequest.IsLockOverride = &overrideLock
 
 			deleteDeploymentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDeployment(context.Background(), deleteDeploymentRequest)

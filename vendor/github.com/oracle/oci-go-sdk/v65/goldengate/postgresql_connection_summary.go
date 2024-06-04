@@ -92,6 +92,9 @@ type PostgresqlConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
@@ -104,6 +107,9 @@ type PostgresqlConnectionSummary struct {
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system being referenced.
+	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -207,6 +213,11 @@ func (m PostgresqlConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m PostgresqlConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m PostgresqlConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m PostgresqlConnectionSummary) String() string {

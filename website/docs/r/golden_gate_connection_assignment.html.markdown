@@ -19,6 +19,9 @@ resource "oci_golden_gate_connection_assignment" "test_connection_assignment" {
 	#Required
 	connection_id = oci_golden_gate_connection.test_connection.id
 	deployment_id = oci_golden_gate_deployment.test_deployment.id
+
+	#Optional
+	is_lock_override = var.connection_assignment_is_lock_override
 }
 ```
 
@@ -28,6 +31,7 @@ The following arguments are supported:
 
 * `connection_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the connection being referenced. 
 * `deployment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
+* `is_lock_override` - (Optional) Whether to override locks (if any exist).
 
 
 ** IMPORTANT **

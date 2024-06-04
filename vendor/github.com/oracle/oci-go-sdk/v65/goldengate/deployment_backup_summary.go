@@ -24,6 +24,11 @@ type DeploymentBackupSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
+	// The type of deployment, which can be any one of the Allowed values.
+	// NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.
+	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
+	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
@@ -88,6 +93,9 @@ type DeploymentBackupSummary struct {
 	// information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m DeploymentBackupSummary) String() string {
@@ -99,6 +107,9 @@ func (m DeploymentBackupSummary) String() string {
 // Not recommended for calling this function directly
 func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}

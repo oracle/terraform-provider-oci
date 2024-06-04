@@ -51,6 +51,12 @@ func GoldenGateDeploymentCertificateResource() *schema.Resource {
 			},
 
 			// Optional
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"authority_key_id": {
@@ -217,6 +223,11 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Create() error {
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
 		tmp := deploymentId.(string)
 		request.DeploymentId = &tmp
+	}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
 	}
 
 	if key, ok := s.D.GetOkExists("key"); ok {
@@ -387,6 +398,11 @@ func (s *GoldenGateDeploymentCertificateResourceCrud) Delete() error {
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
 		tmp := deploymentId.(string)
 		request.DeploymentId = &tmp
+	}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
