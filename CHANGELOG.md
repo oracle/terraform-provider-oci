@@ -1,4 +1,4 @@
-## 5.45.0 (Unreleased)
+## 5.45.0 (June 04, 2024)
 
 ### Added
 - Support for ADB-S: Cross-Tenancy Autonomous Data Guard standby
