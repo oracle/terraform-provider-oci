@@ -62,6 +62,9 @@ type AzureDataLakeStorageConnection struct {
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -162,6 +165,11 @@ func (m AzureDataLakeStorageConnection) GetTimeCreated() *common.SDKTime {
 // GetTimeUpdated returns TimeUpdated
 func (m AzureDataLakeStorageConnection) GetTimeUpdated() *common.SDKTime {
 	return m.TimeUpdated
+}
+
+// GetLocks returns Locks
+func (m AzureDataLakeStorageConnection) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId

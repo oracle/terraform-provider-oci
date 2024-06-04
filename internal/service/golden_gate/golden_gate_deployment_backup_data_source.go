@@ -84,6 +84,8 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}
 
+	s.D.Set("deployment_type", s.Res.DeploymentType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -97,6 +99,12 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.NamespaceName != nil {
 		s.D.Set("namespace", *s.Res.NamespaceName)

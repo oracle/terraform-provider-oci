@@ -22,7 +22,7 @@ type CreateCertificateDetails struct {
 	// It must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter.
 	Key *string `mandatory:"true" json:"key"`
 
-	// A PEM-encoded SSL certificate.
+	// The base64 encoded content of the PEM file containing the SSL certificate.
 	CertificateContent *string `mandatory:"true" json:"certificateContent"`
 }
 

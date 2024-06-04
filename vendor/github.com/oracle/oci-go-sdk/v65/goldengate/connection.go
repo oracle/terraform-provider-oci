@@ -62,6 +62,9 @@ type Connection interface {
 	// actionable information for a resource in a Failed state.
 	GetLifecycleDetails() *string
 
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -95,6 +98,7 @@ type connection struct {
 	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
+	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
 	VaultId          *string                           `mandatory:"false" json:"vaultId"`
 	KeyId            *string                           `mandatory:"false" json:"keyId"`
 	IngressIps       []IngressIpDetails                `mandatory:"false" json:"ingressIps"`
@@ -132,6 +136,7 @@ func (m *connection) UnmarshalJSON(data []byte) error {
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.Locks = s.Model.Locks
 	m.VaultId = s.Model.VaultId
 	m.KeyId = s.Model.KeyId
 	m.IngressIps = s.Model.IngressIps
@@ -162,6 +167,10 @@ func (m *connection) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) 
 		return mm, err
 	case "JAVA_MESSAGE_SERVICE":
 		mm := JavaMessageServiceConnection{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "DB2":
+		mm := Db2Connection{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "ELASTICSEARCH":
@@ -273,6 +282,11 @@ func (m connection) GetSystemTags() map[string]map[string]interface{} {
 // GetLifecycleDetails returns LifecycleDetails
 func (m connection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetLocks returns Locks
+func (m connection) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId

@@ -36,6 +36,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		OBJECTSTORAGE_BUCKET_NAME = "objectstorage_bucket_name"
 		OBJECTSTORAGE_NAMESPACE   = "objectstorage_namespace"
 		TEST_DEPLOYMENT_ID        = "test_deployment_id"
+		TEST_DEPLOYMENT_TYPE      = "test_deployment_type"
 	)
 
 	var (
@@ -46,6 +47,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		testCompartmentId    = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID)
 		compartmentIdForMove = utils.GetEnvSettingWithBlankDefault(COMPARTMENT_ID_FOR_MOVE)
 		resId                string
+		testDeploymentType   = utils.GetEnvSettingWithBlankDefault(TEST_DEPLOYMENT_TYPE)
 	)
 
 	var (
@@ -65,6 +67,21 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 			"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRepresentation},
 		}
+
+		deploymentBackupLocksRepresentation = map[string]interface{}{
+			"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+			"message": acctest.Representation{RepType: acctest.Required, Create: `message`},
+		}
+
+		ignoreDefinedTagsAndLocks = map[string]interface{}{
+			"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`locks`, `defined_tags`, `is_lock_override`}},
+		}
+
+		lockedDeploymentBackupRepresentation = acctest.RepresentationCopyWithNewProperties(deploymentBackupRepresentation, map[string]interface{}{
+			"locks":            acctest.RepresentationGroup{RepType: acctest.Required, Group: deploymentBackupLocksRepresentation},
+			"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+			"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsAndLocks},
+		})
 
 		DeploymentBackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation)
 
@@ -104,17 +121,21 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Optional, acctest.Create, deploymentBackupRepresentation))
 
 	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentBackupDestroy, []resource.TestStep{
-		// verify Create
+		// verify Create with Lock
 		{
 			Config: config +
-				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, deploymentBackupRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment_backup", "test_deployment_backup", acctest.Required, acctest.Create, lockedDeploymentBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -123,7 +144,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// delete before next Create
+		// delete Locked before next Create
 		{
 			Config: config,
 		},
@@ -136,7 +157,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
@@ -167,6 +188,8 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdForMove),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
+				resource.TestCheckResourceAttrSet(resourceName, "deployment_type"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -192,6 +215,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "bucket"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -217,6 +241,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", testCompartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "deployment_id"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
@@ -235,6 +260,7 @@ func TestGoldenGateDeploymentBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bucket"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", testCompartmentId),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", testDeploymentType),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "demoDeploymentBackup"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -325,6 +351,9 @@ func sweepGoldenGateDeploymentBackupResource(compartment string) error {
 			deleteDeploymentBackupRequest := oci_golden_gate.DeleteDeploymentBackupRequest{}
 
 			deleteDeploymentBackupRequest.DeploymentBackupId = &deploymentBackupId
+
+			var overrideLock = true
+			deleteDeploymentBackupRequest.IsLockOverride = &overrideLock
 
 			deleteDeploymentBackupRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "golden_gate")
 			_, error := goldenGateClient.DeleteDeploymentBackup(context.Background(), deleteDeploymentBackupRequest)

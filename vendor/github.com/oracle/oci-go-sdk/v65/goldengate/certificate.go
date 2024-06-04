@@ -25,7 +25,7 @@ type Certificate struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"true" json:"deploymentId"`
 
-	// A PEM-encoded SSL certificate.
+	// The base64 encoded content of the PEM file containing the SSL certificate.
 	CertificateContent *string `mandatory:"true" json:"certificateContent"`
 
 	// The Certificate issuer.

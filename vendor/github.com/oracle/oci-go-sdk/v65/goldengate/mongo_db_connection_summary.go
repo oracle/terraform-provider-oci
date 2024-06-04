@@ -78,6 +78,9 @@ type MongoDbConnectionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// MongoDB connection string.
 	// e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords'
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -185,6 +188,11 @@ func (m MongoDbConnectionSummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m MongoDbConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m MongoDbConnectionSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 func (m MongoDbConnectionSummary) String() string {

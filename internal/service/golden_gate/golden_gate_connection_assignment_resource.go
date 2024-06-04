@@ -42,6 +42,12 @@ func GoldenGateConnectionAssignmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"alias_name": {
@@ -125,6 +131,11 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) Create() error {
 	if deploymentId, ok := s.D.GetOkExists("deployment_id"); ok {
 		tmp := deploymentId.(string)
 		request.DeploymentId = &tmp
+	}
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
@@ -264,6 +275,11 @@ func (s *GoldenGateConnectionAssignmentResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.ConnectionAssignmentId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 

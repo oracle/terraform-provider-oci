@@ -86,6 +86,9 @@ type ConnectionSummary interface {
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
 	// DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
 	GetRoutingMethod() RoutingMethodEnum
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type connectionsummary struct {
@@ -101,6 +104,7 @@ type connectionsummary struct {
 	NsgIds           []string                          `mandatory:"false" json:"nsgIds"`
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
+	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -138,6 +142,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.NsgIds = s.Model.NsgIds
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
+	m.Locks = s.Model.Locks
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -232,6 +237,10 @@ func (m *connectionsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := ElasticsearchConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB2":
+		mm := Db2ConnectionSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMAZON_REDSHIFT":
 		mm := AmazonRedshiftConnectionSummary{}
 		err = json.Unmarshal(data, &mm)
@@ -303,6 +312,11 @@ func (m connectionsummary) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m connectionsummary) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetLocks returns Locks
+func (m connectionsummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetId returns Id

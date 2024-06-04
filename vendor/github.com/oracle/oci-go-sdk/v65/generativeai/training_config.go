@@ -84,6 +84,10 @@ func (m *trainingconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 
 	var err error
 	switch m.TrainingConfigType {
+	case "LORA_TRAINING_CONFIG":
+		mm := LoraTrainingConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VANILLA_TRAINING_CONFIG":
 		mm := VanillaTrainingConfig{}
 		err = json.Unmarshal(data, &mm)
@@ -151,16 +155,19 @@ type TrainingConfigTrainingConfigTypeEnum string
 const (
 	TrainingConfigTrainingConfigTypeTfewTrainingConfig    TrainingConfigTrainingConfigTypeEnum = "TFEW_TRAINING_CONFIG"
 	TrainingConfigTrainingConfigTypeVanillaTrainingConfig TrainingConfigTrainingConfigTypeEnum = "VANILLA_TRAINING_CONFIG"
+	TrainingConfigTrainingConfigTypeLoraTrainingConfig    TrainingConfigTrainingConfigTypeEnum = "LORA_TRAINING_CONFIG"
 )
 
 var mappingTrainingConfigTrainingConfigTypeEnum = map[string]TrainingConfigTrainingConfigTypeEnum{
 	"TFEW_TRAINING_CONFIG":    TrainingConfigTrainingConfigTypeTfewTrainingConfig,
 	"VANILLA_TRAINING_CONFIG": TrainingConfigTrainingConfigTypeVanillaTrainingConfig,
+	"LORA_TRAINING_CONFIG":    TrainingConfigTrainingConfigTypeLoraTrainingConfig,
 }
 
 var mappingTrainingConfigTrainingConfigTypeEnumLowerCase = map[string]TrainingConfigTrainingConfigTypeEnum{
 	"tfew_training_config":    TrainingConfigTrainingConfigTypeTfewTrainingConfig,
 	"vanilla_training_config": TrainingConfigTrainingConfigTypeVanillaTrainingConfig,
+	"lora_training_config":    TrainingConfigTrainingConfigTypeLoraTrainingConfig,
 }
 
 // GetTrainingConfigTrainingConfigTypeEnumValues Enumerates the set of values for TrainingConfigTrainingConfigTypeEnum
@@ -177,6 +184,7 @@ func GetTrainingConfigTrainingConfigTypeEnumStringValues() []string {
 	return []string{
 		"TFEW_TRAINING_CONFIG",
 		"VANILLA_TRAINING_CONFIG",
+		"LORA_TRAINING_CONFIG",
 	}
 }
 

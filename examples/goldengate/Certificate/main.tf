@@ -13,6 +13,10 @@ variable "password" {}
 // for certificate - base64 encoded
 variable "certificate_content" {}
 
+variable "is_lock_override" {
+  default = false
+}
+
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
@@ -40,4 +44,7 @@ resource "oci_golden_gate_deployment_certificate" "certificate" {
   deployment_id = oci_golden_gate_deployment.test_deployment.id
   key = "certificate"
   certificate_content = var.certificate_content
+  lifecycle {
+    ignore_changes = [is_lock_override]
+  }
 }

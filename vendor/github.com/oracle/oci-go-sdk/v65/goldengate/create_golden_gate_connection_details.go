@@ -37,6 +37,9 @@ type CreateGoldenGateConnectionDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
+
 	// Refers to the customer's vault OCID.
 	// If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate
 	// to manage secrets contained within this vault.
@@ -109,6 +112,11 @@ func (m CreateGoldenGateConnectionDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m CreateGoldenGateConnectionDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m CreateGoldenGateConnectionDetails) GetLocks() []AddResourceLockDetails {
+	return m.Locks
 }
 
 // GetVaultId returns VaultId

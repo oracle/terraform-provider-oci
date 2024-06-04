@@ -76,9 +76,51 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
 
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			// Computed
 			"backup_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"deployment_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -231,6 +273,23 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_golden_gate.AddResourceLockDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToAddResourceLockDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
 	}
 
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
@@ -431,6 +490,11 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
 	response, err := s.Client.UpdateDeploymentBackup(context.Background(), request)
@@ -447,6 +511,11 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.DeploymentBackupId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
@@ -481,6 +550,8 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 		s.D.Set("deployment_id", *s.Res.DeploymentId)
 	}
 
+	s.D.Set("deployment_type", s.Res.DeploymentType)
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -494,6 +565,12 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.NamespaceName != nil {
 		s.D.Set("namespace", *s.Res.NamespaceName)
@@ -536,6 +613,21 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *GoldenGateDeploymentBackupResourceCrud) mapToAddResourceLockDetails(fieldKeyFormat string) (oci_golden_gate.AddResourceLockDetails, error) {
+	result := oci_golden_gate.AddResourceLockDetails{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_golden_gate.AddResourceLockDetailsTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
 func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -557,6 +649,8 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 		result["deployment_id"] = string(*obj.DeploymentId)
 	}
 
+	result["deployment_type"] = string(obj.DeploymentType)
+
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
@@ -574,6 +668,12 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
+
+	locks := []interface{}{}
+	for _, item := range obj.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	result["locks"] = locks
 
 	if obj.NamespaceName != nil {
 		result["namespace"] = string(*obj.NamespaceName)
@@ -624,6 +724,11 @@ func (s *GoldenGateDeploymentBackupResourceCrud) updateCompartment(compartment i
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.DeploymentBackupId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate")
 
