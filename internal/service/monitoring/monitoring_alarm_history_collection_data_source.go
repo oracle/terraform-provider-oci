@@ -46,6 +46,10 @@ func MonitoringAlarmHistoryCollectionDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"alarm_summary": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"summary": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -148,6 +152,10 @@ func (s *MonitoringAlarmHistoryCollectionDataSourceCrud) SetData() error {
 
 func AlarmHistoryEntryToMap(obj oci_monitoring.AlarmHistoryEntry) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AlarmSummary != nil {
+		result["alarm_summary"] = string(*obj.AlarmSummary)
+	}
 
 	if obj.Summary != nil {
 		result["summary"] = string(*obj.Summary)

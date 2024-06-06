@@ -56,6 +56,10 @@ func MonitoringAlarmStatusesDataSource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"alarm_summary": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"display_name": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -200,6 +204,10 @@ func (s *MonitoringAlarmStatusesDataSourceCrud) SetData() error {
 
 	for _, r := range s.Res.Items {
 		alarmStatus := map[string]interface{}{}
+
+		if r.AlarmSummary != nil {
+			alarmStatus["alarm_summary"] = *r.AlarmSummary
+		}
 
 		if r.DisplayName != nil {
 			alarmStatus["display_name"] = *r.DisplayName

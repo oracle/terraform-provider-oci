@@ -66,6 +66,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.AlarmSummary != nil {
+		s.D.Set("alarm_summary", *s.Res.AlarmSummary)
+	}
+
 	if s.Res.Body != nil {
 		s.D.Set("body", *s.Res.Body)
 	}
@@ -82,6 +86,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EvaluationSlackDuration != nil {
+		s.D.Set("evaluation_slack_duration", *s.Res.EvaluationSlackDuration)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -106,6 +114,10 @@ func (s *MonitoringAlarmDataSourceCrud) SetData() error {
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
+	if s.Res.NotificationTitle != nil {
+		s.D.Set("notification_title", *s.Res.NotificationTitle)
 	}
 
 	if s.Res.NotificationVersion != nil {
