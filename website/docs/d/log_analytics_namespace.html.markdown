@@ -33,7 +33,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `compartment_id` - The is the tenancy ID
-* `is_onboarded` - This indicates if the tenancy is onboarded to Logging Analytics
-* `namespace` - This is the namespace name of a tenancy
-
+* `items` - This is the array of namespace of the tenancy request.
+	* `compartment_id` - The is the tenancy ID
+	* `is_onboarded` - This indicates if the tenancy is onboarded to Logging Analytics
+	* `namespace` - This is the namespace name of a tenancy
