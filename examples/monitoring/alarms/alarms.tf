@@ -19,6 +19,10 @@ variable "region" {
 variable "compartment_id" {
 }
 
+variable "alarm_summary" {
+  default = "test summary with severity = {{severity}} and query = {{{query}}}"
+}
+
 variable "alarm_body" {
   default = "High CPU utilization reached"
 }
@@ -37,6 +41,10 @@ variable "alarm_destinations" {
 
 variable "alarm_display_name" {
   default = "High CPU Utilization"
+}
+
+variable "alarm_evaluation_slack_duration" {
+  default = "PT5M"
 }
 
 variable "alarm_freeform_tags" {
@@ -67,6 +75,10 @@ variable "alarm_namespace" {
 
 variable "alarm_pending_duration" {
   default = "PT5M"
+}
+
+variable "alarm_notification_title" {
+  default = "Sample title with severity {{severity}}"
 }
 
 variable "alarm_query" {
@@ -172,9 +184,12 @@ resource "oci_monitoring_alarm" "test_alarm" {
   severity              = var.alarm_severity
 
   #Optional
+  alarm_summary                    = var.alarm_summary
   body                             = var.alarm_body
+  evaluation_slack_duration        = var.alarm_evaluation_slack_duration
   message_format                   = var.alarm_message_format
   metric_compartment_id_in_subtree = var.alarm_metric_compartment_id_in_subtree
+  notification_title               = var.alarm_notification_title
   notification_version             = var.alarm_notification_version
   overrides {
     body             = "90% CPU utilization."

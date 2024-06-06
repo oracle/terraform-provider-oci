@@ -119,6 +119,10 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 			"compartment_id": *r.CompartmentId,
 		}
 
+		if r.AlarmSummary != nil {
+			alarm["alarm_summary"] = *r.AlarmSummary
+		}
+
 		if r.DefinedTags != nil {
 			alarm["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -127,6 +131,10 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 
 		if r.DisplayName != nil {
 			alarm["display_name"] = *r.DisplayName
+		}
+
+		if r.EvaluationSlackDuration != nil {
+			alarm["evaluation_slack_duration"] = *r.EvaluationSlackDuration
 		}
 
 		alarm["freeform_tags"] = r.FreeformTags
@@ -151,6 +159,10 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 			alarm["namespace"] = *r.Namespace
 		}
 
+		if r.NotificationTitle != nil {
+			alarm["notification_title"] = *r.NotificationTitle
+		}
+
 		if r.NotificationVersion != nil {
 			alarm["notification_version"] = *r.NotificationVersion
 		}
@@ -163,6 +175,10 @@ func (s *MonitoringAlarmsDataSourceCrud) SetData() error {
 
 		if r.Query != nil {
 			alarm["query"] = *r.Query
+		}
+
+		if r.ResourceGroup != nil {
+			alarm["resource_group"] = *r.ResourceGroup
 		}
 
 		if r.RuleName != nil {
