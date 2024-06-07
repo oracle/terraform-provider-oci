@@ -151,7 +151,7 @@ func (client QueueClient) deleteMessage(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// DeleteMessages Deletes multiple messages from the queue.
+// DeleteMessages Deletes multiple messages from the queue or the consumer group. Only messages from the same queue/consumer group can be deleted at once.
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to delete messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //
@@ -513,7 +513,7 @@ func (client QueueClient) updateMessage(ctx context.Context, request common.OCIR
 	return response, err
 }
 
-// UpdateMessages Updates multiple messages in the queue.
+// UpdateMessages Updates multiple messages in the queue or the consumer group. Only messages from the same queue/consumer group can be updated at once.
 // You must use the messages endpoint (https://docs.cloud.oracle.com/iaas/Content/queue/messages.htm#messages__messages-endpoint) to update messages.
 // The messages endpoint may be different for different queues. Use GetQueue to find the queue's `messagesEndpoint`.
 //

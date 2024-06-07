@@ -39,6 +39,10 @@ type GetMessage struct {
 	// Example: `2018-04-20T00:00:07.405Z`
 	ExpireAfter *common.SDKTime `mandatory:"true" json:"expireAfter"`
 
+	// The time when message was created in queue.
+	// Example: `2018-04-20T00:00:07.405Z`
+	CreatedAt *common.SDKTime `mandatory:"true" json:"createdAt"`
+
 	Metadata *MessageMetadata `mandatory:"false" json:"metadata"`
 }
 

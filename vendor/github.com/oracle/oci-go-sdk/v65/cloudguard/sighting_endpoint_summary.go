@@ -31,7 +31,7 @@ type SightingEndpointSummary struct {
 	// Type of IP address involved in sighting
 	IpAddressType *string `mandatory:"true" json:"ipAddressType"`
 
-	// Date and time when activities were created
+	// Time the activities were last detected.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
 	// Problem ID for sighting endpoints
@@ -57,6 +57,15 @@ type SightingEndpointSummary struct {
 
 	// List of services where activities were performed from this IP address
 	Services []string `mandatory:"false" json:"services"`
+
+	// Time the activities were first detected.
+	TimeFirstDetected *common.SDKTime `mandatory:"false" json:"timeFirstDetected"`
+
+	// Time the activities were first performed.
+	TimeFirstOccurred *common.SDKTime `mandatory:"false" json:"timeFirstOccurred"`
+
+	// Time the activities were last performed.
+	TimeLastOccurred *common.SDKTime `mandatory:"false" json:"timeLastOccurred"`
 }
 
 func (m SightingEndpointSummary) String() string {

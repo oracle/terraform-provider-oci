@@ -37,14 +37,20 @@ type ResourceProfileSummary struct {
 	// List of tactic summaries associated with the resource profile
 	Tactics []TacticSummary `mandatory:"true" json:"tactics"`
 
-	// The date and time the resource profile was first detected. Format defined by RFC3339.
+	// Time the activities were first detected. Format defined by RFC3339.
 	TimeFirstDetected *common.SDKTime `mandatory:"true" json:"timeFirstDetected"`
 
-	// The date and time the resource profile was last detected. Format defined by RFC3339.
+	// Time the activities were last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
 	// Number of sightings associated with the resource profile
 	SightingsCount *int `mandatory:"false" json:"sightingsCount"`
+
+	// Time the activities were first performed. Format defined by RFC3339.
+	TimeFirstOccurred *common.SDKTime `mandatory:"false" json:"timeFirstOccurred"`
+
+	// Time the activities were last performed. Format defined by RFC3339.
+	TimeLastOccurred *common.SDKTime `mandatory:"false" json:"timeLastOccurred"`
 
 	// Number of problems associated with this resource profile
 	ProblemsCount *int `mandatory:"false" json:"problemsCount"`
