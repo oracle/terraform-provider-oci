@@ -1,3 +1,10 @@
+## 5.46.0 (Unreleased)
+
+### Added
+- Support for Dynamic Notification for Alarms
+### Bug Fix
+- oci_log_analytics_namespace source doc fix
+
 ## 5.45.0 (June 04, 2024)
 
 ### Added
