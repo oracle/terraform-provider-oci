@@ -96,6 +96,10 @@ func (s *GoldenGateDeploymentBackupDataSourceCrud) SetData() error {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
 
+	if s.Res.IsMetadataOnly != nil {
+		s.D.Set("is_metadata_only", *s.Res.IsMetadataOnly)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

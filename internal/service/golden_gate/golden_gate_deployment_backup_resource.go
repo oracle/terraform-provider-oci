@@ -76,6 +76,12 @@ func GoldenGateDeploymentBackupResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_metadata_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"locks": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -273,6 +279,11 @@ func (s *GoldenGateDeploymentBackupResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isMetadataOnly, ok := s.D.GetOkExists("is_metadata_only"); ok {
+		tmp := isMetadataOnly.(bool)
+		request.IsMetadataOnly = &tmp
 	}
 
 	if locks, ok := s.D.GetOkExists("locks"); ok {
@@ -550,6 +561,10 @@ func (s *GoldenGateDeploymentBackupResourceCrud) SetData() error {
 		s.D.Set("is_automatic", *s.Res.IsAutomatic)
 	}
 
+	if s.Res.IsMetadataOnly != nil {
+		s.D.Set("is_metadata_only", *s.Res.IsMetadataOnly)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -651,6 +666,10 @@ func DeploymentBackupSummaryToMap(obj oci_golden_gate.DeploymentBackupSummary) m
 
 	if obj.IsAutomatic != nil {
 		result["is_automatic"] = bool(*obj.IsAutomatic)
+	}
+
+	if obj.IsMetadataOnly != nil {
+		result["is_metadata_only"] = bool(*obj.IsMetadataOnly)
 	}
 
 	if obj.LifecycleDetails != nil {

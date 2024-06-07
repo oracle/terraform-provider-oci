@@ -27,6 +27,7 @@ resource "oci_golden_gate_deployment_backup" "test_deployment_backup" {
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	freeform_tags = {"bar-key"= "value"}
+	is_metadata_only = var.deployment_backup_is_metadata_only
 	locks {
 		#Required
 		type = var.deployment_backup_locks_type
@@ -46,7 +47,8 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
 * `deployment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `display_name` - (Required) An object's Display Name. 
-* `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
+* `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}`
+* `is_metadata_only` - (Optional) Parameter to allow users to create backup without trails
 * `locks` - (Optional) Locks associated with this resource.
 	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
 	* `type` - (Required) Type of the lock.
@@ -71,6 +73,7 @@ The following attributes are exported:
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
 * `is_automatic` - True if this object is automatically created 
+* `is_metadata_only` - Parameter to allow users to create backup without trails
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
