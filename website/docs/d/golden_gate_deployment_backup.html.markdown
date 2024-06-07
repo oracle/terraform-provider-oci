@@ -43,6 +43,7 @@ The following attributes are exported:
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup being referenced. 
 * `is_automatic` - True if this object is automatically created 
+* `is_metadata_only` - Parameter to allow users to create backup without trails
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `locks` - Locks associated with this resource.
 	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
