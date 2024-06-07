@@ -37,10 +37,10 @@ type ResourceProfile struct {
 	// Risk score for the resource profile
 	RiskScore *float64 `mandatory:"true" json:"riskScore"`
 
-	// The date and time the resource profile was first detected. Format defined by RFC3339.
+	// Time the activities were first detected. Format defined by RFC3339.
 	TimeFirstDetected *common.SDKTime `mandatory:"true" json:"timeFirstDetected"`
 
-	// The date and time the resource profile was last detected. Format defined by RFC3339.
+	// Time the activities were last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
 	// List of tactic summaries associated with the resource profile
@@ -63,6 +63,12 @@ type ResourceProfile struct {
 
 	// The date and time for the peak risk score. Format defined by RFC3339.
 	TimePeakScore *common.SDKTime `mandatory:"false" json:"timePeakScore"`
+
+	// Time the activities were first performed. Format defined by RFC3339.
+	TimeFirstOccurred *common.SDKTime `mandatory:"false" json:"timeFirstOccurred"`
+
+	// Time the activities were last performed. Format defined by RFC3339.
+	TimeLastOccurred *common.SDKTime `mandatory:"false" json:"timeLastOccurred"`
 
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`

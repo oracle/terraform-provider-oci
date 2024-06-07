@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Queue API
+// Fusion Applications Environment Management API
 //
-// Use the Queue API to produce and consume messages, create queues, and manage related items. For more information, see Queue (https://docs.cloud.oracle.com/iaas/Content/queue/overview.htm).
+// Use the Fusion Applications Environment Management API to manage the environments where your Fusion Applications run. For more information, see the Fusion Applications Environment Management documentation (https://docs.cloud.oracle.com/iaas/Content/fusion-applications/home.htm).
 //
 
-package queue
+package fusionapps
 
 import (
 	"fmt"
@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// QueueStats The stats for a queue and its dead letter queue. If channelId is specified in request field, it will return channel specific stats response.
-type QueueStats struct {
-	Queue *Stats `mandatory:"true" json:"queue"`
+// ExtractDetailsCollection Results of GenerateExtractDetails for a pod.
+type ExtractDetailsCollection struct {
 
-	Dlq *Stats `mandatory:"true" json:"dlq"`
-
-	// If channelId is present in GetStats call, the channel id will be returned in the GetStats response.
-	ChannelId *string `mandatory:"false" json:"channelId"`
+	// A page of ExtractDetailsSummary objects.
+	Items []ExtractDetailsSummary `mandatory:"true" json:"items"`
 }
 
-func (m QueueStats) String() string {
+func (m ExtractDetailsCollection) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m QueueStats) ValidateEnumValue() (bool, error) {
+func (m ExtractDetailsCollection) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

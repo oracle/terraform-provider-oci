@@ -55,7 +55,10 @@ type Alarm struct {
 	// rule condition has been met. The query must specify a metric, statistic, interval, and trigger
 	// rule (threshold or absence). Supported values for interval depend on the specified time range. More
 	// interval values are supported for smaller time ranges. You can optionally
-	// specify dimensions and grouping functions. Supported grouping functions: `grouping()`, `groupBy()`.
+	// specify dimensions and grouping functions.
+	// Also, you can customize the
+	// absence detection period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/create-edit-alarm-query-absence-detection-period.htm).
+	// Supported grouping functions: `grouping()`, `groupBy()`.
 	// For information about writing MQL expressions, see
 	// Editing the MQL Expression for a Query (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/query-metric-mql.htm).
 	// For details about MQL, see
@@ -69,6 +72,12 @@ type Alarm struct {
 	// Example of absence alarm:
 	//   -----
 	//     CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.absent()
+	//   -----
+	// Example of absence alarm with custom absence detection period of 20 hours:
+	//   -----
+	//
+	//     CpuUtilization[1m]{availabilityDomain="cumS:PHX-AD-1"}.absent(20h)
+	//
 	//   -----
 	Query *string `mandatory:"true" json:"query"`
 
@@ -128,7 +137,9 @@ type Alarm struct {
 	// Example: `PT5M`
 	PendingDuration *string `mandatory:"false" json:"pendingDuration"`
 
-	// The human-readable content of the delivered alarm notification. Oracle recommends providing guidance
+	// The human-readable content of the delivered alarm notification.
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// Oracle recommends providing guidance
 	// to operators for resolving the alarm condition. Consider adding links to standard runbook
 	// practices. Avoid entering confidential information.
 	// Example: `High CPU usage alert. Follow runbook instructions for resolution.`
@@ -169,13 +180,32 @@ type Alarm struct {
 	Overrides []AlarmOverride `mandatory:"false" json:"overrides"`
 
 	// Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.
-	// A valid ruleName value starts with an alphabetic character and includes only alphanumeric characters, underscores and square brackets.
-	// Minimum number of characters: 3. Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
+	// Default value is `BASE`. For information about alarm overrides, see AlarmOverride.
 	RuleName *string `mandatory:"false" json:"ruleName"`
 
 	// The version of the alarm notification to be delivered. Allowed value: `1.X`
 	// The value must start with a number (up to four digits), followed by a period and an uppercase X.
 	NotificationVersion *string `mandatory:"false" json:"notificationVersion"`
+
+	// Customizable notification title (`title` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// The notification title appears as the subject line in a formatted email message and as the title in a Slack message.
+	NotificationTitle *string `mandatory:"false" json:"notificationTitle"`
+
+	// Customizable slack period to wait for metric ingestion before evaluating the alarm.
+	// Specify a string in ISO 8601 format (`PT10M` for ten minutes or `PT1H`
+	// for one hour). Minimum: PT3M. Maximum: PT2H. Default: PT3M.
+	// For more information about the slack period, see
+	// About the Internal Reset Period (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Concepts/monitoringoverview.htm#reset).
+	EvaluationSlackDuration *string `mandatory:"false" json:"evaluationSlackDuration"`
+
+	// Customizable alarm summary (`alarmSummary` alarm message parameter (https://docs.cloud.oracle.com/iaas/Content/Monitoring/alarm-message-format.htm)).
+	// Optionally include dynamic variables (https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/update-alarm-dynamic-variables.htm).
+	// The alarm summary appears within the body of the alarm message and in responses to
+	// ListAlarmsStatus
+	// GetAlarmHistory and
+	// RetrieveDimensionStates.
+	AlarmSummary *string `mandatory:"false" json:"alarmSummary"`
 }
 
 func (m Alarm) String() string {

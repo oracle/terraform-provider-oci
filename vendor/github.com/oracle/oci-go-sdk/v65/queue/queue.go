@@ -105,6 +105,7 @@ const (
 	QueueLifecycleStateDeleting QueueLifecycleStateEnum = "DELETING"
 	QueueLifecycleStateDeleted  QueueLifecycleStateEnum = "DELETED"
 	QueueLifecycleStateFailed   QueueLifecycleStateEnum = "FAILED"
+	QueueLifecycleStateInactive QueueLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingQueueLifecycleStateEnum = map[string]QueueLifecycleStateEnum{
@@ -114,6 +115,7 @@ var mappingQueueLifecycleStateEnum = map[string]QueueLifecycleStateEnum{
 	"DELETING": QueueLifecycleStateDeleting,
 	"DELETED":  QueueLifecycleStateDeleted,
 	"FAILED":   QueueLifecycleStateFailed,
+	"INACTIVE": QueueLifecycleStateInactive,
 }
 
 var mappingQueueLifecycleStateEnumLowerCase = map[string]QueueLifecycleStateEnum{
@@ -123,6 +125,7 @@ var mappingQueueLifecycleStateEnumLowerCase = map[string]QueueLifecycleStateEnum
 	"deleting": QueueLifecycleStateDeleting,
 	"deleted":  QueueLifecycleStateDeleted,
 	"failed":   QueueLifecycleStateFailed,
+	"inactive": QueueLifecycleStateInactive,
 }
 
 // GetQueueLifecycleStateEnumValues Enumerates the set of values for QueueLifecycleStateEnum
@@ -143,6 +146,7 @@ func GetQueueLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"INACTIVE",
 	}
 }
 
