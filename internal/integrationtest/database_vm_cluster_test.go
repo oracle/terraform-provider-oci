@@ -48,18 +48,19 @@ var (
 	}
 
 	DatabaseVmClusterRepresentation = map[string]interface{}{
-		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"cpu_core_count":              acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
-		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `vmCluster`},
-		"exadata_infrastructure_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
-		"gi_version":                  acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0.0`},
-		"ssh_public_keys":             acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
-		"vm_cluster_network_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
-		"data_collection_options":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterDataCollectionOptionsRepresentation},
-		"data_storage_size_in_tbs":    acctest.Representation{RepType: acctest.Optional, Create: `84`, Update: `86`},
-		"db_node_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
-		"db_servers":                  acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
-		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
+		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `vmCluster`},
+		"exadata_infrastructure_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
+		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0.0`},
+		"ssh_public_keys":                 acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
+		"vm_cluster_network_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
+		"cloud_automation_update_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterCloudAutomationUpdateDetailsRepresentation},
+		"data_collection_options":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterDataCollectionOptionsRepresentation},
+		"data_storage_size_in_tbs":        acctest.Representation{RepType: acctest.Optional, Create: `84`, Update: `86`},
+		"db_node_storage_size_in_gbs":     acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
+		"db_servers":                      acctest.Representation{RepType: acctest.Required, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
+		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"file_system_configuration_details": []acctest.RepresentationGroup{
 			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation},
 			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation1},
@@ -67,7 +68,10 @@ var (
 			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation3},
 			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation4},
 			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation5},
-			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation6}},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation6},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation7},
+			{RepType: acctest.Optional, Group: DatabaseVmClusterFileSystemConfigurationDetailsRepresentation8}},
+
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_local_backup_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_sparse_diskgroup_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -75,6 +79,12 @@ var (
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterIgnoreDefinedTagsSystemVersionRepresentation},
 		"memory_size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+	}
+	DatabaseVmClusterCloudAutomationUpdateDetailsRepresentation = map[string]interface{}{
+		"apply_update_time_preference": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterCloudAutomationUpdateDetailsApplyUpdateTimePreferenceRepresentation},
+		"freeze_period":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterCloudAutomationUpdateDetailsFreezePeriodRepresentation},
+		"is_early_adoption_enabled":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_freeze_period_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 	}
 
 	vmClusterIgnoreDefinedTagsSystemVersionRepresentation = map[string]interface{}{
@@ -85,6 +95,14 @@ var (
 		"is_diagnostics_events_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_health_monitoring_enabled":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_incident_logs_enabled":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	DatabaseVmClusterCloudAutomationUpdateDetailsApplyUpdateTimePreferenceRepresentation = map[string]interface{}{
+		"apply_update_preferred_end_time":   acctest.Representation{RepType: acctest.Optional, Create: `06:00`, Update: `08:00`},
+		"apply_update_preferred_start_time": acctest.Representation{RepType: acctest.Optional, Create: `00:00`, Update: `02:00`},
+	}
+	DatabaseVmClusterCloudAutomationUpdateDetailsFreezePeriodRepresentation = map[string]interface{}{
+		"freeze_period_end_time":   acctest.Representation{RepType: acctest.Optional, Create: `2026-02-15`, Update: `2026-03-15`},
+		"freeze_period_start_time": acctest.Representation{RepType: acctest.Optional, Create: `2026-02-13`, Update: `2026-02-13`},
 	}
 
 	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation = map[string]interface{}{
@@ -121,6 +139,20 @@ var (
 		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `/var/log/audit`},
 	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation7 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `9`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `reserved`},
+	}
+
+	DatabaseVmClusterFileSystemConfigurationDetailsRepresentation8 = map[string]interface{}{
+		"file_system_size_gb": acctest.Representation{RepType: acctest.Optional, Create: `16`},
+		"mount_point":         acctest.Representation{RepType: acctest.Optional, Create: `swap`},
+	}
+
+	//DatabaseVmClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Required, acctest.Create, DatabaseExadataInfrastructureRepresentation) +
+	//	acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Required, acctest.Create, DatabaseVmClusterNetworkRepresentation) +
+	//	DefinedTagsDependencies
 
 	DatabaseVmClusterResourceDependencies = VmClusterNetworkValidatedResourceConfig
 )
@@ -176,6 +208,15 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseVmClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Create, DatabaseVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "06:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "00:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-02-15"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
@@ -187,7 +228,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -220,6 +261,15 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "06:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "00:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-02-15"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
@@ -231,7 +281,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -259,6 +309,15 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatabaseVmClusterResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Optional, acctest.Update, DatabaseVmClusterRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "08:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "02:00"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-03-15"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "6"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
@@ -270,7 +329,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
@@ -306,6 +365,15 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "08:00"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "02:00"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-03-15"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.is_early_adoption_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.cpus_enabled"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.data_collection_options.#", "1"),
@@ -317,7 +385,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.db_servers.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "260"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.freeform_tags.%", "1"),
@@ -345,6 +413,15 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vm_cluster_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.apply_update_time_preference.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_end_time", "08:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.apply_update_time_preference.0.apply_update_preferred_start_time", "02:00"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.freeze_period.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_end_time", "2026-03-15"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.freeze_period.0.freeze_period_start_time", "2026-02-13"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.is_early_adoption_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_automation_update_details.0.is_freeze_period_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "cpus_enabled"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_collection_options.#", "1"),
@@ -355,7 +432,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_node_storage_size_in_gbs", "160"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "9"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/u01"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
