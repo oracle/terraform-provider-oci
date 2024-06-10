@@ -27,6 +27,24 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 	vm_cluster_network_id = oci_database_vm_cluster_network.test_vm_cluster_network.id
 
 	#Optional
+	cloud_automation_update_details {
+
+		#Optional
+		apply_update_time_preference {
+
+			#Optional
+			apply_update_preferred_end_time = var.vm_cluster_cloud_automation_update_details_apply_update_time_preference_apply_update_preferred_end_time
+			apply_update_preferred_start_time = var.vm_cluster_cloud_automation_update_details_apply_update_time_preference_apply_update_preferred_start_time
+		}
+		freeze_period {
+
+			#Optional
+			freeze_period_end_time = var.vm_cluster_cloud_automation_update_details_freeze_period_freeze_period_end_time
+			freeze_period_start_time = var.vm_cluster_cloud_automation_update_details_freeze_period_freeze_period_start_time
+		}
+		is_early_adoption_enabled = var.vm_cluster_cloud_automation_update_details_is_early_adoption_enabled
+		is_freeze_period_enabled = var.vm_cluster_cloud_automation_update_details_is_freeze_period_enabled
+	}
 	data_collection_options {
 
 		#Optional
@@ -58,6 +76,15 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
 
 The following arguments are supported:
 
+* `cloud_automation_update_details` - (Optional) (Updatable) Specifies the properties necessary for cloud automation updates. This includes modifying the apply update time preference, enabling or disabling early adoption, and enabling, modifying, or disabling the update freeze period. 
+	* `apply_update_time_preference` - (Optional) (Updatable) Configure the time slot for applying VM cloud automation software updates to the cluster. When nothing is selected, the default time slot is 12 AM to 2 AM UTC. Any 2-hour slot is available starting at 12 AM. 
+		* `apply_update_preferred_end_time` - (Optional) (Updatable) End time for polling VM cloud automation software updates for the cluster. If the endTime is not specified, 2 AM UTC is used by default. 
+		* `apply_update_preferred_start_time` - (Optional) (Updatable) Start time for polling VM cloud automation software updates for the cluster. If the startTime is not specified, 12 AM UTC is used by default. 
+	* `freeze_period` - (Optional) (Updatable) Enables a freeze period for the VM cluster prohibiting the VMs from getting cloud automation software updates during critical business cycles. Freeze period start date. Starts at 12:00 AM UTC on the selected date and ends at 11:59:59 PM UTC on the selected date. Validates to ensure the freeze period does not exceed 45 days. 
+		* `freeze_period_end_time` - (Optional) (Updatable) End time of the freeze period cycle. 
+		* `freeze_period_start_time` - (Optional) (Updatable) Start time of the freeze period cycle. 
+	* `is_early_adoption_enabled` - (Optional) (Updatable) Annotates whether the cluster should be part of early access to apply VM cloud automation software updates. Those clusters annotated as early access will download the software bits for cloud automation in the first week after the update is available, while other clusters will have to wait until the following week. 
+	* `is_freeze_period_enabled` - (Optional) (Updatable) Specifies if the freeze period is enabled for the VM cluster to prevent the VMs from receiving cloud automation software updates during critical business cycles. Freeze period starts at 12:00 AM UTC and ends at 11:59:59 PM UTC on the selected date. Ensure that the freezing period does not exceed 45 days. 
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpu_core_count` - (Required) (Updatable) The number of CPU cores to enable for the VM cluster. *Note:* If `cpu_core_count` is modified in `DISCONNECTED` state, the provider could experience a drift in Terraform state. To remediate this, refresh your Terraform state and update the configuration file when the Oracle Cloud Infrastructure connection is established.
 * `data_collection_options` - (Optional) (Updatable) Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 
@@ -94,6 +121,15 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `availability_domain` - The name of the availability domain that the VM cluster is located in.
+* `cloud_automation_update_details` - Specifies the properties necessary for cloud automation updates. This includes modifying the apply update time preference, enabling or disabling early adoption, and enabling, modifying, or disabling the update freeze period. 
+	* `apply_update_time_preference` - Configure the time slot for applying VM cloud automation software updates to the cluster. When nothing is selected, the default time slot is 12 AM to 2 AM UTC. Any 2-hour slot is available starting at 12 AM. 
+		* `apply_update_preferred_end_time` - End time for polling VM cloud automation software updates for the cluster. If the endTime is not specified, 2 AM UTC is used by default. 
+		* `apply_update_preferred_start_time` - Start time for polling VM cloud automation software updates for the cluster. If the startTime is not specified, 12 AM UTC is used by default. 
+	* `freeze_period` - Enables a freeze period for the VM cluster prohibiting the VMs from getting cloud automation software updates during critical business cycles. Freeze period start date. Starts at 12:00 AM UTC on the selected date and ends at 11:59:59 PM UTC on the selected date. Validates to ensure the freeze period does not exceed 45 days. 
+		* `freeze_period_end_time` - End time of the freeze period cycle. 
+		* `freeze_period_start_time` - Start time of the freeze period cycle. 
+	* `is_early_adoption_enabled` - Annotates whether the cluster should be part of early access to apply VM cloud automation software updates. Those clusters annotated as early access will download the software bits for cloud automation in the first week after the update is available, while other clusters will have to wait until the following week. 
+	* `is_freeze_period_enabled` - Specifies if the freeze period is enabled for the VM cluster to prevent the VMs from receiving cloud automation software updates during critical business cycles. Freeze period starts at 12:00 AM UTC and ends at 11:59:59 PM UTC on the selected date. Ensure that the freezing period does not exceed 45 days. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `cpus_enabled` - The number of enabled CPU cores.
 * `data_collection_options` - Indicates user preferences for the various diagnostic collection options for the VM cluster/Cloud VM cluster/VMBM DBCS. 

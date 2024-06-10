@@ -88,6 +88,94 @@ resource "oci_database_vm_cluster_network" "test_vm_cluster_network" {
   }
 }
 
+resource "oci_database_vm_cluster_network" "test_vm_cluster_network2" {
+  compartment_id = var.compartment_ocid
+  display_name   = "testVmClusterRecommendedNetwork2"
+  dns            = ["192.178.10.10"]
+  ntp            = ["192.178.10.20"]
+
+  exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
+
+  scans {
+    hostname = "myprefix3-nsubz-scan"
+
+    ips = [
+      "192.178.19.7",
+      "192.178.19.6",
+      "192.178.19.8",
+    ]
+
+    port = 1521
+    scan_listener_port_tcp = 1521
+    scan_listener_port_tcp_ssl = 2484
+  }
+
+  vm_networks {
+    domain_name  = "oracle.com"
+    gateway      = "192.179.20.1"
+    netmask      = "255.255.0.0"
+    network_type = "BACKUP"
+
+    nodes {
+      hostname = "myprefix4-cghdm1"
+      ip       = "192.179.19.18"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
+    }
+
+    nodes {
+      hostname = "myprefix4-cghdm2"
+      ip       = "192.179.19.20"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
+    }
+
+    vlan_id = "31"
+  }
+
+  vm_networks {
+    domain_name  = "oracle.com"
+    gateway      = "192.178.20.1"
+    netmask      = "255.255.0.0"
+    network_type = "CLIENT"
+
+    nodes {
+      hostname     = "myprefix5-r64zc1"
+      ip           = "192.178.19.10"
+      vip          = "192.178.19.11"
+      vip_hostname = "myprefix5-r64zc1-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.0.id
+    }
+
+    nodes {
+      hostname     = "myprefix5-r64zc2"
+      ip           = "192.178.19.14"
+      vip          = "192.178.19.15"
+      vip_hostname = "myprefix5-r64zc2-vip"
+      db_server_id = data.oci_database_db_servers.test_db_servers.db_servers.1.id
+    }
+
+    vlan_id = "41"
+  }
+
+  #Optional
+  defined_tags = {
+    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "updatedvalue"
+  }
+
+  freeform_tags = {
+    "Department" = "Accounting"
+  }
+
+  validate_vm_cluster_network = true
+
+  action = "ADD_DBSERVER_NETWORK"
+
+  lifecycle {
+    ignore_changes = [
+      vm_networks,
+    ]
+  }
+}
+
 data "oci_database_gi_versions" "gi_version" {
   compartment_id = var.compartment_ocid
   shape = "ExadataCC.Quarter3.100"
@@ -123,6 +211,14 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
       is_diagnostics_events_enabled = "true"
       is_health_monitoring_enabled = "true"
       is_incident_logs_enabled = "true"
+  }
+
+  cloud_automation_update_details{
+    is_early_adoption_enabled = "true"
+    apply_update_time_preference  {
+      apply_update_preferred_start_time = "02:00"
+      apply_update_preferred_end_time = "08:00"
+    }
   }
 
 }
@@ -172,7 +268,12 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {
   vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
+  source       = "VM_CLUSTER_NEW"
+  db_version   = "12.1.0.2"
+  display_name = "createdDbHome"
+}
 
+resource "oci_database_database" "test_exacc_database"{
   database {
     admin_password = "BEstrO0ng_#11"
     db_name        = "dbVMClus"
@@ -195,10 +296,8 @@ resource "oci_database_db_home" "test_db_home_vm_cluster" {
       }
     }
   }
-
-  source       = "VM_CLUSTER_NEW"
-  db_version   = "12.1.0.2"
-  display_name = "createdDbHome"
+  db_home_id = oci_database_db_home.test_db_home_vm_cluster.id
+  source     = "NONE"
 }
 
 resource "oci_database_backup_destination" "test_backup_destination_nfs" {
