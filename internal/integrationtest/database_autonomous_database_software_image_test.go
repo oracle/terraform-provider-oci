@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 package integrationtest
@@ -25,6 +25,8 @@ import (
 )
 
 var (
+	randString                                                       = utils.RandomString(10, utils.CharsetWithoutDigits)
+	randString2                                                      = utils.RandomString(10, utils.CharsetWithoutDigits)
 	ExaccDatabaseAutonomousDatabaseSoftwareImageRequiredOnlyResource = ExaccDatabaseAutonomousDatabaseSoftwareImageResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation)
 
@@ -48,7 +50,7 @@ var (
 	DatabaseAutonomousDatabaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"image_shape_family": acctest.Representation{RepType: acctest.Required, Create: `EXADATA_SHAPE`},
-		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1` + randString},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseSoftwareImageDataSourceFilterRepresentation}}
 
@@ -60,7 +62,7 @@ var (
 	ExaccDatabaseAutonomousDatabaseSoftwareImageDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"image_shape_family": acctest.Representation{RepType: acctest.Required, Create: `EXACC_SHAPE`},
-		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `image1` + randString},
 		"state":              acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ExaccDatabaseAutonomousDatabaseSoftwareImageDataSourceFilterRepresentation}}
 
@@ -71,7 +73,7 @@ var (
 
 	DatabaseAutonomousDatabaseSoftwareImageRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `image1`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `image1` + randString},
 		"image_shape_family": acctest.Representation{RepType: acctest.Required, Create: `EXADATA_SHAPE`},
 		"source_cdb_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -80,7 +82,7 @@ var (
 
 	ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation = map[string]interface{}{
 		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `image1`},
+		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `image1` + randString},
 		"image_shape_family": acctest.Representation{RepType: acctest.Required, Create: `EXACC_SHAPE`},
 		"source_cdb_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -125,7 +127,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
 
@@ -147,7 +149,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
@@ -178,7 +180,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
@@ -204,7 +206,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXACC_SHAPE"),
@@ -230,7 +232,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, ExaccDatabaseAutonomousDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXACC_SHAPE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
@@ -249,7 +251,7 @@ func TestDatabaseExaccAutonomousDatabaseSoftwareImageResource_basic(t *testing.T
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_dsi_one_off_patches.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXACC_SHAPE"),
@@ -299,7 +301,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_cdb_id"),
 
@@ -321,7 +323,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
@@ -352,7 +354,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
@@ -378,7 +380,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(resourceName, "database_version"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "image_shape_family", "EXADATA_SHAPE"),
@@ -404,7 +406,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_software_image", "test_autonomous_database_software_image", acctest.Optional, acctest.Update, DatabaseAutonomousDatabaseSoftwareImageRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(datasourceName, "image_shape_family", "EXADATA_SHAPE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
 
@@ -423,7 +425,7 @@ func TestDatabaseAutonomousDatabaseSoftwareImageResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_dsi_one_off_patches.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "image1"+randString),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "image_shape_family", "EXADATA_SHAPE"),

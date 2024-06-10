@@ -1275,7 +1275,6 @@ func MaintenanceWindowToMap(obj *oci_database.MaintenanceWindow) map[string]inte
 	result["skip_ru"] = obj.SkipRu
 
 	result["weeks_of_month"] = obj.WeeksOfMonth
-	result["weeks_of_month"] = obj.WeeksOfMonth
 
 	return result
 }

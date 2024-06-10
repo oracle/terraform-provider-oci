@@ -507,6 +507,18 @@ var exportDatabaseExadbVmClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseAutonomousDatabaseSoftwareImageHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_database_autonomous_database_software_image",
+	DatasourceClass:        "oci_database_autonomous_database_software_images",
+	DatasourceItemsAttr:    "autonomous_database_software_image_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "autonomous_database_software_image",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AutonomousDatabaseSoftwareImageLifecycleStateAvailable),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
