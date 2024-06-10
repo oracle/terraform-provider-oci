@@ -168,7 +168,11 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousVmClusterResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, DatabaseAutonomousVmClusterRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_vm_cluster", "test_autonomous_vm_cluster", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousVmClusterRepresentation, map[string]interface{}{
+					"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+					"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: "4"},
+					"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `20`},
+				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),

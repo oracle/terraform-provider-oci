@@ -70,6 +70,12 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.CloudAutomationUpdateDetails != nil {
+		s.D.Set("cloud_automation_update_details", []interface{}{CloudAutomationUpdateDetailsToMap(s.Res.CloudAutomationUpdateDetails)})
+	} else {
+		s.D.Set("cloud_automation_update_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

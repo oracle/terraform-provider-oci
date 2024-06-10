@@ -44,6 +44,14 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
     is_health_monitoring_enabled = "true"
     is_incident_logs_enabled = "true"
   }
+
+  cloud_automation_update_details{
+    is_early_adoption_enabled = "true"
+    apply_update_time_preference  {
+      apply_update_preferred_start_time = "02:00"
+      apply_update_preferred_end_time = "08:00"
+    }
+  }
 }
 
 resource "oci_database_db_home" "test_db_home_vm_cluster" {

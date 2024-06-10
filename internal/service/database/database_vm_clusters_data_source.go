@@ -123,6 +123,12 @@ func (s *DatabaseVmClustersDataSourceCrud) SetData() error {
 			vmCluster["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		if r.CloudAutomationUpdateDetails != nil {
+			vmCluster["cloud_automation_update_details"] = []interface{}{CloudAutomationUpdateDetailsToMap(r.CloudAutomationUpdateDetails)}
+		} else {
+			vmCluster["cloud_automation_update_details"] = nil
+		}
+
 		if r.CpusEnabled != nil {
 			vmCluster["cpus_enabled"] = *r.CpusEnabled
 			vmCluster["cpu_core_count"] = *r.CpusEnabled
