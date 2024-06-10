@@ -435,7 +435,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.db_node_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.defined_file_system_configurations.#", "7"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.defined_file_system_configurations.#", "9"),
 
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.0.dns_server.#", "2"),
@@ -506,7 +506,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_storage_size_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "7"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "defined_file_system_configurations.#", "9"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_server.#", "2"),
