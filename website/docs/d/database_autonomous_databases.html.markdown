@@ -1,22 +1,24 @@
+
+
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_database"
-sidebar_current: "docs-oci-datasource-database-autonomous_database"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_databases"
+sidebar_current: "docs-oci-datasource-database-autonomous_databases"
 description: |-
-Provides details about a specific Autonomous Database in Oracle Cloud Infrastructure Database service
+  Provides the list of Autonomous Databases in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_database
-This data source provides details about a specific Autonomous Database resource in Oracle Cloud Infrastructure Database service.
+# Data Source: oci_database_autonomous_databases
+This data source provides the list of Autonomous Databases in Oracle Cloud Infrastructure Database service.
 
-Gets the details of the specified Autonomous Database.
+Gets a list of Autonomous Databases based on the query parameters specified.
 
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_database" "test_autonomous_database" {
+data "oci_database_autonomous_databases" "test_autonomous_databases" {
 	#Required
 	compartment_id = var.compartment_id
 
@@ -124,7 +126,7 @@ The following attributes are exported:
 
   This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-* `disaster_recovery_region_type` - The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region.
+* `disaster_recovery_region_type` - **Deprecated.** The disaster recovery (DR) region type of the Autonomous Database. For Autonomous Database Serverless instances, DR associations have designated primary and standby regions. These region types do not change when the database changes roles. The standby region in DR associations can be the same region as the primary region, or they can be in a remote regions. Some database administration operations may be available only in the primary region of the DR association, and cannot be performed when the database using the primary role is operating in a remote region. 
 * `display_name` - The user-friendly name for the Autonomous Database. The name does not have to be unique.
 * `failed_data_recovery_in_seconds` - Indicates the number of seconds of data loss for a Data Guard failover.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
