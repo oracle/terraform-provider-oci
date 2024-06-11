@@ -1,4 +1,4 @@
-## 5.46.0 (Unreleased)
+## 5.46.0 (June 11, 2024)
 
 ### Added
 - Support for Dynamic Notification for Alarms
