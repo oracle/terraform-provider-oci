@@ -3,8 +3,6 @@
 
 package sch
 
-import "github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 func RegisterResource() {
-	tfresource.RegisterResource("oci_sch_service_connector", SchServiceConnectorResource())
+	//tfresource.RegisterResource("oci_sch_service_connector", SchServiceConnectorResource())
 }
