@@ -1,3 +1,11 @@
+## 5.46.0 (June 11, 2024)
+
+### Added
+- Support for Dynamic Notification for Alarms
+### Bug Fix
+- oci_log_analytics_namespace source doc fix
+- Allow update native pod networking, only update placement config when there is a change
+
 ## 5.45.0 (June 04, 2024)
 
 ### Added

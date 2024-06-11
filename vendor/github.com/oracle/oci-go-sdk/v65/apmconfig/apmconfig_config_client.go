@@ -445,6 +445,65 @@ func (client ConfigClient) retrieveNamespaces(ctx context.Context, request commo
 	return response, err
 }
 
+// Test Tests a data processing operation on the provided input, returning the potentially modified
+// input as output. Returns 200 on success, 422 when the input can not be processed.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/apmconfig/Test.go.html to see an example of how to use Test API.
+// A default retry strategy applies to this operation Test()
+func (client ConfigClient) Test(ctx context.Context, request TestRequest) (response TestResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.test, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestResponse")
+	}
+	return
+}
+
+// test implements the OCIOperation interface (enables retrying operations)
+func (client ConfigClient) test(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/actions/test", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/apm-config/20210201/TestOutput/Test"
+		err = common.PostProcessServiceError(err, "Config", "Test", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &testoutput{})
+	return response, err
+}
+
 // UpdateConfig Updates the details of the configuration item identified by the OCID.
 //
 // # See also

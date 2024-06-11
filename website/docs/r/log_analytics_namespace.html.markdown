@@ -43,6 +43,6 @@ The following attributes are exported:
 Namespace can be imported using the `compartment_id` and `namespace`, e.g.
 
 ```
-$ terraform import oci_log_analytics_namespace.test_namespace "compartmentId/<compartment_id>/namespace/<namespace>"
+$ terraform import oci_log_analytics_namespace.test_namespace "compartmentId/{compartment_id}/namespace/{namespace}"
 ```
 

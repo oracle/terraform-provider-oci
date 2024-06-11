@@ -52,10 +52,10 @@ type SightingSummary struct {
 	// Confidence level that the sighting is not a false positive
 	Confidence ConfidenceEnum `mandatory:"true" json:"confidence"`
 
-	// The date and time the sighting was first detected. Format defined by RFC3339.
+	// Time the activities were first detected. Format defined by RFC3339.
 	TimeFirstDetected *common.SDKTime `mandatory:"true" json:"timeFirstDetected"`
 
-	// The date and time the sighting was last detected. Format defined by RFC3339.
+	// Time the activities were last detected. Format defined by RFC3339.
 	TimeLastDetected *common.SDKTime `mandatory:"true" json:"timeLastDetected"`
 
 	// List of regions involved in the sighting
@@ -72,6 +72,12 @@ type SightingSummary struct {
 
 	// Type of principal actor
 	ActorPrincipalType *string `mandatory:"false" json:"actorPrincipalType"`
+
+	// Time the activities were first performed. Format defined by RFC3339.
+	TimeFirstOccurred *common.SDKTime `mandatory:"false" json:"timeFirstOccurred"`
+
+	// Time the activities were last performed. Format defined by RFC3339.
+	TimeLastOccurred *common.SDKTime `mandatory:"false" json:"timeLastOccurred"`
 }
 
 func (m SightingSummary) String() string {

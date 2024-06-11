@@ -887,6 +887,64 @@ func (client FusionApplicationsClient) deleteServiceAttachment(ctx context.Conte
 	return response, err
 }
 
+// GenerateExtractDetails Begin the process of showing the details about where to retrieve data extract for a Fusion environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/GenerateExtractDetails.go.html to see an example of how to use GenerateExtractDetails API.
+// A default retry strategy applies to this operation GenerateExtractDetails()
+func (client FusionApplicationsClient) GenerateExtractDetails(ctx context.Context, request GenerateExtractDetailsRequest) (response GenerateExtractDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.generateExtractDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GenerateExtractDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GenerateExtractDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GenerateExtractDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GenerateExtractDetailsResponse")
+	}
+	return
+}
+
+// generateExtractDetails implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) generateExtractDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/actions/generateExtractDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GenerateExtractDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/FusionEnvironment/GenerateExtractDetails"
+		err = common.PostProcessServiceError(err, "FusionApplications", "GenerateExtractDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDataMaskingActivity Gets a DataMaskingActivity by identifier
 //
 // # See also
@@ -1460,6 +1518,64 @@ func (client FusionApplicationsClient) getWorkRequest(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "FusionApplications", "GetWorkRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// InitiateExtract Begin the process of generating the data extract for a Fusion environment.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fusionapps/InitiateExtract.go.html to see an example of how to use InitiateExtract API.
+// A default retry strategy applies to this operation InitiateExtract()
+func (client FusionApplicationsClient) InitiateExtract(ctx context.Context, request InitiateExtractRequest) (response InitiateExtractResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.initiateExtract, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = InitiateExtractResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = InitiateExtractResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(InitiateExtractResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into InitiateExtractResponse")
+	}
+	return
+}
+
+// initiateExtract implements the OCIOperation interface (enables retrying operations)
+func (client FusionApplicationsClient) initiateExtract(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/fusionEnvironments/{fusionEnvironmentId}/actions/initiateExtract", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response InitiateExtractResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/fusion-applications/20211201/FusionEnvironment/InitiateExtract"
+		err = common.PostProcessServiceError(err, "FusionApplications", "InitiateExtract", apiReferenceLink)
 		return response, err
 	}
 
