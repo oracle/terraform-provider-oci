@@ -66,6 +66,11 @@ func MonitoringAlarmResource() *schema.Resource {
 			},
 
 			// Optional
+			"alarm_summary": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"body": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -77,6 +82,11 @@ func MonitoringAlarmResource() *schema.Resource {
 				Computed:         true,
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
+			},
+			"evaluation_slack_duration": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -96,6 +106,11 @@ func MonitoringAlarmResource() *schema.Resource {
 			},
 			"metric_compartment_id_in_subtree": {
 				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
+			"notification_title": {
+				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 			},
@@ -286,6 +301,11 @@ func (s *MonitoringAlarmResourceCrud) DeletedTarget() []string {
 func (s *MonitoringAlarmResourceCrud) Create() error {
 	request := oci_monitoring.CreateAlarmRequest{}
 
+	if alarmSummary, ok := s.D.GetOkExists("alarm_summary"); ok {
+		tmp := alarmSummary.(string)
+		request.AlarmSummary = &tmp
+	}
+
 	if body, ok := s.D.GetOkExists("body"); ok {
 		tmp := body.(string)
 		request.Body = &tmp
@@ -322,6 +342,11 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if evaluationSlackDuration, ok := s.D.GetOkExists("evaluation_slack_duration"); ok {
+		tmp := evaluationSlackDuration.(string)
+		request.EvaluationSlackDuration = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -353,6 +378,11 @@ func (s *MonitoringAlarmResourceCrud) Create() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.Namespace = &tmp
+	}
+
+	if notificationTitle, ok := s.D.GetOkExists("notification_title"); ok {
+		tmp := notificationTitle.(string)
+		request.NotificationTitle = &tmp
 	}
 
 	if notificationVersion, ok := s.D.GetOkExists("notification_version"); ok {
@@ -465,6 +495,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AlarmId = &tmp
 
+	if alarmSummary, ok := s.D.GetOkExists("alarm_summary"); ok {
+		tmp := alarmSummary.(string)
+		request.AlarmSummary = &tmp
+	}
+
 	if body, ok := s.D.GetOkExists("body"); ok {
 		tmp := body.(string)
 		request.Body = &tmp
@@ -501,6 +536,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
+	if evaluationSlackDuration, ok := s.D.GetOkExists("evaluation_slack_duration"); ok {
+		tmp := evaluationSlackDuration.(string)
+		request.EvaluationSlackDuration = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -532,6 +572,11 @@ func (s *MonitoringAlarmResourceCrud) Update() error {
 	if namespace, ok := s.D.GetOkExists("namespace"); ok {
 		tmp := namespace.(string)
 		request.Namespace = &tmp
+	}
+
+	if notificationTitle, ok := s.D.GetOkExists("notification_title"); ok {
+		tmp := notificationTitle.(string)
+		request.NotificationTitle = &tmp
 	}
 
 	if notificationVersion, ok := s.D.GetOkExists("notification_version"); ok {
@@ -625,6 +670,10 @@ func (s *MonitoringAlarmResourceCrud) Delete() error {
 }
 
 func (s *MonitoringAlarmResourceCrud) SetData() error {
+	if s.Res.AlarmSummary != nil {
+		s.D.Set("alarm_summary", *s.Res.AlarmSummary)
+	}
+
 	if s.Res.Body != nil {
 		s.D.Set("body", *s.Res.Body)
 	}
@@ -641,6 +690,10 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EvaluationSlackDuration != nil {
+		s.D.Set("evaluation_slack_duration", *s.Res.EvaluationSlackDuration)
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
@@ -665,6 +718,10 @@ func (s *MonitoringAlarmResourceCrud) SetData() error {
 
 	if s.Res.Namespace != nil {
 		s.D.Set("namespace", *s.Res.Namespace)
+	}
+
+	if s.Res.NotificationTitle != nil {
+		s.D.Set("notification_title", *s.Res.NotificationTitle)
 	}
 
 	if s.Res.NotificationVersion != nil {

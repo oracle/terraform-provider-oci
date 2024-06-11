@@ -45,6 +45,18 @@ type SightingImpactedResourceSummary struct {
 
 	// Problem ID for impacted resource
 	ProblemId *string `mandatory:"false" json:"problemId"`
+
+	// Time the activities were first detected.
+	TimeFirstDetected *common.SDKTime `mandatory:"false" json:"timeFirstDetected"`
+
+	// Time the activities were last detected. Same as timeIdentified.
+	TimeLastDetected *common.SDKTime `mandatory:"false" json:"timeLastDetected"`
+
+	// Time the activities were first performed.
+	TimeFirstOccurred *common.SDKTime `mandatory:"false" json:"timeFirstOccurred"`
+
+	// Time the activities were last performed.
+	TimeLastOccurred *common.SDKTime `mandatory:"false" json:"timeLastOccurred"`
 }
 
 func (m SightingImpactedResourceSummary) String() string {

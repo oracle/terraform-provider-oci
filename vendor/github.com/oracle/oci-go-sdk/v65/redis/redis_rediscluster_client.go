@@ -140,7 +140,7 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/WorkRequest/CancelWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +203,7 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisCluster/ChangeRedisClusterCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ChangeRedisClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -266,7 +266,7 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisCluster/CreateRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "CreateRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -324,7 +324,7 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisCluster/DeleteRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "DeleteRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -382,7 +382,7 @@ func (client RedisClusterClient) getRedisCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisCluster/GetRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -440,7 +440,7 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/WorkRequest/GetWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -498,7 +498,7 @@ func (client RedisClusterClient) listRedisClusters(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisClusterSummary/ListRedisClusters"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListRedisClusters", apiReferenceLink)
 		return response, err
 	}
@@ -556,7 +556,7 @@ func (client RedisClusterClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/WorkRequestError/ListWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -614,7 +614,7 @@ func (client RedisClusterClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/WorkRequestLogEntry/ListWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -672,7 +672,7 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/WorkRequest/ListWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -730,7 +730,7 @@ func (client RedisClusterClient) updateRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/redis/20220315/RedisCluster/UpdateRedisCluster"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "RedisCluster", "UpdateRedisCluster", apiReferenceLink)
 		return response, err
 	}

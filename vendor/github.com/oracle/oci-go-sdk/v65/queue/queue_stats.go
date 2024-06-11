@@ -21,7 +21,7 @@ type QueueStats struct {
 
 	Dlq *Stats `mandatory:"true" json:"dlq"`
 
-	// If channelId is presented in GetStats call, the channel id will be returned in the GetStats response.
+	// If channelId is present in GetStats call, the channel id will be returned in the GetStats response.
 	ChannelId *string `mandatory:"false" json:"channelId"`
 }
 
