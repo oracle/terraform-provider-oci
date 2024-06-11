@@ -189,6 +189,16 @@ type SmtpCredential struct {
 	//  - uniqueness: none
 	ExpiresOn *string `mandatory:"false" json:"expiresOn"`
 
+	// Password
+	// **SCIM++ Properties:**
+	//  - caseExact: true
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - idcsSensitive: hash_sc
+	Password *string `mandatory:"false" json:"password"`
+
 	User *SmtpCredentialUser `mandatory:"false" json:"user"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser *ExtensionSelfChangeUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:selfChange:User"`

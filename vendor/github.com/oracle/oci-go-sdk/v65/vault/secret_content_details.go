@@ -69,7 +69,7 @@ func (m *secretcontentdetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SecretContentDetails: %s.", m.ContentType)
+		common.Logf("Received unsupported enum value for SecretContentDetails: %s.", m.ContentType)
 		return *m, nil
 	}
 }

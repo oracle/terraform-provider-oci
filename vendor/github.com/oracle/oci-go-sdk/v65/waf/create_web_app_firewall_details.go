@@ -89,7 +89,7 @@ func (m *createwebappfirewalldetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateWebAppFirewallDetails: %s.", m.BackendType)
+		common.Logf("Received unsupported enum value for CreateWebAppFirewallDetails: %s.", m.BackendType)
 		return *m, nil
 	}
 }

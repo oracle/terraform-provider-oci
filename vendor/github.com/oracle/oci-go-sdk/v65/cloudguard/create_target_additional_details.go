@@ -56,7 +56,7 @@ func (m *createtargetadditionaldetails) UnmarshalPolymorphicJSON(data []byte) (i
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateTargetAdditionalDetails: %s.", m.TargetResourceType)
+		common.Logf("Received unsupported enum value for CreateTargetAdditionalDetails: %s.", m.TargetResourceType)
 		return *m, nil
 	}
 }

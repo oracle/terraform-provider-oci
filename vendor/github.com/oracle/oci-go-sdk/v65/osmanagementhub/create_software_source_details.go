@@ -93,7 +93,7 @@ func (m *createsoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateSoftwareSourceDetails: %s.", m.SoftwareSourceType)
+		common.Logf("Received unsupported enum value for CreateSoftwareSourceDetails: %s.", m.SoftwareSourceType)
 		return *m, nil
 	}
 }

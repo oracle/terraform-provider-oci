@@ -9521,6 +9521,59 @@ func (client VirtualNetworkClient) deleteInternalZprAttachment(ctx context.Conte
 	return response, err
 }
 
+// DeleteInternalZprPolicy Delete ZPR policy.
+func (client VirtualNetworkClient) DeleteInternalZprPolicy(ctx context.Context, request DeleteInternalZprPolicyRequest) (response DeleteInternalZprPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalZprPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalZprPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalZprPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalZprPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalZprPolicyResponse")
+	}
+	return
+}
+
+// deleteInternalZprPolicy implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalZprPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalZprPolicy/{internalZprPolicyId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteInternalZprPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DataSecurityListDetails/DeleteInternalZprPolicy"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalZprPolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteInternetGateway Deletes the specified internet gateway. The internet gateway does not have to be disabled, but
 // there must not be a route table that lists it as a target.
 // This is an asynchronous operation. The gateway's `lifecycleState` will change to TERMINATING temporarily
@@ -23309,7 +23362,7 @@ func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx conte
 	return response, err
 }
 
-// ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// ListVirtualCircuitBandwidthShapes The operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 // A default retry strategy applies to this operation ListVirtualCircuitBandwidthShapes()
 func (client VirtualNetworkClient) ListVirtualCircuitBandwidthShapes(ctx context.Context, request ListVirtualCircuitBandwidthShapesRequest) (response ListVirtualCircuitBandwidthShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -30237,6 +30290,64 @@ func (client VirtualNetworkClient) upgradeDrg(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpgradeDrg"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpgradeDrg", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpsertInternalZprPolicy Create or Update Zpr Policy
+func (client VirtualNetworkClient) UpsertInternalZprPolicy(ctx context.Context, request UpsertInternalZprPolicyRequest) (response UpsertInternalZprPolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.upsertInternalZprPolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpsertInternalZprPolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpsertInternalZprPolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpsertInternalZprPolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpsertInternalZprPolicyResponse")
+	}
+	return
+}
+
+// upsertInternalZprPolicy implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) upsertInternalZprPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalZprPolicy", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpsertInternalZprPolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpsertInternalZprPolicy", apiReferenceLink)
 		return response, err
 	}
 

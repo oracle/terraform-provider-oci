@@ -203,6 +203,7 @@ const (
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb    SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = "MDS-MYSQL"
 )
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
@@ -221,6 +222,7 @@ var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnum = map[string]Su
 	"COMANAGED-EXACS-CDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb,
+	"MDS-MYSQL":              SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql,
 }
 
 var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum{
@@ -239,6 +241,7 @@ var mappingSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumLowerCase = map[
 	"comanaged-exacs-cdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": SummarizeDatabaseInsightResourceUsageDatabaseTypeComanagedExacsNoncdb,
+	"mds-mysql":              SummarizeDatabaseInsightResourceUsageDatabaseTypeMdsMysql,
 }
 
 // GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageDatabaseTypeEnum
@@ -268,6 +271,7 @@ func GetSummarizeDatabaseInsightResourceUsageDatabaseTypeEnumStringValues() []st
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"MDS-MYSQL",
 	}
 }
 

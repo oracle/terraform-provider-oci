@@ -69,6 +69,15 @@ type Ipv6 struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	IpState Ipv6IpStateEnum `mandatory:"false" json:"ipState,omitempty"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime Ipv6LifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 }
@@ -86,6 +95,12 @@ func (m Ipv6) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetIpv6LifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingIpv6IpStateEnum(string(m.IpState)); !ok && m.IpState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpState: %s. Supported values are: %s.", m.IpState, strings.Join(GetIpv6IpStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingIpv6LifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetIpv6LifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -139,5 +154,89 @@ func GetIpv6LifecycleStateEnumStringValues() []string {
 // GetMappingIpv6LifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingIpv6LifecycleStateEnum(val string) (Ipv6LifecycleStateEnum, bool) {
 	enum, ok := mappingIpv6LifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// Ipv6IpStateEnum Enum with underlying type: string
+type Ipv6IpStateEnum string
+
+// Set of constants representing the allowable values for Ipv6IpStateEnum
+const (
+	Ipv6IpStateAssigned  Ipv6IpStateEnum = "ASSIGNED"
+	Ipv6IpStateAvailable Ipv6IpStateEnum = "AVAILABLE"
+)
+
+var mappingIpv6IpStateEnum = map[string]Ipv6IpStateEnum{
+	"ASSIGNED":  Ipv6IpStateAssigned,
+	"AVAILABLE": Ipv6IpStateAvailable,
+}
+
+var mappingIpv6IpStateEnumLowerCase = map[string]Ipv6IpStateEnum{
+	"assigned":  Ipv6IpStateAssigned,
+	"available": Ipv6IpStateAvailable,
+}
+
+// GetIpv6IpStateEnumValues Enumerates the set of values for Ipv6IpStateEnum
+func GetIpv6IpStateEnumValues() []Ipv6IpStateEnum {
+	values := make([]Ipv6IpStateEnum, 0)
+	for _, v := range mappingIpv6IpStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIpv6IpStateEnumStringValues Enumerates the set of values in String for Ipv6IpStateEnum
+func GetIpv6IpStateEnumStringValues() []string {
+	return []string{
+		"ASSIGNED",
+		"AVAILABLE",
+	}
+}
+
+// GetMappingIpv6IpStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIpv6IpStateEnum(val string) (Ipv6IpStateEnum, bool) {
+	enum, ok := mappingIpv6IpStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// Ipv6LifetimeEnum Enum with underlying type: string
+type Ipv6LifetimeEnum string
+
+// Set of constants representing the allowable values for Ipv6LifetimeEnum
+const (
+	Ipv6LifetimeEphemeral Ipv6LifetimeEnum = "EPHEMERAL"
+	Ipv6LifetimeReserved  Ipv6LifetimeEnum = "RESERVED"
+)
+
+var mappingIpv6LifetimeEnum = map[string]Ipv6LifetimeEnum{
+	"EPHEMERAL": Ipv6LifetimeEphemeral,
+	"RESERVED":  Ipv6LifetimeReserved,
+}
+
+var mappingIpv6LifetimeEnumLowerCase = map[string]Ipv6LifetimeEnum{
+	"ephemeral": Ipv6LifetimeEphemeral,
+	"reserved":  Ipv6LifetimeReserved,
+}
+
+// GetIpv6LifetimeEnumValues Enumerates the set of values for Ipv6LifetimeEnum
+func GetIpv6LifetimeEnumValues() []Ipv6LifetimeEnum {
+	values := make([]Ipv6LifetimeEnum, 0)
+	for _, v := range mappingIpv6LifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIpv6LifetimeEnumStringValues Enumerates the set of values in String for Ipv6LifetimeEnum
+func GetIpv6LifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingIpv6LifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIpv6LifetimeEnum(val string) (Ipv6LifetimeEnum, bool) {
+	enum, ok := mappingIpv6LifetimeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

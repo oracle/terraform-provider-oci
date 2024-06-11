@@ -64,7 +64,7 @@ func (m *createorupdategitrefdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateOrUpdateGitRefDetails: %s.", m.RefType)
+		common.Logf("Received unsupported enum value for CreateOrUpdateGitRefDetails: %s.", m.RefType)
 		return *m, nil
 	}
 }

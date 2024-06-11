@@ -98,8 +98,8 @@ func (client *ObjectStorageClient) ConfigurationProvider() *common.Configuration
 
 // EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
 // Default value is false
-func (client *ObjectStorageClient) EnableDualStackEndpoints(useDualStack bool) {
-	client.BaseClient.EnableDualStackEndpoints(useDualStack)
+func (client *ObjectStorageClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template

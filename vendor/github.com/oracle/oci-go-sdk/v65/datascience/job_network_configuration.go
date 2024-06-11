@@ -59,7 +59,7 @@ func (m *jobnetworkconfiguration) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for JobNetworkConfiguration: %s.", m.JobNetworkType)
+		common.Logf("Received unsupported enum value for JobNetworkConfiguration: %s.", m.JobNetworkType)
 		return *m, nil
 	}
 }

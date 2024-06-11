@@ -58,7 +58,7 @@ func (m *suppressioncondition) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SuppressionCondition: %s.", m.ConditionType)
+		common.Logf("Received unsupported enum value for SuppressionCondition: %s.", m.ConditionType)
 		return *m, nil
 	}
 }

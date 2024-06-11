@@ -197,6 +197,7 @@ const (
 	ListDatabaseConfigurationsDatabaseTypeComanagedExacsCdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	ListDatabaseConfigurationsDatabaseTypeComanagedExacsPdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	ListDatabaseConfigurationsDatabaseTypeComanagedExacsNoncdb ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	ListDatabaseConfigurationsDatabaseTypeMdsMysql             ListDatabaseConfigurationsDatabaseTypeEnum = "MDS-MYSQL"
 )
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -215,6 +216,7 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseC
 	"COMANAGED-EXACS-CDB":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": ListDatabaseConfigurationsDatabaseTypeComanagedExacsNoncdb,
+	"MDS-MYSQL":              ListDatabaseConfigurationsDatabaseTypeMdsMysql,
 }
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -233,6 +235,7 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]List
 	"comanaged-exacs-cdb":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    ListDatabaseConfigurationsDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": ListDatabaseConfigurationsDatabaseTypeComanagedExacsNoncdb,
+	"mds-mysql":              ListDatabaseConfigurationsDatabaseTypeMdsMysql,
 }
 
 // GetListDatabaseConfigurationsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseConfigurationsDatabaseTypeEnum
@@ -262,6 +265,7 @@ func GetListDatabaseConfigurationsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"MDS-MYSQL",
 	}
 }
 

@@ -29,8 +29,8 @@ type QuotaRuleSummary struct {
 	// identify a user or group to manage access control.
 	PrincipalId *int `mandatory:"true" json:"principalId"`
 
-	// The usage value corresponds to this principal. The unit is Gigabyte.
-	UsageInGigabytes *int `mandatory:"true" json:"usageInGigabytes"`
+	// The usage value corresponds to this principal. The unit is Byte.
+	UsageInBytes *int64 `mandatory:"true" json:"usageInBytes"`
 
 	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.
 	Id *string `mandatory:"false" json:"id"`

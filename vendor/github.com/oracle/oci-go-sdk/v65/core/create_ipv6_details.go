@@ -24,10 +24,6 @@ import (
 // CreateIpv6Details The representation of CreateIpv6Details
 type CreateIpv6Details struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
-	// IPv6 will be in the VNIC's subnet.
-	VnicId *string `mandatory:"true" json:"vnicId"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -49,6 +45,16 @@ type CreateIpv6Details struct {
 	// Example: `2001:DB8::`
 	IpAddress *string `mandatory:"false" json:"ipAddress"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to assign the IPv6 to. The
+	// IPv6 will be in the VNIC's subnet.
+	VnicId *string `mandatory:"false" json:"vnicId"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime CreateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
 	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 
@@ -66,8 +72,53 @@ func (m CreateIpv6Details) String() string {
 func (m CreateIpv6Details) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateIpv6DetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetCreateIpv6DetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateIpv6DetailsLifetimeEnum Enum with underlying type: string
+type CreateIpv6DetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for CreateIpv6DetailsLifetimeEnum
+const (
+	CreateIpv6DetailsLifetimeEphemeral CreateIpv6DetailsLifetimeEnum = "EPHEMERAL"
+	CreateIpv6DetailsLifetimeReserved  CreateIpv6DetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingCreateIpv6DetailsLifetimeEnum = map[string]CreateIpv6DetailsLifetimeEnum{
+	"EPHEMERAL": CreateIpv6DetailsLifetimeEphemeral,
+	"RESERVED":  CreateIpv6DetailsLifetimeReserved,
+}
+
+var mappingCreateIpv6DetailsLifetimeEnumLowerCase = map[string]CreateIpv6DetailsLifetimeEnum{
+	"ephemeral": CreateIpv6DetailsLifetimeEphemeral,
+	"reserved":  CreateIpv6DetailsLifetimeReserved,
+}
+
+// GetCreateIpv6DetailsLifetimeEnumValues Enumerates the set of values for CreateIpv6DetailsLifetimeEnum
+func GetCreateIpv6DetailsLifetimeEnumValues() []CreateIpv6DetailsLifetimeEnum {
+	values := make([]CreateIpv6DetailsLifetimeEnum, 0)
+	for _, v := range mappingCreateIpv6DetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateIpv6DetailsLifetimeEnumStringValues Enumerates the set of values in String for CreateIpv6DetailsLifetimeEnum
+func GetCreateIpv6DetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingCreateIpv6DetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateIpv6DetailsLifetimeEnum(val string) (CreateIpv6DetailsLifetimeEnum, bool) {
+	enum, ok := mappingCreateIpv6DetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

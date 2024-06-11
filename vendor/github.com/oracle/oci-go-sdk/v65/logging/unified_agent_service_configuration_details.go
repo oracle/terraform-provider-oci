@@ -61,7 +61,7 @@ func (m *unifiedagentserviceconfigurationdetails) UnmarshalPolymorphicJSON(data 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UnifiedAgentServiceConfigurationDetails: %s.", m.ConfigurationType)
+		common.Logf("Received unsupported enum value for UnifiedAgentServiceConfigurationDetails: %s.", m.ConfigurationType)
 		return *m, nil
 	}
 }

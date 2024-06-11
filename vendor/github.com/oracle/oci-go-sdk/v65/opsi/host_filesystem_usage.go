@@ -31,6 +31,8 @@ type HostFilesystemUsage struct {
 	FileSystemUsageInGB *float64 `mandatory:"false" json:"fileSystemUsageInGB"`
 
 	FileSystemAvailInPercent *float64 `mandatory:"false" json:"fileSystemAvailInPercent"`
+
+	FileSystemAvailInGBs *float64 `mandatory:"false" json:"fileSystemAvailInGBs"`
 }
 
 // GetTimeCollected returns TimeCollected

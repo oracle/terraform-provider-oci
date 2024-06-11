@@ -14,7 +14,7 @@ import (
 // ListInternalByoipv6RangeAllocationsRequest wrapper for the ListInternalByoipv6RangeAllocations operation
 type ListInternalByoipv6RangeAllocationsRequest struct {
 
-	// The InternalByoipv6Range's OCID.
+	// The InternalByoipv6Range's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	Byoipv6RangeId *string `mandatory:"true" contributesTo:"query" name:"byoipv6RangeId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

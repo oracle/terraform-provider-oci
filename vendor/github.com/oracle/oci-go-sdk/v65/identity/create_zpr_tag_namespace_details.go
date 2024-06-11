@@ -15,16 +15,16 @@ import (
 	"strings"
 )
 
-// CreateZprTagNamespaceDetails The representation of CreateZprTagNamespaceDetails
+// CreateZprTagNamespaceDetails Details of the ZPR tag namespace to be created for a specific compartment.
 type CreateZprTagNamespaceDetails struct {
 
-	// The OCID of the tenancy containing the zpr tag namespace.
+	// The OCID of the tenancy containing the ZPR tag namespace.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name you assign to the zpr tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
+	// The name you assign to the ZPR tag namespace during creation. It must be unique across all tag namespaces in the tenancy and cannot be changed.
 	Name *string `mandatory:"true" json:"name"`
 
-	// The description you assign to the zpr tag namespace during creation.
+	// The description you assign to the ZPR tag namespace during creation.
 	Description *string `mandatory:"true" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -36,11 +36,6 @@ type CreateZprTagNamespaceDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
 }
 
 func (m CreateZprTagNamespaceDetails) String() string {

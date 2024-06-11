@@ -57,7 +57,7 @@ func (m *namedcredentialcontent) UnmarshalPolymorphicJSON(data []byte) (interfac
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for NamedCredentialContent: %s.", m.CredentialType)
+		common.Logf("Received unsupported enum value for NamedCredentialContent: %s.", m.CredentialType)
 		return *m, nil
 	}
 }

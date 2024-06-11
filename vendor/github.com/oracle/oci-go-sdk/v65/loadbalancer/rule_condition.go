@@ -72,7 +72,7 @@ func (m *rulecondition) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for RuleCondition: %s.", m.AttributeName)
+		common.Logf("Received unsupported enum value for RuleCondition: %s.", m.AttributeName)
 		return *m, nil
 	}
 }

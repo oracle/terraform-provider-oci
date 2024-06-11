@@ -30,6 +30,12 @@ type UpdateInternalPrivateIpDetails struct {
 	// HostName for the Floating Private IP. Only the hostname label, not the FQDN.
 	HostNameLabel *string `mandatory:"false" json:"hostNameLabel"`
 
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime UpdateInternalPrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
 	// Auto-delete floating private IP when VNIC is deleted (will auto-detach regardless of this setting)
 	DeleteOnVnicDelete *bool `mandatory:"false" json:"deleteOnVnicDelete"`
 }
@@ -44,8 +50,53 @@ func (m UpdateInternalPrivateIpDetails) String() string {
 func (m UpdateInternalPrivateIpDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateInternalPrivateIpDetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetUpdateInternalPrivateIpDetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateInternalPrivateIpDetailsLifetimeEnum Enum with underlying type: string
+type UpdateInternalPrivateIpDetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for UpdateInternalPrivateIpDetailsLifetimeEnum
+const (
+	UpdateInternalPrivateIpDetailsLifetimeEphemeral UpdateInternalPrivateIpDetailsLifetimeEnum = "EPHEMERAL"
+	UpdateInternalPrivateIpDetailsLifetimeReserved  UpdateInternalPrivateIpDetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingUpdateInternalPrivateIpDetailsLifetimeEnum = map[string]UpdateInternalPrivateIpDetailsLifetimeEnum{
+	"EPHEMERAL": UpdateInternalPrivateIpDetailsLifetimeEphemeral,
+	"RESERVED":  UpdateInternalPrivateIpDetailsLifetimeReserved,
+}
+
+var mappingUpdateInternalPrivateIpDetailsLifetimeEnumLowerCase = map[string]UpdateInternalPrivateIpDetailsLifetimeEnum{
+	"ephemeral": UpdateInternalPrivateIpDetailsLifetimeEphemeral,
+	"reserved":  UpdateInternalPrivateIpDetailsLifetimeReserved,
+}
+
+// GetUpdateInternalPrivateIpDetailsLifetimeEnumValues Enumerates the set of values for UpdateInternalPrivateIpDetailsLifetimeEnum
+func GetUpdateInternalPrivateIpDetailsLifetimeEnumValues() []UpdateInternalPrivateIpDetailsLifetimeEnum {
+	values := make([]UpdateInternalPrivateIpDetailsLifetimeEnum, 0)
+	for _, v := range mappingUpdateInternalPrivateIpDetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInternalPrivateIpDetailsLifetimeEnumStringValues Enumerates the set of values in String for UpdateInternalPrivateIpDetailsLifetimeEnum
+func GetUpdateInternalPrivateIpDetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingUpdateInternalPrivateIpDetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateInternalPrivateIpDetailsLifetimeEnum(val string) (UpdateInternalPrivateIpDetailsLifetimeEnum, bool) {
+	enum, ok := mappingUpdateInternalPrivateIpDetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

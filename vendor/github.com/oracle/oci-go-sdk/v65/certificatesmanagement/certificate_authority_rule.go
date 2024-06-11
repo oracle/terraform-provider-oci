@@ -55,7 +55,7 @@ func (m *certificateauthorityrule) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CertificateAuthorityRule: %s.", m.RuleType)
+		common.Logf("Received unsupported enum value for CertificateAuthorityRule: %s.", m.RuleType)
 		return *m, nil
 	}
 }

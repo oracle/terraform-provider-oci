@@ -91,7 +91,7 @@ func (m *createinstanceconfigurationbase) UnmarshalPolymorphicJSON(data []byte) 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateInstanceConfigurationBase: %s.", m.Source)
+		common.Logf("Received unsupported enum value for CreateInstanceConfigurationBase: %s.", m.Source)
 		return *m, nil
 	}
 }

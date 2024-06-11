@@ -107,7 +107,7 @@ func (m *createcontainerhealthcheckdetails) UnmarshalPolymorphicJSON(data []byte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateContainerHealthCheckDetails: %s.", m.HealthCheckType)
+		common.Logf("Received unsupported enum value for CreateContainerHealthCheckDetails: %s.", m.HealthCheckType)
 		return *m, nil
 	}
 }

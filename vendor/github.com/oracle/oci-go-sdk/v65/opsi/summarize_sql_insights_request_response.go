@@ -194,6 +194,7 @@ const (
 	SummarizeSqlInsightsDatabaseTypeComanagedExacsCdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	SummarizeSqlInsightsDatabaseTypeComanagedExacsPdb    SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	SummarizeSqlInsightsDatabaseTypeComanagedExacsNoncdb SummarizeSqlInsightsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	SummarizeSqlInsightsDatabaseTypeMdsMysql             SummarizeSqlInsightsDatabaseTypeEnum = "MDS-MYSQL"
 )
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -212,6 +213,7 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnum = map[string]SummarizeSqlInsight
 	"COMANAGED-EXACS-CDB":    SummarizeSqlInsightsDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    SummarizeSqlInsightsDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": SummarizeSqlInsightsDatabaseTypeComanagedExacsNoncdb,
+	"MDS-MYSQL":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
 }
 
 var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlInsightsDatabaseTypeEnum{
@@ -230,6 +232,7 @@ var mappingSummarizeSqlInsightsDatabaseTypeEnumLowerCase = map[string]SummarizeS
 	"comanaged-exacs-cdb":    SummarizeSqlInsightsDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    SummarizeSqlInsightsDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": SummarizeSqlInsightsDatabaseTypeComanagedExacsNoncdb,
+	"mds-mysql":              SummarizeSqlInsightsDatabaseTypeMdsMysql,
 }
 
 // GetSummarizeSqlInsightsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlInsightsDatabaseTypeEnum
@@ -259,6 +262,7 @@ func GetSummarizeSqlInsightsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"MDS-MYSQL",
 	}
 }
 

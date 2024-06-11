@@ -55,7 +55,7 @@ func (m *jobnodeconfigurationdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for JobNodeConfigurationDetails: %s.", m.JobNodeType)
+		common.Logf("Received unsupported enum value for JobNodeConfigurationDetails: %s.", m.JobNodeType)
 		return *m, nil
 	}
 }

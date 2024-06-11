@@ -55,7 +55,7 @@ func (m *tlsverifyconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TlsVerifyConfig: %s.", m.TlsVerifyMode)
+		common.Logf("Received unsupported enum value for TlsVerifyConfig: %s.", m.TlsVerifyMode)
 		return *m, nil
 	}
 }

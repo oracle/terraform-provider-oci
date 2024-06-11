@@ -122,16 +122,8 @@ type CreateKafkaConnectionDetails struct {
 	// The base64 encoded content of the consumer.properties file.
 	ConsumerProperties *string `mandatory:"false" json:"consumerProperties"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the consumer.properties file is stored.
-	// Note: When provided, 'consumerProperties' field must not be provided.
-	ConsumerPropertiesSecretId *string `mandatory:"false" json:"consumerPropertiesSecretId"`
-
 	// The base64 encoded content of the producer.properties file.
 	ProducerProperties *string `mandatory:"false" json:"producerProperties"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the producer.properties file is stored.
-	// Note: When provided, 'producerProperties' field must not be provided.
-	ProducerPropertiesSecretId *string `mandatory:"false" json:"producerPropertiesSecretId"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.

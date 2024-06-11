@@ -72,7 +72,7 @@ func (m *tokenauthenticationvalidationpolicy) UnmarshalPolymorphicJSON(data []by
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TokenAuthenticationValidationPolicy: %s.", m.Type)
+		common.Logf("Received unsupported enum value for TokenAuthenticationValidationPolicy: %s.", m.Type)
 		return *m, nil
 	}
 }

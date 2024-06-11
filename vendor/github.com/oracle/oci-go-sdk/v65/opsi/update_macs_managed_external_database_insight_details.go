@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdateMacsManagedExternalDatabaseInsightDetails The information to be updated.
+// UpdateMacsManagedExternalDatabaseInsightDetails The freeformTags and definedTags to be updated.
 type UpdateMacsManagedExternalDatabaseInsightDetails struct {
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

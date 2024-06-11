@@ -67,7 +67,7 @@ func (m *opsidataobjectdetailsinquery) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for OpsiDataObjectDetailsInQuery: %s.", m.DataObjectDetailsTarget)
+		common.Logf("Received unsupported enum value for OpsiDataObjectDetailsInQuery: %s.", m.DataObjectDetailsTarget)
 		return *m, nil
 	}
 }

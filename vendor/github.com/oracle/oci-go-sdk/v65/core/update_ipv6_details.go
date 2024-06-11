@@ -44,6 +44,12 @@ type UpdateIpv6Details struct {
 
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime UpdateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 }
 
 func (m UpdateIpv6Details) String() string {
@@ -56,8 +62,53 @@ func (m UpdateIpv6Details) String() string {
 func (m UpdateIpv6Details) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateIpv6DetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetUpdateIpv6DetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateIpv6DetailsLifetimeEnum Enum with underlying type: string
+type UpdateIpv6DetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for UpdateIpv6DetailsLifetimeEnum
+const (
+	UpdateIpv6DetailsLifetimeEphemeral UpdateIpv6DetailsLifetimeEnum = "EPHEMERAL"
+	UpdateIpv6DetailsLifetimeReserved  UpdateIpv6DetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingUpdateIpv6DetailsLifetimeEnum = map[string]UpdateIpv6DetailsLifetimeEnum{
+	"EPHEMERAL": UpdateIpv6DetailsLifetimeEphemeral,
+	"RESERVED":  UpdateIpv6DetailsLifetimeReserved,
+}
+
+var mappingUpdateIpv6DetailsLifetimeEnumLowerCase = map[string]UpdateIpv6DetailsLifetimeEnum{
+	"ephemeral": UpdateIpv6DetailsLifetimeEphemeral,
+	"reserved":  UpdateIpv6DetailsLifetimeReserved,
+}
+
+// GetUpdateIpv6DetailsLifetimeEnumValues Enumerates the set of values for UpdateIpv6DetailsLifetimeEnum
+func GetUpdateIpv6DetailsLifetimeEnumValues() []UpdateIpv6DetailsLifetimeEnum {
+	values := make([]UpdateIpv6DetailsLifetimeEnum, 0)
+	for _, v := range mappingUpdateIpv6DetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateIpv6DetailsLifetimeEnumStringValues Enumerates the set of values in String for UpdateIpv6DetailsLifetimeEnum
+func GetUpdateIpv6DetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingUpdateIpv6DetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateIpv6DetailsLifetimeEnum(val string) (UpdateIpv6DetailsLifetimeEnum, bool) {
+	enum, ok := mappingUpdateIpv6DetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

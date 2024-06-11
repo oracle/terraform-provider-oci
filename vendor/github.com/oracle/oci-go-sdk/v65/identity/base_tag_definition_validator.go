@@ -67,7 +67,7 @@ func (m *basetagdefinitionvalidator) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BaseTagDefinitionValidator: %s.", m.ValidatorType)
+		common.Logf("Received unsupported enum value for BaseTagDefinitionValidator: %s.", m.ValidatorType)
 		return *m, nil
 	}
 }

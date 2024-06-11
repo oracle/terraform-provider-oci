@@ -81,7 +81,7 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for InstanceComponent: %s.", m.Type)
+		common.Logf("Received unsupported enum value for InstanceComponent: %s.", m.Type)
 		return *m, nil
 	}
 }
@@ -117,24 +117,27 @@ type InstanceComponentTypeEnum string
 
 // Set of constants representing the allowable values for InstanceComponentTypeEnum
 const (
-	InstanceComponentTypeDataScienceModelDeployment InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
-	InstanceComponentTypeObjectStorageBucket        InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
-	InstanceComponentTypeObjectStorageObject        InstanceComponentTypeEnum = "OBJECT_STORAGE_OBJECT"
-	InstanceComponentTypeGenericOciResource         InstanceComponentTypeEnum = "GENERIC_OCI_RESOURCE"
+	InstanceComponentTypeDataScienceModelDeployment           InstanceComponentTypeEnum = "DATA_SCIENCE_MODEL_DEPLOYMENT"
+	InstanceComponentTypeObjectStorageBucket                  InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
+	InstanceComponentTypeObjectStorageObject                  InstanceComponentTypeEnum = "OBJECT_STORAGE_OBJECT"
+	InstanceComponentTypeMlApplicationInstanceInternalTrigger InstanceComponentTypeEnum = "ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER"
+	InstanceComponentTypeGenericOciResource                   InstanceComponentTypeEnum = "GENERIC_OCI_RESOURCE"
 )
 
 var mappingInstanceComponentTypeEnum = map[string]InstanceComponentTypeEnum{
-	"DATA_SCIENCE_MODEL_DEPLOYMENT": InstanceComponentTypeDataScienceModelDeployment,
-	"OBJECT_STORAGE_BUCKET":         InstanceComponentTypeObjectStorageBucket,
-	"OBJECT_STORAGE_OBJECT":         InstanceComponentTypeObjectStorageObject,
-	"GENERIC_OCI_RESOURCE":          InstanceComponentTypeGenericOciResource,
+	"DATA_SCIENCE_MODEL_DEPLOYMENT":            InstanceComponentTypeDataScienceModelDeployment,
+	"OBJECT_STORAGE_BUCKET":                    InstanceComponentTypeObjectStorageBucket,
+	"OBJECT_STORAGE_OBJECT":                    InstanceComponentTypeObjectStorageObject,
+	"ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER": InstanceComponentTypeMlApplicationInstanceInternalTrigger,
+	"GENERIC_OCI_RESOURCE":                     InstanceComponentTypeGenericOciResource,
 }
 
 var mappingInstanceComponentTypeEnumLowerCase = map[string]InstanceComponentTypeEnum{
-	"data_science_model_deployment": InstanceComponentTypeDataScienceModelDeployment,
-	"object_storage_bucket":         InstanceComponentTypeObjectStorageBucket,
-	"object_storage_object":         InstanceComponentTypeObjectStorageObject,
-	"generic_oci_resource":          InstanceComponentTypeGenericOciResource,
+	"data_science_model_deployment":            InstanceComponentTypeDataScienceModelDeployment,
+	"object_storage_bucket":                    InstanceComponentTypeObjectStorageBucket,
+	"object_storage_object":                    InstanceComponentTypeObjectStorageObject,
+	"ml_application_instance_internal_trigger": InstanceComponentTypeMlApplicationInstanceInternalTrigger,
+	"generic_oci_resource":                     InstanceComponentTypeGenericOciResource,
 }
 
 // GetInstanceComponentTypeEnumValues Enumerates the set of values for InstanceComponentTypeEnum
@@ -152,6 +155,7 @@ func GetInstanceComponentTypeEnumStringValues() []string {
 		"DATA_SCIENCE_MODEL_DEPLOYMENT",
 		"OBJECT_STORAGE_BUCKET",
 		"OBJECT_STORAGE_OBJECT",
+		"ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER",
 		"GENERIC_OCI_RESOURCE",
 	}
 }

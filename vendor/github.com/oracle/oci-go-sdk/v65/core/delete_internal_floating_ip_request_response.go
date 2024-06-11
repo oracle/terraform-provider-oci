@@ -14,7 +14,7 @@ import (
 // DeleteInternalFloatingIpRequest wrapper for the DeleteInternalFloatingIp operation
 type DeleteInternalFloatingIpRequest struct {
 
-	// The floating IP's OCID.
+	// The floating IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalFloatingIpId *string `mandatory:"true" contributesTo:"path" name:"internalFloatingIpId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

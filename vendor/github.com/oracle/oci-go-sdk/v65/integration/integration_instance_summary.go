@@ -51,6 +51,9 @@ type IntegrationInstanceSummary struct {
 	// The current state of the Integration Instance.
 	LifecycleState IntegrationInstanceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Additional details of lifecycleState or substates
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 
@@ -133,6 +136,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated                       *common.SDKTime                                       `json:"timeCreated"`
 		TimeUpdated                       *common.SDKTime                                       `json:"timeUpdated"`
 		LifecycleState                    IntegrationInstanceSummaryLifecycleStateEnum          `json:"lifecycleState"`
+		LifecycleDetails                  *string                                               `json:"lifecycleDetails"`
 		StateMessage                      *string                                               `json:"stateMessage"`
 		IsFileServerEnabled               *bool                                                 `json:"isFileServerEnabled"`
 		IsVisualBuilderEnabled            *bool                                                 `json:"isVisualBuilderEnabled"`
@@ -166,6 +170,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.StateMessage = model.StateMessage
 
@@ -294,7 +300,6 @@ const (
 	IntegrationInstanceSummaryLifecycleStateDeleting IntegrationInstanceSummaryLifecycleStateEnum = "DELETING"
 	IntegrationInstanceSummaryLifecycleStateDeleted  IntegrationInstanceSummaryLifecycleStateEnum = "DELETED"
 	IntegrationInstanceSummaryLifecycleStateFailed   IntegrationInstanceSummaryLifecycleStateEnum = "FAILED"
-	IntegrationInstanceSummaryLifecycleStateStandby  IntegrationInstanceSummaryLifecycleStateEnum = "STANDBY"
 )
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -305,7 +310,6 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]Integration
 	"DELETING": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"DELETED":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"FAILED":   IntegrationInstanceSummaryLifecycleStateFailed,
-	"STANDBY":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -316,7 +320,6 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]In
 	"deleting": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"deleted":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"failed":   IntegrationInstanceSummaryLifecycleStateFailed,
-	"standby":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 // GetIntegrationInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for IntegrationInstanceSummaryLifecycleStateEnum
@@ -338,7 +341,6 @@ func GetIntegrationInstanceSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"STANDBY",
 	}
 }
 

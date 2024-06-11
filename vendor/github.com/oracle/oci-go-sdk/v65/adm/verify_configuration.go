@@ -73,7 +73,7 @@ func (m *verifyconfiguration) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for VerifyConfiguration: %s.", m.BuildServiceType)
+		common.Logf("Received unsupported enum value for VerifyConfiguration: %s.", m.BuildServiceType)
 		return *m, nil
 	}
 }

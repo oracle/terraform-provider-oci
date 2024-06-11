@@ -58,7 +58,7 @@ func (m *logpipelineinput) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for LogPipelineInput: %s.", m.InputType)
+		common.Logf("Received unsupported enum value for LogPipelineInput: %s.", m.InputType)
 		return *m, nil
 	}
 }

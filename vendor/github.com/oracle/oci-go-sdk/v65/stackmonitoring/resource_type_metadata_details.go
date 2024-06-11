@@ -55,7 +55,7 @@ func (m *resourcetypemetadatadetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ResourceTypeMetadataDetails: %s.", m.Format)
+		common.Logf("Received unsupported enum value for ResourceTypeMetadataDetails: %s.", m.Format)
 		return *m, nil
 	}
 }

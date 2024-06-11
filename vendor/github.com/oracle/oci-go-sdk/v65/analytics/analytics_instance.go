@@ -70,13 +70,23 @@ type AnalyticsInstance struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
+	// System tags for this resource. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// OCID of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
 	// The date and time the instance was last updated (in the format defined by RFC3339).
 	// This timestamp represents updates made through this API. External events do not
 	// influence it.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// The feature set of an Analytics instance.
+	FeatureBundle FeatureBundleEnum `mandatory:"false" json:"featureBundle,omitempty"`
+
+	// Identity domain OCID.
+	DomainId *string `mandatory:"false" json:"domainId"`
 }
 
 func (m AnalyticsInstance) String() string {
@@ -98,6 +108,9 @@ func (m AnalyticsInstance) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLicenseTypeEnum(string(m.LicenseType)); !ok && m.LicenseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingFeatureBundleEnum(string(m.FeatureBundle)); !ok && m.FeatureBundle != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureBundle: %s. Supported values are: %s.", m.FeatureBundle, strings.Join(GetFeatureBundleEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -115,8 +128,11 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 		ServiceUrl             *string                             `json:"serviceUrl"`
 		DefinedTags            map[string]map[string]interface{}   `json:"definedTags"`
 		FreeformTags           map[string]string                   `json:"freeformTags"`
+		SystemTags             map[string]map[string]interface{}   `json:"systemTags"`
 		KmsKeyId               *string                             `json:"kmsKeyId"`
 		TimeUpdated            *common.SDKTime                     `json:"timeUpdated"`
+		FeatureBundle          FeatureBundleEnum                   `json:"featureBundle"`
+		DomainId               *string                             `json:"domainId"`
 		Id                     *string                             `json:"id"`
 		Name                   *string                             `json:"name"`
 		CompartmentId          *string                             `json:"compartmentId"`
@@ -148,9 +164,15 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 
 	m.FreeformTags = model.FreeformTags
 
+	m.SystemTags = model.SystemTags
+
 	m.KmsKeyId = model.KmsKeyId
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.FeatureBundle = model.FeatureBundle
+
+	m.DomainId = model.DomainId
 
 	m.Id = model.Id
 

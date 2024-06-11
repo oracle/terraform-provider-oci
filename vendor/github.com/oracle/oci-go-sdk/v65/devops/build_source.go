@@ -94,7 +94,7 @@ func (m *buildsource) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for BuildSource: %s.", m.ConnectionType)
+		common.Logf("Received unsupported enum value for BuildSource: %s.", m.ConnectionType)
 		return *m, nil
 	}
 }

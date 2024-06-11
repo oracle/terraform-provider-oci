@@ -59,7 +59,7 @@ func (m *circuitbreakingthresholdconfiguration) UnmarshalPolymorphicJSON(data []
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CircuitBreakingThresholdConfiguration: %s.", m.Protocol)
+		common.Logf("Received unsupported enum value for CircuitBreakingThresholdConfiguration: %s.", m.Protocol)
 		return *m, nil
 	}
 }

@@ -51,9 +51,6 @@ type InternalIpv6 struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// The OCID of the VNIC the IPv6 is assigned to. The VNIC and IPv6 must be in the same subnet.
-	VnicId *string `mandatory:"true" json:"vnicId"`
-
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
@@ -80,6 +77,18 @@ type InternalIpv6 struct {
 	// is drawn from the subnet public IPv6 prefix by translating the IPv6 address prefix to the public IPv6 prefix.
 	// If `publicIpAddress` is not available, internet access is not permitted for this particular IPv6.
 	PublicIpAddress *string `mandatory:"false" json:"publicIpAddress"`
+
+	// The OCID of the VNIC the IPv6 is assigned to. The VNIC and IPv6 must be in the same subnet.
+	VnicId *string `mandatory:"false" json:"vnicId"`
+
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	IpState InternalIpv6IpStateEnum `mandatory:"false" json:"ipState,omitempty"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime InternalIpv6LifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 }
 
 func (m InternalIpv6) String() string {
@@ -95,6 +104,12 @@ func (m InternalIpv6) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInternalIpv6LifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingInternalIpv6IpStateEnum(string(m.IpState)); !ok && m.IpState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpState: %s. Supported values are: %s.", m.IpState, strings.Join(GetInternalIpv6IpStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingInternalIpv6LifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetInternalIpv6LifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -148,5 +163,89 @@ func GetInternalIpv6LifecycleStateEnumStringValues() []string {
 // GetMappingInternalIpv6LifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingInternalIpv6LifecycleStateEnum(val string) (InternalIpv6LifecycleStateEnum, bool) {
 	enum, ok := mappingInternalIpv6LifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InternalIpv6IpStateEnum Enum with underlying type: string
+type InternalIpv6IpStateEnum string
+
+// Set of constants representing the allowable values for InternalIpv6IpStateEnum
+const (
+	InternalIpv6IpStateAssigned  InternalIpv6IpStateEnum = "ASSIGNED"
+	InternalIpv6IpStateAvailable InternalIpv6IpStateEnum = "AVAILABLE"
+)
+
+var mappingInternalIpv6IpStateEnum = map[string]InternalIpv6IpStateEnum{
+	"ASSIGNED":  InternalIpv6IpStateAssigned,
+	"AVAILABLE": InternalIpv6IpStateAvailable,
+}
+
+var mappingInternalIpv6IpStateEnumLowerCase = map[string]InternalIpv6IpStateEnum{
+	"assigned":  InternalIpv6IpStateAssigned,
+	"available": InternalIpv6IpStateAvailable,
+}
+
+// GetInternalIpv6IpStateEnumValues Enumerates the set of values for InternalIpv6IpStateEnum
+func GetInternalIpv6IpStateEnumValues() []InternalIpv6IpStateEnum {
+	values := make([]InternalIpv6IpStateEnum, 0)
+	for _, v := range mappingInternalIpv6IpStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInternalIpv6IpStateEnumStringValues Enumerates the set of values in String for InternalIpv6IpStateEnum
+func GetInternalIpv6IpStateEnumStringValues() []string {
+	return []string{
+		"ASSIGNED",
+		"AVAILABLE",
+	}
+}
+
+// GetMappingInternalIpv6IpStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInternalIpv6IpStateEnum(val string) (InternalIpv6IpStateEnum, bool) {
+	enum, ok := mappingInternalIpv6IpStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// InternalIpv6LifetimeEnum Enum with underlying type: string
+type InternalIpv6LifetimeEnum string
+
+// Set of constants representing the allowable values for InternalIpv6LifetimeEnum
+const (
+	InternalIpv6LifetimeEphemeral InternalIpv6LifetimeEnum = "EPHEMERAL"
+	InternalIpv6LifetimeReserved  InternalIpv6LifetimeEnum = "RESERVED"
+)
+
+var mappingInternalIpv6LifetimeEnum = map[string]InternalIpv6LifetimeEnum{
+	"EPHEMERAL": InternalIpv6LifetimeEphemeral,
+	"RESERVED":  InternalIpv6LifetimeReserved,
+}
+
+var mappingInternalIpv6LifetimeEnumLowerCase = map[string]InternalIpv6LifetimeEnum{
+	"ephemeral": InternalIpv6LifetimeEphemeral,
+	"reserved":  InternalIpv6LifetimeReserved,
+}
+
+// GetInternalIpv6LifetimeEnumValues Enumerates the set of values for InternalIpv6LifetimeEnum
+func GetInternalIpv6LifetimeEnumValues() []InternalIpv6LifetimeEnum {
+	values := make([]InternalIpv6LifetimeEnum, 0)
+	for _, v := range mappingInternalIpv6LifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInternalIpv6LifetimeEnumStringValues Enumerates the set of values in String for InternalIpv6LifetimeEnum
+func GetInternalIpv6LifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingInternalIpv6LifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInternalIpv6LifetimeEnum(val string) (InternalIpv6LifetimeEnum, bool) {
+	enum, ok := mappingInternalIpv6LifetimeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

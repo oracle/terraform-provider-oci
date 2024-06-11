@@ -69,7 +69,7 @@ func (m *exadatainsightresourcestatisticsaggregation) UnmarshalPolymorphicJSON(d
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ExadataInsightResourceStatisticsAggregation: %s.", m.ExadataResourceType)
+		common.Logf("Received unsupported enum value for ExadataInsightResourceStatisticsAggregation: %s.", m.ExadataResourceType)
 		return *m, nil
 	}
 }

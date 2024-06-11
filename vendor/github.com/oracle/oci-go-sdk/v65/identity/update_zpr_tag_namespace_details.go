@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// UpdateZprTagNamespaceDetails The representation of UpdateZprTagNamespaceDetails
+// UpdateZprTagNamespaceDetails Details of the ZPR tag namespace to be updated.
 type UpdateZprTagNamespaceDetails struct {
 
-	// The description you assign to the zpr tag namespace.
+	// The description you assign to the ZPR tag namespace.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Whether the zpr tag namespace is retired.
+	// Whether the ZPR tag namespace is retired.
 	// See Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
@@ -34,11 +34,6 @@ type UpdateZprTagNamespaceDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-
-	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
 }
 
 func (m UpdateZprTagNamespaceDetails) String() string {

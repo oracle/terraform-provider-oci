@@ -14,7 +14,7 @@ import (
 // MapInternalPrivateIpRequest wrapper for the MapInternalPrivateIp operation
 type MapInternalPrivateIpRequest struct {
 
-	// The internal private IP's OCID.
+	// The internal private IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalPrivateIpId *string `mandatory:"true" contributesTo:"path" name:"internalPrivateIpId"`
 
 	// Request to move a floating private IP

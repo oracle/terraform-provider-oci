@@ -61,7 +61,7 @@ func (m *flowlogdestination) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for FlowLogDestination: %s.", m.DestinationType)
+		common.Logf("Received unsupported enum value for FlowLogDestination: %s.", m.DestinationType)
 		return *m, nil
 	}
 }

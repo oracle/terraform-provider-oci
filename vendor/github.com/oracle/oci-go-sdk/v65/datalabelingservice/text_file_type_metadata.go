@@ -55,7 +55,7 @@ func (m *textfiletypemetadata) UnmarshalPolymorphicJSON(data []byte) (interface{
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TextFileTypeMetadata: %s.", m.FormatType)
+		common.Logf("Received unsupported enum value for TextFileTypeMetadata: %s.", m.FormatType)
 		return *m, nil
 	}
 }

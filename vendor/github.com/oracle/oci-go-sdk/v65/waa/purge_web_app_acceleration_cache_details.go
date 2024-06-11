@@ -57,7 +57,7 @@ func (m *purgewebappaccelerationcachedetails) UnmarshalPolymorphicJSON(data []by
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for PurgeWebAppAccelerationCacheDetails: %s.", m.PurgeType)
+		common.Logf("Received unsupported enum value for PurgeWebAppAccelerationCacheDetails: %s.", m.PurgeType)
 		return *m, nil
 	}
 }

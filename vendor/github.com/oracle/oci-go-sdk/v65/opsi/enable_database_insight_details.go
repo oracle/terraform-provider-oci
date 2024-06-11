@@ -56,6 +56,10 @@ func (m *enabledatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := EnableEmManagedExternalDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MDS_MYSQL_DATABASE_SYSTEM":
+		mm := EnableMdsMySqlDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := EnableAutonomousDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -65,7 +69,7 @@ func (m *enabledatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for EnableDatabaseInsightDetails: %s.", m.EntitySource)
+		common.Logf("Received unsupported enum value for EnableDatabaseInsightDetails: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

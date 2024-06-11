@@ -33,6 +33,15 @@ type InternalIpv6AddressIpv6SubnetCidrPairDetails struct {
 	// - Oracle will automatically assign an IPv6 address from the subnet's IPv6 Oracle GUA prefix if it exists on the subnet.
 	Ipv6Address *string `mandatory:"false" json:"ipv6Address"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private IP to assign the vnic.
+	Ipv6Id *string `mandatory:"false" json:"ipv6Id"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 }
@@ -47,8 +56,53 @@ func (m InternalIpv6AddressIpv6SubnetCidrPairDetails) String() string {
 func (m InternalIpv6AddressIpv6SubnetCidrPairDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum Enum with underlying type: string
+type InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum
+const (
+	InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEphemeral InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum = "EPHEMERAL"
+	InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeReserved  InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum = map[string]InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum{
+	"EPHEMERAL": InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEphemeral,
+	"RESERVED":  InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeReserved,
+}
+
+var mappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumLowerCase = map[string]InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum{
+	"ephemeral": InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEphemeral,
+	"reserved":  InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeReserved,
+}
+
+// GetInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumValues Enumerates the set of values for InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum
+func GetInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumValues() []InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum {
+	values := make([]InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum, 0)
+	for _, v := range mappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumStringValues Enumerates the set of values in String for InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum
+func GetInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum(val string) (InternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnum, bool) {
+	enum, ok := mappingInternalIpv6AddressIpv6SubnetCidrPairDetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

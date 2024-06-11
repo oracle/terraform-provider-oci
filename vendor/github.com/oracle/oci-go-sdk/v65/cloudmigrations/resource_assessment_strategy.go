@@ -72,7 +72,7 @@ func (m *resourceassessmentstrategy) UnmarshalPolymorphicJSON(data []byte) (inte
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ResourceAssessmentStrategy: %s.", m.StrategyType)
+		common.Logf("Received unsupported enum value for ResourceAssessmentStrategy: %s.", m.StrategyType)
 		return *m, nil
 	}
 }

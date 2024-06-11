@@ -27,7 +27,7 @@ type ZprTagNamespaceSummary struct {
 	// The name of the ZPR tagNamespace. It must be unique across all ZPR tagNamespaces in the tenancy and cannot be changed.
 	Name *string `mandatory:"false" json:"name"`
 
-	// The description you assign to the zpr tagNamespace.
+	// The description you assign to the ZPR tagNamespace.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -44,25 +44,17 @@ type ZprTagNamespaceSummary struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
-
-	// Usage of zpr system tag keys. These predefined keys are scoped to namespaces.
+	// Usage of ZPR system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-internal-zpr": {"Administrator": "true"}, "mode": "enforce"}`
 	ZprSystemTags map[string]map[string]interface{} `mandatory:"false" json:"zprSystemTags"`
 
 	// Indicated whether or not the tagNamespace is retired
 	IsRetired *bool `mandatory:"false" json:"isRetired"`
 
-	// List of possible values for mode. Modes should only be ["enforce", "audit"]
-	Mode []string `mandatory:"false" json:"mode"`
-
-	// The tagnamespace's current state. After creating a tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
+	// The ZPR tagnamespace's current state. After creating a ZPR tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a ZPR tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
 	LifecycleState ZprTagNamespaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
-	// Date and time the tag namespace was created, in the format defined by RFC3339.
+	// Date and time the ZPR tag namespace was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

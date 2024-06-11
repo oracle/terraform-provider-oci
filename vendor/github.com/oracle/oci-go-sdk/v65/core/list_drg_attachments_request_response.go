@@ -63,7 +63,7 @@ type ListDrgAttachmentsRequest struct {
 	// state. The value is case insensitive.
 	LifecycleState DrgAttachmentLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// Internal query parameter to filter DRG attachments on internalType
+	// Internal query parameter to filter DRG attachments on `internalType`
 	InternalType ListDrgAttachmentsInternalTypeEnum `mandatory:"false" contributesTo:"query" name:"internalType" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.

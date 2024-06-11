@@ -49,6 +49,12 @@ type UpdateInternalIpv6Details struct {
 	// for a particular IPv6.
 	IsInternetAccessAllowed *bool `mandatory:"false" json:"isInternetAccessAllowed"`
 
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime UpdateInternalIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
 	// The OCID of the VNIC to reassign the IPv6 to. The VNIC must
 	// be in the same subnet as the current VNIC.
 	VnicId *string `mandatory:"false" json:"vnicId"`
@@ -66,8 +72,53 @@ func (m UpdateInternalIpv6Details) String() string {
 func (m UpdateInternalIpv6Details) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdateInternalIpv6DetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetUpdateInternalIpv6DetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdateInternalIpv6DetailsLifetimeEnum Enum with underlying type: string
+type UpdateInternalIpv6DetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for UpdateInternalIpv6DetailsLifetimeEnum
+const (
+	UpdateInternalIpv6DetailsLifetimeEphemeral UpdateInternalIpv6DetailsLifetimeEnum = "EPHEMERAL"
+	UpdateInternalIpv6DetailsLifetimeReserved  UpdateInternalIpv6DetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingUpdateInternalIpv6DetailsLifetimeEnum = map[string]UpdateInternalIpv6DetailsLifetimeEnum{
+	"EPHEMERAL": UpdateInternalIpv6DetailsLifetimeEphemeral,
+	"RESERVED":  UpdateInternalIpv6DetailsLifetimeReserved,
+}
+
+var mappingUpdateInternalIpv6DetailsLifetimeEnumLowerCase = map[string]UpdateInternalIpv6DetailsLifetimeEnum{
+	"ephemeral": UpdateInternalIpv6DetailsLifetimeEphemeral,
+	"reserved":  UpdateInternalIpv6DetailsLifetimeReserved,
+}
+
+// GetUpdateInternalIpv6DetailsLifetimeEnumValues Enumerates the set of values for UpdateInternalIpv6DetailsLifetimeEnum
+func GetUpdateInternalIpv6DetailsLifetimeEnumValues() []UpdateInternalIpv6DetailsLifetimeEnum {
+	values := make([]UpdateInternalIpv6DetailsLifetimeEnum, 0)
+	for _, v := range mappingUpdateInternalIpv6DetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdateInternalIpv6DetailsLifetimeEnumStringValues Enumerates the set of values in String for UpdateInternalIpv6DetailsLifetimeEnum
+func GetUpdateInternalIpv6DetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingUpdateInternalIpv6DetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdateInternalIpv6DetailsLifetimeEnum(val string) (UpdateInternalIpv6DetailsLifetimeEnum, bool) {
+	enum, ok := mappingUpdateInternalIpv6DetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

@@ -119,6 +119,15 @@ type PrivateIp struct {
 	// However, if the `PrivateIp` object is being used with a VLAN as part of
 	// the Oracle Cloud VMware Solution, the `vnicId` is null.
 	VnicId *string `mandatory:"false" json:"vnicId"`
+
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	IpState PrivateIpIpStateEnum `mandatory:"false" json:"ipState,omitempty"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime PrivateIpLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 }
 
 func (m PrivateIp) String() string {
@@ -131,8 +140,98 @@ func (m PrivateIp) String() string {
 func (m PrivateIp) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingPrivateIpIpStateEnum(string(m.IpState)); !ok && m.IpState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for IpState: %s. Supported values are: %s.", m.IpState, strings.Join(GetPrivateIpIpStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingPrivateIpLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetPrivateIpLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// PrivateIpIpStateEnum Enum with underlying type: string
+type PrivateIpIpStateEnum string
+
+// Set of constants representing the allowable values for PrivateIpIpStateEnum
+const (
+	PrivateIpIpStateAssigned  PrivateIpIpStateEnum = "ASSIGNED"
+	PrivateIpIpStateAvailable PrivateIpIpStateEnum = "AVAILABLE"
+)
+
+var mappingPrivateIpIpStateEnum = map[string]PrivateIpIpStateEnum{
+	"ASSIGNED":  PrivateIpIpStateAssigned,
+	"AVAILABLE": PrivateIpIpStateAvailable,
+}
+
+var mappingPrivateIpIpStateEnumLowerCase = map[string]PrivateIpIpStateEnum{
+	"assigned":  PrivateIpIpStateAssigned,
+	"available": PrivateIpIpStateAvailable,
+}
+
+// GetPrivateIpIpStateEnumValues Enumerates the set of values for PrivateIpIpStateEnum
+func GetPrivateIpIpStateEnumValues() []PrivateIpIpStateEnum {
+	values := make([]PrivateIpIpStateEnum, 0)
+	for _, v := range mappingPrivateIpIpStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPrivateIpIpStateEnumStringValues Enumerates the set of values in String for PrivateIpIpStateEnum
+func GetPrivateIpIpStateEnumStringValues() []string {
+	return []string{
+		"ASSIGNED",
+		"AVAILABLE",
+	}
+}
+
+// GetMappingPrivateIpIpStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPrivateIpIpStateEnum(val string) (PrivateIpIpStateEnum, bool) {
+	enum, ok := mappingPrivateIpIpStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// PrivateIpLifetimeEnum Enum with underlying type: string
+type PrivateIpLifetimeEnum string
+
+// Set of constants representing the allowable values for PrivateIpLifetimeEnum
+const (
+	PrivateIpLifetimeEphemeral PrivateIpLifetimeEnum = "EPHEMERAL"
+	PrivateIpLifetimeReserved  PrivateIpLifetimeEnum = "RESERVED"
+)
+
+var mappingPrivateIpLifetimeEnum = map[string]PrivateIpLifetimeEnum{
+	"EPHEMERAL": PrivateIpLifetimeEphemeral,
+	"RESERVED":  PrivateIpLifetimeReserved,
+}
+
+var mappingPrivateIpLifetimeEnumLowerCase = map[string]PrivateIpLifetimeEnum{
+	"ephemeral": PrivateIpLifetimeEphemeral,
+	"reserved":  PrivateIpLifetimeReserved,
+}
+
+// GetPrivateIpLifetimeEnumValues Enumerates the set of values for PrivateIpLifetimeEnum
+func GetPrivateIpLifetimeEnumValues() []PrivateIpLifetimeEnum {
+	values := make([]PrivateIpLifetimeEnum, 0)
+	for _, v := range mappingPrivateIpLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPrivateIpLifetimeEnumStringValues Enumerates the set of values in String for PrivateIpLifetimeEnum
+func GetPrivateIpLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingPrivateIpLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPrivateIpLifetimeEnum(val string) (PrivateIpLifetimeEnum, bool) {
+	enum, ok := mappingPrivateIpLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

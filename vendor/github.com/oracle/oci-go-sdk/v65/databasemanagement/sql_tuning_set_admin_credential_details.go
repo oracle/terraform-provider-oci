@@ -71,7 +71,7 @@ func (m *sqltuningsetadmincredentialdetails) UnmarshalPolymorphicJSON(data []byt
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for SqlTuningSetAdminCredentialDetails: %s.", m.SqlTuningSetAdminCredentialType)
+		common.Logf("Received unsupported enum value for SqlTuningSetAdminCredentialDetails: %s.", m.SqlTuningSetAdminCredentialType)
 		return *m, nil
 	}
 }

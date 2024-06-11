@@ -61,7 +61,7 @@ func (m *updatecapacitysourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateCapacitySourceDetails: %s.", m.CapacityType)
+		common.Logf("Received unsupported enum value for UpdateCapacitySourceDetails: %s.", m.CapacityType)
 		return *m, nil
 	}
 }

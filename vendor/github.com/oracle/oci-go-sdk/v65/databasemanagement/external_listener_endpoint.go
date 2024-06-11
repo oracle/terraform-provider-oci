@@ -70,7 +70,7 @@ func (m *externallistenerendpoint) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ExternalListenerEndpoint: %s.", m.Protocol)
+		common.Logf("Received unsupported enum value for ExternalListenerEndpoint: %s.", m.Protocol)
 		return *m, nil
 	}
 }

@@ -89,8 +89,8 @@ const (
 	WorkRequestSummaryOperationTypeDeleteIntegrationInstance               WorkRequestSummaryOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
-	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
+	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -101,8 +101,8 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
-	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -113,8 +113,8 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"delete_integration_instance":                 WorkRequestSummaryOperationTypeDeleteIntegrationInstance,
 	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
-	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -136,8 +136,8 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"DELETE_INTEGRATION_INSTANCE",
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
-		"DISASTER_RECOVERY_FAILOVER",
 		"EXTEND_DATA_RETENTION",
+		"DISASTER_RECOVERY_FAILOVER",
 	}
 }
 

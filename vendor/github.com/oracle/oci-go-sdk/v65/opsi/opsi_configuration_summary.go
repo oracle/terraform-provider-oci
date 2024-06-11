@@ -115,7 +115,7 @@ func (m *opsiconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for OpsiConfigurationSummary: %s.", m.OpsiConfigType)
+		common.Logf("Received unsupported enum value for OpsiConfigurationSummary: %s.", m.OpsiConfigType)
 		return *m, nil
 	}
 }

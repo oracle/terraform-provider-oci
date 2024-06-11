@@ -60,7 +60,7 @@ func (m *targetenvironment) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TargetEnvironment: %s.", m.TargetEnvironmentType)
+		common.Logf("Received unsupported enum value for TargetEnvironment: %s.", m.TargetEnvironmentType)
 		return *m, nil
 	}
 }

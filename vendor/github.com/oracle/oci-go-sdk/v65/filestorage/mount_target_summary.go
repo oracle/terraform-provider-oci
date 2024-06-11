@@ -140,6 +140,7 @@ const (
 	MountTargetSummaryLifecycleStateDeleting MountTargetSummaryLifecycleStateEnum = "DELETING"
 	MountTargetSummaryLifecycleStateDeleted  MountTargetSummaryLifecycleStateEnum = "DELETED"
 	MountTargetSummaryLifecycleStateFailed   MountTargetSummaryLifecycleStateEnum = "FAILED"
+	MountTargetSummaryLifecycleStateUpdating MountTargetSummaryLifecycleStateEnum = "UPDATING"
 )
 
 var mappingMountTargetSummaryLifecycleStateEnum = map[string]MountTargetSummaryLifecycleStateEnum{
@@ -148,6 +149,7 @@ var mappingMountTargetSummaryLifecycleStateEnum = map[string]MountTargetSummaryL
 	"DELETING": MountTargetSummaryLifecycleStateDeleting,
 	"DELETED":  MountTargetSummaryLifecycleStateDeleted,
 	"FAILED":   MountTargetSummaryLifecycleStateFailed,
+	"UPDATING": MountTargetSummaryLifecycleStateUpdating,
 }
 
 var mappingMountTargetSummaryLifecycleStateEnumLowerCase = map[string]MountTargetSummaryLifecycleStateEnum{
@@ -156,6 +158,7 @@ var mappingMountTargetSummaryLifecycleStateEnumLowerCase = map[string]MountTarge
 	"deleting": MountTargetSummaryLifecycleStateDeleting,
 	"deleted":  MountTargetSummaryLifecycleStateDeleted,
 	"failed":   MountTargetSummaryLifecycleStateFailed,
+	"updating": MountTargetSummaryLifecycleStateUpdating,
 }
 
 // GetMountTargetSummaryLifecycleStateEnumValues Enumerates the set of values for MountTargetSummaryLifecycleStateEnum
@@ -175,6 +178,7 @@ func GetMountTargetSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"UPDATING",
 	}
 }
 

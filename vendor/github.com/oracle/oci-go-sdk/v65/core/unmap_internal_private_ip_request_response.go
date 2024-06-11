@@ -14,7 +14,7 @@ import (
 // UnmapInternalPrivateIpRequest wrapper for the UnmapInternalPrivateIp operation
 type UnmapInternalPrivateIpRequest struct {
 
-	// The internal private IP's OCID.
+	// The internal private IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalPrivateIpId *string `mandatory:"true" contributesTo:"path" name:"internalPrivateIpId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

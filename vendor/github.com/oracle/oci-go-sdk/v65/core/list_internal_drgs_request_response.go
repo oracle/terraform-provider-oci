@@ -28,7 +28,7 @@ type ListInternalDrgsRequest struct {
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// A filter to only return resources that match the given drgType. The drgType value is the string representation of
+	// A filter to only return resources that match the given `drgType`. The drgType value is the string representation of
 	//   enum: DRG_CLASSICAL, DRG_TRANSIT_HUB.
 	DrgType InternalDrgDrgTypeEnum `mandatory:"false" contributesTo:"query" name:"drgType" omitEmpty:"true"`
 

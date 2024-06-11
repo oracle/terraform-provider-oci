@@ -17,7 +17,7 @@ type DeleteClientVpnUserRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ClientVpn.
 	ClientVpnId *string `mandatory:"true" contributesTo:"path" name:"clientVpnId"`
 
-	// The username of the ClientVpnUser.
+	// The username of the `ClientVpnUser`.
 	UserName *string `mandatory:"true" contributesTo:"path" name:"userName"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

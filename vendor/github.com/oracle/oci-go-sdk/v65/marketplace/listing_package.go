@@ -107,7 +107,7 @@ func (m *listingpackage) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for ListingPackage: %s.", m.PackageType)
+		common.Logf("Received unsupported enum value for ListingPackage: %s.", m.PackageType)
 		return *m, nil
 	}
 }

@@ -107,7 +107,7 @@ func (m *opsidataobject) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for OpsiDataObject: %s.", m.DataObjectType)
+		common.Logf("Received unsupported enum value for OpsiDataObject: %s.", m.DataObjectType)
 		return *m, nil
 	}
 }

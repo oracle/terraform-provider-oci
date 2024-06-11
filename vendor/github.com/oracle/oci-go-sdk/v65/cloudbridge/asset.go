@@ -146,7 +146,7 @@ func (m *asset) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for Asset: %s.", m.AssetType)
+		common.Logf("Received unsupported enum value for Asset: %s.", m.AssetType)
 		return *m, nil
 	}
 }

@@ -55,7 +55,7 @@ func (m *waitcriteriasummary) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for WaitCriteriaSummary: %s.", m.WaitType)
+		common.Logf("Received unsupported enum value for WaitCriteriaSummary: %s.", m.WaitType)
 		return *m, nil
 	}
 }

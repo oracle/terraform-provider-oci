@@ -73,7 +73,7 @@ func (m *networksource) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for NetworkSource: %s.", m.NetworkSourceType)
+		common.Logf("Received unsupported enum value for NetworkSource: %s.", m.NetworkSourceType)
 		return *m, nil
 	}
 }

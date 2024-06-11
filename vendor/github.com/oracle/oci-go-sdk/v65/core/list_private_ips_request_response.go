@@ -35,6 +35,15 @@ type ListPrivateIpsRequest struct {
 	// The OCID of the VNIC.
 	VnicId *string `mandatory:"false" contributesTo:"query" name:"vnicId"`
 
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	IpState *string `mandatory:"false" contributesTo:"query" name:"ipState"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime *string `mandatory:"false" contributesTo:"query" name:"lifetime"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN.
 	VlanId *string `mandatory:"false" contributesTo:"query" name:"vlanId"`
 

@@ -45,11 +45,11 @@ type ListInternalEcmpGroupsRequest struct {
 	// is case sensitive.
 	SortOrder ListInternalEcmpGroupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// A filter to return only resources that match the given Internal Ecmp Group lifecycle state.
+	// A filter to return only resources that match the given Internal ECMP Group lifecycle state.
 	// The state value is not case-sensitive.
 	LifecycleState InternalEcmpGroupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
-	// A filter to return only resources that match the given Internal Ecmp Group name.
+	// A filter to return only resources that match the given Internal ECMP Group name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
 	// Unique identifier for the request.

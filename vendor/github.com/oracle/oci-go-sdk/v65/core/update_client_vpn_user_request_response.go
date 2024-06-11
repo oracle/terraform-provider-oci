@@ -17,7 +17,7 @@ type UpdateClientVpnUserRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ClientVpn.
 	ClientVpnId *string `mandatory:"true" contributesTo:"path" name:"clientVpnId"`
 
-	// The username of the ClientVpnUser.
+	// The username of the `ClientVpnUser`.
 	UserName *string `mandatory:"true" contributesTo:"path" name:"userName"`
 
 	// Detail for updating `ClientVpnUser`.

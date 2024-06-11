@@ -125,14 +125,6 @@ type KafkaConnectionSummary struct {
 	// Note: When provided, 'sslKeyPassword' field must not be provided.
 	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the consumer.properties file is stored.
-	// Note: When provided, 'consumerProperties' field must not be provided.
-	ConsumerPropertiesSecretId *string `mandatory:"false" json:"consumerPropertiesSecretId"`
-
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the producer.properties file is stored.
-	// Note: When provided, 'producerProperties' field must not be provided.
-	ProducerPropertiesSecretId *string `mandatory:"false" json:"producerPropertiesSecretId"`
-
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 

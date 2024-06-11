@@ -117,7 +117,7 @@ func (m *outboundconnectorsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for OutboundConnectorSummary: %s.", m.ConnectorType)
+		common.Logf("Received unsupported enum value for OutboundConnectorSummary: %s.", m.ConnectorType)
 		return *m, nil
 	}
 }

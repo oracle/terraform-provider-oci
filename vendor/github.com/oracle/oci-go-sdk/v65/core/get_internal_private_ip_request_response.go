@@ -14,7 +14,7 @@ import (
 // GetInternalPrivateIpRequest wrapper for the GetInternalPrivateIp operation
 type GetInternalPrivateIpRequest struct {
 
-	// The internal private IP's OCID.
+	// The internal private IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalPrivateIpId *string `mandatory:"true" contributesTo:"path" name:"internalPrivateIpId"`
 
 	// Unique Oracle-assigned identifier for the request.

@@ -14,7 +14,7 @@ import (
 // CreateZprTagNamespaceRequest wrapper for the CreateZprTagNamespace operation
 type CreateZprTagNamespaceRequest struct {
 
-	// Request object for creating a new zpr tag namespace.
+	// Request object for creating a new ZPR tag namespace.
 	CreateZprTagNamespaceDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
@@ -24,8 +24,8 @@ type CreateZprTagNamespaceRequest struct {
 	// may be rejected).
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
-	// Unique Oracle-assigned identifier for the request.
-	// If you need to contact Oracle about a particular request, please provide the request ID.
+	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -82,6 +82,9 @@ type CreateZprTagNamespaceResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response CreateZprTagNamespaceResponse) String() string {

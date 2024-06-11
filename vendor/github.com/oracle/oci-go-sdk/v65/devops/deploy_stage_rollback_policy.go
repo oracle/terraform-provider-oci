@@ -59,7 +59,7 @@ func (m *deploystagerollbackpolicy) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for DeployStageRollbackPolicy: %s.", m.PolicyType)
+		common.Logf("Received unsupported enum value for DeployStageRollbackPolicy: %s.", m.PolicyType)
 		return *m, nil
 	}
 }

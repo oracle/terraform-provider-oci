@@ -123,7 +123,7 @@ func (m *updateconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UpdateConnectionDetails: %s.", m.ConnectionType)
+		common.Logf("Received unsupported enum value for UpdateConnectionDetails: %s.", m.ConnectionType)
 		return *m, nil
 	}
 }

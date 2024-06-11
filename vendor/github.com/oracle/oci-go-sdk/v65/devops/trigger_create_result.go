@@ -144,7 +144,7 @@ func (m *triggercreateresult) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for TriggerCreateResult: %s.", m.TriggerSource)
+		common.Logf("Received unsupported enum value for TriggerCreateResult: %s.", m.TriggerSource)
 		return *m, nil
 	}
 }

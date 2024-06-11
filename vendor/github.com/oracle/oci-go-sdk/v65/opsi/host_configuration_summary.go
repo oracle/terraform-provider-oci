@@ -169,7 +169,7 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for HostConfigurationSummary: %s.", m.EntitySource)
+		common.Logf("Received unsupported enum value for HostConfigurationSummary: %s.", m.EntitySource)
 		return *m, nil
 	}
 }

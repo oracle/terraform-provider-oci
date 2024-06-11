@@ -55,7 +55,7 @@ func (m *createsecuritycontextdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreateSecurityContextDetails: %s.", m.SecurityContextType)
+		common.Logf("Received unsupported enum value for CreateSecurityContextDetails: %s.", m.SecurityContextType)
 		return *m, nil
 	}
 }

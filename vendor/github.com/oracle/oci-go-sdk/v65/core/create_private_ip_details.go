@@ -63,6 +63,12 @@ type CreatePrivateIpDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VLAN from which the private IP is to be drawn. The IP address,
 	// *if supplied*, must be valid for the given VLAN. See Vlan.
 	VlanId *string `mandatory:"false" json:"vlanId"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime CreatePrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 }
 
 func (m CreatePrivateIpDetails) String() string {
@@ -75,8 +81,53 @@ func (m CreatePrivateIpDetails) String() string {
 func (m CreatePrivateIpDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreatePrivateIpDetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetCreatePrivateIpDetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreatePrivateIpDetailsLifetimeEnum Enum with underlying type: string
+type CreatePrivateIpDetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for CreatePrivateIpDetailsLifetimeEnum
+const (
+	CreatePrivateIpDetailsLifetimeEphemeral CreatePrivateIpDetailsLifetimeEnum = "EPHEMERAL"
+	CreatePrivateIpDetailsLifetimeReserved  CreatePrivateIpDetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingCreatePrivateIpDetailsLifetimeEnum = map[string]CreatePrivateIpDetailsLifetimeEnum{
+	"EPHEMERAL": CreatePrivateIpDetailsLifetimeEphemeral,
+	"RESERVED":  CreatePrivateIpDetailsLifetimeReserved,
+}
+
+var mappingCreatePrivateIpDetailsLifetimeEnumLowerCase = map[string]CreatePrivateIpDetailsLifetimeEnum{
+	"ephemeral": CreatePrivateIpDetailsLifetimeEphemeral,
+	"reserved":  CreatePrivateIpDetailsLifetimeReserved,
+}
+
+// GetCreatePrivateIpDetailsLifetimeEnumValues Enumerates the set of values for CreatePrivateIpDetailsLifetimeEnum
+func GetCreatePrivateIpDetailsLifetimeEnumValues() []CreatePrivateIpDetailsLifetimeEnum {
+	values := make([]CreatePrivateIpDetailsLifetimeEnum, 0)
+	for _, v := range mappingCreatePrivateIpDetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreatePrivateIpDetailsLifetimeEnumStringValues Enumerates the set of values in String for CreatePrivateIpDetailsLifetimeEnum
+func GetCreatePrivateIpDetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingCreatePrivateIpDetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreatePrivateIpDetailsLifetimeEnum(val string) (CreatePrivateIpDetailsLifetimeEnum, bool) {
+	enum, ok := mappingCreatePrivateIpDetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

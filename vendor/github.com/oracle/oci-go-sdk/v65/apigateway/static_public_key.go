@@ -67,7 +67,7 @@ func (m *staticpublickey) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for StaticPublicKey: %s.", m.Format)
+		common.Logf("Received unsupported enum value for StaticPublicKey: %s.", m.Format)
 		return *m, nil
 	}
 }

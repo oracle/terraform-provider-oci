@@ -14,7 +14,7 @@ import (
 // UnmapInternalFloatingIpRequest wrapper for the UnmapInternalFloatingIp operation
 type UnmapInternalFloatingIpRequest struct {
 
-	// The floating IP's OCID.
+	// The floating IP's OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	InternalFloatingIpId *string `mandatory:"true" contributesTo:"path" name:"internalFloatingIpId"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

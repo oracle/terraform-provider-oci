@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -35,6 +36,8 @@ type InstallOdhPatchDetails struct {
 
 	// The flag to check if the ODH patch can be installed.
 	IsCompatibilityCheck *bool `mandatory:"false" json:"isCompatibilityCheck"`
+
+	PatchingConfig OdhPatchingConfig `mandatory:"false" json:"patchingConfig"`
 }
 
 func (m InstallOdhPatchDetails) String() string {
@@ -51,4 +54,46 @@ func (m InstallOdhPatchDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *InstallOdhPatchDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		IsCompatibilityCheck *bool             `json:"isCompatibilityCheck"`
+		PatchingConfig       odhpatchingconfig `json:"patchingConfig"`
+		Version              *string           `json:"version"`
+		OdhPatchName         *string           `json:"odhPatchName"`
+		PaUrl                *string           `json:"paUrl"`
+		Md5Hash              *string           `json:"md5Hash"`
+		ClusterAdminPassword *string           `json:"clusterAdminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.IsCompatibilityCheck = model.IsCompatibilityCheck
+
+	nn, e = model.PatchingConfig.UnmarshalPolymorphicJSON(model.PatchingConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PatchingConfig = nn.(OdhPatchingConfig)
+	} else {
+		m.PatchingConfig = nil
+	}
+
+	m.Version = model.Version
+
+	m.OdhPatchName = model.OdhPatchName
+
+	m.PaUrl = model.PaUrl
+
+	m.Md5Hash = model.Md5Hash
+
+	m.ClusterAdminPassword = model.ClusterAdminPassword
+
+	return
 }

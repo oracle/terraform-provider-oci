@@ -301,7 +301,7 @@ func (m *abstractcommanddescriptor) UnmarshalPolymorphicJSON(data []byte) (inter
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for AbstractCommandDescriptor: %s.", m.Name)
+		common.Logf("Received unsupported enum value for AbstractCommandDescriptor: %s.", m.Name)
 		return *m, nil
 	}
 }

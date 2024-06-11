@@ -76,7 +76,7 @@ func (m *createpluggabledatabasecreationtypedetails) UnmarshalPolymorphicJSON(da
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for CreatePluggableDatabaseCreationTypeDetails: %s.", m.CreationType)
+		common.Logf("Received unsupported enum value for CreatePluggableDatabaseCreationTypeDetails: %s.", m.CreationType)
 		return *m, nil
 	}
 }

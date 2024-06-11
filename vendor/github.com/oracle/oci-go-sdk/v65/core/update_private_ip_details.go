@@ -52,6 +52,12 @@ type UpdatePrivateIpDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VNIC to reassign the private IP to. The VNIC must
 	// be in the same subnet as the current VNIC.
 	VnicId *string `mandatory:"false" json:"vnicId"`
+
+	// Lifetime of the IP address.
+	// There are two types of IPv6 IPs:
+	//  - Ephemeral
+	//  - Reserved
+	Lifetime UpdatePrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 }
 
 func (m UpdatePrivateIpDetails) String() string {
@@ -64,8 +70,53 @@ func (m UpdatePrivateIpDetails) String() string {
 func (m UpdatePrivateIpDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingUpdatePrivateIpDetailsLifetimeEnum(string(m.Lifetime)); !ok && m.Lifetime != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Lifetime: %s. Supported values are: %s.", m.Lifetime, strings.Join(GetUpdatePrivateIpDetailsLifetimeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UpdatePrivateIpDetailsLifetimeEnum Enum with underlying type: string
+type UpdatePrivateIpDetailsLifetimeEnum string
+
+// Set of constants representing the allowable values for UpdatePrivateIpDetailsLifetimeEnum
+const (
+	UpdatePrivateIpDetailsLifetimeEphemeral UpdatePrivateIpDetailsLifetimeEnum = "EPHEMERAL"
+	UpdatePrivateIpDetailsLifetimeReserved  UpdatePrivateIpDetailsLifetimeEnum = "RESERVED"
+)
+
+var mappingUpdatePrivateIpDetailsLifetimeEnum = map[string]UpdatePrivateIpDetailsLifetimeEnum{
+	"EPHEMERAL": UpdatePrivateIpDetailsLifetimeEphemeral,
+	"RESERVED":  UpdatePrivateIpDetailsLifetimeReserved,
+}
+
+var mappingUpdatePrivateIpDetailsLifetimeEnumLowerCase = map[string]UpdatePrivateIpDetailsLifetimeEnum{
+	"ephemeral": UpdatePrivateIpDetailsLifetimeEphemeral,
+	"reserved":  UpdatePrivateIpDetailsLifetimeReserved,
+}
+
+// GetUpdatePrivateIpDetailsLifetimeEnumValues Enumerates the set of values for UpdatePrivateIpDetailsLifetimeEnum
+func GetUpdatePrivateIpDetailsLifetimeEnumValues() []UpdatePrivateIpDetailsLifetimeEnum {
+	values := make([]UpdatePrivateIpDetailsLifetimeEnum, 0)
+	for _, v := range mappingUpdatePrivateIpDetailsLifetimeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetUpdatePrivateIpDetailsLifetimeEnumStringValues Enumerates the set of values in String for UpdatePrivateIpDetailsLifetimeEnum
+func GetUpdatePrivateIpDetailsLifetimeEnumStringValues() []string {
+	return []string{
+		"EPHEMERAL",
+		"RESERVED",
+	}
+}
+
+// GetMappingUpdatePrivateIpDetailsLifetimeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingUpdatePrivateIpDetailsLifetimeEnum(val string) (UpdatePrivateIpDetailsLifetimeEnum, bool) {
+	enum, ok := mappingUpdatePrivateIpDetailsLifetimeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

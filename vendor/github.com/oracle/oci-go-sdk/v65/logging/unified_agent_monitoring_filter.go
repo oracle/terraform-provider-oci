@@ -66,7 +66,7 @@ func (m *unifiedagentmonitoringfilter) UnmarshalPolymorphicJSON(data []byte) (in
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
-		common.Logf("Recieved unsupported enum value for UnifiedAgentMonitoringFilter: %s.", m.FilterType)
+		common.Logf("Received unsupported enum value for UnifiedAgentMonitoringFilter: %s.", m.FilterType)
 		return *m, nil
 	}
 }
