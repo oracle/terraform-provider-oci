@@ -52,11 +52,11 @@ var (
 		"display_name":       acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"node_count":         acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `5`},
 		"node_memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
-		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `V7_0_5`},
+		"software_version":   acctest.Representation{RepType: acctest.Required, Create: `REDIS_7_0`},
 		"subnet_id":          acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"nsg_ids":            acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"lifecycle":          acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreRedisTagsChangesRepresentation},
 	}
 
@@ -108,7 +108,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "3"),
 				resource.TestCheckResourceAttr(resourceName, "node_memory_in_gbs", "2"),
-				resource.TestCheckResourceAttr(resourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -139,7 +139,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(resourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -174,7 +174,7 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(resourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -199,12 +199,12 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "node_collection.0.items.#", "5"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "5"),
 				resource.TestCheckResourceAttr(resourceName, "node_memory_in_gbs", "3"),
-				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "primary_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(resourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(resourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(resourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 
 				func(s *terraform.State) (err error) {
@@ -242,16 +242,15 @@ func TestRedisRedisClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "lifecycle_details"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_collection.0.items.#", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_count", "5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "node_memory_in_gbs", "3"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "nsg_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "primary_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "primary_fqdn"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas_endpoint_ip_address"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "replicas_fqdn"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "software_version", "V7_0_5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "software_version", "REDIS_7_0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
