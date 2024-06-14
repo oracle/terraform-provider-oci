@@ -13,53 +13,62 @@ This resource provides the Connection resource in Oracle Cloud Infrastructure Da
 Create a Database Connection resource that contains the details to connect to either a Source or Target Database
 in the migration.
 
-Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
-
 ## Example Usage
 
 ```hcl
 resource "oci_database_migration_connection" "test_connection" {
 	#Required
+	admin_credentials {
+		#Required
+		password = var.connection_admin_credentials_password
+		username = var.connection_admin_credentials_username
+	}
 	compartment_id = var.compartment_id
-	connection_type = var.connection_connection_type
-	display_name = var.connection_display_name
-	key_id = oci_kms_key.test_key.id
-	password = var.connection_password
-	technology_type = var.connection_technology_type
-	username = var.connection_username
-	vault_id = oci_kms_vault.test_vault.id
+	database_type = var.connection_database_type
+	vault_details {
+		#Required
+		compartment_id = var.compartment_id
+		key_id = oci_kms_key.test_key.id
+		vault_id = oci_kms_vault.test_vault.id
+	}
 
 	#Optional
-	additional_attributes {
+	certificate_tdn = var.connection_certificate_tdn
+	connect_descriptor {
 
 		#Optional
-		name = var.connection_additional_attributes_name
-		value = var.connection_additional_attributes_value
+		connect_string = var.connection_connect_descriptor_connect_string
+		database_service_name = oci_core_service.test_service.name
+		host = var.connection_connect_descriptor_host
+		port = var.connection_connect_descriptor_port
 	}
-	connection_string = var.connection_connection_string
 	database_id = oci_database_database.test_database.id
-	database_name = oci_database_database.test_database.name
-	db_system_id = oci_database_db_system.test_db_system.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
-	description = var.connection_description
-	freeform_tags = var.connection_freeform_tags
-	host = var.connection_host
+	display_name = var.connection_display_name
+	freeform_tags = {"bar-key"= "value"}
 	nsg_ids = var.connection_nsg_ids
-	port = var.connection_port
-	replication_password = var.connection_replication_password
-	replication_username = var.connection_replication_username
-	security_protocol = var.connection_security_protocol
-	ssh_host = var.connection_ssh_host
-	ssh_key = var.connection_ssh_key
-	ssh_sudo_location = var.connection_ssh_sudo_location
-	ssh_user = var.connection_ssh_user
-	ssl_ca = var.connection_ssl_ca
-	ssl_cert = var.connection_ssl_cert
-	ssl_crl = var.connection_ssl_crl
-	ssl_key = var.connection_ssl_key
-	ssl_mode = var.connection_ssl_mode
-	subnet_id = oci_core_subnet.test_subnet.id
-	wallet = var.connection_wallet
+	private_endpoint {
+		#Required
+		compartment_id = var.compartment_id
+		subnet_id = oci_core_subnet.test_subnet.id
+		vcn_id = oci_core_vcn.test_vcn.id
+	}
+	replication_credentials {
+		#Required
+		password = var.connection_replication_credentials_password
+		username = var.connection_replication_credentials_username
+	}
+	ssh_details {
+		#Required
+		host = var.connection_ssh_details_host
+		sshkey = var.connection_ssh_details_sshkey
+		user = var.connection_ssh_details_user
+
+		#Optional
+		sudo_location = var.connection_ssh_details_sudo_location
+	}
+	tls_keystore = var.connection_tls_keystore
+	tls_wallet = var.connection_tls_wallet
 }
 ```
 
@@ -67,41 +76,40 @@ resource "oci_database_migration_connection" "test_connection" {
 
 The following arguments are supported:
 
-* `additional_attributes` - (Applicable when connection_type=MYSQL) (Updatable) An array of name-value pair attribute entries.
-	* `name` - (Required when connection_type=MYSQL) (Updatable) The name of the property entry.
-	* `value` - (Required when connection_type=MYSQL) (Updatable) The value of the property entry.
-* `compartment_id` - (Required) (Updatable) The OCID of the compartment.
-* `connection_string` - (Applicable when connection_type=ORACLE) (Updatable) Connect descriptor or Easy Connect Naming method used to connect to a database. 
-* `connection_type` - (Required) (Updatable) Defines the type of connection. For example, ORACLE.
-* `database_id` - (Applicable when connection_type=ORACLE) (Updatable) The OCID of the database being referenced. 
-* `database_name` - (Required when connection_type=MYSQL) (Updatable) The name of the database being referenced.
-* `db_system_id` - (Applicable when connection_type=MYSQL) (Updatable) The OCID of the database system being referenced. 
+* `admin_credentials` - (Required) (Updatable) Database Administrator Credentials details. 
+	* `password` - (Required) (Updatable) Administrator password 
+	* `username` - (Required) (Updatable) Administrator username 
+* `certificate_tdn` - (Optional) (Updatable) This name is the distinguished name used while creating the certificate on target database. Requires a TLS wallet to be specified. Not required for source container database connections. 
+* `compartment_id` - (Required) (Updatable) OCID of the compartment 
+* `connect_descriptor` - (Optional) (Updatable) Connect Descriptor details. Required for Manual and UserManagerOci connection types. If a Private Endpoint was specified for the Connection, the host should contain a valid IP address. 
+	* `connect_string` - (Optional) (Updatable) Connect String. Required if no host, port nor databaseServiceName were specified. If a Private Endpoint was specified in the Connection, the host entry should be a valid IP address. Supported formats: Easy connect: <host>:<port>/<db_service_name> Long format: (description= (address=(port=<port>)(host=<host>))(connect_data=(service_name=<db_service_name>))) 
+	* `database_service_name` - (Optional) (Updatable) Database service name. Required if no connectString was specified. 
+	* `host` - (Optional) (Updatable) Host or IP address of the connect descriptor. Required if no connectString was specified. 
+	* `port` - (Optional) (Updatable) Port of the connect descriptor. Required if no connectString was specified. 
+* `database_id` - (Optional) (Updatable) The OCID of the cloud database. Required if the database connection type is Autonomous. 
+* `database_type` - (Required) Database connection type. 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
-* `description` - (Optional) (Updatable) A user-friendly description. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
-* `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"} 
-* `host` - (Applicable when connection_type=MYSQL) (Updatable) The IP Address of the host.
-* `key_id` - (Required) (Updatable) The OCID of the key used in cryptographic operations.
+* `display_name` - (Optional) (Updatable) Database Connection display name identifier. 
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `nsg_ids` - (Optional) (Updatable) An array of Network Security Group OCIDs used to define network access for Connections. 
-* `password` - (Required) (Updatable) The password (credential) used when creating or updating this resource. 
-* `port` - (Applicable when connection_type=MYSQL) (Updatable) The port to be used for the connection.
-* `replication_password` - (Optional) (Updatable) The password (credential) used when creating or updating this resource. 
-* `replication_username` - (Optional) (Updatable) The username (credential) used when creating or updating this resource. 
-* `security_protocol` - (Required when connection_type=MYSQL) (Updatable) Security Type for MySQL.
-* `ssh_host` - (Applicable when connection_type=ORACLE) (Updatable) Name of the host the SSH key is valid for. 
-* `ssh_key` - (Applicable when connection_type=ORACLE) (Updatable) Private SSH key string. 
-* `ssh_sudo_location` - (Applicable when connection_type=ORACLE) (Updatable) Sudo location 
-* `ssh_user` - (Applicable when connection_type=ORACLE) (Updatable) The username (credential) used when creating or updating this resource. 
-* `ssl_ca` - (Applicable when connection_type=MYSQL) (Updatable) Database Certificate - The base64 encoded content of mysql.pem file containing the server public key (for 1 and 2-way SSL). 
-* `ssl_cert` - (Applicable when connection_type=MYSQL) (Updatable) Client Certificate - The base64 encoded content of client-cert.pem file  containing the client public key (for 2-way SSL). 
-* `ssl_crl` - (Applicable when connection_type=MYSQL) (Updatable) Certificates revoked by certificate authorities (CA). Server certificate must not be on this list (for 1 and 2-way SSL). Note: This is an optional and that too only applicable if TLS/MTLS option is selected. 
-* `ssl_key` - (Applicable when connection_type=MYSQL) (Updatable) Client Key - The client-key.pem containing the client private key (for 2-way SSL).
-* `ssl_mode` - (Applicable when connection_type=MYSQL) (Updatable) SSL modes for MySQL.
-* `subnet_id` - (Optional) (Updatable) Oracle Cloud Infrastructure resource ID.
-* `technology_type` - (Required) The type of MySQL source or target connection. Example: OCI_MYSQL represents Oracle Cloud Infrastructure MySQL HeatWave Database Service 
-* `username` - (Required) (Updatable) The username (credential) used when creating or updating this resource. 
-* `vault_id` - (Required) (Updatable) Oracle Cloud Infrastructure resource ID.
-* `wallet` - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents used to make connections to a database.  This attribute is expected to be base64 encoded. 
+* `private_endpoint` - (Optional) (Updatable) Oracle Cloud Infrastructure Private Endpoint configuration details. Not required for source container database connections, it will default to the specified Source Database Connection Private Endpoint. 
+	* `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
+	* `subnet_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
+	* `vcn_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - (Optional) (Updatable) Database Administrator Credentials details. 
+	* `password` - (Required) (Updatable) Administrator password 
+	* `username` - (Required) (Updatable) Administrator username 
+* `ssh_details` - (Optional) (Updatable) Details of the SSH key that will be used. Required for source database Manual and UserManagerOci connection types. Not required for source container database connections. 
+	* `host` - (Required) (Updatable) Name of the host the SSH key is valid for. 
+	* `sshkey` - (Required) (Updatable) Private SSH key string. 
+	* `sudo_location` - (Optional) (Updatable) Sudo location 
+	* `user` - (Required) (Updatable) SSH user 
+* `tls_keystore` - (Optional) (Updatable) keystore.jks file contents; base64 encoded String. Requires a TLS wallet to be specified. Not required for source container database connections. 
+* `tls_wallet` - (Optional) (Updatable) cwallet.sso containing containing the TCPS/SSL certificate; base64 encoded String. Not required for source container database connections. 
+* `vault_details` - (Required) (Updatable) Oracle Cloud Infrastructure Vault details to store migration and connection credentials secrets 
+	* `compartment_id` - (Required) (Updatable) OCID of the compartment where the secret containing the credentials will be created. 
+	* `key_id` - (Required) (Updatable) OCID of the vault encryption key 
+	* `vault_id` - (Required) (Updatable) OCID of the vault 
 
 
 ** IMPORTANT **
@@ -111,47 +119,45 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `additional_attributes` - An array of name-value pair attribute entries.
-	* `name` - The name of the property entry.
-	* `value` - The value of the property entry.
-* `compartment_id` - The OCID of the compartment.
-* `connection_string` - Connect descriptor or Easy Connect Naming method used to connect to a database. 
-* `connection_type` - Defines the type of connection. For example, ORACLE.
-* `database_id` - The OCID of the database being referenced. 
-* `database_name` - The name of the database being referenced.
-* `db_system_id` - The OCID of the database system being referenced. 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
-* `description` - A user-friendly description. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
-* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.  Avoid entering confidential information. 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.  For more information, see Resource Tags. Example: {"Department": "Finance"} 
-* `host` - The IP Address of the host.
-* `id` - The OCID of the connection being referenced.
-* `ingress_ips` - List of ingress IP addresses from where to connect to this connection's privateIp.
-	* `ingress_ip` - A Private Endpoint IPv4 or IPv6 Address created in the customer's subnet.
-* `key_id` - The OCID of the key used in cryptographic operations.
-* `lifecycle_details` - The message describing the current state of the connection's lifecycle in detail. For example, can be used to provide actionable information for a connection in a Failed state.
+* `admin_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
+* `certificate_tdn` - This name is the distinguished name used while creating the certificate on target database. 
+* `compartment_id` - OCID of the compartment 
+* `connect_descriptor` - Connect Descriptor details. 
+	* `connect_string` - Connect string. 
+	* `database_service_name` - Database service name. 
+	* `host` - Host of the connect descriptor. 
+	* `port` - Port of the connect descriptor. 
+* `credentials_secret_id` - OCID of the Secret in the Oracle Cloud Infrastructure vault containing the Database Connection credentials. 
+* `database_id` - The OCID of the cloud database. 
+* `database_type` - Database connection type. 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
+* `display_name` - Database Connection display name identifier. 
+* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+* `manual_database_sub_type` - Database manual connection subtype. This value can only be specified for manual connections.
+* `id` - The OCID of the resource 
+* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `nsg_ids` - An array of Network Security Group OCIDs used to define network access for Connections. 
-* `password` - The password (credential) used when creating or updating this resource. 
-* `port` - The port to be used for the connection.
-* `private_endpoint_id` - The OCID of the resource being referenced.
-* `replication_password` - The password (credential) used when creating or updating this resource. 
-* `replication_username` - The username (credential) used when creating or updating this resource. 
-* `secret_id` - The OCID of the resource being referenced.
-* `security_protocol` - Security Protocol to be used for the connection.
-* `ssh_host` - Name of the host the SSH key is valid for. 
-* `ssh_key` - Private SSH key string. 
-* `ssh_sudo_location` - Sudo location 
-* `ssh_user` - The username (credential) used when creating or updating this resource. 
-* `ssl_mode` - SSL mode to be used for the connection.
-* `state` - The Connection's current lifecycle state.
-* `subnet_id` - Oracle Cloud Infrastructure resource ID.
+* `private_endpoint` - Oracle Cloud Infrastructure Private Endpoint configuration details. 
+	* `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the private endpoint. 
+	* `id` - [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a previously created Private Endpoint. 
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer's subnet where the private endpoint VNIC will reside. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN where the Private Endpoint will be bound to. 
+* `replication_credentials` - Database Administrator Credentials details. 
+	* `username` - Administrator username 
+* `ssh_details` - Details of the SSH key that will be used. 
+	* `host` - Name of the host the SSH key is valid for. 
+	* `sudo_location` - Sudo location 
+	* `user` - SSH user 
+* `state` - The current state of the Connection resource. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `technology_type` - The type of MySQL source or target connection. Example: OCI_MYSQL represents Oracle Cloud Infrastructure MySQL HeatWave Database Service 
-* `time_created` - The time when this resource was created. An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`. 
-* `time_updated` - The time when this resource was updated. An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`. 
-* `username` - The username (credential) used when creating or updating this resource. 
-* `vault_id` - Oracle Cloud Infrastructure resource ID.
-
+* `time_created` - The time the Connection resource was created. An RFC3339 formatted datetime string. 
+* `time_updated` - The time of the last Connection resource details update. An RFC3339 formatted datetime string. 
+* `vault_details` - Oracle Cloud Infrastructure Vault details to store migration and connection credentials secrets 
+	* `compartment_id` - OCID of the compartment where the secret containing the credentials will be created. 
+	* `key_id` - OCID of the vault encryption key 
+	* `vault_id` - OCID of the vault 
+	
 ## Timeouts
 
 The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:

@@ -96,11 +96,19 @@ resource "oci_core_vcn" "test_vcn" {
   compartment_id = var.compartment_id
 }
 
-variable "jobId" {
-  default = ""
+data "oci_database_migration_jobs" "test_jobs" {
+  display_name = "displayName"
+  filter {
+    name = "TF_id"
+    values = [
+      "jobId"]
+  }
+  migration_id = "migrationId"
+  state = "Succeeded"
 }
+
 data "oci_database_migration_job" "test_job" {
-  job_id = var.jobId
+  job_id = "jobId"
 }
 
 data "oci_database_migration_agent" "test_agent" {
@@ -113,43 +121,37 @@ data "oci_database_migration_migrations" "test_migrations" {
 }
 
 data "oci_database_migration_job_advisor_report" "test_job_advisor_report" {
-  job_id = var.jobId
+  job_id = "jobId"
 }
 
 data "oci_database_migration_job_output" "test_job_output" {
-  job_id = var.jobId
+  job_id = "jobId"
 }
 
 data "oci_database_migration_migration_object_types" "test_migration_object_types" {
-  connection_type = "MYSQL"
 }
 
 data "oci_database_migration_agent_images" "test_agent_images" {}
 
 resource "oci_database_migration_connection" "test_connection_target" {
+  admin_credentials {
+    password = random_string.autonomous_database_admin_password.result
+    username = "admin"
+  }
   compartment_id = var.compartment_id
   database_id = var.database_id
+  database_type = "AUTONOMOUS"
   display_name = "TF_display_test_create"
-
-  connection_type = "MYSQL"
-  key_id = var.kms_key_id
-  vault_id = var.kms_vault_id
-  password = "BEstrO0ng_#11"
-  technology_type = "AMAZON_RDS_MYSQL"
-  username = "ggfe"
-  database_name = "ggfe"
-  host = "254.249.0.0"
-  port = "3306"
-  replication_password="replicationPassword"
-  replication_username="replicationUsername"
-  security_protocol="PLAIN"
-  ssh_host =   "sshHost"
-  ssh_key = "sshKey"
-  ssh_sudo_location = "sshSudoLocation"
-  ssh_user = "sshUser"
-  subnet_id = var.subnet_id
-  wallet =  "wallet2"
-
+  private_endpoint {
+    compartment_id = var.compartment_id
+    subnet_id = var.subnet_id
+    vcn_id = var.vcn_id
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
 }
 
 data "oci_identity_availability_domains" "test_availability_domains" {
@@ -157,47 +159,256 @@ data "oci_identity_availability_domains" "test_availability_domains" {
 }
 
 resource "oci_database_migration_connection" "test_connection_source" {
+  admin_credentials {
+    password = "ORcl##4567890"
+    username = "admin"
+  }
   compartment_id = var.compartment_id
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.2.2.17))(connect_data=(service_name=pdb0107svc.dbsubnet.gghubvcn.oraclevcn.com)))"
+  }
+  database_type = "MANUAL"
   display_name = "TF_display_test_create_source"
-  connection_type = "MYSQL"
-  key_id = var.kms_key_id
-  vault_id = var.kms_vault_id
-  password = "BEstrO0ng_#11"
-  technology_type = "AMAZON_RDS_MYSQL"
-  username = "ggfe"
-  database_id = var.database_mysql_id
-  database_name = "ggfe"
-  host = "254.249.0.0"
-  port = "3306"
-  replication_password="replicationPassword"
-  replication_username="replicationUsername"
-  security_protocol="PLAIN"
-  ssh_host =   "sshHost"
-  ssh_key = "sshKey"
-  ssh_sudo_location = "sshSudoLocation"
-  ssh_user = "sshUser"
-  subnet_id = var.subnet_id
-  wallet =  "wallet2"
-
+  ssh_details {
+    host = "10.2.2.17"
+    sshkey = var.ssh_key
+    sudo_location = "/usr/bin/sudo"
+    user = "opc"
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
 }
 
-variable "database_mysql_id" {
+resource "oci_database_migration_connection" "test_connection_source_rds" {
+  admin_credentials {
+    password = "ORcl##4567890"
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.2.2.17))(connect_data=(service_name=pdb0107svc.dbsubnet.gghubvcn.oraclevcn.com)))"
+  }
+  database_type = "MANUAL"
+  manual_database_sub_type = "RDS_ORACLE"
+  display_name = "TF_display_test_create_source_rds"
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_connection" "test_connection_source_no_ssh" {
+  admin_credentials {
+    password = "ORcl##4567890"
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  database_type = "USER_MANAGED_OCI"
+  database_id = var.src_database_id
+  display_name = "TF_display_test_create_source"
+
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.0.0.42))(connect_data=(service_name=pdb.sub10311806420.vcntesttf.oraclevcn.com)))"
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_connection" "test_connection_target_usr_managed_oci" {
+  admin_credentials {
+    password = random_string.autonomous_database_admin_password.result
+    username = "admin"
+  }
+  compartment_id = var.compartment_id
+  database_type = "USER_MANAGED_OCI"
+  database_id = var.tgt_database_id
+  display_name = "TF_display_test_create_target"
+
+  connect_descriptor {
+    connect_string = "(description=(address=(port=1521)(host=10.0.0.42))(connect_data=(service_name=pdb.sub10311806420.vcntesttf.oraclevcn.com)))"
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+variable "secret_access_key" {
   default = ""
 }
-
-variable "source_connection_mysql_id" {
-  default = ""
-}
-variable "target_connection_mysql_id" {
+variable "access_key_id" {
   default = ""
 }
 resource "oci_database_migration_migration" "test_migration" {
   compartment_id = var.compartment_id
-  database_combination = "MYSQL"
-  source_database_connection_id = var.source_connection_mysql_id
-  target_database_connection_id = var.target_connection_mysql_id
+
+  #csvText - Optional
+  //csv_text = "MY_BIZZ,SRC_CITY,TABLE,EXCLUDE"
+  golden_gate_service_details {
+    settings {
+      acceptable_lag = "10"
+      extract {
+        long_trans_duration = "10"
+        performance_profile = "LOW"
+      }
+    }
+  }
+  data_transfer_medium_details {
+    object_storage_details {
+      bucket = "bucket"
+      namespace = "namespace"
+    }
+  }
+  data_transfer_medium_details_v2 {
+    type = "AWS_S3"
+    access_key_id = var.access_key_id
+    object_storage_bucket {
+      bucket = "bucket"
+      namespace = "namespace"
+    }
+    name = "AWS-S3"
+    region = "Ashburn"
+    secret_access_key = var.secret_access_key
+  }
+  datapump_settings {
+    export_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+    metadata_remaps {
+      new_value = "DATA"
+      old_value = "USERS"
+      type = "TABLESPACE"
+    }
+  }
+  exclude_objects {
+    object = ".*"
+    owner  = "owner"
+    is_omit_excluded_table_from_replication = "false"
+    type = "ALL"
+  }
+  golden_gate_details {
+    hub {
+      rest_admin_credentials {
+        password = random_string.autonomous_database_admin_password.result
+        username = "oggadmin"
+      }
+      source_container_db_admin_credentials {
+        password = random_string.autonomous_database_admin_password.result
+        username = "c##ggadmin"
+      }
+      source_db_admin_credentials {
+        password = random_string.autonomous_database_admin_password.result
+        username = "ggadmin"
+      }
+      source_microservices_deployment_name = "Target"
+      target_db_admin_credentials {
+        password = random_string.autonomous_database_admin_password.result
+        username = "ggadmin"
+      }
+      target_microservices_deployment_name = "Target"
+      url = "https://10.0.0.0"
+    }
+  }
+  source_database_connection_id = var.source_connection_id
+  source_container_database_connection_id = var.source_connection_container_id
+  target_database_connection_id = var.target_connection_id
   type = "ONLINE"
-  display_name = "displayName"
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_migration" "test_migration_rds" {
+  compartment_id = var.compartment_id
+
+  golden_gate_service_details {
+    settings {
+      acceptable_lag = "10"
+      extract {
+        long_trans_duration = "10"
+        performance_profile = "LOW"
+      }
+    }
+  }
+  data_transfer_medium_details_v2 {
+    type = "OBJECT_STORAGE"
+  }
+  datapump_settings {
+    export_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+    metadata_remaps {
+      new_value = "DATA"
+      old_value = "USERS"
+      type = "TABLESPACE"
+    }
+  }
+  exclude_objects {
+    object = ".*"
+    owner  = "owner"
+    is_omit_excluded_table_from_replication = "false"
+    type = "ALL"
+  }
+  source_database_connection_id = var.source_connection_rds_id
+  target_database_connection_id = var.target_connection_id
+  type = "ONLINE"
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+}
+
+resource "oci_database_migration_migration" "test_no_ssh_migration" {
+  compartment_id = var.compartment_id
+  source_database_connection_id = oci_database_migration_connection.test_connection_source_no_ssh.id
+  target_database_connection_id = oci_database_migration_connection.test_connection_target_usr_managed_oci.id
+  type = "OFFLINE"
+  data_transfer_medium_details {
+    object_storage_details {
+      bucket = var.bucket_id
+      namespace = "namespace"
+    }
+  }
+  datapump_settings {
+    export_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+    import_directory_object {
+      name = "test_export_dir"
+      path = "/u01/app/oracle/product/19.0.0.0/dbhome_1/rdbms/log"
+    }
+  }
+  vault_details {
+    compartment_id = var.compartment_id
+    key_id = var.kms_key_id
+    vault_id = var.kms_vault_id
+  }
+  dump_transfer_details {
+    source {
+      kind = "OCI_CLI"
+      oci_home = "ociHome"
+      wallet_location =  "wallet_location"
+    }
+    target {
+      kind = "OCI_CLI"
+      oci_home = "ociHome"
+      wallet_location =  "wallet_location"
+    }
+  }
 }
 
 output "password" {

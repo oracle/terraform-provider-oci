@@ -7,12 +7,13 @@ import (
 	"bytes"
 	"context"
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 	"io"
 	"log"
 	"os"
 	"strings"
 	"time"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
