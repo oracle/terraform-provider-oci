@@ -1,3 +1,15 @@
+## 5.47.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Allow Public Access to Databases on Private Endpoint
+- Support for ADB-S: Allow Public Access to Databases on Private Endpoint
+- Support for MySQL <> MySQL Homogenous Migration support
+- management resource for masking policy health report in Data Safe
+### Bug Fix
+- Terraform for fix autostart and autostop removal of scheduled operations
+- Need to Set db_node_id int Set db_node function
+- allow update native pod networking, only update placement config when there is a change
+
 ## 5.46.0 (Unreleased)
 
 ### Added
