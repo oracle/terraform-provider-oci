@@ -18,10 +18,6 @@ func DatabaseMigrationMigrationObjectTypesDataSource() *schema.Resource {
 		Read: readDatabaseMigrationMigrationObjectTypes,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
-			"connection_type": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"migration_object_type_summary_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -76,10 +72,6 @@ func (s *DatabaseMigrationMigrationObjectTypesDataSourceCrud) VoidState() {
 
 func (s *DatabaseMigrationMigrationObjectTypesDataSourceCrud) Get() error {
 	request := oci_database_migration.ListMigrationObjectTypesRequest{}
-
-	if connectionType, ok := s.D.GetOkExists("connection_type"); ok {
-		request.ConnectionType = oci_database_migration.ListMigrationObjectTypesConnectionTypeEnum(connectionType.(string))
-	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database_migration")
 

@@ -1,23 +1,22 @@
-// // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-// // Licensed under the Mozilla Public License v2.0
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
 package database_migration
 
 import (
 	"context"
 	"fmt"
-	"log"
 	"strings"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_database_migration "github.com/oracle/oci-go-sdk/v65/databasemigration"
-
-	"github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
 func DatabaseMigrationConnectionResource() *schema.Resource {
@@ -26,93 +25,121 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: tfresource.DefaultTimeout,
-		Create:   createDatabaseMigrationConnection,
-		Read:     readDatabaseMigrationConnection,
-		Update:   updateDatabaseMigrationConnection,
-		Delete:   deleteDatabaseMigrationConnection,
+
+		Create: createDatabaseMigrationConnection,
+		Read:   readDatabaseMigrationConnection,
+		Update: updateDatabaseMigrationConnection,
+		Delete: deleteDatabaseMigrationConnection,
 		Schema: map[string]*schema.Schema{
 			// Required
+			"admin_credentials": {
+				Type:     schema.TypeList,
+				Required: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"password": {
+							Type:      schema.TypeString,
+							Required:  true,
+							Sensitive: true,
+						},
+						"username": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"connection_type": {
-				Type:             schema.TypeString,
-				Required:         true,
-				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-				ValidateFunc: validation.StringInSlice([]string{
-					"MYSQL",
-					"ORACLE",
-				}, true),
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"key_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"password": {
-				Type:      schema.TypeString,
-				Required:  true,
-				Sensitive: true,
-			},
-			"technology_type": {
+			"database_type": {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
 			},
-			"username": {
-				Type:     schema.TypeString,
+			"vault_details": {
+				Type:     schema.TypeList,
 				Required: true,
-			},
-			"vault_id": {
-				Type:     schema.TypeString,
-				Required: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"key_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"vault_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 
 			// Optional
-			"additional_attributes": {
+			"certificate_tdn": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"connect_descriptor": {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
 
 						// Optional
-						"name": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+						"connect_string": {
+							Type:          schema.TypeString,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"connect_descriptor.0.database_service_name", "connect_descriptor.0.host", "connect_descriptor.0.port"},
 						},
-						"value": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+						"database_service_name": {
+							Type:          schema.TypeString,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"connect_descriptor.0.connect_string"},
+						},
+						"host": {
+							Type:          schema.TypeString,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"connect_descriptor.0.connect_string"},
+						},
+						"port": {
+							Type:          schema.TypeInt,
+							Optional:      true,
+							Computed:      true,
+							ConflictsWith: []string{"connect_descriptor.0.connect_string"},
 						},
 
 						// Computed
 					},
 				},
 			},
-			"connection_string": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
 			"database_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"database_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"db_system_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -124,7 +151,7 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
-			"description": {
+			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -135,10 +162,11 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
-			"host": {
+			"manual_database_sub_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 			},
 			"nsg_ids": {
 				Type:     schema.TypeSet,
@@ -149,110 +177,113 @@ func DatabaseMigrationConnectionResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"port": {
-				Type:     schema.TypeInt,
-				Optional: true,
-				Computed: true,
-			},
-			"replication_password": {
-				Type:      schema.TypeString,
-				Optional:  true,
-				Computed:  true,
-				Sensitive: true,
-			},
-			"replication_username": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"security_protocol": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssh_host": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssh_key": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssh_sudo_location": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssh_user": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssl_ca": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssl_cert": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssl_crl": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssl_key": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"ssl_mode": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"subnet_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"wallet": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-
-			// Computed
-			"ingress_ips": {
+			"private_endpoint": {
 				Type:     schema.TypeList,
+				Optional: true,
 				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"vcn_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
 
 						// Optional
 
 						// Computed
-						"ingress_ip": {
+						"id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
 			},
+			"replication_credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"password": {
+							Type:      schema.TypeString,
+							Required:  true,
+							Sensitive: true,
+						},
+						"username": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"ssh_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"host": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"sshkey": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"user": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"sudo_location": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"tls_keystore": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"tls_wallet": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+
+			// Computed
+			"credentials_secret_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"private_endpoint_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"secret_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -318,39 +349,164 @@ type DatabaseMigrationConnectionResourceCrud struct {
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) ID() string {
-	connection := *s.Res
-	return *connection.GetId()
+	return *s.Res.Id
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) CreatedPending() []string {
 	return []string{
-		string(oci_database_migration.ConnectionLifecycleStateCreating),
+		string(oci_database_migration.LifecycleStatesCreating),
 	}
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_database_migration.ConnectionLifecycleStateActive),
+		string(oci_database_migration.LifecycleStatesActive),
 	}
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) DeletedPending() []string {
 	return []string{
-		string(oci_database_migration.ConnectionLifecycleStateDeleting),
+		string(oci_database_migration.LifecycleStatesDeleting),
 	}
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) DeletedTarget() []string {
 	return []string{
-		string(oci_database_migration.ConnectionLifecycleStateDeleted),
+		string(oci_database_migration.LifecycleStatesDeleted),
 	}
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 	request := oci_database_migration.CreateConnectionRequest{}
-	err := s.populateTopLevelPolymorphicCreateConnectionRequest(&request)
-	if err != nil {
-		return err
+
+	if adminCredentials, ok := s.D.GetOkExists("admin_credentials"); ok {
+		if tmpList := adminCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "admin_credentials", 0)
+			tmp, err := s.mapToCreateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AdminCredentials = &tmp
+		}
+	}
+
+	if certificateTdn, ok := s.D.GetOkExists("certificate_tdn"); ok {
+		tmp := certificateTdn.(string)
+		request.CertificateTdn = &tmp
+	}
+
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if connectDescriptor, ok := s.D.GetOkExists("connect_descriptor"); ok {
+		if tmpList := connectDescriptor.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connect_descriptor", 0)
+			tmp, err := s.mapToCreateConnectDescriptor(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ConnectDescriptor = &tmp
+		}
+	}
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if databaseType, ok := s.D.GetOkExists("database_type"); ok {
+		request.DatabaseType = oci_database_migration.DatabaseConnectionTypesEnum(databaseType.(string))
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if manualDatabaseSubType, ok := s.D.GetOkExists("manual_database_sub_type"); ok {
+		request.ManualDatabaseSubType = oci_database_migration.DatabaseManualConnectionSubTypesEnum(manualDatabaseSubType.(string))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
+	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
+		if tmpList := privateEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_endpoint", 0)
+			tmp, err := s.mapToCreatePrivateEndpoint(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrivateEndpoint = &tmp
+		}
+	}
+
+	if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+		if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+			tmp, err := s.mapToCreateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationCredentials = &tmp
+		}
+	}
+
+	if sshDetails, ok := s.D.GetOkExists("ssh_details"); ok {
+		if tmpList := sshDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssh_details", 0)
+			tmp, err := s.mapToCreateSshDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SshDetails = &tmp
+		}
+	}
+
+	if tlsKeystore, ok := s.D.GetOkExists("tls_keystore"); ok {
+		tmp := tlsKeystore.(string)
+		request.TlsKeystore = &tmp
+	}
+
+	if tlsWallet, ok := s.D.GetOkExists("tls_wallet"); ok {
+		tmp := tlsWallet.(string)
+		request.TlsWallet = &tmp
+	}
+
+	if vaultDetails, ok := s.D.GetOkExists("vault_details"); ok {
+		if tmpList := vaultDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vault_details", 0)
+			tmp, err := s.mapToCreateVaultDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.VaultDetails = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
@@ -362,7 +518,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 
 	workId := response.OpcWorkRequestId
 	var identifier *string
-	identifier = response.GetId()
+	identifier = response.Id
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
@@ -370,6 +526,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) Create() error {
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) getConnectionFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
+
 	actionTypeEnum oci_database_migration.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
@@ -399,20 +556,18 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 			return true
 		}
 
-		// Only stop if the time Finished is set
-		/*if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
-		}*/
 		return false
 	}
 }
 
 func connectionWaitForWorkRequest(wId *string, entityType string, action oci_database_migration.WorkRequestResourceActionTypeEnum,
+
 	timeout time.Duration, disableFoundRetries bool, client *oci_database_migration.DatabaseMigrationClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "database_migration")
 	retryPolicy.ShouldRetryOperation = connectionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_migration.GetWorkRequestResponse{}
+
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_database_migration.OperationStatusInProgress),
@@ -441,7 +596,6 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_dat
 	if _, e := stateConf.WaitForState(); e != nil {
 		return nil, e
 	}
-
 	var identifier *string
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
@@ -457,7 +611,6 @@ func connectionWaitForWorkRequest(wId *string, entityType string, action oci_dat
 	if identifier == nil || response.Status == oci_database_migration.OperationStatusFailed || response.Status == oci_database_migration.OperationStatusCanceled {
 		return nil, getErrorFromDatabaseMigrationConnectionWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
-
 	return identifier, nil
 }
 
@@ -512,9 +665,126 @@ func (s *DatabaseMigrationConnectionResourceCrud) Update() error {
 		}
 	}
 	request := oci_database_migration.UpdateConnectionRequest{}
-	err := s.populateTopLevelPolymorphicUpdateConnectionRequest(&request)
-	if err != nil {
-		return err
+
+	if adminCredentials, ok := s.D.GetOkExists("admin_credentials"); ok && s.D.HasChange("admin_credentials") {
+		if tmpList := adminCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "admin_credentials", 0)
+			tmp, err := s.mapToUpdateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.AdminCredentials = &tmp
+		}
+	}
+
+	if certificateTdn, ok := s.D.GetOkExists("certificate_tdn"); ok {
+		tmp := certificateTdn.(string)
+		request.CertificateTdn = &tmp
+	}
+
+	if connectDescriptor, ok := s.D.GetOkExists("connect_descriptor"); ok {
+		if tmpList := connectDescriptor.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "connect_descriptor", 0)
+			tmp, err := s.mapToUpdateConnectDescriptor(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ConnectDescriptor = &tmp
+		}
+	}
+
+	tmp := s.D.Id()
+	request.ConnectionId = &tmp
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok && s.D.HasChange("database_id") {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
+		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return err
+		}
+		request.DefinedTags = convertedDefinedTags
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
+	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
+		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
+			request.NsgIds = tmp
+		}
+	}
+
+	if privateEndpoint, ok := s.D.GetOkExists("private_endpoint"); ok {
+		if tmpList := privateEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_endpoint", 0)
+			tmp, err := s.mapToUpdatePrivateEndpoint(fieldKeyFormat)
+
+			if err != nil {
+				return err
+			}
+			request.PrivateEndpoint = &tmp
+		}
+	}
+
+	if replicationCredentials, ok := s.D.GetOkExists("replication_credentials"); ok {
+		if tmpList := replicationCredentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "replication_credentials", 0)
+			tmp, err := s.mapToUpdateAdminCredentials(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReplicationCredentials = &tmp
+		}
+	}
+
+	if sshDetails, ok := s.D.GetOkExists("ssh_details"); ok {
+		if tmpList := sshDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssh_details", 0)
+			tmp, err := s.mapToUpdateSshDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SshDetails = &tmp
+		}
+	}
+
+	if tlsKeystore, ok := s.D.GetOkExists("tls_keystore"); ok {
+		tmp := tlsKeystore.(string)
+		request.TlsKeystore = &tmp
+	}
+
+	if tlsWallet, ok := s.D.GetOkExists("tls_wallet"); ok {
+		tmp := tlsWallet.(string)
+		request.TlsWallet = &tmp
+	}
+
+	if vaultDetails, ok := s.D.GetOkExists("vault_details"); ok && s.D.HasChange("vault_details") {
+		if tmpList := vaultDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "vault_details", 0)
+			tmp, err := s.mapToUpdateVaultDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.VaultDetails = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
@@ -533,7 +803,6 @@ func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.ConnectionId = &tmp
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
 
 	response, err := s.Client.DeleteConnection(context.Background(), request)
@@ -549,813 +818,567 @@ func (s *DatabaseMigrationConnectionResourceCrud) Delete() error {
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
-	switch v := (*s.Res).(type) {
-	case oci_database_migration.MysqlConnection:
-		s.D.Set("connection_type", "MYSQL")
+	if s.Res.AdminCredentials != nil {
+		s.D.Set("admin_credentials", []interface{}{AdminCredentialsToMapPassword(s.Res.AdminCredentials, s.D)})
 
-		additionalAttributes := []interface{}{}
-		for _, item := range v.AdditionalAttributes {
-			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
-		}
-		s.D.Set("additional_attributes", additionalAttributes)
+	} else {
+		s.D.Set("admin_credentials", nil)
+	}
 
-		if v.DatabaseName != nil {
-			s.D.Set("database_name", *v.DatabaseName)
-		}
+	if s.Res.CertificateTdn != nil {
+		s.D.Set("certificate_tdn", *s.Res.CertificateTdn)
+	}
 
-		if v.DbSystemId != nil {
-			s.D.Set("db_system_id", *v.DbSystemId)
-		}
+	if s.Res.CompartmentId != nil {
+		s.D.Set("compartment_id", *s.Res.CompartmentId)
+	}
 
-		if v.Host != nil {
-			s.D.Set("host", *v.Host)
-		}
+	if s.Res.ConnectDescriptor != nil {
+		s.D.Set("connect_descriptor", []interface{}{ConnectDescriptorToMap(s.Res.ConnectDescriptor)})
+	} else {
+		s.D.Set("connect_descriptor", nil)
+	}
 
-		if v.Port != nil {
-			s.D.Set("port", *v.Port)
-		}
+	if s.Res.CredentialsSecretId != nil {
+		s.D.Set("credentials_secret_id", *s.Res.CredentialsSecretId)
+	}
 
-		s.D.Set("security_protocol", v.SecurityProtocol)
+	if s.Res.DatabaseId != nil {
+		s.D.Set("database_id", *s.Res.DatabaseId)
+	}
 
-		s.D.Set("ssl_mode", v.SslMode)
+	s.D.Set("database_type", s.Res.DatabaseType)
 
-		s.D.Set("technology_type", v.TechnologyType)
+	if s.Res.DefinedTags != nil {
+		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
+	}
 
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
 
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
+	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
 
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
+	nsgIds := []interface{}{}
+	for _, item := range s.Res.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
+	s.D.Set("manual_database_sub_type", s.Res.ManualDatabaseSubType)
 
-		s.D.Set("freeform_tags", v.FreeformTags)
+	if s.Res.PrivateEndpoint != nil {
+		s.D.Set("private_endpoint", []interface{}{PrivateEndpointDetailsToMap(s.Res.PrivateEndpoint)})
+	} else {
+		s.D.Set("private_endpoint", nil)
+	}
 
-		if v.Id != nil {
-			s.D.SetId(*v.Id)
-		}
+	if s.Res.ReplicationCredentials != nil {
+		s.D.Set("replication_credentials", []interface{}{AdminCredentialsToMapPassword2(s.Res.ReplicationCredentials, s.D)})
+	} else {
+		s.D.Set("replication_credentials", nil)
+	}
 
-		ingressIps := []interface{}{}
-		for _, item := range v.IngressIps {
-			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
-		}
-		s.D.Set("ingress_ips", ingressIps)
+	if s.Res.SshDetails != nil {
+		s.D.Set("ssh_details", []interface{}{SshDetailsToMapPass(s.Res.SshDetails, s.D)})
 
-		if v.KeyId != nil {
-			s.D.Set("key_id", *v.KeyId)
-		}
+	} else {
+		s.D.Set("ssh_details", nil)
+	}
 
-		if v.LifecycleDetails != nil {
-			s.D.Set("lifecycle_details", *v.LifecycleDetails)
-		}
+	s.D.Set("state", s.Res.LifecycleState)
 
-		nsgIds := []interface{}{}
-		for _, item := range v.NsgIds {
-			nsgIds = append(nsgIds, item)
-		}
-		//s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
-		s.D.Set("nsg_ids", v.NsgIds)
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
-		if v.Password != nil {
-			s.D.Set("password", *v.Password)
-		}
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
-		if v.PrivateEndpointId != nil {
-			s.D.Set("private_endpoint_id", *v.PrivateEndpointId)
-		}
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
 
-		if v.ReplicationPassword != nil {
-			s.D.Set("replication_password", *v.ReplicationPassword)
-		}
-
-		if v.ReplicationUsername != nil {
-			s.D.Set("replication_username", *v.ReplicationUsername)
-		}
-
-		if v.SecretId != nil {
-			s.D.Set("secret_id", *v.SecretId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
-
-		if v.SubnetId != nil {
-			s.D.Set("subnet_id", *v.SubnetId)
-		}
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		s.D.Set("technology_type", v.TechnologyType)
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
-
-		if v.Username != nil {
-			s.D.Set("username", *v.Username)
-		}
-
-		if v.VaultId != nil {
-			s.D.Set("vault_id", *v.VaultId)
-		}
-	case oci_database_migration.OracleConnection:
-		s.D.Set("connection_type", "ORACLE")
-
-		if v.ConnectionString != nil {
-			s.D.Set("connection_string", *v.ConnectionString)
-		}
-
-		if v.DatabaseId != nil {
-			s.D.Set("database_id", *v.DatabaseId)
-		}
-
-		if v.SshHost != nil {
-			s.D.Set("ssh_host", *v.SshHost)
-		}
-
-		if v.SshKey != nil {
-			s.D.Set("ssh_key", *v.SshKey)
-		}
-
-		if v.SshSudoLocation != nil {
-			s.D.Set("ssh_sudo_location", *v.SshSudoLocation)
-		}
-
-		if v.SshUser != nil {
-			s.D.Set("ssh_user", *v.SshUser)
-		}
-
-		s.D.Set("technology_type", v.TechnologyType)
-
-		if v.CompartmentId != nil {
-			s.D.Set("compartment_id", *v.CompartmentId)
-		}
-
-		if v.DefinedTags != nil {
-			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
-		}
-
-		if v.Description != nil {
-			s.D.Set("description", *v.Description)
-		}
-
-		if v.DisplayName != nil {
-			s.D.Set("display_name", *v.DisplayName)
-		}
-
-		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.Id != nil {
-			s.D.SetId(*v.Id)
-		}
-
-		ingressIps := []interface{}{}
-		for _, item := range v.IngressIps {
-			ingressIps = append(ingressIps, IngressIpDetailsToMap(item))
-		}
-		s.D.Set("ingress_ips", ingressIps)
-
-		if v.KeyId != nil {
-			s.D.Set("key_id", *v.KeyId)
-		}
-
-		if v.LifecycleDetails != nil {
-			s.D.Set("lifecycle_details", *v.LifecycleDetails)
-		}
-
-		nsgIds := []interface{}{}
-		for _, item := range v.NsgIds {
-			nsgIds = append(nsgIds, item)
-		}
-		//s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
-		s.D.Set("nsg_ids", v.NsgIds)
-
-		if v.Password != nil {
-			s.D.Set("password", *v.Password)
-		}
-
-		if v.PrivateEndpointId != nil {
-			s.D.Set("private_endpoint_id", *v.PrivateEndpointId)
-		}
-
-		if v.ReplicationPassword != nil {
-			s.D.Set("replication_password", *v.ReplicationPassword)
-		}
-
-		if v.ReplicationUsername != nil {
-			s.D.Set("replication_username", *v.ReplicationUsername)
-		}
-
-		if v.SecretId != nil {
-			s.D.Set("secret_id", *v.SecretId)
-		}
-
-		s.D.Set("state", v.LifecycleState)
-
-		if v.SubnetId != nil {
-			s.D.Set("subnet_id", *v.SubnetId)
-		}
-
-		if v.SystemTags != nil {
-			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
-		}
-
-		s.D.Set("technology_type", v.TechnologyType)
-
-		if v.TimeCreated != nil {
-			s.D.Set("time_created", v.TimeCreated.String())
-		}
-
-		if v.TimeUpdated != nil {
-			s.D.Set("time_updated", v.TimeUpdated.String())
-		}
-
-		if v.Username != nil {
-			s.D.Set("username", *v.Username)
-		}
-
-		if v.VaultId != nil {
-			s.D.Set("vault_id", *v.VaultId)
-		}
-	default:
-		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *s.Res)
-		return nil
+	if s.Res.VaultDetails != nil {
+		s.D.Set("vault_details", []interface{}{VaultDetailsToMap(s.Res.VaultDetails)})
+	} else {
+		s.D.Set("vault_details", nil)
 	}
 	return nil
 }
 
-func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary, datasource bool) map[string]interface{} {
+func ConnectionSummaryToMap(obj oci_database_migration.ConnectionSummary) map[string]interface{} {
+
 	result := map[string]interface{}{}
-	switch v := (obj).(type) {
-	case oci_database_migration.MysqlConnectionSummary:
-		result["connection_type"] = "MYSQL"
 
-		additionalAttributes := []interface{}{}
-		for _, item := range v.AdditionalAttributes {
-			additionalAttributes = append(additionalAttributes, NameValuePairToMap(item))
-		}
-		result["additional_attributes"] = additionalAttributes
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
 
-		if v.DatabaseName != nil {
-			result["database_name"] = string(*v.DatabaseName)
-		}
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
 
-		if v.DbSystemId != nil {
-			result["db_system_id"] = string(*v.DbSystemId)
-		}
+	result["database_type"] = string(obj.DatabaseType)
 
-		if v.Host != nil {
-			result["host"] = string(*v.Host)
-		}
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
 
-		if v.Port != nil {
-			result["port"] = int(*v.Port)
-		}
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
 
-		result["security_protocol"] = string(v.SecurityProtocol)
+	result["freeform_tags"] = obj.FreeformTags
 
-		result["ssl_mode"] = string(v.SslMode)
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
 
-		result["technology_type"] = string(v.TechnologyType)
-	case oci_database_migration.OracleConnectionSummary:
-		result["connection_type"] = "ORACLE"
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
 
-		if v.ConnectionString != nil {
-			result["connection_string"] = string(*v.ConnectionString)
-		}
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	result["manual_database_sub_type"] = string(obj.ManualDatabaseSubType)
 
-		if v.DatabaseId != nil {
-			result["database_id"] = string(*v.DatabaseId)
-		}
+	result["state"] = string(obj.LifecycleState)
 
-		result["technology_type"] = string(v.TechnologyType)
-	default:
-		log.Printf("[WARN] Received 'connection_type' of unknown type %v", obj)
-		return nil
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeUpdated != nil {
+		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
 	return result
 }
 
-func IngressIpDetailsToMap(obj oci_database_migration.IngressIpDetails) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *DatabaseMigrationConnectionResourceCrud) mapToCreateAdminCredentials(fieldKeyFormat string) (oci_database_migration.CreateAdminCredentials, error) {
+	result := oci_database_migration.CreateAdminCredentials{}
 
-	if obj.IngressIp != nil {
-		result["ingress_ip"] = string(*obj.IngressIp)
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		tmp := password.(string)
+		result.Password = &tmp
 	}
 
-	return result
-}
-
-func (s *DatabaseMigrationConnectionResourceCrud) mapToNameValuePair(fieldKeyFormat string) (oci_database_migration.NameValuePair, error) {
-	result := oci_database_migration.NameValuePair{}
-
-	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
-		tmp := name.(string)
-		result.Name = &tmp
-	}
-
-	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
-		tmp := value.(string)
-		result.Value = &tmp
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
 	}
 
 	return result, nil
 }
 
-func NameValuePairToMap(obj oci_database_migration.NameValuePair) map[string]interface{} {
-	result := map[string]interface{}{}
+func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateAdminCredentials(fieldKeyFormat string) (oci_database_migration.UpdateAdminCredentials, error) {
+	result := oci_database_migration.UpdateAdminCredentials{}
 
-	if obj.Name != nil {
-		result["name"] = string(*obj.Name)
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		tmp := password.(string)
+		result.Password = &tmp
 	}
 
-	if obj.Value != nil {
-		result["value"] = string(*obj.Value)
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func AdminCredentialsToMap(obj *oci_database_migration.AdminCredentials) map[string]interface{} {
+	result := map[string]interface{}{}
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
 	}
 
 	return result
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) populateTopLevelPolymorphicCreateConnectionRequest(request *oci_database_migration.CreateConnectionRequest) error {
-	//discriminator
-	connectionTypeRaw, ok := s.D.GetOkExists("connection_type")
-	var connectionType string
-	if ok {
-		connectionType = connectionTypeRaw.(string)
-	} else {
-		connectionType = "" // default value
+func AdminCredentialsToMapPassword(obj *oci_database_migration.AdminCredentials, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+	if adminCredentialsValue, ok := resourceData.GetOkExists("admin_credentials"); ok {
+		if tmpList := adminCredentialsValue.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "admin_credentials", 0)
+			if adminPassword, ok := resourceData.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+				tmp := adminPassword.(string)
+				result["password"] = &tmp
+			}
+		}
 	}
-	switch strings.ToLower(connectionType) {
-	case strings.ToLower("MYSQL"):
-		details := oci_database_migration.CreateMysqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
-			interfaces := additionalAttributes.([]interface{})
-			tmp := make([]oci_database_migration.NameValuePair, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_attributes", stateDataIndex)
-				converted, err := s.mapToNameValuePair(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("additional_attributes") {
-				details.AdditionalAttributes = tmp
-			}
-		}
-		if databaseName, ok := s.D.GetOkExists("database_name"); ok {
-			tmp := databaseName.(string)
-			details.DatabaseName = &tmp
-		}
-		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
-			tmp := dbSystemId.(string)
-			details.DbSystemId = &tmp
-		}
-		if host, ok := s.D.GetOkExists("host"); ok {
-			tmp := host.(string)
-			details.Host = &tmp
-		}
-		if port, ok := s.D.GetOkExists("port"); ok {
-			tmp := port.(int)
-			details.Port = &tmp
-		}
-		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
-			details.SecurityProtocol = oci_database_migration.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
-		}
-		if sslCa, ok := s.D.GetOkExists("ssl_ca"); ok {
-			tmp := sslCa.(string)
-			details.SslCa = &tmp
-		}
-		if sslCert, ok := s.D.GetOkExists("ssl_cert"); ok {
-			tmp := sslCert.(string)
-			details.SslCert = &tmp
-		}
-		if sslCrl, ok := s.D.GetOkExists("ssl_crl"); ok {
-			tmp := sslCrl.(string)
-			details.SslCrl = &tmp
-		}
-		if sslKey, ok := s.D.GetOkExists("ssl_key"); ok {
-			tmp := sslKey.(string)
-			details.SslKey = &tmp
-		}
-		if sslMode, ok := s.D.GetOkExists("ssl_mode"); ok {
-			details.SslMode = oci_database_migration.MysqlConnectionSslModeEnum(sslMode.(string))
-		}
-		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_database_migration.MysqlConnectionTechnologyTypeEnum(technologyType.(string))
-		}
-		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-			tmp := compartmentId.(string)
-			details.CompartmentId = &tmp
-		}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if keyId, ok := s.D.GetOkExists("key_id"); ok {
-			tmp := keyId.(string)
-			details.KeyId = &tmp
-		}
-		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-				details.NsgIds = tmp
-			}
-		}
-		if password, ok := s.D.GetOkExists("password"); ok {
-			tmp := password.(string)
-			details.Password = &tmp
-		}
-		if replicationPassword, ok := s.D.GetOkExists("replication_password"); ok {
-			tmp := replicationPassword.(string)
-			details.ReplicationPassword = &tmp
-		}
-		if replicationUsername, ok := s.D.GetOkExists("replication_username"); ok {
-			tmp := replicationUsername.(string)
-			details.ReplicationUsername = &tmp
-		}
-		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-			tmp := subnetId.(string)
-			details.SubnetId = &tmp
-		}
-		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_database_migration.MysqlConnectionTechnologyTypeEnum(technologyType.(string))
-		}
-		if username, ok := s.D.GetOkExists("username"); ok {
-			tmp := username.(string)
-			details.Username = &tmp
-		}
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-			tmp := vaultId.(string)
-			details.VaultId = &tmp
-		}
-		request.CreateConnectionDetails = details
-	case strings.ToLower("ORACLE"):
-		details := oci_database_migration.CreateOracleConnectionDetails{}
-		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
-			tmp := connectionString.(string)
-			details.ConnectionString = &tmp
-		}
-		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-			tmp := databaseId.(string)
-			details.DatabaseId = &tmp
-		}
-		if sshHost, ok := s.D.GetOkExists("ssh_host"); ok {
-			tmp := sshHost.(string)
-			details.SshHost = &tmp
-		}
-		if sshKey, ok := s.D.GetOkExists("ssh_key"); ok {
-			tmp := sshKey.(string)
-			details.SshKey = &tmp
-		}
-		if sshSudoLocation, ok := s.D.GetOkExists("ssh_sudo_location"); ok {
-			tmp := sshSudoLocation.(string)
-			details.SshSudoLocation = &tmp
-		}
-		if sshUser, ok := s.D.GetOkExists("ssh_user"); ok {
-			tmp := sshUser.(string)
-			details.SshUser = &tmp
-		}
-		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_database_migration.OracleConnectionTechnologyTypeEnum(technologyType.(string))
-		}
-		if wallet, ok := s.D.GetOkExists("wallet"); ok {
-			tmp := wallet.(string)
-			details.Wallet = &tmp
-		}
-		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-			tmp := compartmentId.(string)
-			details.CompartmentId = &tmp
-		}
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if keyId, ok := s.D.GetOkExists("key_id"); ok {
-			tmp := keyId.(string)
-			details.KeyId = &tmp
-		}
-		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-				details.NsgIds = tmp
-			}
-		}
-		if password, ok := s.D.GetOkExists("password"); ok {
-			tmp := password.(string)
-			details.Password = &tmp
-		}
-		if replicationPassword, ok := s.D.GetOkExists("replication_password"); ok {
-			tmp := replicationPassword.(string)
-			details.ReplicationPassword = &tmp
-		}
-		if replicationUsername, ok := s.D.GetOkExists("replication_username"); ok {
-			tmp := replicationUsername.(string)
-			details.ReplicationUsername = &tmp
-		}
-		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-			tmp := subnetId.(string)
-			details.SubnetId = &tmp
-		}
-		if technologyType, ok := s.D.GetOkExists("technology_type"); ok {
-			details.TechnologyType = oci_database_migration.OracleConnectionTechnologyTypeEnum(technologyType.(string)) //MysqlConnectionTechnologyTypeEnum
-		}
-		if username, ok := s.D.GetOkExists("username"); ok {
-			tmp := username.(string)
-			details.Username = &tmp
-		}
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-			tmp := vaultId.(string)
-			details.VaultId = &tmp
-		}
-		request.CreateConnectionDetails = details
-	default:
-		return fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
 	}
-	return nil
+	return result
 }
 
-func (s *DatabaseMigrationConnectionResourceCrud) populateTopLevelPolymorphicUpdateConnectionRequest(request *oci_database_migration.UpdateConnectionRequest) error {
-	//discriminator
-	connectionTypeRaw, ok := s.D.GetOkExists("connection_type")
-	var connectionType string
-	if ok {
-		connectionType = connectionTypeRaw.(string)
-	} else {
-		connectionType = "" // default value
+func AdminCredentialsToMapPassword2(obj *oci_database_migration.AdminCredentials, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+	if adminPass, ok := resourceData.GetOkExists("replication_credentials.0.password"); ok && adminPass != nil {
+		result["password"] = adminPass.(string)
 	}
-	switch strings.ToLower(connectionType) {
-	case strings.ToLower("MYSQL"):
-		details := oci_database_migration.UpdateMysqlConnectionDetails{}
-		if additionalAttributes, ok := s.D.GetOkExists("additional_attributes"); ok {
-			interfaces := additionalAttributes.([]interface{})
-			tmp := make([]oci_database_migration.NameValuePair, len(interfaces))
-			for i := range interfaces {
-				stateDataIndex := i
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "additional_attributes", stateDataIndex)
-				converted, err := s.mapToNameValuePair(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				tmp[i] = converted
-			}
-			if len(tmp) != 0 || s.D.HasChange("additional_attributes") {
-				details.AdditionalAttributes = tmp
-			}
-		}
-		if databaseName, ok := s.D.GetOkExists("database_name"); ok {
-			tmp := databaseName.(string)
-			details.DatabaseName = &tmp
-		}
-		if dbSystemId, ok := s.D.GetOkExists("db_system_id"); ok {
-			tmp := dbSystemId.(string)
-			details.DbSystemId = &tmp
-		}
-		if host, ok := s.D.GetOkExists("host"); ok {
-			tmp := host.(string)
-			details.Host = &tmp
-		}
-		if port, ok := s.D.GetOkExists("port"); ok {
-			tmp := port.(int)
-			details.Port = &tmp
-		}
-		if securityProtocol, ok := s.D.GetOkExists("security_protocol"); ok {
-			details.SecurityProtocol = oci_database_migration.MysqlConnectionSecurityProtocolEnum(securityProtocol.(string))
-		}
-		if sslCa, ok := s.D.GetOkExists("ssl_ca"); ok {
-			tmp := sslCa.(string)
-			details.SslCa = &tmp
-		}
-		if sslCert, ok := s.D.GetOkExists("ssl_cert"); ok {
-			tmp := sslCert.(string)
-			details.SslCert = &tmp
-		}
-		if sslCrl, ok := s.D.GetOkExists("ssl_crl"); ok {
-			tmp := sslCrl.(string)
-			details.SslCrl = &tmp
-		}
-		if sslKey, ok := s.D.GetOkExists("ssl_key"); ok {
-			tmp := sslKey.(string)
-			details.SslKey = &tmp
-		}
-		if sslMode, ok := s.D.GetOkExists("ssl_mode"); ok {
-			details.SslMode = oci_database_migration.MysqlConnectionSslModeEnum(sslMode.(string))
-		}
-		tmp := s.D.Id()
-		request.ConnectionId = &tmp
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if keyId, ok := s.D.GetOkExists("key_id"); ok {
-			tmp := keyId.(string)
-			details.KeyId = &tmp
-		}
-		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-				details.NsgIds = tmp
-			}
-		}
-		if password, ok := s.D.GetOkExists("password"); ok {
-			tmp := password.(string)
-			details.Password = &tmp
-		}
-		if replicationPassword, ok := s.D.GetOkExists("replication_password"); ok {
-			tmp := replicationPassword.(string)
-			details.ReplicationPassword = &tmp
-		}
-		if replicationUsername, ok := s.D.GetOkExists("replication_username"); ok {
-			tmp := replicationUsername.(string)
-			details.ReplicationUsername = &tmp
-		}
-		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-			tmp := subnetId.(string)
-			details.SubnetId = &tmp
-		}
-		if username, ok := s.D.GetOkExists("username"); ok {
-			tmp := username.(string)
-			details.Username = &tmp
-		}
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-			tmp := vaultId.(string)
-			details.VaultId = &tmp
-		}
-		request.UpdateConnectionDetails = details
-	case strings.ToLower("ORACLE"):
-		details := oci_database_migration.UpdateOracleConnectionDetails{}
-		if connectionString, ok := s.D.GetOkExists("connection_string"); ok {
-			tmp := connectionString.(string)
-			details.ConnectionString = &tmp
-		}
-		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-			tmp := databaseId.(string)
-			details.DatabaseId = &tmp
-		}
-		if sshHost, ok := s.D.GetOkExists("ssh_host"); ok {
-			tmp := sshHost.(string)
-			details.SshHost = &tmp
-		}
-		if sshKey, ok := s.D.GetOkExists("ssh_key"); ok {
-			tmp := sshKey.(string)
-			details.SshKey = &tmp
-		}
-		if sshSudoLocation, ok := s.D.GetOkExists("ssh_sudo_location"); ok {
-			tmp := sshSudoLocation.(string)
-			details.SshSudoLocation = &tmp
-		}
-		if sshUser, ok := s.D.GetOkExists("ssh_user"); ok {
-			tmp := sshUser.(string)
-			details.SshUser = &tmp
-		}
-		if wallet, ok := s.D.GetOkExists("wallet"); ok {
-			tmp := wallet.(string)
-			details.Wallet = &tmp
-		}
-		tmp := s.D.Id()
-		request.ConnectionId = &tmp
-		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-			if err != nil {
-				return err
-			}
-			details.DefinedTags = convertedDefinedTags
-		}
-		if description, ok := s.D.GetOkExists("description"); ok {
-			tmp := description.(string)
-			details.Description = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists("display_name"); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-		}
-		if keyId, ok := s.D.GetOkExists("key_id"); ok {
-			tmp := keyId.(string)
-			details.KeyId = &tmp
-		}
-		if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
-			set := nsgIds.(*schema.Set)
-			interfaces := set.List()
-			tmp := make([]string, len(interfaces))
-			for i := range interfaces {
-				if interfaces[i] != nil {
-					tmp[i] = interfaces[i].(string)
-				}
-			}
-			if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
-				details.NsgIds = tmp
-			}
-		}
-		if password, ok := s.D.GetOkExists("password"); ok {
-			tmp := password.(string)
-			details.Password = &tmp
-		}
-		if replicationPassword, ok := s.D.GetOkExists("replication_password"); ok {
-			tmp := replicationPassword.(string)
-			details.ReplicationPassword = &tmp
-		}
-		if replicationUsername, ok := s.D.GetOkExists("replication_username"); ok {
-			tmp := replicationUsername.(string)
-			details.ReplicationUsername = &tmp
-		}
-		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
-			tmp := subnetId.(string)
-			details.SubnetId = &tmp
-		}
-		if username, ok := s.D.GetOkExists("username"); ok {
-			tmp := username.(string)
-			details.Username = &tmp
-		}
-		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-			tmp := vaultId.(string)
-			details.VaultId = &tmp
-		}
-		request.UpdateConnectionDetails = details
-	default:
-		return fmt.Errorf("unknown connection_type '%v' was specified", connectionType)
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
 	}
-	return nil
+	return result
+}
+
+func AdminCredentialsToMapPasswordRest(obj *oci_database_migration.GoldenGateHub, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPasswordR, ok := resourceData.GetOkExists("golden_gate_details.0.hub.0.rest_admin_credentials.0.password"); ok && adminPasswordR != nil {
+		result["password"] = adminPasswordR.(string)
+	}
+
+	if obj.RestAdminCredentials != nil {
+		result["username"] = string(*obj.RestAdminCredentials.Username)
+	}
+	return result
+}
+
+func AdminCredentialsToMapPasswordContainer(obj *oci_database_migration.GoldenGateHub, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPasswordC, ok := resourceData.GetOkExists("golden_gate_details.0.hub.0.source_container_db_admin_credentials.0.password"); ok && adminPasswordC != nil {
+		result["password"] = adminPasswordC.(string)
+	}
+
+	if obj.SourceContainerDbAdminCredentials != nil {
+		result["username"] = string(*obj.SourceContainerDbAdminCredentials.Username)
+	}
+	return result
+}
+
+func AdminCredentialsToMapPasswordSource(obj *oci_database_migration.GoldenGateHub, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPasswordS, ok := resourceData.GetOkExists("golden_gate_details.0.hub.0.source_db_admin_credentials.0.password"); ok && adminPasswordS != nil {
+		result["password"] = adminPasswordS.(string)
+	}
+	if obj.SourceDbAdminCredentials != nil {
+		result["username"] = string(*obj.SourceDbAdminCredentials.Username)
+	}
+	return result
+}
+
+func AdminCredentialsToMapPasswordTarget(obj *oci_database_migration.GoldenGateHub, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if adminPasswordT, ok := resourceData.GetOkExists("golden_gate_details.0.hub.0.target_db_admin_credentials.0.password"); ok && adminPasswordT != nil {
+		result["password"] = adminPasswordT.(string)
+	}
+
+	if obj.TargetDbAdminCredentials != nil {
+		result["username"] = string(*obj.TargetDbAdminCredentials.Username)
+	}
+
+	return result
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToCreateConnectDescriptor(fieldKeyFormat string) (oci_database_migration.CreateConnectDescriptor, error) {
+	result := oci_database_migration.CreateConnectDescriptor{}
+
+	if connectString, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connect_string")); ok {
+		tmp := connectString.(string)
+		result.ConnectString = &tmp
+	}
+
+	if databaseServiceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_service_name")); ok && s.D.HasChange("database_service_name") {
+		tmp := databaseServiceName.(string)
+		result.DatabaseServiceName = &tmp
+	}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok && s.D.HasChange("host") {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok && s.D.HasChange("port") {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateConnectDescriptor(fieldKeyFormat string) (oci_database_migration.UpdateConnectDescriptor, error) {
+	result := oci_database_migration.UpdateConnectDescriptor{}
+
+	if connectString, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connect_string")); ok {
+		tmp := connectString.(string)
+		result.ConnectString = &tmp
+	}
+
+	if databaseServiceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_service_name")); ok && s.D.HasChange("database_service_name") {
+		tmp := databaseServiceName.(string)
+		result.DatabaseServiceName = &tmp
+	}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok && s.D.HasChange("host") {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok && s.D.HasChange("port") {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	return result, nil
+}
+
+func ConnectDescriptorToMap(obj *oci_database_migration.ConnectDescriptor) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConnectString != nil {
+		result["connect_string"] = string(*obj.ConnectString)
+	}
+
+	if obj.DatabaseServiceName != nil {
+		result["database_service_name"] = *obj.DatabaseServiceName
+	}
+
+	if obj.Host != nil {
+		result["host"] = *obj.Host
+	}
+
+	if obj.Port != nil {
+		result["port"] = *obj.Port
+	}
+
+	return result
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToCreatePrivateEndpoint(fieldKeyFormat string) (oci_database_migration.CreatePrivateEndpoint, error) {
+	result := oci_database_migration.CreatePrivateEndpoint{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	if vcnId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_id")); ok {
+		tmp := vcnId.(string)
+		result.VcnId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdatePrivateEndpoint(fieldKeyFormat string) (oci_database_migration.UpdatePrivateEndpoint, error) {
+	result := oci_database_migration.UpdatePrivateEndpoint{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	if vcnId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vcn_id")); ok {
+		tmp := vcnId.(string)
+		result.VcnId = &tmp
+	}
+
+	return result, nil
+}
+
+func PrivateEndpointDetailsToMap(obj *oci_database_migration.PrivateEndpointDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.VcnId != nil {
+		result["vcn_id"] = string(*obj.VcnId)
+	}
+
+	return result
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToCreateSshDetails(fieldKeyFormat string) (oci_database_migration.CreateSshDetails, error) {
+	result := oci_database_migration.CreateSshDetails{}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if sshkey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sshkey")); ok {
+		tmp := sshkey.(string)
+		result.Sshkey = &tmp
+	}
+
+	if sudoLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sudo_location")); ok {
+		tmp := sudoLocation.(string)
+		result.SudoLocation = &tmp
+	}
+
+	if user, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user")); ok {
+		tmp := user.(string)
+		result.User = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateSshDetails(fieldKeyFormat string) (oci_database_migration.UpdateSshDetails, error) {
+	result := oci_database_migration.UpdateSshDetails{}
+
+	if host, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host")); ok {
+		tmp := host.(string)
+		result.Host = &tmp
+	}
+
+	if sshkey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sshkey")); ok {
+		tmp := sshkey.(string)
+		result.Sshkey = &tmp
+	}
+
+	if sudoLocation, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sudo_location")); ok {
+		tmp := sudoLocation.(string)
+		result.SudoLocation = &tmp
+	}
+
+	if user, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user")); ok {
+		tmp := user.(string)
+		result.User = &tmp
+	}
+
+	return result, nil
+}
+
+func SshDetailsToMap(obj *oci_database_migration.SshDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Host != nil {
+		result["host"] = string(*obj.Host)
+	}
+	if obj.SudoLocation != nil {
+		result["sudo_location"] = string(*obj.SudoLocation)
+	}
+
+	if obj.User != nil {
+		result["user"] = string(*obj.User)
+	}
+
+	return result
+}
+
+func SshDetailsToMapPass(obj *oci_database_migration.SshDetails, resourceData *schema.ResourceData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if sshDetailsValue, ok := resourceData.GetOkExists("ssh_details"); ok {
+		if tmpList := sshDetailsValue.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "ssh_details", 0)
+			if sshKey, ok := resourceData.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sshkey")); ok {
+				tmp := sshKey.(string)
+				result["sshkey"] = &tmp
+			}
+		}
+	}
+	if obj.Host != nil {
+		result["host"] = string(*obj.Host)
+	}
+
+	if obj.SudoLocation != nil {
+		result["sudo_location"] = string(*obj.SudoLocation)
+	}
+
+	if obj.User != nil {
+		result["user"] = string(*obj.User)
+	}
+	return result
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToCreateVaultDetails(fieldKeyFormat string) (oci_database_migration.CreateVaultDetails, error) {
+	result := oci_database_migration.CreateVaultDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if keyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_id")); ok {
+		tmp := keyId.(string)
+		result.KeyId = &tmp
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		result.VaultId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *DatabaseMigrationConnectionResourceCrud) mapToUpdateVaultDetails(fieldKeyFormat string) (oci_database_migration.UpdateVaultDetails, error) {
+	result := oci_database_migration.UpdateVaultDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if keyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_id")); ok {
+		tmp := keyId.(string)
+		result.KeyId = &tmp
+	}
+
+	if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+		tmp := vaultId.(string)
+		result.VaultId = &tmp
+	}
+
+	return result, nil
+}
+func VaultDetailsToMap(obj *oci_database_migration.VaultDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.KeyId != nil {
+		result["key_id"] = string(*obj.KeyId)
+	}
+
+	if obj.VaultId != nil {
+		result["vault_id"] = string(*obj.VaultId)
+	}
+
+	return result
 }
 
 func (s *DatabaseMigrationConnectionResourceCrud) updateCompartment(compartment interface{}) error {
