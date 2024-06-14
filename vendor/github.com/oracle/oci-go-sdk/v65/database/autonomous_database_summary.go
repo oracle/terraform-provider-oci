@@ -151,6 +151,9 @@ type AutonomousDatabaseSummary struct {
 
 	ConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"connectionUrls"`
 
+	// The Public URLs of Private Endpoint database for accessing Oracle Application Express (APEX) and SQL Developer Web with a browser from a Compute instance within your VCN or that has a direct connection to your VCN.
+	PublicConnectionUrls *AutonomousDatabaseConnectionUrls `mandatory:"false" json:"publicConnectionUrls"`
+
 	// The Oracle license model that applies to the Oracle Autonomous Database. Bring your own license (BYOL) allows you to apply your current on-premises Oracle software licenses to equivalent, highly automated Oracle services in the cloud.
 	// License Included allows you to subscribe to new Oracle Database software licenses and the Oracle Database service.
 	// Note that when provisioning an Autonomous Database on dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html), this attribute must be null. It is already set at the
@@ -187,6 +190,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The private endpoint for the resource.
 	PrivateEndpoint *string `mandatory:"false" json:"privateEndpoint"`
+
+	// The public endpoint for the private endpoint enabled resource.
+	PublicEndpoint *string `mandatory:"false" json:"publicEndpoint"`
 
 	// The resource's private endpoint label.
 	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
