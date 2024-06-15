@@ -24,8 +24,10 @@ import (
 // DataSecurityRule Security rule to construct data security list.
 type DataSecurityRule struct {
 
-	// The id of the VCN.
-	VcnId *string `mandatory:"true" json:"vcnId"`
+	// The id (64 bit integer) of zpr policy.
+	StatementId *int64 `mandatory:"true" json:"statementId"`
+
+	VcnLabel *LabelDetails `mandatory:"true" json:"vcnLabel"`
 
 	Source *LabelInfo `mandatory:"true" json:"source"`
 
@@ -45,6 +47,8 @@ type DataSecurityRule struct {
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	IcmpOptions *IcmpOptions `mandatory:"false" json:"icmpOptions"`
+
+	IcmpV6Options *IcmpV6Options `mandatory:"false" json:"icmpV6Options"`
 
 	TcpOptions *TcpOptions `mandatory:"false" json:"tcpOptions"`
 

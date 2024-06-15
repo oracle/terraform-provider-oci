@@ -33,11 +33,11 @@ type ZprTagNamespace struct {
 	// The description you assign to the ZPR tag namespace.
 	Description *string `mandatory:"true" json:"description"`
 
-	// Whether the tag namespace is retired.
+	// Indeicates whether the tag namespace is retired.
 	// See Retiring Key Definitions and Namespace Definitions (https://docs.cloud.oracle.com/Content/Tagging/Tasks/managingtagsandtagnamespaces.htm#retiringkeys).
 	IsRetired *bool `mandatory:"true" json:"isRetired"`
 
-	// Date and time the ZPR tagNamespace was created, in the format defined by RFC3339.
+	// Date and time the ZPR tag namespace was created, in the format defined by RFC3339.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
@@ -55,11 +55,16 @@ type ZprTagNamespace struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}`
+	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
+
 	// Usage of ZPR system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-internal-zpr": {"administrator": {"value": "true", "mode": "enforce"}}}`
 	ZprSystemTags map[string]map[string]interface{} `mandatory:"false" json:"zprSystemTags"`
 
-	// The ZPR tagnamespace's current state. After creating a ZPR tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a ZPR tagnamespace, make sure its `lifecycleState` is INACTIVE before using it.
+	// The ZPR tagnamespace's current state. After creating a ZPR tagnamespace, make sure its `lifecycleState` is ACTIVE before using it. After retiring a ZPR tag namespace, make sure its `lifecycleState` is INACTIVE.
 	LifecycleState ZprTagNamespaceLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 }
 

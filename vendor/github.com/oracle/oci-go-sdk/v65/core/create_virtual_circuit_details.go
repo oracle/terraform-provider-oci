@@ -115,6 +115,16 @@ type CreateVirtualCircuitDetails struct {
 
 	// The layer 3 IP MTU to use with this virtual circuit.
 	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
+
+	// Set to `true` to enable FastConnect Quality of Service (QoS) Bandwidth Reservation for the Virtual Circuit,
+	// or set to `false` to disable QoS. If this is not set, the default is `false`.
+	IsQosBandwidthReservationEnabled *bool `mandatory:"false" json:"isQosBandwidthReservationEnabled"`
+
+	// The FastConnect Quality of Service bandwidth reservation template which can be associated with the virtual circuit.
+	// To get a list of the available FastConnect Quality of Service bandwidth reservation template names (that is, shapes), see
+	//           ListQosBandwidthReservationTemplateShapes.
+	// Example: `FC_QoS_25_25_25_20`.
+	QosBandwidthReservationTemplateShapeName *string `mandatory:"false" json:"qosBandwidthReservationTemplateShapeName"`
 }
 
 func (m CreateVirtualCircuitDetails) String() string {

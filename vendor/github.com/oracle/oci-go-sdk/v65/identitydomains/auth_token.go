@@ -161,7 +161,7 @@ type AuthToken struct {
 	//  - caseExact: true
 	//  - type: string
 	//  - mutability: readOnly
-	//  - required: true
+	//  - required: false
 	//  - returned: default
 	//  - idcsSensitive: hash_sc
 	Token *string `mandatory:"false" json:"token"`

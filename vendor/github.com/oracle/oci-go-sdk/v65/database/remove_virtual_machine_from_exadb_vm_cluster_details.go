@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RemoveVirtualMachineFromExadbVmClusterDetails Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// RemoveVirtualMachineFromExadbVmClusterDetails Details of removing Virtual Machines from the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 type RemoveVirtualMachineFromExadbVmClusterDetails struct {
 
 	// The list of ExaCS DB nodes for the Exadata VM cluster on Exascale Infrastructure to be removed.

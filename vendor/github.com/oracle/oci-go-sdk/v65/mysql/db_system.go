@@ -34,8 +34,11 @@ type DbSystem struct {
 	// Name of the MySQL Version in use for the DB System.
 	MysqlVersion *string `mandatory:"true" json:"mysqlVersion"`
 
-	// Initial size of the data volume in GiBs that will be created and attached.
+	// DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs.
+	// Replaced by dataStorage.dataStorageSizeInGBs.
 	DataStorageSizeInGBs *int `mandatory:"true" json:"dataStorageSizeInGBs"`
+
+	DataStorage *DataStorage `mandatory:"true" json:"dataStorage"`
 
 	// The current state of the DB System.
 	LifecycleState DbSystemLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -196,6 +199,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		SubnetId                   *string                           `json:"subnetId"`
 		MysqlVersion               *string                           `json:"mysqlVersion"`
 		DataStorageSizeInGBs       *int                              `json:"dataStorageSizeInGBs"`
+		DataStorage                *DataStorage                      `json:"dataStorage"`
 		LifecycleState             DbSystemLifecycleStateEnum        `json:"lifecycleState"`
 		Maintenance                *MaintenanceDetails               `json:"maintenance"`
 		DeletionPolicy             *DeletionPolicyDetails            `json:"deletionPolicy"`
@@ -275,6 +279,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.MysqlVersion = model.MysqlVersion
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.DataStorage = model.DataStorage
 
 	m.LifecycleState = model.LifecycleState
 

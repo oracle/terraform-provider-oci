@@ -41,6 +41,7 @@ type UpdateLaunchOptions struct {
 	// * `VFIO` - Direct attached Virtual Function network controller. This is the networking type
 	// when you launch an instance using hardware-assisted (SR-IOV) networking.
 	// * `PARAVIRTUALIZED` - VM instances launch with paravirtualized devices using VirtIO drivers.
+	// * `VDPA` - VM instances launch with hardware-assisted paravirtualized networking type.
 	// Before you change the networking type, detach all VNICs and block volumes except for the primary
 	// VNIC and the boot volume.
 	// The image must have paravirtualized drivers installed. For more information, see
@@ -137,16 +138,19 @@ type UpdateLaunchOptionsNetworkTypeEnum string
 const (
 	UpdateLaunchOptionsNetworkTypeVfio            UpdateLaunchOptionsNetworkTypeEnum = "VFIO"
 	UpdateLaunchOptionsNetworkTypeParavirtualized UpdateLaunchOptionsNetworkTypeEnum = "PARAVIRTUALIZED"
+	UpdateLaunchOptionsNetworkTypeVdpa            UpdateLaunchOptionsNetworkTypeEnum = "VDPA"
 )
 
 var mappingUpdateLaunchOptionsNetworkTypeEnum = map[string]UpdateLaunchOptionsNetworkTypeEnum{
 	"VFIO":            UpdateLaunchOptionsNetworkTypeVfio,
 	"PARAVIRTUALIZED": UpdateLaunchOptionsNetworkTypeParavirtualized,
+	"VDPA":            UpdateLaunchOptionsNetworkTypeVdpa,
 }
 
 var mappingUpdateLaunchOptionsNetworkTypeEnumLowerCase = map[string]UpdateLaunchOptionsNetworkTypeEnum{
 	"vfio":            UpdateLaunchOptionsNetworkTypeVfio,
 	"paravirtualized": UpdateLaunchOptionsNetworkTypeParavirtualized,
+	"vdpa":            UpdateLaunchOptionsNetworkTypeVdpa,
 }
 
 // GetUpdateLaunchOptionsNetworkTypeEnumValues Enumerates the set of values for UpdateLaunchOptionsNetworkTypeEnum
@@ -163,6 +167,7 @@ func GetUpdateLaunchOptionsNetworkTypeEnumStringValues() []string {
 	return []string{
 		"VFIO",
 		"PARAVIRTUALIZED",
+		"VDPA",
 	}
 }
 

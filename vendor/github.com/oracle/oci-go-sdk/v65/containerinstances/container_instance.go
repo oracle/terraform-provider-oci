@@ -95,6 +95,8 @@ type ContainerInstance struct {
 
 	// Customer's streaming OCID which is used for receiving a message whenever container health check status changes.
 	StreamId *string `mandatory:"false" json:"streamId"`
+
+	SecurityContext ContainerInstanceSecurityContext `mandatory:"false" json:"securityContext"`
 }
 
 func (m ContainerInstance) String() string {
@@ -134,6 +136,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 		GracefulShutdownTimeoutInSeconds *int64                                      `json:"gracefulShutdownTimeoutInSeconds"`
 		ImagePullSecrets                 []imagepullsecret                           `json:"imagePullSecrets"`
 		StreamId                         *string                                     `json:"streamId"`
+		SecurityContext                  containerinstancesecuritycontext            `json:"securityContext"`
 		Id                               *string                                     `json:"id"`
 		DisplayName                      *string                                     `json:"displayName"`
 		CompartmentId                    *string                                     `json:"compartmentId"`
@@ -196,6 +199,16 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.StreamId = model.StreamId
+
+	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecurityContext = nn.(ContainerInstanceSecurityContext)
+	} else {
+		m.SecurityContext = nil
+	}
 
 	m.Id = model.Id
 

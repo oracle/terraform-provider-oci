@@ -14,7 +14,7 @@ import (
 // CreateExadbVmClusterRequest wrapper for the CreateExadbVmCluster operation
 type CreateExadbVmClusterRequest struct {
 
-	// Request to create a Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only. See The New Exadata Cloud Service Resource Model (https://docs.cloud.oracle.com/iaas/Content/Database/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) for information on this resource type.
+	// Request to create a Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only. See The New Exadata Cloud Service Resource Model (https://docs.cloud.oracle.com/iaas/Content/Database/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model) for information on this resource type.
 	CreateExadbVmClusterDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -107,8 +107,8 @@ type ListZprTagNamespacesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of ZprTagNamespaceCollection instances
-	ZprTagNamespaceCollection `presentIn:"body"`
+	// A list of []ZprTagNamespaceSummary instances
+	Items []ZprTagNamespaceSummary `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.

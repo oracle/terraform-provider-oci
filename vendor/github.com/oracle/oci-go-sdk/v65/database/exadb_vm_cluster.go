@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ExadbVmCluster Details of the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// ExadbVmCluster Details of the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 type ExadbVmCluster struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata VM cluster on Exascale Infrastructure.
@@ -55,7 +55,7 @@ type ExadbVmCluster struct {
 	// A domain name used for the Exadata VM cluster on Exascale Infrastructure. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, then the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
-	// Applies to Exadata Cloud Service instances only.
+	// Applies to Exadata Database Service on Exascale Infrastructure only.
 	Domain *string `mandatory:"true" json:"domain"`
 
 	// The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.

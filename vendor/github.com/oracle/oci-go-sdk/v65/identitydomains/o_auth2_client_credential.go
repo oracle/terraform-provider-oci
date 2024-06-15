@@ -219,7 +219,7 @@ type OAuth2ClientCredential struct {
 	//  - caseExact: false
 	//  - type: string
 	//  - mutability: readOnly
-	//  - required: true
+	//  - required: false
 	//  - returned: default
 	//  - idcsScimCompliant: false
 	//  - idcsSensitive: hash_sc

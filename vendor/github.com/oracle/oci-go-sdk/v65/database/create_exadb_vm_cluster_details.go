@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// CreateExadbVmClusterDetails Details for the create Exadata VM cluster on Exascale Infrastructure operation. Applies to Exadata Cloud Service instances only.
+// CreateExadbVmClusterDetails Details for the create Exadata VM cluster on Exascale Infrastructure operation. Applies to Exadata Database Service on Exascale Infrastructure only.
 type CreateExadbVmClusterDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
@@ -69,7 +69,7 @@ type CreateExadbVmClusterDetails struct {
 	// A domain name used for the Exadata VM cluster on Exascale Infrastructure. If the Oracle-provided internet and VCN
 	// resolver is enabled for the specified subnet, then the domain name for the subnet is used
 	// (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.
-	// Applies to Exadata Cloud Service instances only.
+	// Applies to Exadata Database Service on Exascale Infrastructure only.
 	Domain *string `mandatory:"false" json:"domain"`
 
 	// The Oracle license model that applies to the Exadata VM cluster on Exascale Infrastructure. The default is BRING_YOUR_OWN_LICENSE.

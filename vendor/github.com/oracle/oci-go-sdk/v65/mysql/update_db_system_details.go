@@ -82,6 +82,8 @@ type UpdateDbSystemDetails struct {
 	// It is not possible to decrease data storage size.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
+	DataStorage *DataStorageDetails `mandatory:"false" json:"dataStorage"`
+
 	// The hostname for the primary endpoint of the DB System. Used for DNS.
 	// The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)
 	// (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").

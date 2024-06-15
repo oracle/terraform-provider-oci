@@ -28,9 +28,6 @@ type DataSecurityListDetails struct {
 	// The id of the compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The id of the policy.
-	PolicyId *string `mandatory:"true" json:"policyId"`
-
 	// Security rules to construct data security list.
 	DataSecurityRules []DataSecurityRule `mandatory:"false" json:"dataSecurityRules"`
 }

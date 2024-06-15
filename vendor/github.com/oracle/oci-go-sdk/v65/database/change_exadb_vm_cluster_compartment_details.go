@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ChangeExadbVmClusterCompartmentDetails The configuration details for moving the Exadata VM cluster on Exascale Infrastructure to another compartment. Applies to Exadata Cloud Service instances only.
+// ChangeExadbVmClusterCompartmentDetails The configuration details for moving the Exadata VM cluster on Exascale Infrastructure to another compartment. Applies to Exadata Database Service on Exascale Infrastructure only.
 type ChangeExadbVmClusterCompartmentDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.

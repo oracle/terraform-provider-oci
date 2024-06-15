@@ -15,21 +15,27 @@ import (
 	"strings"
 )
 
-// ZprTagNamespaceCollection Results of a ZPR Tag Namespace search. Contains both Zpr Tag Namespace items and other information, such as metadata.
-type ZprTagNamespaceCollection struct {
+// BulkEditZprTagsDetails The representation of BulkEditZprTagsDetails
+type BulkEditZprTagsDetails struct {
 
-	// List of ZPR Tag Namespaces.
-	Items []ZprTagNamespaceSummary `mandatory:"true" json:"items"`
+	// The OCID of the compartment where the bulk tag edit request is submitted.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The resources to be updated.
+	Resources []BulkEditResource `mandatory:"true" json:"resources"`
+
+	// The operations associated with the request to bulk edit tags.
+	BulkEditOperations []BulkEditZprOperationDetails `mandatory:"true" json:"bulkEditOperations"`
 }
 
-func (m ZprTagNamespaceCollection) String() string {
+func (m BulkEditZprTagsDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ZprTagNamespaceCollection) ValidateEnumValue() (bool, error) {
+func (m BulkEditZprTagsDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

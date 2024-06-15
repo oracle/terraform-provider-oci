@@ -1604,7 +1604,7 @@ func (client DatabaseClient) changeExadataInfrastructureCompartment(ctx context.
 	return response, err
 }
 
-// ChangeExadbVmClusterCompartment Moves a Exadata VM cluster on Exascale Infrastructure and its dependent resources to another compartment. Applies to Exadata Cloud Service instances only.
+// ChangeExadbVmClusterCompartment Moves a Exadata VM cluster on Exascale Infrastructure and its dependent resources to another compartment. Applies to Exadata Database Service on Exascale Infrastructure only.
 func (client DatabaseClient) ChangeExadbVmClusterCompartment(ctx context.Context, request ChangeExadbVmClusterCompartmentRequest) (response ChangeExadbVmClusterCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4707,64 +4707,6 @@ func (client DatabaseClient) createPluggableDatabase(ctx context.Context, reques
 	return response, err
 }
 
-// CreatePluggableDatabaseSnapshot Creates a Pluggable Database Snapshot
-func (client DatabaseClient) CreatePluggableDatabaseSnapshot(ctx context.Context, request CreatePluggableDatabaseSnapshotRequest) (response CreatePluggableDatabaseSnapshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createPluggableDatabaseSnapshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreatePluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreatePluggableDatabaseSnapshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreatePluggableDatabaseSnapshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreatePluggableDatabaseSnapshotResponse")
-	}
-	return
-}
-
-// createPluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) createPluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabaseSnapshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreatePluggableDatabaseSnapshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "Database", "CreatePluggableDatabaseSnapshot", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CreateScheduledAction Creates a Scheduled Action resource.
 func (client DatabaseClient) CreateScheduledAction(ctx context.Context, request CreateScheduledActionRequest) (response CreateScheduledActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -6033,7 +5975,7 @@ func (client DatabaseClient) deleteExadataInfrastructure(ctx context.Context, re
 	return response, err
 }
 
-// DeleteExadbVmCluster Deletes the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// DeleteExadbVmCluster Deletes the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 func (client DatabaseClient) DeleteExadbVmCluster(ctx context.Context, request DeleteExadbVmClusterRequest) (response DeleteExadbVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -6667,59 +6609,6 @@ func (client DatabaseClient) deletePluggableDatabase(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/DeletePluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "DeletePluggableDatabase", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// DeletePluggableDatabaseSnapshot Deletes the specified Exadata Pluggable Database Snapshot.
-func (client DatabaseClient) DeletePluggableDatabaseSnapshot(ctx context.Context, request DeletePluggableDatabaseSnapshotRequest) (response DeletePluggableDatabaseSnapshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deletePluggableDatabaseSnapshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeletePluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeletePluggableDatabaseSnapshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeletePluggableDatabaseSnapshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeletePluggableDatabaseSnapshotResponse")
-	}
-	return
-}
-
-// deletePluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) deletePluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeletePluggableDatabaseSnapshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/DeletePluggableDatabaseSnapshot"
-		err = common.PostProcessServiceError(err, "Database", "DeletePluggableDatabaseSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -11453,7 +11342,7 @@ func (client DatabaseClient) getExadataIormConfig(ctx context.Context, request c
 	return response, err
 }
 
-// GetExadbVmCluster Gets information about the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// GetExadbVmCluster Gets information about the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 func (client DatabaseClient) GetExadbVmCluster(ctx context.Context, request GetExadbVmClusterRequest) (response GetExadbVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -12456,59 +12345,6 @@ func (client DatabaseClient) getPluggableDatabase(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/GetPluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "GetPluggableDatabase", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetPluggableDatabaseSnapshot Gets information about the specified Exadata Pluggable Database Snapshot in the specified compartment.
-func (client DatabaseClient) GetPluggableDatabaseSnapshot(ctx context.Context, request GetPluggableDatabaseSnapshotRequest) (response GetPluggableDatabaseSnapshotResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getPluggableDatabaseSnapshot, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetPluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetPluggableDatabaseSnapshotResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetPluggableDatabaseSnapshotResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetPluggableDatabaseSnapshotResponse")
-	}
-	return
-}
-
-// getPluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) getPluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetPluggableDatabaseSnapshotResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/GetPluggableDatabaseSnapshot"
-		err = common.PostProcessServiceError(err, "Database", "GetPluggableDatabaseSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -15243,7 +15079,7 @@ func (client DatabaseClient) listDbHomes(ctx context.Context, request common.OCI
 	return response, err
 }
 
-// ListDbNodes Lists the database nodes in the specified DB system and compartment. A database node is a server running database software.
+// ListDbNodes Lists the database nodes in the specified compartment. A database node is a server running database software. In addition to the other required parameters, either '--db-system-id' or '--vm-cluster-id' also must be provided, depending on the service being accessed.
 func (client DatabaseClient) ListDbNodes(ctx context.Context, request ListDbNodesRequest) (response ListDbNodesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15935,7 +15771,7 @@ func (client DatabaseClient) listExadbVmClusterUpdates(ctx context.Context, requ
 	return response, err
 }
 
-// ListExadbVmClusters Gets a list of the Exadata VM clusters on Exascale Infrastructure in the specified compartment. Applies to Exadata Cloud Service instances only.
+// ListExadbVmClusters Gets a list of the Exadata VM clusters on Exascale Infrastructure in the specified compartment. Applies to Exadata Database Service on Exascale Infrastructure only.
 func (client DatabaseClient) ListExadbVmClusters(ctx context.Context, request ListExadbVmClustersRequest) (response ListExadbVmClustersResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16899,59 +16735,6 @@ func (client DatabaseClient) listPdbConversionHistoryEntries(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ListPdbConversionHistoryEntries"
 		err = common.PostProcessServiceError(err, "Database", "ListPdbConversionHistoryEntries", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListPluggableDatabaseSnapshots Gets a list of the Exadata Pluggable Database Snapshots in the specified compartment.
-func (client DatabaseClient) ListPluggableDatabaseSnapshots(ctx context.Context, request ListPluggableDatabaseSnapshotsRequest) (response ListPluggableDatabaseSnapshotsResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listPluggableDatabaseSnapshots, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListPluggableDatabaseSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListPluggableDatabaseSnapshotsResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListPluggableDatabaseSnapshotsResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListPluggableDatabaseSnapshotsResponse")
-	}
-	return
-}
-
-// listPluggableDatabaseSnapshots implements the OCIOperation interface (enables retrying operations)
-func (client DatabaseClient) listPluggableDatabaseSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabaseSnapshots", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ListPluggableDatabaseSnapshotsResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/ListPluggableDatabaseSnapshots"
-		err = common.PostProcessServiceError(err, "Database", "ListPluggableDatabaseSnapshots", apiReferenceLink)
 		return response, err
 	}
 
@@ -21941,7 +21724,7 @@ func (client DatabaseClient) updateExadataIormConfig(ctx context.Context, reques
 	return response, err
 }
 
-// UpdateExadbVmCluster Updates the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// UpdateExadbVmCluster Updates the specified Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 func (client DatabaseClient) UpdateExadbVmCluster(ctx context.Context, request UpdateExadbVmClusterRequest) (response UpdateExadbVmClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

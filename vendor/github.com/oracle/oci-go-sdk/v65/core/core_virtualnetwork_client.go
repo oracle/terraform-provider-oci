@@ -9554,7 +9554,7 @@ func (client VirtualNetworkClient) DeleteInternalZprPolicy(ctx context.Context, 
 // deleteInternalZprPolicy implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) deleteInternalZprPolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalZprPolicy/{internalZprPolicyId}", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalZprPolicy/{compartmentId}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -22546,6 +22546,60 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	return response, err
 }
 
+// ListQosBandwidthReservationTemplateShapes The operation lists available FastConnect Quality of Service bandwidth reservation template names which can be associated with the virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// A default retry strategy applies to this operation ListQosBandwidthReservationTemplateShapes()
+func (client VirtualNetworkClient) ListQosBandwidthReservationTemplateShapes(ctx context.Context, request ListQosBandwidthReservationTemplateShapesRequest) (response ListQosBandwidthReservationTemplateShapesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listQosBandwidthReservationTemplateShapes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListQosBandwidthReservationTemplateShapesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListQosBandwidthReservationTemplateShapesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListQosBandwidthReservationTemplateShapesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListQosBandwidthReservationTemplateShapesResponse")
+	}
+	return
+}
+
+// listQosBandwidthReservationTemplateShapes implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listQosBandwidthReservationTemplateShapes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/qosBandwidthReservationTemplates", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListQosBandwidthReservationTemplateShapesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/QosBandwidthReservationTemplateShape/ListQosBandwidthReservationTemplateShapes"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListQosBandwidthReservationTemplateShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListQosTemplates Lists the Quality of Service template in the specified compartment. There will be a single Quality of Service template in a given compartment.
 // A default retry strategy applies to this operation ListQosTemplates()
 func (client VirtualNetworkClient) ListQosTemplates(ctx context.Context, request ListQosTemplatesRequest) (response ListQosTemplatesResponse, err error) {
@@ -23409,6 +23463,60 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitBandwidthShape/ListVirtualCircuitBandwidthShapes"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitBandwidthShapes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListVirtualCircuitErrors Lists the identified errors for the specified Virtual Circuit ID.
+// A default retry strategy applies to this operation ListVirtualCircuitErrors()
+func (client VirtualNetworkClient) ListVirtualCircuitErrors(ctx context.Context, request ListVirtualCircuitErrorsRequest) (response ListVirtualCircuitErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listVirtualCircuitErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListVirtualCircuitErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListVirtualCircuitErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListVirtualCircuitErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListVirtualCircuitErrorsResponse")
+	}
+	return
+}
+
+// listVirtualCircuitErrors implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listVirtualCircuitErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/virtualCircuits/{virtualCircuitId}/errors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListVirtualCircuitErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/VirtualCircuitErrorDetails/ListVirtualCircuitErrors"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListVirtualCircuitErrors", apiReferenceLink)
 		return response, err
 	}
 

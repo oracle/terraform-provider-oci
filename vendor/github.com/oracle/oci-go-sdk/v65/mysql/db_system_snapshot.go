@@ -33,7 +33,8 @@ type DbSystemSnapshot struct {
 	// Name of the MySQL Version in use for the DB System.
 	MysqlVersion *string `mandatory:"true" json:"mysqlVersion"`
 
-	// Initial size of the data volume in GiBs that will be created and attached.
+	// DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs.
+	// Replaced by dataStorage.dataStorageSizeInGBs.
 	DataStorageSizeInGBs *int `mandatory:"true" json:"dataStorageSizeInGBs"`
 
 	Maintenance *MaintenanceDetails `mandatory:"true" json:"maintenance"`
@@ -63,6 +64,8 @@ type DbSystemSnapshot struct {
 
 	// The OCID of the Configuration to be used for Instances in this DB System.
 	ConfigurationId *string `mandatory:"false" json:"configurationId"`
+
+	DataStorage *DataStorage `mandatory:"false" json:"dataStorage"`
 
 	// The hostname for the primary endpoint of the DB System. Used for DNS.
 	// The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)

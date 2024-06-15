@@ -18,9 +18,6 @@ import (
 // CreateScheduledActionDetails Request to create Scheduled Action resource.
 type CreateScheduledActionDetails struct {
 
-	// The array of OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Scheduled Action and order paris.
-	ActionOrder []string `mandatory:"true" json:"actionOrder"`
-
 	// The type of the scheduled action being performed
 	ActionType CreateScheduledActionDetailsActionTypeEnum `mandatory:"true" json:"actionType"`
 

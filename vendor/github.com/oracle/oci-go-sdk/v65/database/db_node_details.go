@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// DbNodeDetails Details of the ExaCS Db node. Applies to Exadata Cloud Service instances only.
+// DbNodeDetails Details of the ExaCS Db node. Applies to Exadata Database Service on Exascale Infrastructure only.
 type DbNodeDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of ExaCS Db node.

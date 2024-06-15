@@ -2,26 +2,26 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-package jms
+package databasemigration
 
 import (
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
-	"io"
 	"net/http"
 	"strings"
 )
 
-// GetAgentInstallerContentRequest wrapper for the GetAgentInstallerContent operation
-type GetAgentInstallerContentRequest struct {
+// GetParameterFileVersionRequest wrapper for the GetParameterFileVersion operation
+type GetParameterFileVersionRequest struct {
 
-	// Unique agent installer identifier.
-	AgentInstallerId *int64 `mandatory:"true" contributesTo:"path" name:"agentInstallerId"`
+	// A unique name associated with the current migration/job and extract/replicat name
+	ParameterFileName *string `mandatory:"true" contributesTo:"path" name:"parameterFileName"`
 
-	// The ID of the Fleet.
-	FleetId *string `mandatory:"false" contributesTo:"query" name:"fleetId"`
+	// The OCID of the job
+	JobId *string `mandatory:"true" contributesTo:"path" name:"jobId"`
 
-	// The client request ID for tracing.
+	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
+	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -29,12 +29,12 @@ type GetAgentInstallerContentRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request GetAgentInstallerContentRequest) String() string {
+func (request GetParameterFileVersionRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request GetAgentInstallerContentRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request GetParameterFileVersionRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -44,21 +44,21 @@ func (request GetAgentInstallerContentRequest) HTTPRequest(method, path string, 
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request GetAgentInstallerContentRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request GetParameterFileVersionRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request GetAgentInstallerContentRequest) RetryPolicy() *common.RetryPolicy {
+func (request GetParameterFileVersionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request GetAgentInstallerContentRequest) ValidateEnumValue() (bool, error) {
+func (request GetParameterFileVersionRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -66,28 +66,28 @@ func (request GetAgentInstallerContentRequest) ValidateEnumValue() (bool, error)
 	return false, nil
 }
 
-// GetAgentInstallerContentResponse wrapper for the GetAgentInstallerContent operation
-type GetAgentInstallerContentResponse struct {
+// GetParameterFileVersionResponse wrapper for the GetParameterFileVersion operation
+type GetParameterFileVersionResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The io.ReadCloser instance
-	Content io.ReadCloser `presentIn:"body" encoding:"binary"`
+	// The ParameterFileVersion instance
+	ParameterFileVersion `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, provide the request ID.
+	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`
 }
 
-func (response GetAgentInstallerContentResponse) String() string {
+func (response GetParameterFileVersionResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response GetAgentInstallerContentResponse) HTTPResponse() *http.Response {
+func (response GetParameterFileVersionResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

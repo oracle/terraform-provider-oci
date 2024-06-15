@@ -43,6 +43,12 @@ type PhaseStatus struct {
 
 	// Percent progress of job phase.
 	Progress *int `mandatory:"false" json:"progress"`
+
+	// This is returned as true if the current phase can be suspended.
+	IsSuspendAvailable *bool `mandatory:"false" json:"isSuspendAvailable"`
+
+	// Attribute that returns an array of names and types of GoldenGate configuration files that are available for read or update.
+	EditableParameterFiles []JobParameterFileVersionKindEnum `mandatory:"false" json:"editableParameterFiles,omitempty"`
 }
 
 func (m PhaseStatus) String() string {
@@ -59,6 +65,12 @@ func (m PhaseStatus) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingJobPhaseStatusEnum(string(m.Status)); !ok && m.Status != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetJobPhaseStatusEnumStringValues(), ",")))
+	}
+
+	for _, val := range m.EditableParameterFiles {
+		if _, ok := GetMappingJobParameterFileVersionKindEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EditableParameterFiles: %s. Supported values are: %s.", val, strings.Join(GetJobParameterFileVersionKindEnumStringValues(), ",")))
+		}
 	}
 
 	if len(errMessage) > 0 {

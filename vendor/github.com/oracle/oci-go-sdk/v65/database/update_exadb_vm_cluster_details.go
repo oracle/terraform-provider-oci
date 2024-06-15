@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// UpdateExadbVmClusterDetails Details for updating the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Cloud Service instances only.
+// UpdateExadbVmClusterDetails Details for updating the Exadata VM cluster on Exascale Infrastructure. Applies to Exadata Database Service on Exascale Infrastructure only.
 type UpdateExadbVmClusterDetails struct {
 
 	// The user-friendly name for the Exadata VM cluster on Exascale Infrastructure. The name does not need to be unique.

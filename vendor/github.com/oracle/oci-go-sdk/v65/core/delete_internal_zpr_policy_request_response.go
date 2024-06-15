@@ -14,11 +14,8 @@ import (
 // DeleteInternalZprPolicyRequest wrapper for the DeleteInternalZprPolicy operation
 type DeleteInternalZprPolicyRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the internal ZPR policy.
-	InternalZprPolicyId *string `mandatory:"true" contributesTo:"path" name:"internalZprPolicyId"`
-
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
+	CompartmentId *string `mandatory:"true" contributesTo:"path" name:"compartmentId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`
 	// parameter to the value of the etag from a previous GET or POST response for that resource. The resource

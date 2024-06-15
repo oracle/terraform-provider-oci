@@ -79,6 +79,8 @@ type CreateDbSystemDetails struct {
 	// the log volume for the database will be scaled appropriately with its shape.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
+	DataStorage *DataStorageDetails `mandatory:"false" json:"dataStorage"`
+
 	// The hostname for the primary endpoint of the DB System. Used for DNS.
 	// The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)
 	// (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").
@@ -159,6 +161,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		AdminUsername        *string                           `json:"adminUsername"`
 		AdminPassword        *string                           `json:"adminPassword"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
+		DataStorage          *DataStorageDetails               `json:"dataStorage"`
 		HostnameLabel        *string                           `json:"hostnameLabel"`
 		IpAddress            *string                           `json:"ipAddress"`
 		Port                 *int                              `json:"port"`
@@ -201,6 +204,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.AdminPassword = model.AdminPassword
 
 	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.DataStorage = model.DataStorage
 
 	m.HostnameLabel = model.HostnameLabel
 

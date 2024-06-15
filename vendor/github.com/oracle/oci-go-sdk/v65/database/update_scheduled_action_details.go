@@ -24,6 +24,9 @@ type UpdateScheduledActionDetails struct {
 
 	// The list of action members in a scheduled action.
 	ActionMembers []ActionMember `mandatory:"false" json:"actionMembers"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Scheduling Window.
+	SchedulingWindowId *string `mandatory:"false" json:"schedulingWindowId"`
 }
 
 func (m UpdateScheduledActionDetails) String() string {

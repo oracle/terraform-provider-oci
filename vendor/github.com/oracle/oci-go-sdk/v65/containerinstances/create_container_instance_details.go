@@ -68,6 +68,8 @@ type CreateContainerInstanceDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`.
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	SecurityContext CreateContainerInstanceSecurityContextDetails `mandatory:"false" json:"securityContext"`
 }
 
 func (m CreateContainerInstanceDetails) String() string {
@@ -92,22 +94,23 @@ func (m CreateContainerInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                      *string                                     `json:"displayName"`
-		FaultDomain                      *string                                     `json:"faultDomain"`
-		Volumes                          []createcontainervolumedetails              `json:"volumes"`
-		DnsConfig                        *CreateContainerDnsConfigDetails            `json:"dnsConfig"`
-		GracefulShutdownTimeoutInSeconds *int64                                      `json:"gracefulShutdownTimeoutInSeconds"`
-		ImagePullSecrets                 []createimagepullsecretdetails              `json:"imagePullSecrets"`
-		ContainerRestartPolicy           ContainerInstanceContainerRestartPolicyEnum `json:"containerRestartPolicy"`
-		StreamId                         *string                                     `json:"streamId"`
-		FreeformTags                     map[string]string                           `json:"freeformTags"`
-		DefinedTags                      map[string]map[string]interface{}           `json:"definedTags"`
-		CompartmentId                    *string                                     `json:"compartmentId"`
-		AvailabilityDomain               *string                                     `json:"availabilityDomain"`
-		Shape                            *string                                     `json:"shape"`
-		ShapeConfig                      *CreateContainerInstanceShapeConfigDetails  `json:"shapeConfig"`
-		Containers                       []CreateContainerDetails                    `json:"containers"`
-		Vnics                            []CreateContainerVnicDetails                `json:"vnics"`
+		DisplayName                      *string                                       `json:"displayName"`
+		FaultDomain                      *string                                       `json:"faultDomain"`
+		Volumes                          []createcontainervolumedetails                `json:"volumes"`
+		DnsConfig                        *CreateContainerDnsConfigDetails              `json:"dnsConfig"`
+		GracefulShutdownTimeoutInSeconds *int64                                        `json:"gracefulShutdownTimeoutInSeconds"`
+		ImagePullSecrets                 []createimagepullsecretdetails                `json:"imagePullSecrets"`
+		ContainerRestartPolicy           ContainerInstanceContainerRestartPolicyEnum   `json:"containerRestartPolicy"`
+		StreamId                         *string                                       `json:"streamId"`
+		FreeformTags                     map[string]string                             `json:"freeformTags"`
+		DefinedTags                      map[string]map[string]interface{}             `json:"definedTags"`
+		SecurityContext                  createcontainerinstancesecuritycontextdetails `json:"securityContext"`
+		CompartmentId                    *string                                       `json:"compartmentId"`
+		AvailabilityDomain               *string                                       `json:"availabilityDomain"`
+		Shape                            *string                                       `json:"shape"`
+		ShapeConfig                      *CreateContainerInstanceShapeConfigDetails    `json:"shapeConfig"`
+		Containers                       []CreateContainerDetails                      `json:"containers"`
+		Vnics                            []CreateContainerVnicDetails                  `json:"vnics"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -154,6 +157,16 @@ func (m *CreateContainerInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	nn, e = model.SecurityContext.UnmarshalPolymorphicJSON(model.SecurityContext.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SecurityContext = nn.(CreateContainerInstanceSecurityContextDetails)
+	} else {
+		m.SecurityContext = nil
+	}
 
 	m.CompartmentId = model.CompartmentId
 
