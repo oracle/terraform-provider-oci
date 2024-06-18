@@ -80,11 +80,16 @@ var (
 		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
 		"is_preview_version_with_service_terms_accepted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
-		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"license_model":              acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-		"scheduled_operations":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentation},
-		"vault_id":                   acctest.Representation{RepType: acctest.Optional, Create: kmsVaultId, Update: kmsVaultId},
+		"customer_contacts": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
+		"license_model":     acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"scheduled_operations": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMonday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
 		"whitelisted_ips":            acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}},
 		"operations_insights_status": acctest.Representation{RepType: acctest.Optional, Create: `NOT_ENABLED`, Update: `ENABLED`},
 		"timeouts":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousDatabaseTimeoutsRepresentation},
@@ -151,6 +156,71 @@ var (
 		"is_disabled":              acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
+	DatabaseScheduledOperationsDayOfWeekMonday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `MONDAY`},
+	}
+	DatabaseScheduledOperationsDayOfWeekTuesday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `TUESDAY`, Update: `TUESDAY`},
+	}
+	DatabaseScheduledOperationsDayOfWeekWednesday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `WEDNESDAY`, Update: `WEDNESDAY`},
+	}
+	DatabaseScheduledOperationsDayOfWeekThursday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `THURSDAY`, Update: `THURSDAY`},
+	}
+	DatabaseScheduledOperationsDayOfWeekFriday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `FRIDAY`, Update: `FRIDAY`},
+	}
+	DatabaseScheduledOperationsDayOfWeekSaturday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `SATURDAY`, Update: `SATURDAY`},
+	}
+
+	DatabaseScheduledOperationsDayOfWeekSunday = map[string]interface{}{
+		"name": acctest.Representation{RepType: acctest.Required, Create: `SUNDAY`, Update: `SUNDAY`},
+	}
+
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationMondayUpdated = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekMonday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+	}
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationMonday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekMonday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekTuesday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `10:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `20:00`},
+	}
+
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekWednesday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekThursday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekFriday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekSaturday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+	DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday = map[string]interface{}{
+		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseScheduledOperationsDayOfWeekSunday},
+		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `09:00`},
+		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `19:00`},
+	}
+
 	DatabaseAutonomousDatabaseLongTermBackupDelete = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
@@ -207,26 +277,6 @@ var (
 	DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds = map[string]interface{}{
 		"name":       acctest.Representation{RepType: acctest.Required, Create: `ORDS`, Update: `ORDS`},
 		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
-	}
-
-	DatabaseAutonomousDatabaseScheduledOperationsRepresentation = map[string]interface{}{
-		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseScheduledOperationsDayOfWeekRepresentation},
-		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `09:00`, Update: `10:00`},
-		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `19:00`, Update: `20:00`},
-	}
-
-	DatabaseAutonomousDatabaseScheduledOperationsUpdateRepresentation = map[string]interface{}{
-		"day_of_week":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseScheduledOperationsDayOfWeekUpdateRepresentation},
-		"scheduled_start_time": acctest.Representation{RepType: acctest.Optional, Create: `10:00`, Update: `10:00`},
-		"scheduled_stop_time":  acctest.Representation{RepType: acctest.Optional, Create: `20:00`, Update: `20:00`},
-	}
-
-	DatabaseAutonomousDatabaseScheduledOperationsDayOfWeekUpdateRepresentation = map[string]interface{}{
-		"name": acctest.Representation{RepType: acctest.Required, Create: `TUESDAY`, Update: `TUESDAY`},
-	}
-
-	DatabaseAutonomousDatabaseScheduledOperationsDayOfWeekRepresentation = map[string]interface{}{
-		"name": acctest.Representation{RepType: acctest.Required, Create: `MONDAY`, Update: `TUESDAY`},
 	}
 
 	autonomousDatabaseTimeoutsRepresentation = map[string]interface{}{
@@ -814,30 +864,6 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
-					}
-					return err
-				},
-			),
-		},
-
-		//17. Verify scheduled_operations
-		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(autonomousDatabaseRepresentationBYOL, map[string]interface{}{
-						"scheduled_operations": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsUpdateRepresentation},
-					})),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.day_of_week.0.name", "TUESDAY"),
-				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_start_time", "10:00"),
-				resource.TestCheckResourceAttr(resourceName, "scheduled_operations.0.scheduled_stop_time", "20:00"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")

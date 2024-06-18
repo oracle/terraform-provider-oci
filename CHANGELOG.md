@@ -1,10 +1,22 @@
+## 5.47.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Allow Public Access to Databases on Private Endpoint
+- management resource for masking policy health report in Data Safe
+- Upgrade golang.org/x/net to v0.23.0
+- Support for Dynamic Notification for Alarms
+### Bug Fix
+- Terraform for fix autostart and autostop removal of scheduled operations
+- Need to Set db_node_id int Set db_node function
+- allow update native pod networking, only update placement config when there is a change
+- oci_log_analytics_namespace source doc fix
+
 ## 5.46.0 (June 11, 2024)
 
 ### Added
 - Support for Dynamic Notification for Alarms
 ### Bug Fix
 - oci_log_analytics_namespace source doc fix
-- Allow update native pod networking, only update placement config when there is a change
 
 ## 5.45.0 (June 04, 2024)
 
