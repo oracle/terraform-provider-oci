@@ -209,6 +209,16 @@ var (
 				"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 			}), []string{"whitelisted_ips", "scheduled_operations"})
 
+	autonomousDatabasePEWithPublicAccessRepresentation = acctest.RepresentationCopyWithRemovedProperties(
+		acctest.RepresentationCopyWithNewProperties(
+			autonomousDatabaseRepresentationECPU,
+			map[string]interface{}{
+				"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+				"private_endpoint_label": acctest.Representation{RepType: acctest.Optional, Create: `pePublicLabel`},
+				"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+				"whitelisted_ips":        acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}, Update: []string{`1.1.1.1/28`, `1.1.1.1/29`}},
+			}), []string{"scheduled_operations"})
+
 	AutonomousDatabasePrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -1921,6 +1931,95 @@ func TestResourceDatabaseAutonomousDatabaseResource_privateEndpoint(t *testing.T
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "true"),
 				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "3"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+// issue-routing-tag: database/dbaas-adb
+func TestResourceDatabaseAutonomousDatabaseResource_privateEndpointWithPublicAccess(t *testing.T) {
+	httpreplay.SetScenario("TestResourceDatabaseAutonomousDatabaseResource_privateEndPointWithPublicAccess")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabasePEWithPublicAccessRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "example_autonomous_database"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "pePublicLabel"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "public_connection_urls.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "is_mtls_connection_required", "false"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		//1. modify acl's of pe database
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabasePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(autonomousDatabasePEWithPublicAccessRepresentation, map[string]interface{}{
+						"whitelisted_ips": acctest.Representation{RepType: acctest.Optional, Update: []string{"1.1.1.28", "1.1.1.29"}},
+					}), []string{"admin_password", "display_name", "freeform_tags", "db_tools_details", "is_mtls_connection_required"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_preview_version_with_service_terms_accepted", "false"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "private_endpoint_label", "pePublicLabel"),
+				resource.TestCheckResourceAttr(resourceName, "whitelisted_ips.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "public_connection_urls.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "connection_strings.0.profiles.#", "6"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -4315,6 +4414,207 @@ func TestDatabaseAutonomousDatabase_opsi_dbms(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "REGISTERED"),
 				resource.TestCheckResourceAttr(resourceName, "database_management_status", "ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "ENABLED"),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_scheduledOperations")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	okvSecret = utils.GetEnvSettingWithBlankDefault("okv_secret")
+	OkvSecretVariableStr = fmt.Sprintf("variable \"okv_secret\" { default = \"%s\" }\n", okvSecret)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database"
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseAutonomousDatabaseResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentation), "database", "autonomousDatabase", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Verify Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "MONDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "TUESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "WEDNESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "THURSDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "FRIDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SATURDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SUNDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//test to verify if the plan fails.
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"scheduled_operations"}),
+						map[string]interface{}{
+							"scheduled_operations": []acctest.RepresentationGroup{
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMonday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "MONDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "TUESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "WEDNESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "THURSDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "FRIDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SATURDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SUNDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"scheduled_operations"}),
+						map[string]interface{}{
+							"scheduled_operations": []acctest.RepresentationGroup{
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMondayUpdated},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "MONDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "TUESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "WEDNESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "THURSDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "FRIDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SATURDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SUNDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+
 				func(s *terraform.State) (err error) {
 					_, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
