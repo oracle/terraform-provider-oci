@@ -1,4 +1,4 @@
-## 5.47.0 (Unreleased)
+## 5.47.0 (June 18, 2024)
 
 ### Added
 - Support for ADB-S: Allow Public Access to Databases on Private Endpoint
