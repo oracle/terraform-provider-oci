@@ -357,6 +357,16 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("provisionable_cpus", s.Res.ProvisionableCpus)
 
+	if s.Res.PublicConnectionUrls != nil {
+		s.D.Set("public_connection_urls", []interface{}{AutonomousDatabaseConnectionUrlsToMap(s.Res.PublicConnectionUrls)})
+	} else {
+		s.D.Set("public_connection_urls", nil)
+	}
+
+	if s.Res.PublicEndpoint != nil {
+		s.D.Set("public_endpoint", *s.Res.PublicEndpoint)
+	}
+
 	s.D.Set("refreshable_mode", s.Res.RefreshableMode)
 
 	s.D.Set("refreshable_status", s.Res.RefreshableStatus)
