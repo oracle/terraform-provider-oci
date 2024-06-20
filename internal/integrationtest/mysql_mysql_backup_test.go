@@ -69,6 +69,8 @@ var (
 		MysqlMysqlConfigurationResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_backup_db_system", acctest.Required, acctest.Create, MysqlMysqlDbSystemRepresentation) +
 		AvailabilityDomainConfig
+
+	mysqlDbSystemId, mysqlBackupId string
 )
 
 // issue-routing-tag: mysql/default
@@ -273,6 +275,11 @@ func TestMysqlMysqlBackupResource_basic(t *testing.T) {
 func testAccCheckMysqlMysqlBackupDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DbBackupsClient()
+
+	if mysqlBackupId != "" || mysqlDbSystemId != "" {
+		deleteCopyBackupSource()
+	}
+
 	for _, rs := range s.RootModule().Resources {
 		if rs.Type == "oci_mysql_mysql_backup" {
 			noResourceFound = false
