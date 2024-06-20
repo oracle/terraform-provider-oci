@@ -128,6 +128,7 @@ The following attributes are exported:
 	* `mysql_version` - Name of the MySQL Version in use for the DB System.
 	* `port` - The port for primary endpoint of the DB System to listen on.
 	* `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
+	* `region` - The region identifier of the region where the DB system exists. For more information, please see [Regions and Availability Domains](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm).
 	* `secure_connections` - Secure connection configuration details. 
 		* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 		* `certificate_id` - The OCID of the certificate to use.
@@ -138,11 +139,14 @@ The following attributes are exported:
 * `display_name` - A user-supplied display name for the backup.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - OCID of the backup itself
+* `immediate_source_backup_id` - The OCID of the immediate source DB system backup from which this DB system backup was copied. 
 * `lifecycle_details` - Additional information about the current lifecycleState.
 * `mysql_version` - The MySQL server version of the DB System used for backup.
+* `original_source_backup_id` - The OCID of the original source DB system backup from which this DB system backup was copied. 
 * `retention_in_days` - Number of days to retain this backup.
 * `shape_name` - The shape of the DB System instance used for backup.
 * `state` - The state of the backup.
+* `time_copy_created` - The date and time the DB system backup copy was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_created` - The time the backup record was created.
 * `time_updated` - The time at which the backup was updated.
 

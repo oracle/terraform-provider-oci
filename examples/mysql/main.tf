@@ -13,7 +13,8 @@ variable "private_key_path" {
 }
 
 variable "region" {
-}
+  // Define the region where destination backup will be created.
+ }
 
 variable "compartment_ocid" {
 }

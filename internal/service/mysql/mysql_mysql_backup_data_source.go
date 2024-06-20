@@ -106,12 +106,20 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.ImmediateSourceBackupId != nil {
+		s.D.Set("immediate_source_backup_id", *s.Res.ImmediateSourceBackupId)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	if s.Res.MysqlVersion != nil {
 		s.D.Set("mysql_version", *s.Res.MysqlVersion)
+	}
+
+	if s.Res.OriginalSourceBackupId != nil {
+		s.D.Set("original_source_backup_id", *s.Res.OriginalSourceBackupId)
 	}
 
 	if s.Res.RetentionInDays != nil {
@@ -123,6 +131,10 @@ func (s *MysqlMysqlBackupDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCopyCreated != nil {
+		s.D.Set("time_copy_created", s.Res.TimeCopyCreated.String())
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
