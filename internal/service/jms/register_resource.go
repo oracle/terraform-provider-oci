@@ -7,4 +7,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_jms_fleet", JmsFleetResource())
+	tfresource.RegisterResource("oci_jms_fleet_advanced_feature_configuration", JmsFleetAdvancedFeatureConfigurationResource())
 }
