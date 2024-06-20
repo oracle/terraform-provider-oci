@@ -55,7 +55,7 @@ variable "db_admin_password" {
 }
 
 variable "db_version" {
-  default = "19.0.0.0"
+  default = "19.24.0.0"
 }
 
 variable "db_disk_redundancy" {
@@ -146,17 +146,13 @@ data "oci_database_databases" "databases" {
   db_home_id     = data.oci_database_db_homes.db_homes.db_homes[0].db_home_id
 }
 
-d
-
-
-
-ata "oci_database_db_versions" "test_db_versions_by_db_system_id" {
+data "oci_database_db_versions" "test_db_versions_by_db_system_id" {
   compartment_id = var.compartment_ocid
   db_system_id   = oci_database_db_system.test_db_system.id
 }
 
 resource "oci_database_backup" "test_backup" {
-  database_id = "${data.oci_database_databases.databases.databases.0.id}"
+  database_id = data.oci_database_databases.databases.databases.0.id
   display_name = "Monthly Backup"
 }
 
@@ -303,6 +299,7 @@ resource "oci_database_db_system" "test_db_system" {
 #      kms_key_id     = var.kms_key_id
 #      vault_id       = var.vault_id
       db_name        = "aTFdbVm"
+      db_unique_name = "aTFdbVm_xyz"
       character_set  = var.character_set
       ncharacter_set = var.n_character_set
       db_workload    = var.db_workload
@@ -313,7 +310,7 @@ resource "oci_database_db_system" "test_db_system" {
       }
     }
 
-    db_version   = "19.15.0.0"
+    db_version   = "19.24.0.0"
     display_name = "MyTFDBHomeVm"
   }
 
@@ -360,12 +357,12 @@ resource "oci_database_db_system" "db_system_bkup" {
   display_name = "tfDbSystemFromBackupWithCustImg"
 
   db_home {
-    db_version = "19.15.0.0"
+    db_version = "19.24.0.0"
 #    database_software_image_id = var.test_database_software_image_ocid
     database {
       admin_password = "BEstrO0ng_#11"
       backup_tde_password = "BEstrO0ng_#11"
-      backup_id = "${oci_database_backup.test_backup.id}"
+      backup_id = oci_database_backup.test_backup.id
       db_name = "dbback"
     }
   }

@@ -301,7 +301,9 @@ func DatabaseDbSystemResource() *schema.Resource {
 									},
 									"db_unique_name": {
 										Type:     schema.TypeString,
+										Optional: true,
 										Computed: true,
+										ForceNew: true,
 									},
 									"id": {
 										Type:     schema.TypeString,
@@ -1551,6 +1553,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.DbName = &tmp
 	}
 
+	if dbUniqueName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_unique_name")); ok {
+		tmp := dbUniqueName.(string)
+		result.DbUniqueName = &tmp
+	}
+
 	if dbWorkload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_workload")); ok {
 		result.DbWorkload = oci_database.CreateDatabaseDetailsDbWorkloadEnum(dbWorkload.(string))
 	}
@@ -1621,6 +1628,10 @@ func CreateDatabaseDetailsToMap(obj *oci_database.CreateDatabaseDetails) map[str
 
 	if obj.DbName != nil {
 		result["db_name"] = string(*obj.DbName)
+	}
+
+	if obj.DbUniqueName != nil {
+		result["db_unique_name"] = string(*obj.DbUniqueName)
 	}
 
 	result["db_workload"] = string(obj.DbWorkload)
