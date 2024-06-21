@@ -20,15 +20,6 @@ type Replicat struct {
 
 	// Replicat performance.
 	PerformanceProfile ReplicatPerformanceProfileEnum `mandatory:"false" json:"performanceProfile,omitempty"`
-
-	// Number of threads used to read trail files (valid for Parallel Replicat)
-	MapParallelism *int `mandatory:"false" json:"mapParallelism"`
-
-	// Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat)
-	MinApplyParallelism *int `mandatory:"false" json:"minApplyParallelism"`
-
-	// Defines the range in which Replicat automatically adjusts its apply parallelism (valid for Parallel Replicat)
-	MaxApplyParallelism *int `mandatory:"false" json:"maxApplyParallelism"`
 }
 
 func (m Replicat) String() string {

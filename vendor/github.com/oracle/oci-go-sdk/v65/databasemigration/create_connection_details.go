@@ -10,79 +10,204 @@
 package databasemigration
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// CreateConnectionDetails Details to create a Database Connection resource.
-type CreateConnectionDetails struct {
+// CreateConnectionDetails The information about a new Connection.
+type CreateConnectionDetails interface {
 
-	// OCID of the compartment
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDisplayName() *string
 
-	// Database connection type.
-	DatabaseType DatabaseConnectionTypesEnum `mandatory:"true" json:"databaseType"`
+	// The OCID of the compartment.
+	GetCompartmentId() *string
 
-	AdminCredentials *CreateAdminCredentials `mandatory:"true" json:"adminCredentials"`
+	// OCI resource ID.
+	GetVaultId() *string
 
-	VaultDetails *CreateVaultDetails `mandatory:"true" json:"vaultDetails"`
+	// The OCID of the key used in cryptographic operations.
+	GetKeyId() *string
 
-	// Database Connection display name identifier.
-	DisplayName *string `mandatory:"false" json:"displayName"`
+	// The username (credential) used when creating or updating this resource.
+	GetUsername() *string
 
-	// Database manual connection subtype. This value can only be specified for manual connections.
-	ManualDatabaseSubType DatabaseManualConnectionSubTypesEnum `mandatory:"false" json:"manualDatabaseSubType,omitempty"`
+	// The password (credential) used when creating or updating this resource.
+	GetPassword() *string
 
-	// The OCID of the cloud database. Required if the database connection type is Autonomous.
-	DatabaseId *string `mandatory:"false" json:"databaseId"`
+	// A user-friendly description. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDescription() *string
 
-	ConnectDescriptor *CreateConnectDescriptor `mandatory:"false" json:"connectDescriptor"`
-
-	// This name is the distinguished name used while creating the certificate on target database. Requires a TLS wallet to be specified.
-	// Not required for source container database connections.
-	CertificateTdn *string `mandatory:"false" json:"certificateTdn"`
-
-	// cwallet.sso containing containing the TCPS/SSL certificate; base64 encoded String. Not required for source container database connections.
-	TlsWallet *string `mandatory:"false" json:"tlsWallet"`
-
-	// keystore.jks file contents; base64 encoded String. Requires a TLS wallet to be specified. Not required for source container database connections.
-	TlsKeystore *string `mandatory:"false" json:"tlsKeystore"`
-
-	SshDetails *CreateSshDetails `mandatory:"false" json:"sshDetails"`
-
-	ReplicationCredentials *CreateAdminCredentials `mandatory:"false" json:"replicationCredentials"`
-
-	PrivateEndpoint *CreatePrivateEndpoint `mandatory:"false" json:"privateEndpoint"`
-
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags. Example: {"Department": "Finance"}
+	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	GetDefinedTags() map[string]map[string]interface{}
+
+	// OCI resource ID.
+	GetSubnetId() *string
 
 	// An array of Network Security Group OCIDs used to define network access for Connections.
-	NsgIds []string `mandatory:"false" json:"nsgIds"`
+	GetNsgIds() []string
+
+	// The username (credential) used when creating or updating this resource.
+	GetReplicationUsername() *string
+
+	// The password (credential) used when creating or updating this resource.
+	GetReplicationPassword() *string
 }
 
-func (m CreateConnectionDetails) String() string {
+type createconnectiondetails struct {
+	JsonData            []byte
+	Description         *string                           `mandatory:"false" json:"description"`
+	FreeformTags        map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags         map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SubnetId            *string                           `mandatory:"false" json:"subnetId"`
+	NsgIds              []string                          `mandatory:"false" json:"nsgIds"`
+	ReplicationUsername *string                           `mandatory:"false" json:"replicationUsername"`
+	ReplicationPassword *string                           `mandatory:"false" json:"replicationPassword"`
+	DisplayName         *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId       *string                           `mandatory:"true" json:"compartmentId"`
+	VaultId             *string                           `mandatory:"true" json:"vaultId"`
+	KeyId               *string                           `mandatory:"true" json:"keyId"`
+	Username            *string                           `mandatory:"true" json:"username"`
+	Password            *string                           `mandatory:"true" json:"password"`
+	ConnectionType      string                            `json:"connectionType"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *createconnectiondetails) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalercreateconnectiondetails createconnectiondetails
+	s := struct {
+		Model Unmarshalercreateconnectiondetails
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.DisplayName = s.Model.DisplayName
+	m.CompartmentId = s.Model.CompartmentId
+	m.VaultId = s.Model.VaultId
+	m.KeyId = s.Model.KeyId
+	m.Username = s.Model.Username
+	m.Password = s.Model.Password
+	m.Description = s.Model.Description
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
+	m.SubnetId = s.Model.SubnetId
+	m.NsgIds = s.Model.NsgIds
+	m.ReplicationUsername = s.Model.ReplicationUsername
+	m.ReplicationPassword = s.Model.ReplicationPassword
+	m.ConnectionType = s.Model.ConnectionType
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *createconnectiondetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.ConnectionType {
+	case "MYSQL":
+		mm := CreateMysqlConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ORACLE":
+		mm := CreateOracleConnectionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Recieved unsupported enum value for CreateConnectionDetails: %s.", m.ConnectionType)
+		return *m, nil
+	}
+}
+
+// GetDescription returns Description
+func (m createconnectiondetails) GetDescription() *string {
+	return m.Description
+}
+
+// GetFreeformTags returns FreeformTags
+func (m createconnectiondetails) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m createconnectiondetails) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSubnetId returns SubnetId
+func (m createconnectiondetails) GetSubnetId() *string {
+	return m.SubnetId
+}
+
+// GetNsgIds returns NsgIds
+func (m createconnectiondetails) GetNsgIds() []string {
+	return m.NsgIds
+}
+
+// GetReplicationUsername returns ReplicationUsername
+func (m createconnectiondetails) GetReplicationUsername() *string {
+	return m.ReplicationUsername
+}
+
+// GetReplicationPassword returns ReplicationPassword
+func (m createconnectiondetails) GetReplicationPassword() *string {
+	return m.ReplicationPassword
+}
+
+// GetDisplayName returns DisplayName
+func (m createconnectiondetails) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m createconnectiondetails) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetVaultId returns VaultId
+func (m createconnectiondetails) GetVaultId() *string {
+	return m.VaultId
+}
+
+// GetKeyId returns KeyId
+func (m createconnectiondetails) GetKeyId() *string {
+	return m.KeyId
+}
+
+// GetUsername returns Username
+func (m createconnectiondetails) GetUsername() *string {
+	return m.Username
+}
+
+// GetPassword returns Password
+func (m createconnectiondetails) GetPassword() *string {
+	return m.Password
+}
+
+func (m createconnectiondetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateConnectionDetails) ValidateEnumValue() (bool, error) {
+func (m createconnectiondetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingDatabaseConnectionTypesEnum(string(m.DatabaseType)); !ok && m.DatabaseType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseType: %s. Supported values are: %s.", m.DatabaseType, strings.Join(GetDatabaseConnectionTypesEnumStringValues(), ",")))
-	}
 
-	if _, ok := GetMappingDatabaseManualConnectionSubTypesEnum(string(m.ManualDatabaseSubType)); !ok && m.ManualDatabaseSubType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManualDatabaseSubType: %s. Supported values are: %s.", m.ManualDatabaseSubType, strings.Join(GetDatabaseManualConnectionSubTypesEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
