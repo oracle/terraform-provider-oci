@@ -32,6 +32,9 @@ type AutonomousDatabaseStandbySummary struct {
 
 	// The date and time the Disaster Recovery role was switched for the standby Autonomous Database.
 	TimeDisasterRecoveryRoleChanged *common.SDKTime `mandatory:"false" json:"timeDisasterRecoveryRoleChanged"`
+
+	// The availability domain of a local Autonomous Data Guard standby database of an Autonomous Database Serverless instance.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }
 
 func (m AutonomousDatabaseStandbySummary) String() string {

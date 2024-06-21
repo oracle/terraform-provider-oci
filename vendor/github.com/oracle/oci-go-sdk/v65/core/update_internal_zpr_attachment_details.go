@@ -46,9 +46,9 @@ type UpdateInternalZprAttachmentDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// zprTags for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m UpdateInternalZprAttachmentDetails) String() string {

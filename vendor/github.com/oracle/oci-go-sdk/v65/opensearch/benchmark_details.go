@@ -18,50 +18,17 @@ import (
 // BenchmarkDetails Benchmark test configuration detail.
 type BenchmarkDetails struct {
 
-	// Private endpoint of cluster to be tested.
-	ClusterPrivateEndpoint *string `mandatory:"false" json:"clusterPrivateEndpoint"`
+	// Execution Length of Perf Test (default set to STANDARD)
+	PerfTestLength BenchmarkDetailsPerfTestLengthEnum `mandatory:"true" json:"perfTestLength"`
 
-	// UserId of cluster trying to access.
-	ClusterUserId *string `mandatory:"false" json:"clusterUserId"`
+	// Control Cluster Id Information
+	ControlClusterId *string `mandatory:"true" json:"controlClusterId"`
 
-	// Password of cluster trying to access.
-	ClusterPassword *string `mandatory:"false" json:"clusterPassword"`
+	// Required Test Cluster Id needed to run perf test
+	Test1ClusterId *string `mandatory:"false" json:"test1ClusterId"`
 
-	// Subnet of cluster(Preferably customer-vcn and public-subnet)
-	SubnetId *string `mandatory:"false" json:"subnetId"`
-
-	// Id of custom image for instance creation
-	CustomImageId *string `mandatory:"false" json:"customImageId"`
-
-	// CompartmentId that cluster is on
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
-
-	// Throughput of ingestion test
-	ThroughputIngestion *int `mandatory:"false" json:"throughputIngestion"`
-
-	// Throughput of query
-	ThroughputQuery *int `mandatory:"false" json:"throughputQuery"`
-
-	// Ramp up time it takes to reach throughput level
-	RampUpDurationIngestion *int `mandatory:"false" json:"rampUpDurationIngestion"`
-
-	// Ramp up time it takes to reach throughput level
-	RampUpDurationQuery *int `mandatory:"false" json:"rampUpDurationQuery"`
-
-	// Size of batch query to be returned for query testing
-	QueryBatchSize *int `mandatory:"false" json:"queryBatchSize"`
-
-	// Duration of Time it takes to run for Ingestion test
-	ExecutionTimeIngestion *int `mandatory:"false" json:"executionTimeIngestion"`
-
-	// Duration of Time it takes to run for Query Test
-	ExecutionTimeQuery *int `mandatory:"false" json:"executionTimeQuery"`
-
-	// Run Ingestion testing
-	IsRunningIngestionTest *bool `mandatory:"false" json:"isRunningIngestionTest"`
-
-	// Run Query testing
-	IsRunningQueryTest *bool `mandatory:"false" json:"isRunningQueryTest"`
+	// Optional Test Cluster Id needed to run perf test
+	Test2ClusterId *string `mandatory:"false" json:"test2ClusterId"`
 }
 
 func (m BenchmarkDetails) String() string {
@@ -73,9 +40,54 @@ func (m BenchmarkDetails) String() string {
 // Not recommended for calling this function directly
 func (m BenchmarkDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingBenchmarkDetailsPerfTestLengthEnum(string(m.PerfTestLength)); !ok && m.PerfTestLength != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for PerfTestLength: %s. Supported values are: %s.", m.PerfTestLength, strings.Join(GetBenchmarkDetailsPerfTestLengthEnumStringValues(), ",")))
+	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// BenchmarkDetailsPerfTestLengthEnum Enum with underlying type: string
+type BenchmarkDetailsPerfTestLengthEnum string
+
+// Set of constants representing the allowable values for BenchmarkDetailsPerfTestLengthEnum
+const (
+	BenchmarkDetailsPerfTestLengthStandard BenchmarkDetailsPerfTestLengthEnum = "STANDARD"
+	BenchmarkDetailsPerfTestLengthLong     BenchmarkDetailsPerfTestLengthEnum = "LONG"
+)
+
+var mappingBenchmarkDetailsPerfTestLengthEnum = map[string]BenchmarkDetailsPerfTestLengthEnum{
+	"STANDARD": BenchmarkDetailsPerfTestLengthStandard,
+	"LONG":     BenchmarkDetailsPerfTestLengthLong,
+}
+
+var mappingBenchmarkDetailsPerfTestLengthEnumLowerCase = map[string]BenchmarkDetailsPerfTestLengthEnum{
+	"standard": BenchmarkDetailsPerfTestLengthStandard,
+	"long":     BenchmarkDetailsPerfTestLengthLong,
+}
+
+// GetBenchmarkDetailsPerfTestLengthEnumValues Enumerates the set of values for BenchmarkDetailsPerfTestLengthEnum
+func GetBenchmarkDetailsPerfTestLengthEnumValues() []BenchmarkDetailsPerfTestLengthEnum {
+	values := make([]BenchmarkDetailsPerfTestLengthEnum, 0)
+	for _, v := range mappingBenchmarkDetailsPerfTestLengthEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBenchmarkDetailsPerfTestLengthEnumStringValues Enumerates the set of values in String for BenchmarkDetailsPerfTestLengthEnum
+func GetBenchmarkDetailsPerfTestLengthEnumStringValues() []string {
+	return []string{
+		"STANDARD",
+		"LONG",
+	}
+}
+
+// GetMappingBenchmarkDetailsPerfTestLengthEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBenchmarkDetailsPerfTestLengthEnum(val string) (BenchmarkDetailsPerfTestLengthEnum, bool) {
+	enum, ok := mappingBenchmarkDetailsPerfTestLengthEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

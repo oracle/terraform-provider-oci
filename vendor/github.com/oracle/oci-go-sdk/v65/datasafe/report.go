@@ -45,6 +45,9 @@ type Report struct {
 	// The type of the audit report.
 	Type ReportTypeEnum `mandatory:"false" json:"type,omitempty"`
 
+	// Details about the current state of the report in Data Safe.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

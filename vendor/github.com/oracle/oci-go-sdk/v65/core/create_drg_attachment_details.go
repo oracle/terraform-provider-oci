@@ -56,9 +56,9 @@ type CreateDrgAttachmentDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// zprTags for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table used by the DRG attachment.
 	// If you don't specify a route table here, the DRG attachment is created without an associated route
@@ -111,7 +111,7 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 		NetworkDetails           drgattachmentnetworkcreatedetails                      `json:"networkDetails"`
 		DefinedTags              map[string]map[string]interface{}                      `json:"definedTags"`
 		FreeformTags             map[string]string                                      `json:"freeformTags"`
-		ZprTags                  map[string]map[string]interface{}                      `json:"zprTags"`
+		SecurityAttributes       map[string]map[string]interface{}                      `json:"securityAttributes"`
 		RouteTableId             *string                                                `json:"routeTableId"`
 		VcnId                    *string                                                `json:"vcnId"`
 		TransitiveTrafficEnabled CreateDrgAttachmentDetailsTransitiveTrafficEnabledEnum `json:"transitiveTrafficEnabled"`
@@ -145,7 +145,7 @@ func (m *CreateDrgAttachmentDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.FreeformTags = model.FreeformTags
 
-	m.ZprTags = model.ZprTags
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.RouteTableId = model.RouteTableId
 

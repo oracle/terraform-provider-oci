@@ -85,9 +85,9 @@ type Vcn struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// zprTags for this resource. This is unique to ZPR, and extends the defined tags to include a mode keyword as well
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
-	ZprTags map[string]map[string]interface{} `mandatory:"false" json:"zprTags"`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space.
 	// The prefixes are provided by Oracle and the sizes are always /56.

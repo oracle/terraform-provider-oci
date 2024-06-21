@@ -23,6 +23,7 @@ const (
 	ReportDefinitionLifecycleStateActive   ReportDefinitionLifecycleStateEnum = "ACTIVE"
 	ReportDefinitionLifecycleStateDeleting ReportDefinitionLifecycleStateEnum = "DELETING"
 	ReportDefinitionLifecycleStateDeleted  ReportDefinitionLifecycleStateEnum = "DELETED"
+	ReportDefinitionLifecycleStateFailed   ReportDefinitionLifecycleStateEnum = "FAILED"
 )
 
 var mappingReportDefinitionLifecycleStateEnum = map[string]ReportDefinitionLifecycleStateEnum{
@@ -31,6 +32,7 @@ var mappingReportDefinitionLifecycleStateEnum = map[string]ReportDefinitionLifec
 	"ACTIVE":   ReportDefinitionLifecycleStateActive,
 	"DELETING": ReportDefinitionLifecycleStateDeleting,
 	"DELETED":  ReportDefinitionLifecycleStateDeleted,
+	"FAILED":   ReportDefinitionLifecycleStateFailed,
 }
 
 var mappingReportDefinitionLifecycleStateEnumLowerCase = map[string]ReportDefinitionLifecycleStateEnum{
@@ -39,6 +41,7 @@ var mappingReportDefinitionLifecycleStateEnumLowerCase = map[string]ReportDefini
 	"active":   ReportDefinitionLifecycleStateActive,
 	"deleting": ReportDefinitionLifecycleStateDeleting,
 	"deleted":  ReportDefinitionLifecycleStateDeleted,
+	"failed":   ReportDefinitionLifecycleStateFailed,
 }
 
 // GetReportDefinitionLifecycleStateEnumValues Enumerates the set of values for ReportDefinitionLifecycleStateEnum
@@ -58,6 +61,7 @@ func GetReportDefinitionLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"DELETING",
 		"DELETED",
+		"FAILED",
 	}
 }
 

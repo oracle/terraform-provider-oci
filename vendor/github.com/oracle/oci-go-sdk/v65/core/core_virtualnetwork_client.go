@@ -21690,7 +21690,7 @@ func (client VirtualNetworkClient) listIpInventory(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListIpInventory"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventoryCollection/ListIpInventory"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIpInventory", apiReferenceLink)
 		return response, err
 	}

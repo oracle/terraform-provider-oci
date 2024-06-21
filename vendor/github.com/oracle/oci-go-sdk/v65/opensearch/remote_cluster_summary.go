@@ -26,6 +26,9 @@ type RemoteClusterSummary struct {
 
 	// Sets the time interval between regular application-level ping messages that are sent to try and keep remote cluster connections alive. If set to -1, application-level ping messages to this remote cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
 	PingSchedule *string `mandatory:"false" json:"pingSchedule"`
+
+	// A flag to determine whether to skip an unavailable remote cluster during cross cluster search
+	IsSkipUnavailable *bool `mandatory:"false" json:"isSkipUnavailable"`
 }
 
 func (m RemoteClusterSummary) String() string {

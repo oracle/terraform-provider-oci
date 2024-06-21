@@ -17,15 +17,20 @@ import (
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
+//
 // **Notes:**
 // - To specify OCPU core count, you must use either `ocpuCount` or `cpuCoreCount`. You cannot use both parameters at the same time. For Autonomous Database Serverless instances, `ocpuCount` is not used.
 // - To specify a storage allocation, you must use  either `dataStorageSizeInGBs` or `dataStorageSizeInTBs`.
 // - See the individual parameter discriptions for more information on the OCPU and storage value parameters.
+//
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBase interface {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
 	GetCompartmentId() *string
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	GetSubscriptionId() *string
 
 	// The character set for the autonomous database. The default is AL32UTF8. Allowed values for an Autonomous Database Serverless instance as as returned by List Autonomous Database Character Sets (https://docs.oracle.com/iaas/autonomous-database-serverless/doc/autonomous-character-set-selection.html)
 	// For an Autonomous Database on dedicated infrastructure, the allowed values are:
@@ -259,6 +264,7 @@ type CreateAutonomousDatabaseBase interface {
 
 type createautonomousdatabasebase struct {
 	JsonData                                 []byte
+	SubscriptionId                           *string                                                           `mandatory:"false" json:"subscriptionId"`
 	CharacterSet                             *string                                                           `mandatory:"false" json:"characterSet"`
 	NcharacterSet                            *string                                                           `mandatory:"false" json:"ncharacterSet"`
 	DbName                                   *string                                                           `mandatory:"false" json:"dbName"`
@@ -325,6 +331,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.CompartmentId = s.Model.CompartmentId
+	m.SubscriptionId = s.Model.SubscriptionId
 	m.CharacterSet = s.Model.CharacterSet
 	m.NcharacterSet = s.Model.NcharacterSet
 	m.DbName = s.Model.DbName
@@ -413,12 +420,12 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateCrossRegionDisasterRecoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CROSS_TENANCY_DISASTER_RECOVERY":
-		mm := CreateCrossTenancyDisasterRecoveryDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BACKUP_FROM_TIMESTAMP":
 		mm := CreateAutonomousDatabaseFromBackupTimestampDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CROSS_TENANCY_DISASTER_RECOVERY":
+		mm := CreateCrossTenancyDisasterRecoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "REGISTER_CONTAINER":
@@ -437,6 +444,11 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		common.Logf("Received unsupported enum value for CreateAutonomousDatabaseBase: %s.", m.Source)
 		return *m, nil
 	}
+}
+
+// GetSubscriptionId returns SubscriptionId
+func (m createautonomousdatabasebase) GetSubscriptionId() *string {
+	return m.SubscriptionId
 }
 
 // GetCharacterSet returns CharacterSet

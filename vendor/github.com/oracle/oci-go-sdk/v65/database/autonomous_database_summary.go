@@ -17,6 +17,7 @@ import (
 )
 
 // AutonomousDatabaseSummary An Oracle Autonomous Database.
+//
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type AutonomousDatabaseSummary struct {
 
@@ -31,6 +32,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The database name.
 	DbName *string `mandatory:"true" json:"dbName"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
 	// Information about the current lifecycle state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -467,6 +471,9 @@ type AutonomousDatabaseSummary struct {
 
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 	NetServicesArchitecture AutonomousDatabaseSummaryNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
+
+	// The availability domain where the Autonomous Database Serverless instance is located.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -548,6 +555,7 @@ func (m AutonomousDatabaseSummary) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		SubscriptionId                          *string                                                        `json:"subscriptionId"`
 		LifecycleDetails                        *string                                                        `json:"lifecycleDetails"`
 		KmsKeyId                                *string                                                        `json:"kmsKeyId"`
 		VaultId                                 *string                                                        `json:"vaultId"`
@@ -668,6 +676,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		RemoteDisasterRecoveryConfiguration     *DisasterRecoveryConfiguration                                 `json:"remoteDisasterRecoveryConfiguration"`
 		AccessTypes                             []string                                                       `json:"accessTypes"`
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
+		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -679,6 +688,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.SubscriptionId = model.SubscriptionId
+
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.KmsKeyId = model.KmsKeyId
@@ -926,6 +937,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.AccessTypes = make([]string, len(model.AccessTypes))
 	copy(m.AccessTypes, model.AccessTypes)
 	m.NetServicesArchitecture = model.NetServicesArchitecture
+
+	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.Id = model.Id
 

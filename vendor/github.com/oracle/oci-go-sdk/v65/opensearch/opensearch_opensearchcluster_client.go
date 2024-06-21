@@ -371,6 +371,59 @@ func (client OpensearchClusterClient) getOpensearchCluster(ctx context.Context, 
 	return response, err
 }
 
+// GetOpensearchClusterInternalDetails Gets a OpensearchCluster by identifier
+func (client OpensearchClusterClient) GetOpensearchClusterInternalDetails(ctx context.Context, request GetOpensearchClusterInternalDetailsRequest) (response GetOpensearchClusterInternalDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getOpensearchClusterInternalDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOpensearchClusterInternalDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOpensearchClusterInternalDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOpensearchClusterInternalDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOpensearchClusterInternalDetailsResponse")
+	}
+	return
+}
+
+// getOpensearchClusterInternalDetails implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) getOpensearchClusterInternalDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/opensearchClusters/{opensearchClusterId}/internal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOpensearchClusterInternalDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchClusterInternalDetails/GetOpensearchClusterInternalDetails"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "GetOpensearchClusterInternalDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetWorkRequest Gets the status of the work request with the given ID.
 func (client OpensearchClusterClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse

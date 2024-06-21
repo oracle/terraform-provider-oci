@@ -331,6 +331,7 @@ const (
 	ListAlertAnalyticsSummaryFieldAlertcount          ListAlertAnalyticsSummaryFieldEnum = "alertcount"
 	ListAlertAnalyticsSummaryFieldAlertpolicyrulekey  ListAlertAnalyticsSummaryFieldEnum = "alertPolicyRuleKey"
 	ListAlertAnalyticsSummaryFieldAlertpolicyrulename ListAlertAnalyticsSummaryFieldEnum = "alertPolicyRuleName"
+	ListAlertAnalyticsSummaryFieldThrottled           ListAlertAnalyticsSummaryFieldEnum = "throttled"
 )
 
 var mappingListAlertAnalyticsSummaryFieldEnum = map[string]ListAlertAnalyticsSummaryFieldEnum{
@@ -350,6 +351,7 @@ var mappingListAlertAnalyticsSummaryFieldEnum = map[string]ListAlertAnalyticsSum
 	"alertcount":          ListAlertAnalyticsSummaryFieldAlertcount,
 	"alertPolicyRuleKey":  ListAlertAnalyticsSummaryFieldAlertpolicyrulekey,
 	"alertPolicyRuleName": ListAlertAnalyticsSummaryFieldAlertpolicyrulename,
+	"throttled":           ListAlertAnalyticsSummaryFieldThrottled,
 }
 
 var mappingListAlertAnalyticsSummaryFieldEnumLowerCase = map[string]ListAlertAnalyticsSummaryFieldEnum{
@@ -369,6 +371,7 @@ var mappingListAlertAnalyticsSummaryFieldEnumLowerCase = map[string]ListAlertAna
 	"alertcount":          ListAlertAnalyticsSummaryFieldAlertcount,
 	"alertpolicyrulekey":  ListAlertAnalyticsSummaryFieldAlertpolicyrulekey,
 	"alertpolicyrulename": ListAlertAnalyticsSummaryFieldAlertpolicyrulename,
+	"throttled":           ListAlertAnalyticsSummaryFieldThrottled,
 }
 
 // GetListAlertAnalyticsSummaryFieldEnumValues Enumerates the set of values for ListAlertAnalyticsSummaryFieldEnum
@@ -399,6 +402,7 @@ func GetListAlertAnalyticsSummaryFieldEnumStringValues() []string {
 		"alertcount",
 		"alertPolicyRuleKey",
 		"alertPolicyRuleName",
+		"throttled",
 	}
 }
 

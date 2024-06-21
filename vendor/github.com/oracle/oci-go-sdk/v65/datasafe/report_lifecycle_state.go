@@ -20,16 +20,22 @@ type ReportLifecycleStateEnum string
 const (
 	ReportLifecycleStateUpdating ReportLifecycleStateEnum = "UPDATING"
 	ReportLifecycleStateActive   ReportLifecycleStateEnum = "ACTIVE"
+	ReportLifecycleStateCreating ReportLifecycleStateEnum = "CREATING"
+	ReportLifecycleStateFailed   ReportLifecycleStateEnum = "FAILED"
 )
 
 var mappingReportLifecycleStateEnum = map[string]ReportLifecycleStateEnum{
 	"UPDATING": ReportLifecycleStateUpdating,
 	"ACTIVE":   ReportLifecycleStateActive,
+	"CREATING": ReportLifecycleStateCreating,
+	"FAILED":   ReportLifecycleStateFailed,
 }
 
 var mappingReportLifecycleStateEnumLowerCase = map[string]ReportLifecycleStateEnum{
 	"updating": ReportLifecycleStateUpdating,
 	"active":   ReportLifecycleStateActive,
+	"creating": ReportLifecycleStateCreating,
+	"failed":   ReportLifecycleStateFailed,
 }
 
 // GetReportLifecycleStateEnumValues Enumerates the set of values for ReportLifecycleStateEnum
@@ -46,6 +52,8 @@ func GetReportLifecycleStateEnumStringValues() []string {
 	return []string{
 		"UPDATING",
 		"ACTIVE",
+		"CREATING",
+		"FAILED",
 	}
 }
 
