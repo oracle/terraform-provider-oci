@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// DataPumpParameters Optional parameters for Data Pump Export and Import. Refer to Configuring Optional Initial Load Advanced Settings (https://docs.us.oracle.com/en/cloud/paas/database-migration/dmsus/working-migration-resources.html#GUID-24BD3054-FDF8-48FF-8492-636C1D4B71ED)
+// DataPumpParameters Optional parameters for Data Pump Export and Import.
 type DataPumpParameters struct {
 
-	// Set to false to force Data Pump worker processes to run on one instance.
+	// Set to false to force Data Pump worker process to run on one instance.
 	IsCluster *bool `mandatory:"false" json:"isCluster"`
 
 	// Estimate size of dumps that will be generated.

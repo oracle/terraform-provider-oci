@@ -25,6 +25,15 @@ type ListConnectionsRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The array of technology types.
+	TechnologyType []TechnologyTypeEnum `contributesTo:"query" name:"technologyType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The array of connection types.
+	ConnectionType []ConnectionTypeEnum `contributesTo:"query" name:"connectionType" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The OCID of the source database connection.
+	SourceConnectionId *string `mandatory:"false" contributesTo:"query" name:"sourceConnectionId"`
+
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -80,6 +89,18 @@ func (request ListConnectionsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListConnectionsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	for _, val := range request.TechnologyType {
+		if _, ok := GetMappingTechnologyTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", val, strings.Join(GetTechnologyTypeEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.ConnectionType {
+		if _, ok := GetMappingConnectionTypeEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionType: %s. Supported values are: %s.", val, strings.Join(GetConnectionTypeEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListConnectionsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListConnectionsSortByEnumStringValues(), ",")))
 	}

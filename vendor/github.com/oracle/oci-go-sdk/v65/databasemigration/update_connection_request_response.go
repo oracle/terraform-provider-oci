@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/UpdateConnection.go.html to see an example of how to use UpdateConnectionRequest.
 type UpdateConnectionRequest struct {
 
-	// The OCID of the database connection
+	// The OCID of the database connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Database Connection properties.

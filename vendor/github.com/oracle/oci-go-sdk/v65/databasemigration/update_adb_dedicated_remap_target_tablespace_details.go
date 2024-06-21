@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// UpdateAdbDedicatedRemapTargetTablespaceDetails Migration tablespace settings valid for ADB-D target type using remap target.
+// UpdateAdbDedicatedRemapTargetTablespaceDetails Remap tablespace settings that are valid for Dedicated Autonomous Databases.
 type UpdateAdbDedicatedRemapTargetTablespaceDetails struct {
 
-	// Name of tablespace at target to which the source database tablespace need to be remapped.
+	// Name of the tablespace on the target database to which the source database tablespace is to be remapped.
 	RemapTarget *string `mandatory:"false" json:"remapTarget"`
 }
 
