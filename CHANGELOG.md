@@ -1,3 +1,11 @@
+## 5.48.0 (Unreleased)
+
+### Added
+- Support for JMS Implement management resource for advancedFeatureConfiguration
+- Support for Terraform integration for MHS: Manual Cross region backup copy
+### Bug Fix
+Fixed DB unique name parameter not getting honoured for new base DB system resource
+
 ## 5.47.0 (Unreleased)
 
 ### Added
