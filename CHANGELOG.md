@@ -3,6 +3,11 @@
 ### Added
 - Support for JMS Implement management resource for advancedFeatureConfiguration
 - Support for Terraform integration for MHS: Manual Cross region backup copy
+### Removed
+- datasources
+  - oci_database_migration_connection, oci_database_migration_connections, oci_database_migration_migration, oci_database_migration_migrations
+- resources
+  - oci_database_migration_connection, oci_database_migration_migration
 ### Bug Fix
 Fixed DB unique name parameter not getting honoured for new base DB system resource
 
@@ -13,11 +18,6 @@ Fixed DB unique name parameter not getting honoured for new base DB system resou
 - management resource for masking policy health report in Data Safe
 - Upgrade golang.org/x/net to v0.23.0
 - Support for Dynamic Notification for Alarms
-### Removed
-- datasources
-    - oci_database_migration_connection, oci_database_migration_connections, oci_database_migration_migration, oci_database_migration_migrations
-- resources
-    - oci_database_migration_connection, oci_database_migration_migration
 ### Bug Fix
 - Terraform for fix autostart and autostop removal of scheduled operations
 - Need to Set db_node_id int Set db_node function
