@@ -7,7 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	//tfresource.RegisterResource("oci_database_migration_agent", DatabaseMigrationAgentResource())
-	tfresource.RegisterResource("oci_database_migration_connection", DatabaseMigrationConnectionResource())
+	//tfresource.RegisterResource("oci_database_migration_connection", DatabaseMigrationConnectionResource())
 	tfresource.RegisterResource("oci_database_migration_job", DatabaseMigrationJobResource())
-	tfresource.RegisterResource("oci_database_migration_migration", DatabaseMigrationMigrationResource())
+	//tfresource.RegisterResource("oci_database_migration_migration", DatabaseMigrationMigrationResource())
 }
