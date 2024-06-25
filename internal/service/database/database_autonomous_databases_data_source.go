@@ -234,6 +234,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["backup_retention_period_in_days"] = *r.BackupRetentionPeriodInDays
 		}
 
+		if r.ByolComputeCountLimit != nil {
+			autonomousDatabase["byol_compute_count_limit"] = *r.ByolComputeCountLimit
+		}
+
 		if r.CharacterSet != nil {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}

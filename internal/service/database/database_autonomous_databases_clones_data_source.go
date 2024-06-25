@@ -130,6 +130,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"byol_compute_count_limit": {
+							Type:     schema.TypeFloat,
+							Computed: true,
+						},
 						"character_set": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1079,6 +1083,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.BackupRetentionPeriodInDays != nil {
 			autonomousDatabasesClone["backup_retention_period_in_days"] = *r.BackupRetentionPeriodInDays
+		}
+
+		if r.ByolComputeCountLimit != nil {
+			autonomousDatabasesClone["byol_compute_count_limit"] = *r.ByolComputeCountLimit
 		}
 
 		if r.CharacterSet != nil {
