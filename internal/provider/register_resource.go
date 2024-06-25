@@ -104,6 +104,7 @@ import (
 	tf_queue "github.com/oracle/terraform-provider-oci/internal/service/queue"
 	tf_recovery "github.com/oracle/terraform-provider-oci/internal/service/recovery"
 	tf_redis "github.com/oracle/terraform-provider-oci/internal/service/redis"
+	tf_resource_scheduler "github.com/oracle/terraform-provider-oci/internal/service/resource_scheduler"
 	tf_resourcemanager "github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
@@ -421,6 +422,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("redis") {
 		tf_redis.RegisterResource()
+	}
+	if common.CheckForEnabledServices("resourcescheduler") {
+		tf_resource_scheduler.RegisterResource()
 	}
 	if common.CheckForEnabledServices("resourcemanager") {
 		tf_resourcemanager.RegisterResource()

@@ -208,6 +208,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `queue` - Discovers queue resources within the specified compartment
     * `recovery` - Discovers recovery resources within the specified compartment
     * `redis` - Discovers redis resources within the specified compartment
+    * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
@@ -1122,6 +1123,10 @@ recovery
 redis
     
 * oci\_redis\_redis\_cluster
+
+resource_scheduler
+    
+* oci\_resource\_scheduler\_schedule
 
 resourcemanager
 
