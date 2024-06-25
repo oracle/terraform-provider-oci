@@ -104,6 +104,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"byol_compute_count_limit": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
 			"character_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -1621,6 +1626,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
 
+	if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok && s.D.HasChange("byol_compute_count_limit") {
+		tmp := float32(byolComputeCountLimit.(float64))
+		request.ByolComputeCountLimit = &tmp
+	}
+
 	if computeCount, ok := s.D.GetOkExists("compute_count"); ok && s.D.HasChange("compute_count") {
 		tmp := float32(computeCount.(float64))
 		request.ComputeCount = &tmp
@@ -2205,6 +2215,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	}
 
 	s.D.Set("license_model", s.Res.LicenseModel)
+
+	if s.Res.ByolComputeCountLimit != nil {
+		s.D.Set("byol_compute_count_limit", s.Res.ByolComputeCountLimit)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
@@ -2862,6 +2876,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3148,6 +3166,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3429,6 +3451,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3709,6 +3735,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
 			details.CompartmentId = &tmp
@@ -3967,6 +3997,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -4212,6 +4246,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4461,6 +4499,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4729,6 +4771,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
