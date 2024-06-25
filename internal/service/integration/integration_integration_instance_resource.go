@@ -181,6 +181,12 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				StateFunc: tfresource.GetMd5Hash,
 				Sensitive: true,
 			},
+			"is_disaster_recovery_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_file_server_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -282,11 +288,15 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
-
 			// "remove_oracle_managed_custom_endpoint_trigger": {
 			// 	Type:     schema.TypeInt,
 			// 	Optional: true,
 			// },
+
+			"failover_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"attachments": {
@@ -316,6 +326,56 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						"target_service_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"disaster_recovery_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"cross_region_integration_instance_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"region": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"role": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_role_changed": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"regional_instance_url": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"role": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -364,6 +424,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"instance_url": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -445,6 +509,14 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 			return err
 		}
 	}
+
+	if _, ok := sync.D.GetOkExists("failover_trigger"); ok {
+		err := sync.DisasterRecoveryFailover()
+		if err != nil {
+			return err
+		}
+	}
+
 	var powerOff = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
 		wantedState := oci_integration.IntegrationInstanceLifecycleStateEnum(strings.ToUpper(configState.(string)))
@@ -534,6 +606,22 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 			}
 		} else {
 			sync.D.Set("extend_data_retention_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("failover_trigger"); ok && sync.D.HasChange("failover_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("failover_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.DisasterRecoveryFailover()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("failover_trigger", oldRaw)
 			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
@@ -673,6 +761,11 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Create() error {
 	if isByol, ok := s.D.GetOkExists("is_byol"); ok {
 		tmp := isByol.(bool)
 		request.IsByol = &tmp
+	}
+
+	if isDisasterRecoveryEnabled, ok := s.D.GetOkExists("is_disaster_recovery_enabled"); ok {
+		tmp := isDisasterRecoveryEnabled.(bool)
+		request.IsDisasterRecoveryEnabled = &tmp
 	}
 
 	if isFileServerEnabled, ok := s.D.GetOkExists("is_file_server_enabled"); ok {
@@ -1025,6 +1118,12 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DisasterRecoveryDetails != nil {
+		s.D.Set("disaster_recovery_details", []interface{}{DisasterRecoveryDetailsToMap(s.Res.DisasterRecoveryDetails)})
+	} else {
+		s.D.Set("disaster_recovery_details", nil)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -1051,12 +1150,20 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("is_byol", *s.Res.IsByol)
 	}
 
+	if s.Res.IsDisasterRecoveryEnabled != nil {
+		s.D.Set("is_disaster_recovery_enabled", *s.Res.IsDisasterRecoveryEnabled)
+	}
+
 	if s.Res.IsFileServerEnabled != nil {
 		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
 	}
 
 	if s.Res.IsVisualBuilderEnabled != nil {
 		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	if s.Res.MessagePacks != nil {
@@ -1222,6 +1329,29 @@ func (s *IntegrationIntegrationInstanceResourceCrud) RemoveOracleManagedCustomEn
 	return nil
 }
 
+func (s *IntegrationIntegrationInstanceResourceCrud) DisasterRecoveryFailover() error {
+	request := oci_integration.DisasterRecoveryFailoverRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.DisasterRecoveryFailover(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("failover_trigger")
+	s.D.Set("failover_trigger", val)
+
+	return nil
+}
+
 func AttachmentDetailsToMap(obj oci_integration.AttachmentDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1327,7 +1457,41 @@ func CustomEndpointDetailsToMap(obj *oci_integration.CustomEndpointDetails) map[
 		result["hostname"] = string(*obj.Hostname)
 	}
 
-	result["managed_type"] = string(obj.ManagedType)
+	return result
+}
+
+func CrossRegionIntegrationInstanceDetailsToMap(obj *oci_integration.CrossRegionIntegrationInstanceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Id != nil {
+		result["id"] = string(*obj.Id)
+	}
+
+	if obj.Region != nil {
+		result["region"] = string(*obj.Region)
+	}
+
+	result["role"] = string(obj.Role)
+
+	if obj.TimeRoleChanged != nil {
+		result["time_role_changed"] = obj.TimeRoleChanged.String()
+	}
+
+	return result
+}
+
+func DisasterRecoveryDetailsToMap(obj *oci_integration.DisasterRecoveryDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CrossRegionIntegrationInstanceDetails != nil {
+		result["cross_region_integration_instance_details"] = []interface{}{CrossRegionIntegrationInstanceDetailsToMap(obj.CrossRegionIntegrationInstanceDetails)}
+	}
+
+	if obj.RegionalInstanceUrl != nil {
+		result["regional_instance_url"] = string(*obj.RegionalInstanceUrl)
+	}
+
+	result["role"] = string(obj.Role)
 
 	return result
 }

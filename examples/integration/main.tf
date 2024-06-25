@@ -19,12 +19,15 @@ variable "region" {
 variable "compartment_id" {
 }
 
+variable "compartment_id_for_update" {
+}
+
 variable "instance_type" {
   default = "STANDARDX"
 }
 
 variable "integration_instance_idcs_access_token" {
-  default = ""                  #
+  default = ""
 }
 
 variable "integration_instance_consumption_model" {
@@ -72,7 +75,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   shape                     = "DEVELOPMENT"
   display_name              = "instance-created-via-tf-${random_integer.seq.result}"
   is_byol                   = "false"
-  message_packs             = "10"
+  message_packs             = "1"
   domain_id                 = var.domain_id
 
   lifecycle {
@@ -180,4 +183,35 @@ resource "oci_integration_private_endpoint_outbound_connection" "integration_pri
   depends_on = [
     oci_integration_oracle_managed_custom_endpoint.integretion_custom_endpoint
   ]
+# resource "oci_integration_integration_instance" "test_integration_instance_idcs" {
+#   #Required
+#   compartment_id            = var.compartment_id
+#   display_name              = "instance4643_idcs"
+#   integration_instance_type = "STANDARDX"
+#   shape                     = "DEVELOPMENT"
+#   # shape                     = "PRODUCTION"
+#   is_byol                   = "false"
+#   message_packs             = "10"
+#   idcs_at                   = var.integration_instance_idcs_access_token
+# }
+
+resource "oci_integration_private_endpoint_outbound_connection" "integration_private_endpoint" {
+  integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
+  nsg_ids = [var.nsg_id]
+  subnet_id = var.subnet_id
+}
+
+resource "oci_integration_integration_instance" "test_integration_instance_with_dr" {
+  #Required
+  compartment_id            = var.compartment_id
+  integration_instance_type = "STANDARDX"
+  shape                     = "DEVELOPMENT"
+  display_name              = "DR"
+  is_byol                   = "false"
+  message_packs             = "1"
+  domain_id                 = var.domain_id
+  is_disaster_recovery_enabled = "true"
+  lifecycle {
+    ignore_changes = ["system_tags"]
+  }
 }

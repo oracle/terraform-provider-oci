@@ -35,8 +35,7 @@ The following attributes are exported:
 * `alternate_custom_endpoints` - A list of alternate custom endpoints used for the integration instance URL.
 	* `alias` - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
 	* `certificate_secret_id` - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.
-	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
-	* `dns_type` - Type of DNS.
+	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).* `dns_type` - Type of DNS.
 	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
 	* `managed_type` - Indicates if custom endpoint is managed by oracle or customer.
@@ -55,10 +54,18 @@ The following attributes are exported:
 * `custom_endpoint` - Details for a custom endpoint for the integration instance.
 	* `alias` - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
 	* `certificate_secret_id` - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.
-	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
-	* `dns_type` - Type of DNS.
+	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).* `dns_type` - Type of DNS.
 	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
+* `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}`
+* `disaster_recovery_details` - Disaster recovery details for the integration instance created in the region. 
+	* `cross_region_integration_instance_details` - Details of integration instance created in cross region for disaster recovery. 
+		* `id` - Cross region integration instance identifier
+		* `region` - Cross region where integration instance is created
+		* `role` - Role of the integration instance in the region
+		* `time_role_changed` - Time when cross region integration instance role was changed
+	* `regional_instance_url` - Region specific instance url for the integration instance in the region
+	* `role` - Role of the integration instance in the region
 	* `managed_type` - Indicates if custom endpoint is managed by oracle or customer.
 * `data_retention_period` - Data retention period set for given integration instance
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}`
@@ -70,13 +77,14 @@ The following attributes are exported:
 	* `idcs_app_id` - The IDCS application ID associated with the instance
 	* `idcs_app_location_url` - URL for the location of the IDCS Application (used by IDCS APIs)
 	* `idcs_app_name` - The IDCS application name associated with the instance
-	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string
-* `instance_design_time_url` - The Integration Instance Design Time URL
+	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string* `instance_design_time_url` - The Integration Instance Design Time URL
 * `instance_url` - The Integration Instance URL.
 * `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 * `is_byol` - Bring your own license.
+* `is_disaster_recovery_enabled` - Is Disaster Recovery enabled for the integrationInstance
 * `is_file_server_enabled` - The file server is enabled or not.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
+* `lifecycle_details` - Additional details of lifecycleState or substates
 * `message_packs` - The number of configured message packs (if any)
 * `network_endpoint_details` - Base representation of a network endpoint.
 	* `allowlisted_http_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response.
