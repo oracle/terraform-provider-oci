@@ -1,4 +1,4 @@
-## 5.48.0 (Unreleased)
+## 6.0.0 (Unreleased)
 
 ### Added
 - Support for JMS Implement management resource for advancedFeatureConfiguration
