@@ -496,5 +496,11 @@
         "realmKey": "oc35",
         "regionIdentifier": "ap-chuncheon-2",
         "realmDomainComponent": "oraclecloud35.com"
+    },
+    {
+        "regionKey": "avf",
+        "realmKey": "oc24",
+        "regionIdentifier": "eu-crissier-1",
+        "realmDomainComponent": "oraclecloud24.com"
     }
 ]
