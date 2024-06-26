@@ -1,4 +1,4 @@
-## 6.0.0 (Unreleased)
+## 6.0.0 (June 26, 2024)
 
 ### Added
 - Support for JMS Implement management resource for advancedFeatureConfiguration
