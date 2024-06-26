@@ -1,3 +1,16 @@
+## 6.0.0 (June 26, 2024)
+
+### Added
+- Support for JMS Implement management resource for advancedFeatureConfiguration
+- Support for Terraform integration for MHS: Manual Cross region backup copy
+### Removed
+- datasources
+  - oci_database_migration_connection, oci_database_migration_connections, oci_database_migration_migration, oci_database_migration_migrations
+- resources
+  - oci_database_migration_connection, oci_database_migration_migration
+### Bug Fix
+Fixed DB unique name parameter not getting honoured for new base DB system resource
+
 ## 5.47.0 (June 18, 2024)
 
 ### Added

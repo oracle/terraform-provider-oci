@@ -79,6 +79,7 @@ resource "oci_database_db_system" "test_db_system" {
 
 		#Optional
 		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
+		db_unique_name = var.db_unique_name
 		db_version = var.db_system_db_home_db_version
 		defined_tags = var.db_system_db_home_defined_tags
 		display_name = var.db_system_db_home_display_name
@@ -225,6 +226,7 @@ The following arguments are supported:
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
 	* `database_software_image_id` - (Applicable when source=DB_BACKUP | NONE) The database software image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the image to be used to restore a database.
+    * `db_unique_name` - (Optional) The `DB_UNIQUE_NAME` of the Oracle Database.
 	* `db_version` - (Required when source=NONE) A valid Oracle Database version. For a list of supported versions, use the ListDbVersions operation.
 
 		This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, isRefreshable, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier. 

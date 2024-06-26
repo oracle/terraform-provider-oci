@@ -872,6 +872,7 @@ integration
 jms
 
 * oci\_jms\_fleet
+* oci\_jms\_fleet\_advanced\_feature\_configuration
 
 kms
 

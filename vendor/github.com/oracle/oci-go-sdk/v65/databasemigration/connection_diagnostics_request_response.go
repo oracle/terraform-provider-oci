@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ConnectionDiagnostics.go.html to see an example of how to use ConnectionDiagnosticsRequest.
 type ConnectionDiagnosticsRequest struct {
 
-	// The OCID of the database connection
+	// The OCID of the database connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

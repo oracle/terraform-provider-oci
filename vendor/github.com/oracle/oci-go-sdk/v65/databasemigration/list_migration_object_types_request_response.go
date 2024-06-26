@@ -18,6 +18,9 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListMigrationObjectTypes.go.html to see an example of how to use ListMigrationObjectTypesRequest.
 type ListMigrationObjectTypesRequest struct {
 
+	// The connection type for migration objects.
+	ConnectionType ListMigrationObjectTypesConnectionTypeEnum `mandatory:"true" contributesTo:"query" name:"connectionType" omitEmpty:"true"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -71,6 +74,9 @@ func (request ListMigrationObjectTypesRequest) RetryPolicy() *common.RetryPolicy
 // Not recommended for calling this function directly
 func (request ListMigrationObjectTypesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingListMigrationObjectTypesConnectionTypeEnum(string(request.ConnectionType)); !ok && request.ConnectionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ConnectionType: %s. Supported values are: %s.", request.ConnectionType, strings.Join(GetListMigrationObjectTypesConnectionTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListMigrationObjectTypesSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListMigrationObjectTypesSortByEnumStringValues(), ",")))
 	}
@@ -109,6 +115,48 @@ func (response ListMigrationObjectTypesResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response ListMigrationObjectTypesResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// ListMigrationObjectTypesConnectionTypeEnum Enum with underlying type: string
+type ListMigrationObjectTypesConnectionTypeEnum string
+
+// Set of constants representing the allowable values for ListMigrationObjectTypesConnectionTypeEnum
+const (
+	ListMigrationObjectTypesConnectionTypeMysql  ListMigrationObjectTypesConnectionTypeEnum = "MYSQL"
+	ListMigrationObjectTypesConnectionTypeOracle ListMigrationObjectTypesConnectionTypeEnum = "ORACLE"
+)
+
+var mappingListMigrationObjectTypesConnectionTypeEnum = map[string]ListMigrationObjectTypesConnectionTypeEnum{
+	"MYSQL":  ListMigrationObjectTypesConnectionTypeMysql,
+	"ORACLE": ListMigrationObjectTypesConnectionTypeOracle,
+}
+
+var mappingListMigrationObjectTypesConnectionTypeEnumLowerCase = map[string]ListMigrationObjectTypesConnectionTypeEnum{
+	"mysql":  ListMigrationObjectTypesConnectionTypeMysql,
+	"oracle": ListMigrationObjectTypesConnectionTypeOracle,
+}
+
+// GetListMigrationObjectTypesConnectionTypeEnumValues Enumerates the set of values for ListMigrationObjectTypesConnectionTypeEnum
+func GetListMigrationObjectTypesConnectionTypeEnumValues() []ListMigrationObjectTypesConnectionTypeEnum {
+	values := make([]ListMigrationObjectTypesConnectionTypeEnum, 0)
+	for _, v := range mappingListMigrationObjectTypesConnectionTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListMigrationObjectTypesConnectionTypeEnumStringValues Enumerates the set of values in String for ListMigrationObjectTypesConnectionTypeEnum
+func GetListMigrationObjectTypesConnectionTypeEnumStringValues() []string {
+	return []string{
+		"MYSQL",
+		"ORACLE",
+	}
+}
+
+// GetMappingListMigrationObjectTypesConnectionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListMigrationObjectTypesConnectionTypeEnum(val string) (ListMigrationObjectTypesConnectionTypeEnum, bool) {
+	enum, ok := mappingListMigrationObjectTypesConnectionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // ListMigrationObjectTypesSortByEnum Enum with underlying type: string

@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ChangeConnectionCompartment.go.html to see an example of how to use ChangeConnectionCompartmentRequest.
 type ChangeConnectionCompartmentRequest struct {
 
-	// The OCID of the database connection
+	// The OCID of the database connection.
 	ConnectionId *string `mandatory:"true" contributesTo:"path" name:"connectionId"`
 
 	// Details to change the compartment.
