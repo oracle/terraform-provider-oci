@@ -6,4 +6,4 @@ sidebar_current: "docs-oci-datasource-database_migration-agent_images"
 description: |-
   Provides the list of Agent Images in Oracle Cloud Infrastructure Database Migration service
 ---
-### support for this data source has been removed from v6.0.0
+### support for this data source has been removed from v5.28.0
