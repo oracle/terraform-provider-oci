@@ -152,6 +152,12 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 			mysqlBackup["db_system_id"] = *r.DbSystemId
 		}
 
+		if r.DbSystemSnapshotSummary != nil {
+			mysqlBackup["db_system_snapshot_summary"] = []interface{}{DbSystemSnapshotSummaryToMap(r.DbSystemSnapshotSummary)}
+		} else {
+			mysqlBackup["db_system_snapshot_summary"] = nil
+		}
+
 		if r.DefinedTags != nil {
 			mysqlBackup["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
@@ -170,8 +176,16 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 			mysqlBackup["id"] = *r.Id
 		}
 
+		if r.ImmediateSourceBackupId != nil {
+			mysqlBackup["immediate_source_backup_id"] = *r.ImmediateSourceBackupId
+		}
+
 		if r.MysqlVersion != nil {
 			mysqlBackup["mysql_version"] = *r.MysqlVersion
+		}
+
+		if r.OriginalSourceBackupId != nil {
+			mysqlBackup["original_source_backup_id"] = *r.OriginalSourceBackupId
 		}
 
 		if r.RetentionInDays != nil {
@@ -183,6 +197,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 		}
 
 		mysqlBackup["state"] = r.LifecycleState
+
+		if r.TimeCopyCreated != nil {
+			mysqlBackup["time_copy_created"] = r.TimeCopyCreated.String()
+		}
 
 		if r.TimeCreated != nil {
 			mysqlBackup["time_created"] = r.TimeCreated.String()

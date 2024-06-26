@@ -17,101 +17,238 @@ import (
 )
 
 // Migration Migration resource
-type Migration struct {
+type Migration interface {
 
-	// The OCID of the resource
-	Id *string `mandatory:"true" json:"id"`
+	// The OCID of the resource being referenced.
+	GetId() *string
 
-	// Migration Display Name
-	DisplayName *string `mandatory:"true" json:"displayName"`
+	// A user-friendly name. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDisplayName() *string
 
-	// OCID of the compartment
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The OCID of the resource being referenced.
+	GetCompartmentId() *string
 
-	// Migration type.
-	Type MigrationTypesEnum `mandatory:"true" json:"type"`
+	// The type of the migration to be performed.
+	// Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
+	GetType() MigrationTypesEnum
 
-	// The OCID of the Source Database Connection.
-	SourceDatabaseConnectionId *string `mandatory:"true" json:"sourceDatabaseConnectionId"`
+	// The OCID of the resource being referenced.
+	GetSourceDatabaseConnectionId() *string
 
-	// The OCID of the Target Database Connection.
-	TargetDatabaseConnectionId *string `mandatory:"true" json:"targetDatabaseConnectionId"`
+	// The OCID of the resource being referenced.
+	GetTargetDatabaseConnectionId() *string
 
-	// The time the Migration was created. An RFC3339 formatted datetime string.
-	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
+	GetTimeCreated() *common.SDKTime
 
 	// The current state of the Migration resource.
-	LifecycleState MigrationLifecycleStatesEnum `mandatory:"true" json:"lifecycleState"`
+	GetLifecycleState() MigrationLifecycleStatesEnum
 
-	// Name of a migration phase. The Job will wait after executing this
-	// phase until the Resume Job endpoint is called.
-	WaitAfter OdmsJobPhasesEnum `mandatory:"false" json:"waitAfter,omitempty"`
+	// A user-friendly description. Does not have to be unique, and it's changeable.
+	// Avoid entering confidential information.
+	GetDescription() *string
 
-	// The OCID of the registered on-premises ODMS Agent. Only valid for Offline Migrations.
-	AgentId *string `mandatory:"false" json:"agentId"`
+	// You can optionally pause a migration after a job phase.
+	// This property allows you to optionally specify the phase after which you can pause the migration.
+	GetWaitAfter() OdmsJobPhasesEnum
 
-	// OCID of the Secret in the OCI vault containing the Migration credentials. Used to store GoldenGate administrator user credentials.
-	CredentialsSecretId *string `mandatory:"false" json:"credentialsSecretId"`
+	// The OCID of the resource being referenced.
+	GetExecutingJobId() *string
 
-	// The OCID of the Source Container Database Connection.
-	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
+	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
+	GetTimeUpdated() *common.SDKTime
 
-	// OCID of the current ODMS Job in execution for the Migration, if any.
-	ExecutingJobId *string `mandatory:"false" json:"executingJobId"`
-
-	DataTransferMediumDetailsV2 DataTransferMediumDetailsV2 `mandatory:"false" json:"dataTransferMediumDetailsV2"`
-
-	DataTransferMediumDetails *DataTransferMediumDetails `mandatory:"false" json:"dataTransferMediumDetails"`
-
-	DumpTransferDetails *DumpTransferDetails `mandatory:"false" json:"dumpTransferDetails"`
-
-	DatapumpSettings *DataPumpSettings `mandatory:"false" json:"datapumpSettings"`
-
-	AdvisorSettings *AdvisorSettings `mandatory:"false" json:"advisorSettings"`
-
-	// Database objects to exclude from migration.
-	// If 'includeObjects' are specified, only exclude object types can be specified with general wildcards (.*) for owner and objectName.
-	ExcludeObjects []DatabaseObject `mandatory:"false" json:"excludeObjects"`
-
-	// Database objects to include from migration.
-	IncludeObjects []DatabaseObject `mandatory:"false" json:"includeObjects"`
-
-	GoldenGateServiceDetails *GoldenGateServiceDetails `mandatory:"false" json:"goldenGateServiceDetails"`
-
-	GoldenGateDetails *GoldenGateDetails `mandatory:"false" json:"goldenGateDetails"`
-
-	VaultDetails *VaultDetails `mandatory:"false" json:"vaultDetails"`
-
-	// The time of the last Migration details update. An RFC3339 formatted datetime string.
-	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
-
-	// The time of last Migration. An RFC3339 formatted datetime string.
-	TimeLastMigration *common.SDKTime `mandatory:"false" json:"timeLastMigration"`
+	// An RFC3339 formatted datetime string such as `2016-08-25T21:10:29.600Z`.
+	GetTimeLastMigration() *common.SDKTime
 
 	// Additional status related to the execution and current state of the Migration.
-	LifecycleDetails MigrationStatusEnum `mandatory:"false" json:"lifecycleDetails,omitempty"`
+	GetLifecycleDetails() MigrationStatusEnum
 
-	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
-	// Example: `{"bar-key": "value"}`
-	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags. Example: {"Department": "Finance"}
+	GetFreeformTags() map[string]string
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
-	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	GetDefinedTags() map[string]map[string]interface{}
 
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	GetSystemTags() map[string]map[string]interface{}
 }
 
-func (m Migration) String() string {
+type migration struct {
+	JsonData                   []byte
+	Description                *string                           `mandatory:"false" json:"description"`
+	WaitAfter                  OdmsJobPhasesEnum                 `mandatory:"false" json:"waitAfter,omitempty"`
+	ExecutingJobId             *string                           `mandatory:"false" json:"executingJobId"`
+	TimeUpdated                *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	TimeLastMigration          *common.SDKTime                   `mandatory:"false" json:"timeLastMigration"`
+	LifecycleDetails           MigrationStatusEnum               `mandatory:"false" json:"lifecycleDetails,omitempty"`
+	FreeformTags               map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags                map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags                 map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                         *string                           `mandatory:"true" json:"id"`
+	DisplayName                *string                           `mandatory:"true" json:"displayName"`
+	CompartmentId              *string                           `mandatory:"true" json:"compartmentId"`
+	Type                       MigrationTypesEnum                `mandatory:"true" json:"type"`
+	SourceDatabaseConnectionId *string                           `mandatory:"true" json:"sourceDatabaseConnectionId"`
+	TargetDatabaseConnectionId *string                           `mandatory:"true" json:"targetDatabaseConnectionId"`
+	TimeCreated                *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState             MigrationLifecycleStatesEnum      `mandatory:"true" json:"lifecycleState"`
+	DatabaseCombination        string                            `json:"databaseCombination"`
+}
+
+// UnmarshalJSON unmarshals json
+func (m *migration) UnmarshalJSON(data []byte) error {
+	m.JsonData = data
+	type Unmarshalermigration migration
+	s := struct {
+		Model Unmarshalermigration
+	}{}
+	err := json.Unmarshal(data, &s.Model)
+	if err != nil {
+		return err
+	}
+	m.Id = s.Model.Id
+	m.DisplayName = s.Model.DisplayName
+	m.CompartmentId = s.Model.CompartmentId
+	m.Type = s.Model.Type
+	m.SourceDatabaseConnectionId = s.Model.SourceDatabaseConnectionId
+	m.TargetDatabaseConnectionId = s.Model.TargetDatabaseConnectionId
+	m.TimeCreated = s.Model.TimeCreated
+	m.LifecycleState = s.Model.LifecycleState
+	m.Description = s.Model.Description
+	m.WaitAfter = s.Model.WaitAfter
+	m.ExecutingJobId = s.Model.ExecutingJobId
+	m.TimeUpdated = s.Model.TimeUpdated
+	m.TimeLastMigration = s.Model.TimeLastMigration
+	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.FreeformTags = s.Model.FreeformTags
+	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
+	m.DatabaseCombination = s.Model.DatabaseCombination
+
+	return err
+}
+
+// UnmarshalPolymorphicJSON unmarshals polymorphic json
+func (m *migration) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
+
+	if data == nil || string(data) == "null" {
+		return nil, nil
+	}
+
+	var err error
+	switch m.DatabaseCombination {
+	case "ORACLE":
+		mm := OracleMigration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "MYSQL":
+		mm := MySqlMigration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	default:
+		common.Logf("Recieved unsupported enum value for Migration: %s.", m.DatabaseCombination)
+		return *m, nil
+	}
+}
+
+// GetDescription returns Description
+func (m migration) GetDescription() *string {
+	return m.Description
+}
+
+// GetWaitAfter returns WaitAfter
+func (m migration) GetWaitAfter() OdmsJobPhasesEnum {
+	return m.WaitAfter
+}
+
+// GetExecutingJobId returns ExecutingJobId
+func (m migration) GetExecutingJobId() *string {
+	return m.ExecutingJobId
+}
+
+// GetTimeUpdated returns TimeUpdated
+func (m migration) GetTimeUpdated() *common.SDKTime {
+	return m.TimeUpdated
+}
+
+// GetTimeLastMigration returns TimeLastMigration
+func (m migration) GetTimeLastMigration() *common.SDKTime {
+	return m.TimeLastMigration
+}
+
+// GetLifecycleDetails returns LifecycleDetails
+func (m migration) GetLifecycleDetails() MigrationStatusEnum {
+	return m.LifecycleDetails
+}
+
+// GetFreeformTags returns FreeformTags
+func (m migration) GetFreeformTags() map[string]string {
+	return m.FreeformTags
+}
+
+// GetDefinedTags returns DefinedTags
+func (m migration) GetDefinedTags() map[string]map[string]interface{} {
+	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m migration) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
+}
+
+// GetId returns Id
+func (m migration) GetId() *string {
+	return m.Id
+}
+
+// GetDisplayName returns DisplayName
+func (m migration) GetDisplayName() *string {
+	return m.DisplayName
+}
+
+// GetCompartmentId returns CompartmentId
+func (m migration) GetCompartmentId() *string {
+	return m.CompartmentId
+}
+
+// GetType returns Type
+func (m migration) GetType() MigrationTypesEnum {
+	return m.Type
+}
+
+// GetSourceDatabaseConnectionId returns SourceDatabaseConnectionId
+func (m migration) GetSourceDatabaseConnectionId() *string {
+	return m.SourceDatabaseConnectionId
+}
+
+// GetTargetDatabaseConnectionId returns TargetDatabaseConnectionId
+func (m migration) GetTargetDatabaseConnectionId() *string {
+	return m.TargetDatabaseConnectionId
+}
+
+// GetTimeCreated returns TimeCreated
+func (m migration) GetTimeCreated() *common.SDKTime {
+	return m.TimeCreated
+}
+
+// GetLifecycleState returns LifecycleState
+func (m migration) GetLifecycleState() MigrationLifecycleStatesEnum {
+	return m.LifecycleState
+}
+
+func (m migration) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Migration) ValidateEnumValue() (bool, error) {
+func (m migration) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingMigrationTypesEnum(string(m.Type)); !ok && m.Type != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetMigrationTypesEnumStringValues(), ",")))
@@ -130,112 +267,4 @@ func (m Migration) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *Migration) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		WaitAfter                           OdmsJobPhasesEnum                 `json:"waitAfter"`
-		AgentId                             *string                           `json:"agentId"`
-		CredentialsSecretId                 *string                           `json:"credentialsSecretId"`
-		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
-		ExecutingJobId                      *string                           `json:"executingJobId"`
-		DataTransferMediumDetailsV2         datatransfermediumdetailsv2       `json:"dataTransferMediumDetailsV2"`
-		DataTransferMediumDetails           *DataTransferMediumDetails        `json:"dataTransferMediumDetails"`
-		DumpTransferDetails                 *DumpTransferDetails              `json:"dumpTransferDetails"`
-		DatapumpSettings                    *DataPumpSettings                 `json:"datapumpSettings"`
-		AdvisorSettings                     *AdvisorSettings                  `json:"advisorSettings"`
-		ExcludeObjects                      []DatabaseObject                  `json:"excludeObjects"`
-		IncludeObjects                      []DatabaseObject                  `json:"includeObjects"`
-		GoldenGateServiceDetails            *GoldenGateServiceDetails         `json:"goldenGateServiceDetails"`
-		GoldenGateDetails                   *GoldenGateDetails                `json:"goldenGateDetails"`
-		VaultDetails                        *VaultDetails                     `json:"vaultDetails"`
-		TimeUpdated                         *common.SDKTime                   `json:"timeUpdated"`
-		TimeLastMigration                   *common.SDKTime                   `json:"timeLastMigration"`
-		LifecycleDetails                    MigrationStatusEnum               `json:"lifecycleDetails"`
-		FreeformTags                        map[string]string                 `json:"freeformTags"`
-		DefinedTags                         map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                          map[string]map[string]interface{} `json:"systemTags"`
-		Id                                  *string                           `json:"id"`
-		DisplayName                         *string                           `json:"displayName"`
-		CompartmentId                       *string                           `json:"compartmentId"`
-		Type                                MigrationTypesEnum                `json:"type"`
-		SourceDatabaseConnectionId          *string                           `json:"sourceDatabaseConnectionId"`
-		TargetDatabaseConnectionId          *string                           `json:"targetDatabaseConnectionId"`
-		TimeCreated                         *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState                      MigrationLifecycleStatesEnum      `json:"lifecycleState"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.WaitAfter = model.WaitAfter
-
-	m.AgentId = model.AgentId
-
-	m.CredentialsSecretId = model.CredentialsSecretId
-
-	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
-
-	m.ExecutingJobId = model.ExecutingJobId
-
-	nn, e = model.DataTransferMediumDetailsV2.UnmarshalPolymorphicJSON(model.DataTransferMediumDetailsV2.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.DataTransferMediumDetailsV2 = nn.(DataTransferMediumDetailsV2)
-	} else {
-		m.DataTransferMediumDetailsV2 = nil
-	}
-
-	m.DataTransferMediumDetails = model.DataTransferMediumDetails
-
-	m.DumpTransferDetails = model.DumpTransferDetails
-
-	m.DatapumpSettings = model.DatapumpSettings
-
-	m.AdvisorSettings = model.AdvisorSettings
-
-	m.ExcludeObjects = make([]DatabaseObject, len(model.ExcludeObjects))
-	copy(m.ExcludeObjects, model.ExcludeObjects)
-	m.IncludeObjects = make([]DatabaseObject, len(model.IncludeObjects))
-	copy(m.IncludeObjects, model.IncludeObjects)
-	m.GoldenGateServiceDetails = model.GoldenGateServiceDetails
-
-	m.GoldenGateDetails = model.GoldenGateDetails
-
-	m.VaultDetails = model.VaultDetails
-
-	m.TimeUpdated = model.TimeUpdated
-
-	m.TimeLastMigration = model.TimeLastMigration
-
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
-
-	m.Id = model.Id
-
-	m.DisplayName = model.DisplayName
-
-	m.CompartmentId = model.CompartmentId
-
-	m.Type = model.Type
-
-	m.SourceDatabaseConnectionId = model.SourceDatabaseConnectionId
-
-	m.TargetDatabaseConnectionId = model.TargetDatabaseConnectionId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.LifecycleState = model.LifecycleState
-
-	return
 }

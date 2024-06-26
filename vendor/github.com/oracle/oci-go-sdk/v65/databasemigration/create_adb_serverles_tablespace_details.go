@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateAdbServerlesTablespaceDetails Migration tablespace settings valid for ADB-S target type using remap feature.
+// CreateAdbServerlesTablespaceDetails Migration tablespace settings valid for Autonomous Database Serverless target type using remap feature.
 type CreateAdbServerlesTablespaceDetails struct {
 }
 
