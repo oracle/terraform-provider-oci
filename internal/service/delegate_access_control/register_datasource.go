@@ -1,0 +1,22 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package delegate_access_control
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegated_resource_access_request", DelegateAccessControlDelegatedResourceAccessRequestDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegated_resource_access_request_audit_log_report", DelegateAccessControlDelegatedResourceAccessRequestAuditLogReportDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegated_resource_access_request_histories", DelegateAccessControlDelegatedResourceAccessRequestHistoriesDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegated_resource_access_requests", DelegateAccessControlDelegatedResourceAccessRequestsDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegation_control", DelegateAccessControlDelegationControlDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegation_control_resources", DelegateAccessControlDelegationControlResourcesDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegation_controls", DelegateAccessControlDelegationControlsDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegation_subscription", DelegateAccessControlDelegationSubscriptionDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_delegation_subscriptions", DelegateAccessControlDelegationSubscriptionsDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_service_provider", DelegateAccessControlServiceProviderDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_service_provider_action", DelegateAccessControlServiceProviderActionDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_service_provider_actions", DelegateAccessControlServiceProviderActionsDataSource())
+	tfresource.RegisterDatasource("oci_delegate_access_control_service_providers", DelegateAccessControlServiceProvidersDataSource())
+}

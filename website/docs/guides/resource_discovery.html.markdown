@@ -157,19 +157,19 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
+    * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
+    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
-    * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
-    * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -542,7 +542,6 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
-* oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
 
 data_labeling_service
@@ -567,8 +566,6 @@ data_safe
 * oci\_data\_safe\_alert
 * oci\_data\_safe\_audit\_archive\_retrieval
 * oci\_data\_safe\_audit\_profile
-* oci\_data\_safe\_alert\_policy\_rule
-* oci\_data\_safe\_alert\_policy
 * oci\_data\_safe\_audit\_policy
 * oci\_data\_safe\_target\_alert\_policy\_association
 * oci\_data\_safe\_report
@@ -586,8 +583,6 @@ data_safe
 * oci\_data\_safe\_sql\_firewall\_policy
 * oci\_data\_safe\_sql\_collection
 * oci\_data\_safe\_target\_database\_peer\_target\_database
-* oci\_data\_safe\_calculate\_audit\_volume\_available
-* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
     
@@ -677,6 +672,11 @@ datascience
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
 
+delegate_access_control
+    
+* oci\_delegate\_access\_control\_delegation\_subscription
+* oci\_delegate\_access\_control\_delegation\_control
+
 demand_signal
     
 * oci\_demand\_signal\_occ\_demand\_signal
@@ -701,8 +701,6 @@ devops
 * oci\_devops\_build\_pipeline\_stage
 * oci\_devops\_trigger
 * oci\_devops\_repository\_mirror
-* oci\_devops\_repository\_setting
-* oci\_devops\_project\_repository\_setting
 
 disaster_recovery
     
@@ -720,6 +718,10 @@ dns
 * oci\_dns\_resolver
 * oci\_dns\_resolver\_endpoint
 * oci\_dns\_view
+
+em_warehouse
+
+* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -742,11 +744,6 @@ file_storage
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
 
-fleet_software_update
-    
-* oci\_fleet\_software\_update\_fsu\_cycle
-* oci\_fleet\_software\_update\_fsu\_collection
-
 functions
     
 * oci\_functions\_application
@@ -767,11 +764,6 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
-
-globally_distributed_database
-    
-* oci\_globally\_distributed\_database\_private\_endpoint
-* oci\_globally\_distributed\_database\_sharded\_database
 
 golden_gate
     
@@ -860,7 +852,6 @@ identity_domains
 * oci\_identity\_domains\_oauth\_partner\_certificate
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
-* oci\_identity\_domains\_social\_identity\_provider
 
 integration
     
@@ -870,7 +861,6 @@ jms
     
 * oci\_jms\_fleet
 * oci\_jms\_fleet\_advanced\_feature\_configuration
-* oci\_jms\_jms\_plugin
 
 kms
     
@@ -978,7 +968,6 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service\_list
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
-* oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
 
 network_load_balancer
     
