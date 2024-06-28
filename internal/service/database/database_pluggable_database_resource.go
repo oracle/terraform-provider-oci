@@ -111,6 +111,12 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"is_thin_clone": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"refreshable_clone_details": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -741,6 +747,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) mapToCreatePluggableDatabaseCrea
 	switch strings.ToLower(creationType) {
 	case strings.ToLower("LOCAL_CLONE_PDB"):
 		details := oci_database.CreatePluggableDatabaseFromLocalCloneDetails{}
+		if isThinClone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_thin_clone")); ok {
+			tmp := isThinClone.(bool)
+			details.IsThinClone = &tmp
+		}
 		if sourcePluggableDatabaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_pluggable_database_id")); ok {
 			tmp := sourcePluggableDatabaseId.(string)
 			details.SourcePluggableDatabaseId = &tmp
@@ -775,6 +785,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) mapToCreatePluggableDatabaseCrea
 			tmp := dblinkUsername.(string)
 			details.DblinkUsername = &tmp
 		}
+		if isThinClone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_thin_clone")); ok {
+			tmp := isThinClone.(bool)
+			details.IsThinClone = &tmp
+		}
 		if refreshableCloneDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "refreshable_clone_details")); ok {
 			if tmpList := refreshableCloneDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "refreshable_clone_details"), 0)
@@ -806,6 +820,10 @@ func CreatePluggableDatabaseCreationTypeDetailsToMap(obj *oci_database.CreatePlu
 	case oci_database.CreatePluggableDatabaseFromLocalCloneDetails:
 		result["creation_type"] = "LOCAL_CLONE_PDB"
 
+		if v.IsThinClone != nil {
+			result["is_thin_clone"] = bool(*v.IsThinClone)
+		}
+
 		if v.SourcePluggableDatabaseId != nil {
 			result["source_pluggable_database_id"] = string(*v.SourcePluggableDatabaseId)
 		}
@@ -836,6 +854,10 @@ func CreatePluggableDatabaseCreationTypeDetailsToMap(obj *oci_database.CreatePlu
 
 		if v.DblinkUsername != nil {
 			result["dblink_username"] = string(*v.DblinkUsername)
+		}
+
+		if v.IsThinClone != nil {
+			result["is_thin_clone"] = bool(*v.IsThinClone)
 		}
 
 		if v.RefreshableCloneDetails != nil {

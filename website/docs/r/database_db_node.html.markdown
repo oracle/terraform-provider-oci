@@ -69,6 +69,7 @@ The following attributes are exported:
 * `time_created` - The date and time that the database node was created.
 * `time_maintenance_window_end` - End date and time of maintenance window.
 * `time_maintenance_window_start` - Start date and time of maintenance window.
+* `total_cpu_core_count` - The total number of CPU cores reserved on the Db node.
 * `vnic2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second VNIC.
 
 	**Note:** Applies only to Exadata Cloud Service. 

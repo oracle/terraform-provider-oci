@@ -27,6 +27,10 @@ func DatabaseBackupsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"shape_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"backups": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -65,6 +69,10 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
 		tmp := databaseId.(string)
 		request.DatabaseId = &tmp
+	}
+
+	if shapeFamily, ok := s.D.GetOkExists("shape_family"); ok {
+		request.ShapeFamily = oci_database.ListBackupsShapeFamilyEnum(shapeFamily.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")

@@ -28,6 +28,11 @@ import (
 var (
 	BackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation)
 
+	DatabaseBackupFilterByShapeDataSourceRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"shape_family":   acctest.Representation{RepType: acctest.Optional, Create: `EXADB_XS`},
+	}
+
 	DatabaseDatabaseBackupDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDataSourceFilterRepresentation}}
@@ -160,6 +165,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, DatabaseBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
+				resource.TestCheckResourceAttr(datasourceName, "shape_family", "SINGLENODE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
@@ -190,6 +196,49 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				"database_size_in_gbs",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestDatabaseBackupListByShapeFamily_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseBackupListByShapeFamily_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	datasourceName := "data.oci_database_backups.test_backups"
+
+	acctest.SaveConfigContent("", "", "", t)
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+
+		// verify datasource
+		{
+			Config: config + compartmentIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_backups", "test_backups", acctest.Optional, acctest.Update, DatabaseBackupFilterByShapeDataSourceRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "shape_family", "EXADB_XS"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+
+				resource.TestCheckResourceAttr(datasourceName, "backups.#", "12"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.compartment_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_edition"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "backups.0.shape", "ExaDbXS"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
+			),
 		},
 	})
 }

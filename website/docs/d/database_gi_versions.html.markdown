@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_gi_versions
 This data source provides the list of Gi Versions in Oracle Cloud Infrastructure Database service.
 
-Gets a list of supported GI versions for the Exadata Cloud@Customer VM cluster.
+Gets a list of supported GI versions.
 
 ## Example Usage
 
@@ -20,6 +20,7 @@ data "oci_database_gi_versions" "test_gi_versions" {
 	compartment_id = var.compartment_id
 
 	#Optional
+	availability_domain = var.gi_version_availability_domain
 	shape = var.gi_version_shape
 }
 ```
@@ -28,6 +29,7 @@ data "oci_database_gi_versions" "test_gi_versions" {
 
 The following arguments are supported:
 
+* `availability_domain` - (Optional) The target availability domain. Only passed if the limit is AD-specific.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `shape` - (Optional) If provided, filters the results for the given shape.
 
