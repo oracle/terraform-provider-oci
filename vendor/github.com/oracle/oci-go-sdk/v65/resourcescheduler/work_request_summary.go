@@ -1,0 +1,77 @@
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
+// Code generated. DO NOT EDIT.
+
+// Resource Scheduler API
+//
+// Use the Resource scheduler API to manage schedules, to perform actions on a collection of resources.
+//
+
+package resourcescheduler
+
+import (
+	"fmt"
+	"github.com/oracle/oci-go-sdk/v65/common"
+	"strings"
+)
+
+// WorkRequestSummary This is the summary information about an asynchronous work request.
+type WorkRequestSummary struct {
+
+	// This is the status of the work request.
+	Status OperationStatusEnum `mandatory:"true" json:"status"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
+	Id *string `mandatory:"true" json:"id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the work request.
+	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+
+	// The resources that are affected by this work request.
+	Resources []WorkRequestResource `mandatory:"true" json:"resources"`
+
+	// Shows the progress of the operation tracked by the work request, as a percentage of the total work
+	// that must be performed.
+	PercentComplete *float32 `mandatory:"true" json:"percentComplete"`
+
+	// This is the date and time the work request was created, in the format defined by
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
+
+	// This is the asynchronous operation tracked by this work request.
+	OperationType OperationTypeEnum `mandatory:"false" json:"operationType,omitempty"`
+
+	// This is the date and time the work request was started, in the format defined by
+	// RFC 3339 (https://tools.ietf.org/html/rfc3339).
+	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
+
+	// This is the date and time the work request was finished, in the format defined by
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	TimeFinished *common.SDKTime `mandatory:"false" json:"timeFinished"`
+
+	// This is the date and time the work request was updated, in the format defined by
+	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+}
+
+func (m WorkRequestSummary) String() string {
+	return common.PointerString(m)
+}
+
+// ValidateEnumValue returns an error when providing an unsupported enum value
+// This function is being called during constructing API request process
+// Not recommended for calling this function directly
+func (m WorkRequestSummary) ValidateEnumValue() (bool, error) {
+	errMessage := []string{}
+	if _, ok := GetMappingOperationStatusEnum(string(m.Status)); !ok && m.Status != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", m.Status, strings.Join(GetOperationStatusEnumStringValues(), ",")))
+	}
+
+	if _, ok := GetMappingOperationTypeEnum(string(m.OperationType)); !ok && m.OperationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OperationType: %s. Supported values are: %s.", m.OperationType, strings.Join(GetOperationTypeEnumStringValues(), ",")))
+	}
+	if len(errMessage) > 0 {
+		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
+	}
+	return false, nil
+}

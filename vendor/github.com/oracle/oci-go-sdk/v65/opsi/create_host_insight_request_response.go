@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/CreateHostInsight.go.html to see an example of how to use CreateHostInsightRequest.
 type CreateHostInsightRequest struct {
 
-	// Details for the host for which a Host Insight resource will be created in Operations Insights.
+	// Details for the host for which a Host Insight resource will be created in Ops Insights.
 	CreateHostInsightDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request that can be retried in case of a timeout or

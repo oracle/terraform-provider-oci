@@ -34,6 +34,9 @@ type CreatePluggableDatabaseFromRemoteCloneDetails struct {
 	DblinkUserPassword *string `mandatory:"false" json:"dblinkUserPassword"`
 
 	RefreshableCloneDetails *CreatePluggableDatabaseRefreshableCloneDetails `mandatory:"false" json:"refreshableCloneDetails"`
+
+	// True if Pluggable Database needs to be thin cloned and false if Pluggable Database needs to be thick cloned.
+	IsThinClone *bool `mandatory:"false" json:"isThinClone"`
 }
 
 func (m CreatePluggableDatabaseFromRemoteCloneDetails) String() string {

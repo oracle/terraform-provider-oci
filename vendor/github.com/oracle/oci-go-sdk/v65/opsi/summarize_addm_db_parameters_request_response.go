@@ -204,13 +204,13 @@ type SummarizeAddmDbParametersIsChangedEnum string
 
 // Set of constants representing the allowable values for SummarizeAddmDbParametersIsChangedEnum
 const (
-	SummarizeAddmDbParametersIsChangedTrue  SummarizeAddmDbParametersIsChangedEnum = "true"
-	SummarizeAddmDbParametersIsChangedFalse SummarizeAddmDbParametersIsChangedEnum = "false"
+	SummarizeAddmDbParametersIsChangedTrue  SummarizeAddmDbParametersIsChangedEnum = "TRUE"
+	SummarizeAddmDbParametersIsChangedFalse SummarizeAddmDbParametersIsChangedEnum = "FALSE"
 )
 
 var mappingSummarizeAddmDbParametersIsChangedEnum = map[string]SummarizeAddmDbParametersIsChangedEnum{
-	"true":  SummarizeAddmDbParametersIsChangedTrue,
-	"false": SummarizeAddmDbParametersIsChangedFalse,
+	"TRUE":  SummarizeAddmDbParametersIsChangedTrue,
+	"FALSE": SummarizeAddmDbParametersIsChangedFalse,
 }
 
 var mappingSummarizeAddmDbParametersIsChangedEnumLowerCase = map[string]SummarizeAddmDbParametersIsChangedEnum{
@@ -230,8 +230,8 @@ func GetSummarizeAddmDbParametersIsChangedEnumValues() []SummarizeAddmDbParamete
 // GetSummarizeAddmDbParametersIsChangedEnumStringValues Enumerates the set of values in String for SummarizeAddmDbParametersIsChangedEnum
 func GetSummarizeAddmDbParametersIsChangedEnumStringValues() []string {
 	return []string{
-		"true",
-		"false",
+		"TRUE",
+		"FALSE",
 	}
 }
 
@@ -246,13 +246,13 @@ type SummarizeAddmDbParametersIsDefaultEnum string
 
 // Set of constants representing the allowable values for SummarizeAddmDbParametersIsDefaultEnum
 const (
-	SummarizeAddmDbParametersIsDefaultTrue  SummarizeAddmDbParametersIsDefaultEnum = "true"
-	SummarizeAddmDbParametersIsDefaultFalse SummarizeAddmDbParametersIsDefaultEnum = "false"
+	SummarizeAddmDbParametersIsDefaultTrue  SummarizeAddmDbParametersIsDefaultEnum = "TRUE"
+	SummarizeAddmDbParametersIsDefaultFalse SummarizeAddmDbParametersIsDefaultEnum = "FALSE"
 )
 
 var mappingSummarizeAddmDbParametersIsDefaultEnum = map[string]SummarizeAddmDbParametersIsDefaultEnum{
-	"true":  SummarizeAddmDbParametersIsDefaultTrue,
-	"false": SummarizeAddmDbParametersIsDefaultFalse,
+	"TRUE":  SummarizeAddmDbParametersIsDefaultTrue,
+	"FALSE": SummarizeAddmDbParametersIsDefaultFalse,
 }
 
 var mappingSummarizeAddmDbParametersIsDefaultEnumLowerCase = map[string]SummarizeAddmDbParametersIsDefaultEnum{
@@ -272,8 +272,8 @@ func GetSummarizeAddmDbParametersIsDefaultEnumValues() []SummarizeAddmDbParamete
 // GetSummarizeAddmDbParametersIsDefaultEnumStringValues Enumerates the set of values in String for SummarizeAddmDbParametersIsDefaultEnum
 func GetSummarizeAddmDbParametersIsDefaultEnumStringValues() []string {
 	return []string{
-		"true",
-		"false",
+		"TRUE",
+		"FALSE",
 	}
 }
 
@@ -288,13 +288,13 @@ type SummarizeAddmDbParametersHasRecommendationsEnum string
 
 // Set of constants representing the allowable values for SummarizeAddmDbParametersHasRecommendationsEnum
 const (
-	SummarizeAddmDbParametersHasRecommendationsTrue  SummarizeAddmDbParametersHasRecommendationsEnum = "true"
-	SummarizeAddmDbParametersHasRecommendationsFalse SummarizeAddmDbParametersHasRecommendationsEnum = "false"
+	SummarizeAddmDbParametersHasRecommendationsTrue  SummarizeAddmDbParametersHasRecommendationsEnum = "TRUE"
+	SummarizeAddmDbParametersHasRecommendationsFalse SummarizeAddmDbParametersHasRecommendationsEnum = "FALSE"
 )
 
 var mappingSummarizeAddmDbParametersHasRecommendationsEnum = map[string]SummarizeAddmDbParametersHasRecommendationsEnum{
-	"true":  SummarizeAddmDbParametersHasRecommendationsTrue,
-	"false": SummarizeAddmDbParametersHasRecommendationsFalse,
+	"TRUE":  SummarizeAddmDbParametersHasRecommendationsTrue,
+	"FALSE": SummarizeAddmDbParametersHasRecommendationsFalse,
 }
 
 var mappingSummarizeAddmDbParametersHasRecommendationsEnumLowerCase = map[string]SummarizeAddmDbParametersHasRecommendationsEnum{
@@ -314,8 +314,8 @@ func GetSummarizeAddmDbParametersHasRecommendationsEnumValues() []SummarizeAddmD
 // GetSummarizeAddmDbParametersHasRecommendationsEnumStringValues Enumerates the set of values in String for SummarizeAddmDbParametersHasRecommendationsEnum
 func GetSummarizeAddmDbParametersHasRecommendationsEnumStringValues() []string {
 	return []string{
-		"true",
-		"false",
+		"TRUE",
+		"FALSE",
 	}
 }
 

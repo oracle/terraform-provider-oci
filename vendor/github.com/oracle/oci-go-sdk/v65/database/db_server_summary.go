@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// DbServerSummary Details of the Exadata Cloud@Customer Db server.
+// DbServerSummary Details of the Db server.
 type DbServerSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Db server.
 	Id *string `mandatory:"false" json:"id"`
 
 	// The user-friendly name for the Db server. The name does not need to be unique.
