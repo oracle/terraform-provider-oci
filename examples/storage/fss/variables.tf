@@ -46,8 +46,20 @@ variable "file_system_clone_display_name" {
 	default= "my_fs_clone"
 }
 
+variable "file_system_clone_with_detach_display_name" {
+	default= "my_fs_clone_with_detach"
+}
+
 variable "file_system_simple_display_name" {
 	default= "my_fs_simple"
+}
+
+variable "file_system_simple_1_display_name" {
+	default= "my_fs_simple_1"
+}
+
+variable "clone_attach_status_value" {
+    default= "DETACH"
 }
 
 variable "file_system_with_snapshot_policy_display_name" {
@@ -80,6 +92,10 @@ variable "snapshot_name" {
 
 variable "snapshot_name_clone" {
   default = "snapshot_clone"
+}
+
+variable "snapshot_name_clone_1" {
+  default = "snapshot_clone_1"
 }
 
 variable "export_set_name_1" {

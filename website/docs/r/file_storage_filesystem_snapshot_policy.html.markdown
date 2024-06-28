@@ -60,10 +60,10 @@ The following arguments are supported:
 * `schedules` - (Optional) (Updatable) The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
 
 	If using the CLI, provide the schedule as a list of JSON strings, with the list wrapped in quotation marks, i.e. ``` --schedules '[{"timeZone":"UTC","period":"DAILY","hourOfDay":18},{"timeZone":"UTC","period":"HOURLY"}]' ``` 
-	* `day_of_month` - (Optional) (Updatable) The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. 
-	* `day_of_week` - (Optional) (Updatable) The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. 
-	* `hour_of_day` - (Optional) (Updatable) The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, a value will be chosen at creation time. 
-	* `month` - (Optional) (Updatable) The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. 
+	* `day_of_month` - (Optional) (Updatable) The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
+	* `day_of_week` - (Optional) (Updatable) The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. If not set, the system chooses a value at creation time. 
+	* `hour_of_day` - (Optional) (Updatable) The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, the system chooses a value at creation time. 
+	* `month` - (Optional) (Updatable) The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `period` - (Required) (Updatable) The frequency of scheduled snapshots.
 	* `retention_duration_in_seconds` - (Optional) (Updatable) The number of seconds to retain snapshots created with this schedule. Snapshot expiration time will not be set if this value is empty. 
 	* `schedule_prefix` - (Optional) (Updatable) A name prefix to be applied to snapshots created by this schedule.  Example: `compliance1` 
@@ -87,10 +87,10 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
 * `policy_prefix` - The prefix to apply to all snapshots created by this policy.  Example: `acme` 
 * `schedules` - The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy. 
-	* `day_of_month` - The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. 
-	* `day_of_week` - The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. 
-	* `hour_of_day` - The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, a value will be chosen at creation time. 
-	* `month` - The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. 
+	* `day_of_month` - The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
+	* `day_of_week` - The day of the week to create a scheduled snapshot. Used for WEEKLY snapshot schedules. If not set, the system chooses a value at creation time. 
+	* `hour_of_day` - The hour of the day to create a DAILY, WEEKLY, MONTHLY, or YEARLY snapshot. If not set, the system chooses a value at creation time. 
+	* `month` - The month to create a scheduled snapshot. Used only for YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
 	* `period` - The frequency of scheduled snapshots.
 	* `retention_duration_in_seconds` - The number of seconds to retain snapshots created with this schedule. Snapshot expiration time will not be set if this value is empty. 
 	* `schedule_prefix` - A name prefix to be applied to snapshots created by this schedule.  Example: `compliance1` 
