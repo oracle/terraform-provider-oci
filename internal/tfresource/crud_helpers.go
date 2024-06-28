@@ -1231,6 +1231,13 @@ func MonetaryDiffSuppress(key string, old string, new string, d *schema.Resource
 	return fmt.Sprintf("%.2f", oldVal) == fmt.Sprintf("%.2f", newVal)
 }
 
+func AttachDiffSuppressFunction(key string, old string, new string, d *schema.ResourceData) bool {
+	if new == "DETACH" {
+		return true
+	}
+	return false
+}
+
 // Diff suppression function to make sure that any change in ordering of attributes in JSON objects don't result in diffs.
 // For example, the config may have created this:
 //

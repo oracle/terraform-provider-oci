@@ -157,6 +157,8 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			"compartment_id":      *r.CompartmentId,
 		}
 
+		fileSystem["clone_attach_status"] = r.CloneAttachStatus
+
 		if r.DefinedTags != nil {
 			fileSystem["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
