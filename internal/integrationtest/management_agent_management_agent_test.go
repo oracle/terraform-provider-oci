@@ -185,6 +185,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 		"managed_agent_id":  acctest.Representation{RepType: acctest.Required, Create: managementAgentId},
 		"display_name":      acctest.Representation{RepType: acctest.Optional, Create: `terraformTest`, Update: `terraformTest2`},
 		"deploy_plugins_id": acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id}`}},
+		"freeform_tags":     acctest.Representation{RepType: acctest.Required, Create: map[string]string{"TestingTag": "TestingValue"}, Update: map[string]string{"TestingTag2": "TestingValue2"}},
 	}
 	ManagementAgentRequiredOnlyResource := acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent", "test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation)
 
@@ -205,6 +206,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_management_agent_management_agent",
 					"test_management_agent", acctest.Required, acctest.Create, managementAgentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -228,6 +230,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "version"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformTest2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -291,7 +294,7 @@ func TestManagementAgentManagementAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_source_list.#", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "host"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),

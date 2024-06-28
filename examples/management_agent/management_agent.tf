@@ -2,9 +2,6 @@
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
-variable "user_ocid" {}
-variable "fingerprint" {}
-variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
 variable "root_compartment_ocid" {}
@@ -17,9 +14,8 @@ variable "subnet" {
 }
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+  auth = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
   region           = var.region
 }
 
@@ -40,6 +36,8 @@ resource "oci_management_agent_management_agent" "test_management_agent" {
 
   #Optional
   deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.1.id]
+  freeform_tags = {"tagKey":"tagValue"}
+
 }
 
 
@@ -188,4 +186,8 @@ resource "oci_management_agent_management_agent" "test_compute_management_agent"
   freeform_tags     = { "TestingTag" : "TestingValue" }
   managed_agent_id  = data.oci_management_agent_management_agents.find_compute_agent.management_agents[0].id
   deploy_plugins_id = [data.oci_management_agent_management_agent_plugins.test_management_agent_plugins.management_agent_plugins.0.id]
+}
+
+output "updated_agent" {
+  value = data.oci_management_agent_management_agents.find_agent.management_agents[0].id
 }
