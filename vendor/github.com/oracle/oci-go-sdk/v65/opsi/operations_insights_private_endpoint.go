@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -53,7 +53,7 @@ type OperationsInsightsPrivateEndpoint struct {
 	// A message describing the status of the private endpoint connection of this resource. For example, it can be used to provide actionable information about the validity of the private endpoint connection.
 	PrivateEndpointStatusDetails *string `mandatory:"false" json:"privateEndpointStatusDetails"`
 
-	// The flag is to identify if private endpoint is used for rac database or not
+	// The flag is to identify if private endpoint is used for rac database or not. This flag is deprecated and no longer is used.
 	IsUsedForRacDbs *bool `mandatory:"false" json:"isUsedForRacDbs"`
 
 	// The OCIDs of the network security groups that the private endpoint belongs to.

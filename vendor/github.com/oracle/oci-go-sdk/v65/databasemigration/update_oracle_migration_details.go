@@ -51,6 +51,9 @@ type UpdateOracleMigrationDetails struct {
 
 	GgsDetails *UpdateOracleGgsDeploymentDetails `mandatory:"false" json:"ggsDetails"`
 
+	// List of Migration Parameter objects.
+	AdvancedParameters []MigrationParameterDetails `mandatory:"false" json:"advancedParameters"`
+
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
@@ -142,6 +145,7 @@ func (m *UpdateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 		AdvisorSettings                     *UpdateOracleAdvisorSettings          `json:"advisorSettings"`
 		HubDetails                          *UpdateGoldenGateHubDetails           `json:"hubDetails"`
 		GgsDetails                          *UpdateOracleGgsDeploymentDetails     `json:"ggsDetails"`
+		AdvancedParameters                  []MigrationParameterDetails           `json:"advancedParameters"`
 		SourceContainerDatabaseConnectionId *string                               `json:"sourceContainerDatabaseConnectionId"`
 	}{}
 
@@ -182,6 +186,8 @@ func (m *UpdateOracleMigrationDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.GgsDetails = model.GgsDetails
 
+	m.AdvancedParameters = make([]MigrationParameterDetails, len(model.AdvancedParameters))
+	copy(m.AdvancedParameters, model.AdvancedParameters)
 	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
 
 	return

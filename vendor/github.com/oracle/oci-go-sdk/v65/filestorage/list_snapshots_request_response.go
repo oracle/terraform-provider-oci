@@ -144,6 +144,7 @@ type ListSnapshotsLifecycleStateEnum string
 const (
 	ListSnapshotsLifecycleStateCreating ListSnapshotsLifecycleStateEnum = "CREATING"
 	ListSnapshotsLifecycleStateActive   ListSnapshotsLifecycleStateEnum = "ACTIVE"
+	ListSnapshotsLifecycleStateUpdating ListSnapshotsLifecycleStateEnum = "UPDATING"
 	ListSnapshotsLifecycleStateDeleting ListSnapshotsLifecycleStateEnum = "DELETING"
 	ListSnapshotsLifecycleStateDeleted  ListSnapshotsLifecycleStateEnum = "DELETED"
 	ListSnapshotsLifecycleStateFailed   ListSnapshotsLifecycleStateEnum = "FAILED"
@@ -152,6 +153,7 @@ const (
 var mappingListSnapshotsLifecycleStateEnum = map[string]ListSnapshotsLifecycleStateEnum{
 	"CREATING": ListSnapshotsLifecycleStateCreating,
 	"ACTIVE":   ListSnapshotsLifecycleStateActive,
+	"UPDATING": ListSnapshotsLifecycleStateUpdating,
 	"DELETING": ListSnapshotsLifecycleStateDeleting,
 	"DELETED":  ListSnapshotsLifecycleStateDeleted,
 	"FAILED":   ListSnapshotsLifecycleStateFailed,
@@ -160,6 +162,7 @@ var mappingListSnapshotsLifecycleStateEnum = map[string]ListSnapshotsLifecycleSt
 var mappingListSnapshotsLifecycleStateEnumLowerCase = map[string]ListSnapshotsLifecycleStateEnum{
 	"creating": ListSnapshotsLifecycleStateCreating,
 	"active":   ListSnapshotsLifecycleStateActive,
+	"updating": ListSnapshotsLifecycleStateUpdating,
 	"deleting": ListSnapshotsLifecycleStateDeleting,
 	"deleted":  ListSnapshotsLifecycleStateDeleted,
 	"failed":   ListSnapshotsLifecycleStateFailed,
@@ -179,6 +182,7 @@ func GetListSnapshotsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

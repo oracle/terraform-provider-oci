@@ -21,7 +21,7 @@ type ListNewsReportsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// Unique Operations Insights news report identifier
+	// Unique Ops Insights news report identifier
 	NewsReportId *string `mandatory:"false" contributesTo:"query" name:"newsReportId"`
 
 	// Resource Status

@@ -31,6 +31,9 @@ type AutonomousDatabase struct {
 	DbName *string `mandatory:"true" json:"dbName"`
 
 	// The quantity of data in the database, in terabytes.
+	// The following points apply to Autonomous Databases on Serverless Infrastructure:
+	// - This is an integer field whose value remains null when the data size is in GBs and cannot be converted to TBs (by dividing the GB value by 1024) without rounding error.
+	// - To get the exact value of data storage size without rounding error, please see `dataStorageSizeInGBs` of Autonomous Database.
 	DataStorageSizeInTBs *int `mandatory:"true" json:"dataStorageSizeInTBs"`
 
 	// Information about the current lifecycle state.
@@ -122,6 +125,7 @@ type AutonomousDatabase struct {
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
+	// For Autonomous Transaction Processing databases using ECPUs on Serverless Infrastructure, this value is always populated. In all the other cases, this value will be null and `dataStorageSizeInTBs` will be populated instead.
 	DataStorageSizeInGBs *int `mandatory:"false" json:"dataStorageSizeInGBs"`
 
 	// The storage space consumed by Autonomous Database in GBs.
@@ -160,7 +164,7 @@ type AutonomousDatabase struct {
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, dataStorageSizeInTBs, adminPassword, isMTLSConnectionRequired, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, or isFreeTier.
 	LicenseModel AutonomousDatabaseLicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
-	// The amount of storage that has been used, in terabytes.
+	// The amount of storage that has been used for Autonomous Databases in dedicated infrastructure, in terabytes.
 	UsedDataStorageSizeInTBs *int `mandatory:"false" json:"usedDataStorageSizeInTBs"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
