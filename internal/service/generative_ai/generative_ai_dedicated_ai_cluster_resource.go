@@ -25,11 +25,15 @@ func GenerativeAiDedicatedAiClusterResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGenerativeAiDedicatedAiCluster,
-		Read:     readGenerativeAiDedicatedAiCluster,
-		Update:   updateGenerativeAiDedicatedAiCluster,
-		Delete:   deleteGenerativeAiDedicatedAiCluster,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("80m"),
+			Update: tfresource.GetTimeoutDuration("80m"),
+			Delete: tfresource.GetTimeoutDuration("20m"),
+		},
+		Create: createGenerativeAiDedicatedAiCluster,
+		Read:   readGenerativeAiDedicatedAiCluster,
+		Update: updateGenerativeAiDedicatedAiCluster,
+		Delete: deleteGenerativeAiDedicatedAiCluster,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {

@@ -1,14 +1,14 @@
 ---
-subcategory: "Generative Ai"
+subcategory: "Generative AI"
 layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_generative_ai_endpoint"
 sidebar_current: "docs-oci-resource-generative_ai-endpoint"
 description: |-
-  Provides the Endpoint resource in Oracle Cloud Infrastructure Generative Ai service
+  Provides the Endpoint resource in Oracle Cloud Infrastructure Generative AI service
 ---
 
 # oci_generative_ai_endpoint
-This resource provides the Endpoint resource in Oracle Cloud Infrastructure Generative Ai service.
+This resource provides the Endpoint resource in Oracle Cloud Infrastructure Generative AI service.
 
 Creates an endpoint.
 
@@ -69,6 +69,9 @@ The following attributes are exported:
 * `id` - An OCID that uniquely identifies this endpoint resource.
 * `lifecycle_details` - A message describing the current state of the endpoint in more detail that can provide actionable information.
 * `model_id` - The OCID of the model that's used to create this endpoint.
+* `previous_state` - To host a custom model for inference, create an endpoint for that model on a dedicated AI cluster of type HOSTING. 
+
+	To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives Oracle Cloud Infrastructure resource access to users. See [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and [Getting Access to Generative AI Resouces](https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm). 
 * `state` - The current state of the endpoint.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time that the endpoint was created in the format of an RFC3339 datetime string.

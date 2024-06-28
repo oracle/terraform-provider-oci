@@ -71,6 +71,16 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
+	GenerativeAiLoraFineTuningDedicatedAiClusterRepresentation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"type":           acctest.Representation{RepType: acctest.Required, Create: `FINE_TUNING`},
+		"unit_count":     acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"unit_shape":     acctest.Representation{RepType: acctest.Required, Create: `LARGE_GENERIC`},
+		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `llama3testCluster`, Update: `displayName2`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+
 	GenerativeAiDedicatedAiClusterResourceDependencies = `` // Cannot test from home region due to GPU, commented out - DefinedTagsDependencies
 )
 
@@ -211,7 +221,6 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_ai_cluster_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "dedicated_ai_cluster_collection.0.items.#", "1"),
 			),
@@ -223,7 +232,6 @@ func TestGenerativeAiDedicatedAiClusterResource_basic(t *testing.T) {
 				compartmentIdVariableStr + GenerativeAiDedicatedAiClusterResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "dedicated_ai_cluster_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "capacity.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),

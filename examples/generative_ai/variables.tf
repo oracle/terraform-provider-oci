@@ -21,12 +21,20 @@ variable "fine_tuning_cluster_display_name" {
   default = "fine_tuning_cluster"
 }
 
+variable "llama_fine_tuning_cluster_display_name" {
+  default = "fine_tuning_cluster_large_generic"
+}
+
 variable "fine_tuning_cluster_description" {
   default = "this is a fine tuning cluster"
 }
 
 variable "fine_tuning_cluster_shape" {
   default = "SMALL_COHERE"
+}
+
+variable "fine_tuning_large_generic_cluster_shape" {
+  default = "LARGE_GENERIC"
 }
 
 variable "fine_tuning_cluster_unit_count" {
@@ -43,6 +51,10 @@ variable "test_endpoint_description" {
 
 variable "test_model_display_name" {
   default = "test_model"
+}
+
+variable "llama3_test_model_display_name" {
+  default = "llama3_test_model"
 }
 
 variable "test_model_description" {
