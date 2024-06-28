@@ -1,3 +1,13 @@
+## 6.1.0 (Unreleased)
+
+### Added
+- Support for Generative AI Service - Lora Fine-Tuning Method
+- Support for Resource Scheduler
+- Support for File Storage: Clone detach feature
+- Support for Oracle Exadata Database Service on Exascale Infrastructure | ExaDB-XS
+### Bug Fix
+- tagging in management_agent
+
 ## 5.48.0 (Unreleased)
 
 ### Added
