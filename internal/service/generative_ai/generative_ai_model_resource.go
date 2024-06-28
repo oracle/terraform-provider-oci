@@ -26,11 +26,15 @@ func GenerativeAiModelResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGenerativeAiModel,
-		Read:     readGenerativeAiModel,
-		Update:   updateGenerativeAiModel,
-		Delete:   deleteGenerativeAiModel,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("80m"),
+			Update: tfresource.GetTimeoutDuration("20m"),
+			Delete: tfresource.GetTimeoutDuration("20m"),
+		},
+		Create: createGenerativeAiModel,
+		Read:   readGenerativeAiModel,
+		Update: updateGenerativeAiModel,
+		Delete: deleteGenerativeAiModel,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"base_model_id": {
@@ -114,6 +118,7 @@ func GenerativeAiModelResource() *schema.Resource {
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"LORA_TRAINING_CONFIG",
 											"TFEW_TRAINING_CONFIG",
 											"VANILLA_TRAINING_CONFIG",
 										}, true),
@@ -139,6 +144,24 @@ func GenerativeAiModelResource() *schema.Resource {
 										ForceNew: true,
 									},
 									"log_model_metrics_interval_in_steps": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"lora_alpha": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"lora_dropout": {
+										Type:     schema.TypeFloat,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"lora_r": {
 										Type:     schema.TypeInt,
 										Optional: true,
 										Computed: true,
@@ -827,6 +850,16 @@ func FineTuneDetailsToMap(obj *oci_generative_ai.FineTuneDetails) map[string]int
 func ModelMetricsToMap(obj *oci_generative_ai.ModelMetrics) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_generative_ai.ChatModelMetrics:
+		result["model_metrics_type"] = "CHAT_MODEL_METRICS"
+
+		if v.FinalAccuracy != nil {
+			result["final_accuracy"] = float64(*v.FinalAccuracy)
+		}
+
+		if v.FinalLoss != nil {
+			result["final_loss"] = float64(*v.FinalLoss)
+		}
 	case oci_generative_ai.TextGenerationModelMetrics:
 		result["model_metrics_type"] = "TEXT_GENERATION_MODEL_METRICS"
 
@@ -930,6 +963,45 @@ func (s *GenerativeAiModelResourceCrud) mapToTrainingConfig(fieldKeyFormat strin
 		trainingConfigType = "TFEW_TRAINING_CONFIG" // default value
 	}
 	switch strings.ToLower(trainingConfigType) {
+	case strings.ToLower("LORA_TRAINING_CONFIG"):
+		details := oci_generative_ai.LoraTrainingConfig{}
+		if loraAlpha, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lora_alpha")); ok {
+			tmp := loraAlpha.(int)
+			details.LoraAlpha = &tmp
+		}
+		if loraDropout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lora_dropout")); ok {
+			tmp := loraDropout.(float64)
+			details.LoraDropout = &tmp
+		}
+		if loraR, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lora_r")); ok {
+			tmp := loraR.(int)
+			details.LoraR = &tmp
+		}
+		if earlyStoppingPatience, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "early_stopping_patience")); ok {
+			tmp := earlyStoppingPatience.(int)
+			details.EarlyStoppingPatience = &tmp
+		}
+		if earlyStoppingThreshold, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "early_stopping_threshold")); ok {
+			tmp := earlyStoppingThreshold.(float64)
+			details.EarlyStoppingThreshold = &tmp
+		}
+		if learningRate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "learning_rate")); ok {
+			tmp := learningRate.(float64)
+			details.LearningRate = &tmp
+		}
+		if logModelMetricsIntervalInSteps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "log_model_metrics_interval_in_steps")); ok {
+			tmp := logModelMetricsIntervalInSteps.(int)
+			details.LogModelMetricsIntervalInSteps = &tmp
+		}
+		if totalTrainingEpochs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "total_training_epochs")); ok {
+			tmp := totalTrainingEpochs.(int)
+			details.TotalTrainingEpochs = &tmp
+		}
+		if trainingBatchSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "training_batch_size")); ok {
+			tmp := trainingBatchSize.(int)
+			details.TrainingBatchSize = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("TFEW_TRAINING_CONFIG"):
 		details := oci_generative_ai.TFewTrainingConfig{}
 		if earlyStoppingPatience, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "early_stopping_patience")); ok {
@@ -997,6 +1069,44 @@ func (s *GenerativeAiModelResourceCrud) mapToTrainingConfig(fieldKeyFormat strin
 func TrainingConfigToMap(obj *oci_generative_ai.TrainingConfig) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_generative_ai.LoraTrainingConfig:
+		result["training_config_type"] = "LORA_TRAINING_CONFIG"
+
+		if v.LoraAlpha != nil {
+			result["lora_alpha"] = int(*v.LoraAlpha)
+		}
+
+		if v.LoraDropout != nil {
+			result["lora_dropout"] = float64(*v.LoraDropout)
+		}
+
+		if v.LoraR != nil {
+			result["lora_r"] = int(*v.LoraR)
+		}
+		if v.EarlyStoppingPatience != nil {
+			result["early_stopping_patience"] = int(*v.EarlyStoppingPatience)
+		}
+
+		if v.EarlyStoppingThreshold != nil {
+			result["early_stopping_threshold"] = float64(*v.EarlyStoppingThreshold)
+		}
+
+		if v.LearningRate != nil {
+			result["learning_rate"] = float64(*v.LearningRate)
+		}
+
+		if v.LogModelMetricsIntervalInSteps != nil {
+			result["log_model_metrics_interval_in_steps"] = int(*v.LogModelMetricsIntervalInSteps)
+		}
+
+		if v.TotalTrainingEpochs != nil {
+			result["total_training_epochs"] = int(*v.TotalTrainingEpochs)
+		}
+
+		if v.TrainingBatchSize != nil {
+			result["training_batch_size"] = int(*v.TrainingBatchSize)
+		}
+
 	case oci_generative_ai.TFewTrainingConfig:
 		result["training_config_type"] = "TFEW_TRAINING_CONFIG"
 
@@ -1023,6 +1133,7 @@ func TrainingConfigToMap(obj *oci_generative_ai.TrainingConfig) map[string]inter
 		if v.TrainingBatchSize != nil {
 			result["training_batch_size"] = int(*v.TrainingBatchSize)
 		}
+
 	case oci_generative_ai.VanillaTrainingConfig:
 		result["training_config_type"] = "VANILLA_TRAINING_CONFIG"
 

@@ -237,7 +237,6 @@ func TestGenerativeAiEndpointResource_basic(t *testing.T) {
 				compartmentIdVariableStr + GenerativeAiEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "endpoint_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content_moderation_config.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "content_moderation_config.0.is_enabled", "true"),
