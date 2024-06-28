@@ -24,7 +24,7 @@ type ListOperationsInsightsWarehousesRequest struct {
 	// A filter to return only resources that match the entire display name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Unique Operations Insights Warehouse identifier
+	// Unique Ops Insights Warehouse identifier
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// Lifecycle states

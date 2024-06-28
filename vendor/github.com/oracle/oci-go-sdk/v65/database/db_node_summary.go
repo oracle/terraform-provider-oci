@@ -100,6 +100,9 @@ type DbNodeSummary struct {
 	// The allocated local node storage in GBs on the Db node.
 	DbNodeStorageSizeInGBs *int `mandatory:"false" json:"dbNodeStorageSizeInGBs"`
 
+	// The total number of CPU cores reserved on the Db node.
+	TotalCpuCoreCount *int `mandatory:"false" json:"totalCpuCoreCount"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exacc Db server associated with the database node.
 	DbServerId *string `mandatory:"false" json:"dbServerId"`
 }
@@ -201,15 +204,18 @@ type DbNodeSummaryMaintenanceTypeEnum string
 
 // Set of constants representing the allowable values for DbNodeSummaryMaintenanceTypeEnum
 const (
-	DbNodeSummaryMaintenanceTypeVmdbRebootMigration DbNodeSummaryMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+	DbNodeSummaryMaintenanceTypeVmdbRebootMigration    DbNodeSummaryMaintenanceTypeEnum = "VMDB_REBOOT_MIGRATION"
+	DbNodeSummaryMaintenanceTypeExadbxsRebootMigration DbNodeSummaryMaintenanceTypeEnum = "EXADBXS_REBOOT_MIGRATION"
 )
 
 var mappingDbNodeSummaryMaintenanceTypeEnum = map[string]DbNodeSummaryMaintenanceTypeEnum{
-	"VMDB_REBOOT_MIGRATION": DbNodeSummaryMaintenanceTypeVmdbRebootMigration,
+	"VMDB_REBOOT_MIGRATION":    DbNodeSummaryMaintenanceTypeVmdbRebootMigration,
+	"EXADBXS_REBOOT_MIGRATION": DbNodeSummaryMaintenanceTypeExadbxsRebootMigration,
 }
 
 var mappingDbNodeSummaryMaintenanceTypeEnumLowerCase = map[string]DbNodeSummaryMaintenanceTypeEnum{
-	"vmdb_reboot_migration": DbNodeSummaryMaintenanceTypeVmdbRebootMigration,
+	"vmdb_reboot_migration":    DbNodeSummaryMaintenanceTypeVmdbRebootMigration,
+	"exadbxs_reboot_migration": DbNodeSummaryMaintenanceTypeExadbxsRebootMigration,
 }
 
 // GetDbNodeSummaryMaintenanceTypeEnumValues Enumerates the set of values for DbNodeSummaryMaintenanceTypeEnum
@@ -225,6 +231,7 @@ func GetDbNodeSummaryMaintenanceTypeEnumValues() []DbNodeSummaryMaintenanceTypeE
 func GetDbNodeSummaryMaintenanceTypeEnumStringValues() []string {
 	return []string{
 		"VMDB_REBOOT_MIGRATION",
+		"EXADBXS_REBOOT_MIGRATION",
 	}
 }
 

@@ -370,5 +370,11 @@
         "realmKey": "oc15",
         "regionIdentifier": "ap-dcc-gazipur-1",
         "realmDomainComponent": "oraclecloud15.com"
+    },
+    {
+        "regionKey": "xsp",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-singapore-2",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

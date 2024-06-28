@@ -49,6 +49,11 @@ type CreateFileSystemDetails struct {
 	// See Cloning a File System (https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm).
 	SourceSnapshotId *string `mandatory:"false" json:"sourceSnapshotId"`
 
+	// Specifies whether the clone file system is attached to its parent file system.
+	// If the value is set to 'DETACH', then the file system will be created, which is deep copied from the snapshot
+	// specified by sourceSnapshotId, else will remain attached to its parent.
+	CloneAttachStatus CreateFileSystemDetailsCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the associated file system snapshot policy, which
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
 	// May be unset as a blank value.
@@ -65,8 +70,53 @@ func (m CreateFileSystemDetails) String() string {
 func (m CreateFileSystemDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateFileSystemDetailsCloneAttachStatusEnum(string(m.CloneAttachStatus)); !ok && m.CloneAttachStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneAttachStatus: %s. Supported values are: %s.", m.CloneAttachStatus, strings.Join(GetCreateFileSystemDetailsCloneAttachStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateFileSystemDetailsCloneAttachStatusEnum Enum with underlying type: string
+type CreateFileSystemDetailsCloneAttachStatusEnum string
+
+// Set of constants representing the allowable values for CreateFileSystemDetailsCloneAttachStatusEnum
+const (
+	CreateFileSystemDetailsCloneAttachStatusDetach CreateFileSystemDetailsCloneAttachStatusEnum = "DETACH"
+	CreateFileSystemDetailsCloneAttachStatusAttach CreateFileSystemDetailsCloneAttachStatusEnum = "ATTACH"
+)
+
+var mappingCreateFileSystemDetailsCloneAttachStatusEnum = map[string]CreateFileSystemDetailsCloneAttachStatusEnum{
+	"DETACH": CreateFileSystemDetailsCloneAttachStatusDetach,
+	"ATTACH": CreateFileSystemDetailsCloneAttachStatusAttach,
+}
+
+var mappingCreateFileSystemDetailsCloneAttachStatusEnumLowerCase = map[string]CreateFileSystemDetailsCloneAttachStatusEnum{
+	"detach": CreateFileSystemDetailsCloneAttachStatusDetach,
+	"attach": CreateFileSystemDetailsCloneAttachStatusAttach,
+}
+
+// GetCreateFileSystemDetailsCloneAttachStatusEnumValues Enumerates the set of values for CreateFileSystemDetailsCloneAttachStatusEnum
+func GetCreateFileSystemDetailsCloneAttachStatusEnumValues() []CreateFileSystemDetailsCloneAttachStatusEnum {
+	values := make([]CreateFileSystemDetailsCloneAttachStatusEnum, 0)
+	for _, v := range mappingCreateFileSystemDetailsCloneAttachStatusEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateFileSystemDetailsCloneAttachStatusEnumStringValues Enumerates the set of values in String for CreateFileSystemDetailsCloneAttachStatusEnum
+func GetCreateFileSystemDetailsCloneAttachStatusEnumStringValues() []string {
+	return []string{
+		"DETACH",
+		"ATTACH",
+	}
+}
+
+// GetMappingCreateFileSystemDetailsCloneAttachStatusEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateFileSystemDetailsCloneAttachStatusEnum(val string) (CreateFileSystemDetailsCloneAttachStatusEnum, bool) {
+	enum, ok := mappingCreateFileSystemDetailsCloneAttachStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

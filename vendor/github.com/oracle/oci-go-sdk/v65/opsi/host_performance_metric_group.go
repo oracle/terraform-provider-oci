@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -70,6 +70,14 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := HostCpuUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_GPU_USAGE":
+		mm := HostGpuUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_GPU_PROCESSES":
+		mm := HostGpuProcesses{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_FILESYSTEM_USAGE":
 		mm := HostFilesystemUsage{}
 		err = json.Unmarshal(data, &mm)
@@ -115,6 +123,8 @@ const (
 	HostPerformanceMetricGroupMetricNameNetworkActivitySummary HostPerformanceMetricGroupMetricNameEnum = "HOST_NETWORK_ACTIVITY_SUMMARY"
 	HostPerformanceMetricGroupMetricNameTopProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_TOP_PROCESSES"
 	HostPerformanceMetricGroupMetricNameFilesystemUsage        HostPerformanceMetricGroupMetricNameEnum = "HOST_FILESYSTEM_USAGE"
+	HostPerformanceMetricGroupMetricNameGpuUsage               HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_USAGE"
+	HostPerformanceMetricGroupMetricNameGpuProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_PROCESSES"
 )
 
 var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -123,6 +133,8 @@ var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformance
 	"HOST_NETWORK_ACTIVITY_SUMMARY": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
 	"HOST_TOP_PROCESSES":            HostPerformanceMetricGroupMetricNameTopProcesses,
 	"HOST_FILESYSTEM_USAGE":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
+	"HOST_GPU_USAGE":                HostPerformanceMetricGroupMetricNameGpuUsage,
+	"HOST_GPU_PROCESSES":            HostPerformanceMetricGroupMetricNameGpuProcesses,
 }
 
 var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -131,6 +143,8 @@ var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPe
 	"host_network_activity_summary": HostPerformanceMetricGroupMetricNameNetworkActivitySummary,
 	"host_top_processes":            HostPerformanceMetricGroupMetricNameTopProcesses,
 	"host_filesystem_usage":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
+	"host_gpu_usage":                HostPerformanceMetricGroupMetricNameGpuUsage,
+	"host_gpu_processes":            HostPerformanceMetricGroupMetricNameGpuProcesses,
 }
 
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
@@ -150,6 +164,8 @@ func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_NETWORK_ACTIVITY_SUMMARY",
 		"HOST_TOP_PROCESSES",
 		"HOST_FILESYSTEM_USAGE",
+		"HOST_GPU_USAGE",
+		"HOST_GPU_PROCESSES",
 	}
 }
 
