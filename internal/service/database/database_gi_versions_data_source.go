@@ -18,6 +18,10 @@ func DatabaseGiVersionsDataSource() *schema.Resource {
 		Read: readDatabaseGiVersions,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -67,6 +71,11 @@ func (s *DatabaseGiVersionsDataSourceCrud) VoidState() {
 
 func (s *DatabaseGiVersionsDataSourceCrud) Get() error {
 	request := oci_database.ListGiVersionsRequest{}
+
+	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
+		tmp := availabilityDomain.(string)
+		request.AvailabilityDomain = &tmp
+	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
