@@ -1,3 +1,19 @@
+## 6.1.0 (Unreleased)
+
+### Added
+- Support for MySQL Homogenous Migration support
+- Support for Generative AI Service - Lora Fine-Tuning Method
+- Support for Resource Scheduler
+- Support for File Storage: Clone detach feature
+- Support for Oracle Exadata Database Service on Exascale Infrastructure | ExaDB-XS
+- Support for JMS Implement management resource for advancedFeatureConfiguration
+- Support for Terraform integration for MHS: Manual Cross region backup copy
+### Bug Fix
+- formatted database migration code
+- tagging in management_agent
+Fixed DB unique name parameter not getting honoured for new base DB system resource
+
+
 ## 6.0.0 (June 26, 2024)
 
 ### Added
