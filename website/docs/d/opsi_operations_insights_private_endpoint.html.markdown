@@ -38,7 +38,7 @@ The following attributes are exported:
 * `display_name` - The display name of the private endpoint.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The OCID of the Private service accessed database.
-* `is_used_for_rac_dbs` - The flag is to identify if private endpoint is used for rac database or not
+* `is_used_for_rac_dbs` - The flag is to identify if private endpoint is used for rac database or not. This flag is deprecated and no longer is used.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `nsg_ids` - The OCIDs of the network security groups that the private endpoint belongs to. 
 * `private_endpoint_status_details` - A message describing the status of the private endpoint connection of this resource. For example, it can be used to provide actionable information about the validity of the private endpoint connection.

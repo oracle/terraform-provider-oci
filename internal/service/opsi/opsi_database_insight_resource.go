@@ -43,6 +43,7 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"EM_MANAGED_EXTERNAL_DATABASE",
+					"MDS_MYSQL_DATABASE_SYSTEM",
 					"PE_COMANAGED_DATABASE",
 				}, true),
 			},
@@ -311,6 +312,14 @@ func OpsiDatabaseInsightResource() *schema.Resource {
 			},
 			"enterprise_manager_entity_type": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_heat_wave_cluster_attached": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
+			"is_highly_available": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"lifecycle_details": {
@@ -825,6 +834,78 @@ func (s *OpsiDatabaseInsightResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MdsMySqlDatabaseInsight:
+		s.D.Set("entity_source", "MDS_MYSQL_DATABASE_SYSTEM")
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.IsHeatWaveClusterAttached != nil {
+			s.D.Set("is_heat_wave_cluster_attached", *v.IsHeatWaveClusterAttached)
+		}
+
+		if v.IsHighlyAvailable != nil {
+			s.D.Set("is_highly_available", *v.IsHighlyAvailable)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.PeComanagedDatabaseInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_DATABASE")
 
@@ -1194,22 +1275,79 @@ func DatabaseInsightSummaryToMap(obj oci_opsi.DatabaseInsightSummary) map[string
 		if v.DefinedTags != nil {
 			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
 		}
+	case oci_opsi.MdsMySqlDatabaseInsightSummary:
+		result["entity_source"] = "MDS_MYSQL_DATABASE_SYSTEM"
+
+		if v.Id != nil {
+			result["id"] = string(*v.Id)
+		}
+
+		if v.DatabaseId != nil {
+			result["database_id"] = string(*v.DatabaseId)
+		}
+
+		if v.CompartmentId != nil {
+			result["compartment_id"] = string(*v.CompartmentId)
+		}
+
+		if v.DatabaseName != nil {
+			result["database_name"] = string(*v.DatabaseName)
+		}
+
+		if v.DatabaseDisplayName != nil {
+			result["database_display_name"] = string(*v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseType != nil {
+			result["database_type"] = string(*v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			result["database_version"] = string(*v.DatabaseVersion)
+		}
+
+		if v.DatabaseHostNames != nil {
+			result["database_host_names"] = v.DatabaseHostNames
+		}
+
+		if v.LifecycleDetails != nil {
+			result["lifecycle_details"] = string(*v.LifecycleDetails)
+		}
+
+		//if v.ProcessorCount != nil {
+		//	result["processor_count"] = fmt.Sprint(*v.ProcessorCount)
+		//}
+
+		result["state"] = string(v.LifecycleState)
+
+		result["status"] = string(v.Status)
+
+		if v.TimeCreated != nil {
+			result["time_created"] = v.TimeCreated.String()
+		}
+
+		if v.TimeUpdated != nil {
+			result["time_updated"] = v.TimeUpdated.String()
+		}
+
+		if v.SystemTags != nil {
+			result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+		}
+
+		result["freeform_tags"] = v.FreeformTags
+
+		if v.DefinedTags != nil {
+			result["defined_tags"] = tfresource.DefinedTagsToMap(v.DefinedTags)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			result["database_connection_status_details"] = string(*v.DatabaseConnectionStatusDetails)
+		}
 
 		if v.DatabaseResourceType != nil {
 			result["database_resource_type"] = string(*v.DatabaseResourceType)
 		}
 
-		if v.OpsiPrivateEndpointId != nil {
-			result["opsi_private_endpoint_id"] = string(*v.OpsiPrivateEndpointId)
-		}
-
-		if v.ParentId != nil {
-			result["parent_id"] = string(*v.ParentId)
-		}
-
-		if v.RootId != nil {
-			result["root_id"] = string(*v.RootId)
-		}
 	default:
 		log.Printf("[WARN] Received 'entity_source' of unknown type %v", obj)
 	}
@@ -1368,6 +1506,27 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicCreateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateDatabaseInsightDetails = details
+	case strings.ToLower("MDS_MYSQL_DATABASE_SYSTEM"):
+		details := oci_opsi.CreateMdsMySqlDatabaseInsightDetails{}
+		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+			tmp := databaseId.(string)
+			details.DatabaseId = &tmp
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateDatabaseInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_DATABASE"):
 		details := oci_opsi.CreatePeComanagedDatabaseInsightDetails{}
 
@@ -1483,6 +1642,21 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicUpdateDatab
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateDatabaseInsightDetails = details
+	case strings.ToLower("MDS_MYSQL_DATABASE_SYSTEM"):
+		details := oci_opsi.UpdateMdsMySqlDatabaseInsight{}
+		tmp := s.D.Id()
+		request.DatabaseInsightId = &tmp
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateDatabaseInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)
 	}
@@ -1547,6 +1721,9 @@ func (s *OpsiDatabaseInsightResourceCrud) populateTopLevelPolymorphicEnableDatab
 		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
+		request.EnableDatabaseInsightDetails = details
+	case strings.ToLower("MDS_MYSQL_DATABASE_SYSTEM"):
+		details := oci_opsi.EnableMdsMySqlDatabaseInsightDetails{}
 		request.EnableDatabaseInsightDetails = details
 	default:
 		return fmt.Errorf("unknown entity_source '%v' was specified", entitySource)

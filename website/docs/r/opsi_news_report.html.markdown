@@ -10,7 +10,7 @@ description: |-
 # oci_opsi_news_report
 This resource provides the News Report resource in Oracle Cloud Infrastructure Opsi service.
 
-Create a news report in Operations Insights. The report will be enabled in Operations Insights. Insights will be emailed as per selected frequency.
+Create a news report in Ops Insights. The report will be enabled in Ops Insights. Insights will be emailed as per selected frequency.
 
 
 ## Example Usage
@@ -98,7 +98,7 @@ The following attributes are exported:
 * `news_frequency` - News report frequency.
 * `ons_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
 * `state` - The current state of the news report.
-* `status` - Indicates the status of a news report in Operations Insights.
+* `status` - Indicates the status of a news report in Ops Insights.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the news report was first enabled. An RFC3339 formatted datetime string.
 * `time_updated` - The time the news report was updated. An RFC3339 formatted datetime string.

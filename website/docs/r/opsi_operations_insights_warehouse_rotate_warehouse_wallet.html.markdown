@@ -25,7 +25,7 @@ resource "oci_opsi_operations_insights_warehouse_rotate_warehouse_wallet" "test_
 
 The following arguments are supported:
 
-* `operations_insights_warehouse_id` - (Required) Unique Operations Insights Warehouse identifier
+* `operations_insights_warehouse_id` - (Required) Unique Ops Insights Warehouse identifier
 
 
 ** IMPORTANT **
