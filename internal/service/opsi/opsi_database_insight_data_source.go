@@ -139,6 +139,78 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MdsMySqlDatabaseInsight:
+		s.D.Set("entity_source", "MDS_MYSQL_DATABASE_SYSTEM")
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.IsHeatWaveClusterAttached != nil {
+			s.D.Set("is_heat_wave_cluster_attached", *v.IsHeatWaveClusterAttached)
+		}
+
+		if v.IsHighlyAvailable != nil {
+			s.D.Set("is_highly_available", *v.IsHighlyAvailable)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		//if v.ProcessorCount != nil {
+		//	s.D.Set("processor_count", *v.ProcessorCount)
+		//}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.PeComanagedDatabaseInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_DATABASE")
 
