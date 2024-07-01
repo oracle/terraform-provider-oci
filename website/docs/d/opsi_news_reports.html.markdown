@@ -33,7 +33,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compartment_id_in_subtree` - (Optional) A flag to search all resources within a given compartment and all sub-compartments. 
-* `news_report_id` - (Optional) Unique Operations Insights news report identifier
+* `news_report_id` - (Optional) Unique Ops Insights news report identifier
 * `state` - (Optional) Lifecycle states
 * `status` - (Optional) Resource Status
 
@@ -69,7 +69,7 @@ The following attributes are exported:
 * `news_frequency` - News report frequency.
 * `ons_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
 * `state` - The current state of the news report.
-* `status` - Indicates the status of a news report in Operations Insights.
+* `status` - Indicates the status of a news report in Ops Insights.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time the the news report was first enabled. An RFC3339 formatted datetime string.
 * `time_updated` - The time the news report was updated. An RFC3339 formatted datetime string.

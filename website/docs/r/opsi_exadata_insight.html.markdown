@@ -100,9 +100,9 @@ The following arguments are supported:
 				* `port` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Listener port number used for connection requests for rivate endpoint accessed db resource.
 			* `protocol` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Protocol used for connection requests for private endpoint accssed database resource.
 			* `service_name` - (Applicable when entity_source=PE_COMANAGED_EXADATA) Database service name used for connection requests.
-		* `credential_details` - (Required when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database. This is supplied via the External Database Service. 
+		* `credential_details` - (Required when entity_source=PE_COMANAGED_EXADATA) User credential details to connect to the database. 
 			* `credential_source_name` - (Required when entity_source=PE_COMANAGED_EXADATA) Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-			* `credential_type` - (Required) Credential type.
+			* `credential_type` - (Required) Credential type. 
 			* `password_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 			* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 			* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.

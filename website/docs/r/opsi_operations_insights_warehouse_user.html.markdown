@@ -38,13 +38,13 @@ resource "oci_opsi_operations_insights_warehouse_user" "test_operations_insights
 The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `connection_password` - (Required) (Updatable) User provided connection password for the AWR Data,  Enterprise Manager Data and Operations Insights OPSI Hub.
+* `connection_password` - (Required) (Updatable) User provided connection password for the AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `is_awr_data_access` - (Required) (Updatable) Indicate whether user has access to AWR data.
 * `is_em_data_access` - (Optional) (Updatable) Indicate whether user has access to EM data.
 * `is_opsi_data_access` - (Optional) (Updatable) Indicate whether user has access to OPSI data.
-* `name` - (Required) Username for schema which would have access to AWR Data,  Enterprise Manager Data and Operations Insights OPSI Hub.
+* `name` - (Required) Username for schema which would have access to AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
 * `operations_insights_warehouse_id` - (Required) OPSI Warehouse OCID
 
 
@@ -56,7 +56,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `connection_password` - User provided connection password for the AWR Data,  Enterprise Manager Data and Operations Insights OPSI Hub.
+* `connection_password` - User provided connection password for the AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Hub User OCID
@@ -64,7 +64,7 @@ The following attributes are exported:
 * `is_em_data_access` - Indicate whether user has access to EM data.
 * `is_opsi_data_access` - Indicate whether user has access to OPSI data.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `name` - Username for schema which would have access to AWR Data,  Enterprise Manager Data and Operations Insights OPSI Hub.
+* `name` - Username for schema which would have access to AWR Data,  Enterprise Manager Data and Ops Insights OPSI Hub.
 * `operations_insights_warehouse_id` - OPSI Warehouse OCID
 * `state` - Possible lifecycle states
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
