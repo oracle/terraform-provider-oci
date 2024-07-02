@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_database_db_nodes
 This data source provides the list of Db Nodes in Oracle Cloud Infrastructure Database service.
 
-Lists the database nodes in the specified DB system and compartment. A database node is a server running database software.
+Lists the database nodes in the specified compartment. A database node is a server running database software. In addition to the other required parameters, either '--db-system-id' or '--vm-cluster-id' also must be provided, depending on the service being accessed.
 
 
 ## Example Usage
@@ -76,6 +76,7 @@ The following attributes are exported:
 * `time_created` - The date and time that the database node was created.
 * `time_maintenance_window_end` - End date and time of maintenance window.
 * `time_maintenance_window_start` - Start date and time of maintenance window.
+* `total_cpu_core_count` - The total number of CPU cores reserved on the Db node.
 * `vnic2id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second VNIC.
 
 	**Note:** Applies only to Exadata Cloud Service. 

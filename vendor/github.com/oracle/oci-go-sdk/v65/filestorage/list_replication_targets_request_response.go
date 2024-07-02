@@ -154,6 +154,7 @@ type ListReplicationTargetsLifecycleStateEnum string
 const (
 	ListReplicationTargetsLifecycleStateCreating ListReplicationTargetsLifecycleStateEnum = "CREATING"
 	ListReplicationTargetsLifecycleStateActive   ListReplicationTargetsLifecycleStateEnum = "ACTIVE"
+	ListReplicationTargetsLifecycleStateUpdating ListReplicationTargetsLifecycleStateEnum = "UPDATING"
 	ListReplicationTargetsLifecycleStateDeleting ListReplicationTargetsLifecycleStateEnum = "DELETING"
 	ListReplicationTargetsLifecycleStateDeleted  ListReplicationTargetsLifecycleStateEnum = "DELETED"
 	ListReplicationTargetsLifecycleStateFailed   ListReplicationTargetsLifecycleStateEnum = "FAILED"
@@ -162,6 +163,7 @@ const (
 var mappingListReplicationTargetsLifecycleStateEnum = map[string]ListReplicationTargetsLifecycleStateEnum{
 	"CREATING": ListReplicationTargetsLifecycleStateCreating,
 	"ACTIVE":   ListReplicationTargetsLifecycleStateActive,
+	"UPDATING": ListReplicationTargetsLifecycleStateUpdating,
 	"DELETING": ListReplicationTargetsLifecycleStateDeleting,
 	"DELETED":  ListReplicationTargetsLifecycleStateDeleted,
 	"FAILED":   ListReplicationTargetsLifecycleStateFailed,
@@ -170,6 +172,7 @@ var mappingListReplicationTargetsLifecycleStateEnum = map[string]ListReplication
 var mappingListReplicationTargetsLifecycleStateEnumLowerCase = map[string]ListReplicationTargetsLifecycleStateEnum{
 	"creating": ListReplicationTargetsLifecycleStateCreating,
 	"active":   ListReplicationTargetsLifecycleStateActive,
+	"updating": ListReplicationTargetsLifecycleStateUpdating,
 	"deleting": ListReplicationTargetsLifecycleStateDeleting,
 	"deleted":  ListReplicationTargetsLifecycleStateDeleted,
 	"failed":   ListReplicationTargetsLifecycleStateFailed,
@@ -189,6 +192,7 @@ func GetListReplicationTargetsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

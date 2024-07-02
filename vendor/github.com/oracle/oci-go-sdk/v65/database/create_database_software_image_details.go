@@ -86,18 +86,21 @@ const (
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape    CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "VM_BM_SHAPE"
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXADATA_SHAPE"
 	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape   CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXACC_SHAPE"
+	CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = "EXADBXS_SHAPE"
 )
 
 var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
 	"VM_BM_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape,
 	"EXADATA_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
 	"EXACC_SHAPE":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
+	"EXADBXS_SHAPE": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape,
 }
 
 var mappingCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumLowerCase = map[string]CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum{
 	"vm_bm_shape":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyVmBmShape,
 	"exadata_shape": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadataShape,
 	"exacc_shape":   CreateDatabaseSoftwareImageDetailsImageShapeFamilyExaccShape,
+	"exadbxs_shape": CreateDatabaseSoftwareImageDetailsImageShapeFamilyExadbxsShape,
 }
 
 // GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumValues Enumerates the set of values for CreateDatabaseSoftwareImageDetailsImageShapeFamilyEnum
@@ -115,6 +118,7 @@ func GetCreateDatabaseSoftwareImageDetailsImageShapeFamilyEnumStringValues() []s
 		"VM_BM_SHAPE",
 		"EXADATA_SHAPE",
 		"EXACC_SHAPE",
+		"EXADBXS_SHAPE",
 	}
 }
 
