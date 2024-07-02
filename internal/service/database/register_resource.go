@@ -39,6 +39,8 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_database_db_system", DatabaseDbSystemResource())
 	tfresource.RegisterResource("oci_database_exadata_infrastructure", DatabaseExadataInfrastructureResource())
 	tfresource.RegisterResource("oci_database_exadata_iorm_config", DatabaseExadataIormConfigResource())
+	tfresource.RegisterResource("oci_database_exadb_vm_cluster", DatabaseExadbVmClusterResource())
+	tfresource.RegisterResource("oci_database_exascale_db_storage_vault", DatabaseExascaleDbStorageVaultResource())
 	tfresource.RegisterResource("oci_database_external_container_database", DatabaseExternalContainerDatabaseResource())
 	tfresource.RegisterResource("oci_database_external_container_database_management", DatabaseExternalContainerDatabaseManagementResource())
 	tfresource.RegisterResource("oci_database_external_database_connector", DatabaseExternalDatabaseConnectorResource())

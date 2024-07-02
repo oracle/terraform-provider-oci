@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -86,6 +86,10 @@ func (m *hostconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := HostCpuHardwareConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_GPU_CONFIGURATION":
+		mm := HostGpuConfiguration{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_HARDWARE_CONFIGURATION":
 		mm := HostHardwareConfiguration{}
 		err = json.Unmarshal(data, &mm)
@@ -130,6 +134,7 @@ const (
 	HostConfigurationMetricGroupMetricNameNetworkConfiguration     HostConfigurationMetricGroupMetricNameEnum = "HOST_NETWORK_CONFIGURATION"
 	HostConfigurationMetricGroupMetricNameEntites                  HostConfigurationMetricGroupMetricNameEnum = "HOST_ENTITES"
 	HostConfigurationMetricGroupMetricNameFilesystemConfiguration  HostConfigurationMetricGroupMetricNameEnum = "HOST_FILESYSTEM_CONFIGURATION"
+	HostConfigurationMetricGroupMetricNameGpuConfiguration         HostConfigurationMetricGroupMetricNameEnum = "HOST_GPU_CONFIGURATION"
 )
 
 var mappingHostConfigurationMetricGroupMetricNameEnum = map[string]HostConfigurationMetricGroupMetricNameEnum{
@@ -141,6 +146,7 @@ var mappingHostConfigurationMetricGroupMetricNameEnum = map[string]HostConfigura
 	"HOST_NETWORK_CONFIGURATION":      HostConfigurationMetricGroupMetricNameNetworkConfiguration,
 	"HOST_ENTITES":                    HostConfigurationMetricGroupMetricNameEntites,
 	"HOST_FILESYSTEM_CONFIGURATION":   HostConfigurationMetricGroupMetricNameFilesystemConfiguration,
+	"HOST_GPU_CONFIGURATION":          HostConfigurationMetricGroupMetricNameGpuConfiguration,
 }
 
 var mappingHostConfigurationMetricGroupMetricNameEnumLowerCase = map[string]HostConfigurationMetricGroupMetricNameEnum{
@@ -152,6 +158,7 @@ var mappingHostConfigurationMetricGroupMetricNameEnumLowerCase = map[string]Host
 	"host_network_configuration":      HostConfigurationMetricGroupMetricNameNetworkConfiguration,
 	"host_entites":                    HostConfigurationMetricGroupMetricNameEntites,
 	"host_filesystem_configuration":   HostConfigurationMetricGroupMetricNameFilesystemConfiguration,
+	"host_gpu_configuration":          HostConfigurationMetricGroupMetricNameGpuConfiguration,
 }
 
 // GetHostConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for HostConfigurationMetricGroupMetricNameEnum
@@ -174,6 +181,7 @@ func GetHostConfigurationMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_NETWORK_CONFIGURATION",
 		"HOST_ENTITES",
 		"HOST_FILESYSTEM_CONFIGURATION",
+		"HOST_GPU_CONFIGURATION",
 	}
 }
 

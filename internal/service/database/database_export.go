@@ -487,6 +487,26 @@ var exportDatabasePluggableDatabaseHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseExascaleDbStorageVaultHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_exascale_db_storage_vault",
+	DatasourceClass:      "oci_database_exascale_db_storage_vaults",
+	DatasourceItemsAttr:  "exascale_db_storage_vaults",
+	ResourceAbbreviation: "exascale_db_storage_vault",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExascaleDbStorageVaultLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseExadbVmClusterHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_exadb_vm_cluster",
+	DatasourceClass:      "oci_database_exadb_vm_clusters",
+	DatasourceItemsAttr:  "exadb_vm_clusters",
+	ResourceAbbreviation: "exadb_vm_cluster",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.ExadbVmClusterLifecycleStateAvailable),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
@@ -513,6 +533,8 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabasePluggableDatabaseHints},
 		{TerraformResourceHints: exportDatabaseCloudAutonomousVmClusterHints},
 		{TerraformResourceHints: exportDatabaseOneoffPatchHints},
+		{TerraformResourceHints: exportDatabaseExascaleDbStorageVaultHints},
+		{TerraformResourceHints: exportDatabaseExadbVmClusterHints},
 	},
 	"oci_database_autonomous_container_database": {
 		{

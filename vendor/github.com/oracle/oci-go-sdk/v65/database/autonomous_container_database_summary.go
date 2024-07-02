@@ -96,7 +96,7 @@ type AutonomousContainerDatabaseSummary struct {
 	// Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
 	IsDstFileUpdateEnabled *bool `mandatory:"false" json:"isDstFileUpdateEnabled"`
 
-	// DST Time-zone File version of the Autonomous Container Database.
+	// DST Time-Zone File version of the Autonomous Container Database.
 	DstFileVersion *string `mandatory:"false" json:"dstFileVersion"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

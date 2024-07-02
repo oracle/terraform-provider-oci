@@ -65,6 +65,9 @@ type SummarizeHostInsightStorageUsageTrendRequest struct {
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Resource Status
+	Status []ResourceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -104,6 +107,12 @@ func (request SummarizeHostInsightStorageUsageTrendRequest) ValidateEnumValue() 
 	if _, ok := GetMappingSummarizeHostInsightStorageUsageTrendStatisticEnum(string(request.Statistic)); !ok && request.Statistic != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Statistic: %s. Supported values are: %s.", request.Statistic, strings.Join(GetSummarizeHostInsightStorageUsageTrendStatisticEnumStringValues(), ",")))
 	}
+	for _, val := range request.Status {
+		if _, ok := GetMappingResourceStatusEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -157,6 +157,7 @@ type ListReplicationsLifecycleStateEnum string
 const (
 	ListReplicationsLifecycleStateCreating ListReplicationsLifecycleStateEnum = "CREATING"
 	ListReplicationsLifecycleStateActive   ListReplicationsLifecycleStateEnum = "ACTIVE"
+	ListReplicationsLifecycleStateUpdating ListReplicationsLifecycleStateEnum = "UPDATING"
 	ListReplicationsLifecycleStateDeleting ListReplicationsLifecycleStateEnum = "DELETING"
 	ListReplicationsLifecycleStateDeleted  ListReplicationsLifecycleStateEnum = "DELETED"
 	ListReplicationsLifecycleStateFailed   ListReplicationsLifecycleStateEnum = "FAILED"
@@ -165,6 +166,7 @@ const (
 var mappingListReplicationsLifecycleStateEnum = map[string]ListReplicationsLifecycleStateEnum{
 	"CREATING": ListReplicationsLifecycleStateCreating,
 	"ACTIVE":   ListReplicationsLifecycleStateActive,
+	"UPDATING": ListReplicationsLifecycleStateUpdating,
 	"DELETING": ListReplicationsLifecycleStateDeleting,
 	"DELETED":  ListReplicationsLifecycleStateDeleted,
 	"FAILED":   ListReplicationsLifecycleStateFailed,
@@ -173,6 +175,7 @@ var mappingListReplicationsLifecycleStateEnum = map[string]ListReplicationsLifec
 var mappingListReplicationsLifecycleStateEnumLowerCase = map[string]ListReplicationsLifecycleStateEnum{
 	"creating": ListReplicationsLifecycleStateCreating,
 	"active":   ListReplicationsLifecycleStateActive,
+	"updating": ListReplicationsLifecycleStateUpdating,
 	"deleting": ListReplicationsLifecycleStateDeleting,
 	"deleted":  ListReplicationsLifecycleStateDeleted,
 	"failed":   ListReplicationsLifecycleStateFailed,
@@ -192,6 +195,7 @@ func GetListReplicationsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

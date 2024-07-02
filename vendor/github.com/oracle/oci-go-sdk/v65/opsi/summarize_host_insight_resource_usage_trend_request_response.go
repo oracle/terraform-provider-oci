@@ -109,6 +109,9 @@ type SummarizeHostInsightResourceUsageTrendRequest struct {
 	// Optional list of Exadata Insight VM cluster name.
 	VmclusterName []string `contributesTo:"query" name:"vmclusterName" collectionFormat:"multi"`
 
+	// Resource Status
+	Status []ResourceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -157,6 +160,12 @@ func (request SummarizeHostInsightResourceUsageTrendRequest) ValidateEnumValue()
 	if _, ok := GetMappingSummarizeHostInsightResourceUsageTrendSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetSummarizeHostInsightResourceUsageTrendSortByEnumStringValues(), ",")))
 	}
+	for _, val := range request.Status {
+		if _, ok := GetMappingResourceStatusEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Status: %s. Supported values are: %s.", val, strings.Join(GetResourceStatusEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
