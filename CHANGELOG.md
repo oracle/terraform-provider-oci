@@ -6,8 +6,6 @@
 - Support for Resource Scheduler
 - Support for File Storage: Clone detach feature
 - Support for Oracle Exadata Database Service on Exascale Infrastructure | ExaDB-XS
-- Support for JMS Implement management resource for advancedFeatureConfiguration
-- Support for Terraform integration for MHS: Manual Cross region backup copy
 ### Bug Fix
 - formatted database migration code
 - tagging in management_agent
