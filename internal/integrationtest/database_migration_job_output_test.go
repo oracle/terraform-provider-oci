@@ -24,7 +24,7 @@ var (
 		"job_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
 	}
 
-	DatabaseMigrationJobOutputResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, jobRepresentation)
+	DatabaseMigrationJobOutputResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_job", "test_job", acctest.Required, acctest.Create, DatabaseMigrationJobRepresentation)
 )
 
 // issue-routing-tag: database_migration/default

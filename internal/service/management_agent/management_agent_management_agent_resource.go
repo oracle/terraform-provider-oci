@@ -993,6 +993,14 @@ func (s *ManagementAgentManagementAgentResourceCrud) mapToMetricDimension(fieldK
 }
 
 func (s *ManagementAgentManagementAgentResourceCrud) Create() error {
+
+	// During create, the user can set new value for tags and or display_name
+	// During create, the s.D is updated with s.Get to the current values in MACS
+	// so we keep a copy of the required values locally, and then set them during the update if necessary
+	freeformtags, freeformtagsok := s.D.GetOkExists("freeform_tags")
+	definedtags, definedtagsok := s.D.GetOkExists("defined_tags")
+	displayname, displaynameok := s.D.GetOkExists("display_name")
+
 	e := s.Get()
 	if e != nil {
 		return e
@@ -1002,6 +1010,18 @@ func (s *ManagementAgentManagementAgentResourceCrud) Create() error {
 		return e
 	}
 
+	if freeformtagsok {
+		log.Printf("[DEBUG] Updating agent freeformtags to %v", freeformtags)
+		s.D.Set("freeform_tags", freeformtags)
+	}
+	if definedtagsok {
+		log.Printf("[DEBUG] Updating agent definedtags to %v", definedtags)
+		s.D.Set("defined_tags", definedtags)
+	}
+	if displaynameok {
+		log.Printf("[DEBUG] Updating agent displayname to %v", displayname)
+		s.D.Set("display_name", displayname)
+	}
 	return s.Update()
 }
 

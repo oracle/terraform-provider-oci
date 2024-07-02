@@ -152,6 +152,7 @@ type ListExportsLifecycleStateEnum string
 const (
 	ListExportsLifecycleStateCreating ListExportsLifecycleStateEnum = "CREATING"
 	ListExportsLifecycleStateActive   ListExportsLifecycleStateEnum = "ACTIVE"
+	ListExportsLifecycleStateUpdating ListExportsLifecycleStateEnum = "UPDATING"
 	ListExportsLifecycleStateDeleting ListExportsLifecycleStateEnum = "DELETING"
 	ListExportsLifecycleStateDeleted  ListExportsLifecycleStateEnum = "DELETED"
 	ListExportsLifecycleStateFailed   ListExportsLifecycleStateEnum = "FAILED"
@@ -160,6 +161,7 @@ const (
 var mappingListExportsLifecycleStateEnum = map[string]ListExportsLifecycleStateEnum{
 	"CREATING": ListExportsLifecycleStateCreating,
 	"ACTIVE":   ListExportsLifecycleStateActive,
+	"UPDATING": ListExportsLifecycleStateUpdating,
 	"DELETING": ListExportsLifecycleStateDeleting,
 	"DELETED":  ListExportsLifecycleStateDeleted,
 	"FAILED":   ListExportsLifecycleStateFailed,
@@ -168,6 +170,7 @@ var mappingListExportsLifecycleStateEnum = map[string]ListExportsLifecycleStateE
 var mappingListExportsLifecycleStateEnumLowerCase = map[string]ListExportsLifecycleStateEnum{
 	"creating": ListExportsLifecycleStateCreating,
 	"active":   ListExportsLifecycleStateActive,
+	"updating": ListExportsLifecycleStateUpdating,
 	"deleting": ListExportsLifecycleStateDeleting,
 	"deleted":  ListExportsLifecycleStateDeleted,
 	"failed":   ListExportsLifecycleStateFailed,
@@ -187,6 +190,7 @@ func GetListExportsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"CREATING",
 		"ACTIVE",
+		"UPDATING",
 		"DELETING",
 		"DELETED",
 		"FAILED",

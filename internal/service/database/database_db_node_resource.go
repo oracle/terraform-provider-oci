@@ -129,6 +129,10 @@ func DatabaseDbNodeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"total_cpu_core_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"vnic2id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -391,6 +395,10 @@ func (s *DatabaseDbNodeResourceCrud) SetData() error {
 
 	if s.Res.TimeMaintenanceWindowStart != nil {
 		s.D.Set("time_maintenance_window_start", s.Res.TimeMaintenanceWindowStart.String())
+	}
+
+	if s.Res.TotalCpuCoreCount != nil {
+		s.D.Set("total_cpu_core_count", *s.Res.TotalCpuCoreCount)
 	}
 
 	if s.Res.Vnic2Id != nil {

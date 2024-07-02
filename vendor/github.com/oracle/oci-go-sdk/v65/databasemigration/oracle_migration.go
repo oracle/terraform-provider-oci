@@ -76,6 +76,9 @@ type OracleMigration struct {
 	// The OCID of the resource being referenced.
 	SourceContainerDatabaseConnectionId *string `mandatory:"false" json:"sourceContainerDatabaseConnectionId"`
 
+	// List of Migration Parameter objects.
+	AdvancedParameters []MigrationParameterDetails `mandatory:"false" json:"advancedParameters"`
+
 	// The type of the migration to be performed.
 	// Example: ONLINE if no downtime is preferred for a migration. This method uses Oracle GoldenGate for replication.
 	Type MigrationTypesEnum `mandatory:"true" json:"type"`
@@ -236,6 +239,7 @@ func (m *OracleMigration) UnmarshalJSON(data []byte) (e error) {
 		HubDetails                          *GoldenGateHubDetails             `json:"hubDetails"`
 		GgsDetails                          *OracleGgsDeploymentDetails       `json:"ggsDetails"`
 		SourceContainerDatabaseConnectionId *string                           `json:"sourceContainerDatabaseConnectionId"`
+		AdvancedParameters                  []MigrationParameterDetails       `json:"advancedParameters"`
 		Id                                  *string                           `json:"id"`
 		DisplayName                         *string                           `json:"displayName"`
 		CompartmentId                       *string                           `json:"compartmentId"`
@@ -289,6 +293,8 @@ func (m *OracleMigration) UnmarshalJSON(data []byte) (e error) {
 
 	m.SourceContainerDatabaseConnectionId = model.SourceContainerDatabaseConnectionId
 
+	m.AdvancedParameters = make([]MigrationParameterDetails, len(model.AdvancedParameters))
+	copy(m.AdvancedParameters, model.AdvancedParameters)
 	m.Id = model.Id
 
 	m.DisplayName = model.DisplayName

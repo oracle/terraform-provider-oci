@@ -639,6 +639,8 @@ func BuildConfigureClientFn(configProvider oci_common.ConfigurationProvider, htt
 					strings.Contains(r.URL.Path, "/vmClusters") ||
 					strings.Contains(r.URL.Path, "/cloudExadataInfrastructures") ||
 					strings.Contains(r.URL.Path, "/cloudVmClusters") ||
+					strings.Contains(r.URL.Path, "/exascaleDbStorageVaults") ||
+					strings.Contains(r.URL.Path, "/exadbVmClusters") ||
 					strings.Contains(r.URL.Path, "/autonomousVmClusters") ||
 					strings.Contains(r.URL.Path, "/externalnoncontainerdatabases") ||
 					strings.Contains(r.URL.Path, "/externalcontainerdatabases") ||

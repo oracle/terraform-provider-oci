@@ -24,11 +24,15 @@ func GenerativeAiEndpointResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: tfresource.DefaultTimeout,
-		Create:   createGenerativeAiEndpoint,
-		Read:     readGenerativeAiEndpoint,
-		Update:   updateGenerativeAiEndpoint,
-		Delete:   deleteGenerativeAiEndpoint,
+		Timeouts: &schema.ResourceTimeout{
+			Create: tfresource.GetTimeoutDuration("80m"),
+			Update: tfresource.GetTimeoutDuration("20m"),
+			Delete: tfresource.GetTimeoutDuration("20m"),
+		},
+		Create: createGenerativeAiEndpoint,
+		Read:   readGenerativeAiEndpoint,
+		Update: updateGenerativeAiEndpoint,
+		Delete: deleteGenerativeAiEndpoint,
 		Schema: map[string]*schema.Schema{
 			// Required
 			"compartment_id": {

@@ -17,10 +17,12 @@ import (
 )
 
 // CreateAutonomousDatabaseBase Details to create an Oracle Autonomous Database.
+//
 // **Notes:**
 // - To specify OCPU core count, you must use either `ocpuCount` or `cpuCoreCount`. You cannot use both parameters at the same time. For Autonomous Database Serverless instances, `ocpuCount` is not used.
 // - To specify a storage allocation, you must use  either `dataStorageSizeInGBs` or `dataStorageSizeInTBs`.
 // - See the individual parameter discriptions for more information on the OCPU and storage value parameters.
+//
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type CreateAutonomousDatabaseBase interface {
 
@@ -391,12 +393,12 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := CreateCrossRegionDisasterRecoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "CROSS_TENANCY_DISASTER_RECOVERY":
-		mm := CreateCrossTenancyDisasterRecoveryDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "BACKUP_FROM_TIMESTAMP":
 		mm := CreateAutonomousDatabaseFromBackupTimestampDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "CROSS_TENANCY_DISASTER_RECOVERY":
+		mm := CreateCrossTenancyDisasterRecoveryDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CROSS_REGION_DATAGUARD":
