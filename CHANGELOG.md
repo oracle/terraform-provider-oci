@@ -1,4 +1,4 @@
-## 6.1.0 (Unreleased)
+## 6.1.0 (July 02, 2024)
 
 ### Added
 - Support for MySQL Homogenous Migration support
