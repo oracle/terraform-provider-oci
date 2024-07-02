@@ -11,7 +11,6 @@
 ### Bug Fix
 - formatted database migration code
 - tagging in management_agent
-Fixed DB unique name parameter not getting honoured for new base DB system resource
 
 ## 6.0.0 (June 26, 2024)
 
