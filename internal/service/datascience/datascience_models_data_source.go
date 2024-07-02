@@ -5,7 +5,6 @@ package datascience
 
 import (
 	"context"
-
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -22,18 +21,6 @@ func DatascienceModelsDataSource() *schema.Resource {
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
-			},
-			"model_version_set_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"model_version_set_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
-			"version_label": {
-				Type:     schema.TypeString,
-				Optional: true,
 			},
 			"created_by": {
 				Type:     schema.TypeString,
@@ -58,7 +45,185 @@ func DatascienceModelsDataSource() *schema.Resource {
 			"models": {
 				Type:     schema.TypeList,
 				Computed: true,
-				Elem:     tfresource.GetDataSourceItemSchema(DatascienceModelResource()),
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"artifact_content_length": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"model_artifact": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"project_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"model_version_set_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"model_version_set_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"version_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"version_label": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Optional
+						"custom_metadata_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"category": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"key": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"defined_metadata_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"category": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"description": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"key": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"artifact_content_disposition": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"defined_tags": {
+							Type:             schema.TypeMap,
+							Optional:         true,
+							Computed:         true,
+							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
+							Elem:             schema.TypeString,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"input_schema": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"output_schema": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						"artifact_content_md5": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"artifact_last_modified": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"created_by": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"empty_model": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 		},
 	}
@@ -98,16 +263,6 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
-	}
-
-	if model_version_set_name, ok := s.D.GetOkExists("model_version_set_name"); ok {
-		tmp := model_version_set_name.(string)
-		request.ModelVersionSetName = &tmp
-	}
-
-	if version_label, ok := s.D.GetOkExists("version_label"); ok {
-		tmp := version_label.(string)
-		request.VersionLabel = &tmp
 	}
 
 	if id, ok := s.D.GetOkExists("id"); ok {
@@ -182,20 +337,12 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 			model["lifecycle_details"] = *r.LifecycleDetails
 		}
 
-		if r.ProjectId != nil {
-			model["project_id"] = *r.ProjectId
-		}
-
-		if r.ModelVersionSetName != nil {
-			model["model_version_set_name"] = *r.ModelVersionSetName
-		}
-
 		if r.ModelVersionSetId != nil {
 			model["model_version_set_id"] = *r.ModelVersionSetId
 		}
 
-		if r.VersionLabel != nil {
-			model["version_label"] = *r.VersionLabel
+		if r.ProjectId != nil {
+			model["project_id"] = *r.ProjectId
 		}
 
 		model["state"] = r.LifecycleState
