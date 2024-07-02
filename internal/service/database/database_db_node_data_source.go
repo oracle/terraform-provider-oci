@@ -144,6 +144,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("time_maintenance_window_start", s.Res.TimeMaintenanceWindowStart.String())
 	}
 
+	if s.Res.TotalCpuCoreCount != nil {
+		s.D.Set("total_cpu_core_count", *s.Res.TotalCpuCoreCount)
+	}
+
 	if s.Res.Vnic2Id != nil {
 		s.D.Set("vnic2id", *s.Res.Vnic2Id)
 	}

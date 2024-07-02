@@ -33,6 +33,9 @@ type ListGiVersionsRequest struct {
 	// If provided, filters the results for the given shape.
 	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
 
+	// The target availability domain. Only passed if the limit is AD-specific.
+	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

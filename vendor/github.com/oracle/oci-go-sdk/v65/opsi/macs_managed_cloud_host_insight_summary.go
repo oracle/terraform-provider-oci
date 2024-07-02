@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Operations Insights API
+// Ops Insights API
 //
-// Use the Operations Insights API to perform data extraction operations to obtain database
+// Use the Ops Insights API to perform data extraction operations to obtain database
 // resource utilization, performance statistics, and reference information. For more information,
-// see About Oracle Cloud Infrastructure Operations Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
+// see About Oracle Cloud Infrastructure Ops Insights (https://docs.cloud.oracle.com/en-us/iaas/operations-insights/doc/operations-insights.html).
 //
 
 package opsi
@@ -39,7 +39,7 @@ type MacsManagedCloudHostInsightSummary struct {
 	// The user-friendly name for the host. The name does not have to be unique.
 	HostDisplayName *string `mandatory:"false" json:"hostDisplayName"`
 
-	// Operations Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
+	// Ops Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
 	HostType *string `mandatory:"false" json:"hostType"`
 
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
@@ -75,7 +75,7 @@ type MacsManagedCloudHostInsightSummary struct {
 	// Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX, HP-UX].
 	PlatformType MacsManagedCloudHostInsightSummaryPlatformTypeEnum `mandatory:"false" json:"platformType,omitempty"`
 
-	// Indicates the status of a host insight in Operations Insights
+	// Indicates the status of a host insight in Ops Insights
 	Status ResourceStatusEnum `mandatory:"false" json:"status,omitempty"`
 
 	// The current state of the host.

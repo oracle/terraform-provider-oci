@@ -21,6 +21,7 @@ data "oci_database_backups" "test_backups" {
 	#Optional
 	compartment_id = var.compartment_id
 	database_id = oci_database_database.test_database.id
+	shape_family = var.backup_shape_family
 }
 ```
 
@@ -30,6 +31,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `database_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `shape_family` - (Optional) If provided, filters the results to the set of database versions which are supported for the given shape family.
 
 
 ## Attributes Reference

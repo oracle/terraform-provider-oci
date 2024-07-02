@@ -19,7 +19,6 @@ var exportGenerativeAiDedicatedAiClusterHints = &tf_export.TerraformResourceHint
 	DatasourceItemsAttr:    "dedicated_ai_cluster_collection",
 	IsDatasourceCollection: true,
 	ResourceAbbreviation:   "dedicated_ai_cluster",
-	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_generative_ai.DedicatedAiClusterLifecycleStateActive),
 		string(oci_generative_ai.DedicatedAiClusterLifecycleStateNeedsAttention),

@@ -29,6 +29,19 @@ resource "oci_generative_ai_dedicated_ai_cluster" "test_fine_tuning_cluster" {
   freeform_tags                = var.test_freeform_tags
 }
 
+resource "oci_generative_ai_dedicated_ai_cluster" "test_dedicated_ai_cluster_large_generic" {
+  #Required
+  type                           = "FINE_TUNING"
+  compartment_id                 = var.compartment_ocid
+  unit_count                     = var.fine_tuning_cluster_unit_count
+  unit_shape                     = var.fine_tuning_large_generic_cluster_shape
+
+  #Optional
+  display_name                  = var.llama_fine_tuning_cluster_display_name
+  description                   = var.fine_tuning_cluster_description
+  freeform_tags                = var.test_freeform_tags
+}
+
 data "oci_generative_ai_dedicated_ai_cluster" "test_hosting_cluster" {
   #Required
   dedicated_ai_cluster_id       = oci_generative_ai_dedicated_ai_cluster.test_hosting_cluster.id
@@ -37,6 +50,12 @@ data "oci_generative_ai_dedicated_ai_cluster" "test_hosting_cluster" {
 data "oci_generative_ai_dedicated_ai_cluster" "test_fine_tuning_cluster" {
   #Required
   dedicated_ai_cluster_id       = oci_generative_ai_dedicated_ai_cluster.test_fine_tuning_cluster.id
+}
+
+
+data "oci_generative_ai_dedicated_ai_cluster" "test_dedicated_ai_cluster_large_generic" {
+  #Required
+  dedicated_ai_cluster_id       = oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster_large_generic.id
 }
 
 data "oci_generative_ai_dedicated_ai_clusters" "test_clusters" {

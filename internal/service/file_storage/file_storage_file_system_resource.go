@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"fmt"
 	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -39,6 +40,12 @@ func FileStorageFileSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"clone_attach_status": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.AttachDiffSuppressFunction,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -74,8 +81,16 @@ func FileStorageFileSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"detach_clone_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
+			"clone_count": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
 			"is_clone_parent": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -138,7 +153,18 @@ func createFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("detach_clone_trigger"); ok {
+		err := sync.DetachClone()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
@@ -154,7 +180,27 @@ func updateFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).FileStorageClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("detach_clone_trigger"); ok && sync.D.HasChange("detach_clone_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("detach_clone_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.DetachClone()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("detach_clone_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteFileStorageFileSystem(d *schema.ResourceData, m interface{}) error {
@@ -207,6 +253,10 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 	if availabilityDomain, ok := s.D.GetOkExists("availability_domain"); ok {
 		tmp := availabilityDomain.(string)
 		request.AvailabilityDomain = &tmp
+	}
+
+	if cloneAttachStatus, ok := s.D.GetOkExists("clone_attach_status"); ok {
+		request.CloneAttachStatus = oci_file_storage.CreateFileSystemDetailsCloneAttachStatusEnum(cloneAttachStatus.(string))
 	}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
@@ -334,6 +384,11 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 func (s *FileStorageFileSystemResourceCrud) Delete() error {
 	request := oci_file_storage.DeleteFileSystemRequest{}
 
+	if canDetachChildFileSystem, ok := s.D.GetOkExists("can_detach_child_file_system"); ok {
+		tmp := canDetachChildFileSystem.(bool)
+		request.CanDetachChildFileSystem = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
 
@@ -346,6 +401,12 @@ func (s *FileStorageFileSystemResourceCrud) Delete() error {
 func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
+	s.D.Set("clone_attach_status", s.Res.CloneAttachStatus)
+
+	if s.Res.CloneCount != nil {
+		s.D.Set("clone_count", *s.Res.CloneCount)
 	}
 
 	if s.Res.CompartmentId != nil {
@@ -405,6 +466,29 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
+
+	return nil
+}
+
+func (s *FileStorageFileSystemResourceCrud) DetachClone() error {
+	request := oci_file_storage.DetachCloneRequest{}
+
+	idTmp := s.D.Id()
+	request.FileSystemId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.DetachClone(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("detach_clone_trigger")
+	s.D.Set("detach_clone_trigger", val)
 
 	return nil
 }
