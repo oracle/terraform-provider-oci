@@ -75,6 +75,14 @@ type NewsReport struct {
 
 	// A flag to consider the resources within a given compartment and all sub-compartments.
 	AreChildCompartmentsIncluded *bool `mandatory:"false" json:"areChildCompartmentsIncluded"`
+
+	// List of tag filters; each filter composed by a namespace, key, and value.
+	// Example for defined tags - '<TagNamespace>.<TagKey>=<TagValue>'.
+	// Example for freeform tags - '<TagKey>=<TagValue>'.
+	TagFilters []string `mandatory:"false" json:"tagFilters"`
+
+	// Match rule used for tag filters.
+	MatchRule MatchRuleEnum `mandatory:"false" json:"matchRule,omitempty"`
 }
 
 func (m NewsReport) String() string {
@@ -101,6 +109,9 @@ func (m NewsReport) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDayOfWeekEnum(string(m.DayOfWeek)); !ok && m.DayOfWeek != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DayOfWeek: %s. Supported values are: %s.", m.DayOfWeek, strings.Join(GetDayOfWeekEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMatchRuleEnum(string(m.MatchRule)); !ok && m.MatchRule != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MatchRule: %s. Supported values are: %s.", m.MatchRule, strings.Join(GetMatchRuleEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

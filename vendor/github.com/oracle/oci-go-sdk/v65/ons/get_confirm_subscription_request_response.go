@@ -30,7 +30,7 @@ type GetConfirmSubscriptionRequest struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// Supported subscription protocols (on the overview page) (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" contributesTo:"query" name:"protocol"`
 
 	// The unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
@@ -61,6 +61,41 @@ func (request GetConfirmSubscriptionRequest) BinaryRequestBody() (*common.OCIRea
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetConfirmSubscriptionRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["id"] != nil {
+		templateParam := mandatoryParamMap["id"]
+		for _, template := range templateParam {
+			replacementParam := *request.Id
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["token"] != nil {
+		templateParam := mandatoryParamMap["token"]
+		for _, template := range templateParam {
+			replacementParam := *request.Token
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["protocol"] != nil {
+		templateParam := mandatoryParamMap["protocol"]
+		for _, template := range templateParam {
+			replacementParam := *request.Protocol
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

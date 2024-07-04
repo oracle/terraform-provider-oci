@@ -68,7 +68,7 @@ func newPluginconfigClientFromBaseClient(baseClient common.BaseClient, configPro
 
 // SetRegion overrides the region of this client.
 func (client *PluginconfigClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://{dualStack?ds.:}iaas.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,7 +92,13 @@ func (client *PluginconfigClient) ConfigurationProvider() *common.ConfigurationP
 	return client.config
 }
 
-// ListInstanceagentAvailablePlugins The API to get the list of plugins that are available.
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *PluginconfigClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// ListInstanceagentAvailablePlugins Lists the Oracle Cloud Agent plugins that are available for compute instances.
 func (client PluginconfigClient) ListInstanceagentAvailablePlugins(ctx context.Context, request ListInstanceagentAvailablePluginsRequest) (response ListInstanceagentAvailablePluginsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

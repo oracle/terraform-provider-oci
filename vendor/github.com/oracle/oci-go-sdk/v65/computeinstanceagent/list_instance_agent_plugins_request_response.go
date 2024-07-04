@@ -17,14 +17,14 @@ type ListInstanceAgentPluginsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OCID of the instance.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the instance.
 	InstanceagentId *string `mandatory:"true" contributesTo:"path" name:"instanceagentId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,
 	// please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
-	// The plugin status
+	// The plugin status.
 	Status ListInstanceAgentPluginsStatusEnum `mandatory:"false" contributesTo:"query" name:"status" omitEmpty:"true"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List"
@@ -49,7 +49,7 @@ type ListInstanceAgentPluginsRequest struct {
 	// is case sensitive.
 	SortOrder ListInstanceAgentPluginsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The plugin name
+	// The plugin name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -76,6 +76,31 @@ func (request ListInstanceAgentPluginsRequest) BinaryRequestBody() (*common.OCIR
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request ListInstanceAgentPluginsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CompartmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["instanceagentId"] != nil {
+		templateParam := mandatoryParamMap["instanceagentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.InstanceagentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

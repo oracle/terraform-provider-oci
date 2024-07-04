@@ -56,6 +56,9 @@ type AutonomousDatabaseSoftwareImageSummary struct {
 
 	// One-off patches included in the Autonomous Database Software Image
 	AutonomousDsiOneOffPatches []string `mandatory:"false" json:"autonomousDsiOneOffPatches"`
+
+	// DST Time-Zone File version of the Autonomous Container Database.
+	DstFileVersion *string `mandatory:"false" json:"dstFileVersion"`
 }
 
 func (m AutonomousDatabaseSoftwareImageSummary) String() string {

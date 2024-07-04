@@ -35,6 +35,8 @@ type CreateDbSystemDetails struct {
 	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
+	Credentials *Credentials `mandatory:"true" json:"credentials"`
+
 	NetworkDetails *NetworkDetails `mandatory:"true" json:"networkDetails"`
 
 	// A user-provided description of a database system.
@@ -58,8 +60,6 @@ type CreateDbSystemDetails struct {
 	// Details of database instances nodes to be created. This parameter is optional.
 	// If specified, its size must match `instanceCount`.
 	InstancesDetails []CreateDbInstanceDetails `mandatory:"false" json:"instancesDetails"`
-
-	Credentials *Credentials `mandatory:"false" json:"credentials"`
 
 	ManagementPolicy *ManagementPolicyDetails `mandatory:"false" json:"managementPolicy"`
 
@@ -103,7 +103,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		InstanceMemorySizeInGBs *int                              `json:"instanceMemorySizeInGBs"`
 		InstanceCount           *int                              `json:"instanceCount"`
 		InstancesDetails        []CreateDbInstanceDetails         `json:"instancesDetails"`
-		Credentials             *Credentials                      `json:"credentials"`
 		ManagementPolicy        *ManagementPolicyDetails          `json:"managementPolicy"`
 		Source                  sourcedetails                     `json:"source"`
 		FreeformTags            map[string]string                 `json:"freeformTags"`
@@ -113,6 +112,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		DbVersion               *string                           `json:"dbVersion"`
 		StorageDetails          storagedetails                    `json:"storageDetails"`
 		Shape                   *string                           `json:"shape"`
+		Credentials             *Credentials                      `json:"credentials"`
 		NetworkDetails          *NetworkDetails                   `json:"networkDetails"`
 	}{}
 
@@ -135,8 +135,6 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstancesDetails = make([]CreateDbInstanceDetails, len(model.InstancesDetails))
 	copy(m.InstancesDetails, model.InstancesDetails)
-	m.Credentials = model.Credentials
-
 	m.ManagementPolicy = model.ManagementPolicy
 
 	nn, e = model.Source.UnmarshalPolymorphicJSON(model.Source.JsonData)
@@ -170,6 +168,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.Shape = model.Shape
+
+	m.Credentials = model.Credentials
 
 	m.NetworkDetails = model.NetworkDetails
 

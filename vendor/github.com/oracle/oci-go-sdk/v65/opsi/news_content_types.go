@@ -40,6 +40,9 @@ type NewsContentTypes struct {
 
 	// Supported resources for SQL insights - performance degradation content type.
 	SqlInsightsPerformanceDegradationResources []NewsSqlInsightsContentTypesResourceEnum `mandatory:"false" json:"sqlInsightsPerformanceDegradationResources"`
+
+	// Supported resources for actionable insights content type.
+	ActionableInsightsResources []ActionableInsightsContentTypesResourceEnum `mandatory:"false" json:"actionableInsightsResources"`
 }
 
 func (m NewsContentTypes) String() string {

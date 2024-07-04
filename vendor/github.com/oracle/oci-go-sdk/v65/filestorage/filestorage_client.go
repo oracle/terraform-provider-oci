@@ -68,7 +68,7 @@ func newFileStorageClientFromBaseClient(baseClient common.BaseClient, configProv
 
 // SetRegion overrides the region of this client.
 func (client *FileStorageClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("filestorage", "https://filestorage.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("filestorage", "https://{dualStack?ds.:}filestorage.{region}.{secondLevelDomain}", "filestorage")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +90,12 @@ func (client *FileStorageClient) setConfigurationProvider(configProvider common.
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *FileStorageClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *FileStorageClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // AddExportLock Adds a lock to a resource.

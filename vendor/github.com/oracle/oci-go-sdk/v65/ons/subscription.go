@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -17,7 +17,7 @@ import (
 )
 
 // Subscription The subscription's configuration. For general information about subscriptions, see
-// Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptiondefinition).
+// Overview of Notifications (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptiondefinition).
 type Subscription struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription.
@@ -36,7 +36,7 @@ type Subscription struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// Supported subscription protocols (on the overview page) (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	// A locator that corresponds to the subscription protocol.
@@ -51,6 +51,8 @@ type Subscription struct {
 
 	// The time when this suscription was created.
 	CreatedTime *int64 `mandatory:"false" json:"createdTime"`
+
+	DeliveryPolicy *DeliveryPolicy `mandatory:"false" json:"deliveryPolicy"`
 
 	// The delivery policy of the subscription. Stored as a JSON string.
 	DeliverPolicy *string `mandatory:"false" json:"deliverPolicy"`

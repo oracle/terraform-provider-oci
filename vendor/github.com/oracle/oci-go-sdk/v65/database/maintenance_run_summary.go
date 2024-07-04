@@ -111,6 +111,9 @@ type MaintenanceRunSummary struct {
 
 	// The total time taken by corresponding resource activity in minutes.
 	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
+
+	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }
 
 func (m MaintenanceRunSummary) String() string {
@@ -330,36 +333,39 @@ type MaintenanceRunSummaryMaintenanceSubtypeEnum string
 
 // Set of constants representing the allowable values for MaintenanceRunSummaryMaintenanceSubtypeEnum
 const (
-	MaintenanceRunSummaryMaintenanceSubtypeQuarterly       MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
-	MaintenanceRunSummaryMaintenanceSubtypeHardware        MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
-	MaintenanceRunSummaryMaintenanceSubtypeCritical        MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
-	MaintenanceRunSummaryMaintenanceSubtypeInfrastructure  MaintenanceRunSummaryMaintenanceSubtypeEnum = "INFRASTRUCTURE"
-	MaintenanceRunSummaryMaintenanceSubtypeDatabase        MaintenanceRunSummaryMaintenanceSubtypeEnum = "DATABASE"
-	MaintenanceRunSummaryMaintenanceSubtypeOneoff          MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
-	MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly MaintenanceRunSummaryMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
-	MaintenanceRunSummaryMaintenanceSubtypeTimezone        MaintenanceRunSummaryMaintenanceSubtypeEnum = "TIMEZONE"
+	MaintenanceRunSummaryMaintenanceSubtypeQuarterly                   MaintenanceRunSummaryMaintenanceSubtypeEnum = "QUARTERLY"
+	MaintenanceRunSummaryMaintenanceSubtypeHardware                    MaintenanceRunSummaryMaintenanceSubtypeEnum = "HARDWARE"
+	MaintenanceRunSummaryMaintenanceSubtypeCritical                    MaintenanceRunSummaryMaintenanceSubtypeEnum = "CRITICAL"
+	MaintenanceRunSummaryMaintenanceSubtypeInfrastructure              MaintenanceRunSummaryMaintenanceSubtypeEnum = "INFRASTRUCTURE"
+	MaintenanceRunSummaryMaintenanceSubtypeDatabase                    MaintenanceRunSummaryMaintenanceSubtypeEnum = "DATABASE"
+	MaintenanceRunSummaryMaintenanceSubtypeOneoff                      MaintenanceRunSummaryMaintenanceSubtypeEnum = "ONEOFF"
+	MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly             MaintenanceRunSummaryMaintenanceSubtypeEnum = "SECURITY_MONTHLY"
+	MaintenanceRunSummaryMaintenanceSubtypeTimezone                    MaintenanceRunSummaryMaintenanceSubtypeEnum = "TIMEZONE"
+	MaintenanceRunSummaryMaintenanceSubtypeCustomDatabaseSoftwareImage MaintenanceRunSummaryMaintenanceSubtypeEnum = "CUSTOM_DATABASE_SOFTWARE_IMAGE"
 )
 
 var mappingMaintenanceRunSummaryMaintenanceSubtypeEnum = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
-	"QUARTERLY":        MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
-	"HARDWARE":         MaintenanceRunSummaryMaintenanceSubtypeHardware,
-	"CRITICAL":         MaintenanceRunSummaryMaintenanceSubtypeCritical,
-	"INFRASTRUCTURE":   MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
-	"DATABASE":         MaintenanceRunSummaryMaintenanceSubtypeDatabase,
-	"ONEOFF":           MaintenanceRunSummaryMaintenanceSubtypeOneoff,
-	"SECURITY_MONTHLY": MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
-	"TIMEZONE":         MaintenanceRunSummaryMaintenanceSubtypeTimezone,
+	"QUARTERLY":                      MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
+	"HARDWARE":                       MaintenanceRunSummaryMaintenanceSubtypeHardware,
+	"CRITICAL":                       MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"INFRASTRUCTURE":                 MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
+	"DATABASE":                       MaintenanceRunSummaryMaintenanceSubtypeDatabase,
+	"ONEOFF":                         MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"SECURITY_MONTHLY":               MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
+	"TIMEZONE":                       MaintenanceRunSummaryMaintenanceSubtypeTimezone,
+	"CUSTOM_DATABASE_SOFTWARE_IMAGE": MaintenanceRunSummaryMaintenanceSubtypeCustomDatabaseSoftwareImage,
 }
 
 var mappingMaintenanceRunSummaryMaintenanceSubtypeEnumLowerCase = map[string]MaintenanceRunSummaryMaintenanceSubtypeEnum{
-	"quarterly":        MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
-	"hardware":         MaintenanceRunSummaryMaintenanceSubtypeHardware,
-	"critical":         MaintenanceRunSummaryMaintenanceSubtypeCritical,
-	"infrastructure":   MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
-	"database":         MaintenanceRunSummaryMaintenanceSubtypeDatabase,
-	"oneoff":           MaintenanceRunSummaryMaintenanceSubtypeOneoff,
-	"security_monthly": MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
-	"timezone":         MaintenanceRunSummaryMaintenanceSubtypeTimezone,
+	"quarterly":                      MaintenanceRunSummaryMaintenanceSubtypeQuarterly,
+	"hardware":                       MaintenanceRunSummaryMaintenanceSubtypeHardware,
+	"critical":                       MaintenanceRunSummaryMaintenanceSubtypeCritical,
+	"infrastructure":                 MaintenanceRunSummaryMaintenanceSubtypeInfrastructure,
+	"database":                       MaintenanceRunSummaryMaintenanceSubtypeDatabase,
+	"oneoff":                         MaintenanceRunSummaryMaintenanceSubtypeOneoff,
+	"security_monthly":               MaintenanceRunSummaryMaintenanceSubtypeSecurityMonthly,
+	"timezone":                       MaintenanceRunSummaryMaintenanceSubtypeTimezone,
+	"custom_database_software_image": MaintenanceRunSummaryMaintenanceSubtypeCustomDatabaseSoftwareImage,
 }
 
 // GetMaintenanceRunSummaryMaintenanceSubtypeEnumValues Enumerates the set of values for MaintenanceRunSummaryMaintenanceSubtypeEnum
@@ -382,6 +388,7 @@ func GetMaintenanceRunSummaryMaintenanceSubtypeEnumStringValues() []string {
 		"ONEOFF",
 		"SECURITY_MONTHLY",
 		"TIMEZONE",
+		"CUSTOM_DATABASE_SOFTWARE_IMAGE",
 	}
 }
 

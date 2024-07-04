@@ -45,8 +45,17 @@ type RepositoryBackupSummary struct {
 	// display name of backup.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
+	// Name of DevOps Repository when the backup was taken
+	RepositoryName *string `mandatory:"false" json:"repositoryName"`
+
+	// Name of Project to which the repository for which the backup was taken belongs to.
+	ProjectName *string `mandatory:"false" json:"projectName"`
+
 	// The textual description for the Repository Backup
 	Description *string `mandatory:"false" json:"description"`
+
+	// The description of lifecycle state
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

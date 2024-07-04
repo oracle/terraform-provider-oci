@@ -71,6 +71,9 @@ type IntegrationInstance struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// The Integration Instance Design Time URL
+	InstanceDesignTimeUrl *string `mandatory:"false" json:"instanceDesignTimeUrl"`
+
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
@@ -148,6 +151,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags                      map[string]string                              `json:"freeformTags"`
 		DefinedTags                       map[string]map[string]interface{}              `json:"definedTags"`
 		SystemTags                        map[string]map[string]interface{}              `json:"systemTags"`
+		InstanceDesignTimeUrl             *string                                        `json:"instanceDesignTimeUrl"`
 		IsFileServerEnabled               *bool                                          `json:"isFileServerEnabled"`
 		IsVisualBuilderEnabled            *bool                                          `json:"isVisualBuilderEnabled"`
 		CustomEndpoint                    *CustomEndpointDetails                         `json:"customEndpoint"`
@@ -190,6 +194,8 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.SystemTags = model.SystemTags
+
+	m.InstanceDesignTimeUrl = model.InstanceDesignTimeUrl
 
 	m.IsFileServerEnabled = model.IsFileServerEnabled
 

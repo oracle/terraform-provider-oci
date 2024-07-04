@@ -23,6 +23,8 @@ type UpdateClusterOptionsDetails struct {
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
 
+	AddOns *AddOnOptions `mandatory:"false" json:"addOns"`
+
 	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
 
 	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`

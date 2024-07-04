@@ -91,6 +91,8 @@ const (
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
 	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
+	WorkRequestSummaryOperationTypeEnableCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "ENABLE_CUSTOM_ENDPOINT"
+	WorkRequestSummaryOperationTypeRemoveCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "REMOVE_CUSTOM_ENDPOINT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -103,6 +105,8 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
+	"ENABLE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeEnableCustomEndpoint,
+	"REMOVE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeRemoveCustomEndpoint,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -115,6 +119,8 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
 	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
+	"enable_custom_endpoint":                      WorkRequestSummaryOperationTypeEnableCustomEndpoint,
+	"remove_custom_endpoint":                      WorkRequestSummaryOperationTypeRemoveCustomEndpoint,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -138,6 +144,8 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"ENABLE_PROCESS_AUTOMATION",
 		"EXTEND_DATA_RETENTION",
 		"DISASTER_RECOVERY_FAILOVER",
+		"ENABLE_CUSTOM_ENDPOINT",
+		"REMOVE_CUSTOM_ENDPOINT",
 	}
 }
 

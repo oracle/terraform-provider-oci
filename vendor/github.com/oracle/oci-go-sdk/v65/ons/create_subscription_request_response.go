@@ -28,6 +28,9 @@ type CreateSubscriptionRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// This is stamped on requests coming from customer's corp network.
+	XOciNapCorpnetwork *string `mandatory:"false" contributesTo:"header" name:"x-oci-nap-corpnetwork"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -52,6 +55,11 @@ func (request CreateSubscriptionRequest) BinaryRequestBody() (*common.OCIReadSee
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request CreateSubscriptionRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

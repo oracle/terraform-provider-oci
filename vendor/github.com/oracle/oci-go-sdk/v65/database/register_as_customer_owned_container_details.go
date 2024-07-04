@@ -225,6 +225,9 @@ type RegisterAsCustomerOwnedContainerDetails struct {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
 
+	// True if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
+
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
 	// This cannot be used in conjunction with adminPassword.
 	SecretId *string `mandatory:"false" json:"secretId"`
@@ -508,6 +511,11 @@ func (m RegisterAsCustomerOwnedContainerDetails) GetDbToolsDetails() []DatabaseT
 	return m.DbToolsDetails
 }
 
+// GetIsBackupRetentionLocked returns IsBackupRetentionLocked
+func (m RegisterAsCustomerOwnedContainerDetails) GetIsBackupRetentionLocked() *bool {
+	return m.IsBackupRetentionLocked
+}
+
 // GetSecretId returns SecretId
 func (m RegisterAsCustomerOwnedContainerDetails) GetSecretId() *string {
 	return m.SecretId
@@ -615,6 +623,7 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 		IsAutoScalingForStorageEnabled           *bool                                                             `json:"isAutoScalingForStorageEnabled"`
 		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `json:"databaseEdition"`
 		DbToolsDetails                           []DatabaseTool                                                    `json:"dbToolsDetails"`
+		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
@@ -732,6 +741,8 @@ func (m *RegisterAsCustomerOwnedContainerDetails) UnmarshalJSON(data []byte) (e 
 
 	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
 	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
+
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber

@@ -94,6 +94,8 @@ type DbSystemSummary struct {
 
 	// Whether to enable monitoring via the Database Management service.
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
+
+	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m DbSystemSummary) String() string {

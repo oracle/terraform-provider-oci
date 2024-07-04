@@ -124,6 +124,8 @@ type UpdateDbSystemDetails struct {
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	ReadEndpoint *UpdateReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m UpdateDbSystemDetails) String() string {

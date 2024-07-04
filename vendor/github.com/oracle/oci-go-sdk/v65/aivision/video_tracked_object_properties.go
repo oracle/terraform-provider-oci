@@ -20,6 +20,9 @@ type VideoTrackedObjectProperties struct {
 
 	// The axle count value of a tracked vehicle.
 	AxleCount *int `mandatory:"false" json:"axleCount"`
+
+	// Object IDs of the trailers associated with the tracked vehicle.
+	TrailerIds []int `mandatory:"false" json:"trailerIds"`
 }
 
 func (m VideoTrackedObjectProperties) String() string {

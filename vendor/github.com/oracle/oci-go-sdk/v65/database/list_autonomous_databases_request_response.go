@@ -71,6 +71,9 @@ type ListAutonomousDatabasesRequest struct {
 	// The database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resourcepool Leader Autonomous Database.
 	ResourcePoolLeaderId *string `mandatory:"false" contributesTo:"query" name:"resourcePoolLeaderId"`
 
+	// A filter to return only resources that are registered as customer owned containers, or are not registered as customer owned containers.
+	IsRegisteredAsCustomerOwnedContainer *bool `mandatory:"false" contributesTo:"query" name:"isRegisteredAsCustomerOwnedContainer"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

@@ -68,7 +68,7 @@ func newComputeInstanceAgentClientFromBaseClient(baseClient common.BaseClient, c
 
 // SetRegion overrides the region of this client.
 func (client *ComputeInstanceAgentClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("computeinstanceagent", "https://{dualStack?ds.:}iaas.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +90,12 @@ func (client *ComputeInstanceAgentClient) setConfigurationProvider(configProvide
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ComputeInstanceAgentClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *ComputeInstanceAgentClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // CancelInstanceAgentCommand Cancels a command that is scheduled to run on a compute instance that is managed

@@ -57,6 +57,9 @@ type IntegrationInstanceSummary struct {
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 
+	// The Integration Instance Design Time URL
+	InstanceDesignTimeUrl *string `mandatory:"false" json:"instanceDesignTimeUrl"`
+
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
@@ -138,6 +141,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		LifecycleState                    IntegrationInstanceSummaryLifecycleStateEnum          `json:"lifecycleState"`
 		LifecycleDetails                  *string                                               `json:"lifecycleDetails"`
 		StateMessage                      *string                                               `json:"stateMessage"`
+		InstanceDesignTimeUrl             *string                                               `json:"instanceDesignTimeUrl"`
 		IsFileServerEnabled               *bool                                                 `json:"isFileServerEnabled"`
 		IsVisualBuilderEnabled            *bool                                                 `json:"isVisualBuilderEnabled"`
 		CustomEndpoint                    *CustomEndpointDetails                                `json:"customEndpoint"`
@@ -174,6 +178,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.StateMessage = model.StateMessage
+
+	m.InstanceDesignTimeUrl = model.InstanceDesignTimeUrl
 
 	m.IsFileServerEnabled = model.IsFileServerEnabled
 

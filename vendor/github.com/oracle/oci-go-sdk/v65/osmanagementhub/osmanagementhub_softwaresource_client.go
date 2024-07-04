@@ -271,7 +271,7 @@ func (client SoftwareSourceClient) changeSoftwareSourceCompartment(ctx context.C
 	return response, err
 }
 
-// CreateEntitlement Registers the necessary entitlement credentials for OS vendor software sources.
+// CreateEntitlement Registers the necessary entitlement credentials for OS vendor software sources for a tenancy.
 // A default retry strategy applies to this operation CreateEntitlement()
 func (client SoftwareSourceClient) CreateEntitlement(ctx context.Context, request CreateEntitlementRequest) (response CreateEntitlementResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -19,13 +19,13 @@ import (
 // MessageDetails The content of the message to be published.
 type MessageDetails struct {
 
-	// The body of the message to be published. Maximum size: 64 KB.
-	// Avoid entering confidential information.
-	Body *string `mandatory:"true" json:"body"`
-
 	// The title of the message to be published. Maximum number of characters: 255.
 	// Avoid entering confidential information.
 	Title *string `mandatory:"false" json:"title"`
+
+	// The body of the message to be published. Maximum size: 64 KB.
+	// Avoid entering confidential information.
+	Body *string `mandatory:"false" json:"body"`
 }
 
 func (m MessageDetails) String() string {

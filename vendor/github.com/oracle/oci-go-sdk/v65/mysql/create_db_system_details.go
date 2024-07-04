@@ -124,6 +124,8 @@ type CreateDbSystemDetails struct {
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	ReadEndpoint *CreateReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m CreateDbSystemDetails) String() string {
@@ -175,6 +177,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		DatabaseManagement   DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections    *SecureConnectionDetails          `json:"secureConnections"`
+		ReadEndpoint         *CreateReadEndpointDetails        `json:"readEndpoint"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
@@ -240,6 +243,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DatabaseManagement = model.DatabaseManagement
 
 	m.SecureConnections = model.SecureConnections
+
+	m.ReadEndpoint = model.ReadEndpoint
 
 	m.CompartmentId = model.CompartmentId
 

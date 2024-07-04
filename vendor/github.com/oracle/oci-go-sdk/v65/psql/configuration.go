@@ -36,18 +36,20 @@ type Configuration struct {
 	// The current state of the configuration.
 	LifecycleState ConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Version of the PostgreSQL database.
+	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
 	// The name of the shape for the configuration.
 	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
 	// CPU core count.
+	// It's value is set to 0 if configuration is for a flexible shape.
 	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
 
 	// Memory size in gigabytes with 1GB increment.
+	// It's value is set to 0 if configuration is for a flexible shape.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
-
-	// Version of the PostgreSQL database.
-	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
 	ConfigurationDetails *ConfigurationDetails `mandatory:"true" json:"configurationDetails"`
 
@@ -56,6 +58,9 @@ type Configuration struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Whether the configuration supports flexible shapes.
+	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

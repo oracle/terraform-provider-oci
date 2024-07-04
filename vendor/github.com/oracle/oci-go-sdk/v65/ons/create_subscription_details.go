@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -35,7 +35,7 @@ type CreateSubscriptionDetails struct {
 	//   * `SLACK`
 	//   * `SMS`
 	// For information about subscription protocols, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
+	// Supported subscription protocols (on the overview page) (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm#concepts__subscriptionprotocols).
 	Protocol *string `mandatory:"true" json:"protocol"`
 
 	// A locator that corresponds to the subscription protocol.
@@ -44,7 +44,7 @@ type CreateSubscriptionDetails struct {
 	// A URL cannot exceed 512 characters.
 	// Avoid entering confidential information.
 	// For protocol-specific endpoint formats and steps to get or create endpoints, see
-	// To create a subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm#createSub).
+	// Creating a Subscription (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/create-subscription.htm).
 	Endpoint *string `mandatory:"true" json:"endpoint"`
 
 	// Metadata for the subscription.

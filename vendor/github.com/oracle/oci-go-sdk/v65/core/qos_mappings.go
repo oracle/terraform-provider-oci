@@ -25,10 +25,10 @@ import (
 type QosMappings struct {
 
 	// Differentiated Services Code Point(DSCP) Values for QoS. DSCP uses the 6 bits, thereby giving 2^6 = 64 different values (0 to 63)
-	DscpValues []int `mandatory:"false" json:"dscpValues"`
+	DscpValues []int `mandatory:"true" json:"dscpValues"`
 
 	// The type of Class Of Service for each DSCP values. PREMIUM (P1), DEFAULT (P2), BULK (P3), SCAVENGER (P4)
-	ClassOfService QosMappingsClassOfServiceEnum `mandatory:"false" json:"classOfService,omitempty"`
+	ClassOfService QosMappingsClassOfServiceEnum `mandatory:"true" json:"classOfService"`
 }
 
 func (m QosMappings) String() string {
@@ -40,10 +40,10 @@ func (m QosMappings) String() string {
 // Not recommended for calling this function directly
 func (m QosMappings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	if _, ok := GetMappingQosMappingsClassOfServiceEnum(string(m.ClassOfService)); !ok && m.ClassOfService != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClassOfService: %s. Supported values are: %s.", m.ClassOfService, strings.Join(GetQosMappingsClassOfServiceEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

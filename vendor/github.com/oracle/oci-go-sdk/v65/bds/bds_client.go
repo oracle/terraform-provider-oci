@@ -207,6 +207,122 @@ func (client BdsClient) activateBdsMetastoreConfiguration(ctx context.Context, r
 	return response, err
 }
 
+// ActivateIamUserSyncConfiguration Activate IAM user sync configuration for the given identity configuration
+func (client BdsClient) ActivateIamUserSyncConfiguration(ctx context.Context, request ActivateIamUserSyncConfigurationRequest) (response ActivateIamUserSyncConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateIamUserSyncConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateIamUserSyncConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateIamUserSyncConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateIamUserSyncConfigurationResponse")
+	}
+	return
+}
+
+// activateIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) activateIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/activateIamUserSyncConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateIamUserSyncConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ActivateIamUserSyncConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateIamUserSyncConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ActivateUpstConfiguration Activate UPST configuration for the given identity configuration
+func (client BdsClient) ActivateUpstConfiguration(ctx context.Context, request ActivateUpstConfigurationRequest) (response ActivateUpstConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.activateUpstConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ActivateUpstConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ActivateUpstConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ActivateUpstConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ActivateUpstConfigurationResponse")
+	}
+	return
+}
+
+// activateUpstConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) activateUpstConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/activateUpstConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ActivateUpstConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ActivateUpstConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "ActivateUpstConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddAutoScalingConfiguration Add an autoscale configuration to the cluster.
 func (client BdsClient) AddAutoScalingConfiguration(ctx context.Context, request AddAutoScalingConfigurationRequest) (response AddAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1077,6 +1193,64 @@ func (client BdsClient) createBdsMetastoreConfiguration(ctx context.Context, req
 	return response, err
 }
 
+// CreateIdentityConfiguration Create an identity configuration for the cluster
+func (client BdsClient) CreateIdentityConfiguration(ctx context.Context, request CreateIdentityConfigurationRequest) (response CreateIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateIdentityConfigurationResponse")
+	}
+	return
+}
+
+// createIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) createIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/CreateIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateNodeBackupConfiguration Add a node volume backup configuration to the cluster for an indicated node type or node.
 func (client BdsClient) CreateNodeBackupConfiguration(ctx context.Context, request CreateNodeBackupConfigurationRequest) (response CreateNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1193,6 +1367,64 @@ func (client BdsClient) createNodeReplaceConfiguration(ctx context.Context, requ
 	return response, err
 }
 
+// CreateResourcePrincipalConfiguration Create a resource principal session token configuration.
+func (client BdsClient) CreateResourcePrincipalConfiguration(ctx context.Context, request CreateResourcePrincipalConfigurationRequest) (response CreateResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// createResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) createResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/CreateResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateResourcePrincipalConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeactivateBdsLakeConfiguration Deactivate the specified lake configuration.
 func (client BdsClient) DeactivateBdsLakeConfiguration(ctx context.Context, request DeactivateBdsLakeConfigurationRequest) (response DeactivateBdsLakeConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1244,6 +1476,122 @@ func (client BdsClient) deactivateBdsLakeConfiguration(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsLakeConfiguration/DeactivateBdsLakeConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "DeactivateBdsLakeConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeactivateIamUserSyncConfiguration Deactivate the IAM user sync configuration.
+func (client BdsClient) DeactivateIamUserSyncConfiguration(ctx context.Context, request DeactivateIamUserSyncConfigurationRequest) (response DeactivateIamUserSyncConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateIamUserSyncConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateIamUserSyncConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateIamUserSyncConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateIamUserSyncConfigurationResponse")
+	}
+	return
+}
+
+// deactivateIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deactivateIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/deactivateIamUserSyncConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateIamUserSyncConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeactivateIamUserSyncConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeactivateIamUserSyncConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeactivateUpstConfiguration Deactivate the UPST configuration represented by the provided ID.
+func (client BdsClient) DeactivateUpstConfiguration(ctx context.Context, request DeactivateUpstConfigurationRequest) (response DeactivateUpstConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.deactivateUpstConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeactivateUpstConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeactivateUpstConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeactivateUpstConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeactivateUpstConfigurationResponse")
+	}
+	return
+}
+
+// deactivateUpstConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deactivateUpstConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/deactivateUpstConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeactivateUpstConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeactivateUpstConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeactivateUpstConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1461,6 +1809,59 @@ func (client BdsClient) deleteBdsMetastoreConfiguration(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsMetastoreConfiguration/DeleteBdsMetastoreConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "DeleteBdsMetastoreConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteIdentityConfiguration Delete the identity configuration represented by the provided ID. Deletion is only allowed if this identity configuration is not associated with any active IAM user sync configuration or UPST configuration.
+func (client BdsClient) DeleteIdentityConfiguration(ctx context.Context, request DeleteIdentityConfigurationRequest) (response DeleteIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteIdentityConfigurationResponse")
+	}
+	return
+}
+
+// deleteIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) deleteIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/DeleteIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "DeleteIdentityConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1748,6 +2149,64 @@ func (client BdsClient) executeBootstrapScript(ctx context.Context, request comm
 	return response, err
 }
 
+// ForceRefreshResourcePrincipal Force Refresh Resource Principal for the cluster.
+func (client BdsClient) ForceRefreshResourcePrincipal(ctx context.Context, request ForceRefreshResourcePrincipalRequest) (response ForceRefreshResourcePrincipalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.forceRefreshResourcePrincipal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ForceRefreshResourcePrincipalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ForceRefreshResourcePrincipalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ForceRefreshResourcePrincipalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ForceRefreshResourcePrincipalResponse")
+	}
+	return
+}
+
+// forceRefreshResourcePrincipal implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) forceRefreshResourcePrincipal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}/actions/forceRefreshResourcePrincipal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ForceRefreshResourcePrincipalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ForceRefreshResourcePrincipal"
+		err = common.PostProcessServiceError(err, "Bds", "ForceRefreshResourcePrincipal", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutoScalingConfiguration Returns details of the autoscale configuration identified by the given ID.
 func (client BdsClient) GetAutoScalingConfiguration(ctx context.Context, request GetAutoScalingConfigurationRequest) (response GetAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2013,6 +2472,59 @@ func (client BdsClient) getBdsMetastoreConfiguration(ctx context.Context, reques
 	return response, err
 }
 
+// GetIdentityConfiguration Get details of one identity config on the cluster
+func (client BdsClient) GetIdentityConfiguration(ctx context.Context, request GetIdentityConfigurationRequest) (response GetIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetIdentityConfigurationResponse")
+	}
+	return
+}
+
+// getIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) getIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/GetIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNodeBackup Returns details of NodeBackup identified by the given ID.
 func (client BdsClient) GetNodeBackup(ctx context.Context, request GetNodeBackupRequest) (response GetNodeBackupResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2223,6 +2735,59 @@ func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetOsPatchDetails"
 		err = common.PostProcessServiceError(err, "Bds", "GetOsPatchDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetResourcePrincipalConfiguration Returns details of the resourcePrincipalConfiguration identified by the given ID.
+func (client BdsClient) GetResourcePrincipalConfiguration(ctx context.Context, request GetResourcePrincipalConfigurationRequest) (response GetResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// getResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) getResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2770,6 +3335,59 @@ func (client BdsClient) listBdsMetastoreConfigurations(ctx context.Context, requ
 	return response, err
 }
 
+// ListIdentityConfigurations Returns a list of all identity configurations associated with this Big Data Service cluster.
+func (client BdsClient) ListIdentityConfigurations(ctx context.Context, request ListIdentityConfigurationsRequest) (response ListIdentityConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listIdentityConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListIdentityConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListIdentityConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListIdentityConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListIdentityConfigurationsResponse")
+	}
+	return
+}
+
+// listIdentityConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listIdentityConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/identityConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListIdentityConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/ListIdentityConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListIdentityConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListNodeBackupConfigurations Returns information about the NodeBackupConfigurations.
 func (client BdsClient) ListNodeBackupConfigurations(ctx context.Context, request ListNodeBackupConfigurationsRequest) (response ListNodeBackupConfigurationsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3093,6 +3711,59 @@ func (client BdsClient) listPatches(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
+// ListResourcePrincipalConfigurations Returns information about the ResourcePrincipalConfiguration.
+func (client BdsClient) ListResourcePrincipalConfigurations(ctx context.Context, request ListResourcePrincipalConfigurationsRequest) (response ListResourcePrincipalConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourcePrincipalConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourcePrincipalConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourcePrincipalConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourcePrincipalConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourcePrincipalConfigurationsResponse")
+	}
+	return
+}
+
+// listResourcePrincipalConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listResourcePrincipalConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourcePrincipalConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ListResourcePrincipalConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListResourcePrincipalConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Returns a paginated list of errors for a work request identified by the given ID.
 func (client BdsClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3252,6 +3923,64 @@ func (client BdsClient) listWorkRequests(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// RefreshConfidentialApplication Refresh confidential application for the given identity configuration in case of any update to the confidential application (e.g. regenerated client secret)
+func (client BdsClient) RefreshConfidentialApplication(ctx context.Context, request RefreshConfidentialApplicationRequest) (response RefreshConfidentialApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshConfidentialApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshConfidentialApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshConfidentialApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshConfidentialApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshConfidentialApplicationResponse")
+	}
+	return
+}
+
+// refreshConfidentialApplication implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) refreshConfidentialApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/refreshConfidentialApplication", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshConfidentialApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/RefreshConfidentialApplication"
+		err = common.PostProcessServiceError(err, "Bds", "RefreshConfidentialApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RefreshDpCertificate Refreshes the specified cluster's DP certificate by replacing a new DP certificate for the cluster.
 func (client BdsClient) RefreshDpCertificate(ctx context.Context, request RefreshDpCertificateRequest) (response RefreshDpCertificateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3303,6 +4032,64 @@ func (client BdsClient) refreshDpCertificate(ctx context.Context, request common
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/RefreshDpCertificate"
 		err = common.PostProcessServiceError(err, "Bds", "RefreshDpCertificate", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RefreshUpstTokenExchangeKeytab Refresh token exchange kerberos principal keytab for the UPST enabled identity configuration
+func (client BdsClient) RefreshUpstTokenExchangeKeytab(ctx context.Context, request RefreshUpstTokenExchangeKeytabRequest) (response RefreshUpstTokenExchangeKeytabResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshUpstTokenExchangeKeytab, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshUpstTokenExchangeKeytabResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshUpstTokenExchangeKeytabResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshUpstTokenExchangeKeytabResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshUpstTokenExchangeKeytabResponse")
+	}
+	return
+}
+
+// refreshUpstTokenExchangeKeytab implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) refreshUpstTokenExchangeKeytab(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/refreshUpstTokenExchangeKeytab", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshUpstTokenExchangeKeytabResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/RefreshUpstTokenExchangeKeytab"
+		err = common.PostProcessServiceError(err, "Bds", "RefreshUpstTokenExchangeKeytab", apiReferenceLink)
 		return response, err
 	}
 
@@ -3588,6 +4375,59 @@ func (client BdsClient) removeNodeReplaceConfiguration(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/NodeReplaceConfiguration/RemoveNodeReplaceConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "RemoveNodeReplaceConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveResourcePrincipalConfiguration Delete the resource principal configuration for the cluster.
+func (client BdsClient) RemoveResourcePrincipalConfiguration(ctx context.Context, request RemoveResourcePrincipalConfigurationRequest) (response RemoveResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// removeResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) removeResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}/actions/remove", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/ResourcePrincipalConfiguration/RemoveResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "RemoveResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -4034,6 +4874,64 @@ func (client BdsClient) testBdsObjectStorageConnection(ctx context.Context, requ
 	return response, err
 }
 
+// TestIamUserSyncConfiguration Test the specified IAM user sync configuration
+func (client BdsClient) TestIamUserSyncConfiguration(ctx context.Context, request TestIamUserSyncConfigurationRequest) (response TestIamUserSyncConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.testIamUserSyncConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestIamUserSyncConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestIamUserSyncConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestIamUserSyncConfigurationResponse")
+	}
+	return
+}
+
+// testIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) testIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/testIamUserSyncConfiguration", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestIamUserSyncConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/TestIamUserSyncConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "TestIamUserSyncConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateAutoScalingConfiguration Updates fields on an autoscale configuration, including the name, the threshold value, and whether the autoscale configuration is enabled.
 func (client BdsClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4251,6 +5149,64 @@ func (client BdsClient) updateBdsMetastoreConfiguration(ctx context.Context, req
 	return response, err
 }
 
+// UpdateIdentityConfiguration Update the IAM user sync and UPST configuration for the specified identity configuration
+func (client BdsClient) UpdateIdentityConfiguration(ctx context.Context, request UpdateIdentityConfigurationRequest) (response UpdateIdentityConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateIdentityConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateIdentityConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateIdentityConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateIdentityConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateIdentityConfigurationResponse")
+	}
+	return
+}
+
+// updateIdentityConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateIdentityConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateIdentityConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/UpdateIdentityConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateIdentityConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateNodeBackupConfiguration Updates fields on NodeBackupConfiguration, including the name, the schedule.
 func (client BdsClient) UpdateNodeBackupConfiguration(ctx context.Context, request UpdateNodeBackupConfigurationRequest) (response UpdateNodeBackupConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4360,6 +5316,64 @@ func (client BdsClient) updateNodeReplaceConfiguration(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateNodeReplaceConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "UpdateNodeReplaceConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateResourcePrincipalConfiguration Updates fields on resourcePrincipalConfiguration, including the name, the lifeSpanInHours of the token.
+func (client BdsClient) UpdateResourcePrincipalConfiguration(ctx context.Context, request UpdateResourcePrincipalConfigurationRequest) (response UpdateResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// updateResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 

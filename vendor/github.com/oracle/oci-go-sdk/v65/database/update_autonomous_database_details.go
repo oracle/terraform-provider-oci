@@ -257,6 +257,9 @@ type UpdateAutonomousDatabaseDetails struct {
 	// follows a schedule applying patches prior to the REGULAR schedule. A REGULAR maintenance schedule follows the normal cycle
 	AutonomousMaintenanceScheduleType UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `mandatory:"false" json:"autonomousMaintenanceScheduleType,omitempty"`
 
+	// True if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
+
 	// The list of scheduled operations. Consists of values such as dayOfWeek, scheduledStartTime, scheduledStopTime.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
 	ScheduledOperations []ScheduledOperationDetails `mandatory:"false" json:"scheduledOperations"`
@@ -378,6 +381,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		ResourcePoolSummary                  *ResourcePoolSummary                                                 `json:"resourcePoolSummary"`
 		IsOracleServiceGatewayAllowed        *bool                                                                `json:"isOracleServiceGatewayAllowed"`
 		AutonomousMaintenanceScheduleType    UpdateAutonomousDatabaseDetailsAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
+		IsBackupRetentionLocked              *bool                                                                `json:"isBackupRetentionLocked"`
 		ScheduledOperations                  []ScheduledOperationDetails                                          `json:"scheduledOperations"`
 		IsAutoScalingForStorageEnabled       *bool                                                                `json:"isAutoScalingForStorageEnabled"`
 		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum                         `json:"databaseEdition"`
@@ -486,6 +490,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsOracleServiceGatewayAllowed = model.IsOracleServiceGatewayAllowed
 
 	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
+
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 
 	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
 	copy(m.ScheduledOperations, model.ScheduledOperations)

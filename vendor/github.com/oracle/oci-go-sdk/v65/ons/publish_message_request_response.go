@@ -32,6 +32,9 @@ type PublishMessageRequest struct {
 	// For `messageType` of JSON, a default key-value pair is required. Example: `{"default": "Alarm breached", "Email": "Alarm breached: <url>"}.`
 	MessageType PublishMessageMessageTypeEnum `mandatory:"false" contributesTo:"header" name:"messageType"`
 
+	// This is stamped on requests coming from customer's corp network.
+	XOciNapCorpnetwork *string `mandatory:"false" contributesTo:"header" name:"x-oci-nap-corpnetwork"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -56,6 +59,21 @@ func (request PublishMessageRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request PublishMessageRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["topicId"] != nil {
+		templateParam := mandatoryParamMap["topicId"]
+		for _, template := range templateParam {
+			replacementParam := *request.TopicId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

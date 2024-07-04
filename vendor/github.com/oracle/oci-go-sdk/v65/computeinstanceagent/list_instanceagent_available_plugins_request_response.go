@@ -17,15 +17,15 @@ type ListInstanceagentAvailablePluginsRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// The OS for which the plugin is supported.
-	// Examples of OperatingSystemQueryParam:OperatingSystemVersionQueryParam are as follows:
-	// 'CentOS' '6.10' , 'CentOS Linux' '7', 'CentOS Linux' '8',
-	// 'Oracle Linux Server' '6.10', 'Oracle Linux Server' '8.0',
-	// 'Red Hat Enterprise Linux Server' '7.8',
-	// 'Windows' '10', 'Windows' '2008ServerR2', 'Windows' '2012ServerR2', 'Windows' '7', 'Windows' '8.1'
+	// The image (OS) for the compute instance.
+	// If no match is found, all plugins are returned.
+	// Examples: `CentOS`, `Oracle Linux`, `Oracle Autonomous Linux`, `Canonical Ubuntu`, `Windows Server`
 	OsName *string `mandatory:"true" contributesTo:"query" name:"osName"`
 
-	// The OS version for which the plugin is supported.
+	// The OS version for the instance.
+	// If no match is found, all plugins are returned.
+	// Examples: `7.9`, `8` for CentOS and Oracle Linux. `20.04`, `20.04 Minimal` for Canonical Ubuntu.
+	// `2012 R2 Datacenter`, `2019 Standard` for Windows Server.
 	OsVersion *string `mandatory:"true" contributesTo:"query" name:"osVersion"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a particular request,
@@ -54,7 +54,7 @@ type ListInstanceagentAvailablePluginsRequest struct {
 	// is case sensitive.
 	SortOrder ListInstanceagentAvailablePluginsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The plugin name
+	// The plugin name.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
@@ -81,6 +81,41 @@ func (request ListInstanceagentAvailablePluginsRequest) BinaryRequestBody() (*co
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request ListInstanceagentAvailablePluginsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["compartmentId"] != nil {
+		templateParam := mandatoryParamMap["compartmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CompartmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["osName"] != nil {
+		templateParam := mandatoryParamMap["osName"]
+		for _, template := range templateParam {
+			replacementParam := *request.OsName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["osVersion"] != nil {
+		templateParam := mandatoryParamMap["osVersion"]
+		for _, template := range templateParam {
+			replacementParam := *request.OsVersion
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

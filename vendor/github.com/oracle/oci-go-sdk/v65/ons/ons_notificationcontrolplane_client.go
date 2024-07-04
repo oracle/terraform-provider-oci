@@ -5,7 +5,7 @@
 // Notifications API
 //
 // Use the Notifications API to broadcast messages to distributed components by topic, using a publish-subscribe pattern.
-// For information about managing topics, subscriptions, and messages, see Notifications Overview (https://docs.cloud.oracle.com/iaas/Content/Notification/Concepts/notificationoverview.htm).
+// For information about managing topics, subscriptions, and messages, see the Notifications documentation (https://docs.cloud.oracle.com/iaas/Content/Notification/home.htm).
 //
 
 package ons
@@ -68,7 +68,7 @@ func newNotificationControlPlaneClientFromBaseClient(baseClient common.BaseClien
 
 // SetRegion overrides the region of this client.
 func (client *NotificationControlPlaneClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("notification", "https://notification.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("notification", "https://{dualStack?ds.:}notification.{region}.oci.{secondLevelDomain}", "notification")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -92,9 +92,68 @@ func (client *NotificationControlPlaneClient) ConfigurationProvider() *common.Co
 	return client.config
 }
 
-// ChangeTopicCompartment Moves a topic into a different compartment within the same tenancy. For information about moving resources
-// between compartments, see
-// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *NotificationControlPlaneClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// AddTopicLock Adds a lock to a Topic resource.
+func (client NotificationControlPlaneClient) AddTopicLock(ctx context.Context, request AddTopicLockRequest) (response AddTopicLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.addTopicLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddTopicLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddTopicLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddTopicLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddTopicLockResponse")
+	}
+	return
+}
+
+// addTopicLock implements the OCIOperation interface (enables retrying operations)
+func (client NotificationControlPlaneClient) addTopicLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/actions/addLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddTopicLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/AddTopicLock"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "AddTopicLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeTopicCompartment Moves a topic into a different compartment within the same tenancy.
+// For instructions, see
+// Moving a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/change-compartment-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) ChangeTopicCompartment(ctx context.Context, request ChangeTopicCompartmentRequest) (response ChangeTopicCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -153,8 +212,9 @@ func (client NotificationControlPlaneClient) changeTopicCompartment(ctx context.
 	return response, err
 }
 
-// CreateTopic Creates a topic in the specified compartment. For general information about topics, see
-// Managing Topics and Subscriptions (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/managingtopicsandsubscriptions.htm).
+// CreateTopic Creates a topic in the specified compartment.
+// For instructions, see
+// Creating a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/create-topic.htm).
 // For the purposes of access control, you must provide the OCID of the compartment where you want the topic to reside.
 // For information about access control and compartments, see Overview of the IAM Service (https://docs.cloud.oracle.com/Content/Identity/Concepts/overview.htm).
 // You must specify a display name for the topic.
@@ -221,6 +281,8 @@ func (client NotificationControlPlaneClient) createTopic(ctx context.Context, re
 }
 
 // DeleteTopic Deletes the specified topic.
+// For instructions, see
+// Deleting a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/delete-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) DeleteTopic(ctx context.Context, request DeleteTopicRequest) (response DeleteTopicResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -275,6 +337,8 @@ func (client NotificationControlPlaneClient) deleteTopic(ctx context.Context, re
 }
 
 // GetTopic Gets the specified topic's configuration information.
+// For instructions, see
+// Getting a Topic's Details (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/get-topic.htm).
 func (client NotificationControlPlaneClient) GetTopic(ctx context.Context, request GetTopicRequest) (response GetTopicResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -328,6 +392,8 @@ func (client NotificationControlPlaneClient) getTopic(ctx context.Context, reque
 }
 
 // ListTopics Lists topics in the specified compartment.
+// For instructions, see
+// Listing Topics (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/list-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 120.
 func (client NotificationControlPlaneClient) ListTopics(ctx context.Context, request ListTopicsRequest) (response ListTopicsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -381,7 +447,62 @@ func (client NotificationControlPlaneClient) listTopics(ctx context.Context, req
 	return response, err
 }
 
+// RemoveTopicLock Removes a lock from a Topic resource.
+func (client NotificationControlPlaneClient) RemoveTopicLock(ctx context.Context, request RemoveTopicLockRequest) (response RemoveTopicLockResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeTopicLock, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveTopicLockResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveTopicLockResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveTopicLockResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveTopicLockResponse")
+	}
+	return
+}
+
+// removeTopicLock implements the OCIOperation interface (enables retrying operations)
+func (client NotificationControlPlaneClient) removeTopicLock(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/topics/{topicId}/actions/removeLock", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveTopicLockResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/notification/20181201/NotificationTopic/RemoveTopicLock"
+		err = common.PostProcessServiceError(err, "NotificationControlPlane", "RemoveTopicLock", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateTopic Updates the specified topic's configuration.
+// For instructions, see
+// Updating a Topic (https://docs.cloud.oracle.com/iaas/Content/Notification/Tasks/update-topic.htm).
 // Transactions Per Minute (TPM) per-tenancy limit for this operation: 60.
 func (client NotificationControlPlaneClient) UpdateTopic(ctx context.Context, request UpdateTopicRequest) (response UpdateTopicResponse, err error) {
 	var ociResponse common.OCIResponse

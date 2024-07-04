@@ -18,165 +18,207 @@ type OperationTypesEnum string
 
 // Set of constants representing the allowable values for OperationTypesEnum
 const (
-	OperationTypesCreateBds                   OperationTypesEnum = "CREATE_BDS"
-	OperationTypesUpdateBds                   OperationTypesEnum = "UPDATE_BDS"
-	OperationTypesDeleteBds                   OperationTypesEnum = "DELETE_BDS"
-	OperationTypesAddBlockStorage             OperationTypesEnum = "ADD_BLOCK_STORAGE"
-	OperationTypesAddMasterNodes              OperationTypesEnum = "ADD_MASTER_NODES"
-	OperationTypesAddUtilityNodes             OperationTypesEnum = "ADD_UTILITY_NODES"
-	OperationTypesAddWorkerNodes              OperationTypesEnum = "ADD_WORKER_NODES"
-	OperationTypesAddCloudSql                 OperationTypesEnum = "ADD_CLOUD_SQL"
-	OperationTypesRemoveCloudSql              OperationTypesEnum = "REMOVE_CLOUD_SQL"
-	OperationTypesChangeCompartmentForBds     OperationTypesEnum = "CHANGE_COMPARTMENT_FOR_BDS"
-	OperationTypesChangeShape                 OperationTypesEnum = "CHANGE_SHAPE"
-	OperationTypesUpdateInfra                 OperationTypesEnum = "UPDATE_INFRA"
-	OperationTypesRestartNode                 OperationTypesEnum = "RESTART_NODE"
-	OperationTypesRemoveNode                  OperationTypesEnum = "REMOVE_NODE"
-	OperationTypesCreateAutoscaleConfig       OperationTypesEnum = "CREATE_AUTOSCALE_CONFIG"
-	OperationTypesUpdateAutoscaleConfig       OperationTypesEnum = "UPDATE_AUTOSCALE_CONFIG"
-	OperationTypesDeleteAutoscaleConfig       OperationTypesEnum = "DELETE_AUTOSCALE_CONFIG"
-	OperationTypesAutoscaleConfig             OperationTypesEnum = "AUTOSCALE_CONFIG"
-	OperationTypesAutoscaleRun                OperationTypesEnum = "AUTOSCALE_RUN"
-	OperationTypesCreateApiKey                OperationTypesEnum = "CREATE_API_KEY"
-	OperationTypesDeleteApiKey                OperationTypesEnum = "DELETE_API_KEY"
-	OperationTypesTestObjectStoreConnection   OperationTypesEnum = "TEST_OBJECT_STORE_CONNECTION"
-	OperationTypesCreateMetastoreConfig       OperationTypesEnum = "CREATE_METASTORE_CONFIG"
-	OperationTypesDeleteMetastoreConfig       OperationTypesEnum = "DELETE_METASTORE_CONFIG"
-	OperationTypesUpdateMetastoreConfig       OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
-	OperationTypesActivateMetastoreConfig     OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
-	OperationTypesTestMetastoreConfig         OperationTypesEnum = "TEST_METASTORE_CONFIG"
-	OperationTypesCreateLakeConfig            OperationTypesEnum = "CREATE_LAKE_CONFIG"
-	OperationTypesDeleteLakeConfig            OperationTypesEnum = "DELETE_LAKE_CONFIG"
-	OperationTypesUpdateLakeConfig            OperationTypesEnum = "UPDATE_LAKE_CONFIG"
-	OperationTypesActivateLakeConfig          OperationTypesEnum = "ACTIVATE_LAKE_CONFIG"
-	OperationTypesDeactivateLakeConfig        OperationTypesEnum = "DEACTIVATE_LAKE_CONFIG"
-	OperationTypesTestLakeConfig              OperationTypesEnum = "TEST_LAKE_CONFIG"
-	OperationTypesPatchBds                    OperationTypesEnum = "PATCH_BDS"
-	OperationTypesPatchOdh                    OperationTypesEnum = "PATCH_ODH"
-	OperationTypesPatchOs                     OperationTypesEnum = "PATCH_OS"
-	OperationTypesStopBds                     OperationTypesEnum = "STOP_BDS"
-	OperationTypesStartBds                    OperationTypesEnum = "START_BDS"
-	OperationTypesAddKafka                    OperationTypesEnum = "ADD_KAFKA"
-	OperationTypesRemoveKafka                 OperationTypesEnum = "REMOVE_KAFKA"
-	OperationTypesExecuteBootstrapScript      OperationTypesEnum = "EXECUTE_BOOTSTRAP_SCRIPT"
-	OperationTypesOdhServiceCertificateUpdate OperationTypesEnum = "ODH_SERVICE_CERTIFICATE_UPDATE"
-	OperationTypesCreateBackupConfig          OperationTypesEnum = "CREATE_BACKUP_CONFIG"
-	OperationTypesUpdateBackupConfig          OperationTypesEnum = "UPDATE_BACKUP_CONFIG"
-	OperationTypesDeleteBackupConfig          OperationTypesEnum = "DELETE_BACKUP_CONFIG"
-	OperationTypesCreateNodeReplaceConfig     OperationTypesEnum = "CREATE_NODE_REPLACE_CONFIG"
-	OperationTypesUpdateNodeReplaceConfig     OperationTypesEnum = "UPDATE_NODE_REPLACE_CONFIG"
-	OperationTypesDeleteNodeReplaceConfig     OperationTypesEnum = "DELETE_NODE_REPLACE_CONFIG"
-	OperationTypesBackupNodes                 OperationTypesEnum = "BACKUP_NODES"
-	OperationTypesDeleteNodeBackup            OperationTypesEnum = "DELETE_NODE_BACKUP"
-	OperationTypesReplaceNode                 OperationTypesEnum = "REPLACE_NODE"
+	OperationTypesCreateBds                            OperationTypesEnum = "CREATE_BDS"
+	OperationTypesUpdateBds                            OperationTypesEnum = "UPDATE_BDS"
+	OperationTypesDeleteBds                            OperationTypesEnum = "DELETE_BDS"
+	OperationTypesAddBlockStorage                      OperationTypesEnum = "ADD_BLOCK_STORAGE"
+	OperationTypesAddMasterNodes                       OperationTypesEnum = "ADD_MASTER_NODES"
+	OperationTypesAddUtilityNodes                      OperationTypesEnum = "ADD_UTILITY_NODES"
+	OperationTypesAddWorkerNodes                       OperationTypesEnum = "ADD_WORKER_NODES"
+	OperationTypesAddCloudSql                          OperationTypesEnum = "ADD_CLOUD_SQL"
+	OperationTypesRemoveCloudSql                       OperationTypesEnum = "REMOVE_CLOUD_SQL"
+	OperationTypesChangeCompartmentForBds              OperationTypesEnum = "CHANGE_COMPARTMENT_FOR_BDS"
+	OperationTypesChangeShape                          OperationTypesEnum = "CHANGE_SHAPE"
+	OperationTypesUpdateInfra                          OperationTypesEnum = "UPDATE_INFRA"
+	OperationTypesRestartNode                          OperationTypesEnum = "RESTART_NODE"
+	OperationTypesRemoveNode                           OperationTypesEnum = "REMOVE_NODE"
+	OperationTypesCreateAutoscaleConfig                OperationTypesEnum = "CREATE_AUTOSCALE_CONFIG"
+	OperationTypesUpdateAutoscaleConfig                OperationTypesEnum = "UPDATE_AUTOSCALE_CONFIG"
+	OperationTypesDeleteAutoscaleConfig                OperationTypesEnum = "DELETE_AUTOSCALE_CONFIG"
+	OperationTypesAutoscaleConfig                      OperationTypesEnum = "AUTOSCALE_CONFIG"
+	OperationTypesAutoscaleRun                         OperationTypesEnum = "AUTOSCALE_RUN"
+	OperationTypesCreateApiKey                         OperationTypesEnum = "CREATE_API_KEY"
+	OperationTypesDeleteApiKey                         OperationTypesEnum = "DELETE_API_KEY"
+	OperationTypesTestObjectStoreConnection            OperationTypesEnum = "TEST_OBJECT_STORE_CONNECTION"
+	OperationTypesCreateMetastoreConfig                OperationTypesEnum = "CREATE_METASTORE_CONFIG"
+	OperationTypesDeleteMetastoreConfig                OperationTypesEnum = "DELETE_METASTORE_CONFIG"
+	OperationTypesUpdateMetastoreConfig                OperationTypesEnum = "UPDATE_METASTORE_CONFIG"
+	OperationTypesActivateMetastoreConfig              OperationTypesEnum = "ACTIVATE_METASTORE_CONFIG"
+	OperationTypesTestMetastoreConfig                  OperationTypesEnum = "TEST_METASTORE_CONFIG"
+	OperationTypesCreateLakeConfig                     OperationTypesEnum = "CREATE_LAKE_CONFIG"
+	OperationTypesDeleteLakeConfig                     OperationTypesEnum = "DELETE_LAKE_CONFIG"
+	OperationTypesUpdateLakeConfig                     OperationTypesEnum = "UPDATE_LAKE_CONFIG"
+	OperationTypesActivateLakeConfig                   OperationTypesEnum = "ACTIVATE_LAKE_CONFIG"
+	OperationTypesDeactivateLakeConfig                 OperationTypesEnum = "DEACTIVATE_LAKE_CONFIG"
+	OperationTypesTestLakeConfig                       OperationTypesEnum = "TEST_LAKE_CONFIG"
+	OperationTypesPatchBds                             OperationTypesEnum = "PATCH_BDS"
+	OperationTypesPatchOdh                             OperationTypesEnum = "PATCH_ODH"
+	OperationTypesPatchOs                              OperationTypesEnum = "PATCH_OS"
+	OperationTypesStopBds                              OperationTypesEnum = "STOP_BDS"
+	OperationTypesStartBds                             OperationTypesEnum = "START_BDS"
+	OperationTypesAddKafka                             OperationTypesEnum = "ADD_KAFKA"
+	OperationTypesRemoveKafka                          OperationTypesEnum = "REMOVE_KAFKA"
+	OperationTypesExecuteBootstrapScript               OperationTypesEnum = "EXECUTE_BOOTSTRAP_SCRIPT"
+	OperationTypesOdhServiceCertificateUpdate          OperationTypesEnum = "ODH_SERVICE_CERTIFICATE_UPDATE"
+	OperationTypesCreateBackupConfig                   OperationTypesEnum = "CREATE_BACKUP_CONFIG"
+	OperationTypesUpdateBackupConfig                   OperationTypesEnum = "UPDATE_BACKUP_CONFIG"
+	OperationTypesDeleteBackupConfig                   OperationTypesEnum = "DELETE_BACKUP_CONFIG"
+	OperationTypesCreateNodeReplaceConfig              OperationTypesEnum = "CREATE_NODE_REPLACE_CONFIG"
+	OperationTypesUpdateNodeReplaceConfig              OperationTypesEnum = "UPDATE_NODE_REPLACE_CONFIG"
+	OperationTypesDeleteNodeReplaceConfig              OperationTypesEnum = "DELETE_NODE_REPLACE_CONFIG"
+	OperationTypesBackupNodes                          OperationTypesEnum = "BACKUP_NODES"
+	OperationTypesDeleteNodeBackup                     OperationTypesEnum = "DELETE_NODE_BACKUP"
+	OperationTypesReplaceNode                          OperationTypesEnum = "REPLACE_NODE"
+	OperationTypesCreateResourcePrincipalConfiguration OperationTypesEnum = "CREATE_RESOURCE_PRINCIPAL_CONFIGURATION"
+	OperationTypesDeleteResourcePrincipalConfiguration OperationTypesEnum = "DELETE_RESOURCE_PRINCIPAL_CONFIGURATION"
+	OperationTypesUpdateResourcePrincipalConfiguration OperationTypesEnum = "UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION"
+	OperationTypesRefreshResourcePrincipal             OperationTypesEnum = "REFRESH_RESOURCE_PRINCIPAL"
+	OperationTypesCreateIdentityConfig                 OperationTypesEnum = "CREATE_IDENTITY_CONFIG"
+	OperationTypesDeleteIdentityConfig                 OperationTypesEnum = "DELETE_IDENTITY_CONFIG"
+	OperationTypesUpdateIdentityConfig                 OperationTypesEnum = "UPDATE_IDENTITY_CONFIG"
+	OperationTypesActivateUpstConfig                   OperationTypesEnum = "ACTIVATE_UPST_CONFIG"
+	OperationTypesDeactivateUpstConfig                 OperationTypesEnum = "DEACTIVATE_UPST_CONFIG"
+	OperationTypesRefreshConfidentialApplication       OperationTypesEnum = "REFRESH_CONFIDENTIAL_APPLICATION"
+	OperationTypesRefreshTokenExchangeKeytab           OperationTypesEnum = "REFRESH_TOKEN_EXCHANGE_KEYTAB"
+	OperationTypesActivateIamUserSyncConfig            OperationTypesEnum = "ACTIVATE_IAM_USER_SYNC_CONFIG"
+	OperationTypesDeactivateIamUserSyncConfig          OperationTypesEnum = "DEACTIVATE_IAM_USER_SYNC_CONFIG"
+	OperationTypesTestIamUserSyncConfig                OperationTypesEnum = "TEST_IAM_USER_SYNC_CONFIG"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
-	"CREATE_BDS":                     OperationTypesCreateBds,
-	"UPDATE_BDS":                     OperationTypesUpdateBds,
-	"DELETE_BDS":                     OperationTypesDeleteBds,
-	"ADD_BLOCK_STORAGE":              OperationTypesAddBlockStorage,
-	"ADD_MASTER_NODES":               OperationTypesAddMasterNodes,
-	"ADD_UTILITY_NODES":              OperationTypesAddUtilityNodes,
-	"ADD_WORKER_NODES":               OperationTypesAddWorkerNodes,
-	"ADD_CLOUD_SQL":                  OperationTypesAddCloudSql,
-	"REMOVE_CLOUD_SQL":               OperationTypesRemoveCloudSql,
-	"CHANGE_COMPARTMENT_FOR_BDS":     OperationTypesChangeCompartmentForBds,
-	"CHANGE_SHAPE":                   OperationTypesChangeShape,
-	"UPDATE_INFRA":                   OperationTypesUpdateInfra,
-	"RESTART_NODE":                   OperationTypesRestartNode,
-	"REMOVE_NODE":                    OperationTypesRemoveNode,
-	"CREATE_AUTOSCALE_CONFIG":        OperationTypesCreateAutoscaleConfig,
-	"UPDATE_AUTOSCALE_CONFIG":        OperationTypesUpdateAutoscaleConfig,
-	"DELETE_AUTOSCALE_CONFIG":        OperationTypesDeleteAutoscaleConfig,
-	"AUTOSCALE_CONFIG":               OperationTypesAutoscaleConfig,
-	"AUTOSCALE_RUN":                  OperationTypesAutoscaleRun,
-	"CREATE_API_KEY":                 OperationTypesCreateApiKey,
-	"DELETE_API_KEY":                 OperationTypesDeleteApiKey,
-	"TEST_OBJECT_STORE_CONNECTION":   OperationTypesTestObjectStoreConnection,
-	"CREATE_METASTORE_CONFIG":        OperationTypesCreateMetastoreConfig,
-	"DELETE_METASTORE_CONFIG":        OperationTypesDeleteMetastoreConfig,
-	"UPDATE_METASTORE_CONFIG":        OperationTypesUpdateMetastoreConfig,
-	"ACTIVATE_METASTORE_CONFIG":      OperationTypesActivateMetastoreConfig,
-	"TEST_METASTORE_CONFIG":          OperationTypesTestMetastoreConfig,
-	"CREATE_LAKE_CONFIG":             OperationTypesCreateLakeConfig,
-	"DELETE_LAKE_CONFIG":             OperationTypesDeleteLakeConfig,
-	"UPDATE_LAKE_CONFIG":             OperationTypesUpdateLakeConfig,
-	"ACTIVATE_LAKE_CONFIG":           OperationTypesActivateLakeConfig,
-	"DEACTIVATE_LAKE_CONFIG":         OperationTypesDeactivateLakeConfig,
-	"TEST_LAKE_CONFIG":               OperationTypesTestLakeConfig,
-	"PATCH_BDS":                      OperationTypesPatchBds,
-	"PATCH_ODH":                      OperationTypesPatchOdh,
-	"PATCH_OS":                       OperationTypesPatchOs,
-	"STOP_BDS":                       OperationTypesStopBds,
-	"START_BDS":                      OperationTypesStartBds,
-	"ADD_KAFKA":                      OperationTypesAddKafka,
-	"REMOVE_KAFKA":                   OperationTypesRemoveKafka,
-	"EXECUTE_BOOTSTRAP_SCRIPT":       OperationTypesExecuteBootstrapScript,
-	"ODH_SERVICE_CERTIFICATE_UPDATE": OperationTypesOdhServiceCertificateUpdate,
-	"CREATE_BACKUP_CONFIG":           OperationTypesCreateBackupConfig,
-	"UPDATE_BACKUP_CONFIG":           OperationTypesUpdateBackupConfig,
-	"DELETE_BACKUP_CONFIG":           OperationTypesDeleteBackupConfig,
-	"CREATE_NODE_REPLACE_CONFIG":     OperationTypesCreateNodeReplaceConfig,
-	"UPDATE_NODE_REPLACE_CONFIG":     OperationTypesUpdateNodeReplaceConfig,
-	"DELETE_NODE_REPLACE_CONFIG":     OperationTypesDeleteNodeReplaceConfig,
-	"BACKUP_NODES":                   OperationTypesBackupNodes,
-	"DELETE_NODE_BACKUP":             OperationTypesDeleteNodeBackup,
-	"REPLACE_NODE":                   OperationTypesReplaceNode,
+	"CREATE_BDS":                              OperationTypesCreateBds,
+	"UPDATE_BDS":                              OperationTypesUpdateBds,
+	"DELETE_BDS":                              OperationTypesDeleteBds,
+	"ADD_BLOCK_STORAGE":                       OperationTypesAddBlockStorage,
+	"ADD_MASTER_NODES":                        OperationTypesAddMasterNodes,
+	"ADD_UTILITY_NODES":                       OperationTypesAddUtilityNodes,
+	"ADD_WORKER_NODES":                        OperationTypesAddWorkerNodes,
+	"ADD_CLOUD_SQL":                           OperationTypesAddCloudSql,
+	"REMOVE_CLOUD_SQL":                        OperationTypesRemoveCloudSql,
+	"CHANGE_COMPARTMENT_FOR_BDS":              OperationTypesChangeCompartmentForBds,
+	"CHANGE_SHAPE":                            OperationTypesChangeShape,
+	"UPDATE_INFRA":                            OperationTypesUpdateInfra,
+	"RESTART_NODE":                            OperationTypesRestartNode,
+	"REMOVE_NODE":                             OperationTypesRemoveNode,
+	"CREATE_AUTOSCALE_CONFIG":                 OperationTypesCreateAutoscaleConfig,
+	"UPDATE_AUTOSCALE_CONFIG":                 OperationTypesUpdateAutoscaleConfig,
+	"DELETE_AUTOSCALE_CONFIG":                 OperationTypesDeleteAutoscaleConfig,
+	"AUTOSCALE_CONFIG":                        OperationTypesAutoscaleConfig,
+	"AUTOSCALE_RUN":                           OperationTypesAutoscaleRun,
+	"CREATE_API_KEY":                          OperationTypesCreateApiKey,
+	"DELETE_API_KEY":                          OperationTypesDeleteApiKey,
+	"TEST_OBJECT_STORE_CONNECTION":            OperationTypesTestObjectStoreConnection,
+	"CREATE_METASTORE_CONFIG":                 OperationTypesCreateMetastoreConfig,
+	"DELETE_METASTORE_CONFIG":                 OperationTypesDeleteMetastoreConfig,
+	"UPDATE_METASTORE_CONFIG":                 OperationTypesUpdateMetastoreConfig,
+	"ACTIVATE_METASTORE_CONFIG":               OperationTypesActivateMetastoreConfig,
+	"TEST_METASTORE_CONFIG":                   OperationTypesTestMetastoreConfig,
+	"CREATE_LAKE_CONFIG":                      OperationTypesCreateLakeConfig,
+	"DELETE_LAKE_CONFIG":                      OperationTypesDeleteLakeConfig,
+	"UPDATE_LAKE_CONFIG":                      OperationTypesUpdateLakeConfig,
+	"ACTIVATE_LAKE_CONFIG":                    OperationTypesActivateLakeConfig,
+	"DEACTIVATE_LAKE_CONFIG":                  OperationTypesDeactivateLakeConfig,
+	"TEST_LAKE_CONFIG":                        OperationTypesTestLakeConfig,
+	"PATCH_BDS":                               OperationTypesPatchBds,
+	"PATCH_ODH":                               OperationTypesPatchOdh,
+	"PATCH_OS":                                OperationTypesPatchOs,
+	"STOP_BDS":                                OperationTypesStopBds,
+	"START_BDS":                               OperationTypesStartBds,
+	"ADD_KAFKA":                               OperationTypesAddKafka,
+	"REMOVE_KAFKA":                            OperationTypesRemoveKafka,
+	"EXECUTE_BOOTSTRAP_SCRIPT":                OperationTypesExecuteBootstrapScript,
+	"ODH_SERVICE_CERTIFICATE_UPDATE":          OperationTypesOdhServiceCertificateUpdate,
+	"CREATE_BACKUP_CONFIG":                    OperationTypesCreateBackupConfig,
+	"UPDATE_BACKUP_CONFIG":                    OperationTypesUpdateBackupConfig,
+	"DELETE_BACKUP_CONFIG":                    OperationTypesDeleteBackupConfig,
+	"CREATE_NODE_REPLACE_CONFIG":              OperationTypesCreateNodeReplaceConfig,
+	"UPDATE_NODE_REPLACE_CONFIG":              OperationTypesUpdateNodeReplaceConfig,
+	"DELETE_NODE_REPLACE_CONFIG":              OperationTypesDeleteNodeReplaceConfig,
+	"BACKUP_NODES":                            OperationTypesBackupNodes,
+	"DELETE_NODE_BACKUP":                      OperationTypesDeleteNodeBackup,
+	"REPLACE_NODE":                            OperationTypesReplaceNode,
+	"CREATE_RESOURCE_PRINCIPAL_CONFIGURATION": OperationTypesCreateResourcePrincipalConfiguration,
+	"DELETE_RESOURCE_PRINCIPAL_CONFIGURATION": OperationTypesDeleteResourcePrincipalConfiguration,
+	"UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION": OperationTypesUpdateResourcePrincipalConfiguration,
+	"REFRESH_RESOURCE_PRINCIPAL":              OperationTypesRefreshResourcePrincipal,
+	"CREATE_IDENTITY_CONFIG":                  OperationTypesCreateIdentityConfig,
+	"DELETE_IDENTITY_CONFIG":                  OperationTypesDeleteIdentityConfig,
+	"UPDATE_IDENTITY_CONFIG":                  OperationTypesUpdateIdentityConfig,
+	"ACTIVATE_UPST_CONFIG":                    OperationTypesActivateUpstConfig,
+	"DEACTIVATE_UPST_CONFIG":                  OperationTypesDeactivateUpstConfig,
+	"REFRESH_CONFIDENTIAL_APPLICATION":        OperationTypesRefreshConfidentialApplication,
+	"REFRESH_TOKEN_EXCHANGE_KEYTAB":           OperationTypesRefreshTokenExchangeKeytab,
+	"ACTIVATE_IAM_USER_SYNC_CONFIG":           OperationTypesActivateIamUserSyncConfig,
+	"DEACTIVATE_IAM_USER_SYNC_CONFIG":         OperationTypesDeactivateIamUserSyncConfig,
+	"TEST_IAM_USER_SYNC_CONFIG":               OperationTypesTestIamUserSyncConfig,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
-	"create_bds":                     OperationTypesCreateBds,
-	"update_bds":                     OperationTypesUpdateBds,
-	"delete_bds":                     OperationTypesDeleteBds,
-	"add_block_storage":              OperationTypesAddBlockStorage,
-	"add_master_nodes":               OperationTypesAddMasterNodes,
-	"add_utility_nodes":              OperationTypesAddUtilityNodes,
-	"add_worker_nodes":               OperationTypesAddWorkerNodes,
-	"add_cloud_sql":                  OperationTypesAddCloudSql,
-	"remove_cloud_sql":               OperationTypesRemoveCloudSql,
-	"change_compartment_for_bds":     OperationTypesChangeCompartmentForBds,
-	"change_shape":                   OperationTypesChangeShape,
-	"update_infra":                   OperationTypesUpdateInfra,
-	"restart_node":                   OperationTypesRestartNode,
-	"remove_node":                    OperationTypesRemoveNode,
-	"create_autoscale_config":        OperationTypesCreateAutoscaleConfig,
-	"update_autoscale_config":        OperationTypesUpdateAutoscaleConfig,
-	"delete_autoscale_config":        OperationTypesDeleteAutoscaleConfig,
-	"autoscale_config":               OperationTypesAutoscaleConfig,
-	"autoscale_run":                  OperationTypesAutoscaleRun,
-	"create_api_key":                 OperationTypesCreateApiKey,
-	"delete_api_key":                 OperationTypesDeleteApiKey,
-	"test_object_store_connection":   OperationTypesTestObjectStoreConnection,
-	"create_metastore_config":        OperationTypesCreateMetastoreConfig,
-	"delete_metastore_config":        OperationTypesDeleteMetastoreConfig,
-	"update_metastore_config":        OperationTypesUpdateMetastoreConfig,
-	"activate_metastore_config":      OperationTypesActivateMetastoreConfig,
-	"test_metastore_config":          OperationTypesTestMetastoreConfig,
-	"create_lake_config":             OperationTypesCreateLakeConfig,
-	"delete_lake_config":             OperationTypesDeleteLakeConfig,
-	"update_lake_config":             OperationTypesUpdateLakeConfig,
-	"activate_lake_config":           OperationTypesActivateLakeConfig,
-	"deactivate_lake_config":         OperationTypesDeactivateLakeConfig,
-	"test_lake_config":               OperationTypesTestLakeConfig,
-	"patch_bds":                      OperationTypesPatchBds,
-	"patch_odh":                      OperationTypesPatchOdh,
-	"patch_os":                       OperationTypesPatchOs,
-	"stop_bds":                       OperationTypesStopBds,
-	"start_bds":                      OperationTypesStartBds,
-	"add_kafka":                      OperationTypesAddKafka,
-	"remove_kafka":                   OperationTypesRemoveKafka,
-	"execute_bootstrap_script":       OperationTypesExecuteBootstrapScript,
-	"odh_service_certificate_update": OperationTypesOdhServiceCertificateUpdate,
-	"create_backup_config":           OperationTypesCreateBackupConfig,
-	"update_backup_config":           OperationTypesUpdateBackupConfig,
-	"delete_backup_config":           OperationTypesDeleteBackupConfig,
-	"create_node_replace_config":     OperationTypesCreateNodeReplaceConfig,
-	"update_node_replace_config":     OperationTypesUpdateNodeReplaceConfig,
-	"delete_node_replace_config":     OperationTypesDeleteNodeReplaceConfig,
-	"backup_nodes":                   OperationTypesBackupNodes,
-	"delete_node_backup":             OperationTypesDeleteNodeBackup,
-	"replace_node":                   OperationTypesReplaceNode,
+	"create_bds":                              OperationTypesCreateBds,
+	"update_bds":                              OperationTypesUpdateBds,
+	"delete_bds":                              OperationTypesDeleteBds,
+	"add_block_storage":                       OperationTypesAddBlockStorage,
+	"add_master_nodes":                        OperationTypesAddMasterNodes,
+	"add_utility_nodes":                       OperationTypesAddUtilityNodes,
+	"add_worker_nodes":                        OperationTypesAddWorkerNodes,
+	"add_cloud_sql":                           OperationTypesAddCloudSql,
+	"remove_cloud_sql":                        OperationTypesRemoveCloudSql,
+	"change_compartment_for_bds":              OperationTypesChangeCompartmentForBds,
+	"change_shape":                            OperationTypesChangeShape,
+	"update_infra":                            OperationTypesUpdateInfra,
+	"restart_node":                            OperationTypesRestartNode,
+	"remove_node":                             OperationTypesRemoveNode,
+	"create_autoscale_config":                 OperationTypesCreateAutoscaleConfig,
+	"update_autoscale_config":                 OperationTypesUpdateAutoscaleConfig,
+	"delete_autoscale_config":                 OperationTypesDeleteAutoscaleConfig,
+	"autoscale_config":                        OperationTypesAutoscaleConfig,
+	"autoscale_run":                           OperationTypesAutoscaleRun,
+	"create_api_key":                          OperationTypesCreateApiKey,
+	"delete_api_key":                          OperationTypesDeleteApiKey,
+	"test_object_store_connection":            OperationTypesTestObjectStoreConnection,
+	"create_metastore_config":                 OperationTypesCreateMetastoreConfig,
+	"delete_metastore_config":                 OperationTypesDeleteMetastoreConfig,
+	"update_metastore_config":                 OperationTypesUpdateMetastoreConfig,
+	"activate_metastore_config":               OperationTypesActivateMetastoreConfig,
+	"test_metastore_config":                   OperationTypesTestMetastoreConfig,
+	"create_lake_config":                      OperationTypesCreateLakeConfig,
+	"delete_lake_config":                      OperationTypesDeleteLakeConfig,
+	"update_lake_config":                      OperationTypesUpdateLakeConfig,
+	"activate_lake_config":                    OperationTypesActivateLakeConfig,
+	"deactivate_lake_config":                  OperationTypesDeactivateLakeConfig,
+	"test_lake_config":                        OperationTypesTestLakeConfig,
+	"patch_bds":                               OperationTypesPatchBds,
+	"patch_odh":                               OperationTypesPatchOdh,
+	"patch_os":                                OperationTypesPatchOs,
+	"stop_bds":                                OperationTypesStopBds,
+	"start_bds":                               OperationTypesStartBds,
+	"add_kafka":                               OperationTypesAddKafka,
+	"remove_kafka":                            OperationTypesRemoveKafka,
+	"execute_bootstrap_script":                OperationTypesExecuteBootstrapScript,
+	"odh_service_certificate_update":          OperationTypesOdhServiceCertificateUpdate,
+	"create_backup_config":                    OperationTypesCreateBackupConfig,
+	"update_backup_config":                    OperationTypesUpdateBackupConfig,
+	"delete_backup_config":                    OperationTypesDeleteBackupConfig,
+	"create_node_replace_config":              OperationTypesCreateNodeReplaceConfig,
+	"update_node_replace_config":              OperationTypesUpdateNodeReplaceConfig,
+	"delete_node_replace_config":              OperationTypesDeleteNodeReplaceConfig,
+	"backup_nodes":                            OperationTypesBackupNodes,
+	"delete_node_backup":                      OperationTypesDeleteNodeBackup,
+	"replace_node":                            OperationTypesReplaceNode,
+	"create_resource_principal_configuration": OperationTypesCreateResourcePrincipalConfiguration,
+	"delete_resource_principal_configuration": OperationTypesDeleteResourcePrincipalConfiguration,
+	"update_resource_principal_configuration": OperationTypesUpdateResourcePrincipalConfiguration,
+	"refresh_resource_principal":              OperationTypesRefreshResourcePrincipal,
+	"create_identity_config":                  OperationTypesCreateIdentityConfig,
+	"delete_identity_config":                  OperationTypesDeleteIdentityConfig,
+	"update_identity_config":                  OperationTypesUpdateIdentityConfig,
+	"activate_upst_config":                    OperationTypesActivateUpstConfig,
+	"deactivate_upst_config":                  OperationTypesDeactivateUpstConfig,
+	"refresh_confidential_application":        OperationTypesRefreshConfidentialApplication,
+	"refresh_token_exchange_keytab":           OperationTypesRefreshTokenExchangeKeytab,
+	"activate_iam_user_sync_config":           OperationTypesActivateIamUserSyncConfig,
+	"deactivate_iam_user_sync_config":         OperationTypesDeactivateIamUserSyncConfig,
+	"test_iam_user_sync_config":               OperationTypesTestIamUserSyncConfig,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -242,6 +284,20 @@ func GetOperationTypesEnumStringValues() []string {
 		"BACKUP_NODES",
 		"DELETE_NODE_BACKUP",
 		"REPLACE_NODE",
+		"CREATE_RESOURCE_PRINCIPAL_CONFIGURATION",
+		"DELETE_RESOURCE_PRINCIPAL_CONFIGURATION",
+		"UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION",
+		"REFRESH_RESOURCE_PRINCIPAL",
+		"CREATE_IDENTITY_CONFIG",
+		"DELETE_IDENTITY_CONFIG",
+		"UPDATE_IDENTITY_CONFIG",
+		"ACTIVATE_UPST_CONFIG",
+		"DEACTIVATE_UPST_CONFIG",
+		"REFRESH_CONFIDENTIAL_APPLICATION",
+		"REFRESH_TOKEN_EXCHANGE_KEYTAB",
+		"ACTIVATE_IAM_USER_SYNC_CONFIG",
+		"DEACTIVATE_IAM_USER_SYNC_CONFIG",
+		"TEST_IAM_USER_SYNC_CONFIG",
 	}
 }
 

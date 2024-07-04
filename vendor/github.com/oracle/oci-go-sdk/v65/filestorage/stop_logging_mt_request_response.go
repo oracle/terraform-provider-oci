@@ -70,6 +70,51 @@ func (request StopLoggingMtRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request StopLoggingMtRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["logId"] != nil {
+		templateParam := mandatoryParamMap["logId"]
+		for _, template := range templateParam {
+			replacementParam := *request.LogId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["tenancyId"] != nil {
+		templateParam := mandatoryParamMap["tenancyId"]
+		for _, template := range templateParam {
+			replacementParam := *request.TenancyId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["resource"] != nil {
+		templateParam := mandatoryParamMap["resource"]
+		for _, template := range templateParam {
+			replacementParam := *request.Resource
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["category"] != nil {
+		templateParam := mandatoryParamMap["category"]
+		for _, template := range templateParam {
+			replacementParam := *request.Category
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request StopLoggingMtRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

@@ -139,6 +139,8 @@ type DbSystem struct {
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	ReadEndpoint *ReadEndpointDetails `mandatory:"false" json:"readEndpoint"`
 }
 
 func (m DbSystem) String() string {
@@ -193,6 +195,7 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 		PointInTimeRecoveryDetails *PointInTimeRecoveryDetails       `json:"pointInTimeRecoveryDetails"`
 		DatabaseManagement         DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections          *SecureConnectionDetails          `json:"secureConnections"`
+		ReadEndpoint               *ReadEndpointDetails              `json:"readEndpoint"`
 		Id                         *string                           `json:"id"`
 		DisplayName                *string                           `json:"displayName"`
 		CompartmentId              *string                           `json:"compartmentId"`
@@ -267,6 +270,8 @@ func (m *DbSystem) UnmarshalJSON(data []byte) (e error) {
 	m.DatabaseManagement = model.DatabaseManagement
 
 	m.SecureConnections = model.SecureConnections
+
+	m.ReadEndpoint = model.ReadEndpoint
 
 	m.Id = model.Id
 

@@ -60,6 +60,21 @@ func (request UpdateSnapshotRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateSnapshotRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["snapshotId"] != nil {
+		templateParam := mandatoryParamMap["snapshotId"]
+		for _, template := range templateParam {
+			replacementParam := *request.SnapshotId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateSnapshotRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

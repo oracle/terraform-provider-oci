@@ -24,7 +24,7 @@ type CreateMaintenanceRunDetails struct {
 	// The date and time that update should be scheduled.
 	TimeScheduled *common.SDKTime `mandatory:"true" json:"timeScheduled"`
 
-	// Patch type, either "QUARTERLY" or "TIMEZONE".
+	// Patch type, either "QUARTERLY", "TIMEZONE" or "CUSTOM_DATABASE_SOFTWARE_IMAGE".
 	PatchType CreateMaintenanceRunDetailsPatchTypeEnum `mandatory:"true" json:"patchType"`
 
 	// Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
@@ -36,6 +36,9 @@ type CreateMaintenanceRunDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment containing the Maintenance Run.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
+
+	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
+	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }
 
 func (m CreateMaintenanceRunDetails) String() string {
@@ -107,18 +110,21 @@ type CreateMaintenanceRunDetailsPatchTypeEnum string
 
 // Set of constants representing the allowable values for CreateMaintenanceRunDetailsPatchTypeEnum
 const (
-	CreateMaintenanceRunDetailsPatchTypeQuarterly CreateMaintenanceRunDetailsPatchTypeEnum = "QUARTERLY"
-	CreateMaintenanceRunDetailsPatchTypeTimezone  CreateMaintenanceRunDetailsPatchTypeEnum = "TIMEZONE"
+	CreateMaintenanceRunDetailsPatchTypeQuarterly                   CreateMaintenanceRunDetailsPatchTypeEnum = "QUARTERLY"
+	CreateMaintenanceRunDetailsPatchTypeTimezone                    CreateMaintenanceRunDetailsPatchTypeEnum = "TIMEZONE"
+	CreateMaintenanceRunDetailsPatchTypeCustomDatabaseSoftwareImage CreateMaintenanceRunDetailsPatchTypeEnum = "CUSTOM_DATABASE_SOFTWARE_IMAGE"
 )
 
 var mappingCreateMaintenanceRunDetailsPatchTypeEnum = map[string]CreateMaintenanceRunDetailsPatchTypeEnum{
-	"QUARTERLY": CreateMaintenanceRunDetailsPatchTypeQuarterly,
-	"TIMEZONE":  CreateMaintenanceRunDetailsPatchTypeTimezone,
+	"QUARTERLY":                      CreateMaintenanceRunDetailsPatchTypeQuarterly,
+	"TIMEZONE":                       CreateMaintenanceRunDetailsPatchTypeTimezone,
+	"CUSTOM_DATABASE_SOFTWARE_IMAGE": CreateMaintenanceRunDetailsPatchTypeCustomDatabaseSoftwareImage,
 }
 
 var mappingCreateMaintenanceRunDetailsPatchTypeEnumLowerCase = map[string]CreateMaintenanceRunDetailsPatchTypeEnum{
-	"quarterly": CreateMaintenanceRunDetailsPatchTypeQuarterly,
-	"timezone":  CreateMaintenanceRunDetailsPatchTypeTimezone,
+	"quarterly":                      CreateMaintenanceRunDetailsPatchTypeQuarterly,
+	"timezone":                       CreateMaintenanceRunDetailsPatchTypeTimezone,
+	"custom_database_software_image": CreateMaintenanceRunDetailsPatchTypeCustomDatabaseSoftwareImage,
 }
 
 // GetCreateMaintenanceRunDetailsPatchTypeEnumValues Enumerates the set of values for CreateMaintenanceRunDetailsPatchTypeEnum
@@ -135,6 +141,7 @@ func GetCreateMaintenanceRunDetailsPatchTypeEnumStringValues() []string {
 	return []string{
 		"QUARTERLY",
 		"TIMEZONE",
+		"CUSTOM_DATABASE_SOFTWARE_IMAGE",
 	}
 }
 

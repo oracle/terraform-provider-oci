@@ -154,6 +154,9 @@ type AutonomousDatabaseSummary struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
+	// Indicates if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
+
 	// The date and time the Autonomous Database was most recently undeleted.
 	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
 
@@ -301,6 +304,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The date and time when maintenance will end.
 	TimeMaintenanceEnd *common.SDKTime `mandatory:"false" json:"timeMaintenanceEnd"`
+
+	// The component chosen for maintenance.
+	MaintenanceTargetComponent *string `mandatory:"false" json:"maintenanceTargetComponent"`
 
 	// Indicates if the Autonomous Database is a refreshable clone.
 	// This cannot be updated in parallel with any of the following: cpuCoreCount, computeCount, computeModel, adminPassword, whitelistedIps, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, dbName, scheduledOperations, dbToolsDetails, isLocalDataGuardEnabled, or isFreeTier.
@@ -474,6 +480,9 @@ type AutonomousDatabaseSummary struct {
 
 	// The availability domain where the Autonomous Database Serverless instance is located.
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {
@@ -591,6 +600,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		InfrastructureType                      AutonomousDatabaseSummaryInfrastructureTypeEnum                `json:"infrastructureType"`
 		IsDedicated                             *bool                                                          `json:"isDedicated"`
 		AutonomousContainerDatabaseId           *string                                                        `json:"autonomousContainerDatabaseId"`
+		IsBackupRetentionLocked                 *bool                                                          `json:"isBackupRetentionLocked"`
 		TimeUndeleted                           *common.SDKTime                                                `json:"timeUndeleted"`
 		TimeCreated                             *common.SDKTime                                                `json:"timeCreated"`
 		DisplayName                             *string                                                        `json:"displayName"`
@@ -624,6 +634,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		DatabaseManagementStatus                AutonomousDatabaseSummaryDatabaseManagementStatusEnum          `json:"databaseManagementStatus"`
 		TimeMaintenanceBegin                    *common.SDKTime                                                `json:"timeMaintenanceBegin"`
 		TimeMaintenanceEnd                      *common.SDKTime                                                `json:"timeMaintenanceEnd"`
+		MaintenanceTargetComponent              *string                                                        `json:"maintenanceTargetComponent"`
 		IsRefreshableClone                      *bool                                                          `json:"isRefreshableClone"`
 		TimeOfLastRefresh                       *common.SDKTime                                                `json:"timeOfLastRefresh"`
 		TimeOfLastRefreshPoint                  *common.SDKTime                                                `json:"timeOfLastRefreshPoint"`
@@ -677,6 +688,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		AccessTypes                             []string                                                       `json:"accessTypes"`
 		NetServicesArchitecture                 AutonomousDatabaseSummaryNetServicesArchitectureEnum           `json:"netServicesArchitecture"`
 		AvailabilityDomain                      *string                                                        `json:"availabilityDomain"`
+		ClusterPlacementGroupId                 *string                                                        `json:"clusterPlacementGroupId"`
 		Id                                      *string                                                        `json:"id"`
 		CompartmentId                           *string                                                        `json:"compartmentId"`
 		LifecycleState                          AutonomousDatabaseSummaryLifecycleStateEnum                    `json:"lifecycleState"`
@@ -768,6 +780,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
 
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
+
 	m.TimeUndeleted = model.TimeUndeleted
 
 	m.TimeCreated = model.TimeCreated
@@ -833,6 +847,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeMaintenanceBegin = model.TimeMaintenanceBegin
 
 	m.TimeMaintenanceEnd = model.TimeMaintenanceEnd
+
+	m.MaintenanceTargetComponent = model.MaintenanceTargetComponent
 
 	m.IsRefreshableClone = model.IsRefreshableClone
 
@@ -939,6 +955,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.NetServicesArchitecture = model.NetServicesArchitecture
 
 	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.ClusterPlacementGroupId = model.ClusterPlacementGroupId
 
 	m.Id = model.Id
 

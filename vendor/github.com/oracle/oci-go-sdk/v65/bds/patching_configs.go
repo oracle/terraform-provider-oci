@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// PatchingConfigs Detailed configurations for defining the behavior when installing os patches. If not provided, nodes will be patched and rebooted AD/FD by AD/FD.
+// PatchingConfigs Detailed configurations for defining the behavior when installing os patches. If not provided, nodes will be patched and rebooted AD/FD by AD/FD for regular patches or will be patched with down time if the patch is an emergent patch.
 type PatchingConfigs interface {
 }
 

@@ -23,7 +23,7 @@ type WorkRequestResource struct {
 	EntityType *string `mandatory:"true" json:"entityType"`
 
 	// The way how the work is tracked in the work request affects this resource. A resource that is created, updated, or deleted remains in the IN PROGRESS state until the work is complete for that resource. Thereafter it transitions to CREATED, UPDATED, or DELETED state.
-	ActionType ActionTypeEnum `mandatory:"true" json:"actionType"`
+	ActionType WorkRequestResourceActionTypeEnum `mandatory:"true" json:"actionType"`
 
 	// The identifier of the resource the work request affects.
 	Identifier *string `mandatory:"true" json:"identifier"`
@@ -41,12 +41,66 @@ func (m WorkRequestResource) String() string {
 // Not recommended for calling this function directly
 func (m WorkRequestResource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingActionTypeEnum(string(m.ActionType)); !ok && m.ActionType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionType: %s. Supported values are: %s.", m.ActionType, strings.Join(GetActionTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingWorkRequestResourceActionTypeEnum(string(m.ActionType)); !ok && m.ActionType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionType: %s. Supported values are: %s.", m.ActionType, strings.Join(GetWorkRequestResourceActionTypeEnumStringValues(), ",")))
 	}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// WorkRequestResourceActionTypeEnum Enum with underlying type: string
+type WorkRequestResourceActionTypeEnum string
+
+// Set of constants representing the allowable values for WorkRequestResourceActionTypeEnum
+const (
+	WorkRequestResourceActionTypeCreated    WorkRequestResourceActionTypeEnum = "CREATED"
+	WorkRequestResourceActionTypeUpdated    WorkRequestResourceActionTypeEnum = "UPDATED"
+	WorkRequestResourceActionTypeDeleted    WorkRequestResourceActionTypeEnum = "DELETED"
+	WorkRequestResourceActionTypeInProgress WorkRequestResourceActionTypeEnum = "IN_PROGRESS"
+	WorkRequestResourceActionTypeFailed     WorkRequestResourceActionTypeEnum = "FAILED"
+)
+
+var mappingWorkRequestResourceActionTypeEnum = map[string]WorkRequestResourceActionTypeEnum{
+	"CREATED":     WorkRequestResourceActionTypeCreated,
+	"UPDATED":     WorkRequestResourceActionTypeUpdated,
+	"DELETED":     WorkRequestResourceActionTypeDeleted,
+	"IN_PROGRESS": WorkRequestResourceActionTypeInProgress,
+	"FAILED":      WorkRequestResourceActionTypeFailed,
+}
+
+var mappingWorkRequestResourceActionTypeEnumLowerCase = map[string]WorkRequestResourceActionTypeEnum{
+	"created":     WorkRequestResourceActionTypeCreated,
+	"updated":     WorkRequestResourceActionTypeUpdated,
+	"deleted":     WorkRequestResourceActionTypeDeleted,
+	"in_progress": WorkRequestResourceActionTypeInProgress,
+	"failed":      WorkRequestResourceActionTypeFailed,
+}
+
+// GetWorkRequestResourceActionTypeEnumValues Enumerates the set of values for WorkRequestResourceActionTypeEnum
+func GetWorkRequestResourceActionTypeEnumValues() []WorkRequestResourceActionTypeEnum {
+	values := make([]WorkRequestResourceActionTypeEnum, 0)
+	for _, v := range mappingWorkRequestResourceActionTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetWorkRequestResourceActionTypeEnumStringValues Enumerates the set of values in String for WorkRequestResourceActionTypeEnum
+func GetWorkRequestResourceActionTypeEnumStringValues() []string {
+	return []string{
+		"CREATED",
+		"UPDATED",
+		"DELETED",
+		"IN_PROGRESS",
+		"FAILED",
+	}
+}
+
+// GetMappingWorkRequestResourceActionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingWorkRequestResourceActionTypeEnum(val string) (WorkRequestResourceActionTypeEnum, bool) {
+	enum, ok := mappingWorkRequestResourceActionTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
