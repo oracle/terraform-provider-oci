@@ -327,13 +327,13 @@ func (s *PsqlConfigurationResourceCrud) Create() error {
 		request.Shape = &tmp
 	}
 
-	if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
-		convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.SystemTags = convertedSystemTags
-	}
+	//if systemTags, ok := s.D.GetOkExists("system_tags"); ok {
+	//	convertedSystemTags, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+	//	if err != nil {
+	//		return err
+	//	}
+	//	request.SystemTags = convertedSystemTags
+	//}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
 
