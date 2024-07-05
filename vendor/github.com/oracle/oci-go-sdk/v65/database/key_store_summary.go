@@ -127,18 +127,21 @@ type KeyStoreSummaryLifecycleStateEnum string
 
 // Set of constants representing the allowable values for KeyStoreSummaryLifecycleStateEnum
 const (
-	KeyStoreSummaryLifecycleStateActive  KeyStoreSummaryLifecycleStateEnum = "ACTIVE"
-	KeyStoreSummaryLifecycleStateDeleted KeyStoreSummaryLifecycleStateEnum = "DELETED"
+	KeyStoreSummaryLifecycleStateActive         KeyStoreSummaryLifecycleStateEnum = "ACTIVE"
+	KeyStoreSummaryLifecycleStateDeleted        KeyStoreSummaryLifecycleStateEnum = "DELETED"
+	KeyStoreSummaryLifecycleStateNeedsAttention KeyStoreSummaryLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingKeyStoreSummaryLifecycleStateEnum = map[string]KeyStoreSummaryLifecycleStateEnum{
-	"ACTIVE":  KeyStoreSummaryLifecycleStateActive,
-	"DELETED": KeyStoreSummaryLifecycleStateDeleted,
+	"ACTIVE":          KeyStoreSummaryLifecycleStateActive,
+	"DELETED":         KeyStoreSummaryLifecycleStateDeleted,
+	"NEEDS_ATTENTION": KeyStoreSummaryLifecycleStateNeedsAttention,
 }
 
 var mappingKeyStoreSummaryLifecycleStateEnumLowerCase = map[string]KeyStoreSummaryLifecycleStateEnum{
-	"active":  KeyStoreSummaryLifecycleStateActive,
-	"deleted": KeyStoreSummaryLifecycleStateDeleted,
+	"active":          KeyStoreSummaryLifecycleStateActive,
+	"deleted":         KeyStoreSummaryLifecycleStateDeleted,
+	"needs_attention": KeyStoreSummaryLifecycleStateNeedsAttention,
 }
 
 // GetKeyStoreSummaryLifecycleStateEnumValues Enumerates the set of values for KeyStoreSummaryLifecycleStateEnum
@@ -155,6 +158,7 @@ func GetKeyStoreSummaryLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
 		"DELETED",
+		"NEEDS_ATTENTION",
 	}
 }
 
