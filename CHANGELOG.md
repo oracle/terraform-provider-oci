@@ -1,3 +1,11 @@
+## 6.2.0 (Unreleased)
+
+### Added
+- Support for Support Dynamic list of ZDM parameters for Oracle<>Oracle migrations
+- Support for Shared Resources feature
+### Bug Fix
+- Update current_version_number on secret_content update
+
 ## 6.1.0 (July 02, 2024)
 
 ### Added
