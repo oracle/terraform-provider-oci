@@ -24,6 +24,12 @@ var (
 		"shape":                          acctest.Representation{RepType: acctest.Optional, Create: `ExaDbXS`},
 		"shape_family":                   acctest.Representation{RepType: acctest.Optional, Create: `EXADB_XS`},
 	}
+	DatabaseEXACCGiVersionMinorVersionDataSourceRepresentation = map[string]interface{}{
+		"version":                        acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
+		"compartment_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_gi_version_for_provisioning": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"shape":                          acctest.Representation{RepType: acctest.Required, Create: `ExadataCC.Quarter3.100`},
+	}
 
 	DatabaseGiVersionMinorVersionResourceConfig = AvailabilityDomainConfig
 )
@@ -43,7 +49,7 @@ func TestDatabaseGiVersionMinorVersionResource_basic(t *testing.T) {
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// verify datasource
+		//verify datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_gi_version_minor_versions", "test_gi_version_minor_versions", acctest.Optional, acctest.Create, DatabaseGiVersionMinorVersionDataSourceRepresentation) +
@@ -58,6 +64,20 @@ func TestDatabaseGiVersionMinorVersionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(datasourceName, "gi_minor_versions.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gi_minor_versions.0.grid_image_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "gi_minor_versions.0.version"),
+			),
+		},
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_gi_version_minor_versions", "test_gi_version_minor_versions", acctest.Required, acctest.Create, DatabaseEXACCGiVersionMinorVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + "",
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "is_gi_version_for_provisioning", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "shape", "ExadataCC.Quarter3.100"),
+				resource.TestCheckResourceAttr(datasourceName, "version", "19.0.0.0"),
+
+				resource.TestCheckResourceAttrSet(datasourceName, "gi_minor_versions.#"),
 				resource.TestCheckResourceAttrSet(datasourceName, "gi_minor_versions.0.version"),
 			),
 		},
