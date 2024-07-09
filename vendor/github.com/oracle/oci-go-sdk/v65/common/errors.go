@@ -304,3 +304,45 @@ type StatErrCode struct {
 	statusCode int
 	errorCode  string
 }
+
+// ResumableDownloadError error is raised when in a multipart download some parts failed.
+type ResumableDownloadError struct {
+	Namespace_name string
+	Bucket_name    string
+	Object_name    string
+	Failed_parts   map[[2]int64]error
+}
+
+func format_Map_to_string(m map[[2]int64]error) string {
+	var result string
+	for key, value := range m {
+		result += fmt.Sprintf("Part: [%d, %d], Error: %s\n", key[0], key[1], value.Error())
+	}
+	return result
+}
+
+func (err *ResumableDownloadError) Error() string {
+	return format_Map_to_string(err.Failed_parts)
+}
+
+// DownloadFailedIncorrectDownloadSizeError is raised when the final integrity check (comparing the actual bytes downloaded
+// with the object size in bytes) fails.
+type DownloadFailedIncorrectDownloadSizeError struct {
+	Actual_bytes_downloaded int64
+	Object_size             int64
+}
+
+func (err *DownloadFailedIncorrectDownloadSizeError) Error() string {
+	return fmt.Sprintf("The downloaded file didn't match the object size in bytes: expected %d, got %d.", err.Object_size,
+		err.Actual_bytes_downloaded)
+}
+
+// DownloadTerminatedError is raised by GetObject_to_path and GetObject_to_stream when a
+// download is terminated in between. This is generally raised when the download manager's state is changed to -1,
+// indicating that the download is to be terminated.
+type DownloadTerminatedError struct {
+}
+
+func (err *DownloadTerminatedError) Error() string {
+	return "The download was interupted and terminated."
+}
