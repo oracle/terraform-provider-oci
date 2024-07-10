@@ -169,6 +169,14 @@ func MeteringComputationUsageResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"attributed_cost": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"attributed_usage": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -520,6 +528,14 @@ func UsageSummaryToMap(obj oci_metering_computation.UsageSummary) map[string]int
 
 	if obj.Ad != nil {
 		result["ad"] = string(*obj.Ad)
+	}
+
+	if obj.AttributedCost != nil {
+		result["attributed_cost"] = string(*obj.AttributedCost)
+	}
+
+	if obj.AttributedUsage != nil {
+		result["attributed_usage"] = string(*obj.AttributedUsage)
 	}
 
 	if obj.CompartmentId != nil {

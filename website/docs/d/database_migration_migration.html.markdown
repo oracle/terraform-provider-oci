@@ -12,7 +12,7 @@ This data source provides details about a specific Migration resource in Oracle 
 
 Display Migration details.
 
-Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
+Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.47.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
 
 ## Example Usage
 
@@ -34,6 +34,10 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `advanced_parameters` - List of Migration Parameter objects.
+	* `data_type` - Parameter data type.
+	* `name` - Parameter name.
+	* `value` - If a STRING data type then the value should be an array of characters,  if a INTEGER data type then the value should be an integer value,  if a FLOAT data type then the value should be an float value, if a BOOLEAN data type then the value should be TRUE or FALSE.
 * `advisor_settings` - Details about Oracle Advisor Settings.
   * `is_ignore_errors` - True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
   * `is_skip_advisor` - True to skip the Pre-Migration Advisor execution. Default is false.

@@ -2217,6 +2217,69 @@ func (client DatabaseClient) configureSaasAdminUser(ctx context.Context, request
 	return response, err
 }
 
+// ConfirmKeyStoreDetailsAreCorrect This is for user to confirm to DBaaS that the Oracle Key Valut (OKV) connection IPs, username and password are all correct. This operation will put
+// the Key Store back into Active state. If details are incorrect, your OKV account may get locked after some unsuccessful attempts to connect.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ConfirmKeyStoreDetailsAreCorrect.go.html to see an example of how to use ConfirmKeyStoreDetailsAreCorrect API.
+func (client DatabaseClient) ConfirmKeyStoreDetailsAreCorrect(ctx context.Context, request ConfirmKeyStoreDetailsAreCorrectRequest) (response ConfirmKeyStoreDetailsAreCorrectResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.confirmKeyStoreDetailsAreCorrect, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfirmKeyStoreDetailsAreCorrectResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfirmKeyStoreDetailsAreCorrectResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfirmKeyStoreDetailsAreCorrectResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfirmKeyStoreDetailsAreCorrectResponse")
+	}
+	return
+}
+
+// confirmKeyStoreDetailsAreCorrect implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) confirmKeyStoreDetailsAreCorrect(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/keyStores/{keyStoreId}/actions/confirmDetailsAreCorrect", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfirmKeyStoreDetailsAreCorrectResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/ConfirmKeyStoreDetailsAreCorrect"
+		err = common.PostProcessServiceError(err, "Database", "ConfirmKeyStoreDetailsAreCorrect", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConvertToPdb Converts a non-container database to a pluggable database.
 //
 // # See also

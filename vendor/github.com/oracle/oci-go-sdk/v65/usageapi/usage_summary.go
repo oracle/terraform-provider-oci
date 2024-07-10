@@ -84,6 +84,12 @@ type UsageSummary struct {
 	// The usage number.
 	ComputedQuantity *float32 `mandatory:"false" json:"computedQuantity"`
 
+	// The attributed cost with a max value of 9999999999.999999999999 and a minimum value of 0.
+	AttributedCost *string `mandatory:"false" json:"attributedCost"`
+
+	// The attributed usage with a max value of 9999999999.999999999999 and a minimum value of 0.
+	AttributedUsage *string `mandatory:"false" json:"attributedUsage"`
+
 	// The SPM OverageFlag.
 	OveragesFlag *string `mandatory:"false" json:"overagesFlag"`
 

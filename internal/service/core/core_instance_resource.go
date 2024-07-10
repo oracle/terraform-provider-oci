@@ -2250,7 +2250,9 @@ func (s *CoreInstanceResourceCrud) mapToUpdateInstanceSourceDetails(fieldKeyForm
 			}
 			details.BootVolumeSizeInGBs = &tmpInt64
 		}
-		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+		// Use getOk for kmsKeyId as it is validated at the spec layer to ensure non-zero value; GetOk checks
+		// for non-zero value: https://pkg.go.dev/github.com/hashicorp/terraform/helper/schema#section-readme
+		if kmsKeyId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 			tmp := kmsKeyId.(string)
 			details.KmsKeyId = &tmp
 		}
