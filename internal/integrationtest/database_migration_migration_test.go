@@ -1,5 +1,5 @@
-// // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
-// // Licensed under the Mozilla Public License v2.0
+// // // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// // // Licensed under the Mozilla Public License v2.0
 package integrationtest
 
 import (
@@ -40,6 +40,23 @@ var (
 	}
 
 	DatabaseMigrationMigrationRepresentation = map[string]interface{}{
+		"compartment_id":                          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"database_combination":                    acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"source_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_oracle_id}`},
+		"target_database_connection_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.target_connection_oracle_id}`},
+		"type":                                    acctest.Representation{RepType: acctest.Required, Create: `ONLINE`, Update: `OFFLINE`},
+		"advanced_parameters":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvancedParametersRepresentation},
+		"advisor_settings":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationAdvisorSettingsRepresentation},
+		"bulk_include_exclude_data":               acctest.Representation{RepType: acctest.Optional, Create: `bulkIncludeExcludeData`},
+		"data_transfer_medium_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDataTransferMediumDetailsRepresentation},
+		"description":                             acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"include_objects":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationIncludeObjectsRepresentation},
+		"initial_load_settings":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation},
+		"source_container_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_container_oracle_id}`},
+	}
+
+	DatabaseMigrationMigrationRepresentationMySQL = map[string]interface{}{
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"database_combination":          acctest.Representation{RepType: acctest.Required, Create: `MYSQL`},
 		"source_database_connection_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_connection_mysql_id}`},
@@ -54,7 +71,11 @@ var (
 		"include_objects":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationIncludeObjectsRepresentation},
 		"initial_load_settings":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsRepresentation},
 	}
-
+	DatabaseMigrationMigrationAdvancedParametersRepresentation = map[string]interface{}{
+		"data_type": acctest.Representation{RepType: acctest.Required, Create: `STRING`, Update: `INTEGER`},
+		"name":      acctest.Representation{RepType: acctest.Required, Create: `DATAPUMPSETTINGS_METADATAONLY`, Update: `DATAPUMPSETTINGS_DUMPFILESIZE`},
+		"value":     acctest.Representation{RepType: acctest.Required, Create: `True`, Update: `5000`},
+	}
 	DatabaseMigrationMigrationAdvisorSettingsRepresentation = map[string]interface{}{
 		"is_ignore_errors": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_skip_advisor":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -64,11 +85,11 @@ var (
 		"object_storage_bucket": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationDataTransferMediumDetailsObjectStorageBucketRepresentation},
 	}
 	DatabaseMigrationMigrationExcludeObjectsRepresentation = map[string]interface{}{
-		"object": acctest.Representation{RepType: acctest.Required, Create: `object`},
+		"object": acctest.Representation{RepType: acctest.Required, Create: `.*`},
 		"is_omit_excluded_table_from_replication": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"owner":  acctest.Representation{RepType: acctest.Optional, Create: `owner`},
 		"schema": acctest.Representation{RepType: acctest.Optional, Create: `schema`},
-		"type":   acctest.Representation{RepType: acctest.Optional, Create: `type`},
+		"type":   acctest.Representation{RepType: acctest.Optional, Create: `ALL`},
 	}
 	DatabaseMigrationMigrationGgsDetailsRepresentation = map[string]interface{}{
 		"acceptable_lag": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
@@ -84,11 +105,11 @@ var (
 		"replicat":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationHubDetailsReplicatRepresentation},
 	}
 	DatabaseMigrationMigrationIncludeObjectsRepresentation = map[string]interface{}{
-		"object": acctest.Representation{RepType: acctest.Required, Create: `object`},
+		"object": acctest.Representation{RepType: acctest.Required, Create: `.*`},
 		"is_omit_excluded_table_from_replication": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"owner":  acctest.Representation{RepType: acctest.Optional, Create: `owner`},
 		"schema": acctest.Representation{RepType: acctest.Optional, Create: `schema`},
-		"type":   acctest.Representation{RepType: acctest.Optional, Create: `type`},
+		"type":   acctest.Representation{RepType: acctest.Optional, Create: `ALL`},
 	}
 	DatabaseMigrationMigrationInitialLoadSettingsRepresentation = map[string]interface{}{
 		"job_mode":                   acctest.Representation{RepType: acctest.Required, Create: `FULL`, Update: `SCHEMA`},
@@ -96,6 +117,11 @@ var (
 		"is_consistent":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_ignore_existing_objects": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_tz_utc":                  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	DatabaseMigrationMigrationInitialLoadSettingsOracleRepresentation = map[string]interface{}{
+		"job_mode":                acctest.Representation{RepType: acctest.Required, Create: `SCHEMA`, Update: `SCHEMA`},
+		"data_pump_parameters":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsDataPumpParametersRepresentation},
+		"export_directory_object": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationMigrationInitialLoadSettingsExportDirectoryObjectRepresentation},
 	}
 	DatabaseMigrationMigrationDataTransferMediumDetailsObjectStorageBucketRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Optional, Create: `${var.bucket_mysql_id}`, Update: `${var.bucket_mysql_id}`},
@@ -131,7 +157,6 @@ var (
 	}
 	DatabaseMigrationMigrationInitialLoadSettingsDataPumpParametersRepresentation = map[string]interface{}{
 		"estimate":                  acctest.Representation{RepType: acctest.Optional, Create: `BLOCKS`, Update: `STATISTICS`},
-		"exclude_parameters":        acctest.Representation{RepType: acctest.Optional, Create: []string{`excludeParameters`}, Update: []string{`excludeParameters2`}},
 		"export_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"import_parallelism_degree": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 		"is_cluster":                acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -139,7 +164,7 @@ var (
 	}
 	DatabaseMigrationMigrationInitialLoadSettingsExportDirectoryObjectRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
-		"path": acctest.Representation{RepType: acctest.Optional, Create: `path`, Update: `path2`},
+		"path": acctest.Representation{RepType: acctest.Optional, Create: `/u01/app/oracle/dumpdir`, Update: `/u01/app/oracle/dumpdir2`},
 	}
 	DatabaseMigrationMigrationInitialLoadSettingsImportDirectoryObjectRepresentation = map[string]interface{}{
 		"name": acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
@@ -185,6 +210,15 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 	targetConnectionId := utils.GetEnvSettingWithBlankDefault("target_connection_mysql_id")
 	targetConnectionIdVariableStr := fmt.Sprintf("variable \"target_connection_mysql_id\" { default = \"%s\" }\n", targetConnectionId)
 
+	sourceConnectionOracleId := utils.GetEnvSettingWithBlankDefault("source_connection_oracle_id")
+	sourceConnectionOracleIdVariableStr := fmt.Sprintf("variable \"source_connection_oracle_id\" { default = \"%s\" }\n", sourceConnectionOracleId)
+
+	sourceConnectionContainerOracleId := utils.GetEnvSettingWithBlankDefault("source_connection_container_oracle_id")
+	sourceConnectionContainerOracleIdVariableStr := fmt.Sprintf("variable \"source_connection_container_oracle_id\" { default = \"%s\" }\n", sourceConnectionContainerOracleId)
+
+	targetConnectionOracleId := utils.GetEnvSettingWithBlankDefault("target_connection_oracle_id")
+	targetConnectionOracleIdVariableStr := fmt.Sprintf("variable \"target_connection_oracle_id\" { default = \"%s\" }\n", targetConnectionOracleId)
+
 	bucketId := utils.GetEnvSettingWithBlankDefault("bucket_mysql_id")
 	bucketIdVariableStr := fmt.Sprintf("variable \"bucket_mysql_id\" { default = \"%s\" }\n", bucketId)
 
@@ -194,17 +228,17 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+kmsVaultIdVariableStr+sourceConnectionIdVariableStr+targetConnectionIdVariableStr+bucketIdVariableStr+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+kmsVaultIdVariableStr+sourceConnectionIdVariableStr+targetConnectionIdVariableStr+bucketIdVariableStr+sourceConnectionOracleIdVariableStr+sourceConnectionContainerOracleIdVariableStr+targetConnectionOracleIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation), "databasemigration", "migration", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationMigrationDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "database_combination", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "ONLINE"),
@@ -221,9 +255,13 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.data_type", "STRING"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.name", "DATAPUMPSETTINGS_METADATAONLY"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.value", "True"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_ignore_errors", "false"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_skip_advisor", "false"),
@@ -233,25 +271,21 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "database_combination", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "exclude_objects", map[string]string{
-					"is_omit_excluded_table_from_replication": "false",
-					"object": "object",
-					"owner":  "owner",
-					"schema": "schema",
-					"type":   "type",
-				},
-					[]string{}),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.is_omit_excluded_table_from_replication", "false"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", ".*"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.owner", "owner"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.schema", "schema"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "type"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -268,12 +302,16 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationMigrationRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.data_type", "STRING"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.name", "DATAPUMPSETTINGS_METADATAONLY"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.value", "True"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_ignore_errors", "false"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_skip_advisor", "false"),
@@ -283,31 +321,22 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "database_combination", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "exclude_objects", map[string]string{
-					"is_omit_excluded_table_from_replication": "false",
-					"object": "object",
-					"owner":  "owner",
-					"schema": "schema",
-					"type":   "type",
-				},
-					[]string{}),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.is_omit_excluded_table_from_replication", "false"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", ".*"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.owner", "owner"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.schema", "schema"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "type"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.handle_grant_errors", "ABORT"),
+
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_database_connection_id"),
@@ -326,9 +355,13 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr +
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.data_type", "INTEGER"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.name", "DATAPUMPSETTINGS_DUMPFILESIZE"),
+				resource.TestCheckResourceAttr(resourceName, "advanced_parameters.0.value", "5000"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_ignore_errors", "true"),
 				resource.TestCheckResourceAttr(resourceName, "advisor_settings.0.is_skip_advisor", "true"),
@@ -338,31 +371,21 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace2"),
 				resource.TestCheckResourceAttr(resourceName, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(resourceName, "database_combination", "MYSQL"),
+				resource.TestCheckResourceAttr(resourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "exclude_objects.#", "1"),
-				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "exclude_objects", map[string]string{
-					"is_omit_excluded_table_from_replication": "false",
-					"object": "object",
-					"owner":  "owner",
-					"schema": "schema",
-					"type":   "type",
-				},
-					[]string{}),
 
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.is_omit_excluded_table_from_replication", "false"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", "object"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.object", ".*"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.owner", "owner"),
 				resource.TestCheckResourceAttr(resourceName, "include_objects.0.schema", "schema"),
-				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "type"),
+				resource.TestCheckResourceAttr(resourceName, "include_objects.0.type", "ALL"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.handle_grant_errors", "DROP_ACCOUNT"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "true"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "true"),
-				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "true"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_consistent", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
+				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.is_tz_utc", "false"),
 				resource.TestCheckResourceAttr(resourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_database_connection_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -383,7 +406,7 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migrations", "test_migrations", acctest.Optional, acctest.Update, DatabaseMigrationMigrationDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr +
+				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Optional, acctest.Update, DatabaseMigrationMigrationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -394,10 +417,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_migration", "test_migration", acctest.Required, acctest.Create, DatabaseMigrationMigrationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + kmsVaultIdVariableStr + DatabaseMigrationMigrationResourceConfig,
+				compartmentIdVariableStr + kmsKeyIdVariableStr + sourceConnectionIdVariableStr + targetConnectionIdVariableStr + bucketIdVariableStr + kmsVaultIdVariableStr + sourceConnectionOracleIdVariableStr + sourceConnectionContainerOracleIdVariableStr + targetConnectionOracleIdVariableStr + DatabaseMigrationMigrationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "migration_id"),
 
+				resource.TestCheckResourceAttr(singularDatasourceName, "advanced_parameters.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "advanced_parameters.0.data_type", "INTEGER"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "advanced_parameters.0.name", "DATAPUMPSETTINGS_DUMPFILESIZE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "advanced_parameters.0.value", "5000"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "advisor_settings.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "advisor_settings.0.is_ignore_errors", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "advisor_settings.0.is_skip_advisor", "true"),
@@ -406,15 +433,14 @@ func TestDatabaseMigrationMigrationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_bucket.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.object_storage_bucket.0.namespace", "namespace2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_transfer_medium_details.0.type", "OBJECT_STORAGE"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "database_combination", "MYSQL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "database_combination", "ORACLE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.handle_grant_errors", "DROP_ACCOUNT"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_consistent", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_ignore_existing_objects", "true"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_tz_utc", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_consistent", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_ignore_existing_objects", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.is_tz_utc", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "initial_load_settings.0.job_mode", "SCHEMA"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

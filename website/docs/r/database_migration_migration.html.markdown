@@ -14,7 +14,7 @@ Create a Migration resource that contains all the details to perform the
 database migration operation, such as source and destination database
 details, credentials, etc.
 
-Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.46.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
+Note: If you wish to use the DMS deprecated API version /20210929 it is necessary to pin the Terraform Provider version to v5.47.0. Newer Terraform provider versions will not support the DMS deprecated API version /20210929
 
 
 ## Example Usage
@@ -29,6 +29,13 @@ resource "oci_database_migration_migration" "test_migration" {
 	type = var.migration_type
 
 	#Optional
+	advanced_parameters {
+
+		#Optional
+		data_type = var.migration_advanced_parameters_data_type
+		name = var.migration_advanced_parameters_name
+		value = var.migration_advanced_parameters_value
+	}
 	advisor_settings {
 
 		#Optional
@@ -195,6 +202,10 @@ resource "oci_database_migration_migration" "test_migration" {
 
 The following arguments are supported:
 
+* `advanced_parameters` - (Applicable when database_combination=ORACLE) (Updatable) List of Migration Parameter objects.
+	* `data_type` - (Required when database_combination=ORACLE) (Updatable) Parameter data type.
+	* `name` - (Required when database_combination=ORACLE) (Updatable) Parameter name.
+	* `value` - (Required when database_combination=ORACLE) (Updatable) If a STRING data type then the value should be an array of characters,  if a INTEGER data type then the value should be an integer value,  if a FLOAT data type then the value should be an float value, if a BOOLEAN data type then the value should be TRUE or FALSE. 
 * `advisor_settings` - (Optional) (Updatable) Optional Pre-Migration advisor settings.
   * `is_ignore_errors` - (Optional) (Updatable) True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
   * `is_skip_advisor` - (Optional) (Updatable) True to skip the Pre-Migration Advisor execution. Default is false.
@@ -301,6 +312,10 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `advanced_parameters` - List of Migration Parameter objects.
+	* `data_type` - Parameter data type.
+	* `name` - Parameter name.
+	* `value` - If a STRING data type then the value should be an array of characters,  if a INTEGER data type then the value should be an integer value,  if a FLOAT data type then the value should be an float value, if a BOOLEAN data type then the value should be TRUE or FALSE. 
 * `advisor_settings` - Details about Oracle Advisor Settings.
   * `is_ignore_errors` - True to not interrupt migration execution due to Pre-Migration Advisor errors. Default is false.
   * `is_skip_advisor` - True to skip the Pre-Migration Advisor execution. Default is false.
