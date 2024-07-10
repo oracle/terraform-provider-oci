@@ -20,7 +20,8 @@ import (
 // and how many profiles have password verification function.
 type ProfileAggregation struct {
 
-	// The array of profile aggregation data.
+	// List containing maps as values.
+	// Example: `{"Operations": [ {"CostCenter": "42"} ] }`
 	Items []map[string]interface{} `mandatory:"true" json:"items"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)

@@ -15,19 +15,13 @@ import (
 	"strings"
 )
 
-// CreateAuditPolicyDetails Details for the new audit policy.
-type CreateAuditPolicyDetails struct {
+// UpdateSensitiveTypesExportDetails Details to update a sensitive types export.
+type UpdateSensitiveTypesExportDetails struct {
 
-	// The OCID of the compartment where you want to create the audit policy.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// The OCID of the target for which the audit policy has to be created.
-	TargetId *string `mandatory:"true" json:"targetId"`
-
-	// The display name of the audit policy. The name does not have to be unique, and it is changeable.
+	// The display name of the sensitive types export. The name does not have to be unique, and it's changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The description of the audit policy.
+	// The description of the sensitive types export.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
@@ -39,14 +33,14 @@ type CreateAuditPolicyDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateAuditPolicyDetails) String() string {
+func (m UpdateSensitiveTypesExportDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateAuditPolicyDetails) ValidateEnumValue() (bool, error) {
+func (m UpdateSensitiveTypesExportDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

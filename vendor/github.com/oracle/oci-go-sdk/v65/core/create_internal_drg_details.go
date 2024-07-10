@@ -55,6 +55,9 @@ type CreateInternalDrgDetails struct {
 
 	// Indicates if Drg is Global or Regional
 	IsGlobal *bool `mandatory:"false" json:"isGlobal"`
+
+	// Indicates if Drg is Substrate Access or not
+	IsSubstrateAccess *bool `mandatory:"false" json:"isSubstrateAccess"`
 }
 
 func (m CreateInternalDrgDetails) String() string {

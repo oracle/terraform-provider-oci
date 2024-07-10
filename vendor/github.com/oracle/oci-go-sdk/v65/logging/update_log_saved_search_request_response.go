@@ -57,6 +57,21 @@ func (request UpdateLogSavedSearchRequest) BinaryRequestBody() (*common.OCIReadS
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateLogSavedSearchRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["logSavedSearchId"] != nil {
+		templateParam := mandatoryParamMap["logSavedSearchId"]
+		for _, template := range templateParam {
+			replacementParam := *request.LogSavedSearchId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateLogSavedSearchRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

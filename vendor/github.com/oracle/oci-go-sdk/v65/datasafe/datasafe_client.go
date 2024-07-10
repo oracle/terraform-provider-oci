@@ -387,6 +387,60 @@ func (client DataSafeClient) applySdmMaskingPolicyDifference(ctx context.Context
 	return response, err
 }
 
+// BulkCreateSensitiveTypes Uploads a sensitive types xml file (also called template) to create new sensitive types.
+// A default retry strategy applies to this operation BulkCreateSensitiveTypes()
+func (client DataSafeClient) BulkCreateSensitiveTypes(ctx context.Context, request BulkCreateSensitiveTypesRequest) (response BulkCreateSensitiveTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.bulkCreateSensitiveTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkCreateSensitiveTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkCreateSensitiveTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkCreateSensitiveTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkCreateSensitiveTypesResponse")
+	}
+	return
+}
+
+// bulkCreateSensitiveTypes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) bulkCreateSensitiveTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypes/actions/bulkCreateSensitiveTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkCreateSensitiveTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/BulkCreateSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "BulkCreateSensitiveTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkCreateSqlFirewallAllowedSqls Appends the allowedSqls with entries from the logs.
 // A default retry strategy applies to this operation BulkCreateSqlFirewallAllowedSqls()
 func (client DataSafeClient) BulkCreateSqlFirewallAllowedSqls(ctx context.Context, request BulkCreateSqlFirewallAllowedSqlsRequest) (response BulkCreateSqlFirewallAllowedSqlsResponse, err error) {
@@ -1913,6 +1967,65 @@ func (client DataSafeClient) changeSensitiveTypeCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeSensitiveTypesExportCompartment Moves the specified sensitive types export into a different compartment.
+// A default retry strategy applies to this operation ChangeSensitiveTypesExportCompartment()
+func (client DataSafeClient) ChangeSensitiveTypesExportCompartment(ctx context.Context, request ChangeSensitiveTypesExportCompartmentRequest) (response ChangeSensitiveTypesExportCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeSensitiveTypesExportCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeSensitiveTypesExportCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeSensitiveTypesExportCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeSensitiveTypesExportCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeSensitiveTypesExportCompartmentResponse")
+	}
+	return
+}
+
+// changeSensitiveTypesExportCompartment implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) changeSensitiveTypesExportCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypesExports/{sensitiveTypesExportId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeSensitiveTypesExportCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/ChangeSensitiveTypesExportCompartment"
+		err = common.PostProcessServiceError(err, "DataSafe", "ChangeSensitiveTypesExportCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeSqlCollectionCompartment Moves the specified SQL collection and its dependent resources into a different compartment.
 // A default retry strategy applies to this operation ChangeSqlCollectionCompartment()
 func (client DataSafeClient) ChangeSqlCollectionCompartment(ctx context.Context, request ChangeSqlCollectionCompartmentRequest) (response ChangeSqlCollectionCompartmentResponse, err error) {
@@ -2962,6 +3075,65 @@ func (client DataSafeClient) createPeerTargetDatabase(ctx context.Context, reque
 	return response, err
 }
 
+// CreateReferentialRelation Creates a new referential relation in the specified sensitive data model.
+// A default retry strategy applies to this operation CreateReferentialRelation()
+func (client DataSafeClient) CreateReferentialRelation(ctx context.Context, request CreateReferentialRelationRequest) (response CreateReferentialRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createReferentialRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateReferentialRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateReferentialRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateReferentialRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateReferentialRelationResponse")
+	}
+	return
+}
+
+// createReferentialRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createReferentialRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveDataModels/{sensitiveDataModelId}/referentialRelations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateReferentialRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/CreateReferentialRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateReferentialRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateReportDefinition Creates a new report definition with parameters specified in the body. The report definition is stored in the specified compartment.
 // A default retry strategy applies to this operation CreateReportDefinition()
 func (client DataSafeClient) CreateReportDefinition(ctx context.Context, request CreateReportDefinitionRequest) (response CreateReportDefinitionResponse, err error) {
@@ -3323,6 +3495,67 @@ func (client DataSafeClient) createSensitiveType(ctx context.Context, request co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &sensitivetype{})
+	return response, err
+}
+
+// CreateSensitiveTypesExport Generates a downloadable file corresponding to the specified list of sensitive types. It's a prerequisite for the
+// DownloadSensitiveTypesExport operation. Use this endpoint to generate a sensitive Types Export file and then use
+// DownloadSensitiveTypesExport to download the generated file.
+// A default retry strategy applies to this operation CreateSensitiveTypesExport()
+func (client DataSafeClient) CreateSensitiveTypesExport(ctx context.Context, request CreateSensitiveTypesExportRequest) (response CreateSensitiveTypesExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createSensitiveTypesExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateSensitiveTypesExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateSensitiveTypesExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateSensitiveTypesExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateSensitiveTypesExportResponse")
+	}
+	return
+}
+
+// createSensitiveTypesExport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) createSensitiveTypesExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypesExports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateSensitiveTypesExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/CreateSensitiveTypesExport"
+		err = common.PostProcessServiceError(err, "DataSafe", "CreateSensitiveTypesExport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -4326,6 +4559,60 @@ func (client DataSafeClient) deletePeerTargetDatabase(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteReferentialRelation Deletes the specified referential relation.
+// A default retry strategy applies to this operation DeleteReferentialRelation()
+func (client DataSafeClient) DeleteReferentialRelation(ctx context.Context, request DeleteReferentialRelationRequest) (response DeleteReferentialRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteReferentialRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteReferentialRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteReferentialRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteReferentialRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteReferentialRelationResponse")
+	}
+	return
+}
+
+// deleteReferentialRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteReferentialRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sensitiveDataModels/{sensitiveDataModelId}/referentialRelations/{referentialRelationKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteReferentialRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/DeleteReferentialRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteReferentialRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteReportDefinition Deletes the specified report definition. Only the user created report definition can be deleted. The seeded report definitions cannot be deleted.
 // A default retry strategy applies to this operation DeleteReportDefinition()
 func (client DataSafeClient) DeleteReportDefinition(ctx context.Context, request DeleteReportDefinitionRequest) (response DeleteReportDefinitionResponse, err error) {
@@ -4646,6 +4933,60 @@ func (client DataSafeClient) deleteSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/DeleteSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteSensitiveTypesExport Deletes the specified sensitive types export.
+// A default retry strategy applies to this operation DeleteSensitiveTypesExport()
+func (client DataSafeClient) DeleteSensitiveTypesExport(ctx context.Context, request DeleteSensitiveTypesExportRequest) (response DeleteSensitiveTypesExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSensitiveTypesExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSensitiveTypesExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSensitiveTypesExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSensitiveTypesExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSensitiveTypesExportResponse")
+	}
+	return
+}
+
+// deleteSensitiveTypesExport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSensitiveTypesExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sensitiveTypesExports/{sensitiveTypesExportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSensitiveTypesExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/DeleteSensitiveTypesExport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSensitiveTypesExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -5428,6 +5769,61 @@ func (client DataSafeClient) downloadSensitiveDataModel(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModel/DownloadSensitiveDataModel"
 		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSensitiveDataModel", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DownloadSensitiveTypesExport Downloads an already-generated file corresponding to the specified sensitive types export.
+// Use CreateSensitiveTypesExport to generate an XML file and then use DownloadSensitiveTypesExport
+// to download the generated file.
+// A default retry strategy applies to this operation DownloadSensitiveTypesExport()
+func (client DataSafeClient) DownloadSensitiveTypesExport(ctx context.Context, request DownloadSensitiveTypesExportRequest) (response DownloadSensitiveTypesExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.downloadSensitiveTypesExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DownloadSensitiveTypesExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DownloadSensitiveTypesExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DownloadSensitiveTypesExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DownloadSensitiveTypesExportResponse")
+	}
+	return
+}
+
+// downloadSensitiveTypesExport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) downloadSensitiveTypesExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sensitiveTypesExports/{sensitiveTypesExportId}/actions/download", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DownloadSensitiveTypesExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/DownloadSensitiveTypesExport"
+		err = common.PostProcessServiceError(err, "DataSafe", "DownloadSensitiveTypesExport", apiReferenceLink)
 		return response, err
 	}
 
@@ -7493,6 +7889,60 @@ func (client DataSafeClient) getProfile(ctx context.Context, request common.OCIR
 	return response, err
 }
 
+// GetReferentialRelation Gets the details of the specified referential relation.
+// A default retry strategy applies to this operation GetReferentialRelation()
+func (client DataSafeClient) GetReferentialRelation(ctx context.Context, request GetReferentialRelationRequest) (response GetReferentialRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getReferentialRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetReferentialRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetReferentialRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetReferentialRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetReferentialRelationResponse")
+	}
+	return
+}
+
+// getReferentialRelation implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getReferentialRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/referentialRelations/{referentialRelationKey}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetReferentialRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/GetReferentialRelation"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetReferentialRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetReport Gets a report by identifier
 // A default retry strategy applies to this operation GetReport()
 func (client DataSafeClient) GetReport(ctx context.Context, request GetReportRequest) (response GetReportResponse, err error) {
@@ -8191,6 +8641,60 @@ func (client DataSafeClient) getSensitiveType(ctx context.Context, request commo
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &sensitivetype{})
+	return response, err
+}
+
+// GetSensitiveTypesExport Gets the details of the specified sensitive types export by identifier.
+// A default retry strategy applies to this operation GetSensitiveTypesExport()
+func (client DataSafeClient) GetSensitiveTypesExport(ctx context.Context, request GetSensitiveTypesExportRequest) (response GetSensitiveTypesExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSensitiveTypesExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSensitiveTypesExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSensitiveTypesExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSensitiveTypesExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSensitiveTypesExportResponse")
+	}
+	return
+}
+
+// getSensitiveTypesExport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSensitiveTypesExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveTypesExports/{sensitiveTypesExportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSensitiveTypesExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/GetSensitiveTypesExport"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSensitiveTypesExport", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -11043,6 +11547,60 @@ func (client DataSafeClient) listProfileSummaries(ctx context.Context, request c
 	return response, err
 }
 
+// ListReferentialRelations Gets a list of referential relations present in the specified sensitive data model based on the specified query parameters.
+// A default retry strategy applies to this operation ListReferentialRelations()
+func (client DataSafeClient) ListReferentialRelations(ctx context.Context, request ListReferentialRelationsRequest) (response ListReferentialRelationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listReferentialRelations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListReferentialRelationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListReferentialRelationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListReferentialRelationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListReferentialRelationsResponse")
+	}
+	return
+}
+
+// listReferentialRelations implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listReferentialRelations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/referentialRelations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListReferentialRelationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/ReferentialRelation/ListReferentialRelations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListReferentialRelations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListReportDefinitions Gets a list of report definitions.
 // The ListReportDefinitions operation returns only the report definitions in the specified `compartmentId`.
 // It also returns the seeded report definitions which are available to all the compartments.
@@ -12113,6 +12671,61 @@ func (client DataSafeClient) listSensitiveTypes(ctx context.Context, request com
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/ListSensitiveTypes"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveTypes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSensitiveTypesExports Retrieves a list of all sensitive types export in Data Safe based on the specified query parameters.
+// The ListSensitiveTypesExports operation returns only the sensitive types export in the specified `compartmentId`.
+// A default retry strategy applies to this operation ListSensitiveTypesExports()
+func (client DataSafeClient) ListSensitiveTypesExports(ctx context.Context, request ListSensitiveTypesExportsRequest) (response ListSensitiveTypesExportsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveTypesExports, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveTypesExportsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveTypesExportsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveTypesExportsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveTypesExportsResponse")
+	}
+	return
+}
+
+// listSensitiveTypesExports implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveTypesExports(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveTypesExports", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveTypesExportsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExportCollection/ListSensitiveTypesExports"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveTypesExports", apiReferenceLink)
 		return response, err
 	}
 
@@ -16339,6 +16952,60 @@ func (client DataSafeClient) updateSensitiveType(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveType/UpdateSensitiveType"
 		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveType", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateSensitiveTypesExport Updates one or more attributes of the specified sensitive types export.
+// A default retry strategy applies to this operation UpdateSensitiveTypesExport()
+func (client DataSafeClient) UpdateSensitiveTypesExport(ctx context.Context, request UpdateSensitiveTypesExportRequest) (response UpdateSensitiveTypesExportResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateSensitiveTypesExport, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateSensitiveTypesExportResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateSensitiveTypesExportResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateSensitiveTypesExportResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateSensitiveTypesExportResponse")
+	}
+	return
+}
+
+// updateSensitiveTypesExport implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) updateSensitiveTypesExport(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/sensitiveTypesExports/{sensitiveTypesExportId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateSensitiveTypesExportResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveTypesExport/UpdateSensitiveTypesExport"
+		err = common.PostProcessServiceError(err, "DataSafe", "UpdateSensitiveTypesExport", apiReferenceLink)
 		return response, err
 	}
 

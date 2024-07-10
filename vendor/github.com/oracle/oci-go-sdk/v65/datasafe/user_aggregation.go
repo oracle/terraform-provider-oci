@@ -19,7 +19,8 @@ import (
 // For example, it states how many users have the DBA role and how many users are in the critical category.
 type UserAggregation struct {
 
-	// The array of user aggregation data.
+	// List containing maps as values.
+	// Example: `{"Operations": [ {"CostCenter": "42"} ] }`
 	Items []map[string]interface{} `mandatory:"true" json:"items"`
 }
 

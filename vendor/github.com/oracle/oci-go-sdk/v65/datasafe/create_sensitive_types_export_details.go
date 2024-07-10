@@ -15,25 +15,27 @@ import (
 	"strings"
 )
 
-// CreateAuditProfileDetails The details used to create a new audit profile.
-type CreateAuditProfileDetails struct {
+// CreateSensitiveTypesExportDetails Details to create a new sensitive types export. To specify some sensitive types for export, use
+// sensitiveTypeIdsForExport attribute. But if you want to include all sensitive types, you can set
+// isIncludeAllSensitiveTypes attributes to true. In the latter case, you do not need to list all
+// sensitive types.
+type CreateSensitiveTypesExportDetails struct {
 
-	// The OCID of the compartment where you want to create the audit profile.
+	// The OCID of the compartment where the sensitive types export should be created.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the Data Safe target for which the audit profile is created.
-	TargetId *string `mandatory:"true" json:"targetId"`
-
-	// The display name of the audit profile. The name does not have to be unique, and it's changeable.
+	// The display name of the sensitive types export. The name does not have to be unique, and it's changeable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The description of the audit profile.
+	// The description of the sensitive types export.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Indicates if you want to continue collecting audit records beyond the free limit of one million audit records per month per target database,
-	// potentially incurring additional charges. The default value is inherited from the global settings.
-	// You can change at the global level or at the target level.
-	IsPaidUsageEnabled *bool `mandatory:"false" json:"isPaidUsageEnabled"`
+	// The OCIDs of the sensitive types used to create sensitive types export.
+	SensitiveTypeIdsForExport []string `mandatory:"false" json:"sensitiveTypeIdsForExport"`
+
+	// Indicates if all the existing user-defined sensitive types are used for export. If it's set to true, the
+	// sensitiveTypeIdsForExport attribute is ignored and all user-defined sensitive types are used.
+	IsIncludeAllSensitiveTypes *bool `mandatory:"false" json:"isIncludeAllSensitiveTypes"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
@@ -44,14 +46,14 @@ type CreateAuditProfileDetails struct {
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 }
 
-func (m CreateAuditProfileDetails) String() string {
+func (m CreateSensitiveTypesExportDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m CreateAuditProfileDetails) ValidateEnumValue() (bool, error) {
+func (m CreateSensitiveTypesExportDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -35,6 +35,9 @@ type AnalyzeImageResult struct {
 	// The detected faces.
 	DetectedFaces []Face `mandatory:"false" json:"detectedFaces"`
 
+	// The detected License Plates.
+	DetectedLicensePlates []LicensePlate `mandatory:"false" json:"detectedLicensePlates"`
+
 	// The image classification model version.
 	ImageClassificationModelVersion *string `mandatory:"false" json:"imageClassificationModelVersion"`
 
@@ -49,6 +52,9 @@ type AnalyzeImageResult struct {
 
 	// The face detection model version.
 	FaceDetectionModelVersion *string `mandatory:"false" json:"faceDetectionModelVersion"`
+
+	// The license plate detection model version.
+	LicensePlateDetectionModelVersion *string `mandatory:"false" json:"licensePlateDetectionModelVersion"`
 
 	// The errors encountered during image analysis.
 	Errors []ProcessingError `mandatory:"false" json:"errors"`

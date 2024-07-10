@@ -4874,64 +4874,6 @@ func (client BdsClient) testBdsObjectStorageConnection(ctx context.Context, requ
 	return response, err
 }
 
-// TestIamUserSyncConfiguration Test the specified IAM user sync configuration
-func (client BdsClient) TestIamUserSyncConfiguration(ctx context.Context, request TestIamUserSyncConfigurationRequest) (response TestIamUserSyncConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.testIamUserSyncConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = TestIamUserSyncConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = TestIamUserSyncConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(TestIamUserSyncConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into TestIamUserSyncConfigurationResponse")
-	}
-	return
-}
-
-// testIamUserSyncConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client BdsClient) testIamUserSyncConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/identityConfigurations/{identityConfigurationId}/actions/testIamUserSyncConfiguration", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response TestIamUserSyncConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/IdentityConfiguration/TestIamUserSyncConfiguration"
-		err = common.PostProcessServiceError(err, "Bds", "TestIamUserSyncConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // UpdateAutoScalingConfiguration Updates fields on an autoscale configuration, including the name, the threshold value, and whether the autoscale configuration is enabled.
 func (client BdsClient) UpdateAutoScalingConfiguration(ctx context.Context, request UpdateAutoScalingConfigurationRequest) (response UpdateAutoScalingConfigurationResponse, err error) {
 	var ociResponse common.OCIResponse

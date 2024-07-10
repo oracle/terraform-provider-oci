@@ -82,7 +82,6 @@ const (
 	OperationTypesRefreshTokenExchangeKeytab           OperationTypesEnum = "REFRESH_TOKEN_EXCHANGE_KEYTAB"
 	OperationTypesActivateIamUserSyncConfig            OperationTypesEnum = "ACTIVATE_IAM_USER_SYNC_CONFIG"
 	OperationTypesDeactivateIamUserSyncConfig          OperationTypesEnum = "DEACTIVATE_IAM_USER_SYNC_CONFIG"
-	OperationTypesTestIamUserSyncConfig                OperationTypesEnum = "TEST_IAM_USER_SYNC_CONFIG"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -150,7 +149,6 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"REFRESH_TOKEN_EXCHANGE_KEYTAB":           OperationTypesRefreshTokenExchangeKeytab,
 	"ACTIVATE_IAM_USER_SYNC_CONFIG":           OperationTypesActivateIamUserSyncConfig,
 	"DEACTIVATE_IAM_USER_SYNC_CONFIG":         OperationTypesDeactivateIamUserSyncConfig,
-	"TEST_IAM_USER_SYNC_CONFIG":               OperationTypesTestIamUserSyncConfig,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -218,7 +216,6 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"refresh_token_exchange_keytab":           OperationTypesRefreshTokenExchangeKeytab,
 	"activate_iam_user_sync_config":           OperationTypesActivateIamUserSyncConfig,
 	"deactivate_iam_user_sync_config":         OperationTypesDeactivateIamUserSyncConfig,
-	"test_iam_user_sync_config":               OperationTypesTestIamUserSyncConfig,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -297,7 +294,6 @@ func GetOperationTypesEnumStringValues() []string {
 		"REFRESH_TOKEN_EXCHANGE_KEYTAB",
 		"ACTIVATE_IAM_USER_SYNC_CONFIG",
 		"DEACTIVATE_IAM_USER_SYNC_CONFIG",
-		"TEST_IAM_USER_SYNC_CONFIG",
 	}
 }
 

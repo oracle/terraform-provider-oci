@@ -32,6 +32,9 @@ type ListInternalDrgsRequest struct {
 	//   enum: DRG_CLASSICAL, DRG_TRANSIT_HUB.
 	DrgType InternalDrgDrgTypeEnum `mandatory:"false" contributesTo:"query" name:"drgType" omitEmpty:"true"`
 
+	// A filter to only return resources that match `isSubstrateAccess`.
+	IsSubstrateAccess *bool `mandatory:"false" contributesTo:"query" name:"isSubstrateAccess"`
+
 	// Unique Oracle-assigned identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

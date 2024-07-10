@@ -235,6 +235,9 @@ type CreateInternalVnicDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
 	// for the ServiceVnic placement.
 	CpgId *string `mandatory:"false" json:"cpgId"`
+
+	// Indicates if the security attributes is owned at the parent resource (e.g., Compute Instance) or by the VNIC.
+	IsGroupedSecurityAttributes *bool `mandatory:"false" json:"isGroupedSecurityAttributes"`
 }
 
 func (m CreateInternalVnicDetails) String() string {

@@ -74,6 +74,10 @@ func (m *imagefeature) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := ObjectProposalFeature{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "LICENSE_PLATE_DETECTION":
+		mm := LicensePlateDetectionFeature{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for ImageFeature: %s.", m.FeatureType)
 		return *m, nil
@@ -101,30 +105,33 @@ type ImageFeatureFeatureTypeEnum string
 
 // Set of constants representing the allowable values for ImageFeatureFeatureTypeEnum
 const (
-	ImageFeatureFeatureTypeImageClassification ImageFeatureFeatureTypeEnum = "IMAGE_CLASSIFICATION"
-	ImageFeatureFeatureTypeObjectDetection     ImageFeatureFeatureTypeEnum = "OBJECT_DETECTION"
-	ImageFeatureFeatureTypeTextDetection       ImageFeatureFeatureTypeEnum = "TEXT_DETECTION"
-	ImageFeatureFeatureTypeObjectProposal      ImageFeatureFeatureTypeEnum = "OBJECT_PROPOSAL"
-	ImageFeatureFeatureTypeFaceDetection       ImageFeatureFeatureTypeEnum = "FACE_DETECTION"
-	ImageFeatureFeatureTypeFaceEmbedding       ImageFeatureFeatureTypeEnum = "FACE_EMBEDDING"
+	ImageFeatureFeatureTypeImageClassification   ImageFeatureFeatureTypeEnum = "IMAGE_CLASSIFICATION"
+	ImageFeatureFeatureTypeObjectDetection       ImageFeatureFeatureTypeEnum = "OBJECT_DETECTION"
+	ImageFeatureFeatureTypeTextDetection         ImageFeatureFeatureTypeEnum = "TEXT_DETECTION"
+	ImageFeatureFeatureTypeObjectProposal        ImageFeatureFeatureTypeEnum = "OBJECT_PROPOSAL"
+	ImageFeatureFeatureTypeFaceDetection         ImageFeatureFeatureTypeEnum = "FACE_DETECTION"
+	ImageFeatureFeatureTypeFaceEmbedding         ImageFeatureFeatureTypeEnum = "FACE_EMBEDDING"
+	ImageFeatureFeatureTypeLicensePlateDetection ImageFeatureFeatureTypeEnum = "LICENSE_PLATE_DETECTION"
 )
 
 var mappingImageFeatureFeatureTypeEnum = map[string]ImageFeatureFeatureTypeEnum{
-	"IMAGE_CLASSIFICATION": ImageFeatureFeatureTypeImageClassification,
-	"OBJECT_DETECTION":     ImageFeatureFeatureTypeObjectDetection,
-	"TEXT_DETECTION":       ImageFeatureFeatureTypeTextDetection,
-	"OBJECT_PROPOSAL":      ImageFeatureFeatureTypeObjectProposal,
-	"FACE_DETECTION":       ImageFeatureFeatureTypeFaceDetection,
-	"FACE_EMBEDDING":       ImageFeatureFeatureTypeFaceEmbedding,
+	"IMAGE_CLASSIFICATION":    ImageFeatureFeatureTypeImageClassification,
+	"OBJECT_DETECTION":        ImageFeatureFeatureTypeObjectDetection,
+	"TEXT_DETECTION":          ImageFeatureFeatureTypeTextDetection,
+	"OBJECT_PROPOSAL":         ImageFeatureFeatureTypeObjectProposal,
+	"FACE_DETECTION":          ImageFeatureFeatureTypeFaceDetection,
+	"FACE_EMBEDDING":          ImageFeatureFeatureTypeFaceEmbedding,
+	"LICENSE_PLATE_DETECTION": ImageFeatureFeatureTypeLicensePlateDetection,
 }
 
 var mappingImageFeatureFeatureTypeEnumLowerCase = map[string]ImageFeatureFeatureTypeEnum{
-	"image_classification": ImageFeatureFeatureTypeImageClassification,
-	"object_detection":     ImageFeatureFeatureTypeObjectDetection,
-	"text_detection":       ImageFeatureFeatureTypeTextDetection,
-	"object_proposal":      ImageFeatureFeatureTypeObjectProposal,
-	"face_detection":       ImageFeatureFeatureTypeFaceDetection,
-	"face_embedding":       ImageFeatureFeatureTypeFaceEmbedding,
+	"image_classification":    ImageFeatureFeatureTypeImageClassification,
+	"object_detection":        ImageFeatureFeatureTypeObjectDetection,
+	"text_detection":          ImageFeatureFeatureTypeTextDetection,
+	"object_proposal":         ImageFeatureFeatureTypeObjectProposal,
+	"face_detection":          ImageFeatureFeatureTypeFaceDetection,
+	"face_embedding":          ImageFeatureFeatureTypeFaceEmbedding,
+	"license_plate_detection": ImageFeatureFeatureTypeLicensePlateDetection,
 }
 
 // GetImageFeatureFeatureTypeEnumValues Enumerates the set of values for ImageFeatureFeatureTypeEnum
@@ -145,6 +152,7 @@ func GetImageFeatureFeatureTypeEnumStringValues() []string {
 		"OBJECT_PROPOSAL",
 		"FACE_DETECTION",
 		"FACE_EMBEDDING",
+		"LICENSE_PLATE_DETECTION",
 	}
 }
 
