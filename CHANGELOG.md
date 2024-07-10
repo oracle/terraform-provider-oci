@@ -1,4 +1,4 @@
-## 6.2.0 (Unreleased)
+## 6.2.0 (July 10, 2024)
 
 ### Added
 - Support for Support Dynamic list of ZDM parameters for Oracle<>Oracle migrations
