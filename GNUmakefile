@@ -13,6 +13,8 @@ run_regex := $(if $(run), -run $(run), )
 test_tags := $(if $(tags), -tags $(tags), )
 skip_goimports_check_flag := $(if $(skip_goimports_check), -s, )
 
+export PR_ID := $(patsubst PR-%,%,$(BLD_BRANCH))
+export SCRIPT_ARG := run_lint_checks.py --pull_request_id=$(PR_ID)
 ## This rule will set GO mod environment variables so that builds/tests are using the vendor folder
 ## May need to remove this in future so that it doesn't interfere with environment settings of .travis.yml file
 gomodenv:
@@ -161,3 +163,6 @@ check-untagged-tests:
 
 check-module-name:
 	@sh -c "'$(CURDIR)/scripts/gomodnamecheck.sh'"
+
+buildpyEnv:
+	cd ./terraform-test-resources/dev_tools/teamcity_scripts/python_script; @echo $(SCRIPT_ARG) ; sh run_python_script.sh
