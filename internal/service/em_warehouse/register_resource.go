@@ -3,8 +3,6 @@
 
 package em_warehouse
 
-import "github.com/oracle/terraform-provider-oci/internal/tfresource"
-
 func RegisterResource() {
-	tfresource.RegisterResource("oci_em_warehouse_em_warehouse", EmWarehouseEmWarehouseResource())
+
 }
