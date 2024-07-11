@@ -1,0 +1,4 @@
+[submodule "terraform-test-resources"]
+	path = terraform-test-resources
+	url = ssh://git@bitbucket.oci.oraclecorp.com:7999/orc/terraform-test-resources.git
+    ignore = dirty
