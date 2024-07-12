@@ -113,6 +113,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 		s.D.Set("is_dst_file_update_enabled", *s.Res.IsDstFileUpdateEnabled)
 	}
 
+	if s.Res.IsMaintenanceRunGranular != nil {
+		s.D.Set("is_maintenance_run_granular", *s.Res.IsMaintenanceRunGranular)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -171,6 +175,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 
 	if s.Res.TimeStarted != nil {
 		s.D.Set("time_started", s.Res.TimeStarted.String())
+	}
+
+	if s.Res.TotalTimeTakenInMins != nil {
+		s.D.Set("total_time_taken_in_mins", *s.Res.TotalTimeTakenInMins)
 	}
 
 	return nil

@@ -185,6 +185,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["id"] = *r.Id
 		}
 
+		if r.IsSchedulingPolicyAssociated != nil {
+			cloudExadataInfrastructure["is_scheduling_policy_associated"] = *r.IsSchedulingPolicyAssociated
+		}
+
 		if r.LastMaintenanceRunId != nil {
 			cloudExadataInfrastructure["last_maintenance_run_id"] = *r.LastMaintenanceRunId
 		}
