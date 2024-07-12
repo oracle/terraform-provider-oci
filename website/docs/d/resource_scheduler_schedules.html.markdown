@@ -20,8 +20,8 @@ data "oci_resource_scheduler_schedules" "test_schedules" {
 
 	#Optional
 	compartment_id = var.compartment_id
-	display_name = var.schedule_display_name
 	schedule_id = oci_resource_scheduler_schedule.test_schedule.id
+	display_name = var.schedule_display_name
 	state = var.schedule_state
 }
 ```
@@ -30,9 +30,9 @@ data "oci_resource_scheduler_schedules" "test_schedules" {
 
 The following arguments are supported:
 
-* `compartment_id` - (Optional) This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
+* `compartment_id` - (Optional) This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. You need to at least provide either `compartment_id` or `schedule_id` or both.
+* `schedule_id` - (Optional) This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.  You need to at least provide either `compartment_id` or `schedule_id` or both.
 * `display_name` - (Optional) This is a filter to return only resources that match the given display name exactly.
-* `schedule_id` - (Optional) This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 * `state` - (Optional) This is a filter to return only resources that match the given lifecycle state. The state value is case-insensitive. 
 
 
