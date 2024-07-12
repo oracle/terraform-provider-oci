@@ -1,3 +1,10 @@
+## 6.3.0 (Unreleased)
+
+### Deprecation
+em_warehouse service
+### Bug Fix
+Autostart and autostop along with other updates.
+
 ## 6.2.0 (July 10, 2024)
 
 ### Added
