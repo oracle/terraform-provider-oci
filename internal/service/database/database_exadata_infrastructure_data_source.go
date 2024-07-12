@@ -170,6 +170,10 @@ func (s *DatabaseExadataInfrastructureDataSourceCrud) SetData() error {
 		s.D.Set("is_multi_rack_deployment", *s.Res.IsMultiRackDeployment)
 	}
 
+	if s.Res.IsSchedulingPolicyAssociated != nil {
+		s.D.Set("is_scheduling_policy_associated", *s.Res.IsSchedulingPolicyAssociated)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

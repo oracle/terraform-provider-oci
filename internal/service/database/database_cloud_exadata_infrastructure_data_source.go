@@ -132,6 +132,10 @@ func (s *DatabaseCloudExadataInfrastructureDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsSchedulingPolicyAssociated != nil {
+		s.D.Set("is_scheduling_policy_associated", *s.Res.IsSchedulingPolicyAssociated)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}

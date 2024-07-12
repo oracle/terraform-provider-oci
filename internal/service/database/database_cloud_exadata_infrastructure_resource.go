@@ -277,6 +277,10 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 					},
 				},
 			},
+			"is_scheduling_policy_associated": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"last_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -741,6 +745,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsSchedulingPolicyAssociated != nil {
+		s.D.Set("is_scheduling_policy_associated", *s.Res.IsSchedulingPolicyAssociated)
+	}
+
 	if s.Res.LastMaintenanceRunId != nil {
 		s.D.Set("last_maintenance_run_id", *s.Res.LastMaintenanceRunId)
 	}
@@ -866,6 +874,38 @@ func DefinedFileSystemConfigurationToMap(obj oci_database.DefinedFileSystemConfi
 func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(fieldKeyFormat string) (oci_database.MaintenanceWindow, error) {
 	result := oci_database.MaintenanceWindow{}
 
+	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
+		tmp := isCustomActionTimeoutEnabled.(bool)
+		result.IsCustomActionTimeoutEnabled = &tmp
+	}
+
+	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
+		tmp := customActionTimeoutInMins.(int)
+		result.CustomActionTimeoutInMins = &tmp
+	}
+
+	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
+		tmp := isMonthlyPatchingEnabled.(bool)
+		result.IsMonthlyPatchingEnabled = &tmp
+	}
+
+	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
+		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
+	}
+
+	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
+		interfaces := skipRu.([]interface{})
+		tmp := make([]bool, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(bool)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
+			result.SkipRu = tmp
+		}
+	}
+
 	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
 		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 
@@ -874,9 +914,8 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 		}
 	}
 
-	if customActionTimeoutInMins, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "custom_action_timeout_in_mins")); ok {
-		tmp := customActionTimeoutInMins.(int)
-		result.CustomActionTimeoutInMins = &tmp
+	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
+		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
 	}
 
 	if daysOfWeek, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "days_of_week")); ok {
@@ -909,21 +948,6 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 		}
 	}
 
-	if isCustomActionTimeoutEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_custom_action_timeout_enabled")); ok {
-		tmp := isCustomActionTimeoutEnabled.(bool)
-		result.IsCustomActionTimeoutEnabled = &tmp
-	}
-
-	if isMonthlyPatchingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_monthly_patching_enabled")); ok {
-		tmp := isMonthlyPatchingEnabled.(bool)
-		result.IsMonthlyPatchingEnabled = &tmp
-	}
-
-	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
-		tmp := leadTimeInWeeks.(int)
-		result.LeadTimeInWeeks = &tmp
-	}
-
 	if months, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "months")); ok {
 		interfaces := months.([]interface{})
 		tmp := make([]oci_database.Month, len(interfaces))
@@ -941,27 +965,6 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 		}
 	}
 
-	if patchingMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_mode")); ok {
-		result.PatchingMode = oci_database.MaintenanceWindowPatchingModeEnum(patchingMode.(string))
-	}
-
-	if preference, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preference")); ok {
-		result.Preference = oci_database.MaintenanceWindowPreferenceEnum(preference.(string))
-	}
-
-	if skipRu, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_ru")); ok {
-		interfaces := skipRu.([]interface{})
-		tmp := make([]bool, len(interfaces))
-		for i := range interfaces {
-			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(bool)
-			}
-		}
-		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "skip_ru")) {
-			result.SkipRu = tmp
-		}
-	}
-
 	if weeksOfMonth, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")); ok {
 		interfaces := weeksOfMonth.([]interface{})
 		tmp := make([]int, len(interfaces))
@@ -973,6 +976,11 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) mapToMaintenanceWindow(
 		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "weeks_of_month")) {
 			result.WeeksOfMonth = tmp
 		}
+	}
+
+	if leadTimeInWeeks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "lead_time_in_weeks")); ok {
+		tmp := leadTimeInWeeks.(int)
+		result.LeadTimeInWeeks = &tmp
 	}
 
 	return result, nil

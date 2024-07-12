@@ -414,7 +414,7 @@ func TestDatabaseExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "tstExaInfra"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "REQUIRES_ACTIVATION"),
-				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "exadata_infrastructures.#", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.activated_storage_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_compute_count"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructures.0.additional_storage_count"),
