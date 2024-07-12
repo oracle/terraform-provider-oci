@@ -214,6 +214,10 @@ func (s *DatabaseExadataInfrastructuresDataSourceCrud) SetData() error {
 			exadataInfrastructure["is_multi_rack_deployment"] = *r.IsMultiRackDeployment
 		}
 
+		if r.IsSchedulingPolicyAssociated != nil {
+			exadataInfrastructure["is_scheduling_policy_associated"] = *r.IsSchedulingPolicyAssociated
+		}
+
 		if r.LifecycleDetails != nil {
 			exadataInfrastructure["lifecycle_details"] = *r.LifecycleDetails
 		}
