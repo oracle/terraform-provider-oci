@@ -467,7 +467,6 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-<<<<<<< ours
 		* `description` - Resource description
 
 			**Added In:** 2307071836
@@ -480,10 +479,7 @@ The following attributes are exported:
 			* returned: default
 			* type: string
 			* uniqueness: none
-		* `display` - Resource display name
-=======
 		* `ref` - Resource URI
->>>>>>> theirs
 
 			**SCIM++ Properties:**
 			* idcsSearchable: false
