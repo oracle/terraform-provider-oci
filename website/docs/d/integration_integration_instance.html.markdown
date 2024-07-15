@@ -76,17 +76,12 @@ The following attributes are exported:
 		* `allowlisted_ips` - Source IP addresses or IP address ranges ingress rules. (ex: "168.122.59.5", "10.20.30.0/26") An invalid IP or CIDR block will result in a 400 response. 
 		* `id` - The Virtual Cloud Network OCID. 
 	* `is_integration_vcn_allowlisted` - The Integration service's VCN is allow-listed to allow integrations to call back into other integrations
-	* `network_endpoint_type` - The type of network endpoint. 
-<<<<<<< HEAD
-* `shape` - Shape
-||||||| parent of c689349fc7 (Added - Support for Enabling outbound private access using PE RCE for OIC Gen3 customers)
-=======
+	* `network_endpoint_type` - The type of network endpoint.
 * `private_endpoint_outbound_connection` - Base representation for Outbound Connection (Reverse Connection). 
 	* `nsg_ids` - One or more Network security group Ids. This is an optional argument.
 	* `outbound_connection_type` - The type of Outbound Connection. 
 	* `subnet_id` - Customer Private Network VCN Subnet OCID. This is a required argument.
 * `shape` - Shape
->>>>>>> c689349fc7 (Added - Support for Enabling outbound private access using PE RCE for OIC Gen3 customers)
 * `state` - The current state of the integration instance.
 * `state_message` - An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `time_created` - The time the the Integration Instance was created. An RFC3339 formatted datetime string.
