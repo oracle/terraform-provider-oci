@@ -4444,7 +4444,7 @@ func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
 		//0. Verify Create
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, DatabaseAutonomousDatabaseRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create, autonomousDatabaseRepresentationForScheduledOperations),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -4498,7 +4498,7 @@ func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"scheduled_operations"}),
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabaseRepresentationForScheduledOperations, []string{"scheduled_operations"}),
 						map[string]interface{}{
 							"scheduled_operations": []acctest.RepresentationGroup{
 								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
@@ -4561,7 +4561,7 @@ func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(DatabaseAutonomousDatabaseRepresentation, []string{"scheduled_operations"}),
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabaseRepresentationForScheduledOperations, []string{"scheduled_operations"}),
 						map[string]interface{}{
 							"scheduled_operations": []acctest.RepresentationGroup{
 								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMondayUpdated},
@@ -4577,6 +4577,69 @@ func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "MONDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "TUESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "WEDNESDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "THURSDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "FRIDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SATURDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{
+					"day_of_week.0.name":   "SUNDAY",
+					"scheduled_start_time": "09:00",
+					"scheduled_stop_time":  "19:00",
+				}, nil),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabaseRepresentationForScheduledOperations, []string{"scheduled_operations"}),
+						map[string]interface{}{
+							"scheduled_operations": []acctest.RepresentationGroup{
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMondayUpdated},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
+								{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
+							"cpu_core_count": acctest.Representation{RepType: acctest.Optional, Create: `8.0`},
+						})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "8"),
 				// verify computed field db_workload to be defaulted to OLTP
 				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "scheduled_operations", map[string]string{

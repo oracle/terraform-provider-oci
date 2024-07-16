@@ -1814,7 +1814,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
-	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok {
+	if scheduledOperations, ok := s.D.GetOkExists("scheduled_operations"); ok && s.D.HasChange("scheduled_operations") {
 		set := scheduledOperations.(*schema.Set)
 		interfaces := set.List()
 		tmp := make([]oci_database.ScheduledOperationDetails, len(interfaces))

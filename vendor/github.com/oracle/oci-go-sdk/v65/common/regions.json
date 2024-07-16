@@ -376,5 +376,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-singapore-2",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "rkt",
+        "realmKey": "oc29",
+        "regionIdentifier": "me-abudhabi-2",
+        "realmDomainComponent": "oraclecloud29.com"
     }
 ]
