@@ -14,7 +14,7 @@ import (
 // DeleteRedisClusterRequest wrapper for the DeleteRedisCluster operation
 type DeleteRedisClusterRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	RedisClusterId *string `mandatory:"true" contributesTo:"path" name:"redisClusterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

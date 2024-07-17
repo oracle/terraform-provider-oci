@@ -46,6 +46,9 @@ type ListComputeClustersRequest struct {
 	// The displayName prefix.
 	DisplayNameStartsWith *string `mandatory:"false" contributesTo:"query" name:"displayNameStartsWith"`
 
+	// DH User Principal details.
+	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

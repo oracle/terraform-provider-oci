@@ -56,6 +56,10 @@ func (m *updatenetworkendpointdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := UpdatePublicEndpointDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE":
+		mm := UpdatePrivateEndpointDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for UpdateNetworkEndpointDetails: %s.", m.NetworkEndpointType)
 		return *m, nil

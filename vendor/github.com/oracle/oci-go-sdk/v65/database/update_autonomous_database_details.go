@@ -99,6 +99,11 @@ type UpdateAutonomousDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The Autonomous Database workload type. The following values are valid:
 	// - OLTP - indicates an Autonomous Transaction Processing database
 	// - DW - indicates an Autonomous Data Warehouse database
@@ -351,6 +356,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		DbName                               *string                                                              `json:"dbName"`
 		FreeformTags                         map[string]string                                                    `json:"freeformTags"`
 		DefinedTags                          map[string]map[string]interface{}                                    `json:"definedTags"`
+		SecurityAttributes                   map[string]map[string]interface{}                                    `json:"securityAttributes"`
 		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum                        `json:"dbWorkload"`
 		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum                      `json:"licenseModel"`
 		ByolComputeCountLimit                *float32                                                             `json:"byolComputeCountLimit"`
@@ -430,6 +436,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.DbWorkload = model.DbWorkload
 

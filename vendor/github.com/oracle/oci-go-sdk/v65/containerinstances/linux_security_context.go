@@ -32,6 +32,10 @@ type LinuxSecurityContext struct {
 	IsRootFileSystemReadonly *bool `mandatory:"false" json:"isRootFileSystemReadonly"`
 
 	Capabilities *ContainerCapabilities `mandatory:"false" json:"capabilities"`
+
+	SeLinuxOptions *SeLinuxOptions `mandatory:"false" json:"seLinuxOptions"`
+
+	SeccompProfile SeccompProfile `mandatory:"false" json:"seccompProfile"`
 }
 
 func (m LinuxSecurityContext) String() string {
@@ -62,4 +66,46 @@ func (m LinuxSecurityContext) MarshalJSON() (buff []byte, e error) {
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *LinuxSecurityContext) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		RunAsUser                 *int                   `json:"runAsUser"`
+		RunAsGroup                *int                   `json:"runAsGroup"`
+		IsNonRootUserCheckEnabled *bool                  `json:"isNonRootUserCheckEnabled"`
+		IsRootFileSystemReadonly  *bool                  `json:"isRootFileSystemReadonly"`
+		Capabilities              *ContainerCapabilities `json:"capabilities"`
+		SeLinuxOptions            *SeLinuxOptions        `json:"seLinuxOptions"`
+		SeccompProfile            seccompprofile         `json:"seccompProfile"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.RunAsUser = model.RunAsUser
+
+	m.RunAsGroup = model.RunAsGroup
+
+	m.IsNonRootUserCheckEnabled = model.IsNonRootUserCheckEnabled
+
+	m.IsRootFileSystemReadonly = model.IsRootFileSystemReadonly
+
+	m.Capabilities = model.Capabilities
+
+	m.SeLinuxOptions = model.SeLinuxOptions
+
+	nn, e = model.SeccompProfile.UnmarshalPolymorphicJSON(model.SeccompProfile.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SeccompProfile = nn.(SeccompProfile)
+	} else {
+		m.SeccompProfile = nil
+	}
+
+	return
 }

@@ -52,6 +52,21 @@ func (request DeleteVolumeBackupPolicyAssignmentRequest) BinaryRequestBody() (*c
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeleteVolumeBackupPolicyAssignmentRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["policyAssignmentId"] != nil {
+		templateParam := mandatoryParamMap["policyAssignmentId"]
+		for _, template := range templateParam {
+			replacementParam := *request.PolicyAssignmentId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteVolumeBackupPolicyAssignmentRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

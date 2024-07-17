@@ -47,6 +47,21 @@ func (request GetNetworkSecurityGroupRequest) BinaryRequestBody() (*common.OCIRe
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetNetworkSecurityGroupRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["networkSecurityGroupId"] != nil {
+		templateParam := mandatoryParamMap["networkSecurityGroupId"]
+		for _, template := range templateParam {
+			replacementParam := *request.NetworkSecurityGroupId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetNetworkSecurityGroupRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

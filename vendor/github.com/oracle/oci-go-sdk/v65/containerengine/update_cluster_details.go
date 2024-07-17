@@ -45,9 +45,6 @@ type UpdateClusterDetails struct {
 
 	// Type of cluster
 	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
-
-	// The cluster-specific OpenID Connect Discovery endpoint
-	OpenIdConnectDiscoveryEndpoint *string `mandatory:"false" json:"openIdConnectDiscoveryEndpoint"`
 }
 
 func (m UpdateClusterDetails) String() string {

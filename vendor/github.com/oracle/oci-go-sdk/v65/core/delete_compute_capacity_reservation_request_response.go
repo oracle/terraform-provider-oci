@@ -52,6 +52,21 @@ func (request DeleteComputeCapacityReservationRequest) BinaryRequestBody() (*com
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeleteComputeCapacityReservationRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["capacityReservationId"] != nil {
+		templateParam := mandatoryParamMap["capacityReservationId"]
+		for _, template := range templateParam {
+			replacementParam := *request.CapacityReservationId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteComputeCapacityReservationRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

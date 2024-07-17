@@ -55,6 +55,31 @@ func (request DeleteWorkloadMappingRequest) BinaryRequestBody() (*common.OCIRead
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeleteWorkloadMappingRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["clusterId"] != nil {
+		templateParam := mandatoryParamMap["clusterId"]
+		for _, template := range templateParam {
+			replacementParam := *request.ClusterId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["workloadMappingId"] != nil {
+		templateParam := mandatoryParamMap["workloadMappingId"]
+		for _, template := range templateParam {
+			replacementParam := *request.WorkloadMappingId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteWorkloadMappingRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

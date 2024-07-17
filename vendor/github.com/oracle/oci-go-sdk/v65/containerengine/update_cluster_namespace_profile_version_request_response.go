@@ -55,6 +55,21 @@ func (request UpdateClusterNamespaceProfileVersionRequest) BinaryRequestBody() (
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateClusterNamespaceProfileVersionRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["clusterNamespaceProfileVersionId"] != nil {
+		templateParam := mandatoryParamMap["clusterNamespaceProfileVersionId"]
+		for _, template := range templateParam {
+			replacementParam := *request.ClusterNamespaceProfileVersionId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateClusterNamespaceProfileVersionRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

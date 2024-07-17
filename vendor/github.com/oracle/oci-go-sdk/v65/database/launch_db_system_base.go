@@ -141,6 +141,11 @@ type LaunchDbSystemBase interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
+
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	GetPrivateIp() *string
@@ -168,6 +173,7 @@ type launchdbsystembase struct {
 	NodeCount                    *int                                               `mandatory:"false" json:"nodeCount"`
 	FreeformTags                 map[string]string                                  `mandatory:"false" json:"freeformTags"`
 	DefinedTags                  map[string]map[string]interface{}                  `mandatory:"false" json:"definedTags"`
+	SecurityAttributes           map[string]map[string]interface{}                  `mandatory:"false" json:"securityAttributes"`
 	PrivateIp                    *string                                            `mandatory:"false" json:"privateIp"`
 	DataCollectionOptions        *DataCollectionOptions                             `mandatory:"false" json:"dataCollectionOptions"`
 	CompartmentId                *string                                            `mandatory:"true" json:"compartmentId"`
@@ -216,6 +222,7 @@ func (m *launchdbsystembase) UnmarshalJSON(data []byte) error {
 	m.NodeCount = s.Model.NodeCount
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.PrivateIp = s.Model.PrivateIp
 	m.DataCollectionOptions = s.Model.DataCollectionOptions
 	m.Source = s.Model.Source
@@ -342,6 +349,11 @@ func (m launchdbsystembase) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m launchdbsystembase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m launchdbsystembase) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetPrivateIp returns PrivateIp

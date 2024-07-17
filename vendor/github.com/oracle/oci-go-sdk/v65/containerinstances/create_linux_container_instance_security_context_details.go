@@ -25,6 +25,9 @@ type CreateLinuxContainerInstanceSecurityContextDetails struct {
 	// A list of groups applied to the first process run in each container, in addition to the container's primary GID, the fsGroup (if specified), and group memberships defined in the container image for the UID of the container process. If unset, no additional groups are added to any container.
 	SupplementalGroups []int `mandatory:"false" json:"supplementalGroups"`
 
+	// A list of namespaced sysctls used for the container instance. Container instances with sysctls unsupported by the container runtime may fail to launch.
+	Sysctls []Sysctl `mandatory:"false" json:"sysctls"`
+
 	// Defines behavior of changing ownership and permission of the volume before being exposed inside the containers. This only applies to volumes which support fsGroup ownership and permissions, and will have no effect on ephemeral volumes. ON_ROOT_MISMATCH only changes permissions and ownership if the permission and ownership of the root directory does not match the expected permissions and ownership of the volume. This can improve container instance start times. ALWAYS  changes permission and ownership of the volume when it is mounted. If unset, ALWAYS is used.
 	FsGroupChangePolicy ContainerFsGroupChangePolicyTypeEnum `mandatory:"false" json:"fsGroupChangePolicy,omitempty"`
 }

@@ -17,12 +17,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
+
+	"regexp"
 )
 
 // ContainerEngineClient a client for ContainerEngine
 type ContainerEngineClient struct {
 	common.BaseClient
-	config *common.ConfigurationProvider
+	config                   *common.ConfigurationProvider
+	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
 }
 
 // NewContainerEngineClientWithConfigurationProvider Creates a new default ContainerEngine client with the given configuration provider.
@@ -69,7 +72,8 @@ func newContainerEngineClientFromBaseClient(baseClient common.BaseClient, config
 
 // SetRegion overrides the region of this client.
 func (client *ContainerEngineClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("containerengine", "https://containerengine.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("containerengine", client.getEndpointTemplatePerRealm(region), "containerengine")
+	client.parseEndpointTemplatePerRealm()
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -91,6 +95,65 @@ func (client *ContainerEngineClient) setConfigurationProvider(configProvider com
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *ContainerEngineClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *ContainerEngineClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
+func (client *ContainerEngineClient) getEndpointTemplatePerRealm(region string) string {
+	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
+		realm, _ := common.StringToRegion(region).RealmID()
+		templatePerRealmDict := map[string]string{
+			"oc1":  "https://{dualStack?ds.:}containerengine.{region}.oci.{secondLevelDomain}",
+			"oc14": "https://{dualStack?ds.:}containerengine.{region}.oci.{secondLevelDomain}",
+			"oc16": "https://{dualStack?ds.:}containerengine.{region}.oci.{secondLevelDomain}",
+		}
+		if template, ok := templatePerRealmDict[realm]; ok {
+			return template
+		}
+	}
+	return "https://containerengine.{region}.oci.{secondLevelDomain}"
+}
+
+// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
+// This function will build a map of template params to their values, this map is used when building the API endpoint
+func (client *ContainerEngineClient) parseEndpointTemplatePerRealm() {
+	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
+	templateRegex := regexp.MustCompile(`{.*?}`)
+	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, template := range templates {
+		templateParam := templateSubRegex.FindStringSubmatch(template)
+		if len(templateParam) > 1 {
+			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
+				Template:    templateParam[0],
+				EndsWithDot: true,
+			})
+		} else {
+			templateParam := template[1 : len(template)-1]
+			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
+				Template:    template,
+				EndsWithDot: false,
+			})
+		}
+	}
+}
+
+// SetCustomClientConfiguration sets client with retry and other custom configurations
+func (client *ContainerEngineClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
+	client.Configuration = config
+	client.refreshRegion()
+}
+
+// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
+func (client *ContainerEngineClient) refreshRegion() {
+	configProvider := *client.config
+	region, _ := configProvider.Region()
+	client.SetRegion(region)
 }
 
 // ChangeClusterAttachmentCompartment Moves a ClusterAttachment resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
@@ -131,6 +194,14 @@ func (client ContainerEngineClient) changeClusterAttachmentCompartment(ctx conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ChangeClusterAttachmentCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeClusterAttachmentCompartmentResponse
 	var httpResponse *http.Response
@@ -186,6 +257,14 @@ func (client ContainerEngineClient) changeClusterNamespaceCompartment(ctx contex
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ChangeClusterNamespaceCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeClusterNamespaceCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -239,6 +318,14 @@ func (client ContainerEngineClient) changeClusterNamespaceProfileCompartment(ctx
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ChangeClusterNamespaceProfileCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeClusterNamespaceProfileCompartmentResponse
 	var httpResponse *http.Response
@@ -294,6 +381,14 @@ func (client ContainerEngineClient) changeClusterNamespaceProfileVersionCompartm
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ChangeClusterNamespaceProfileVersionCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ChangeClusterNamespaceProfileVersionCompartmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -347,6 +442,14 @@ func (client ContainerEngineClient) clusterMigrateToNativeVcn(ctx context.Contex
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ClusterMigrateToNativeVcnRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ClusterMigrateToNativeVcnResponse
 	var httpResponse *http.Response
@@ -407,6 +510,14 @@ func (client ContainerEngineClient) completeCredentialRotation(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CompleteCredentialRotationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CompleteCredentialRotationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -465,6 +576,14 @@ func (client ContainerEngineClient) createCluster(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(CreateClusterRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateClusterResponse
 	var httpResponse *http.Response
@@ -525,6 +644,14 @@ func (client ContainerEngineClient) createClusterAttachment(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateClusterAttachmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateClusterAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -583,6 +710,14 @@ func (client ContainerEngineClient) createClusterNamespace(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(CreateClusterNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateClusterNamespaceResponse
 	var httpResponse *http.Response
@@ -643,6 +778,14 @@ func (client ContainerEngineClient) createClusterNamespaceProfile(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateClusterNamespaceProfileRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateClusterNamespaceProfileResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -702,6 +845,14 @@ func (client ContainerEngineClient) createClusterNamespaceProfileVersion(ctx con
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateClusterNamespaceProfileVersionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -755,6 +906,14 @@ func (client ContainerEngineClient) createKubeconfig(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(CreateKubeconfigRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateKubeconfigResponse
 	var httpResponse *http.Response
@@ -813,6 +972,14 @@ func (client ContainerEngineClient) createNodePool(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(CreateNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateNodePoolResponse
 	var httpResponse *http.Response
@@ -873,6 +1040,14 @@ func (client ContainerEngineClient) createVirtualNodePool(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateVirtualNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateVirtualNodePoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -932,6 +1107,14 @@ func (client ContainerEngineClient) createWorkloadMapping(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateWorkloadMappingRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateWorkloadMappingResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -985,6 +1168,14 @@ func (client ContainerEngineClient) deleteCluster(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteClusterRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteClusterResponse
 	var httpResponse *http.Response
@@ -1040,6 +1231,14 @@ func (client ContainerEngineClient) deleteClusterAttachment(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteClusterAttachmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteClusterAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1093,6 +1292,14 @@ func (client ContainerEngineClient) deleteClusterNamespace(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteClusterNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteClusterNamespaceResponse
 	var httpResponse *http.Response
@@ -1148,6 +1355,14 @@ func (client ContainerEngineClient) deleteClusterNamespaceProfile(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteClusterNamespaceProfileRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteClusterNamespaceProfileResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1201,6 +1416,14 @@ func (client ContainerEngineClient) deleteClusterNamespaceProfileVersion(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteClusterNamespaceProfileVersionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
@@ -1256,6 +1479,14 @@ func (client ContainerEngineClient) deleteNode(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteNodeRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteNodeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1309,6 +1540,14 @@ func (client ContainerEngineClient) deleteNodePool(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteNodePoolResponse
 	var httpResponse *http.Response
@@ -1364,6 +1603,14 @@ func (client ContainerEngineClient) deleteVirtualNodePool(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteVirtualNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteVirtualNodePoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1417,6 +1664,14 @@ func (client ContainerEngineClient) deleteWorkRequest(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteWorkRequestResponse
 	var httpResponse *http.Response
@@ -1472,6 +1727,14 @@ func (client ContainerEngineClient) deleteWorkloadMapping(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteWorkloadMappingRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteWorkloadMappingResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1525,6 +1788,14 @@ func (client ContainerEngineClient) disableAddon(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DisableAddonRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DisableAddonResponse
 	var httpResponse *http.Response
@@ -1580,6 +1851,14 @@ func (client ContainerEngineClient) getAddon(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetAddonRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetAddonResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1633,6 +1912,14 @@ func (client ContainerEngineClient) getCluster(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetClusterRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetClusterResponse
 	var httpResponse *http.Response
@@ -1688,6 +1975,14 @@ func (client ContainerEngineClient) getClusterAttachment(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetClusterAttachmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetClusterAttachmentResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1741,6 +2036,14 @@ func (client ContainerEngineClient) getClusterMigrateToNativeVcnStatus(ctx conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetClusterMigrateToNativeVcnStatusRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetClusterMigrateToNativeVcnStatusResponse
 	var httpResponse *http.Response
@@ -1796,6 +2099,14 @@ func (client ContainerEngineClient) getClusterNamespace(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetClusterNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetClusterNamespaceResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1849,6 +2160,14 @@ func (client ContainerEngineClient) getClusterNamespaceProfile(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetClusterNamespaceProfileRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetClusterNamespaceProfileResponse
 	var httpResponse *http.Response
@@ -1904,6 +2223,14 @@ func (client ContainerEngineClient) getClusterNamespaceProfileVersion(ctx contex
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetClusterNamespaceProfileVersionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1957,6 +2284,14 @@ func (client ContainerEngineClient) getClusterOptions(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetClusterOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetClusterOptionsResponse
 	var httpResponse *http.Response
@@ -2012,6 +2347,14 @@ func (client ContainerEngineClient) getCredentialRotationStatus(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetCredentialRotationStatusRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCredentialRotationStatusResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2065,6 +2408,14 @@ func (client ContainerEngineClient) getNodePool(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetNodePoolResponse
 	var httpResponse *http.Response
@@ -2120,6 +2471,14 @@ func (client ContainerEngineClient) getNodePoolOptions(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetNodePoolOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetNodePoolOptionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2173,6 +2532,14 @@ func (client ContainerEngineClient) getVirtualNode(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetVirtualNodeRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetVirtualNodeResponse
 	var httpResponse *http.Response
@@ -2228,6 +2595,14 @@ func (client ContainerEngineClient) getVirtualNodePool(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetVirtualNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetVirtualNodePoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2282,6 +2657,14 @@ func (client ContainerEngineClient) getWorkRequest(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetWorkRequestRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2335,6 +2718,14 @@ func (client ContainerEngineClient) getWorkloadMapping(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetWorkloadMappingRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetWorkloadMappingResponse
 	var httpResponse *http.Response
@@ -2395,6 +2786,14 @@ func (client ContainerEngineClient) installAddon(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	request.(InstallAddonRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response InstallAddonResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2448,6 +2847,14 @@ func (client ContainerEngineClient) listAddonOptions(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListAddonOptionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListAddonOptionsResponse
 	var httpResponse *http.Response
@@ -2503,6 +2910,14 @@ func (client ContainerEngineClient) listAddons(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListAddonsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListAddonsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2556,6 +2971,14 @@ func (client ContainerEngineClient) listClusterAttachments(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListClusterAttachmentsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListClusterAttachmentsResponse
 	var httpResponse *http.Response
@@ -2611,6 +3034,14 @@ func (client ContainerEngineClient) listClusterNamespaceProfileVersions(ctx cont
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListClusterNamespaceProfileVersionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListClusterNamespaceProfileVersionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2664,6 +3095,14 @@ func (client ContainerEngineClient) listClusterNamespaceProfiles(ctx context.Con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListClusterNamespaceProfilesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListClusterNamespaceProfilesResponse
 	var httpResponse *http.Response
@@ -2719,6 +3158,14 @@ func (client ContainerEngineClient) listClusterNamespaces(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListClusterNamespacesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListClusterNamespacesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2772,6 +3219,14 @@ func (client ContainerEngineClient) listClusters(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListClustersRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListClustersResponse
 	var httpResponse *http.Response
@@ -2827,6 +3282,14 @@ func (client ContainerEngineClient) listNodePools(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListNodePoolsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListNodePoolsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2880,6 +3343,14 @@ func (client ContainerEngineClient) listPodShapes(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListPodShapesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListPodShapesResponse
 	var httpResponse *http.Response
@@ -2935,6 +3406,14 @@ func (client ContainerEngineClient) listVirtualNodePools(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListVirtualNodePoolsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListVirtualNodePoolsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2988,6 +3467,14 @@ func (client ContainerEngineClient) listVirtualNodes(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListVirtualNodesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListVirtualNodesResponse
 	var httpResponse *http.Response
@@ -3043,6 +3530,14 @@ func (client ContainerEngineClient) listWorkRequestErrors(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListWorkRequestErrorsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestErrorsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3096,6 +3591,14 @@ func (client ContainerEngineClient) listWorkRequestLogs(ctx context.Context, req
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListWorkRequestLogsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestLogsResponse
 	var httpResponse *http.Response
@@ -3151,6 +3654,14 @@ func (client ContainerEngineClient) listWorkRequests(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListWorkRequestsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3204,6 +3715,14 @@ func (client ContainerEngineClient) listWorkloadMappings(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListWorkloadMappingsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkloadMappingsResponse
 	var httpResponse *http.Response
@@ -3264,6 +3783,14 @@ func (client ContainerEngineClient) startCredentialRotation(ctx context.Context,
 		return nil, err
 	}
 
+	host := client.Host
+	request.(StartCredentialRotationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response StartCredentialRotationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3317,6 +3844,14 @@ func (client ContainerEngineClient) updateAddon(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateAddonRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateAddonResponse
 	var httpResponse *http.Response
@@ -3372,6 +3907,14 @@ func (client ContainerEngineClient) updateCluster(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateClusterRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3425,6 +3968,14 @@ func (client ContainerEngineClient) updateClusterAttachment(ctx context.Context,
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateClusterAttachmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateClusterAttachmentResponse
 	var httpResponse *http.Response
@@ -3480,6 +4031,14 @@ func (client ContainerEngineClient) updateClusterEndpointConfig(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateClusterEndpointConfigRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateClusterEndpointConfigResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3533,6 +4092,14 @@ func (client ContainerEngineClient) updateClusterNamespace(ctx context.Context, 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateClusterNamespaceRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateClusterNamespaceResponse
 	var httpResponse *http.Response
@@ -3588,6 +4155,14 @@ func (client ContainerEngineClient) updateClusterNamespaceProfile(ctx context.Co
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateClusterNamespaceProfileRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateClusterNamespaceProfileResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3641,6 +4216,14 @@ func (client ContainerEngineClient) updateClusterNamespaceProfileVersion(ctx con
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateClusterNamespaceProfileVersionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateClusterNamespaceProfileVersionResponse
 	var httpResponse *http.Response
@@ -3696,6 +4279,14 @@ func (client ContainerEngineClient) updateNodePool(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateNodePoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3750,6 +4341,14 @@ func (client ContainerEngineClient) updateVirtualNodePool(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateVirtualNodePoolRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateVirtualNodePoolResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3803,6 +4402,14 @@ func (client ContainerEngineClient) updateWorkloadMapping(ctx context.Context, r
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateWorkloadMappingRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateWorkloadMappingResponse
 	var httpResponse *http.Response

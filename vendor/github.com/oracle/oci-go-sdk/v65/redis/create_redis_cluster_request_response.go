@@ -14,7 +14,7 @@ import (
 // CreateRedisClusterRequest wrapper for the CreateRedisCluster operation
 type CreateRedisClusterRequest struct {
 
-	// Details for the new RedisCluster.
+	// Details for the new cluster.
 	CreateRedisClusterDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

@@ -186,6 +186,11 @@ type UndeleteAutonomousDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The private endpoint Ip address for the resource.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
@@ -451,6 +456,11 @@ func (m UndeleteAutonomousDatabaseDetails) GetDefinedTags() map[string]map[strin
 	return m.DefinedTags
 }
 
+// GetSecurityAttributes returns SecurityAttributes
+func (m UndeleteAutonomousDatabaseDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
+}
+
 // GetPrivateEndpointIp returns PrivateEndpointIp
 func (m UndeleteAutonomousDatabaseDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
@@ -611,6 +621,7 @@ func (m *UndeleteAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error)
 		PrivateEndpointLabel                     *string                                                           `json:"privateEndpointLabel"`
 		FreeformTags                             map[string]string                                                 `json:"freeformTags"`
 		DefinedTags                              map[string]map[string]interface{}                                 `json:"definedTags"`
+		SecurityAttributes                       map[string]map[string]interface{}                                 `json:"securityAttributes"`
 		PrivateEndpointIp                        *string                                                           `json:"privateEndpointIp"`
 		DbVersion                                *string                                                           `json:"dbVersion"`
 		CustomerContacts                         []CustomerContact                                                 `json:"customerContacts"`
@@ -716,6 +727,8 @@ func (m *UndeleteAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.PrivateEndpointIp = model.PrivateEndpointIp
 

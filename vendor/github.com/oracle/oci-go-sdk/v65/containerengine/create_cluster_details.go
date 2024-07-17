@@ -63,9 +63,6 @@ type CreateClusterDetails struct {
 
 	// Type of cluster
 	Type ClusterTypeEnum `mandatory:"false" json:"type,omitempty"`
-
-	// The cluster-specific OpenID Connect Discovery endpoint
-	OpenIdConnectDiscoveryEndpoint *string `mandatory:"false" json:"openIdConnectDiscoveryEndpoint"`
 }
 
 func (m CreateClusterDetails) String() string {
@@ -90,19 +87,18 @@ func (m CreateClusterDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		EndpointConfig                 *CreateClusterEndpointConfigDetails `json:"endpointConfig"`
-		KmsKeyId                       *string                             `json:"kmsKeyId"`
-		FreeformTags                   map[string]string                   `json:"freeformTags"`
-		DefinedTags                    map[string]map[string]interface{}   `json:"definedTags"`
-		Options                        *ClusterCreateOptions               `json:"options"`
-		ImagePolicyConfig              *CreateImagePolicyConfigDetails     `json:"imagePolicyConfig"`
-		ClusterPodNetworkOptions       []clusterpodnetworkoptiondetails    `json:"clusterPodNetworkOptions"`
-		Type                           ClusterTypeEnum                     `json:"type"`
-		OpenIdConnectDiscoveryEndpoint *string                             `json:"openIdConnectDiscoveryEndpoint"`
-		Name                           *string                             `json:"name"`
-		CompartmentId                  *string                             `json:"compartmentId"`
-		VcnId                          *string                             `json:"vcnId"`
-		KubernetesVersion              *string                             `json:"kubernetesVersion"`
+		EndpointConfig           *CreateClusterEndpointConfigDetails `json:"endpointConfig"`
+		KmsKeyId                 *string                             `json:"kmsKeyId"`
+		FreeformTags             map[string]string                   `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}   `json:"definedTags"`
+		Options                  *ClusterCreateOptions               `json:"options"`
+		ImagePolicyConfig        *CreateImagePolicyConfigDetails     `json:"imagePolicyConfig"`
+		ClusterPodNetworkOptions []clusterpodnetworkoptiondetails    `json:"clusterPodNetworkOptions"`
+		Type                     ClusterTypeEnum                     `json:"type"`
+		Name                     *string                             `json:"name"`
+		CompartmentId            *string                             `json:"compartmentId"`
+		VcnId                    *string                             `json:"vcnId"`
+		KubernetesVersion        *string                             `json:"kubernetesVersion"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -135,8 +131,6 @@ func (m *CreateClusterDetails) UnmarshalJSON(data []byte) (e error) {
 		}
 	}
 	m.Type = model.Type
-
-	m.OpenIdConnectDiscoveryEndpoint = model.OpenIdConnectDiscoveryEndpoint
 
 	m.Name = model.Name
 

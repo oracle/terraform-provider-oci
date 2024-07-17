@@ -16,12 +16,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
+
+	"regexp"
 )
 
 // EventsClient a client for Events
 type EventsClient struct {
 	common.BaseClient
-	config *common.ConfigurationProvider
+	config                   *common.ConfigurationProvider
+	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
 }
 
 // NewEventsClientWithConfigurationProvider Creates a new default Events client with the given configuration provider.
@@ -69,6 +72,7 @@ func newEventsClientFromBaseClient(baseClient common.BaseClient, configProvider 
 // SetRegion overrides the region of this client.
 func (client *EventsClient) SetRegion(region string) {
 	client.Host = common.StringToRegion(region).EndpointForTemplate("events", "https://events.{region}.oci.{secondLevelDomain}")
+	client.parseEndpointTemplatePerRealm()
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +94,64 @@ func (client *EventsClient) setConfigurationProvider(configProvider common.Confi
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *EventsClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *EventsClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
+func (client *EventsClient) getEndpointTemplatePerRealm(region string) string {
+	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
+		realm, _ := common.StringToRegion(region).RealmID()
+		templatePerRealmDict := map[string]string{
+			"oc1":  "https://{dualStack?ds.:}events.{region}.oci.{secondLevelDomain}",
+			"oc16": "https://{dualStack?ds.:}events.{region}.oci.{secondLevelDomain}",
+		}
+		if template, ok := templatePerRealmDict[realm]; ok {
+			return template
+		}
+	}
+	return "https://events.{region}.oci.{secondLevelDomain}"
+}
+
+// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
+// This function will build a map of template params to their values, this map is used when building the API endpoint
+func (client *EventsClient) parseEndpointTemplatePerRealm() {
+	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
+	templateRegex := regexp.MustCompile(`{.*?}`)
+	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, template := range templates {
+		templateParam := templateSubRegex.FindStringSubmatch(template)
+		if len(templateParam) > 1 {
+			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
+				Template:    templateParam[0],
+				EndsWithDot: true,
+			})
+		} else {
+			templateParam := template[1 : len(template)-1]
+			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
+				Template:    template,
+				EndsWithDot: false,
+			})
+		}
+	}
+}
+
+// SetCustomClientConfiguration sets client with retry and other custom configurations
+func (client *EventsClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
+	client.Configuration = config
+	client.refreshRegion()
+}
+
+// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
+func (client *EventsClient) refreshRegion() {
+	configProvider := *client.config
+	region, _ := configProvider.Region()
+	client.SetRegion(region)
 }
 
 // ChangeRuleCompartment Moves a rule into a different compartment within the same tenancy. For information about moving
@@ -135,6 +197,14 @@ func (client EventsClient) changeRuleCompartment(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ChangeRuleCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeRuleCompartmentResponse
 	var httpResponse *http.Response
@@ -194,6 +264,14 @@ func (client EventsClient) createRule(ctx context.Context, request common.OCIReq
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -246,6 +324,14 @@ func (client EventsClient) deleteRule(ctx context.Context, request common.OCIReq
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteRuleResponse
 	var httpResponse *http.Response
@@ -300,6 +386,14 @@ func (client EventsClient) getRule(ctx context.Context, request common.OCIReques
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetRuleResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -353,6 +447,14 @@ func (client EventsClient) listRules(ctx context.Context, request common.OCIRequ
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListRulesRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -405,6 +507,14 @@ func (client EventsClient) updateRule(ctx context.Context, request common.OCIReq
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateRuleRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateRuleResponse
 	var httpResponse *http.Response

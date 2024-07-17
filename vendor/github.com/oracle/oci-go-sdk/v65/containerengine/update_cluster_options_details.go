@@ -23,13 +23,14 @@ type UpdateClusterOptionsDetails struct {
 	// Configurable cluster admission controllers
 	AdmissionControllerOptions *AdmissionControllerOptions `mandatory:"false" json:"admissionControllerOptions"`
 
-	AddOns *AddOnOptions `mandatory:"false" json:"addOns"`
-
 	PersistentVolumeConfig *PersistentVolumeConfigDetails `mandatory:"false" json:"persistentVolumeConfig"`
 
 	ServiceLbConfig *ServiceLbConfigDetails `mandatory:"false" json:"serviceLbConfig"`
 
 	OpenIdConnectTokenAuthenticationConfig *OpenIdConnectTokenAuthenticationConfig `mandatory:"false" json:"openIdConnectTokenAuthenticationConfig"`
+
+	// Whether the cluster has OIDC Auth Config enabled. Defaults to false.
+	IsOpenIdConnectAuthEnabled *bool `mandatory:"false" json:"isOpenIdConnectAuthEnabled"`
 
 	OpenIdConnectDiscovery *OpenIdConnectDiscovery `mandatory:"false" json:"openIdConnectDiscovery"`
 }

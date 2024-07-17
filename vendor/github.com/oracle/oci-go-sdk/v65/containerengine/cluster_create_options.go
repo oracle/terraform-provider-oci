@@ -41,6 +41,9 @@ type ClusterCreateOptions struct {
 
 	OpenIdConnectTokenAuthenticationConfig *OpenIdConnectTokenAuthenticationConfig `mandatory:"false" json:"openIdConnectTokenAuthenticationConfig"`
 
+	// Whether the cluster has OIDC Auth Config enabled. Defaults to false.
+	IsOpenIdConnectAuthEnabled *bool `mandatory:"false" json:"isOpenIdConnectAuthEnabled"`
+
 	OpenIdConnectDiscovery *OpenIdConnectDiscovery `mandatory:"false" json:"openIdConnectDiscovery"`
 }
 

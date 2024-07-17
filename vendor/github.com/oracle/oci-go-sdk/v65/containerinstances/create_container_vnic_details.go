@@ -47,6 +47,13 @@ type CreateContainerVnicDetails struct {
 	// available IP address within the subnet's CIDR.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// Designates if the VNIC to be created is Primary or Secondary. Only one VNIC can be designated as Primary when
+	// customers request additional VNICs in the request. The container instance uses the primary VNIC for pulling
+	// the necessary container images for creating the container instance. Container Instance Service does not use
+	// the secondary VNIC(s) but will configure them such that traffic originating from such VNIC(s) will be routed
+	// to that VNIC's subnet gateway address.
+	Purpose CreateContainerVnicDetailsPurposeEnum `mandatory:"false" json:"purpose,omitempty"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -66,8 +73,53 @@ func (m CreateContainerVnicDetails) String() string {
 func (m CreateContainerVnicDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateContainerVnicDetailsPurposeEnum(string(m.Purpose)); !ok && m.Purpose != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Purpose: %s. Supported values are: %s.", m.Purpose, strings.Join(GetCreateContainerVnicDetailsPurposeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateContainerVnicDetailsPurposeEnum Enum with underlying type: string
+type CreateContainerVnicDetailsPurposeEnum string
+
+// Set of constants representing the allowable values for CreateContainerVnicDetailsPurposeEnum
+const (
+	CreateContainerVnicDetailsPurposePrimary   CreateContainerVnicDetailsPurposeEnum = "PRIMARY"
+	CreateContainerVnicDetailsPurposeSecondary CreateContainerVnicDetailsPurposeEnum = "SECONDARY"
+)
+
+var mappingCreateContainerVnicDetailsPurposeEnum = map[string]CreateContainerVnicDetailsPurposeEnum{
+	"PRIMARY":   CreateContainerVnicDetailsPurposePrimary,
+	"SECONDARY": CreateContainerVnicDetailsPurposeSecondary,
+}
+
+var mappingCreateContainerVnicDetailsPurposeEnumLowerCase = map[string]CreateContainerVnicDetailsPurposeEnum{
+	"primary":   CreateContainerVnicDetailsPurposePrimary,
+	"secondary": CreateContainerVnicDetailsPurposeSecondary,
+}
+
+// GetCreateContainerVnicDetailsPurposeEnumValues Enumerates the set of values for CreateContainerVnicDetailsPurposeEnum
+func GetCreateContainerVnicDetailsPurposeEnumValues() []CreateContainerVnicDetailsPurposeEnum {
+	values := make([]CreateContainerVnicDetailsPurposeEnum, 0)
+	for _, v := range mappingCreateContainerVnicDetailsPurposeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateContainerVnicDetailsPurposeEnumStringValues Enumerates the set of values in String for CreateContainerVnicDetailsPurposeEnum
+func GetCreateContainerVnicDetailsPurposeEnumStringValues() []string {
+	return []string{
+		"PRIMARY",
+		"SECONDARY",
+	}
+}
+
+// GetMappingCreateContainerVnicDetailsPurposeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateContainerVnicDetailsPurposeEnum(val string) (CreateContainerVnicDetailsPurposeEnum, bool) {
+	enum, ok := mappingCreateContainerVnicDetailsPurposeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

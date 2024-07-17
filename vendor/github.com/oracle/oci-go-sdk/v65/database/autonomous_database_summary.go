@@ -199,6 +199,11 @@ type AutonomousDatabaseSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet the resource is associated with.
 	// **Subnet Restrictions:**
 	// - For bare metal DB systems and for single node virtual machine DB systems, do not use a subnet that overlaps with 192.168.16.16/28.
@@ -613,6 +618,7 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 		UsedDataStorageSizeInTBs                *int                                                           `json:"usedDataStorageSizeInTBs"`
 		FreeformTags                            map[string]string                                              `json:"freeformTags"`
 		DefinedTags                             map[string]map[string]interface{}                              `json:"definedTags"`
+		SecurityAttributes                      map[string]map[string]interface{}                              `json:"securityAttributes"`
 		SubnetId                                *string                                                        `json:"subnetId"`
 		NsgIds                                  []string                                                       `json:"nsgIds"`
 		PrivateEndpoint                         *string                                                        `json:"privateEndpoint"`
@@ -805,6 +811,8 @@ func (m *AutonomousDatabaseSummary) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.SubnetId = model.SubnetId
 

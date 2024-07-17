@@ -17,12 +17,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
+
+	"regexp"
 )
 
 // AuditClient a client for Audit
 type AuditClient struct {
 	common.BaseClient
-	config *common.ConfigurationProvider
+	config                   *common.ConfigurationProvider
+	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
 }
 
 // NewAuditClientWithConfigurationProvider Creates a new default Audit client with the given configuration provider.
@@ -70,6 +73,7 @@ func newAuditClientFromBaseClient(baseClient common.BaseClient, configProvider c
 // SetRegion overrides the region of this client.
 func (client *AuditClient) SetRegion(region string) {
 	client.Host = common.StringToRegion(region).EndpointForTemplate("audit", "https://audit.{region}.{secondLevelDomain}")
+	client.parseEndpointTemplatePerRealm()
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -91,6 +95,64 @@ func (client *AuditClient) setConfigurationProvider(configProvider common.Config
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *AuditClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *AuditClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
+func (client *AuditClient) getEndpointTemplatePerRealm(region string) string {
+	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
+		realm, _ := common.StringToRegion(region).RealmID()
+		templatePerRealmDict := map[string]string{
+			"oc1":  "https://{dualStack?ds.:}audit.{region}.oci.{secondLevelDomain}",
+			"oc16": "https://{dualStack?ds.:}audit.{region}.oci.{secondLevelDomain}",
+		}
+		if template, ok := templatePerRealmDict[realm]; ok {
+			return template
+		}
+	}
+	return "https://audit.{region}.{secondLevelDomain}"
+}
+
+// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
+// This function will build a map of template params to their values, this map is used when building the API endpoint
+func (client *AuditClient) parseEndpointTemplatePerRealm() {
+	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
+	templateRegex := regexp.MustCompile(`{.*?}`)
+	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, template := range templates {
+		templateParam := templateSubRegex.FindStringSubmatch(template)
+		if len(templateParam) > 1 {
+			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
+				Template:    templateParam[0],
+				EndsWithDot: true,
+			})
+		} else {
+			templateParam := template[1 : len(template)-1]
+			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
+				Template:    template,
+				EndsWithDot: false,
+			})
+		}
+	}
+}
+
+// SetCustomClientConfiguration sets client with retry and other custom configurations
+func (client *AuditClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
+	client.Configuration = config
+	client.refreshRegion()
+}
+
+// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
+func (client *AuditClient) refreshRegion() {
+	configProvider := *client.config
+	region, _ := configProvider.Region()
+	client.SetRegion(region)
 }
 
 // GetConfiguration Get the configuration
@@ -125,6 +187,14 @@ func (client AuditClient) getConfiguration(ctx context.Context, request common.O
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetConfigurationResponse
 	var httpResponse *http.Response
@@ -180,6 +250,14 @@ func (client AuditClient) listEvents(ctx context.Context, request common.OCIRequ
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListEventsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListEventsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -232,6 +310,14 @@ func (client AuditClient) updateConfiguration(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateConfigurationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateConfigurationResponse
 	var httpResponse *http.Response

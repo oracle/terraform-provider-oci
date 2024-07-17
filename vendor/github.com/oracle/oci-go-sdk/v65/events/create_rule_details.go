@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateRuleDetails Object used to create a rule.
+// CreateRuleDetails Object used to create an events1.0 rule and events2.0 system rule.
 type CreateRuleDetails struct {
 
 	// A string that describes the rule. It does not have to be unique, and you can change it. Avoid entering
