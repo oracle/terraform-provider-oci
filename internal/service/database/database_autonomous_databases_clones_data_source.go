@@ -847,6 +847,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"subscription_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"supported_regions_to_clone_to": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -1369,6 +1373,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.SubnetId != nil {
 			autonomousDatabasesClone["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SubscriptionId != nil {
+			autonomousDatabasesClone["subscription_id"] = *r.SubscriptionId
 		}
 
 		autonomousDatabasesClone["supported_regions_to_clone_to"] = r.SupportedRegionsToCloneTo
