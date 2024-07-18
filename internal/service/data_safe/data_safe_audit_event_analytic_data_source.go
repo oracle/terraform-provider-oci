@@ -231,7 +231,7 @@ func (s *DataSafeAuditEventAnalyticDataSourceCrud) Get() error {
 		tmp := make([]oci_data_safe.ListAuditEventAnalyticsGroupByEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_data_safe.ListAuditEventAnalyticsGroupByEnum)
+				tmp[i] = oci_data_safe.ListAuditEventAnalyticsGroupByEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("group_by") {
@@ -254,7 +254,7 @@ func (s *DataSafeAuditEventAnalyticDataSourceCrud) Get() error {
 		tmp := make([]oci_data_safe.ListAuditEventAnalyticsSummaryFieldEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_data_safe.ListAuditEventAnalyticsSummaryFieldEnum)
+				tmp[i] = oci_data_safe.ListAuditEventAnalyticsSummaryFieldEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("summary_field") {

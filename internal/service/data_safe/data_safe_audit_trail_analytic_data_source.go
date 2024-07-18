@@ -133,7 +133,7 @@ func (s *DataSafeAuditTrailAnalyticDataSourceCrud) Get() error {
 		tmp := make([]oci_data_safe.ListAuditTrailAnalyticsGroupByEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_data_safe.ListAuditTrailAnalyticsGroupByEnum)
+				tmp[i] = oci_data_safe.ListAuditTrailAnalyticsGroupByEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("group_by") {
