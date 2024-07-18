@@ -417,6 +417,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	}
+
 	s.D.Set("supported_regions_to_clone_to", s.Res.SupportedRegionsToCloneTo)
 
 	if s.Res.SystemTags != nil {
