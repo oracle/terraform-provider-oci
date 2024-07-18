@@ -54,6 +54,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 		weeks_of_month = var.cloud_exadata_infrastructure_maintenance_window_weeks_of_month
 	}
 	storage_count = var.cloud_exadata_infrastructure_storage_count
+	subscription_id = var.tenant_subscription_id
 }
 ```
 
@@ -88,6 +89,7 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `shape` - (Required) The shape of the cloud Exadata infrastructure resource. 
 * `storage_count` - (Optional) (Updatable) The number of storage servers for the cloud Exadata infrastructure.
+* `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 
 
 ** IMPORTANT **
@@ -149,6 +151,7 @@ The following attributes are exported:
 * `state` - The current lifecycle state of the cloud Exadata infrastructure resource.
 * `storage_count` - The number of storage servers for the cloud Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the cloud Exadata infrastructure. Example: 20.1.15 
+* `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `time_created` - The date and time the cloud Exadata infrastructure resource was created.
 * `total_storage_size_in_gbs` - The total storage allocated to the cloud Exadata infrastructure resource, in gigabytes (GB).

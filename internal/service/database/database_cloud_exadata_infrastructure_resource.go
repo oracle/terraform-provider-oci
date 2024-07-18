@@ -212,6 +212,12 @@ func DatabaseCloudExadataInfrastructureResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"activated_storage_count": {
@@ -496,6 +502,11 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) Create() error {
 	if storageCount, ok := s.D.GetOkExists("storage_count"); ok {
 		tmp := storageCount.(int)
 		request.StorageCount = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
@@ -788,6 +799,10 @@ func (s *DatabaseCloudExadataInfrastructureResourceCrud) SetData() error {
 
 	if s.Res.StorageServerVersion != nil {
 		s.D.Set("storage_server_version", *s.Res.StorageServerVersion)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	if s.Res.SystemTags != nil {

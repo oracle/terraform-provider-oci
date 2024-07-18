@@ -431,6 +431,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
@@ -486,6 +487,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 
@@ -537,6 +539,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssh_public_keys.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				//resource.TestCheckResourceAttr(resourceName, "node_count", "3"), // Assertion Failing, needs to be reviewed
@@ -601,6 +604,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.subnet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.subscription_id", ""),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.zone_id"),
@@ -651,6 +655,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
 			),
 		},
