@@ -5,7 +5,9 @@ package apm_synthetics
 
 import (
 	"context"
+	"encoding/base64"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/url"
 	"regexp"
@@ -69,6 +71,15 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 							Optional: true,
+						},
+
+						// Computed
+						"worker_list": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 					},
 				},
@@ -195,11 +206,120 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 								"DNSSEC_CONFIG",
 								"DNS_SERVER_CONFIG",
 								"DNS_TRACE_CONFIG",
+								"FTP_CONFIG",
 								"NETWORK_CONFIG",
 								"REST_CONFIG",
 								"SCRIPTED_BROWSER_CONFIG",
 								"SCRIPTED_REST_CONFIG",
+								"SQL_CONFIG",
 							}, true),
+						},
+						"connection_string": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"database_authentication_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"password": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"password": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													Sensitive:        true,
+													DiffSuppressFunc: tfresource.MaskedPasswordSuppressDiff,
+												},
+												"password_type": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													Sensitive:        true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"IN_TEXT",
+														"VAULT_SECRET_ID",
+													}, true),
+												},
+												"vault_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"database_connection_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"database_role": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"database_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"database_wallet_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"database_wallet": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										DiffSuppressFunc: tfresource.WalletSuppressDiff,
+									},
+									"service_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
 						},
 						"dns_configuration": {
 							Type:     schema.TypeList,
@@ -226,6 +346,86 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"download_size_limit_in_bytes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+						"ftp_basic_authentication_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"password": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"password": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													Sensitive:        true,
+													DiffSuppressFunc: tfresource.MaskedPasswordSuppressDiff,
+												},
+												"password_type": {
+													Type:             schema.TypeString,
+													Optional:         true,
+													Computed:         true,
+													Sensitive:        true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"IN_TEXT",
+														"VAULT_SECRET_ID",
+													}, true),
+												},
+												"vault_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"username": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"ftp_protocol": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"ftp_request_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"is_active_mode": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
 						},
 						"is_certificate_validation_enabled": {
 							Type:     schema.TypeBool,
@@ -299,6 +499,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 							},
 						},
 						"protocol": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"query": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -447,6 +652,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 								},
 							},
 						},
+						"upload_file_size_in_bytes": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
 						"verify_response_codes": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -497,6 +707,11 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"is_ipv6": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"is_run_now": {
 				Type:     schema.TypeBool,
@@ -614,6 +829,14 @@ func ApmSyntheticsMonitorResource() *schema.Resource {
 			},
 
 			// Computed
+			"created_by": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"last_updated_by": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"script_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -729,6 +952,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isIPv6, ok := s.D.GetOkExists("is_ipv6"); ok {
+		tmp := isIPv6.(bool)
+		request.IsIPv6 = &tmp
 	}
 
 	if isRunNow, ok := s.D.GetOkExists("is_run_now"); ok {
@@ -910,6 +1138,11 @@ func (s *ApmSyntheticsMonitorResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isIPv6, ok := s.D.GetOkExists("is_ipv6"); ok {
+		tmp := isIPv6.(bool)
+		request.IsIPv6 = &tmp
+	}
+
 	if isRunNow, ok := s.D.GetOkExists("is_run_now"); ok {
 		tmp := isRunNow.(bool)
 		request.IsRunNow = &tmp
@@ -1071,6 +1304,10 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 		s.D.Set("configuration", nil)
 	}
 
+	if s.Res.CreatedBy != nil {
+		s.D.Set("created_by", *s.Res.CreatedBy)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -1081,12 +1318,20 @@ func (s *ApmSyntheticsMonitorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsIPv6 != nil {
+		s.D.Set("is_ipv6", *s.Res.IsIPv6)
+	}
+
 	if s.Res.IsRunNow != nil {
 		s.D.Set("is_run_now", *s.Res.IsRunNow)
 	}
 
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
+	if s.Res.LastUpdatedBy != nil {
+		s.D.Set("last_updated_by", *s.Res.LastUpdatedBy)
 	}
 
 	if s.Res.MaintenanceWindowSchedule != nil {
@@ -1199,6 +1444,46 @@ func AvailabilityConfigurationToMap(obj *oci_apm_synthetics.AvailabilityConfigur
 	return result
 }
 
+func (s *ApmSyntheticsMonitorResourceCrud) mapToBasicAuthenticationDetails(fieldKeyFormat string) (oci_apm_synthetics.BasicAuthenticationDetails, error) {
+	result := oci_apm_synthetics.BasicAuthenticationDetails{}
+
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		if tmpList := password.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "password"), 0)
+			tmp, err := s.mapToPassword(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert password, encountered error: %v", err)
+			}
+			result.Password = tmp
+		}
+	}
+
+	if username, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username")); ok {
+		tmp := username.(string)
+		result.Username = &tmp
+	}
+
+	return result, nil
+}
+
+func BasicAuthenticationDetailsToMap(obj *oci_apm_synthetics.BasicAuthenticationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Password != nil {
+		passwordArray := []interface{}{}
+		if passwordMap := PasswordToMap(&obj.Password); passwordMap != nil {
+			passwordArray = append(passwordArray, passwordMap)
+		}
+		result["password"] = passwordArray
+	}
+
+	if obj.Username != nil {
+		result["username"] = string(*obj.Username)
+	}
+
+	return result
+}
+
 func (s *ApmSyntheticsMonitorResourceCrud) mapToClientCertificate(fieldKeyFormat string) (oci_apm_synthetics.ClientCertificate, error) {
 	result := oci_apm_synthetics.ClientCertificate{}
 
@@ -1266,6 +1551,45 @@ func ClientCertificateDetailsToMap(obj *oci_apm_synthetics.ClientCertificateDeta
 
 	if obj.PrivateKey != nil {
 		result["private_key"] = []interface{}{PrivateKeyToMap(obj.PrivateKey)}
+	}
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToDatabaseWalletDetails(fieldKeyFormat string) (oci_apm_synthetics.DatabaseWalletDetails, error) {
+	result := oci_apm_synthetics.DatabaseWalletDetails{}
+
+	if databaseWallet, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_wallet")); ok {
+		tmp := databaseWallet.(string)
+		if !tfresource.IsBase64(tmp) {
+			contents, err := ioutil.ReadFile(tmp)
+			if err != nil {
+				return result, fmt.Errorf("the specified content file is not available: %q", err)
+			}
+			sEnc := base64.StdEncoding.EncodeToString([]byte(contents))
+			result.DatabaseWallet = &sEnc
+		} else {
+			result.DatabaseWallet = &tmp
+		}
+	}
+
+	if serviceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_name")); ok {
+		tmp := serviceName.(string)
+		result.ServiceName = &tmp
+	}
+
+	return result, nil
+}
+
+func DatabaseWalletDetailsToMap(obj *oci_apm_synthetics.DatabaseWalletDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DatabaseWallet != nil {
+		result["database_wallet"] = string(*obj.DatabaseWallet)
+	}
+
+	if obj.ServiceName != nil {
+		result["service_name"] = string(*obj.ServiceName)
 	}
 
 	return result
@@ -1537,6 +1861,83 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			details.IsFailureRetried = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("FTP_CONFIG"):
+		details := oci_apm_synthetics.FtpMonitorConfiguration{}
+
+		if ftpBasicAuthenticationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ftp_basic_authentication_details")); ok {
+			if tmpList := ftpBasicAuthenticationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "ftp_basic_authentication_details"), 0)
+				tmp, err := s.mapToBasicAuthenticationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert ftp_basic_authentication_details, encountered error: %v", err)
+				}
+				details.FtpBasicAuthenticationDetails = &tmp
+			}
+		}
+		if ftpProtocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ftp_protocol")); ok {
+			details.FtpProtocol = oci_apm_synthetics.FtpProtocolEnum(ftpProtocol.(string))
+		}
+		if ftpRequestType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ftp_request_type")); ok {
+			details.FtpRequestType = oci_apm_synthetics.FtpRequestTypeEnum(ftpRequestType.(string))
+		}
+		if isActiveMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_active_mode")); ok {
+			tmp := isActiveMode.(bool)
+			details.IsActiveMode = &tmp
+		}
+		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
+			if tmpList := networkConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "network_configuration"), 0)
+				tmp, err := s.mapToNetworkConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert network_configuration, encountered error: %v", err)
+				}
+				details.NetworkConfiguration = &tmp
+			}
+		}
+
+		if verifyResponseCodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")); ok {
+			interfaces := verifyResponseCodes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "verify_response_codes")) {
+				details.VerifyResponseCodes = tmp
+			}
+		}
+		if verifyResponseContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "verify_response_content")); ok {
+			tmp := verifyResponseContent.(string)
+			details.VerifyResponseContent = &tmp
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		switch strings.ToLower(string(details.FtpRequestType)) {
+		case strings.ToLower("DOWNLOAD"):
+			if downloadSizeLimitInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "download_size_limit_in_bytes")); ok {
+				tmp := downloadSizeLimitInBytes.(int)
+				details.DownloadSizeLimitInBytes = &tmp
+			}
+		case strings.ToLower("UPLOAD"):
+			if uploadFileSizeInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "upload_file_size_in_bytes")); ok {
+				tmp := uploadFileSizeInBytes.(int)
+				details.UploadFileSizeInBytes = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("NETWORK_CONFIG"):
 		details := oci_apm_synthetics.NetworkMonitorConfiguration{}
 		if networkConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_configuration")); ok {
@@ -1754,6 +2155,61 @@ func (s *ApmSyntheticsMonitorResourceCrud) mapToMonitorConfiguration(fieldKeyFor
 			details.IsFailureRetried = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("SQL_CONFIG"):
+		details := oci_apm_synthetics.SqlMonitorConfiguration{}
+		if connectionString, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_string")); ok {
+			tmp := connectionString.(string)
+			details.ConnectionString = &tmp
+		}
+		if databaseAuthenticationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_authentication_details")); ok {
+			if tmpList := databaseAuthenticationDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_authentication_details"), 0)
+				tmp, err := s.mapToBasicAuthenticationDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_authentication_details, encountered error: %v", err)
+				}
+				details.DatabaseAuthenticationDetails = &tmp
+			}
+		}
+		if databaseConnectionType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connection_type")); ok {
+			details.DatabaseConnectionType = oci_apm_synthetics.DatabaseConnectionTypeEnum(databaseConnectionType.(string))
+		}
+		if databaseRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_role")); ok {
+			tmp := databaseRole.(string)
+			details.DatabaseRole = &tmp
+		}
+		if databaseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_type")); ok {
+			details.DatabaseType = oci_apm_synthetics.DatabaseTypeEnum(databaseType.(string))
+		}
+		if databaseWalletDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_wallet_details")); ok {
+			if tmpList := databaseWalletDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_wallet_details"), 0)
+				tmp, err := s.mapToDatabaseWalletDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_wallet_details, encountered error: %v", err)
+				}
+				details.DatabaseWalletDetails = &tmp
+			}
+		}
+		if query, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "query")); ok {
+			tmp := query.(string)
+			details.Query = &tmp
+		}
+		if dnsConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_configuration")); ok {
+			if tmpList := dnsConfiguration.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "dns_configuration"), 0)
+				tmp, err := s.mapToDnsConfiguration(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert dns_configuration, encountered error: %v", err)
+				}
+				details.DnsConfiguration = &tmp
+			}
+		}
+		if isFailureRetried, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_failure_retried")); ok {
+			tmp := isFailureRetried.(bool)
+			details.IsFailureRetried = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown config_type '%v' was specified", configType)
 	}
@@ -1846,6 +2302,46 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 		result["protocol"] = string(v.Protocol)
 
 		result["record_type"] = string(v.RecordType)
+
+		if v.VerifyResponseContent != nil {
+			result["verify_response_content"] = string(*v.VerifyResponseContent)
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
+	case oci_apm_synthetics.FtpMonitorConfiguration:
+		result["config_type"] = "FTP_CONFIG"
+
+		if v.DownloadSizeLimitInBytes != nil {
+			result["download_size_limit_in_bytes"] = int(*v.DownloadSizeLimitInBytes)
+		}
+
+		if v.FtpBasicAuthenticationDetails != nil {
+			result["ftp_basic_authentication_details"] = []interface{}{BasicAuthenticationDetailsToMap(v.FtpBasicAuthenticationDetails)}
+		}
+
+		result["ftp_protocol"] = string(v.FtpProtocol)
+
+		result["ftp_request_type"] = string(v.FtpRequestType)
+
+		if v.IsActiveMode != nil {
+			result["is_active_mode"] = bool(*v.IsActiveMode)
+		}
+
+		if v.NetworkConfiguration != nil {
+			result["network_configuration"] = []interface{}{NetworkConfigurationToMap(v.NetworkConfiguration)}
+		}
+
+		if v.UploadFileSizeInBytes != nil {
+			result["upload_file_size_in_bytes"] = int(*v.UploadFileSizeInBytes)
+		}
+
+		result["verify_response_codes"] = v.VerifyResponseCodes
 
 		if v.VerifyResponseContent != nil {
 			result["verify_response_content"] = string(*v.VerifyResponseContent)
@@ -1969,6 +2465,40 @@ func MonitorConfigurationToMap(obj *oci_apm_synthetics.MonitorConfiguration) map
 		if v.IsFailureRetried != nil {
 			result["is_failure_retried"] = bool(*v.IsFailureRetried)
 		}
+	case oci_apm_synthetics.SqlMonitorConfiguration:
+		result["config_type"] = "SQL_CONFIG"
+
+		if v.ConnectionString != nil {
+			result["connection_string"] = string(*v.ConnectionString)
+		}
+
+		if v.DatabaseAuthenticationDetails != nil {
+			result["database_authentication_details"] = []interface{}{BasicAuthenticationDetailsToMap(v.DatabaseAuthenticationDetails)}
+		}
+
+		result["database_connection_type"] = string(v.DatabaseConnectionType)
+
+		if v.DatabaseRole != nil {
+			result["database_role"] = string(*v.DatabaseRole)
+		}
+
+		result["database_type"] = string(v.DatabaseType)
+
+		if v.DatabaseWalletDetails != nil {
+			result["database_wallet_details"] = []interface{}{DatabaseWalletDetailsToMap(v.DatabaseWalletDetails)}
+		}
+
+		if v.Query != nil {
+			result["query"] = string(*v.Query)
+		}
+
+		if v.DnsConfiguration != nil {
+			result["dns_configuration"] = []interface{}{DnsConfigurationToMap(v.DnsConfiguration)}
+		}
+
+		if v.IsFailureRetried != nil {
+			result["is_failure_retried"] = bool(*v.IsFailureRetried)
+		}
 	default:
 		log.Printf("[WARN] Received 'config_type' of unknown type %v", *obj)
 		return nil
@@ -2006,6 +2536,10 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 		result["configuration"] = configurationArray
 	}
 
+	if obj.CreatedBy != nil {
+		result["created_by"] = string(*obj.CreatedBy)
+	}
+
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
 	}
@@ -2020,12 +2554,20 @@ func MonitorSummaryToMap(obj oci_apm_synthetics.MonitorSummary) map[string]inter
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsIPv6 != nil {
+		result["is_ipv6"] = bool(*obj.IsIPv6)
+	}
+
 	if obj.IsRunNow != nil {
 		result["is_run_now"] = bool(*obj.IsRunNow)
 	}
 
 	if obj.IsRunOnce != nil {
 		result["is_run_once"] = bool(*obj.IsRunOnce)
+	}
+
+	if obj.LastUpdatedBy != nil {
+		result["last_updated_by"] = string(*obj.LastUpdatedBy)
 	}
 
 	if obj.MaintenanceWindowSchedule != nil {
@@ -2125,6 +2667,60 @@ func NetworkConfigurationToMap(obj *oci_apm_synthetics.NetworkConfiguration) map
 
 	if obj.TransmissionRate != nil {
 		result["transmission_rate"] = int(*obj.TransmissionRate)
+	}
+
+	return result
+}
+
+func (s *ApmSyntheticsMonitorResourceCrud) mapToPassword(fieldKeyFormat string) (oci_apm_synthetics.Password, error) {
+	var baseObject oci_apm_synthetics.Password
+	//discriminator
+	passwordTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_type"))
+	var passwordType string
+	if ok {
+		passwordType = passwordTypeRaw.(string)
+	} else {
+		passwordType = "" // default value
+	}
+	switch strings.ToLower(passwordType) {
+	case strings.ToLower("IN_TEXT"):
+		details := oci_apm_synthetics.PasswordInText{}
+		if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+			tmp := password.(string)
+			details.Password = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VAULT_SECRET_ID"):
+		details := oci_apm_synthetics.PasswordInVault{}
+		if vaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_secret_id")); ok {
+			tmp := vaultSecretId.(string)
+			details.VaultSecretId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown password_type '%v' was specified", passwordType)
+	}
+	return baseObject, nil
+}
+
+func PasswordToMap(obj *oci_apm_synthetics.Password) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_apm_synthetics.PasswordInText:
+		result["password_type"] = "IN_TEXT"
+
+		if v.Password != nil {
+			result["password"] = string(*v.Password)
+		}
+	case oci_apm_synthetics.PasswordInVault:
+		result["password_type"] = "VAULT_SECRET_ID"
+
+		if v.VaultSecretId != nil {
+			result["vault_secret_id"] = string(*v.VaultSecretId)
+		}
+	default:
+		log.Printf("[WARN] Received 'password_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -2292,6 +2888,8 @@ func VantagePointInfoToMap(obj oci_apm_synthetics.VantagePointInfo) map[string]i
 	if obj.Name != nil {
 		result["name"] = string(*obj.Name)
 	}
+
+	result["worker_list"] = obj.WorkerList
 
 	return result
 }

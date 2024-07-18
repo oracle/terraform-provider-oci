@@ -26,13 +26,15 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 )
 
+const zipDatabaseWallet = "../../examples/apm/apm_synthetics/monitors/sql_monitor/files/wallet.zip"
+
 var (
 	ApmSyntheticsMonitorSingularDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"monitor_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_synthetics_monitor.test_monitor.id}`},
 	}
 
-	ApmSyntheticsMonitorDataSourceRepresentation = map[string]interface{}{
+	ApmSyntheticsScriptedBrowserMonitorDataSourceRepresentation = map[string]interface{}{
 		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `SCRIPTED_BROWSER`},
@@ -47,7 +49,7 @@ var (
 	}
 
 	ApmSyntheticsMonitorVantagePointsRepresentation = map[string]interface{}{
-		"name": acctest.Representation{RepType: acctest.Required, Create: `OraclePublic-us-ashburn-1`},
+		"name": acctest.Representation{RepType: acctest.Required, Create: `us-phoenix-internal`},
 	}
 
 	ApmSyntheticsMonitorAvailabilityConfigurationRepresentation = map[string]interface{}{
@@ -182,6 +184,7 @@ var (
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_run_once":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_run_now":                  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_ipv6":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation},
 		"scheduling_policy":           acctest.Representation{RepType: acctest.Optional, Create: `ALL`, Update: `ROUND_ROBIN`},
 		"script_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_apm_synthetics_script.test_script.id}`},
@@ -190,6 +193,101 @@ var (
 		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
 		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsScriptedBrowserMonitorConfigurationRepresentation},
 		"script_parameters":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorScriptParametersRepresentation},
+	}
+
+	ApmSyntheticsSqlMonitorRequiredOnlyResource = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsSqlMonitorRepresentation)
+
+	ApmSyntheticsSqlMonitorResourceConfig = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsSqlMonitorRepresentation)
+
+	ApmSyntheticsSqlMonitorDataSourceRepresentation = map[string]interface{}{
+		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `SQL`},
+		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsMonitorDataSourceFilterRepresentation}}
+
+	ApmSyntheticsSqlMonitorRepresentation = map[string]interface{}{
+		"apm_domain_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":                acctest.Representation{RepType: acctest.Required, Create: `SQL`},
+		"repeat_interval_in_seconds":  acctest.Representation{RepType: acctest.Required, Create: `600`, Update: `1200`},
+		"vantage_points":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsMonitorVantagePointsRepresentation},
+		"availability_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorAvailabilityConfigurationRepresentation},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                      acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
+		"is_ipv6":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation},
+		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsSqlMonitorConfigurationRepresentation},
+	}
+
+	ApmSyntheticsSqlMonitorConfigurationRepresentation = map[string]interface{}{
+		"database_wallet_details":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDatabaseWalletDetailsRepresentation},
+		"config_type":                     acctest.Representation{RepType: acctest.Optional, Create: `SQL_CONFIG`},
+		"database_authentication_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDatabaseAuthenticationDetailsRepresentation},
+		"database_connection_type":        acctest.Representation{RepType: acctest.Optional, Create: `CLOUD_WALLET`},
+		"database_role":                   acctest.Representation{RepType: acctest.Optional, Create: `DEFAULT`, Update: `SYSDBA`},
+		"database_type":                   acctest.Representation{RepType: acctest.Optional, Create: `ORACLE`},
+		"is_failure_retried":              acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"query":                           acctest.Representation{RepType: acctest.Optional, Create: `query`, Update: `query2`},
+	}
+
+	ApmSyntheticsFtpMonitorRequiredOnlyResource = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsFtpMonitorRepresentation)
+
+	ApmSyntheticsFtpMonitorResourceConfig = ApmSyntheticsMonitorResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsFtpMonitorRepresentation)
+
+	ApmSyntheticsFtpMonitorDataSourceRepresentation = map[string]interface{}{
+		"apm_domain_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":  acctest.Representation{RepType: acctest.Optional, Create: `FTP`},
+		"status":        acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"filter":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsMonitorDataSourceFilterRepresentation}}
+
+	ApmSyntheticsFtpMonitorRepresentation = map[string]interface{}{
+		"apm_domain_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_apm_apm_domain.test_apm_domain.id}`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"monitor_type":                acctest.Representation{RepType: acctest.Required, Create: `FTP`},
+		"repeat_interval_in_seconds":  acctest.Representation{RepType: acctest.Required, Create: `600`, Update: `1200`},
+		"vantage_points":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ApmSyntheticsMonitorVantagePointsRepresentation},
+		"availability_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorAvailabilityConfigurationRepresentation},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"status":                      acctest.Representation{RepType: acctest.Optional, Create: `ENABLED`, Update: `DISABLED`},
+		"target":                      acctest.Representation{RepType: acctest.Optional, Create: `oracle.com/path/to/file`, Update: `oracle.com/path/to/file1`},
+		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
+		"is_ipv6":                     acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"maintenance_window_schedule": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorMaintenanceWindowScheduleRepresentation},
+		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsFtpMonitorConfigurationRepresentation},
+	}
+
+	ApmSyntheticsFtpMonitorConfigurationRepresentation = map[string]interface{}{
+		"dns_configuration":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDnsConfigurationRepresentation},
+		"config_type":                      acctest.Representation{RepType: acctest.Optional, Create: `FTP_CONFIG`},
+		"ftp_basic_authentication_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationFtpBasicAuthenticationDetailsRepresentation},
+		"ftp_protocol":                     acctest.Representation{RepType: acctest.Optional, Create: `FTP`, Update: `FTPS`},
+		"ftp_request_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DOWNLOAD`},
+		"is_failure_retried":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"network_configuration":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationNetworkConfigurationRepresentation},
+		"download_size_limit_in_bytes":     acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"verify_response_codes":            acctest.Representation{RepType: acctest.Optional, Create: []string{`200`, `300`, `400`}},
+	}
+
+	ApmSyntheticsMonitorConfigurationDatabaseAuthenticationDetailsRepresentation = map[string]interface{}{
+		"password": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDatabaseAuthenticationDetailsPasswordRepresentation},
+		"username": acctest.Representation{RepType: acctest.Optional, Create: `username`, Update: `username2`},
+	}
+	ApmSyntheticsMonitorConfigurationDatabaseWalletDetailsRepresentation = map[string]interface{}{
+		"database_wallet": acctest.Representation{RepType: acctest.Optional, Create: zipDatabaseWallet},
+		"service_name":    acctest.Representation{RepType: acctest.Optional, Create: `synthetic_low`},
+	}
+	ApmSyntheticsMonitorConfigurationFtpBasicAuthenticationDetailsRepresentation = map[string]interface{}{
+		"password": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationFtpBasicAuthenticationDetailsPasswordRepresentation},
+		"username": acctest.Representation{RepType: acctest.Optional, Create: `username`, Update: `username2`},
 	}
 
 	ApmSyntheticsScriptedBrowserMonitorConfigurationRepresentation = map[string]interface{}{
@@ -339,6 +437,15 @@ var (
 		"timeout_in_seconds":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `120`},
 		"configuration":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsDNSTraceMonitorConfigurationRepresentation},
 	}
+	ApmSyntheticsMonitorConfigurationDatabaseAuthenticationDetailsPasswordRepresentation = map[string]interface{}{
+		"password":      acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"password_type": acctest.Representation{RepType: acctest.Optional, Create: `IN_TEXT`},
+	}
+
+	ApmSyntheticsMonitorConfigurationFtpBasicAuthenticationDetailsPasswordRepresentation = map[string]interface{}{
+		"password":      acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"password_type": acctest.Representation{RepType: acctest.Optional, Create: `IN_TEXT`},
+	}
 
 	ApmSyntheticsDNSTraceMonitorConfigurationRepresentation = map[string]interface{}{
 		"dns_configuration":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ApmSyntheticsMonitorConfigurationDnsConfigurationRepresentation},
@@ -355,6 +462,411 @@ var (
 	ApmSyntheticsMonitorResourceDependencies = DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_apm_apm_domain", "test_apm_domain", acctest.Required, acctest.Create, apmDomainRepresentation)
 )
+
+// issue-routing-tag: apm_synthetics/default
+func TestApmSyntheticsFtpMonitorResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestApmSyntheticsFtpMonitorResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_apm_synthetics_monitor.test_monitor"
+	datasourceName := "data.oci_apm_synthetics_monitors.test_monitors"
+	singularDatasourceName := "data.oci_apm_synthetics_monitor.test_monitor"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsMonitorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsFtpMonitorRepresentation), "apmsynthetics", "monitor", t)
+
+	acctest.ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsFtpMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "FTP_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.username", "username"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_protocol", "FTP"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_request_type", "DOWNLOAD"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.is_override_dns", "false"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "false"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.number_of_hops", "10"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.probe_mode", "SACK"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.probe_per_hop", "10"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.transmission_rate", "10"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded1),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted1),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "FTP"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "600"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "oracle.com/path/to/file"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsFtpMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(resourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "FTP_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.is_override_dns", "true"),
+
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.username", "username2"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.ftp_basic_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_protocol", "FTPS"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.ftp_request_type", "DOWNLOAD"),
+
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.number_of_hops", "11"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.probe_mode", "SYN"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.probe_per_hop", "9"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.network_configuration.0.transmission_rate", "11"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded2),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted2),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "FTP"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "target", "oracle.com/path/to/file1"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsFtpMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsFtpMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "FTP"),
+				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
+
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsFtpMonitorResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.0.max_allowed_failures_per_interval", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "availability_configuration.0.min_allowed_runs_per_interval", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "FTP_CONFIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.0.is_override_dns", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.username", "username2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration.0.ftp_basic_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_protocol", "FTPS"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.ftp_request_type", "DOWNLOAD"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.dns_configuration.0.override_dns_ip", "12.1.21.2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.0.number_of_hops", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.0.probe_mode", "SYN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.0.probe_per_hop", "9"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.0.protocol", "TCP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.network_configuration.0.transmission_rate", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_started"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "FTP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "target", "oracle.com/path/to/file1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0.name"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config + ApmSyntheticsFtpMonitorRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"apm_domain_id",
+				"batch_interval_in_seconds", //ignore as it does not apply to this case
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: apm_synthetics/default
+func TestApmSyntheticsSqlMonitorResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestApmSyntheticsScriptedBrowserMonitorResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_apm_synthetics_monitor.test_monitor"
+	datasourceName := "data.oci_apm_synthetics_monitors.test_monitors"
+	singularDatasourceName := "data.oci_apm_synthetics_monitor.test_monitor"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+ApmSyntheticsMonitorResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsSqlMonitorRepresentation), "apmsynthetics", "monitor", t)
+
+	acctest.ResourceTest(t, testAccCheckApmSyntheticsMonitorDestroy, []resource.TestStep{
+
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Create, ApmSyntheticsSqlMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_wallet_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.database_wallet_details.0.database_wallet"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_wallet_details.0.service_name", "synthetic_low"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SQL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.database_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.0.username", "username"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_connection_type", "CLOUD_WALLET"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_role", "DEFAULT"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_type", "ORACLE"),
+
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "false"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded1),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted1),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SQL"),
+				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "status", "ENABLED"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "60"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsSqlMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(resourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.#", "1"),
+
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_wallet_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.database_wallet_details.0.database_wallet"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_wallet_details.0.service_name", "synthetic_low"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.config_type", "SQL_CONFIG"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "configuration.0.database_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_authentication_details.0.username", "username2"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_connection_type", "CLOUD_WALLET"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_role", "SYSDBA"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.database_type", "ORACLE"),
+				resource.TestCheckResourceAttr(resourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_ended", TimeEnded2),
+				resource.TestCheckResourceAttr(resourceName, "maintenance_window_schedule.0.time_started", TimeStarted2),
+				resource.TestCheckResourceAttr(resourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(resourceName, "scheduling_policy", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(resourceName, "monitor_type", "SQL"),
+				resource.TestCheckResourceAttr(resourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(resourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(resourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "vantage_points.0.name"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsSqlMonitorDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsMonitorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsSqlMonitorRepresentation),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(datasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_type", "SQL"),
+				resource.TestCheckResourceAttr(datasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "monitor_collection.0.items.#", "1"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Required, acctest.Create, ApmSyntheticsMonitorSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ApmSyntheticsSqlMonitorResourceConfig,
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "apm_domain_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "monitor_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_wallet_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration.0.database_wallet_details.0.database_wallet"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_wallet_details.0.service_name", "synthetic_low"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.config_type", "SQL_CONFIG"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_authentication_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_authentication_details.0.password.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration.0.database_authentication_details.0.password.0.password"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_authentication_details.0.username", "username2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_connection_type", "CLOUD_WALLET"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_role", "SYSDBA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.database_type", "ORACLE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "configuration.0.is_failure_retried", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_ipv6", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_window_schedule.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_ended"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_window_schedule.0.time_started"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_now", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scheduling_policy", "ALL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_run_once", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "monitor_type", "SQL"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "repeat_interval_in_seconds", "1200"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "status", "DISABLED"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "timeout_in_seconds", "120"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_point_count"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vantage_points.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "vantage_points.0.name"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config + ApmSyntheticsSqlMonitorRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"apm_domain_id",
+				"batch_interval_in_seconds", //ignore as it does not apply to this case
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
 
 // issue-routing-tag: apm_synthetics/default
 func TestApmSyntheticsScriptedBrowserMonitorResource_basic(t *testing.T) {
@@ -499,7 +1011,7 @@ func TestApmSyntheticsScriptedBrowserMonitorResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsMonitorDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_apm_synthetics_monitors", "test_monitors", acctest.Optional, acctest.Update, ApmSyntheticsScriptedBrowserMonitorDataSourceRepresentation) +
 				compartmentIdVariableStr + ApmSyntheticsScriptedMonitorResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_apm_synthetics_monitor", "test_monitor", acctest.Optional, acctest.Update, ApmSyntheticsScriptedBrowserMonitorRepresentation),
 			Check: resource.ComposeAggregateTestCheckFunc(

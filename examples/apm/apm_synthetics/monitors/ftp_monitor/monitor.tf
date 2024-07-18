@@ -34,23 +34,35 @@ variable "data_key_data_key_type" {
 }
 
 variable "monitor_configuration_config_type" {
-  default = "NETWORK_CONFIG"
+  default = "FTP_CONFIG"
 }
 
-variable "monitor_configuration_is_certificate_validation_enabled" {
-  default = false
-}
-
-variable "monitor_configuration_is_default_snapshot_enabled" {
-  default = false
+variable "monitor_configuration_query" {
+  default = "query"
 }
 
 variable "monitor_configuration_is_failure_retried" {
   default = false
 }
 
-variable "monitor_configuration_is_redirection_enabled" {
-  default = false
+variable "monitor_configuration_ftp_protocol" {
+  default = "FTP"
+}
+
+variable "monitor_configuration_ftp_request_type" {
+  default = "LIST"
+}
+
+variable "monitor_configuration_ftp_basic_authentication_details_username" {
+  default = "username"
+}
+
+variable "monitor_configuration_ftp_basic_authentication_details_password_password_type" {
+  default = "IN_TEXT"
+}
+
+variable "monitor_configuration_ftp_basic_authentication_details_password_password" {
+  default = "BEstrO0ng_#11"
 }
 
 variable "monitor_display_name" {
@@ -62,7 +74,7 @@ variable "monitor_freeform_tags" {
 }
 
 variable "monitor_monitor_type" {
-  default = "NETWORK"
+  default = "FTP"
 }
 
 variable "monitor_repeat_interval_in_seconds" {
@@ -101,34 +113,6 @@ variable "monitor_tag_value" {
   default =  "tagValue"
 }
 
-variable "monitor_configuration_network_configuration_number_of_hops" {
-  default = 10
-}
-
-variable "monitor_configuration_network_configuration_probe_mode" {
-  default = "SACK"
-}
-
-variable "monitor_configuration_network_configuration_probe_per_hop" {
-  default = 10
-}
-
-variable "monitor_configuration_network_configuration_protocol" {
-  default = "TCP"
-}
-
-variable "monitor_configuration_network_configuration_transmission_rate" {
-  default = 10
-}
-
-variable "monitor_configuration_dns_configuration_is_override_dns" {
-  default = false
-}
-
-variable "monitor_configuration_dns_configuration_override_dns_ip" {
-  default = "12.1.21.1"
-}
-
 variable "monitor_availability_configuration_max_allowed_failures_per_interval" {
   default = 0
 }
@@ -146,11 +130,7 @@ variable "monitor_maintenance_window_schedule_time_started" {
 }
 
 variable "monitor_vantage_points_name" {
-  default = "OraclePublic-us-ashburn-1"
-}
-
-variable "monitor_vantage_points_param_display_name" {
-  default = "US East (Ashburn)"
+  default = "us-phoenix-internal"
 }
 
 provider "oci" {
@@ -170,36 +150,26 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
   vantage_points {
     #Required
     name  = var.monitor_vantage_points_name
-    #Optional
-    display_name = var.monitor_vantage_points_param_display_name
   }
 
-  #Optional
   configuration {
 
-    #Optional
     config_type                       = var.monitor_configuration_config_type
-    is_certificate_validation_enabled = var.monitor_configuration_is_certificate_validation_enabled
     is_failure_retried                = var.monitor_configuration_is_failure_retried
-    is_redirection_enabled            = var.monitor_configuration_is_redirection_enabled
-    is_default_snapshot_enabled       = var.monitor_configuration_is_default_snapshot_enabled
+    ftp_protocol                      = var.monitor_configuration_ftp_protocol
+    ftp_request_type                  = var.monitor_configuration_ftp_request_type
 
-    #Optional
-    network_configuration {
-      number_of_hops           = var.monitor_configuration_network_configuration_number_of_hops
-      probe_mode               = var.monitor_configuration_network_configuration_probe_mode
-      probe_per_hop            = var.monitor_configuration_network_configuration_probe_per_hop
-      protocol                 = var.monitor_configuration_network_configuration_protocol
-      transmission_rate        = var.monitor_configuration_network_configuration_transmission_rate
+    ftp_basic_authentication_details {
+      username           = var.monitor_configuration_ftp_basic_authentication_details_username
+      password {
+        password         = var.monitor_configuration_ftp_basic_authentication_details_password_password
+        password_type    = var.monitor_configuration_ftp_basic_authentication_details_password_password_type
+      }
     }
 
-    #Optional
-    dns_configuration {
-      is_override_dns          = var.monitor_configuration_dns_configuration_is_override_dns
-      override_dns_ip          = var.monitor_configuration_dns_configuration_override_dns_ip
-    }
   }
-  freeform_tags      = var.monitor_freeform_tags
+  freeform_tags = var.monitor_freeform_tags
+
   status             = var.monitor_status
   target             = var.monitor_target
   timeout_in_seconds = var.monitor_timeout_in_seconds
