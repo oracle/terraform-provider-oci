@@ -25,6 +25,8 @@ data "oci_data_safe_reports" "test_reports" {
 	display_name = var.report_display_name
 	report_definition_id = oci_data_safe_report_definition.test_report_definition.id
 	state = var.report_state
+	time_generated_greater_than_or_equal_to = var.report_time_generated_greater_than_or_equal_to
+	time_generated_less_than = var.report_time_generated_less_than
 	type = var.report_type
 }
 ```
@@ -39,6 +41,12 @@ The following arguments are supported:
 * `display_name` - (Optional) The name of the report definition to query.
 * `report_definition_id` - (Optional) The ID of the report definition to filter the list of reports
 * `state` - (Optional) An optional filter to return only resources that match the specified lifecycle state.
+* `time_generated_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were generated after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeGeneratedGreaterThanOrEqualToQueryParam parameter retrieves all resources generated after that date.
+
+	**Example:** 2016-12-19T16:39:57.600Z 
+* `time_generated_less_than` - (Optional) Search for resources that were generated before a specific date. Specifying this parameter corresponding `timeGeneratedLessThan` parameter will retrieve all resources generated before the specified generated date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as defined by RFC 3339.
+
+	**Example:** 2016-12-19T16:39:57.600Z 
 * `type` - (Optional) An optional filter to return only resources that match the specified type.
 
 
@@ -58,7 +66,7 @@ The following attributes are exported:
 * `display_name` - Name of the report.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the report.
-* `mime_type` - Specifies the format of report to be .xls or .pdf
+* `mime_type` - Specifies the format of report to be .xls or .pdf or .json
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

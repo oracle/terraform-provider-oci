@@ -5,8 +5,10 @@ package data_safe
 
 import (
 	"context"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -39,6 +41,14 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_generated_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_generated_less_than": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -111,6 +121,22 @@ func (s *DataSafeReportsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListReportsLifecycleStateEnum(state.(string))
+	}
+
+	if timeGeneratedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_generated_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeGeneratedGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeGeneratedGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeGeneratedLessThan, ok := s.D.GetOkExists("time_generated_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeGeneratedLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeGeneratedLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {

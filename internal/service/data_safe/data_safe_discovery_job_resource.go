@@ -113,6 +113,35 @@ func DataSafeDiscoveryJobResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"tables_for_discovery": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"schema_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"table_names": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
 			"state": {
@@ -309,6 +338,23 @@ func (s *DataSafeDiscoveryJobResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("sensitive_type_ids_for_discovery") {
 			request.SensitiveTypeIdsForDiscovery = tmp
+		}
+	}
+
+	if tablesForDiscovery, ok := s.D.GetOkExists("tables_for_discovery"); ok {
+		interfaces := tablesForDiscovery.([]interface{})
+		tmp := make([]oci_data_safe.TablesForDiscovery, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "tables_for_discovery", stateDataIndex)
+			converted, err := s.mapToTablesForDiscovery(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("tables_for_discovery") {
+			request.TablesForDiscovery = tmp
 		}
 	}
 
@@ -553,6 +599,12 @@ func (s *DataSafeDiscoveryJobResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	tablesForDiscovery := []interface{}{}
+	for _, item := range s.Res.TablesForDiscovery {
+		tablesForDiscovery = append(tablesForDiscovery, TablesForDiscoveryToMap(item))
+	}
+	s.D.Set("tables_for_discovery", tablesForDiscovery)
+
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
@@ -634,6 +686,30 @@ func DiscoveryJobSummaryToMap(obj oci_data_safe.DiscoveryJobSummary) map[string]
 	}
 
 	return result
+}
+
+func (s *DataSafeDiscoveryJobResourceCrud) mapToTablesForDiscovery(fieldKeyFormat string) (oci_data_safe.TablesForDiscovery, error) {
+	result := oci_data_safe.TablesForDiscovery{}
+
+	if schemaName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "schema_name")); ok {
+		tmp := schemaName.(string)
+		result.SchemaName = &tmp
+	}
+
+	if tableNames, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "table_names")); ok {
+		interfaces := tableNames.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "table_names")) {
+			result.TableNames = tmp
+		}
+	}
+
+	return result, nil
 }
 
 func (s *DataSafeDiscoveryJobResourceCrud) updateCompartment(compartment interface{}) error {

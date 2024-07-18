@@ -40,6 +40,7 @@ The following attributes are exported:
 * `id` - The OCID of the security assessment.
 * `ignored_assessment_ids` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 * `ignored_targets` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
+* `is_assessment_scheduled` - Indicates whether the assessment is scheduled to run.
 * `is_baseline` - Indicates whether or not the security assessment is set as a baseline. This is applicable only for saved security assessments.
 * `is_deviated_from_baseline` - Indicates whether or not the security assessment deviates from the baseline.
 * `last_compared_baseline_id` - The OCID of the baseline against which the latest security assessment was compared.

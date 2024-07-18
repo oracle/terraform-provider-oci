@@ -37,6 +37,15 @@ func DataSafeUnsetSecurityAssessmentBaselineResource() *schema.Resource {
 			},
 
 			// Optional
+			"target_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 		},
@@ -96,6 +105,19 @@ func (s *DataSafeUnsetSecurityAssessmentBaselineResourceCrud) Create() error {
 	if securityAssessmentId, ok := s.D.GetOkExists("security_assessment_id"); ok {
 		tmp := securityAssessmentId.(string)
 		request.SecurityAssessmentId = &tmp
+	}
+
+	if targetIds, ok := s.D.GetOkExists("target_ids"); ok {
+		interfaces := targetIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("target_ids") {
+			request.TargetIds = tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "data_safe")

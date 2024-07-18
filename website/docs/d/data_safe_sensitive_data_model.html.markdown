@@ -47,6 +47,9 @@ The following attributes are exported:
 * `sensitive_type_ids_for_discovery` - The OCIDs of the sensitive types to be used by data discovery jobs.
 * `state` - The current state of the sensitive data model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `tables_for_discovery` - The data discovery jobs will scan the tables specified here, including both schemas and tables. For instance, the input could be in the format: [{schemaName: "HR", tableName: ["T1", "T2"]}, {schemaName:  "OE", tableName : ["T3", "T4"]}]. 
+	* `schema_name` - This contains the name of the schema.
+	* `table_names` - This contains an optional list of the table names.
 * `target_id` - The OCID of the reference target database associated with the sensitive data model. All operations such as performing data discovery and adding columns manually are done in the context of the associated target database. 
 * `time_created` - The date and time the sensitive data model was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the sensitive data model was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

@@ -35,6 +35,13 @@ resource "oci_data_safe_sensitive_data_model" "test_sensitive_data_model" {
 	is_sample_data_collection_enabled = var.sensitive_data_model_is_sample_data_collection_enabled
 	schemas_for_discovery = var.sensitive_data_model_schemas_for_discovery
 	sensitive_type_ids_for_discovery = var.sensitive_data_model_sensitive_type_ids_for_discovery
+	tables_for_discovery {
+		#Required
+		schema_name = var.sensitive_data_model_tables_for_discovery_schema_name
+
+		#Optional
+		table_names = var.sensitive_data_model_tables_for_discovery_table_names
+	}
 }
 ```
 
@@ -54,6 +61,9 @@ The following arguments are supported:
 * `is_sample_data_collection_enabled` - (Optional) (Updatable) Indicates if data discovery jobs should collect and store sample data values for the discovered columns. Sample data helps review the discovered columns and ensure that they actually contain sensitive data. As it collects original data from the target database, it's disabled by default and should be used only if it's acceptable to store sample data in Data Safe's repository in Oracle Cloud. Note that sample data values are not collected for columns with the following data types: LONG, LOB, RAW, XMLTYPE and BFILE. 
 * `schemas_for_discovery` - (Optional) (Updatable) The schemas to be scanned by data discovery jobs.
 * `sensitive_type_ids_for_discovery` - (Optional) (Updatable) The OCIDs of the sensitive types to be used by data discovery jobs. If OCID of a sensitive category is provided, all its child sensitive types are used for data discovery. 
+* `tables_for_discovery` - (Optional) (Updatable) The data discovery jobs will scan the tables specified here, including both schemas and tables. For instance, the input could be in the format: [{schemaName: "HR", tableName: ["T1", "T2"]}, {schemaName:  "OE", tableName : ["T3", "T4"]}]. 
+	* `schema_name` - (Required) (Updatable) This contains the name of the schema.
+	* `table_names` - (Optional) (Updatable) This contains an optional list of the table names.
 * `target_id` - (Required) (Updatable) The OCID of the reference target database to be associated with the sensitive data model. All operations such as performing data discovery and adding columns manually are done in the context of the associated target database. 
 
 
@@ -79,6 +89,9 @@ The following attributes are exported:
 * `sensitive_type_ids_for_discovery` - The OCIDs of the sensitive types to be used by data discovery jobs.
 * `state` - The current state of the sensitive data model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `tables_for_discovery` - The data discovery jobs will scan the tables specified here, including both schemas and tables. For instance, the input could be in the format: [{schemaName: "HR", tableName: ["T1", "T2"]}, {schemaName:  "OE", tableName : ["T3", "T4"]}]. 
+	* `schema_name` - This contains the name of the schema.
+	* `table_names` - This contains an optional list of the table names.
 * `target_id` - The OCID of the reference target database associated with the sensitive data model. All operations such as performing data discovery and adding columns manually are done in the context of the associated target database. 
 * `time_created` - The date and time the sensitive data model was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_updated` - The date and time the sensitive data model was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

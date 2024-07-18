@@ -29,6 +29,7 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 	}
 	severity = var.security_assessment_finding_severity
 	state = var.security_assessment_finding_state
+	target_id = oci_cloud_guard_target.test_target.id
 }
 ```
 
@@ -44,6 +45,7 @@ The following arguments are supported:
 * `security_assessment_id` - (Required) The OCID of the security assessment.
 * `severity` - (Optional) A filter to return only findings of a particular risk level.
 * `state` - (Optional) A filter to return only the findings that match the specified lifecycle states.
+* `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 
 
 ## Attributes Reference
@@ -64,10 +66,12 @@ The following attributes are exported:
 * `justification` - User provided reason for accepting or modifying this finding if they choose to do so.
 * `key` - The unique finding key. This is a system-generated identifier. To get the finding key for a finding, use ListFindings.
 * `lifecycle_details` - Details about the current state of the finding.
+* `oneline` - Provides a recommended approach to take to remediate the finding reported.
 * `oracle_defined_severity` - The severity of the finding as determined by security assessment. This cannot be modified by user.
 * `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	* `cis` - Relevant section from CIS.
 	* `gdpr` - Relevant section from GDPR.
+	* `obp` - Relevant section from OBP.
 	* `stig` - Relevant section from STIG.
 * `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 * `severity` - The severity of the finding as determined by security assessment and is same as oracleDefinedSeverity, unless modified by user.

@@ -96,6 +96,10 @@ func (s *DataSafeSecurityAssessmentDataSourceCrud) SetData() error {
 	}
 	s.D.Set("ignored_targets", ignoredTargets)
 
+	if s.Res.IsAssessmentScheduled != nil {
+		s.D.Set("is_assessment_scheduled", *s.Res.IsAssessmentScheduled)
+	}
+
 	if s.Res.IsBaseline != nil {
 		s.D.Set("is_baseline", *s.Res.IsBaseline)
 	}

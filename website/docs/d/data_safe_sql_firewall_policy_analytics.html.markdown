@@ -18,7 +18,7 @@ or indirectly (ACCESSIBLE) (the resource can be in a subcompartment) or to retur
 principal doesn't have access to even one of the child compartments. This is valid only when
 `compartmentIdInSubtree` is set to `true`.
 
-The parameter `compartmentIdInSubtree` applies when you perform SummarizedSqlFirewallPolicyInfo on the specified 
+The parameter `compartmentIdInSubtree` applies when you perform SummarizedSqlFirewallPolicyInfo on the specified
 `compartmentId` and when it is set to true, the entire hierarchy of compartments can be returned.
 To get a full list of all compartments and subcompartments in the tenancy (root compartment),
 set the parameter `compartmentIdInSubtree` to true and `accessLevel` to ACCESSIBLE.
