@@ -188,6 +188,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -234,6 +235,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -275,6 +277,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "storage_count", "3"),
+				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -330,6 +333,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.shape", "Exadata.X8M"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.storage_count", "3"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_exadata_infrastructures.0.subscription_id", ""),
 				//resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.storage_server_version"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_exadata_infrastructures.0.total_storage_size_in_gbs"),
@@ -375,6 +379,7 @@ func TestDatabaseCloudExadataInfrastructureResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_count", "3"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_server_version"),
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_storage_size_in_gbs"),
 			),
