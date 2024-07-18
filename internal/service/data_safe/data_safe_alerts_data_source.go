@@ -103,7 +103,7 @@ func (s *DataSafeAlertsDataSourceCrud) Get() error {
 		tmp := make([]oci_data_safe.ListAlertsFieldEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_data_safe.ListAlertsFieldEnum)
+				tmp[i] = oci_data_safe.ListAlertsFieldEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("field") {

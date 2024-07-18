@@ -1078,7 +1078,9 @@ func (s *DataSafeReportDefinitionResourceCrud) mapTosummary(fieldKeyFormat strin
 
 	if scimFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "scim_filter")); ok {
 		tmp := scimFilter.(string)
-		result.ScimFilter = &tmp
+		if tmp != "" {
+			result.ScimFilter = &tmp
+		}
 	}
 
 	return result, nil
@@ -1107,7 +1109,7 @@ func summaryToMap(obj oci_data_safe.Summary) map[string]interface{} {
 		result["name"] = string(*obj.Name)
 	}
 
-	if obj.ScimFilter != nil {
+	if obj.ScimFilter != nil && *obj.ScimFilter != "" {
 		result["scim_filter"] = string(*obj.ScimFilter)
 	}
 
