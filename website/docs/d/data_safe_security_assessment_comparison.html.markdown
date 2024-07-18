@@ -52,6 +52,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -73,6 +74,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -99,6 +101,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -120,6 +123,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -148,6 +152,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -169,6 +174,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -195,6 +201,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -216,6 +223,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -242,6 +250,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -263,6 +272,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -289,6 +299,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -310,6 +321,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -336,6 +348,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.
@@ -357,6 +370,7 @@ The following attributes are exported:
 			* `references` - Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, STIG rule, or related to a GDPR Article/Recital.
 				* `cis` - Relevant section from CIS.
 				* `gdpr` - Relevant section from GDPR.
+				* `obp` - Relevant section from OBP.
 				* `stig` - Relevant section from STIG.
 			* `remarks` - The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 			* `severity` - The severity of the finding.

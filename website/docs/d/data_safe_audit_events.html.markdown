@@ -48,7 +48,7 @@ The following arguments are supported:
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `scim_query` - (Optional) The scimQuery query parameter accepts filter expressions that use the syntax described in Section 3.2.2.2 of the System for Cross-Domain Identity Management (SCIM) specification, which is available at [RFC3339](https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions, text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format. (Numeric and boolean values should not be quoted.)
 
-	**Example:** query=(operationTime ge '2021-06-04T01-00-26') and (eventName eq 'LOGON') 
+	**Example:** (operationTime ge "2021-06-04T12:00:00.000Z") and (eventName eq "LOGON") 
 
 
 ## Attributes Reference
@@ -63,6 +63,7 @@ The following attributes are exported:
 
 * `items` - Array of audit event summary.
 	* `action_taken` - The action taken for this audit event.
+	* `application_contexts` - Semicolon-seperated list of application context namespace, attribute, value information in (APPCTX_NSPACE,APPCTX_ATTRIBUTE=<value>) format.
 	* `audit_event_time` - The time that the audit event occurs in the target database.
 	* `audit_location` - The location of the audit. Currently the value is audit table.
 	* `audit_policies` - Comma-seperated list of audit policies that caused the current audit event.
@@ -86,6 +87,7 @@ The following attributes are exported:
 	* `error_message` - The detailed message on why the error occurred.
 	* `event_name` - The name of the detail action executed by the user on the target database. For example ALTER SEQUENCE, CREATE TRIGGER or CREATE INDEX.
 	* `extended_event_attributes` - List of all other attributes of the audit event seperated by a colon other than the one returned in audit record.
+	* `fga_policy_name` - Fine-grained auditing (FGA) policy name that generated this audit record.
 	* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 	* `id` - The OCID of the audit event.
 	* `is_alerted` - Indicates whether an alert was raised for this audit event.

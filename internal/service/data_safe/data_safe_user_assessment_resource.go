@@ -70,6 +70,11 @@ func DataSafeUserAssessmentResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"is_assessment_scheduled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"schedule": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -266,6 +271,11 @@ func (s *DataSafeUserAssessmentResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAssessmentScheduled, ok := s.D.GetOkExists("is_assessment_scheduled"); ok {
+		tmp := isAssessmentScheduled.(bool)
+		request.IsAssessmentScheduled = &tmp
+	}
+
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
 		tmp := schedule.(string)
 		request.Schedule = &tmp
@@ -456,6 +466,11 @@ func (s *DataSafeUserAssessmentResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isAssessmentScheduled, ok := s.D.GetOkExists("is_assessment_scheduled"); ok {
+		tmp := isAssessmentScheduled.(bool)
+		request.IsAssessmentScheduled = &tmp
+	}
+
 	if schedule, ok := s.D.GetOkExists("schedule"); ok {
 		tmp := schedule.(string)
 		request.Schedule = &tmp
@@ -525,6 +540,10 @@ func (s *DataSafeUserAssessmentResourceCrud) SetData() error {
 		ignoredTargets = append(ignoredTargets, item)
 	}
 	s.D.Set("ignored_targets", ignoredTargets)
+
+	if s.Res.IsAssessmentScheduled != nil {
+		s.D.Set("is_assessment_scheduled", *s.Res.IsAssessmentScheduled)
+	}
 
 	if s.Res.IsBaseline != nil {
 		s.D.Set("is_baseline", *s.Res.IsBaseline)

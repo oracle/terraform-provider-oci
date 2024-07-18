@@ -93,10 +93,11 @@ var exportDataSafeTargetDatabaseHints = &tf_export.TerraformResourceHints{
 }
 
 var exportDataSafeSecurityAssessmentHints = &tf_export.TerraformResourceHints{
-	ResourceClass:        "oci_data_safe_security_assessment",
-	DatasourceClass:      "oci_data_safe_security_assessments",
-	DatasourceItemsAttr:  "security_assessments",
-	ResourceAbbreviation: "security_assessment",
+	ResourceClass:          "oci_data_safe_security_assessment",
+	DatasourceClass:        "oci_data_safe_security_assessments",
+	DatasourceItemsAttr:    "security_assessments",
+	ResourceAbbreviation:   "security_assessment",
+	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
 		string(oci_data_safe.SecurityAssessmentLifecycleStateSucceeded),
 	},

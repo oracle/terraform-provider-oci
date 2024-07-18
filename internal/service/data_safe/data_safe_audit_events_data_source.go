@@ -53,6 +53,10 @@ func DataSafeAuditEventsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"application_contexts": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"audit_event_time": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -131,6 +135,10 @@ func DataSafeAuditEventsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"extended_event_attributes": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"fga_policy_name": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -308,6 +316,10 @@ func AuditEventsSummaryToMap(obj oci_data_safe.AuditEventSummary) map[string]int
 		result["action_taken"] = string(*obj.ActionTaken)
 	}
 
+	if obj.ApplicationContexts != nil {
+		result["application_contexts"] = string(*obj.ApplicationContexts)
+	}
+
 	if obj.AuditEventTime != nil {
 		result["audit_event_time"] = obj.AuditEventTime.String()
 	}
@@ -380,6 +392,10 @@ func AuditEventsSummaryToMap(obj oci_data_safe.AuditEventSummary) map[string]int
 
 	if obj.ExtendedEventAttributes != nil {
 		result["extended_event_attributes"] = string(*obj.ExtendedEventAttributes)
+	}
+
+	if obj.FgaPolicyName != nil {
+		result["fga_policy_name"] = string(*obj.FgaPolicyName)
 	}
 
 	result["freeform_tags"] = obj.FreeformTags

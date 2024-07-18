@@ -113,6 +113,12 @@ func (s *DataSafeDiscoveryJobDataSourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	tablesForDiscovery := []interface{}{}
+	for _, item := range s.Res.TablesForDiscovery {
+		tablesForDiscovery = append(tablesForDiscovery, TablesForDiscoveryToMap(item))
+	}
+	s.D.Set("tables_for_discovery", tablesForDiscovery)
+
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}

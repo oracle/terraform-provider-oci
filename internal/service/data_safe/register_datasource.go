@@ -95,6 +95,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model", DataSafeSensitiveDataModelDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model_sensitive_objects", DataSafeSensitiveDataModelSensitiveObjectsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model_sensitive_schemas", DataSafeSensitiveDataModelSensitiveSchemasDataSource())
+	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model_sensitive_types", DataSafeSensitiveDataModelSensitiveTypesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_models", DataSafeSensitiveDataModelsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_models_sensitive_column", DataSafeSensitiveDataModelsSensitiveColumnDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_models_sensitive_columns", DataSafeSensitiveDataModelsSensitiveColumnsDataSource())

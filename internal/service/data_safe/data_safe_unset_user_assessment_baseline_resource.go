@@ -37,6 +37,15 @@ func DataSafeUnsetUserAssessmentBaselineResource() *schema.Resource {
 			},
 
 			// Optional
+			"target_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			// Computed
 		},
@@ -92,6 +101,19 @@ func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Get() error {
 
 func (s *DataSafeUnsetUserAssessmentBaselineResourceCrud) Create() error {
 	request := oci_data_safe.UnsetUserAssessmentBaselineRequest{}
+
+	if targetIds, ok := s.D.GetOkExists("target_ids"); ok {
+		interfaces := targetIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("target_ids") {
+			request.TargetIds = tmp
+		}
+	}
 
 	if userAssessmentId, ok := s.D.GetOkExists("user_assessment_id"); ok {
 		tmp := userAssessmentId.(string)
