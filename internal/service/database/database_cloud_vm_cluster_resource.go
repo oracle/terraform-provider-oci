@@ -256,6 +256,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"system_version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -692,6 +698,11 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.SubnetId = &tmp
 	}
 
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
+	}
+
 	if systemVersion, ok := s.D.GetOkExists("system_version"); ok {
 		tmp := systemVersion.(string)
 		request.SystemVersion = &tmp
@@ -1097,6 +1108,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	if s.Res.SystemTags != nil {
