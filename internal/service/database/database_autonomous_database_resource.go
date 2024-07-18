@@ -494,6 +494,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"time_of_auto_refresh_start": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -1517,6 +1522,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok && s.D.HasChange("subscription_id") {
+		oldRaw, newRaw := s.D.GetChange("subscription_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateSubscription(subscriptionId.(string))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if dataSafeStatus, ok := s.D.GetOkExists("data_safe_status"); ok && s.D.HasChange("data_safe_status") {
 		oldRaw, newRaw := s.D.GetChange("data_safe_status")
 		if newRaw != "" && oldRaw != "" {
@@ -2329,6 +2344,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	}
+
 	s.D.Set("supported_regions_to_clone_to", s.Res.SupportedRegionsToCloneTo)
 
 	if s.Res.SystemTags != nil {
@@ -3068,6 +3087,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -3347,6 +3370,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -3628,6 +3655,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if timeOfAutoRefreshStart, ok := s.D.GetOkExists("time_of_auto_refresh_start"); ok {
 			tmp, err := time.Parse(time.RFC3339, timeOfAutoRefreshStart.(string))
 			if err != nil {
@@ -3886,6 +3917,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4127,6 +4162,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -4372,6 +4411,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
+		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
 		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
@@ -4646,6 +4689,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4909,6 +4956,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4955,7 +5006,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 
 	return nil
 }
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
+	changeSubscriptionRequest := oci_database.ChangeAutonomousDatabaseSubscriptionRequest{}
 
+	idTmp := s.D.Id()
+	changeSubscriptionRequest.AutonomousDatabaseId = &idTmp
+
+	subscriptionTmp := subscriptionId
+	changeSubscriptionRequest.SubscriptionId = &subscriptionTmp
+
+	changeSubscriptionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeAutonomousDatabaseSubscription(context.Background(), changeSubscriptionRequest)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomousDatabaseId string, dataSafeStatus oci_database.AutonomousDatabaseDataSafeStatusEnum) error {
 	switch dataSafeStatus {
 	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:
