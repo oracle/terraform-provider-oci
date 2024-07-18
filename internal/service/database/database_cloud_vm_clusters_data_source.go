@@ -266,6 +266,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["subnet_id"] = *r.SubnetId
 		}
 
+		if r.SubscriptionId != nil {
+			cloudVmCluster["subscription_id"] = *r.SubscriptionId
+		}
+
 		if r.SystemTags != nil {
 			cloudVmCluster["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}

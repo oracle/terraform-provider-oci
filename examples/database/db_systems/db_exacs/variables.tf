@@ -19,6 +19,11 @@ variable "cloud_exadata_infrastructure_shape" {
 }
 
 variable "cloud_exadata_infrastructure_cluster_placement_group_id" {
+  default = null
+}
+
+variable "tenant_subscription_id" {
+  default = null
 }
 
 variable "cloud_exadata_infrastructure_compute_count" {
