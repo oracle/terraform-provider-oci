@@ -97,6 +97,10 @@ func DatabaseKeyStoreResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"confirm_details_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"associated_databases": {
@@ -265,6 +269,27 @@ func (s *DatabaseKeyStoreResourceCrud) Get() error {
 }
 
 func (s *DatabaseKeyStoreResourceCrud) Update() error {
+	if _, ok := s.D.GetOkExists("confirm_details_trigger"); ok {
+
+		request := oci_database.GetKeyStoreRequest{}
+		tmp := s.D.Id()
+		request.KeyStoreId = &tmp
+
+		response, err := s.Client.GetKeyStore(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		s.Res = &response.KeyStore
+
+		if s.Res.LifecycleState == oci_database.KeyStoreLifecycleStateNeedsAttention {
+			error := s.ConfirmKeyStoreDetailsAreCorrect()
+			if error != nil {
+				return error
+			}
+		}
+	}
+
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -364,6 +389,26 @@ func (s *DatabaseKeyStoreResourceCrud) SetData() error {
 		s.D.Set("type_details", typeDetailsArray)
 	} else {
 		s.D.Set("type_details", nil)
+	}
+
+	return nil
+}
+
+func (s *DatabaseKeyStoreResourceCrud) ConfirmKeyStoreDetailsAreCorrect() error {
+	request := oci_database.ConfirmKeyStoreDetailsAreCorrectRequest{}
+
+	idTmp := s.D.Id()
+	request.KeyStoreId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ConfirmKeyStoreDetailsAreCorrect(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
