@@ -208,7 +208,8 @@ var (
 		"db_home_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
 		"source":           acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 		"db_version":       acctest.Representation{RepType: acctest.Optional, Create: `19.20.0.0`},
-		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"key_store_id":     acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
+		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
 		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
@@ -218,7 +219,7 @@ var (
 		"db_home_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`, Update: `${oci_database_db_home.test_db_home_dbrs.id}`},
 		"source":           acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 		"db_version":       acctest.Representation{RepType: acctest.Optional, Create: `19.20.0.0`},
-		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_id":       acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
 		"kms_key_rotation": acctest.Representation{RepType: acctest.Optional, Update: `1`},
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
 	}
@@ -302,14 +303,14 @@ var (
 		"db_home_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_db_home.id}`},
 		"source":            acctest.Representation{RepType: acctest.Required, Create: `NONE`},
 		"kms_key_migration": acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"kms_key_id":        acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"kms_key_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.kms_key_id}`},
 	}
 
 	databaseDatabaseRepresentation = map[string]interface{}{
 		"admin_password":   acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
 		"db_name":          acctest.Representation{RepType: acctest.Required, Create: `myTestDb`},
 		"character_set":    acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
-		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigRepresentation},
+		"db_backup_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseDbBackupConfigRepresentation},
 		"db_unique_name":   acctest.Representation{RepType: acctest.Optional, Create: `myTestDb_46`},
 		"db_workload":      acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -507,7 +508,6 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_name", "myTestDb"),
 				resource.TestCheckResourceAttrSet(resourceName, "database.0.db_unique_name"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.db_workload", "OLTP"),
-				//resource.TestCheckResourceAttr(resourceName, "database.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(resourceName, "database.0.pdb_name", "pdbName"),
 
@@ -567,6 +567,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) + OkvSecretVariableStr +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_databases", acctest.Optional, acctest.Update, DatabaseDatabaseDatabaseDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update,
@@ -601,6 +602,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config + compartmentIdVariableStr + DatabaseDatabaseResourceDependencies + kmsKeyIdVariableStr + vaultIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_key_store", "test_key_store", acctest.Optional, acctest.Create, DatabaseKeyStoreRepresentation) + OkvSecretVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedNestedProperties("database", DatabaseDatabaseRepresentation), map[string]interface{}{
 						"database": acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseRepresentation4},
@@ -635,6 +637,7 @@ func TestDatabaseDatabaseResource_basic(t *testing.T) {
 				"kms_key_migration",
 				"kms_key_rotation",
 				"kms_key_version_id",
+				"key_store_id",
 				"source",
 			},
 			ResourceName: resourceName,

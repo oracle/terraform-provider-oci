@@ -56,6 +56,7 @@ resource "oci_database_db_home" "test_db_home" {
 		db_workload = var.db_home_database_db_workload
 		defined_tags = var.db_home_database_defined_tags
 		freeform_tags = var.db_home_database_freeform_tags
+		key_store_id = oci_database_key_store.test_key_store.id
 		kms_key_id = oci_kms_key.test_key.id
 		kms_key_version_id = oci_kms_key_version.test_key_version.id
 		ncharacter_set = var.db_home_database_ncharacter_set
@@ -117,6 +118,7 @@ The following arguments are supported:
 	* `defined_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `enable_database_delete` - (Optional) Defaults to false. If omitted or set to false the provider will not delete databases removed from the Db Home configuration. 
 	* `freeform_tags` - (Applicable when source=NONE | VM_CLUSTER_NEW) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `key_store_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	* `kms_key_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 	* `kms_key_version_id` - (Applicable when source=NONE | VM_CLUSTER_NEW) The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. 
 	* `ncharacter_set` - (Applicable when source=NONE | VM_CLUSTER_NEW) The national character set for the database.  The default is AL16UTF16. Allowed values are: AL16UTF16 or UTF8. 
