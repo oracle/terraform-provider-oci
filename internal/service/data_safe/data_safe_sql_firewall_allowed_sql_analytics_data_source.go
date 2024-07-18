@@ -145,7 +145,7 @@ func (s *DataSafeSqlFirewallAllowedSqlAnalyticsDataSourceCrud) Get() error {
 		tmp := make([]oci_data_safe.ListSqlFirewallAllowedSqlAnalyticsGroupByEnum, len(interfaces))
 		for i := range interfaces {
 			if interfaces[i] != nil {
-				tmp[i] = interfaces[i].(oci_data_safe.ListSqlFirewallAllowedSqlAnalyticsGroupByEnum)
+				tmp[i] = oci_data_safe.ListSqlFirewallAllowedSqlAnalyticsGroupByEnum(interfaces[i].(string))
 			}
 		}
 		if len(tmp) != 0 || s.D.HasChange("group_by") {

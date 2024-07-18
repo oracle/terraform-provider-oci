@@ -257,7 +257,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) getAuditArchiveRetrievalFrom
 	actionTypeEnum oci_data_safe.WorkRequestResourceActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	auditArchiveRetrievalId, err := auditArchiveRetrievalWaitForWorkRequest(workId, "data_safe",
+	auditArchiveRetrievalId, err := auditArchiveRetrievalWaitForWorkRequest(workId, "auditarchiveretrievals",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
@@ -448,7 +448,7 @@ func (s *DataSafeAuditArchiveRetrievalResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := auditArchiveRetrievalWaitForWorkRequest(workId, "data_safe",
+	_, delWorkRequestErr := auditArchiveRetrievalWaitForWorkRequest(workId, "auditarchiveretrievals",
 		oci_data_safe.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }

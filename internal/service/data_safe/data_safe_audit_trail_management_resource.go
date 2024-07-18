@@ -164,23 +164,29 @@ func updateDataSafeAuditTrailManagement(d *schema.ResourceData, m interface{}) e
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataSafeClient()
 
-	if _, ok := sync.D.GetOkExists("start_trigger"); ok {
-		if err := sync.StartAuditTrail(); err != nil {
-			return err
-		}
-		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateActive)
-	}
-	if _, ok := sync.D.GetOkExists("resume_trigger"); ok {
-		err := sync.ResumeAuditTrail()
-		if err != nil {
-			return err
+	if startTrigger, ok := sync.D.GetOkExists("start_trigger"); ok {
+		if startTrigger == true {
+			if err := sync.StartAuditTrail(); err != nil {
+				return err
+			}
+			sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateActive)
 		}
 	}
-	if _, ok := sync.D.GetOkExists("stop_trigger"); ok {
-		if err := sync.StopAuditTrail(); err != nil {
-			return err
+	if resumeTrigger, ok := sync.D.GetOkExists("resume_trigger"); ok {
+		if resumeTrigger == true {
+			err := sync.ResumeAuditTrail()
+			if err != nil {
+				return err
+			}
 		}
-		sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateInactive)
+	}
+	if stopTrigger, ok := sync.D.GetOkExists("stop_trigger"); ok {
+		if stopTrigger == true {
+			if err := sync.StopAuditTrail(); err != nil {
+				return err
+			}
+			sync.D.Set("state", oci_data_safe.AuditTrailLifecycleStateInactive)
+		}
 	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
