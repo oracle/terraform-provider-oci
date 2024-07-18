@@ -1324,7 +1324,11 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 	}
 
 	if obj.SubnetId != nil {
-		result["subnet_id"] = string(*obj.SubnetId)
+		if *obj.SubnetId == "" {
+			result["subnet_id"] = nil
+		} else {
+			result["subnet_id"] = string(*obj.SubnetId)
+		}
 	}
 
 	return result
@@ -1480,7 +1484,11 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToModelConfigurationDetails(
 
 	if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
 		tmp := maximumBandwidthMbps.(int)
-		result.MaximumBandwidthMbps = &tmp
+		if tmp == 0 {
+			result.MaximumBandwidthMbps = nil
+		} else {
+			result.MaximumBandwidthMbps = &tmp
+		}
 	}
 
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
@@ -1523,7 +1531,11 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToUpdateModelConfigurationDe
 
 	if maximumBandwidthMbps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "maximum_bandwidth_mbps")); ok {
 		tmp := maximumBandwidthMbps.(int)
-		result.MaximumBandwidthMbps = &tmp
+		if tmp == 0 {
+			result.MaximumBandwidthMbps = nil
+		} else {
+			result.MaximumBandwidthMbps = &tmp
+		}
 	}
 
 	if modelId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "model_id")); ok {
@@ -1557,7 +1569,11 @@ func ModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfigurationDetai
 	}
 
 	if obj.MaximumBandwidthMbps != nil {
-		result["maximum_bandwidth_mbps"] = int(*obj.MaximumBandwidthMbps)
+		tmp := int(*obj.MaximumBandwidthMbps)
+		if tmp == 0 {
+			result["maximum_bandwidth_mbps"] = nil
+		}
+		result["maximum_bandwidth_mbps"] = tmp
 	}
 
 	if obj.ModelId != nil {
@@ -2057,7 +2073,11 @@ func UpdateModelConfigurationDetailsToMap(obj *oci_datascience.ModelConfiguratio
 	}
 
 	if obj.MaximumBandwidthMbps != nil {
-		result["maximum_bandwidth_mbps"] = int(*obj.MaximumBandwidthMbps)
+		tmp := int(*obj.MaximumBandwidthMbps)
+		if tmp == 0 {
+			result["maximum_bandwidth_mbps"] = nil
+		}
+		result["maximum_bandwidth_mbps"] = tmp
 	}
 
 	if obj.ModelId != nil {
