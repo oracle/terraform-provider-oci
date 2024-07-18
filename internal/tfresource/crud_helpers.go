@@ -12,10 +12,12 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"log"
 	"math"
 	"os"
 	"reflect"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -606,6 +608,46 @@ func listOfMapEqualIgnoreOrderSuppressDiff(key string, d schemaResourceData) boo
 		}
 	}
 	return true
+}
+
+func MaskedPasswordSuppressDiff(k, old, new string, d *schema.ResourceData) bool {
+	// Check if the value is a masked password
+	if strings.Contains(old, "****") {
+		// Suppress the difference
+		return true
+	}
+	// Otherwise, allow the difference to be displayed
+	return false
+}
+
+func WalletSuppressDiff(k, old, new string, d *schema.ResourceData) bool {
+
+	if new != "" && !IsBase64(new) {
+		contents, err := ioutil.ReadFile(new)
+		if err == nil {
+			sEnc := base64.StdEncoding.EncodeToString([]byte(contents))
+
+			if sEnc == old {
+				// Suppress the difference
+				return true
+			}
+		}
+	}
+	// Otherwise, allow the difference to be displayed
+	return false
+}
+
+const (
+	Base64 string = "^(?:[A-Za-z0-9+\\/]{4})*(?:[A-Za-z0-9+\\/]{2}==|[A-Za-z0-9+\\/]{3}=|[A-Za-z0-9+\\/]{4})$"
+)
+
+var (
+	rxBase64 = regexp.MustCompile(Base64)
+)
+
+// IsBase64 check if a string is base64 encoded.
+func IsBase64(str string) bool {
+	return rxBase64.MatchString(str)
 }
 
 func FieldDeprecatedAndAvoidReferences(deprecatedFieldName string) string {
