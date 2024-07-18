@@ -16,8 +16,8 @@ The ListProfiles operation returns only the profiles belonging to a certain targ
 id is provided, then profile information for all the targets belonging to the pertaining compartment is returned.
 The list does not include any subcompartments of the compartment under consideration.
 
-The parameter 'accessLevel' specifies whether to return only those compartments for which the requestor has 
-INSPECT permissions on at least one resource directly or indirectly (ACCESSIBLE) (the resource can be in a 
+The parameter 'accessLevel' specifies whether to return only those compartments for which the requestor has
+INSPECT permissions on at least one resource directly or indirectly (ACCESSIBLE) (the resource can be in a
 subcompartment) or to return Not Authorized if Principal doesn't have access to even one of the child compartments.
 This is valid only when 'compartmentIdInSubtree' is set to 'true'.
 

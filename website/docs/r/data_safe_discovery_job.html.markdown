@@ -36,6 +36,13 @@ resource "oci_data_safe_discovery_job" "test_discovery_job" {
 	is_sample_data_collection_enabled = var.discovery_job_is_sample_data_collection_enabled
 	schemas_for_discovery = var.discovery_job_schemas_for_discovery
 	sensitive_type_ids_for_discovery = var.discovery_job_sensitive_type_ids_for_discovery
+	tables_for_discovery {
+		#Required
+		schema_name = var.discovery_job_tables_for_discovery_schema_name
+
+		#Optional
+		table_names = var.discovery_job_tables_for_discovery_table_names
+	}
 }
 ```
 
@@ -55,6 +62,9 @@ The following arguments are supported:
 * `schemas_for_discovery` - (Optional) The schemas to be scanned by the discovery job. If not provided, the schemasForDiscovery attribute of the sensitive data model is used to get the list of schemas. 
 * `sensitive_data_model_id` - (Required) The OCID of the sensitive data model.
 * `sensitive_type_ids_for_discovery` - (Optional) The OCIDs of the sensitive types to be used by the discovery job. If not provided, the sensitiveTypeIdsForDiscovery attribute of the sensitive data model is used to get the list of sensitive types. 
+* `tables_for_discovery` - (Optional) The data discovery jobs will scan the tables specified here, including both schemas and tables. In the absence  of explicit input, the list of tables is obtained from the tablesForDiscovery attribute of the sensitive data model. 
+	* `schema_name` - (Required) This contains the name of the schema.
+	* `table_names` - (Optional) This contains an optional list of the table names.
 
 
 ** IMPORTANT **
@@ -79,6 +89,9 @@ The following attributes are exported:
 * `sensitive_type_ids_for_discovery` - The OCIDs of the sensitive types used for data discovery.
 * `state` - The current state of the discovery job.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `tables_for_discovery` - The data discovery jobs will scan the tables specified here, including both schemas and tables. 
+	* `schema_name` - This contains the name of the schema.
+	* `table_names` - This contains an optional list of the table names.
 * `target_id` - The OCID of the target database associated with the discovery job.
 * `time_finished` - The date and time the discovery job finished, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339)..
 * `time_started` - The date and time the discovery job started, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

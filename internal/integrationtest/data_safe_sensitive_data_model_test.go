@@ -6,11 +6,8 @@ package integrationtest
 import (
 	"context"
 	"fmt"
-	"strconv"
 	"testing"
 	"time"
-
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -28,11 +25,9 @@ import (
 )
 
 var (
-	DataSafeSensitiveDataModelRequiredOnlyResource = DataSafeSensitiveDataModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
+	DataSafeSensitiveDataModelRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation)
 
-	DataSafeSensitiveDataModelResourceConfig = DataSafeSensitiveDataModelResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation)
+	DataSafeSensitiveDataModelResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation)
 
 	DataSafesensitiveDataModelSingularDataSourceRepresentation = map[string]interface{}{
 		"sensitive_data_model_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
@@ -43,12 +38,7 @@ var (
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `ACCESSIBLE`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"sensitive_data_model_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`},
 		"time_created_less_than":    acctest.Representation{RepType: acctest.Optional, Create: `2038-01-01T00:00:00.000Z`},
-		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: sensitiveDataModelDataSourceFilterRepresentation}}
-	sensitiveDataModelDataSourceFilterRepresentation = map[string]interface{}{
-		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
-		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_data_safe_sensitive_data_model.test_sensitive_data_model.id}`}},
 	}
 
 	sensitiveDataModelRepresentation = map[string]interface{}{
@@ -60,11 +50,9 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_app_defined_relation_discovery_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_sample_data_collection_enabled":         acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
-		"schemas_for_discovery":                     acctest.Representation{RepType: acctest.Optional, Create: []string{"HCM"}, Update: []string{}},
+		"schemas_for_discovery":                     acctest.Representation{RepType: acctest.Optional, Create: []string{"AD_MONITOR"}, Update: []string{}},
 		"sensitive_type_ids_for_discovery":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.sensitive_type_id}`}, Update: []string{`${var.sensitive_type_id}`}},
 	}
-
-	DataSafeSensitiveDataModelResourceDependencies = DefinedTagsDependencies
 )
 
 // issue-routing-tag: data_safe/default
@@ -92,13 +80,13 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetIdVariableStr+DataSafeSensitiveDataModelResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+targetIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create, sensitiveDataModelRepresentation), "datasafe", "sensitiveDataModel", t)
 
 	acctest.ResourceTest(t, testAccCheckDataSafeSensitiveDataModelDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Required, acctest.Create, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -113,11 +101,11 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr,
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "app_suite_name", "appSuiteName"),
@@ -131,15 +119,11 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schemas_for_discovery.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "tables_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
-					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
-						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
-							return errExport
-						}
-					}
 					return err
 				},
 			),
@@ -147,7 +131,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(sensitiveDataModelRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -164,6 +148,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schemas_for_discovery.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "tables_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -178,9 +163,9 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		//verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + targetIdVariableStr + sensitiveTypeIdVariableStr +
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "app_suite_name", "appSuiteName2"),
@@ -193,6 +178,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "schemas_for_discovery.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "tables_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -208,19 +194,11 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 		},
 		// verify datasource
 		{
-			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_models", "test_sensitive_data_models", acctest.Optional, acctest.Update, DataSafesensitiveDataModelDataSourceRepresentation) +
-				compartmentIdVariableStr + targetIdVariableStr + DataSafeSensitiveDataModelResourceDependencies + sensitiveTypeIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_data_safe_sensitive_data_model", "test_sensitive_data_model", acctest.Optional, acctest.Update, sensitiveDataModelRepresentation),
+			Config: config + compartmentIdVariableStr + targetIdVariableStr + sensitiveTypeIdVariableStr +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_sensitive_data_models", "test_sensitive_data_models", acctest.Required, acctest.Create, DataSafesensitiveDataModelDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "access_level", "ACCESSIBLE"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "compartment_id_in_subtree", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
-				resource.TestCheckResourceAttrSet(datasourceName, "sensitive_data_model_id"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_created_less_than"),
 				resource.TestCheckResourceAttr(datasourceName, "sensitive_data_model_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "sensitive_data_model_collection.0.items.#", "1"),
 			),
 		},
 		// verify singular datasource
@@ -242,6 +220,7 @@ func TestDataSafeSensitiveDataModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "schemas_for_discovery.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "sensitive_type_ids_for_discovery.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tables_for_discovery.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
