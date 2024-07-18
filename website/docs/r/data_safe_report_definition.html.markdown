@@ -139,7 +139,7 @@ The following attributes are exported:
 
 	Allowed version strings - "v1" v1's version specific schedule -<ss> <mm> <hh> <day-of-week> <day-of-month> Each of the above fields potentially introduce constraints. A workrequest is created only when clock time satisfies all the constraints. Constraints introduced: 1. seconds = <ss> (So, the allowed range for <ss> is [0, 59]) 2. minutes = <mm> (So, the allowed range for <mm> is [0, 59]) 3. hours = <hh> (So, the allowed range for <hh> is [0, 23]) 4. <day-of-week> can be either '*' (without quotes or a number between 1(Monday) and 7(Sunday)) No constraint introduced when it is '*'. When not, day of week must equal the given value 5. <day-of-month> can be either '*' (without quotes or a number between 1 and 28) No constraint introduced when it is '*'. When not, day of month must equal the given value 
 * `scheduled_report_compartment_id` - The OCID of the compartment in which the scheduled resource will be created. 
-* `scheduled_report_mime_type` - Specifies the format of the report ( either .xls or .pdf )
+* `scheduled_report_mime_type` - Specifies the format of the report ( either .xls or .pdf or .json)
 * `scheduled_report_name` - The name of the report to be scheduled.
 * `scheduled_report_row_limit` - Specifies the limit on the number of rows in the report.
 * `scim_filter` - Additional SCIM filters used to define the report.

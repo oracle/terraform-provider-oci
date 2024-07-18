@@ -279,6 +279,10 @@ func (s *DataSafeUserAssessmentsDataSourceCrud) SetData() error {
 		}
 		userAssessment["ignored_targets"] = ignoredTargets
 
+		if r.IsAssessmentScheduled != nil {
+			userAssessment["is_assessment_scheduled"] = *r.IsAssessmentScheduled
+		}
+
 		if r.IsBaseline != nil {
 			userAssessment["is_baseline"] = *r.IsBaseline
 		}
