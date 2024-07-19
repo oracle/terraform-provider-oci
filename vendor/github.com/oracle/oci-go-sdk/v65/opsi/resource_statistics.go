@@ -43,6 +43,12 @@ type ResourceStatistics struct {
 
 	// The maximum host CPUs (cores x threads/core) on the underlying infrastructure. This only applies to CPU and does not not apply for Autonomous Databases.
 	TotalHostCapacity *float64 `mandatory:"false" json:"totalHostCapacity"`
+
+	// Specifies if MYSQL DB System has heatwave cluster attached.
+	IsHeatWaveClusterAttached *bool `mandatory:"false" json:"isHeatWaveClusterAttached"`
+
+	// Specifies if MYSQL DB System is highly available.
+	IsHighlyAvailable *bool `mandatory:"false" json:"isHighlyAvailable"`
 }
 
 func (m ResourceStatistics) String() string {

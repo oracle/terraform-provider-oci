@@ -4233,6 +4233,135 @@ func (client OperationsInsightsClient) ingestHostMetrics(ctx context.Context, re
 	return response, err
 }
 
+// IngestMySqlSqlStats The MySql SQL Stats endpoint takes in a JSON payload, persists it in Ops Insights ingest pipeline.
+// Either databaseId or id must be specified.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestMySqlSqlStats.go.html to see an example of how to use IngestMySqlSqlStats API.
+// A default retry strategy applies to this operation IngestMySqlSqlStats()
+func (client OperationsInsightsClient) IngestMySqlSqlStats(ctx context.Context, request IngestMySqlSqlStatsRequest) (response IngestMySqlSqlStatsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.ingestMySqlSqlStats, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = IngestMySqlSqlStatsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = IngestMySqlSqlStatsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(IngestMySqlSqlStatsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into IngestMySqlSqlStatsResponse")
+	}
+	return
+}
+
+// ingestMySqlSqlStats implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) ingestMySqlSqlStats(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestMySqlSqlStatsMetric", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response IngestMySqlSqlStatsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestMySqlSqlStats"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestMySqlSqlStats", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// IngestMySqlSqlText The SqlText endpoint takes in a JSON payload, persists it in Operation Insights ingest pipeline.
+// Either databaseId or id must be specified.
+// Disclaimer: SQL text being uploaded explicitly via APIs is already masked. All sensitive literals contained in the sqlFullText column are masked prior to ingestion.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/IngestMySqlSqlText.go.html to see an example of how to use IngestMySqlSqlText API.
+// A default retry strategy applies to this operation IngestMySqlSqlText()
+func (client OperationsInsightsClient) IngestMySqlSqlText(ctx context.Context, request IngestMySqlSqlTextRequest) (response IngestMySqlSqlTextResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.ingestMySqlSqlText, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = IngestMySqlSqlTextResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = IngestMySqlSqlTextResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(IngestMySqlSqlTextResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into IngestMySqlSqlTextResponse")
+	}
+	return
+}
+
+// ingestMySqlSqlText implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) ingestMySqlSqlText(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/ingestMySqlSqlText", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response IngestMySqlSqlTextResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/IngestMySqlSqlText"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "IngestMySqlSqlText", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // IngestSqlBucket The sqlbucket endpoint takes in a JSON payload, persists it in Ops Insights ingest pipeline.
 // Either databaseId or id must be specified.
 //

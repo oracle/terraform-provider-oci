@@ -25,7 +25,7 @@ type GenerateReportDetails struct {
 	// into which the resource should be moved.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Specifies the format of report to be .xls or .pdf
+	// Specifies the format of report to be .xls or .pdf or .json
 	MimeType GenerateReportDetailsMimeTypeEnum `mandatory:"true" json:"mimeType"`
 
 	// Array of database target OCIDs.

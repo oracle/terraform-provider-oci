@@ -71,6 +71,9 @@ type UserAssessment struct {
 	// The OCID of the user assessment that is responsible for creating this scheduled save assessment.
 	ScheduleAssessmentId *string `mandatory:"false" json:"scheduleAssessmentId"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// Schedule of the assessment that runs periodically in this specified format:
 	//   <version-string>;<version-specific-schedule>
 	//   Allowed version strings - "v1"

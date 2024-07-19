@@ -34,7 +34,7 @@ type ScheduleReportDetails struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"true" json:"schedule"`
 
-	// Specifies if the report will be in .xls or .pdf format
+	// Specifies if the report will be in .xls or .pdf or .json format
 	MimeType ScheduleReportDetailsMimeTypeEnum `mandatory:"true" json:"mimeType"`
 
 	// The OCID of the compartment

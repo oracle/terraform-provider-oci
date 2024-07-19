@@ -120,6 +120,10 @@ func (m *databaseconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := PeComanagedManagedExternalDatabaseConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MDS_MYSQL_DATABASE_SYSTEM":
+		mm := MdsMysqlDatabaseConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DatabaseConfigurationSummary: %s.", m.EntitySource)
 		return *m, nil

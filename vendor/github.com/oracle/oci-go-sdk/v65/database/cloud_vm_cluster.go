@@ -59,6 +59,9 @@ type CloudVmCluster struct {
 	// The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 	SshPublicKeys []string `mandatory:"true" json:"sshPublicKeys"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the backup network subnet associated with the cloud VM cluster.
 	// **Subnet Restriction:** See the subnet restrictions information for **subnetId**.
 	BackupSubnetId *string `mandatory:"false" json:"backupSubnetId"`

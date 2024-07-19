@@ -18,7 +18,7 @@ import (
 	"strings"
 )
 
-// UpdatePeComanagedDatabaseInsightDetails The information to be updated.
+// UpdatePeComanagedDatabaseInsightDetails The freeformTags and definedTags to be updated.
 type UpdatePeComanagedDatabaseInsightDetails struct {
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

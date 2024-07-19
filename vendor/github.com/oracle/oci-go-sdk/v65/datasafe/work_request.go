@@ -141,6 +141,7 @@ const (
 	WorkRequestOperationTypeRefreshSqlCollectionLogInsights           WorkRequestOperationTypeEnum = "REFRESH_SQL_COLLECTION_LOG_INSIGHTS"
 	WorkRequestOperationTypePurgeSqlCollectionLogs                    WorkRequestOperationTypeEnum = "PURGE_SQL_COLLECTION_LOGS"
 	WorkRequestOperationTypeRefreshViolations                         WorkRequestOperationTypeEnum = "REFRESH_VIOLATIONS"
+	WorkRequestOperationTypeCreateArchival                            WorkRequestOperationTypeEnum = "CREATE_ARCHIVAL"
 	WorkRequestOperationTypeUpdateSecurityPolicy                      WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY"
 	WorkRequestOperationTypeChangeSecurityPolicyCompartment           WorkRequestOperationTypeEnum = "CHANGE_SECURITY_POLICY_COMPARTMENT"
 	WorkRequestOperationTypeUpdateSecurityPolicyDeployment            WorkRequestOperationTypeEnum = "UPDATE_SECURITY_POLICY_DEPLOYMENT"
@@ -197,6 +198,7 @@ const (
 	WorkRequestOperationTypePatchDifference                           WorkRequestOperationTypeEnum = "PATCH_DIFFERENCE"
 	WorkRequestOperationTypeApplyDifference                           WorkRequestOperationTypeEnum = "APPLY_DIFFERENCE"
 	WorkRequestOperationTypeMaskPolicyGenerateHealthReport            WorkRequestOperationTypeEnum = "MASK_POLICY_GENERATE_HEALTH_REPORT"
+	WorkRequestOperationTypeMaskPolicyDeleteHealthReport              WorkRequestOperationTypeEnum = "MASK_POLICY_DELETE_HEALTH_REPORT"
 	WorkRequestOperationTypeAbortMasking                              WorkRequestOperationTypeEnum = "ABORT_MASKING"
 	WorkRequestOperationTypeCreateSecurityPolicyReport                WorkRequestOperationTypeEnum = "CREATE_SECURITY_POLICY_REPORT"
 	WorkRequestOperationTypeRefreshSecurityPolicyCache                WorkRequestOperationTypeEnum = "REFRESH_SECURITY_POLICY_CACHE"
@@ -276,6 +278,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"REFRESH_SQL_COLLECTION_LOG_INSIGHTS":           WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
 	"PURGE_SQL_COLLECTION_LOGS":                     WorkRequestOperationTypePurgeSqlCollectionLogs,
 	"REFRESH_VIOLATIONS":                            WorkRequestOperationTypeRefreshViolations,
+	"CREATE_ARCHIVAL":                               WorkRequestOperationTypeCreateArchival,
 	"UPDATE_SECURITY_POLICY":                        WorkRequestOperationTypeUpdateSecurityPolicy,
 	"CHANGE_SECURITY_POLICY_COMPARTMENT":            WorkRequestOperationTypeChangeSecurityPolicyCompartment,
 	"UPDATE_SECURITY_POLICY_DEPLOYMENT":             WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
@@ -332,6 +335,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PATCH_DIFFERENCE":                              WorkRequestOperationTypePatchDifference,
 	"APPLY_DIFFERENCE":                              WorkRequestOperationTypeApplyDifference,
 	"MASK_POLICY_GENERATE_HEALTH_REPORT":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
+	"MASK_POLICY_DELETE_HEALTH_REPORT":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
 	"ABORT_MASKING":                                 WorkRequestOperationTypeAbortMasking,
 	"CREATE_SECURITY_POLICY_REPORT":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"REFRESH_SECURITY_POLICY_CACHE":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -411,6 +415,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"refresh_sql_collection_log_insights":           WorkRequestOperationTypeRefreshSqlCollectionLogInsights,
 	"purge_sql_collection_logs":                     WorkRequestOperationTypePurgeSqlCollectionLogs,
 	"refresh_violations":                            WorkRequestOperationTypeRefreshViolations,
+	"create_archival":                               WorkRequestOperationTypeCreateArchival,
 	"update_security_policy":                        WorkRequestOperationTypeUpdateSecurityPolicy,
 	"change_security_policy_compartment":            WorkRequestOperationTypeChangeSecurityPolicyCompartment,
 	"update_security_policy_deployment":             WorkRequestOperationTypeUpdateSecurityPolicyDeployment,
@@ -467,6 +472,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"patch_difference":                              WorkRequestOperationTypePatchDifference,
 	"apply_difference":                              WorkRequestOperationTypeApplyDifference,
 	"mask_policy_generate_health_report":            WorkRequestOperationTypeMaskPolicyGenerateHealthReport,
+	"mask_policy_delete_health_report":              WorkRequestOperationTypeMaskPolicyDeleteHealthReport,
 	"abort_masking":                                 WorkRequestOperationTypeAbortMasking,
 	"create_security_policy_report":                 WorkRequestOperationTypeCreateSecurityPolicyReport,
 	"refresh_security_policy_cache":                 WorkRequestOperationTypeRefreshSecurityPolicyCache,
@@ -557,6 +563,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"REFRESH_SQL_COLLECTION_LOG_INSIGHTS",
 		"PURGE_SQL_COLLECTION_LOGS",
 		"REFRESH_VIOLATIONS",
+		"CREATE_ARCHIVAL",
 		"UPDATE_SECURITY_POLICY",
 		"CHANGE_SECURITY_POLICY_COMPARTMENT",
 		"UPDATE_SECURITY_POLICY_DEPLOYMENT",
@@ -613,6 +620,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PATCH_DIFFERENCE",
 		"APPLY_DIFFERENCE",
 		"MASK_POLICY_GENERATE_HEALTH_REPORT",
+		"MASK_POLICY_DELETE_HEALTH_REPORT",
 		"ABORT_MASKING",
 		"CREATE_SECURITY_POLICY_REPORT",
 		"REFRESH_SECURITY_POLICY_CACHE",

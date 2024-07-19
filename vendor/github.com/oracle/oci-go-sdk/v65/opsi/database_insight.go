@@ -141,6 +141,10 @@ func (m *databaseinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		mm := AutonomousDatabaseInsight{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MDS_MYSQL_DATABASE_SYSTEM":
+		mm := MdsMySqlDatabaseInsight{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DatabaseInsight: %s.", m.EntitySource)
 		return *m, nil

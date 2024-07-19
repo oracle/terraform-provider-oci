@@ -39,7 +39,7 @@ type ReportSummary struct {
 	// Description of the report.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the format of report to be .xls or .pdf.
+	// Specifies the format of report to be .xls or .pdf or .json.
 	MimeType ReportSummaryMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
 	// The type of the report.

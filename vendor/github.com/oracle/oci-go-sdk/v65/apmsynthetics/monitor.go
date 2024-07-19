@@ -28,7 +28,7 @@ type Monitor struct {
 	// Type of monitor.
 	MonitorType MonitorTypesEnum `mandatory:"true" json:"monitorType"`
 
-	// List of public and dedicated vantage points where the monitor is running.
+	// List of public, dedicated and onPremise vantage points where the monitor is running.
 	VantagePoints []VantagePointInfo `mandatory:"true" json:"vantagePoints"`
 
 	// Number of vantage points where monitor is running.
@@ -67,10 +67,10 @@ type Monitor struct {
 	BatchIntervalInSeconds *int `mandatory:"true" json:"batchIntervalInSeconds"`
 
 	// Specify the endpoint on which to run the monitor.
-	// For BROWSER, REST and NETWORK monitor types, target is mandatory.
+	// For BROWSER, REST, NETWORK, DNS and FTP monitor types, target is mandatory.
 	// If target is specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script (specified by scriptId in monitor) against the specified target endpoint.
 	// If target is not specified in the SCRIPTED_BROWSER monitor type, then the monitor will run the selected script as it is.
-	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80
+	// For NETWORK monitor with TCP protocol, a port needs to be provided along with target. Example: 192.168.0.1:80.
 	Target *string `mandatory:"false" json:"target"`
 
 	// List of script parameters. Example: `[{"monitorScriptParameter": {"paramName": "userid", "paramValue":"testuser"}, "isSecret": false, "isOverwritten": false}]`
@@ -99,6 +99,15 @@ type Monitor struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// If enabled, domain name will resolve to an IPv6 address.
+	IsIPv6 *bool `mandatory:"false" json:"isIPv6"`
+
+	// Name of the user that created the monitor.
+	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
+	// Name of the user that recently updated the monitor.
+	LastUpdatedBy *string `mandatory:"false" json:"lastUpdatedBy"`
 }
 
 func (m Monitor) String() string {
@@ -138,6 +147,9 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated               *common.SDKTime                   `json:"timeUpdated"`
 		FreeformTags              map[string]string                 `json:"freeformTags"`
 		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
+		IsIPv6                    *bool                             `json:"isIPv6"`
+		CreatedBy                 *string                           `json:"createdBy"`
+		LastUpdatedBy             *string                           `json:"lastUpdatedBy"`
 		Id                        *string                           `json:"id"`
 		DisplayName               *string                           `json:"displayName"`
 		MonitorType               MonitorTypesEnum                  `json:"monitorType"`
@@ -184,6 +196,12 @@ func (m *Monitor) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.IsIPv6 = model.IsIPv6
+
+	m.CreatedBy = model.CreatedBy
+
+	m.LastUpdatedBy = model.LastUpdatedBy
 
 	m.Id = model.Id
 
