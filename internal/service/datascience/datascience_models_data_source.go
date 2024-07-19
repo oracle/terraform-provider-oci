@@ -214,6 +214,14 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 			model["version_label"] = *r.VersionLabel
 		}
 
+		if r.ModelVersionSetName != nil {
+			model["model_version_set_name"] = *r.ModelVersionSetName
+		}
+
+		if r.VersionLabel != nil {
+			model["version_label"] = *r.VersionLabel
+		}
+
 		model["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
