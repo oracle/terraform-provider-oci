@@ -39,6 +39,9 @@ type CloudExadataInfrastructureSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// The number of compute servers for the cloud Exadata infrastructure.
 	ComputeCount *int `mandatory:"false" json:"computeCount"`
 

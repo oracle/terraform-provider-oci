@@ -45,6 +45,9 @@ type FindingSummary struct {
 	// The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.
 	Summary *string `mandatory:"false" json:"summary"`
 
+	// Provides a recommended approach to take to remediate the finding reported.
+	Oneline *string `mandatory:"false" json:"oneline"`
+
 	// Provides information on whether the finding is related to a CIS Oracle Database Benchmark recommendation, a STIG rule, or a GDPR Article/Recital.
 	References *References `mandatory:"false" json:"references"`
 

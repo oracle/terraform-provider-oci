@@ -70,6 +70,10 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		mm := HostCpuUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_CONTAINERS":
+		mm := HostContainers{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_GPU_USAGE":
 		mm := HostGpuUsage{}
 		err = json.Unmarshal(data, &mm)
@@ -80,6 +84,10 @@ func (m *hostperformancemetricgroup) UnmarshalPolymorphicJSON(data []byte) (inte
 		return mm, err
 	case "HOST_FILESYSTEM_USAGE":
 		mm := HostFilesystemUsage{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_IO_USAGE":
+		mm := HostIoUsage{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "HOST_NETWORK_ACTIVITY_SUMMARY":
@@ -125,6 +133,8 @@ const (
 	HostPerformanceMetricGroupMetricNameFilesystemUsage        HostPerformanceMetricGroupMetricNameEnum = "HOST_FILESYSTEM_USAGE"
 	HostPerformanceMetricGroupMetricNameGpuUsage               HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_USAGE"
 	HostPerformanceMetricGroupMetricNameGpuProcesses           HostPerformanceMetricGroupMetricNameEnum = "HOST_GPU_PROCESSES"
+	HostPerformanceMetricGroupMetricNameIoUsage                HostPerformanceMetricGroupMetricNameEnum = "HOST_IO_USAGE"
+	HostPerformanceMetricGroupMetricNameContainers             HostPerformanceMetricGroupMetricNameEnum = "HOST_CONTAINERS"
 )
 
 var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -135,6 +145,8 @@ var mappingHostPerformanceMetricGroupMetricNameEnum = map[string]HostPerformance
 	"HOST_FILESYSTEM_USAGE":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
 	"HOST_GPU_USAGE":                HostPerformanceMetricGroupMetricNameGpuUsage,
 	"HOST_GPU_PROCESSES":            HostPerformanceMetricGroupMetricNameGpuProcesses,
+	"HOST_IO_USAGE":                 HostPerformanceMetricGroupMetricNameIoUsage,
+	"HOST_CONTAINERS":               HostPerformanceMetricGroupMetricNameContainers,
 }
 
 var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPerformanceMetricGroupMetricNameEnum{
@@ -145,6 +157,8 @@ var mappingHostPerformanceMetricGroupMetricNameEnumLowerCase = map[string]HostPe
 	"host_filesystem_usage":         HostPerformanceMetricGroupMetricNameFilesystemUsage,
 	"host_gpu_usage":                HostPerformanceMetricGroupMetricNameGpuUsage,
 	"host_gpu_processes":            HostPerformanceMetricGroupMetricNameGpuProcesses,
+	"host_io_usage":                 HostPerformanceMetricGroupMetricNameIoUsage,
+	"host_containers":               HostPerformanceMetricGroupMetricNameContainers,
 }
 
 // GetHostPerformanceMetricGroupMetricNameEnumValues Enumerates the set of values for HostPerformanceMetricGroupMetricNameEnum
@@ -166,6 +180,8 @@ func GetHostPerformanceMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_FILESYSTEM_USAGE",
 		"HOST_GPU_USAGE",
 		"HOST_GPU_PROCESSES",
+		"HOST_IO_USAGE",
+		"HOST_CONTAINERS",
 	}
 }
 

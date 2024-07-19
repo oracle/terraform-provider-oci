@@ -9776,7 +9776,6 @@ func (client DataSafeClient) listDatabaseSecurityConfigs(ctx context.Context, re
 }
 
 // ListDatabaseTableAccessEntries Retrieves a list of all database table access entries in Data Safe.
-//
 // The ListDatabaseTableAccessEntries operation returns only the database table access reports for the specified security policy report.
 //
 // # See also
@@ -12068,6 +12067,64 @@ func (client DataSafeClient) listSensitiveColumns(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/ListSensitiveColumns"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveColumns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListSensitiveDataModelSensitiveTypes Gets a list of sensitive type Ids present in the specified sensitive data model.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/ListSensitiveDataModelSensitiveTypes.go.html to see an example of how to use ListSensitiveDataModelSensitiveTypes API.
+// A default retry strategy applies to this operation ListSensitiveDataModelSensitiveTypes()
+func (client DataSafeClient) ListSensitiveDataModelSensitiveTypes(ctx context.Context, request ListSensitiveDataModelSensitiveTypesRequest) (response ListSensitiveDataModelSensitiveTypesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listSensitiveDataModelSensitiveTypes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListSensitiveDataModelSensitiveTypesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListSensitiveDataModelSensitiveTypesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListSensitiveDataModelSensitiveTypesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListSensitiveDataModelSensitiveTypesResponse")
+	}
+	return
+}
+
+// listSensitiveDataModelSensitiveTypes implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listSensitiveDataModelSensitiveTypes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sensitiveDataModels/{sensitiveDataModelId}/sensitiveTypes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListSensitiveDataModelSensitiveTypesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveDataModelSensitiveTypeCollection/ListSensitiveDataModelSensitiveTypes"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListSensitiveDataModelSensitiveTypes", apiReferenceLink)
 		return response, err
 	}
 
@@ -15163,7 +15220,8 @@ func (client DataSafeClient) suspendWorkRequest(ctx context.Context, request com
 	return response, err
 }
 
-// UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment. The saved security assessment is no longer considered a baseline.
+// UnsetSecurityAssessmentBaseline Removes the baseline setting for the saved security assessment associated with the targetId passed via body.
+// If no body or empty body is passed then the baseline settings of all the saved security assessments pertaining to the baseline assessment OCID provided in the path will be removed.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
 //
 // # See also
@@ -15227,7 +15285,8 @@ func (client DataSafeClient) unsetSecurityAssessmentBaseline(ctx context.Context
 	return response, err
 }
 
-// UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment. The saved user assessment is no longer considered a baseline.
+// UnsetUserAssessmentBaseline Removes the baseline setting for the saved user assessment associated with the targetId passed via body.
+// If no body or empty body is passed then the baseline settings of all the saved user assessments pertaining to the baseline assessment OCID provided in the path will be removed.
 // Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
 //
 // # See also

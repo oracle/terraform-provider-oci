@@ -142,6 +142,9 @@ type SummarizeHostInsightResourceForecastTrendRequest struct {
 	// Name of the network interface.
 	InterfaceName *string `mandatory:"false" contributesTo:"query" name:"interfaceName"`
 
+	// GPU identifier.
+	GpuId *int `mandatory:"false" contributesTo:"query" name:"gpuId"`
+
 	// Resource Status
 	Status []ResourceStatusEnum `contributesTo:"query" name:"status" omitEmpty:"true" collectionFormat:"multi"`
 

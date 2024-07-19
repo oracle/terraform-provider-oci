@@ -49,6 +49,19 @@ type ListReportsRequest struct {
 	// The ID of the report definition to filter the list of reports
 	ReportDefinitionId *string `mandatory:"false" contributesTo:"query" name:"reportDefinitionId"`
 
+	// A filter to return only the resources that were generated after the specified date and time, as defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Using TimeGeneratedGreaterThanOrEqualToQueryParam parameter retrieves all resources generated after that date.
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimeGeneratedGreaterThanOrEqualTo *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeGeneratedGreaterThanOrEqualTo"`
+
+	// Search for resources that were generated before a specific date.
+	// Specifying this parameter corresponding `timeGeneratedLessThan`
+	// parameter will retrieve all resources generated before the
+	// specified generated date, in "YYYY-MM-ddThh:mmZ" format with a Z offset, as
+	// defined by RFC 3339.
+	// **Example:** 2016-12-19T16:39:57.600Z
+	TimeGeneratedLessThan *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeGeneratedLessThan"`
+
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
