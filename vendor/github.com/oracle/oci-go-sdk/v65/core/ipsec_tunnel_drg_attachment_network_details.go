@@ -51,6 +51,20 @@ type IpsecTunnelDrgAttachmentNetworkDetails struct {
 	// Whether traffic from this network is forwarded to the El Paso Gamma VIPs (or not)
 	IsGammaDrg *bool `mandatory:"false" json:"isGammaDrg"`
 
+	// Common Export route target to use for the DRG Attachment instead of per-attachment route target.
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for
+	// route unification.
+	CommonExportRT *string `mandatory:"false" json:"commonExportRT"`
+
+	// Common Import route target to use for the DRG attachment instead of per-attachment import route target.
+	// This is applicable to DRG attachments that are assigned to a DRG route table which is whitelisted for
+	// route unification.
+	CommonImportRT *string `mandatory:"false" json:"commonImportRT"`
+
+	// This indicates whether the DRG route table associated with the DRG attachment is whitelisted for route unification.
+	// Example: `true`
+	IsRouteUnificationEnabled *bool `mandatory:"false" json:"isRouteUnificationEnabled"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual circuit's DRG attachment.
 	TransportAttachmentId *string `mandatory:"false" json:"transportAttachmentId"`
 }

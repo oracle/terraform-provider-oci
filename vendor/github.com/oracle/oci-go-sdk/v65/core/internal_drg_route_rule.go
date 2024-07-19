@@ -39,6 +39,9 @@ type InternalDrgRouteRule struct {
 	// packets, this will be the VNI.
 	EncapLabel *int `mandatory:"true" json:"encapLabel"`
 
+	// The IP address of the target for the destination. This value is used for Substrate Access DRG.
+	OverlayIp *string `mandatory:"false" json:"overlayIp"`
+
 	// The MAC address of the next hop. It can be integer value or string format separated by colon.
 	NextHopMac *string `mandatory:"false" json:"nextHopMac"`
 
@@ -73,16 +76,19 @@ type InternalDrgRouteRuleEncapTypeEnum string
 const (
 	InternalDrgRouteRuleEncapTypeVxlan    InternalDrgRouteRuleEncapTypeEnum = "VXLAN"
 	InternalDrgRouteRuleEncapTypeMplsOUdp InternalDrgRouteRuleEncapTypeEnum = "MPLS_O_UDP"
+	InternalDrgRouteRuleEncapTypeGeneveL3 InternalDrgRouteRuleEncapTypeEnum = "GENEVE_L3"
 )
 
 var mappingInternalDrgRouteRuleEncapTypeEnum = map[string]InternalDrgRouteRuleEncapTypeEnum{
 	"VXLAN":      InternalDrgRouteRuleEncapTypeVxlan,
 	"MPLS_O_UDP": InternalDrgRouteRuleEncapTypeMplsOUdp,
+	"GENEVE_L3":  InternalDrgRouteRuleEncapTypeGeneveL3,
 }
 
 var mappingInternalDrgRouteRuleEncapTypeEnumLowerCase = map[string]InternalDrgRouteRuleEncapTypeEnum{
 	"vxlan":      InternalDrgRouteRuleEncapTypeVxlan,
 	"mpls_o_udp": InternalDrgRouteRuleEncapTypeMplsOUdp,
+	"geneve_l3":  InternalDrgRouteRuleEncapTypeGeneveL3,
 }
 
 // GetInternalDrgRouteRuleEncapTypeEnumValues Enumerates the set of values for InternalDrgRouteRuleEncapTypeEnum
@@ -99,6 +105,7 @@ func GetInternalDrgRouteRuleEncapTypeEnumStringValues() []string {
 	return []string{
 		"VXLAN",
 		"MPLS_O_UDP",
+		"GENEVE_L3",
 	}
 }
 
