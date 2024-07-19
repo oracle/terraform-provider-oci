@@ -52,6 +52,9 @@ type ListFindingsRequest struct {
 	// resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 	AccessLevel ListFindingsAccessLevelEnum `mandatory:"false" contributesTo:"query" name:"accessLevel" omitEmpty:"true"`
 
+	// A filter to return only items related to a specific target OCID.
+	TargetId *string `mandatory:"false" contributesTo:"query" name:"targetId"`
+
 	// Each finding in security assessment has an associated key (think of key as a finding's name).
 	// For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.
 	FindingKey *string `mandatory:"false" contributesTo:"query" name:"findingKey"`

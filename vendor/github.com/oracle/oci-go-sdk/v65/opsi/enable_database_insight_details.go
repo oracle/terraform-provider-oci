@@ -56,6 +56,10 @@ func (m *enabledatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := EnableEmManagedExternalDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MDS_MYSQL_DATABASE_SYSTEM":
+		mm := EnableMdsMySqlDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PE_COMANAGED_DATABASE":
 		mm := EnablePeComanagedDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)

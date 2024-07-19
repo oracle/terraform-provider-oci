@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// References References to the sections of STIG, CIS, and/or GDPR relevant to the current finding.
+// References References to the sections of STIG, CIS, GDPR and/or OBP relevant to the current finding.
 type References struct {
 
 	// Relevant section from STIG.
@@ -26,6 +26,9 @@ type References struct {
 
 	// Relevant section from GDPR.
 	Gdpr *string `mandatory:"false" json:"gdpr"`
+
+	// Relevant section from OBP.
+	Obp *string `mandatory:"false" json:"obp"`
 }
 
 func (m References) String() string {
