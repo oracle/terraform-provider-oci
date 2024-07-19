@@ -1,3 +1,20 @@
+## 6.3.1 (Unreleased)
+
+### Added
+- Support for APM - Synthetics - SQL Monitor Type Support
+- Support for Oracle Sharded Database
+- Support for ADB-S: Licenses Input option for better BYOL flexibility
+the cleanup files
+- Support for Data Safe - Usability enhancements to data discovery feature
+- Support for Operations Insights : MYSQL Analytics
+- Support for [Add subscriptionId attribute support for AutonomousDatabase resource] Terraform Setup
+- Support for Add subscriptionId attribute support for Cloud Exa Infra/VM Cluster
+- Support for ExaDB-C@C OKV Integration Phase 2 with EXACC to Manage TDE Keys Dataguard / Create DB
+- Support for linting check migrate to pipeline
+### Bug Fix
+- Added env.ENABLE_LINT_FOR_BACKWARD_COMPATIBILITY_FOR_ALL_RESOURCES
+- Terraform bug fixes - Data safe Audit (Provider-Only)
+
 ## 6.3.0 (July 16, 2024)
 
 ### Deprecation
