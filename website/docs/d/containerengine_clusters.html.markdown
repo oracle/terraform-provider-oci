@@ -79,6 +79,7 @@ The following attributes are exported:
 	* `updated_by_user_id` - The user who updated the cluster.
 	* `updated_by_work_request_id` - The OCID of the work request which updated the cluster.
 * `name` - The name of the cluster.
+* `open_id_connect_discovery_endpoint` - The cluster-specific OpenID Connect Discovery endpoint 
 * `options` - Optional attributes for the cluster.
 	* `add_ons` - Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - Whether or not to enable the Kubernetes Dashboard add-on.
@@ -101,6 +102,8 @@ The following attributes are exported:
 		* `signing_algorithms` - The signing algorithms accepted. Default is ["RS256"]. 
 		* `username_claim` - JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. 
 		* `username_prefix` - Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing. 
+	* `open_id_connect_discovery` - The property that define the status of the OIDC Discovery feature for a cluster. 
+		* `is_open_id_connect_discovery_enabled` - Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint. 
 	* `persistent_volume_config` - Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
