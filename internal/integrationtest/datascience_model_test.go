@@ -165,6 +165,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "model_version_set_name", "version_set_name"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),

@@ -265,6 +265,16 @@ func (s *DatascienceModelsDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
+	if model_version_set_name, ok := s.D.GetOkExists("model_version_set_name"); ok {
+		tmp := model_version_set_name.(string)
+		request.ModelVersionSetName = &tmp
+	}
+
+	if version_label, ok := s.D.GetOkExists("version_label"); ok {
+		tmp := version_label.(string)
+		request.VersionLabel = &tmp
+	}
+
 	if id, ok := s.D.GetOkExists("id"); ok {
 		tmp := id.(string)
 		request.Id = &tmp
@@ -343,6 +353,14 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 
 		if r.ProjectId != nil {
 			model["project_id"] = *r.ProjectId
+		}
+
+		if r.ModelVersionSetName != nil {
+			model["model_version_set_name"] = *r.ModelVersionSetName
+		}
+
+		if r.VersionLabel != nil {
+			model["version_label"] = *r.VersionLabel
 		}
 
 		model["state"] = r.LifecycleState
