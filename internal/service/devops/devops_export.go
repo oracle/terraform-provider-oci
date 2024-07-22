@@ -10,6 +10,8 @@ import (
 
 func init() {
 	exportDevopsRepositoryRefHints.GetIdFn = getDevopsRepositoryRefId
+	exportDevopsRepositorySettingHints.GetIdFn = getDevopsRepositorySettingId
+	exportDevopsProjectRepositorySettingHints.GetIdFn = getDevopsProjectRepositorySettingId
 	tf_export.RegisterCompartmentGraphs("devops", devopsResourceGraph)
 }
 
@@ -23,6 +25,18 @@ func getDevopsRepositoryRefId(resource *tf_export.OCIResource) (string, error) {
 	}
 	repositoryId := resource.Parent.Id
 	return GetRepositoryRefCompositeId(refName, repositoryId), nil
+}
+
+func getDevopsRepositorySettingId(resource *tf_export.OCIResource) (string, error) {
+
+	repositoryId := resource.Parent.Id
+	return GetRepositorySettingCompositeId(repositoryId), nil
+}
+
+func getDevopsProjectRepositorySettingId(resource *tf_export.OCIResource) (string, error) {
+
+	projectId := resource.Parent.Id
+	return GetProjectRepositorySettingCompositeId(projectId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -185,6 +199,18 @@ var exportDevopsRepositoryMirrorHints = &tf_export.TerraformResourceHints{
 	ResourceAbbreviation: "repository_mirror",
 }
 
+var exportDevopsRepositorySettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_devops_repository_setting",
+	DatasourceClass:      "oci_devops_repository_setting",
+	ResourceAbbreviation: "repository_setting",
+}
+
+var exportDevopsProjectRepositorySettingHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_devops_project_repository_setting",
+	DatasourceClass:      "oci_devops_project_repository_setting",
+	ResourceAbbreviation: "project_repository_setting",
+}
+
 var devopsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDevopsProjectHints},
@@ -200,9 +226,23 @@ var devopsResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDevopsBuildPipelineStageHints},
 		{TerraformResourceHints: exportDevopsTriggerHints},
 	},
+	"oci_devops_project": {
+		{
+			TerraformResourceHints: exportDevopsProjectRepositorySettingHints,
+			DatasourceQueryParams: map[string]string{
+				"project_id": "id",
+			},
+		},
+	},
 	"oci_devops_repository": {
 		{
 			TerraformResourceHints: exportDevopsRepositoryRefHints,
+			DatasourceQueryParams: map[string]string{
+				"repository_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportDevopsRepositorySettingHints,
 			DatasourceQueryParams: map[string]string{
 				"repository_id": "id",
 			},

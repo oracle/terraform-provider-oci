@@ -16,8 +16,11 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_devops_deploy_stage", DevopsDeployStageResource())
 	tfresource.RegisterResource("oci_devops_deployment", DevopsDeploymentResource())
 	tfresource.RegisterResource("oci_devops_project", DevopsProjectResource())
+	tfresource.RegisterResource("oci_devops_project_repository_setting", DevopsProjectRepositorySettingResource())
 	tfresource.RegisterResource("oci_devops_repository", DevopsRepositoryResource())
 	tfresource.RegisterResource("oci_devops_repository_mirror", DevopsRepositoryMirrorResource())
+	tfresource.RegisterResource("oci_devops_repository_protected_branch_management", DevopsRepositoryProtectedBranchManagementResource())
 	tfresource.RegisterResource("oci_devops_repository_ref", DevopsRepositoryRefResource())
+	tfresource.RegisterResource("oci_devops_repository_setting", DevopsRepositorySettingResource())
 	tfresource.RegisterResource("oci_devops_trigger", DevopsTriggerResource())
 }

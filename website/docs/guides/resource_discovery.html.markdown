@@ -720,6 +720,8 @@ devops
 * oci\_devops\_build\_pipeline\_stage
 * oci\_devops\_trigger
 * oci\_devops\_repository\_mirror
+* oci\_devops\_repository\_setting
+* oci\_devops\_project\_repository\_setting
 
 disaster_recovery
 
