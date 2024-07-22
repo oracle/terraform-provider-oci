@@ -63,7 +63,7 @@ The following arguments are supported:
 			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
 				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 		* `include` - (Optional) (Updatable) Attributes to filter GitLab self-hosted server events.
-			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The target branch for pull requests; not applicable for push requests.
+			* `base_ref` - (Optional) (Updatable) The target branch for pull requests; not applicable for push requests.
 			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
 				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 			* `head_ref` - (Optional) (Updatable) Branch for push event; source branch for pull requests.

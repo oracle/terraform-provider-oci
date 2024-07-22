@@ -47,7 +47,7 @@ The following attributes are exported:
 * `id` - The OCID of the repository. This value is unique and immutable.
 * `lifecyle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `mirror_repository_config` - Configuration information for mirroring the repository.
-	* `connector_id` - Upstream git repository connection identifer.
+	* `connector_id` - Upstream git repository connection identifier.
 	* `repository_url` - URL of external repository you want to mirror.
 	* `trigger_schedule` - Specifies a trigger schedule. Timing information for when to initiate automated syncs.
 		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 

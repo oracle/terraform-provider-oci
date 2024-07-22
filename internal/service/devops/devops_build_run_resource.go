@@ -1610,6 +1610,11 @@ func DeployArtifactOverrideArgumentCollectionToMap(obj *oci_devops.DeployArtifac
 func (s *DevopsBuildRunResourceCrud) mapToDevopsCodeRepositoryFilterAttributes(fieldKeyFormat string) (oci_devops.DevopsCodeRepositoryFilterAttributes, error) {
 	result := oci_devops.DevopsCodeRepositoryFilterAttributes{}
 
+	if baseRef, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "base_ref")); ok {
+		tmp := baseRef.(string)
+		result.BaseRef = &tmp
+	}
+
 	if fileFilter, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "file_filter")); ok {
 		if tmpList := fileFilter.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "file_filter"), 0)
@@ -1631,6 +1636,10 @@ func (s *DevopsBuildRunResourceCrud) mapToDevopsCodeRepositoryFilterAttributes(f
 
 func DevopsCodeRepositoryFilterAttributesToMap(obj *oci_devops.DevopsCodeRepositoryFilterAttributes) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.BaseRef != nil {
+		result["base_ref"] = string(*obj.BaseRef)
+	}
 
 	if obj.FileFilter != nil {
 		result["file_filter"] = []interface{}{FileFilterToMap(obj.FileFilter)}
