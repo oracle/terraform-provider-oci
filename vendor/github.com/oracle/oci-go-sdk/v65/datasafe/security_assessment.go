@@ -85,6 +85,9 @@ type SecurityAssessment struct {
 	// The description of the security assessment.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// Schedule to save the assessment periodically in the specified format:
 	// <version-string>;<version-specific-schedule>
 	// Allowed version strings - "v1"

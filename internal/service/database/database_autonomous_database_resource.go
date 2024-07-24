@@ -104,6 +104,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"byol_compute_count_limit": {
+				Type:     schema.TypeFloat,
+				Optional: true,
+				Computed: true,
+			},
 			"character_set": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -490,6 +495,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				},
 			},
 			"subnet_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -1517,6 +1527,16 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok && s.D.HasChange("subscription_id") {
+		oldRaw, newRaw := s.D.GetChange("subscription_id")
+		if newRaw != "" && oldRaw != "" {
+			err := s.updateSubscription(subscriptionId.(string))
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	if dataSafeStatus, ok := s.D.GetOkExists("data_safe_status"); ok && s.D.HasChange("data_safe_status") {
 		oldRaw, newRaw := s.D.GetChange("data_safe_status")
 		if newRaw != "" && oldRaw != "" {
@@ -1605,6 +1625,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.AutonomousDatabaseId = &tmp
+
+	if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok && s.D.HasChange("byol_compute_count_limit") {
+		tmp := float32(byolComputeCountLimit.(float64))
+		request.ByolComputeCountLimit = &tmp
+	}
 
 	if computeCount, ok := s.D.GetOkExists("compute_count"); ok && s.D.HasChange("compute_count") {
 		tmp := float32(computeCount.(float64))
@@ -2186,6 +2211,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("license_model", s.Res.LicenseModel)
 
+	if s.Res.ByolComputeCountLimit != nil {
+		s.D.Set("byol_compute_count_limit", s.Res.ByolComputeCountLimit)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
@@ -2314,6 +2343,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	s.D.Set("supported_regions_to_clone_to", s.Res.SupportedRegionsToCloneTo)
@@ -2830,6 +2863,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
 		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
+		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
 			details.CharacterSet = &tmp
@@ -3052,6 +3089,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -3108,6 +3149,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -3329,6 +3374,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -3382,6 +3431,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -3606,6 +3659,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if timeOfAutoRefreshStart, ok := s.D.GetOkExists("time_of_auto_refresh_start"); ok {
 			tmp, err := time.Parse(time.RFC3339, timeOfAutoRefreshStart.(string))
 			if err != nil {
@@ -3655,6 +3712,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 			tmp := compartmentId.(string)
@@ -3864,6 +3925,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -3909,6 +3974,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		}
 		if autonomousMaintenanceScheduleType, ok := s.D.GetOkExists("autonomous_maintenance_schedule_type"); ok {
 			details.AutonomousMaintenanceScheduleType = oci_database.CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum(autonomousMaintenanceScheduleType.(string))
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4106,6 +4175,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4151,6 +4224,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4348,6 +4425,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4393,6 +4474,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4618,6 +4703,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4654,6 +4743,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if backupRetentionPeriodInDays, ok := s.D.GetOkExists("backup_retention_period_in_days"); ok {
 			tmp := backupRetentionPeriodInDays.(int)
 			details.BackupRetentionPeriodInDays = &tmp
+		}
+		if byolComputeCountLimit, ok := s.D.GetOkExists("byol_compute_count_limit"); ok {
+			tmp := float32(byolComputeCountLimit.(float64))
+			details.ByolComputeCountLimit = &tmp
 		}
 		if characterSet, ok := s.D.GetOkExists("character_set"); ok {
 			tmp := characterSet.(string)
@@ -4878,6 +4971,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := subnetId.(string)
 			details.SubnetId = &tmp
 		}
+		if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+			tmp := subscriptionId.(string)
+			details.SubscriptionId = &tmp
+		}
 		if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
 			tmp := vaultId.(string)
 			details.VaultId = &tmp
@@ -4924,7 +5021,24 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) updateCompartment(compartment i
 
 	return nil
 }
+func (s *DatabaseAutonomousDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
+	changeSubscriptionRequest := oci_database.ChangeAutonomousDatabaseSubscriptionRequest{}
 
+	idTmp := s.D.Id()
+	changeSubscriptionRequest.AutonomousDatabaseId = &idTmp
+
+	subscriptionTmp := subscriptionId
+	changeSubscriptionRequest.SubscriptionId = &subscriptionTmp
+
+	changeSubscriptionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeAutonomousDatabaseSubscription(context.Background(), changeSubscriptionRequest)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
 func (s *DatabaseAutonomousDatabaseResourceCrud) updateDataSafeStatus(autonomousDatabaseId string, dataSafeStatus oci_database.AutonomousDatabaseDataSafeStatusEnum) error {
 	switch dataSafeStatus {
 	case oci_database.AutonomousDatabaseDataSafeStatusRegistered:

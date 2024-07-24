@@ -50,6 +50,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"findings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -95,6 +99,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"oneline": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"oracle_defined_severity": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -114,6 +122,10 @@ func DataSafeSecurityAssessmentFindingsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"gdpr": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"obp": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -220,6 +232,11 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) Get() error {
 		request.LifecycleState = oci_data_safe.ListFindingsLifecycleStateEnum(state.(string))
 	}
 
+	if targetId, ok := s.D.GetOkExists("target_id"); ok {
+		tmp := targetId.(string)
+		request.TargetId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
 	response, err := s.Client.ListFindings(context.Background(), request)
@@ -288,6 +305,10 @@ func (s *DataSafeSecurityAssessmentFindingsDataSourceCrud) SetData() error {
 			securityAssessmentFinding["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.Oneline != nil {
+			securityAssessmentFinding["oneline"] = *r.Oneline
+		}
+
 		securityAssessmentFinding["oracle_defined_severity"] = r.OracleDefinedSeverity
 
 		if r.References != nil {
@@ -347,6 +368,10 @@ func FindingsReferencesToMap(obj *oci_data_safe.References) map[string]interface
 
 	if obj.Gdpr != nil {
 		result["gdpr"] = string(*obj.Gdpr)
+	}
+
+	if obj.Obp != nil {
+		result["obp"] = string(*obj.Obp)
 	}
 
 	if obj.Stig != nil {

@@ -81,14 +81,6 @@ variable "monitor_scheduling_policy" {
   default = "ALL"
 }
 
-variable "monitor_script_parameters_param_name" {
-  default = "testName"
-}
-
-variable "monitor_script_parameters_param_value" {
-  default = "myTest1"
-}
-
 variable "monitor_status" {
   default = "ENABLED"
 }
@@ -207,12 +199,7 @@ resource "oci_apm_synthetics_monitor" "test_monitor" {
       override_dns_ip          = var.monitor_configuration_dns_configuration_override_dns_ip
     }
   }
-  freeform_tags = var.monitor_freeform_tags
-  script_parameters {
-    #Required
-    param_name  = var.monitor_script_parameters_param_name
-    param_value = var.monitor_script_parameters_param_value
-  }
+  freeform_tags      = var.monitor_freeform_tags
   status             = var.monitor_status
   target             = var.monitor_target
   timeout_in_seconds = var.monitor_timeout_in_seconds

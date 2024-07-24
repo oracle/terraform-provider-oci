@@ -40,6 +40,7 @@ The following attributes are exported:
 * `id` - The OCID of the user assessment.
 * `ignored_assessment_ids` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 * `ignored_targets` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
+* `is_assessment_scheduled` - Indicates whether the assessment is scheduled to run.
 * `is_baseline` - Indicates if the user assessment is set as a baseline. This is applicable only to saved user assessments.
 * `is_deviated_from_baseline` - Indicates if the user assessment deviates from the baseline.
 * `last_compared_baseline_id` - The OCID of the last user assessment baseline against which the latest assessment was compared.

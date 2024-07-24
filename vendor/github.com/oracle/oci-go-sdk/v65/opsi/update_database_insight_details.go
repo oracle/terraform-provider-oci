@@ -80,6 +80,10 @@ func (m *updatedatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := UpdateAutonomousDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MDS_MYSQL_DATABASE_SYSTEM":
+		mm := UpdateMdsMySqlDatabaseInsight{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for UpdateDatabaseInsightDetails: %s.", m.EntitySource)
 		return *m, nil

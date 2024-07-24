@@ -10,7 +10,7 @@ description: |-
 # oci_opsi_host_insight
 This resource provides the Host Insight resource in Oracle Cloud Infrastructure Opsi service.
 
-Create a Host Insight resource for a host in Operations Insights. The host will be enabled in Operations Insights. Host metric collection and analysis will be started.
+Create a Host Insight resource for a host in Ops Insights. The host will be enabled in Ops Insights. Host metric collection and analysis will be started.
 
 
 ## Example Usage
@@ -72,14 +72,16 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `host_display_name` - The user-friendly name for the host. The name does not have to be unique.
 * `host_name` - The host name. The host name is unique amongst the hosts managed by the same management agent.
-* `host_type` - Operations Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
+* `host_type` - Ops Insights internal representation of the host type. Possible value is EXTERNAL-HOST.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the host insight resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `management_agent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
+* `opsi_private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
+* `parent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.
 * `platform_name` - Platform name.
 * `platform_type` - Platform type. Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS]. Supported platformType(s) for MACS-managed cloud host insight: [LINUX]. Supported platformType(s) for EM-managed external host insight: [LINUX, SOLARIS, SUNOS, ZLINUX, WINDOWS, AIX]. 
 * `platform_version` - Platform version.
-* `processor_count` - Processor count.
+* `root_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Infrastructure.
 * `state` - The current state of the host.
 * `status` - Indicates the status of a host insight in Operations Insights
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 

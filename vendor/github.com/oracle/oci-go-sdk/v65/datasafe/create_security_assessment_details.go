@@ -30,6 +30,9 @@ type CreateSecurityAssessmentDetails struct {
 	// Description of the security assessment.
 	Description *string `mandatory:"false" json:"description"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// To schedule the assessment for running periodically, specify the schedule in this attribute.
 	// Create or schedule one assessment per compartment. If not defined, the assessment runs immediately.
 	// Format -

@@ -22,16 +22,19 @@ type DatabaseEntitySourceEnum string
 const (
 	DatabaseEntitySourceEmManagedExternalDatabase DatabaseEntitySourceEnum = "EM_MANAGED_EXTERNAL_DATABASE"
 	DatabaseEntitySourcePeComanagedDatabase       DatabaseEntitySourceEnum = "PE_COMANAGED_DATABASE"
+	DatabaseEntitySourceMdsMysqlDatabaseSystem    DatabaseEntitySourceEnum = "MDS_MYSQL_DATABASE_SYSTEM"
 )
 
 var mappingDatabaseEntitySourceEnum = map[string]DatabaseEntitySourceEnum{
 	"EM_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceEmManagedExternalDatabase,
 	"PE_COMANAGED_DATABASE":        DatabaseEntitySourcePeComanagedDatabase,
+	"MDS_MYSQL_DATABASE_SYSTEM":    DatabaseEntitySourceMdsMysqlDatabaseSystem,
 }
 
 var mappingDatabaseEntitySourceEnumLowerCase = map[string]DatabaseEntitySourceEnum{
 	"em_managed_external_database": DatabaseEntitySourceEmManagedExternalDatabase,
 	"pe_comanaged_database":        DatabaseEntitySourcePeComanagedDatabase,
+	"mds_mysql_database_system":    DatabaseEntitySourceMdsMysqlDatabaseSystem,
 }
 
 // GetDatabaseEntitySourceEnumValues Enumerates the set of values for DatabaseEntitySourceEnum
@@ -48,6 +51,7 @@ func GetDatabaseEntitySourceEnumStringValues() []string {
 	return []string{
 		"EM_MANAGED_EXTERNAL_DATABASE",
 		"PE_COMANAGED_DATABASE",
+		"MDS_MYSQL_DATABASE_SYSTEM",
 	}
 }
 

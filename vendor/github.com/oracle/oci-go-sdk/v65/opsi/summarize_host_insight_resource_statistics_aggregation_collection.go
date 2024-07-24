@@ -69,27 +69,33 @@ type SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEn
 
 // Set of constants representing the allowable values for SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum
 const (
-	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu           SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "CPU"
-	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "MEMORY"
-	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "LOGICAL_MEMORY"
-	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage       SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "STORAGE"
-	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork       SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "NETWORK"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu            SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "CPU"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory         SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "MEMORY"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "LOGICAL_MEMORY"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "STORAGE"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "NETWORK"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_UTILIZATION"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_MEMORY_USAGE"
 )
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum{
-	"CPU":            SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu,
-	"MEMORY":         SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory,
-	"LOGICAL_MEMORY": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory,
-	"STORAGE":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage,
-	"NETWORK":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork,
+	"CPU":              SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu,
+	"MEMORY":           SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory,
+	"LOGICAL_MEMORY":   SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory,
+	"STORAGE":          SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage,
+	"NETWORK":          SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork,
+	"GPU_UTILIZATION":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization,
+	"GPU_MEMORY_USAGE": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage,
 }
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum{
-	"cpu":            SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu,
-	"memory":         SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory,
-	"logical_memory": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory,
-	"storage":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage,
-	"network":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork,
+	"cpu":              SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricCpu,
+	"memory":           SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricMemory,
+	"logical_memory":   SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricLogicalMemory,
+	"storage":          SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricStorage,
+	"network":          SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricNetwork,
+	"gpu_utilization":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization,
+	"gpu_memory_usage": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage,
 }
 
 // GetSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum
@@ -109,6 +115,8 @@ func GetSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetri
 		"LOGICAL_MEMORY",
 		"STORAGE",
 		"NETWORK",
+		"GPU_UTILIZATION",
+		"GPU_MEMORY_USAGE",
 	}
 }
 

@@ -225,7 +225,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.69.2
+# github.com/oracle/oci-go-sdk/v65 v65.69.3
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
@@ -283,6 +283,7 @@ github.com/oracle/oci-go-sdk/v65/functions
 github.com/oracle/oci-go-sdk/v65/fusionapps
 github.com/oracle/oci-go-sdk/v65/generativeai
 github.com/oracle/oci-go-sdk/v65/genericartifactscontent
+github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase
 github.com/oracle/oci-go-sdk/v65/goldengate
 github.com/oracle/oci-go-sdk/v65/healthchecks
 github.com/oracle/oci-go-sdk/v65/identity

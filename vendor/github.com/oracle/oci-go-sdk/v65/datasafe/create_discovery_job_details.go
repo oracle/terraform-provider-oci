@@ -38,6 +38,10 @@ type CreateDiscoveryJobDetails struct {
 	// data model is used to get the list of schemas.
 	SchemasForDiscovery []string `mandatory:"false" json:"schemasForDiscovery"`
 
+	// The data discovery jobs will scan the tables specified here, including both schemas and tables. In the absence
+	// of explicit input, the list of tables is obtained from the tablesForDiscovery attribute of the sensitive data model.
+	TablesForDiscovery []TablesForDiscovery `mandatory:"false" json:"tablesForDiscovery"`
+
 	// The OCIDs of the sensitive types to be used by the discovery job. If not provided, the sensitiveTypeIdsForDiscovery
 	// attribute of the sensitive data model is used to get the list of sensitive types.
 	SensitiveTypeIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeIdsForDiscovery"`

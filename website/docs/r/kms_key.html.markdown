@@ -52,12 +52,8 @@ resource "oci_kms_key" "test_key" {
 		external_key_id = oci_kms_key.test_key.id
 	}
 	freeform_tags = {"Department"= "Finance"}
-<<<<<<< ours
 	is_auto_rotation_enabled = var.key_is_auto_rotation_enabled
 	protection_mode = var.key_protection_mode
-=======
-	protection_mode = "${var.key_protection_mode}"
->>>>>>> theirs
 }
 ```
 

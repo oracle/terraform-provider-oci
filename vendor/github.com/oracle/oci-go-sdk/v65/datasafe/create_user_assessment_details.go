@@ -30,6 +30,9 @@ type CreateUserAssessmentDetails struct {
 	// The display name of the user assessment.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Indicates whether the assessment is scheduled to run.
+	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
+
 	// To schedule the assessment for saving periodically, specify the schedule in this attribute.
 	// Create or schedule one assessment per compartment. If not defined, the assessment runs immediately.
 	//  Format -

@@ -118,7 +118,7 @@ variable "report_definition_summary_name" {
 }
 
 variable "report_definition_summary_scim_filter" {
-  default = "scimFilter"
+  default = "operation eq \"LOGIN\""
 }
 
 

@@ -234,6 +234,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["backup_retention_period_in_days"] = *r.BackupRetentionPeriodInDays
 		}
 
+		if r.ByolComputeCountLimit != nil {
+			autonomousDatabase["byol_compute_count_limit"] = *r.ByolComputeCountLimit
+		}
+
 		if r.CharacterSet != nil {
 			autonomousDatabase["character_set"] = *r.CharacterSet
 		}
@@ -530,6 +534,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.SubnetId != nil {
 			autonomousDatabase["subnet_id"] = *r.SubnetId
+		}
+
+		if r.SubscriptionId != nil {
+			autonomousDatabase["subscription_id"] = *r.SubscriptionId
 		}
 
 		autonomousDatabase["supported_regions_to_clone_to"] = r.SupportedRegionsToCloneTo

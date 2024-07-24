@@ -199,6 +199,11 @@ func DatabaseDbHomeResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"key_store_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -611,6 +616,23 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if s.D.HasChange("key_store_id") {
+		oldVal, confVal := s.D.GetChange("key_store_id")
+		if oldVal.(string) != "" && confVal.(string) != "" {
+			return fmt.Errorf("[ERROR] no support for oldVal = '%s', confVal = '%s' now", oldVal.(string), confVal.(string))
+		}
+		if oldVal.(string) == "" {
+			errExaCC := s.ChangeKeyStoreType()
+			if errExaCC != nil {
+				return errExaCC
+			}
+		}
+		if confVal.(string) == "" && oldVal.(string) != "" {
+			return fmt.Errorf("[ERROR] no support for migrate to Oracle now")
+		}
+	}
+
 	response, err := s.Client.UpdateDbHome(context.Background(), updateDbHomeRequest)
 	if err != nil {
 		return err
@@ -768,6 +790,43 @@ func (s *DatabaseDbHomeResourceCrud) getDatabaseId(fieldKeyFormat string) (strin
 }
 
 func (s *DatabaseDbHomeResourceCrud) Delete() error {
+	oldRaw, _ := s.D.GetChange("database")
+	oldList := oldRaw.([]interface{})
+
+	if len(oldList) > 0 {
+		request := oci_database.DeleteDatabaseRequest{}
+
+		fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
+		dbId, err := s.getDatabaseId(fieldKeyFormat)
+		if err != nil {
+			return err
+		}
+
+		request.DatabaseId = &dbId
+
+		if performFinalBackup, ok := s.D.GetOkExists("perform_final_backup"); ok {
+			tmp := performFinalBackup.(bool)
+			request.PerformFinalBackup = &tmp
+		}
+
+		deleteDatabaseRetryDurationFn := getdatabaseRetryDurationFunction(s.D.Timeout(schema.TimeoutDelete))
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database", deleteDatabaseRetryDurationFn)
+
+		response, err := s.Client.DeleteDatabase(context.Background(), request)
+
+		if err != nil {
+			return err
+		}
+
+		workId := response.OpcWorkRequestId
+		if workId != nil {
+			_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries)
+			if err != nil {
+				return err
+			}
+		}
+	}
+
 	request := oci_database.DeleteDbHomeRequest{}
 
 	tmp := s.D.Id()
@@ -860,6 +919,34 @@ func (s *DatabaseDbHomeResourceCrud) SetData() error {
 		s.D.Set("vm_cluster_id", *s.Res.VmClusterId)
 	}
 
+	return nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType() error {
+	if _, ok := s.D.GetOkExists("key_store_id"); ok && s.D.HasChange("key_store_id") {
+		request := oci_database.ChangeKeyStoreTypeRequest{}
+
+		idTmp := s.D.Id()
+		request.DatabaseId = &idTmp
+
+		if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+			tmp := keyStoreId.(string)
+			request.KeyStoreId = &tmp
+		}
+
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+		_, err := s.Client.ChangeKeyStoreType(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+			return waitErr
+		}
+
+		return nil
+	}
 	return nil
 }
 
@@ -962,6 +1049,11 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if keyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_id")); ok {
+		tmp := keyStoreId.(string)
+		result.KeyStoreId = &tmp
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
@@ -1534,6 +1626,10 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 
 	if adminPassword, ok := s.D.GetOkExists("database.0.admin_password"); ok && adminPassword != nil {
 		result["admin_password"] = adminPassword.(string)
+	}
+
+	if obj.KeyStoreId != nil {
+		result["key_store_id"] = string(*obj.KeyStoreId)
 	}
 
 	if kmsKeyId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_id"); ok && kmsKeyId != nil {

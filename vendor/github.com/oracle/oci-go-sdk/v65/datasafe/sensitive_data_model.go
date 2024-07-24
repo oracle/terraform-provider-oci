@@ -75,6 +75,11 @@ type SensitiveDataModel struct {
 	// The schemas to be scanned by data discovery jobs.
 	SchemasForDiscovery []string `mandatory:"false" json:"schemasForDiscovery"`
 
+	// The data discovery jobs will scan the tables specified here, including both schemas and tables.
+	// For instance, the input could be in the format: [{schemaName: "HR", tableName: ["T1", "T2"]}, {schemaName:
+	// "OE", tableName : ["T3", "T4"]}].
+	TablesForDiscovery []TablesForDiscovery `mandatory:"false" json:"tablesForDiscovery"`
+
 	// The OCIDs of the sensitive types to be used by data discovery jobs.
 	SensitiveTypeIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeIdsForDiscovery"`
 

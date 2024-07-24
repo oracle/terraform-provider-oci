@@ -245,6 +245,10 @@ func (s *DatabaseCloudExadataInfrastructuresDataSourceCrud) SetData() error {
 			cloudExadataInfrastructure["storage_server_version"] = *r.StorageServerVersion
 		}
 
+		if r.SubscriptionId != nil {
+			cloudExadataInfrastructure["subscription_id"] = *r.SubscriptionId
+		}
+
 		if r.SystemTags != nil {
 			cloudExadataInfrastructure["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
 		}

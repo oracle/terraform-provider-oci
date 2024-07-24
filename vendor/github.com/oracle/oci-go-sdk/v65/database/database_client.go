@@ -715,6 +715,68 @@ func (client DatabaseClient) changeAutonomousDatabaseSoftwareImageCompartment(ct
 	return response, err
 }
 
+// ChangeAutonomousDatabaseSubscription Associate an Autonomous Database with a different subscription.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeAutonomousDatabaseSubscription.go.html to see an example of how to use ChangeAutonomousDatabaseSubscription API.
+func (client DatabaseClient) ChangeAutonomousDatabaseSubscription(ctx context.Context, request ChangeAutonomousDatabaseSubscriptionRequest) (response ChangeAutonomousDatabaseSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeAutonomousDatabaseSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeAutonomousDatabaseSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeAutonomousDatabaseSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeAutonomousDatabaseSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeAutonomousDatabaseSubscriptionResponse")
+	}
+	return
+}
+
+// changeAutonomousDatabaseSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeAutonomousDatabaseSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeAutonomousDatabaseSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ChangeAutonomousDatabaseSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeAutonomousDatabaseSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeAutonomousExadataInfrastructureCompartment **Deprecated.** Use the ChangeCloudExadataInfrastructureCompartment operation to move an Exadata infrastructure resource to a different compartment and  ChangeCloudAutonomousVmClusterCompartment operation to move an Autonomous Exadata VM cluster to a different compartment.
 // For more information, see
 // Moving Database Resources to a Different Compartment (https://docs.cloud.oracle.com/Content/Database/Concepts/databaseoverview.htm#moveRes).
@@ -1029,6 +1091,68 @@ func (client DatabaseClient) changeCloudExadataInfrastructureCompartment(ctx con
 	return response, err
 }
 
+// ChangeCloudExadataInfrastructureSubscription Associate a cloud Exadata infrastructure with a different subscription.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudExadataInfrastructureSubscription.go.html to see an example of how to use ChangeCloudExadataInfrastructureSubscription API.
+func (client DatabaseClient) ChangeCloudExadataInfrastructureSubscription(ctx context.Context, request ChangeCloudExadataInfrastructureSubscriptionRequest) (response ChangeCloudExadataInfrastructureSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCloudExadataInfrastructureSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCloudExadataInfrastructureSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCloudExadataInfrastructureSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCloudExadataInfrastructureSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCloudExadataInfrastructureSubscriptionResponse")
+	}
+	return
+}
+
+// changeCloudExadataInfrastructureSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeCloudExadataInfrastructureSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCloudExadataInfrastructureSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ChangeCloudExadataInfrastructureSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudExadataInfrastructureSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeCloudVmClusterCompartment Moves a cloud VM cluster and its dependent resources to another compartment. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 //
 // # See also
@@ -1084,6 +1208,68 @@ func (client DatabaseClient) changeCloudVmClusterCompartment(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/ChangeCloudVmClusterCompartment"
 		err = common.PostProcessServiceError(err, "Database", "ChangeCloudVmClusterCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeCloudVmClusterSubscription Associate a cloud VM cluster with a different subscription.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeCloudVmClusterSubscription.go.html to see an example of how to use ChangeCloudVmClusterSubscription API.
+func (client DatabaseClient) ChangeCloudVmClusterSubscription(ctx context.Context, request ChangeCloudVmClusterSubscriptionRequest) (response ChangeCloudVmClusterSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeCloudVmClusterSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeCloudVmClusterSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeCloudVmClusterSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeCloudVmClusterSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeCloudVmClusterSubscriptionResponse")
+	}
+	return
+}
+
+// changeCloudVmClusterSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeCloudVmClusterSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudVmClusters/{cloudVmClusterId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeCloudVmClusterSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudVmCluster/ChangeCloudVmClusterSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeCloudVmClusterSubscription", apiReferenceLink)
 		return response, err
 	}
 

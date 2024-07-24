@@ -10,7 +10,8 @@ description: |-
 # oci_data_safe_unset_user_assessment_baseline
 This resource provides the Unset User Assessment Baseline resource in Oracle Cloud Infrastructure Data Safe service.
 
-Removes the baseline setting for the saved user assessment. The saved user assessment is no longer considered a baseline.
+Removes the baseline setting for the saved user assessment associated with the targetId passed via body.
+If no body or empty body is passed then the baseline settings of all the saved user assessments pertaining to the baseline assessment OCID provided in the path will be removed.
 Sets the if-match parameter to the value of the etag from a previous GET or POST response for that resource.
 
 
@@ -20,6 +21,9 @@ Sets the if-match parameter to the value of the etag from a previous GET or POST
 resource "oci_data_safe_unset_user_assessment_baseline" "test_unset_user_assessment_baseline" {
 	#Required
 	user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
+
+	#Optional
+	target_ids = var.unset_user_assessment_baseline_target_ids
 }
 ```
 
@@ -27,6 +31,7 @@ resource "oci_data_safe_unset_user_assessment_baseline" "test_unset_user_assessm
 
 The following arguments are supported:
 
+* `target_ids` - (Optional) The list of database target OCIDs for which the user intends to unset the baseline.
 * `user_assessment_id` - (Required) The OCID of the user assessment.
 
 
