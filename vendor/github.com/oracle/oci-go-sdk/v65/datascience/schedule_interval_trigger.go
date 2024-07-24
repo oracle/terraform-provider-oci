@@ -22,13 +22,16 @@ type ScheduleIntervalTrigger struct {
 	// The interval of frequency.
 	Interval *int `mandatory:"true" json:"interval"`
 
-	// The schedule starting date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule starting date time, if null, System set the time when schedule is created.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// The schedule end date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule end date time, if null, the schedule will never expire.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 
-	// if timeStart missing, by default it is Now, this flag allows to generate a random start time
+	// when true and timeStart is null, system generate a random start time between now and now + interval;
+	// isRandomStartTime can be true if timeStart is null.
 	IsRandomStartTime *bool `mandatory:"false" json:"isRandomStartTime"`
 
 	// The type of frequency

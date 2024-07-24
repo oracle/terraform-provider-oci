@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// CreateHsmClusterDetails The details of the HSM resource that you want to create.
+// CreateHsmClusterDetails The details of the HSM cluster resource that you want to create.
 type CreateHsmClusterDetails struct {
 
-	// The OCID of the compartment where you want to create this HSM resource.
+	// The OCID of the compartment where you want to create this HSM cluster resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name for the HSM resource. It does not have to be unique, and it is changeable.
+	// A user-friendly display name for the HSM cluster resource. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 

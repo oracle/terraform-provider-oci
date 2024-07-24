@@ -57,6 +57,9 @@ type Pipeline struct {
 
 	InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationDetails"`
 
+	// The storage mount details to mount to the instance running the pipeline step.
+	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
+
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in 'Failed' state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
@@ -95,23 +98,24 @@ func (m Pipeline) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeUpdated                        *common.SDKTime                             `json:"timeUpdated"`
-		Description                        *string                                     `json:"description"`
-		ConfigurationDetails               pipelineconfigurationdetails                `json:"configurationDetails"`
-		LogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
-		InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
-		LifecycleDetails                   *string                                     `json:"lifecycleDetails"`
-		FreeformTags                       map[string]string                           `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{}           `json:"definedTags"`
-		SystemTags                         map[string]map[string]interface{}           `json:"systemTags"`
-		Id                                 *string                                     `json:"id"`
-		TimeCreated                        *common.SDKTime                             `json:"timeCreated"`
-		CreatedBy                          *string                                     `json:"createdBy"`
-		ProjectId                          *string                                     `json:"projectId"`
-		CompartmentId                      *string                                     `json:"compartmentId"`
-		DisplayName                        *string                                     `json:"displayName"`
-		StepDetails                        []pipelinestepdetails                       `json:"stepDetails"`
-		LifecycleState                     PipelineLifecycleStateEnum                  `json:"lifecycleState"`
+		TimeUpdated                          *common.SDKTime                             `json:"timeUpdated"`
+		Description                          *string                                     `json:"description"`
+		ConfigurationDetails                 pipelineconfigurationdetails                `json:"configurationDetails"`
+		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
+		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
+		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		LifecycleDetails                     *string                                     `json:"lifecycleDetails"`
+		FreeformTags                         map[string]string                           `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                           map[string]map[string]interface{}           `json:"systemTags"`
+		Id                                   *string                                     `json:"id"`
+		TimeCreated                          *common.SDKTime                             `json:"timeCreated"`
+		CreatedBy                            *string                                     `json:"createdBy"`
+		ProjectId                            *string                                     `json:"projectId"`
+		CompartmentId                        *string                                     `json:"compartmentId"`
+		DisplayName                          *string                                     `json:"displayName"`
+		StepDetails                          []pipelinestepdetails                       `json:"stepDetails"`
+		LifecycleState                       PipelineLifecycleStateEnum                  `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -137,6 +141,18 @@ func (m *Pipeline) UnmarshalJSON(data []byte) (e error) {
 
 	m.InfrastructureConfigurationDetails = model.InfrastructureConfigurationDetails
 
+	m.StorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StorageMountConfigurationDetailsList))
+	for i, n := range model.StorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.FreeformTags = model.FreeformTags

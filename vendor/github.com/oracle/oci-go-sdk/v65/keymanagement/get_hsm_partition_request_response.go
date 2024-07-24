@@ -14,10 +14,10 @@ import (
 // GetHsmPartitionRequest wrapper for the GetHsmPartition operation
 type GetHsmPartitionRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
-	// The OCID of the HSM Partition.
+	// The OCID of the HSM Partition. This is a unique identifier which each hsmPartition will have.
 	HsmPartitionId *string `mandatory:"true" contributesTo:"path" name:"hsmPartitionId"`
 
 	// Unique identifier for the request. If provided, the returned request ID

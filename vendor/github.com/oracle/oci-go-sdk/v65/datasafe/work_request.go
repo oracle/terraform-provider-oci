@@ -167,6 +167,10 @@ const (
 	WorkRequestOperationTypeChangeArchiveRetrievalCompartment         WorkRequestOperationTypeEnum = "CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT"
 	WorkRequestOperationTypeUpdateAlert                               WorkRequestOperationTypeEnum = "UPDATE_ALERT"
 	WorkRequestOperationTypeTargetAlertPolicyAssociation              WorkRequestOperationTypeEnum = "TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestOperationTypeCreateTargetDatabaseGroup                 WorkRequestOperationTypeEnum = "CREATE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeUpdateTargetDatabaseGroup                 WorkRequestOperationTypeEnum = "UPDATE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeDeleteTargetDatabaseGroup                 WorkRequestOperationTypeEnum = "DELETE_TARGET_DATABASE_GROUP"
+	WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment      WorkRequestOperationTypeEnum = "CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT"
 	WorkRequestOperationTypeCreateSensitiveDataModel                  WorkRequestOperationTypeEnum = "CREATE_SENSITIVE_DATA_MODEL"
 	WorkRequestOperationTypeUpdateSensitiveDataModel                  WorkRequestOperationTypeEnum = "UPDATE_SENSITIVE_DATA_MODEL"
 	WorkRequestOperationTypeDeleteSensitiveDataModel                  WorkRequestOperationTypeEnum = "DELETE_SENSITIVE_DATA_MODEL"
@@ -317,6 +321,10 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT":          WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
 	"UPDATE_ALERT":                                  WorkRequestOperationTypeUpdateAlert,
 	"TARGET_ALERT_POLICY_ASSOCIATION":               WorkRequestOperationTypeTargetAlertPolicyAssociation,
+	"CREATE_TARGET_DATABASE_GROUP":                  WorkRequestOperationTypeCreateTargetDatabaseGroup,
+	"UPDATE_TARGET_DATABASE_GROUP":                  WorkRequestOperationTypeUpdateTargetDatabaseGroup,
+	"DELETE_TARGET_DATABASE_GROUP":                  WorkRequestOperationTypeDeleteTargetDatabaseGroup,
+	"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT":      WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment,
 	"CREATE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeCreateSensitiveDataModel,
 	"UPDATE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeUpdateSensitiveDataModel,
 	"DELETE_SENSITIVE_DATA_MODEL":                   WorkRequestOperationTypeDeleteSensitiveDataModel,
@@ -467,6 +475,10 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"change_archive_retrieval_compartment":          WorkRequestOperationTypeChangeArchiveRetrievalCompartment,
 	"update_alert":                                  WorkRequestOperationTypeUpdateAlert,
 	"target_alert_policy_association":               WorkRequestOperationTypeTargetAlertPolicyAssociation,
+	"create_target_database_group":                  WorkRequestOperationTypeCreateTargetDatabaseGroup,
+	"update_target_database_group":                  WorkRequestOperationTypeUpdateTargetDatabaseGroup,
+	"delete_target_database_group":                  WorkRequestOperationTypeDeleteTargetDatabaseGroup,
+	"change_target_database_group_compartment":      WorkRequestOperationTypeChangeTargetDatabaseGroupCompartment,
 	"create_sensitive_data_model":                   WorkRequestOperationTypeCreateSensitiveDataModel,
 	"update_sensitive_data_model":                   WorkRequestOperationTypeUpdateSensitiveDataModel,
 	"delete_sensitive_data_model":                   WorkRequestOperationTypeDeleteSensitiveDataModel,
@@ -628,6 +640,10 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT",
 		"UPDATE_ALERT",
 		"TARGET_ALERT_POLICY_ASSOCIATION",
+		"CREATE_TARGET_DATABASE_GROUP",
+		"UPDATE_TARGET_DATABASE_GROUP",
+		"DELETE_TARGET_DATABASE_GROUP",
+		"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT",
 		"CREATE_SENSITIVE_DATA_MODEL",
 		"UPDATE_SENSITIVE_DATA_MODEL",
 		"DELETE_SENSITIVE_DATA_MODEL",

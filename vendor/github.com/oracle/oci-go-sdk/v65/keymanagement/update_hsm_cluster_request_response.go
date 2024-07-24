@@ -14,7 +14,7 @@ import (
 // UpdateHsmClusterRequest wrapper for the UpdateHsmCluster operation
 type UpdateHsmClusterRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// Details of the HsmCluster Resource

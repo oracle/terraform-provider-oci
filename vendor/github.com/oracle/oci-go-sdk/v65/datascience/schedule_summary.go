@@ -10,7 +10,6 @@
 package datascience
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -21,6 +20,9 @@ type ScheduleSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the schedule.
 	Id *string `mandatory:"true" json:"id"`
+
+	// The name of the schedule.
+	DisplayName *string `mandatory:"true" json:"displayName"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the schedule.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
@@ -40,18 +42,10 @@ type ScheduleSummary struct {
 	// Example: `ACTIVE`
 	LifecycleState ScheduleLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// The name of the schedule.
-	DisplayName *string `mandatory:"false" json:"displayName"`
-
 	// The date and time the schedule was updated.
 	// Format is defined by RFC3339.
 	// Example: `2022-08-05T01:02:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
-
-	Trigger ScheduleTrigger `mandatory:"false" json:"trigger"`
-
-	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -83,64 +77,4 @@ func (m ScheduleSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *ScheduleSummary) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		DisplayName      *string                           `json:"displayName"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		Trigger          scheduletrigger                   `json:"trigger"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		ProjectId        *string                           `json:"projectId"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		CreatedBy        *string                           `json:"createdBy"`
-		LifecycleState   ScheduleLifecycleStateEnum        `json:"lifecycleState"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.DisplayName = model.DisplayName
-
-	m.TimeUpdated = model.TimeUpdated
-
-	nn, e = model.Trigger.UnmarshalPolymorphicJSON(model.Trigger.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.Trigger = nn.(ScheduleTrigger)
-	} else {
-		m.Trigger = nil
-	}
-
-	m.LifecycleDetails = model.LifecycleDetails
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SystemTags = model.SystemTags
-
-	m.Id = model.Id
-
-	m.CompartmentId = model.CompartmentId
-
-	m.ProjectId = model.ProjectId
-
-	m.TimeCreated = model.TimeCreated
-
-	m.CreatedBy = model.CreatedBy
-
-	m.LifecycleState = model.LifecycleState
-
-	return
 }

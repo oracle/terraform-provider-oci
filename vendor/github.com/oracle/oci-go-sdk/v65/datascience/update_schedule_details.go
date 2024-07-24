@@ -22,7 +22,7 @@ type UpdateScheduleDetails struct {
 	// A user-friendly name. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// A short description of the job.
+	// A short description of the schedule.
 	Description *string `mandatory:"false" json:"description"`
 
 	Trigger ScheduleTrigger `mandatory:"false" json:"trigger"`

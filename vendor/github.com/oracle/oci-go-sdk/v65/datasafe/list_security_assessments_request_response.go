@@ -79,6 +79,12 @@ type ListSecurityAssessmentsRequest struct {
 	// A filter to return only resources that match the specified lifecycle state.
 	LifecycleState ListSecurityAssessmentsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only only target database resources or target database group resources.
+	TargetType ListSecurityAssessmentsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -132,6 +138,9 @@ func (request ListSecurityAssessmentsRequest) ValidateEnumValue() (bool, error) 
 	}
 	if _, ok := GetMappingListSecurityAssessmentsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListSecurityAssessmentsLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListSecurityAssessmentsTargetTypeEnum(string(request.TargetType)); !ok && request.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", request.TargetType, strings.Join(GetListSecurityAssessmentsTargetTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -216,24 +225,30 @@ type ListSecurityAssessmentsTypeEnum string
 
 // Set of constants representing the allowable values for ListSecurityAssessmentsTypeEnum
 const (
-	ListSecurityAssessmentsTypeLatest       ListSecurityAssessmentsTypeEnum = "LATEST"
-	ListSecurityAssessmentsTypeSaved        ListSecurityAssessmentsTypeEnum = "SAVED"
-	ListSecurityAssessmentsTypeSaveSchedule ListSecurityAssessmentsTypeEnum = "SAVE_SCHEDULE"
-	ListSecurityAssessmentsTypeCompartment  ListSecurityAssessmentsTypeEnum = "COMPARTMENT"
+	ListSecurityAssessmentsTypeLatest           ListSecurityAssessmentsTypeEnum = "LATEST"
+	ListSecurityAssessmentsTypeSaved            ListSecurityAssessmentsTypeEnum = "SAVED"
+	ListSecurityAssessmentsTypeSaveSchedule     ListSecurityAssessmentsTypeEnum = "SAVE_SCHEDULE"
+	ListSecurityAssessmentsTypeCompartment      ListSecurityAssessmentsTypeEnum = "COMPARTMENT"
+	ListSecurityAssessmentsTypeTemplate         ListSecurityAssessmentsTypeEnum = "TEMPLATE"
+	ListSecurityAssessmentsTypeTemplateBaseline ListSecurityAssessmentsTypeEnum = "TEMPLATE_BASELINE"
 )
 
 var mappingListSecurityAssessmentsTypeEnum = map[string]ListSecurityAssessmentsTypeEnum{
-	"LATEST":        ListSecurityAssessmentsTypeLatest,
-	"SAVED":         ListSecurityAssessmentsTypeSaved,
-	"SAVE_SCHEDULE": ListSecurityAssessmentsTypeSaveSchedule,
-	"COMPARTMENT":   ListSecurityAssessmentsTypeCompartment,
+	"LATEST":            ListSecurityAssessmentsTypeLatest,
+	"SAVED":             ListSecurityAssessmentsTypeSaved,
+	"SAVE_SCHEDULE":     ListSecurityAssessmentsTypeSaveSchedule,
+	"COMPARTMENT":       ListSecurityAssessmentsTypeCompartment,
+	"TEMPLATE":          ListSecurityAssessmentsTypeTemplate,
+	"TEMPLATE_BASELINE": ListSecurityAssessmentsTypeTemplateBaseline,
 }
 
 var mappingListSecurityAssessmentsTypeEnumLowerCase = map[string]ListSecurityAssessmentsTypeEnum{
-	"latest":        ListSecurityAssessmentsTypeLatest,
-	"saved":         ListSecurityAssessmentsTypeSaved,
-	"save_schedule": ListSecurityAssessmentsTypeSaveSchedule,
-	"compartment":   ListSecurityAssessmentsTypeCompartment,
+	"latest":            ListSecurityAssessmentsTypeLatest,
+	"saved":             ListSecurityAssessmentsTypeSaved,
+	"save_schedule":     ListSecurityAssessmentsTypeSaveSchedule,
+	"compartment":       ListSecurityAssessmentsTypeCompartment,
+	"template":          ListSecurityAssessmentsTypeTemplate,
+	"template_baseline": ListSecurityAssessmentsTypeTemplateBaseline,
 }
 
 // GetListSecurityAssessmentsTypeEnumValues Enumerates the set of values for ListSecurityAssessmentsTypeEnum
@@ -252,6 +267,8 @@ func GetListSecurityAssessmentsTypeEnumStringValues() []string {
 		"SAVED",
 		"SAVE_SCHEDULE",
 		"COMPARTMENT",
+		"TEMPLATE",
+		"TEMPLATE_BASELINE",
 	}
 }
 
@@ -442,5 +459,47 @@ func GetListSecurityAssessmentsLifecycleStateEnumStringValues() []string {
 // GetMappingListSecurityAssessmentsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListSecurityAssessmentsLifecycleStateEnum(val string) (ListSecurityAssessmentsLifecycleStateEnum, bool) {
 	enum, ok := mappingListSecurityAssessmentsLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListSecurityAssessmentsTargetTypeEnum Enum with underlying type: string
+type ListSecurityAssessmentsTargetTypeEnum string
+
+// Set of constants representing the allowable values for ListSecurityAssessmentsTargetTypeEnum
+const (
+	ListSecurityAssessmentsTargetTypeDatabase      ListSecurityAssessmentsTargetTypeEnum = "TARGET_DATABASE"
+	ListSecurityAssessmentsTargetTypeDatabaseGroup ListSecurityAssessmentsTargetTypeEnum = "TARGET_DATABASE_GROUP"
+)
+
+var mappingListSecurityAssessmentsTargetTypeEnum = map[string]ListSecurityAssessmentsTargetTypeEnum{
+	"TARGET_DATABASE":       ListSecurityAssessmentsTargetTypeDatabase,
+	"TARGET_DATABASE_GROUP": ListSecurityAssessmentsTargetTypeDatabaseGroup,
+}
+
+var mappingListSecurityAssessmentsTargetTypeEnumLowerCase = map[string]ListSecurityAssessmentsTargetTypeEnum{
+	"target_database":       ListSecurityAssessmentsTargetTypeDatabase,
+	"target_database_group": ListSecurityAssessmentsTargetTypeDatabaseGroup,
+}
+
+// GetListSecurityAssessmentsTargetTypeEnumValues Enumerates the set of values for ListSecurityAssessmentsTargetTypeEnum
+func GetListSecurityAssessmentsTargetTypeEnumValues() []ListSecurityAssessmentsTargetTypeEnum {
+	values := make([]ListSecurityAssessmentsTargetTypeEnum, 0)
+	for _, v := range mappingListSecurityAssessmentsTargetTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListSecurityAssessmentsTargetTypeEnumStringValues Enumerates the set of values in String for ListSecurityAssessmentsTargetTypeEnum
+func GetListSecurityAssessmentsTargetTypeEnumStringValues() []string {
+	return []string{
+		"TARGET_DATABASE",
+		"TARGET_DATABASE_GROUP",
+	}
+}
+
+// GetMappingListSecurityAssessmentsTargetTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListSecurityAssessmentsTargetTypeEnum(val string) (ListSecurityAssessmentsTargetTypeEnum, bool) {
+	enum, ok := mappingListSecurityAssessmentsTargetTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

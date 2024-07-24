@@ -36,6 +36,9 @@ type FindingSummary struct {
 	// The short title for the finding.
 	Title *string `mandatory:"false" json:"title"`
 
+	// The category to which the finding belongs to.
+	Category *string `mandatory:"false" json:"category"`
+
 	// The explanation of the issue in this finding. It explains the reason for the rule and, if a risk is reported, it may also explain the recommended actions for remediation.
 	Remarks *string `mandatory:"false" json:"remarks"`
 

@@ -14,7 +14,7 @@ import (
 // CancelHsmClusterDeletionRequest wrapper for the CancelHsmClusterDeletion operation
 type CancelHsmClusterDeletionRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a

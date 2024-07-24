@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// OutputLocation The object storage location where to store analysis results.
+// OutputLocation The Object Storage Location.
 type OutputLocation struct {
 
 	// The Object Storage namespace.

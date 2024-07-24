@@ -21,8 +21,11 @@ type MaskingAnalyticsDimensions struct {
 	// The OCID of the target database.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// The OCID of the masking policy..
+	// The OCID of the masking policy.
 	PolicyId *string `mandatory:"false" json:"policyId"`
+
+	// The OCID of the sensitive type masked.
+	SensitiveTypeId *string `mandatory:"false" json:"sensitiveTypeId"`
 }
 
 func (m MaskingAnalyticsDimensions) String() string {

@@ -31,6 +31,9 @@ type UpdatePipelineDetails struct {
 
 	LogConfigurationDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationDetails"`
 
+	// The storage mount details to mount to the instance running the pipeline step.
+	StorageMountConfigurationDetailsList []StorageMountConfigurationDetails `mandatory:"false" json:"storageMountConfigurationDetailsList"`
+
 	// Array of update details for each step. Only step configurations and step infrastructure configurations are allowed to be updated.
 	StepDetails []PipelineStepUpdateDetails `mandatory:"false" json:"stepDetails"`
 
@@ -62,14 +65,15 @@ func (m UpdatePipelineDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *UpdatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		DisplayName                        *string                                     `json:"displayName"`
-		Description                        *string                                     `json:"description"`
-		ConfigurationDetails               pipelineconfigurationdetails                `json:"configurationDetails"`
-		InfrastructureConfigurationDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
-		LogConfigurationDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
-		StepDetails                        []pipelinestepupdatedetails                 `json:"stepDetails"`
-		FreeformTags                       map[string]string                           `json:"freeformTags"`
-		DefinedTags                        map[string]map[string]interface{}           `json:"definedTags"`
+		DisplayName                          *string                                     `json:"displayName"`
+		Description                          *string                                     `json:"description"`
+		ConfigurationDetails                 pipelineconfigurationdetails                `json:"configurationDetails"`
+		InfrastructureConfigurationDetails   *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationDetails"`
+		LogConfigurationDetails              *PipelineLogConfigurationDetails            `json:"logConfigurationDetails"`
+		StorageMountConfigurationDetailsList []storagemountconfigurationdetails          `json:"storageMountConfigurationDetailsList"`
+		StepDetails                          []pipelinestepupdatedetails                 `json:"stepDetails"`
+		FreeformTags                         map[string]string                           `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}           `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -95,6 +99,18 @@ func (m *UpdatePipelineDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.LogConfigurationDetails = model.LogConfigurationDetails
 
+	m.StorageMountConfigurationDetailsList = make([]StorageMountConfigurationDetails, len(model.StorageMountConfigurationDetailsList))
+	for i, n := range model.StorageMountConfigurationDetailsList {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.StorageMountConfigurationDetailsList[i] = nn.(StorageMountConfigurationDetails)
+		} else {
+			m.StorageMountConfigurationDetailsList[i] = nil
+		}
+	}
 	m.StepDetails = make([]PipelineStepUpdateDetails, len(model.StepDetails))
 	for i, n := range model.StepDetails {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

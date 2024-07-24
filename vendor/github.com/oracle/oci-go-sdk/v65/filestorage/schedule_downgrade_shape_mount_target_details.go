@@ -19,7 +19,7 @@ import (
 // ScheduleDowngradeShapeMountTargetDetails Shape details about the Mount Target.
 type ScheduleDowngradeShapeMountTargetDetails struct {
 
-	// New throughput for mount target in Gbps. Available shapes amd corresponding throughput is listed at
+	// New throughput for mount target in Gbps. Available shapes and corresponding throughput is listed at
 	// MountTargetPerformanceOverview (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#Overview__performance)
 	RequestedThroughput *int64 `mandatory:"false" json:"requestedThroughput"`
 }

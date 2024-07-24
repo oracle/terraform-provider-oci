@@ -106,6 +106,10 @@ func (m *configsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := LicenseAutoAssignConfigSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ONBOARD":
+		mm := OnboardConfigSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := LicenseEnterpriseExtensibilityConfigSummary{}
 		err = json.Unmarshal(data, &mm)

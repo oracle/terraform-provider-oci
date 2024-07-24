@@ -56,6 +56,31 @@ func (request ListTenanciesRequest) BinaryRequestBody() (*common.OCIReadSeekClos
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request ListTenanciesRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["serviceName"] != nil {
+		templateParam := mandatoryParamMap["serviceName"]
+		for _, template := range templateParam {
+			replacementParam := *request.ServiceName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["serviceEntitlementId"] != nil {
+		templateParam := mandatoryParamMap["serviceEntitlementId"]
+		for _, template := range templateParam {
+			replacementParam := *request.ServiceEntitlementId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListTenanciesRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

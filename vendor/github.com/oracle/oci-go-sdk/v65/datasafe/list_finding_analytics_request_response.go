@@ -51,6 +51,15 @@ type ListFindingAnalyticsRequest struct {
 	// For list pagination. The page token representing the page at which to start retrieving results. It is usually retrieved from a previous "List" call. For details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/en-us/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// A filter to return the target database group that matches the specified OCID.
+	TargetDatabaseGroupId *string `mandatory:"false" contributesTo:"query" name:"targetDatabaseGroupId"`
+
+	// An optional filter to return only findings that match the specified references. Use containsReferences param if need to filter by multiple references.
+	ContainsReferences []SecurityAssessmentReferencesEnum `contributesTo:"query" name:"containsReferences" omitEmpty:"true" collectionFormat:"multi"`
+
+	// An optional filter to return only findings that match the specified target ids. Use this parameter to filter by multiple target ids.
+	TargetIds []string `contributesTo:"query" name:"targetIds" collectionFormat:"multi"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -99,6 +108,12 @@ func (request ListFindingAnalyticsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingListFindingAnalyticsSeverityEnum(string(request.Severity)); !ok && request.Severity != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Severity: %s. Supported values are: %s.", request.Severity, strings.Join(GetListFindingAnalyticsSeverityEnumStringValues(), ",")))
 	}
+	for _, val := range request.ContainsReferences {
+		if _, ok := GetMappingSecurityAssessmentReferencesEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ContainsReferences: %s. Supported values are: %s.", val, strings.Join(GetSecurityAssessmentReferencesEnumStringValues(), ",")))
+		}
+	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

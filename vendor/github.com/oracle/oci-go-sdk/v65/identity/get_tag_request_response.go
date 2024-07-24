@@ -50,6 +50,31 @@ func (request GetTagRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, boo
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetTagRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["tagNamespaceId"] != nil {
+		templateParam := mandatoryParamMap["tagNamespaceId"]
+		for _, template := range templateParam {
+			replacementParam := *request.TagNamespaceId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["tagName"] != nil {
+		templateParam := mandatoryParamMap["tagName"]
+		for _, template := range templateParam {
+			replacementParam := *request.TagName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetTagRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

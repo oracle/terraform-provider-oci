@@ -166,6 +166,10 @@ const (
 	WorkRequestSummaryOperationTypeChangeArchiveRetrievalCompartment         WorkRequestSummaryOperationTypeEnum = "CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT"
 	WorkRequestSummaryOperationTypeUpdateAlert                               WorkRequestSummaryOperationTypeEnum = "UPDATE_ALERT"
 	WorkRequestSummaryOperationTypeTargetAlertPolicyAssociation              WorkRequestSummaryOperationTypeEnum = "TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestSummaryOperationTypeCreateTargetDatabaseGroup                 WorkRequestSummaryOperationTypeEnum = "CREATE_TARGET_DATABASE_GROUP"
+	WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup                 WorkRequestSummaryOperationTypeEnum = "UPDATE_TARGET_DATABASE_GROUP"
+	WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup                 WorkRequestSummaryOperationTypeEnum = "DELETE_TARGET_DATABASE_GROUP"
+	WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment      WorkRequestSummaryOperationTypeEnum = "CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT"
 	WorkRequestSummaryOperationTypeCreateSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "CREATE_SENSITIVE_DATA_MODEL"
 	WorkRequestSummaryOperationTypeUpdateSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "UPDATE_SENSITIVE_DATA_MODEL"
 	WorkRequestSummaryOperationTypeDeleteSensitiveDataModel                  WorkRequestSummaryOperationTypeEnum = "DELETE_SENSITIVE_DATA_MODEL"
@@ -315,6 +319,10 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT":          WorkRequestSummaryOperationTypeChangeArchiveRetrievalCompartment,
 	"UPDATE_ALERT":                                  WorkRequestSummaryOperationTypeUpdateAlert,
 	"TARGET_ALERT_POLICY_ASSOCIATION":               WorkRequestSummaryOperationTypeTargetAlertPolicyAssociation,
+	"CREATE_TARGET_DATABASE_GROUP":                  WorkRequestSummaryOperationTypeCreateTargetDatabaseGroup,
+	"UPDATE_TARGET_DATABASE_GROUP":                  WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup,
+	"DELETE_TARGET_DATABASE_GROUP":                  WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup,
+	"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT":      WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment,
 	"CREATE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeCreateSensitiveDataModel,
 	"UPDATE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeUpdateSensitiveDataModel,
 	"DELETE_SENSITIVE_DATA_MODEL":                   WorkRequestSummaryOperationTypeDeleteSensitiveDataModel,
@@ -464,6 +472,10 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_archive_retrieval_compartment":          WorkRequestSummaryOperationTypeChangeArchiveRetrievalCompartment,
 	"update_alert":                                  WorkRequestSummaryOperationTypeUpdateAlert,
 	"target_alert_policy_association":               WorkRequestSummaryOperationTypeTargetAlertPolicyAssociation,
+	"create_target_database_group":                  WorkRequestSummaryOperationTypeCreateTargetDatabaseGroup,
+	"update_target_database_group":                  WorkRequestSummaryOperationTypeUpdateTargetDatabaseGroup,
+	"delete_target_database_group":                  WorkRequestSummaryOperationTypeDeleteTargetDatabaseGroup,
+	"change_target_database_group_compartment":      WorkRequestSummaryOperationTypeChangeTargetDatabaseGroupCompartment,
 	"create_sensitive_data_model":                   WorkRequestSummaryOperationTypeCreateSensitiveDataModel,
 	"update_sensitive_data_model":                   WorkRequestSummaryOperationTypeUpdateSensitiveDataModel,
 	"delete_sensitive_data_model":                   WorkRequestSummaryOperationTypeDeleteSensitiveDataModel,
@@ -624,6 +636,10 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_ARCHIVE_RETRIEVAL_COMPARTMENT",
 		"UPDATE_ALERT",
 		"TARGET_ALERT_POLICY_ASSOCIATION",
+		"CREATE_TARGET_DATABASE_GROUP",
+		"UPDATE_TARGET_DATABASE_GROUP",
+		"DELETE_TARGET_DATABASE_GROUP",
+		"CHANGE_TARGET_DATABASE_GROUP_COMPARTMENT",
 		"CREATE_SENSITIVE_DATA_MODEL",
 		"UPDATE_SENSITIVE_DATA_MODEL",
 		"DELETE_SENSITIVE_DATA_MODEL",

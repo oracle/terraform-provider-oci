@@ -6383,7 +6383,7 @@ func (client DataScienceClient) listSchedules(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ScheduleCollection/ListSchedules"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Schedule/ListSchedules"
 		err = common.PostProcessServiceError(err, "DataScience", "ListSchedules", apiReferenceLink)
 		return response, err
 	}

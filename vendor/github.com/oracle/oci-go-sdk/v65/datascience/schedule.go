@@ -49,10 +49,15 @@ type Schedule struct {
 
 	Action ScheduleAction `mandatory:"true" json:"action"`
 
-	// A short description of the job.
+	// A short description of the schedule.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The next scheduled run time for the schedule.
+	// The last schedule execution time.
+	// Format is defined by RFC3339.
+	// Example: `2022-08-05T01:02:29.600Z`
+	TimeLastScheduleRun *common.SDKTime `mandatory:"false" json:"timeLastScheduleRun"`
+
+	// The next scheduled execution time for the schedule.
 	// Format is defined by RFC3339.
 	// Example: `2022-08-05T01:02:29.600Z`
 	TimeNextScheduledRun *common.SDKTime `mandatory:"false" json:"timeNextScheduledRun"`
@@ -64,6 +69,10 @@ type Schedule struct {
 
 	// A message describing the current state in more detail.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Details about the action performed by the last schedule execution.
+	// Example: `Invoked ML Application trigger.`
+	LastScheduleRunDetails *string `mandatory:"false" json:"lastScheduleRunDetails"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -100,22 +109,24 @@ func (m Schedule) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description          *string                           `json:"description"`
-		TimeNextScheduledRun *common.SDKTime                   `json:"timeNextScheduledRun"`
-		TimeUpdated          *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails     *string                           `json:"lifecycleDetails"`
-		FreeformTags         map[string]string                 `json:"freeformTags"`
-		DefinedTags          map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags           map[string]map[string]interface{} `json:"systemTags"`
-		Id                   *string                           `json:"id"`
-		CompartmentId        *string                           `json:"compartmentId"`
-		ProjectId            *string                           `json:"projectId"`
-		DisplayName          *string                           `json:"displayName"`
-		TimeCreated          *common.SDKTime                   `json:"timeCreated"`
-		CreatedBy            *string                           `json:"createdBy"`
-		LifecycleState       ScheduleLifecycleStateEnum        `json:"lifecycleState"`
-		Trigger              scheduletrigger                   `json:"trigger"`
-		Action               scheduleaction                    `json:"action"`
+		Description            *string                           `json:"description"`
+		TimeLastScheduleRun    *common.SDKTime                   `json:"timeLastScheduleRun"`
+		TimeNextScheduledRun   *common.SDKTime                   `json:"timeNextScheduledRun"`
+		TimeUpdated            *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails       *string                           `json:"lifecycleDetails"`
+		LastScheduleRunDetails *string                           `json:"lastScheduleRunDetails"`
+		FreeformTags           map[string]string                 `json:"freeformTags"`
+		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
+		Id                     *string                           `json:"id"`
+		CompartmentId          *string                           `json:"compartmentId"`
+		ProjectId              *string                           `json:"projectId"`
+		DisplayName            *string                           `json:"displayName"`
+		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
+		CreatedBy              *string                           `json:"createdBy"`
+		LifecycleState         ScheduleLifecycleStateEnum        `json:"lifecycleState"`
+		Trigger                scheduletrigger                   `json:"trigger"`
+		Action                 scheduleaction                    `json:"action"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -125,11 +136,15 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Description = model.Description
 
+	m.TimeLastScheduleRun = model.TimeLastScheduleRun
+
 	m.TimeNextScheduledRun = model.TimeNextScheduledRun
 
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.LastScheduleRunDetails = model.LastScheduleRunDetails
 
 	m.FreeformTags = model.FreeformTags
 

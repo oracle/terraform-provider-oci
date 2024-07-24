@@ -19,10 +19,12 @@ import (
 // ScheduleTrigger The trigger of the schedule can be UNIX cron or iCal expression or simple interval
 type ScheduleTrigger interface {
 
-	// The schedule starting date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule starting date time, if null, System set the time when schedule is created.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	GetTimeStart() *common.SDKTime
 
-	// The schedule end date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule end date time, if null, the schedule will never expire.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	GetTimeEnd() *common.SDKTime
 }
 

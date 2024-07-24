@@ -102,6 +102,10 @@ func (m *config) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 
 	var err error
 	switch m.ConfigType {
+	case "ONBOARD":
+		mm := OnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := LicenseEnterpriseExtensibilityConfigDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -250,18 +254,21 @@ const (
 	ConfigConfigTypeAutoPromote                    ConfigConfigTypeEnum = "AUTO_PROMOTE"
 	ConfigConfigTypeLicenseAutoAssign              ConfigConfigTypeEnum = "LICENSE_AUTO_ASSIGN"
 	ConfigConfigTypeLicenseEnterpriseExtensibility ConfigConfigTypeEnum = "LICENSE_ENTERPRISE_EXTENSIBILITY"
+	ConfigConfigTypeOnboard                        ConfigConfigTypeEnum = "ONBOARD"
 )
 
 var mappingConfigConfigTypeEnum = map[string]ConfigConfigTypeEnum{
 	"AUTO_PROMOTE":                     ConfigConfigTypeAutoPromote,
 	"LICENSE_AUTO_ASSIGN":              ConfigConfigTypeLicenseAutoAssign,
 	"LICENSE_ENTERPRISE_EXTENSIBILITY": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"ONBOARD":                          ConfigConfigTypeOnboard,
 }
 
 var mappingConfigConfigTypeEnumLowerCase = map[string]ConfigConfigTypeEnum{
 	"auto_promote":                     ConfigConfigTypeAutoPromote,
 	"license_auto_assign":              ConfigConfigTypeLicenseAutoAssign,
 	"license_enterprise_extensibility": ConfigConfigTypeLicenseEnterpriseExtensibility,
+	"onboard":                          ConfigConfigTypeOnboard,
 }
 
 // GetConfigConfigTypeEnumValues Enumerates the set of values for ConfigConfigTypeEnum
@@ -279,6 +286,7 @@ func GetConfigConfigTypeEnumStringValues() []string {
 		"AUTO_PROMOTE",
 		"LICENSE_AUTO_ASSIGN",
 		"LICENSE_ENTERPRISE_EXTENSIBILITY",
+		"ONBOARD",
 	}
 }
 

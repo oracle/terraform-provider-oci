@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// HsmPartitionCollection HsmPartitionCollection object with page of HsmPartitionSummary objects.
+// HsmPartitionCollection HsmPartitionCollection object with page of HsmPartitionSummary objects. A HsmPartitionSummary object contains details about the corresponding HSM.
 type HsmPartitionCollection struct {
 
 	// List of HsmPartitionSummaries.

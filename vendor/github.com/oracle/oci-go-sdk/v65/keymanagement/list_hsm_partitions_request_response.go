@@ -14,7 +14,7 @@ import (
 // ListHsmPartitionsRequest wrapper for the ListHsmPartitions operation
 type ListHsmPartitionsRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// The maximum number of items to return in a paginated "List" call.

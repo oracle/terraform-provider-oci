@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// HsmClusterSummary The details of the HSM resource.
+// HsmClusterSummary An object which encapsulates the details of a given HSM Cluster.
 type HsmClusterSummary struct {
 
 	// The OCID of a HSMCluster resource.
@@ -32,7 +32,7 @@ type HsmClusterSummary struct {
 	// Example: `ACTIVE`
 	LifecycleState HsmClusterLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// DNS name for the HSMCluster.
+	// DNS name for the HSMCluster -- this will contain information about the region as well.
 	DnsName *string `mandatory:"true" json:"dnsName"`
 
 	// The date and time a dedicated KMS resource was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.

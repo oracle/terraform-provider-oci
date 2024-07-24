@@ -28,8 +28,7 @@ type RegularExpressionFormatEntry struct {
 	RegularExpression *string `mandatory:"true" json:"regularExpression"`
 
 	// The value that should be used to replace the data matching the regular
-	// expression. It can be a fixed string, fixed number, null value, or
-	// SQL expression.
+	// expression. It can be a fixed string, fixed number or null value.
 	ReplaceWith *string `mandatory:"true" json:"replaceWith"`
 
 	// The description of the format entry.

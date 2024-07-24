@@ -49,7 +49,11 @@ type ListAuditEventAnalyticsRequest struct {
 	// at RFC3339 (https://tools.ietf.org/html/draft-ietf-scim-api-12). In SCIM filtering expressions,
 	// text, date, and time values must be enclosed in quotation marks, with date and time values using ISO-8601 format.
 	// (Numeric and boolean values should not be quoted.)
-	// **Example:** (operationTime ge "2021-06-04T12:00:00.000Z") and (eventName eq "LOGON")
+	// **Example:** (operationTime ge "2021-06-04T01-00-26") and (eventName eq "LOGON")
+	// The attrExp or the field (for example, operationTime and eventName in above example) which is used to filter can be any of the fields returned by AuditEventSummary.
+	// adminUser, commonUser, sensitiveActivity, dsActivity can only have eq operation and value 1.
+	// These define admin user activity, common user activity, sensitive data activity and data safe activity
+	// **Example:** (adminUser eq 1)
 	ScimQuery *string `mandatory:"false" contributesTo:"query" name:"scimQuery"`
 
 	// Specifies a subset of summarized fields to be returned in the response.
@@ -254,6 +258,13 @@ const (
 	ListAuditEventAnalyticsSummaryFieldDrops                 ListAuditEventAnalyticsSummaryFieldEnum = "drops"
 	ListAuditEventAnalyticsSummaryFieldGrants                ListAuditEventAnalyticsSummaryFieldEnum = "grants"
 	ListAuditEventAnalyticsSummaryFieldRevokes               ListAuditEventAnalyticsSummaryFieldEnum = "revokes"
+	ListAuditEventAnalyticsSummaryFieldObjectowner           ListAuditEventAnalyticsSummaryFieldEnum = "objectOwner"
+	ListAuditEventAnalyticsSummaryFieldAuditpolicies         ListAuditEventAnalyticsSummaryFieldEnum = "auditPolicies"
+	ListAuditEventAnalyticsSummaryFieldObjectname            ListAuditEventAnalyticsSummaryFieldEnum = "objectName"
+	ListAuditEventAnalyticsSummaryFieldOsusername            ListAuditEventAnalyticsSummaryFieldEnum = "osUserName"
+	ListAuditEventAnalyticsSummaryFieldErrorcode             ListAuditEventAnalyticsSummaryFieldEnum = "errorCode"
+	ListAuditEventAnalyticsSummaryFieldClientip              ListAuditEventAnalyticsSummaryFieldEnum = "clientIp"
+	ListAuditEventAnalyticsSummaryFieldExternaluserid        ListAuditEventAnalyticsSummaryFieldEnum = "externalUserId"
 )
 
 var mappingListAuditEventAnalyticsSummaryFieldEnum = map[string]ListAuditEventAnalyticsSummaryFieldEnum{
@@ -289,6 +300,13 @@ var mappingListAuditEventAnalyticsSummaryFieldEnum = map[string]ListAuditEventAn
 	"drops":                 ListAuditEventAnalyticsSummaryFieldDrops,
 	"grants":                ListAuditEventAnalyticsSummaryFieldGrants,
 	"revokes":               ListAuditEventAnalyticsSummaryFieldRevokes,
+	"objectOwner":           ListAuditEventAnalyticsSummaryFieldObjectowner,
+	"auditPolicies":         ListAuditEventAnalyticsSummaryFieldAuditpolicies,
+	"objectName":            ListAuditEventAnalyticsSummaryFieldObjectname,
+	"osUserName":            ListAuditEventAnalyticsSummaryFieldOsusername,
+	"errorCode":             ListAuditEventAnalyticsSummaryFieldErrorcode,
+	"clientIp":              ListAuditEventAnalyticsSummaryFieldClientip,
+	"externalUserId":        ListAuditEventAnalyticsSummaryFieldExternaluserid,
 }
 
 var mappingListAuditEventAnalyticsSummaryFieldEnumLowerCase = map[string]ListAuditEventAnalyticsSummaryFieldEnum{
@@ -324,6 +342,13 @@ var mappingListAuditEventAnalyticsSummaryFieldEnumLowerCase = map[string]ListAud
 	"drops":                 ListAuditEventAnalyticsSummaryFieldDrops,
 	"grants":                ListAuditEventAnalyticsSummaryFieldGrants,
 	"revokes":               ListAuditEventAnalyticsSummaryFieldRevokes,
+	"objectowner":           ListAuditEventAnalyticsSummaryFieldObjectowner,
+	"auditpolicies":         ListAuditEventAnalyticsSummaryFieldAuditpolicies,
+	"objectname":            ListAuditEventAnalyticsSummaryFieldObjectname,
+	"osusername":            ListAuditEventAnalyticsSummaryFieldOsusername,
+	"errorcode":             ListAuditEventAnalyticsSummaryFieldErrorcode,
+	"clientip":              ListAuditEventAnalyticsSummaryFieldClientip,
+	"externaluserid":        ListAuditEventAnalyticsSummaryFieldExternaluserid,
 }
 
 // GetListAuditEventAnalyticsSummaryFieldEnumValues Enumerates the set of values for ListAuditEventAnalyticsSummaryFieldEnum
@@ -370,6 +395,13 @@ func GetListAuditEventAnalyticsSummaryFieldEnumStringValues() []string {
 		"drops",
 		"grants",
 		"revokes",
+		"objectOwner",
+		"auditPolicies",
+		"objectName",
+		"osUserName",
+		"errorCode",
+		"clientIp",
+		"externalUserId",
 	}
 }
 
@@ -395,6 +427,13 @@ const (
 	ListAuditEventAnalyticsGroupByClientid       ListAuditEventAnalyticsGroupByEnum = "clientId"
 	ListAuditEventAnalyticsGroupByAudittype      ListAuditEventAnalyticsGroupByEnum = "auditType"
 	ListAuditEventAnalyticsGroupByEventname      ListAuditEventAnalyticsGroupByEnum = "eventName"
+	ListAuditEventAnalyticsGroupByObjectowner    ListAuditEventAnalyticsGroupByEnum = "objectOwner"
+	ListAuditEventAnalyticsGroupByAuditpolicies  ListAuditEventAnalyticsGroupByEnum = "auditPolicies"
+	ListAuditEventAnalyticsGroupByObjectname     ListAuditEventAnalyticsGroupByEnum = "objectName"
+	ListAuditEventAnalyticsGroupByOsusername     ListAuditEventAnalyticsGroupByEnum = "osUserName"
+	ListAuditEventAnalyticsGroupByErrorcode      ListAuditEventAnalyticsGroupByEnum = "errorCode"
+	ListAuditEventAnalyticsGroupByClientip       ListAuditEventAnalyticsGroupByEnum = "clientIp"
+	ListAuditEventAnalyticsGroupByExternaluserid ListAuditEventAnalyticsGroupByEnum = "externalUserId"
 )
 
 var mappingListAuditEventAnalyticsGroupByEnum = map[string]ListAuditEventAnalyticsGroupByEnum{
@@ -409,6 +448,13 @@ var mappingListAuditEventAnalyticsGroupByEnum = map[string]ListAuditEventAnalyti
 	"clientId":       ListAuditEventAnalyticsGroupByClientid,
 	"auditType":      ListAuditEventAnalyticsGroupByAudittype,
 	"eventName":      ListAuditEventAnalyticsGroupByEventname,
+	"objectOwner":    ListAuditEventAnalyticsGroupByObjectowner,
+	"auditPolicies":  ListAuditEventAnalyticsGroupByAuditpolicies,
+	"objectName":     ListAuditEventAnalyticsGroupByObjectname,
+	"osUserName":     ListAuditEventAnalyticsGroupByOsusername,
+	"errorCode":      ListAuditEventAnalyticsGroupByErrorcode,
+	"clientIp":       ListAuditEventAnalyticsGroupByClientip,
+	"externalUserId": ListAuditEventAnalyticsGroupByExternaluserid,
 }
 
 var mappingListAuditEventAnalyticsGroupByEnumLowerCase = map[string]ListAuditEventAnalyticsGroupByEnum{
@@ -423,6 +469,13 @@ var mappingListAuditEventAnalyticsGroupByEnumLowerCase = map[string]ListAuditEve
 	"clientid":       ListAuditEventAnalyticsGroupByClientid,
 	"audittype":      ListAuditEventAnalyticsGroupByAudittype,
 	"eventname":      ListAuditEventAnalyticsGroupByEventname,
+	"objectowner":    ListAuditEventAnalyticsGroupByObjectowner,
+	"auditpolicies":  ListAuditEventAnalyticsGroupByAuditpolicies,
+	"objectname":     ListAuditEventAnalyticsGroupByObjectname,
+	"osusername":     ListAuditEventAnalyticsGroupByOsusername,
+	"errorcode":      ListAuditEventAnalyticsGroupByErrorcode,
+	"clientip":       ListAuditEventAnalyticsGroupByClientip,
+	"externaluserid": ListAuditEventAnalyticsGroupByExternaluserid,
 }
 
 // GetListAuditEventAnalyticsGroupByEnumValues Enumerates the set of values for ListAuditEventAnalyticsGroupByEnum
@@ -448,6 +501,13 @@ func GetListAuditEventAnalyticsGroupByEnumStringValues() []string {
 		"clientId",
 		"auditType",
 		"eventName",
+		"objectOwner",
+		"auditPolicies",
+		"objectName",
+		"osUserName",
+		"errorCode",
+		"clientIp",
+		"externalUserId",
 	}
 }
 
@@ -515,6 +575,13 @@ const (
 	ListAuditEventAnalyticsSortByClientprogram  ListAuditEventAnalyticsSortByEnum = "clientProgram"
 	ListAuditEventAnalyticsSortByClientid       ListAuditEventAnalyticsSortByEnum = "clientId"
 	ListAuditEventAnalyticsSortByAudittype      ListAuditEventAnalyticsSortByEnum = "auditType"
+	ListAuditEventAnalyticsSortByObjectowner    ListAuditEventAnalyticsSortByEnum = "objectOwner"
+	ListAuditEventAnalyticsSortByAuditpolicies  ListAuditEventAnalyticsSortByEnum = "auditPolicies"
+	ListAuditEventAnalyticsSortByObjectname     ListAuditEventAnalyticsSortByEnum = "objectName"
+	ListAuditEventAnalyticsSortByOsusername     ListAuditEventAnalyticsSortByEnum = "osUserName"
+	ListAuditEventAnalyticsSortByErrorcode      ListAuditEventAnalyticsSortByEnum = "errorCode"
+	ListAuditEventAnalyticsSortByClientip       ListAuditEventAnalyticsSortByEnum = "clientIp"
+	ListAuditEventAnalyticsSortByExternaluserid ListAuditEventAnalyticsSortByEnum = "externalUserId"
 )
 
 var mappingListAuditEventAnalyticsSortByEnum = map[string]ListAuditEventAnalyticsSortByEnum{
@@ -529,6 +596,13 @@ var mappingListAuditEventAnalyticsSortByEnum = map[string]ListAuditEventAnalytic
 	"clientProgram":  ListAuditEventAnalyticsSortByClientprogram,
 	"clientId":       ListAuditEventAnalyticsSortByClientid,
 	"auditType":      ListAuditEventAnalyticsSortByAudittype,
+	"objectOwner":    ListAuditEventAnalyticsSortByObjectowner,
+	"auditPolicies":  ListAuditEventAnalyticsSortByAuditpolicies,
+	"objectName":     ListAuditEventAnalyticsSortByObjectname,
+	"osUserName":     ListAuditEventAnalyticsSortByOsusername,
+	"errorCode":      ListAuditEventAnalyticsSortByErrorcode,
+	"clientIp":       ListAuditEventAnalyticsSortByClientip,
+	"externalUserId": ListAuditEventAnalyticsSortByExternaluserid,
 }
 
 var mappingListAuditEventAnalyticsSortByEnumLowerCase = map[string]ListAuditEventAnalyticsSortByEnum{
@@ -543,6 +617,13 @@ var mappingListAuditEventAnalyticsSortByEnumLowerCase = map[string]ListAuditEven
 	"clientprogram":  ListAuditEventAnalyticsSortByClientprogram,
 	"clientid":       ListAuditEventAnalyticsSortByClientid,
 	"audittype":      ListAuditEventAnalyticsSortByAudittype,
+	"objectowner":    ListAuditEventAnalyticsSortByObjectowner,
+	"auditpolicies":  ListAuditEventAnalyticsSortByAuditpolicies,
+	"objectname":     ListAuditEventAnalyticsSortByObjectname,
+	"osusername":     ListAuditEventAnalyticsSortByOsusername,
+	"errorcode":      ListAuditEventAnalyticsSortByErrorcode,
+	"clientip":       ListAuditEventAnalyticsSortByClientip,
+	"externaluserid": ListAuditEventAnalyticsSortByExternaluserid,
 }
 
 // GetListAuditEventAnalyticsSortByEnumValues Enumerates the set of values for ListAuditEventAnalyticsSortByEnum
@@ -568,6 +649,13 @@ func GetListAuditEventAnalyticsSortByEnumStringValues() []string {
 		"clientProgram",
 		"clientId",
 		"auditType",
+		"objectOwner",
+		"auditPolicies",
+		"objectName",
+		"osUserName",
+		"errorCode",
+		"clientIp",
+		"externalUserId",
 	}
 }
 

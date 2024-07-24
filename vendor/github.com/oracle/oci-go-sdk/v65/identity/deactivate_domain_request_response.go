@@ -17,6 +17,9 @@ type DeactivateDomainRequest struct {
 	// The OCID of the identity domain.
 	DomainId *string `mandatory:"true" contributesTo:"path" name:"domainId"`
 
+	// Indicates whether domain can be forcefully deactivated even when there are Active Apps present
+	IsForceDeactivate *bool `mandatory:"false" contributesTo:"query" name:"isForceDeactivate"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
@@ -57,6 +60,21 @@ func (request DeactivateDomainRequest) BinaryRequestBody() (*common.OCIReadSeekC
 
 	return nil, false
 
+}
+
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeactivateDomainRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["domainId"] != nil {
+		templateParam := mandatoryParamMap["domainId"]
+		for _, template := range templateParam {
+			replacementParam := *request.DomainId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

@@ -76,6 +76,10 @@ func (m *createconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := CreateLicenseAutoAssignConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ONBOARD":
+		mm := CreateOnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTO_PROMOTE":
 		mm := CreateAutoPromoteConfigDetails{}
 		err = json.Unmarshal(data, &mm)

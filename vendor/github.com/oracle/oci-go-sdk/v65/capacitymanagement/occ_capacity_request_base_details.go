@@ -44,6 +44,9 @@ type OccCapacityRequestBaseDetails struct {
 
 	// The date on which the actual handover quantity of resources is delivered.
 	DateActualHandover *common.SDKTime `mandatory:"false" json:"dateActualHandover"`
+
+	// A list containing details about occHandoverResourceBlocks which were handed over for the corresponding resource name.
+	AssociatedOccHandoverResourceBlockList []AssociatedOccHandoverResourceBlock `mandatory:"false" json:"associatedOccHandoverResourceBlockList"`
 }
 
 func (m OccCapacityRequestBaseDetails) String() string {

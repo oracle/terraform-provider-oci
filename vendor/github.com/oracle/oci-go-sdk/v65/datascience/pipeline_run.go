@@ -61,6 +61,8 @@ type PipelineRun struct {
 
 	LogConfigurationOverrideDetails *PipelineLogConfigurationDetails `mandatory:"false" json:"logConfigurationOverrideDetails"`
 
+	InfrastructureConfigurationOverrideDetails *PipelineInfrastructureConfigurationDetails `mandatory:"false" json:"infrastructureConfigurationOverrideDetails"`
+
 	// Array of step override details. Only Step Configuration is allowed to be overridden.
 	StepOverrideDetails []PipelineStepOverrideDetails `mandatory:"false" json:"stepOverrideDetails"`
 
@@ -104,27 +106,28 @@ func (m PipelineRun) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		TimeStarted                     *common.SDKTime                   `json:"timeStarted"`
-		TimeUpdated                     *common.SDKTime                   `json:"timeUpdated"`
-		TimeFinished                    *common.SDKTime                   `json:"timeFinished"`
-		ConfigurationDetails            pipelineconfigurationdetails      `json:"configurationDetails"`
-		ConfigurationOverrideDetails    pipelineconfigurationdetails      `json:"configurationOverrideDetails"`
-		LogConfigurationOverrideDetails *PipelineLogConfigurationDetails  `json:"logConfigurationOverrideDetails"`
-		StepOverrideDetails             []PipelineStepOverrideDetails     `json:"stepOverrideDetails"`
-		LogDetails                      *PipelineRunLogDetails            `json:"logDetails"`
-		LifecycleDetails                *string                           `json:"lifecycleDetails"`
-		FreeformTags                    map[string]string                 `json:"freeformTags"`
-		DefinedTags                     map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags                      map[string]map[string]interface{} `json:"systemTags"`
-		Id                              *string                           `json:"id"`
-		TimeAccepted                    *common.SDKTime                   `json:"timeAccepted"`
-		CreatedBy                       *string                           `json:"createdBy"`
-		ProjectId                       *string                           `json:"projectId"`
-		CompartmentId                   *string                           `json:"compartmentId"`
-		PipelineId                      *string                           `json:"pipelineId"`
-		DisplayName                     *string                           `json:"displayName"`
-		StepRuns                        []pipelinesteprun                 `json:"stepRuns"`
-		LifecycleState                  PipelineRunLifecycleStateEnum     `json:"lifecycleState"`
+		TimeStarted                                *common.SDKTime                             `json:"timeStarted"`
+		TimeUpdated                                *common.SDKTime                             `json:"timeUpdated"`
+		TimeFinished                               *common.SDKTime                             `json:"timeFinished"`
+		ConfigurationDetails                       pipelineconfigurationdetails                `json:"configurationDetails"`
+		ConfigurationOverrideDetails               pipelineconfigurationdetails                `json:"configurationOverrideDetails"`
+		LogConfigurationOverrideDetails            *PipelineLogConfigurationDetails            `json:"logConfigurationOverrideDetails"`
+		InfrastructureConfigurationOverrideDetails *PipelineInfrastructureConfigurationDetails `json:"infrastructureConfigurationOverrideDetails"`
+		StepOverrideDetails                        []PipelineStepOverrideDetails               `json:"stepOverrideDetails"`
+		LogDetails                                 *PipelineRunLogDetails                      `json:"logDetails"`
+		LifecycleDetails                           *string                                     `json:"lifecycleDetails"`
+		FreeformTags                               map[string]string                           `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{}           `json:"definedTags"`
+		SystemTags                                 map[string]map[string]interface{}           `json:"systemTags"`
+		Id                                         *string                                     `json:"id"`
+		TimeAccepted                               *common.SDKTime                             `json:"timeAccepted"`
+		CreatedBy                                  *string                                     `json:"createdBy"`
+		ProjectId                                  *string                                     `json:"projectId"`
+		CompartmentId                              *string                                     `json:"compartmentId"`
+		PipelineId                                 *string                                     `json:"pipelineId"`
+		DisplayName                                *string                                     `json:"displayName"`
+		StepRuns                                   []pipelinesteprun                           `json:"stepRuns"`
+		LifecycleState                             PipelineRunLifecycleStateEnum               `json:"lifecycleState"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -159,6 +162,8 @@ func (m *PipelineRun) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.LogConfigurationOverrideDetails = model.LogConfigurationOverrideDetails
+
+	m.InfrastructureConfigurationOverrideDetails = model.InfrastructureConfigurationOverrideDetails
 
 	m.StepOverrideDetails = make([]PipelineStepOverrideDetails, len(model.StepOverrideDetails))
 	copy(m.StepOverrideDetails, model.StepOverrideDetails)

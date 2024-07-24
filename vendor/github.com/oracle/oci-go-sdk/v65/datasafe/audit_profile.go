@@ -45,7 +45,7 @@ type AuditProfile struct {
 	IsPaidUsageEnabled *bool `mandatory:"true" json:"isPaidUsageEnabled"`
 
 	// Indicates the number of months the audit records will be stored online in Oracle Data Safe audit repository for immediate reporting and analysis.
-	// Minimum: 1; Maximum:12 months
+	// Minimum: 1; Maximum: 12 months
 	OnlineMonths *int `mandatory:"true" json:"onlineMonths"`
 
 	// Indicates the number of months the audit records will be stored offline in the Data Safe audit archive.
@@ -69,6 +69,20 @@ type AuditProfile struct {
 	// Indicates number of audit records collected by Data Safe in the current calendar month.
 	// Audit records for the Data Safe service account are excluded and are not counted towards your monthly free limit.
 	AuditCollectedVolume *int64 `mandatory:"false" json:"auditCollectedVolume"`
+
+	// Indicates whether audit paid usage settings specified at the target database level override the global paid usage settings.
+	// Enabling paid usage continues the collection of audit records beyond the free limit of one million audit records per month per target database,
+	// potentially incurring additional charges. For more information, see Data Safe Price List (https://www.oracle.com/cloud/price-list/#data-safe).
+	IsOverrideGlobalPaidUsage *bool `mandatory:"false" json:"isOverrideGlobalPaidUsage"`
+
+	// The name of the resource from which the online month retention policy is sourced. For example a target group name.
+	OnlineMonthsSource *string `mandatory:"false" json:"onlineMonthsSource"`
+
+	// The name of the resource from which the offline month retention policy is sourced. For example a target group name.
+	OfflineMonthsSource *string `mandatory:"false" json:"offlineMonthsSource"`
+
+	// The name of the resource from which the paid usage setting is sourced. For example a target group name.
+	PaidUsageSource *string `mandatory:"false" json:"paidUsageSource"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`

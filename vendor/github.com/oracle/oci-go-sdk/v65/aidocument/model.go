@@ -28,8 +28,6 @@ type Model struct {
 	// The type of the Document model.
 	ModelType ModelModelTypeEnum `mandatory:"true" json:"modelType"`
 
-	TrainingDataset Dataset `mandatory:"true" json:"trainingDataset"`
-
 	// The version of the model.
 	ModelVersion *string `mandatory:"true" json:"modelVersion"`
 
@@ -63,11 +61,10 @@ type Model struct {
 	// The maximum model training time in hours, expressed as a decimal fraction.
 	MaxTrainingTimeInHours *float64 `mandatory:"false" json:"maxTrainingTimeInHours"`
 
-	// The document language for model training, abbreviated according to the BCP 47 syntax.
-	Language *string `mandatory:"false" json:"language"`
-
 	// The total hours actually used for model training.
 	TrainedTimeInHours *float64 `mandatory:"false" json:"trainedTimeInHours"`
+
+	TrainingDataset Dataset `mandatory:"false" json:"trainingDataset"`
 
 	TestingDataset Dataset `mandatory:"false" json:"testingDataset"`
 
@@ -135,8 +132,8 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		Labels                 []string                          `json:"labels"`
 		IsQuickMode            *bool                             `json:"isQuickMode"`
 		MaxTrainingTimeInHours *float64                          `json:"maxTrainingTimeInHours"`
-		Language               *string                           `json:"language"`
 		TrainedTimeInHours     *float64                          `json:"trainedTimeInHours"`
+		TrainingDataset        dataset                           `json:"trainingDataset"`
 		TestingDataset         dataset                           `json:"testingDataset"`
 		ValidationDataset      dataset                           `json:"validationDataset"`
 		ComponentModels        []ComponentModel                  `json:"componentModels"`
@@ -151,7 +148,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		Id                     *string                           `json:"id"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
-		TrainingDataset        dataset                           `json:"trainingDataset"`
 		ModelVersion           *string                           `json:"modelVersion"`
 		ProjectId              *string                           `json:"projectId"`
 		TimeCreated            *common.SDKTime                   `json:"timeCreated"`
@@ -177,9 +173,17 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 
 	m.MaxTrainingTimeInHours = model.MaxTrainingTimeInHours
 
-	m.Language = model.Language
-
 	m.TrainedTimeInHours = model.TrainedTimeInHours
+
+	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.TrainingDataset = nn.(Dataset)
+	} else {
+		m.TrainingDataset = nil
+	}
 
 	nn, e = model.TestingDataset.UnmarshalPolymorphicJSON(model.TestingDataset.JsonData)
 	if e != nil {
@@ -232,16 +236,6 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 	m.CompartmentId = model.CompartmentId
 
 	m.ModelType = model.ModelType
-
-	nn, e = model.TrainingDataset.UnmarshalPolymorphicJSON(model.TrainingDataset.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.TrainingDataset = nn.(Dataset)
-	} else {
-		m.TrainingDataset = nil
-	}
 
 	m.ModelVersion = model.ModelVersion
 

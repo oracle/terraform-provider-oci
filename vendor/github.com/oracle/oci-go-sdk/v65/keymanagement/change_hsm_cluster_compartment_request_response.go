@@ -14,7 +14,7 @@ import (
 // ChangeHsmClusterCompartmentRequest wrapper for the ChangeHsmClusterCompartment operation
 type ChangeHsmClusterCompartmentRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// Details of change HSM Cluster compartment.

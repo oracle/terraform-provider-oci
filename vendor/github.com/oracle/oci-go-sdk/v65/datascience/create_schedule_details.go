@@ -32,7 +32,7 @@ type CreateScheduleDetails struct {
 
 	Action ScheduleAction `mandatory:"true" json:"action"`
 
-	// A short description of the job.
+	// A short description of the schedule.
 	Description *string `mandatory:"false" json:"description"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

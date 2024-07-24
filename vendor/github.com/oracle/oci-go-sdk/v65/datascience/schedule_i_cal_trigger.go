@@ -22,10 +22,12 @@ type ScheduleICalTrigger struct {
 	// This recurrence field conforms to RFC-5545 formatting
 	Recurrence *string `mandatory:"true" json:"recurrence"`
 
-	// The schedule starting date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule starting date time, if null, System set the time when schedule is created.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`
 
-	// The schedule end date time in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The schedule end date time, if null, the schedule will never expire.
+	// Format is defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimeEnd *common.SDKTime `mandatory:"false" json:"timeEnd"`
 }
 

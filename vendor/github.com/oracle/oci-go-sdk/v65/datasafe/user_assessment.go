@@ -74,6 +74,12 @@ type UserAssessment struct {
 	// Indicates whether the assessment is scheduled to run.
 	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`
 
+	// The OCID of target database group.
+	TargetDatabaseGroupId *string `mandatory:"false" json:"targetDatabaseGroupId"`
+
+	// Indicates whether the user assessment is for a target database or a target database group.
+	TargetType UserAssessmentTargetTypeEnum `mandatory:"false" json:"targetType,omitempty"`
+
 	// Schedule of the assessment that runs periodically in this specified format:
 	//   <version-string>;<version-specific-schedule>
 	//   Allowed version strings - "v1"
@@ -131,6 +137,9 @@ func (m UserAssessment) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetUserAssessmentTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingUserAssessmentTargetTypeEnum(string(m.TargetType)); !ok && m.TargetType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TargetType: %s. Supported values are: %s.", m.TargetType, strings.Join(GetUserAssessmentTargetTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingUserAssessmentTriggeredByEnum(string(m.TriggeredBy)); !ok && m.TriggeredBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TriggeredBy: %s. Supported values are: %s.", m.TriggeredBy, strings.Join(GetUserAssessmentTriggeredByEnumStringValues(), ",")))
 	}

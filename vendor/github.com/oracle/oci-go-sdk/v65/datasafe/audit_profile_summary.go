@@ -45,7 +45,7 @@ type AuditProfileSummary struct {
 	IsPaidUsageEnabled *bool `mandatory:"true" json:"isPaidUsageEnabled"`
 
 	// Indicates the number of months the audit records will be stored online in Oracle Data Safe audit repository for immediate reporting and analysis.
-	// Minimum: 1; Maximum:12 months
+	// Minimum: 1; Maximum: 12 months
 	OnlineMonths *int `mandatory:"true" json:"onlineMonths"`
 
 	// Indicates the number of months the audit records will be stored offline in the Data Safe audit archive.
@@ -67,6 +67,11 @@ type AuditProfileSummary struct {
 	// for the current month's billing cycle. Audit records for actions performed by Data Safe service
 	// account on the target is excluded.
 	AuditCollectedVolume *int64 `mandatory:"false" json:"auditCollectedVolume"`
+
+	// Indicates whether audit paid usage settings specified at the target database level override the global paid usage settings.
+	// Enabling paid usage continues the collection of audit records beyond the free limit of one million audit records per month per target database,
+	// potentially incurring additional charges. For more information, see Data Safe Price List (https://www.oracle.com/cloud/price-list/#data-safe).
+	IsOverrideGlobalPaidUsage *bool `mandatory:"false" json:"isOverrideGlobalPaidUsage"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`

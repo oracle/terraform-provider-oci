@@ -14,7 +14,7 @@ import (
 // UploadPartitionCertificatesRequest wrapper for the UploadPartitionCertificates operation
 type UploadPartitionCertificatesRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// To upload partition certificates.

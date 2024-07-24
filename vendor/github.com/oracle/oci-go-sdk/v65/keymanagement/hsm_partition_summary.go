@@ -15,22 +15,23 @@ import (
 	"strings"
 )
 
-// HsmPartitionSummary The details of the Hsm.
+// HsmPartitionSummary An object which encapsulates the details of a given HSM.
 type HsmPartitionSummary struct {
 
-	// The OCID of the HSM resource.
+	// The OCID of the HSM resource. Each HSM resource will have a unique OCID identifier.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the HSMCluster that contains a particular HSM resource.
 	HsmClusterId *string `mandatory:"true" json:"hsmClusterId"`
 
-	// The Hsm's current lifecycle state.
+	// A HSMCluster resource's current lifecycle state.
+	// Example: `ACTIVE`
 	LifecycleState HsmPartitionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The OCID of the compartment that contains a particular HSM resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Port summary.
+	// Details of a single portInformation item include the PortNumber (an integer used as an identifier) and the PortType (refers to either an enum value of Managementutility,Clientutility, or null)
 	PortInformation []PortInformation `mandatory:"true" json:"portInformation"`
 
 	// The date and time an HSM was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.

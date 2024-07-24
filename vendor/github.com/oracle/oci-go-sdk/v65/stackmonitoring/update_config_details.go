@@ -79,6 +79,10 @@ func (m *updateconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := UpdateLicenseAutoAssignConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ONBOARD":
+		mm := UpdateOnboardConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for UpdateConfigDetails: %s.", m.ConfigType)
 		return *m, nil

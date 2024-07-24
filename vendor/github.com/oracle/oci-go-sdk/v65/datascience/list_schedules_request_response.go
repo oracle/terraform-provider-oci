@@ -104,8 +104,8 @@ type ListSchedulesResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// A list of ScheduleCollection instances
-	ScheduleCollection `presentIn:"body"`
+	// A list of []ScheduleSummary instances
+	Items []ScheduleSummary `presentIn:"body"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, then provide the request ID.
