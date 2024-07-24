@@ -24,6 +24,7 @@ debug.test
 docs/solutions/rhel74_image/ipxe.sh
 vendor/github.com/oracle/oci-go-sdk/target
 *.test
+.gitmodules
 internal/record
 .terraform.lock.hcl
 dist/
