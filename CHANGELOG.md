@@ -1,4 +1,4 @@
-## 6.4.0 (Unreleased)
+## 6.4.0 (July 24, 2024)
 
 ### Added
 - Support for APM - Synthetics - SQL Monitor Type Support
