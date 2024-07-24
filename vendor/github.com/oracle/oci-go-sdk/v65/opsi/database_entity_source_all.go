@@ -24,6 +24,7 @@ const (
 	DatabaseEntitySourceAllEmManagedExternalDatabase   DatabaseEntitySourceAllEnum = "EM_MANAGED_EXTERNAL_DATABASE"
 	DatabaseEntitySourceAllMacsManagedExternalDatabase DatabaseEntitySourceAllEnum = "MACS_MANAGED_EXTERNAL_DATABASE"
 	DatabaseEntitySourceAllPeComanagedDatabase         DatabaseEntitySourceAllEnum = "PE_COMANAGED_DATABASE"
+	DatabaseEntitySourceAllMdsMysqlDatabaseSystem      DatabaseEntitySourceAllEnum = "MDS_MYSQL_DATABASE_SYSTEM"
 )
 
 var mappingDatabaseEntitySourceAllEnum = map[string]DatabaseEntitySourceAllEnum{
@@ -31,6 +32,7 @@ var mappingDatabaseEntitySourceAllEnum = map[string]DatabaseEntitySourceAllEnum{
 	"EM_MANAGED_EXTERNAL_DATABASE":   DatabaseEntitySourceAllEmManagedExternalDatabase,
 	"MACS_MANAGED_EXTERNAL_DATABASE": DatabaseEntitySourceAllMacsManagedExternalDatabase,
 	"PE_COMANAGED_DATABASE":          DatabaseEntitySourceAllPeComanagedDatabase,
+	"MDS_MYSQL_DATABASE_SYSTEM":      DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
 }
 
 var mappingDatabaseEntitySourceAllEnumLowerCase = map[string]DatabaseEntitySourceAllEnum{
@@ -38,6 +40,7 @@ var mappingDatabaseEntitySourceAllEnumLowerCase = map[string]DatabaseEntitySourc
 	"em_managed_external_database":   DatabaseEntitySourceAllEmManagedExternalDatabase,
 	"macs_managed_external_database": DatabaseEntitySourceAllMacsManagedExternalDatabase,
 	"pe_comanaged_database":          DatabaseEntitySourceAllPeComanagedDatabase,
+	"mds_mysql_database_system":      DatabaseEntitySourceAllMdsMysqlDatabaseSystem,
 }
 
 // GetDatabaseEntitySourceAllEnumValues Enumerates the set of values for DatabaseEntitySourceAllEnum
@@ -56,6 +59,7 @@ func GetDatabaseEntitySourceAllEnumStringValues() []string {
 		"EM_MANAGED_EXTERNAL_DATABASE",
 		"MACS_MANAGED_EXTERNAL_DATABASE",
 		"PE_COMANAGED_DATABASE",
+		"MDS_MYSQL_DATABASE_SYSTEM",
 	}
 }
 

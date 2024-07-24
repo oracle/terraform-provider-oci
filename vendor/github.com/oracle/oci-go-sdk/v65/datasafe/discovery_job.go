@@ -92,6 +92,9 @@ type DiscoveryJob struct {
 	// The schemas used for data discovery.
 	SchemasForDiscovery []string `mandatory:"false" json:"schemasForDiscovery"`
 
+	// The data discovery jobs will scan the tables specified here, including both schemas and tables.
+	TablesForDiscovery []TablesForDiscovery `mandatory:"false" json:"tablesForDiscovery"`
+
 	// The OCIDs of the sensitive types used for data discovery.
 	SensitiveTypeIdsForDiscovery []string `mandatory:"false" json:"sensitiveTypeIdsForDiscovery"`
 

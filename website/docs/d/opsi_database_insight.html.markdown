@@ -33,9 +33,9 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `compartment_id` - Compartment identifier of the database
-* `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service. 
+* `connection_credential_details` - User credential details to connect to the database. 
 	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-	* `credential_type` - Credential type.
+	* `credential_type` - Credential type. 
 	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - database user role.
 	* `user_name` - database user name.
@@ -48,9 +48,10 @@ The following attributes are exported:
 	* `port` - Listener port number used for connection requests.
 	* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
 	* `service_name` - Database service name used for connection requests.
+    * `connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of External Database Connector
 * `credential_details` - User credential details to connect to the database. 
 	* `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-	* `credential_type` - Credential type.
+	* `credential_type` - Credential type. 
 	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 	* `role` - database user role.
 	* `user_name` - database user name.
@@ -60,7 +61,7 @@ The following attributes are exported:
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `database_name` - Name of database
 * `database_resource_type` - Oracle Cloud Infrastructure database resource type
-* `database_type` - Operations Insights internal representation of the database type.
+* `database_type` - Ops Insights internal representation of the database type.
 * `database_version` - The version of the database.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `enterprise_manager_bridge_id` - OPSI Enterprise Manager Bridge OCID
@@ -73,6 +74,9 @@ The following attributes are exported:
 * `exadata_insight_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Database insight identifier
+* `is_advanced_features_enabled` - Flag is to identify if advanced features for autonomous database is enabled or not
+* `is_heat_wave_cluster_attached` - Specifies if MYSQL DB System has heatwave cluster attached.
+* `is_highly_available` - Specifies if MYSQL DB System is highly available.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `opsi_private_endpoint_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 * `parent_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM Cluster or DB System ID, depending on which configuration the resource belongs to.

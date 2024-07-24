@@ -58,6 +58,21 @@ type HostTopProcesses struct {
 
 	// Container id if this process corresponds to a running container in the host
 	ContainerId *string `mandatory:"false" json:"containerId"`
+
+	// Bytes Read
+	DiskBytesRead *float64 `mandatory:"false" json:"diskBytesRead"`
+
+	// Bytes Written
+	DiskBytesWritten *float64 `mandatory:"false" json:"diskBytesWritten"`
+
+	// Read transactions per second
+	DiskIopsRead *float64 `mandatory:"false" json:"diskIopsRead"`
+
+	// Write transactions per second
+	DiskIopsWritten *float64 `mandatory:"false" json:"diskIopsWritten"`
+
+	// IO Transactions per second
+	DiskIops *float64 `mandatory:"false" json:"diskIops"`
 }
 
 // GetTimeCollected returns TimeCollected

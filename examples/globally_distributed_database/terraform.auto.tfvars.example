@@ -1,0 +1,46 @@
+compartment_ocid                                                     = "<compartment_ocid>"
+subnet_ocid                                                          = "<subnet_ocid>"
+oci_globally_distributed_database_defined_tags_value                 = null
+ogdd_sharded_database_catalog_details_admin_password                 = "Admin PWD"
+ogdd_sharded_database_catalog_details_cloud_autonomous_vm_cluster_id = "<ogdd_sharded_database_catalog_details_cloud_autonomous_vm_cluster_id>"
+ogdd_sharded_database_db_version                                     = "19c"
+ogdd_sharded_database_listener_port                                  = 37382
+listener_port_tls                                                    = 37383
+ogdd_sharded_database_ons_port_local                                 = 37385
+ogdd_sharded_database_ons_port_remote                                = 37386
+ogdd_sharded_database_prefix                                         = "c19"
+ogdd_sharded_database_shard_details_admin_password                   = "Admin PWD"
+ogdd_sharded_database_shard_details_cloud_autonomous_vm_cluster_id   = "<ogdd_sharded_database_shard_details_cloud_autonomous_vm_cluster_id>"
+ogdd_sharded_database_shard_details_shard_space                      = "xyz"
+ogdd_sharded_database_cluster_certificate_common_name                = "gdad_preprod"
+
+# POST
+oci_globally_distributed_database_configure_sharding_trigger                            = null
+oci_globally_distributed_database_download_gsm_certificate_signing_request_trigger      = null
+oci_globally_distributed_database_generate_gsm_certificate_signing_request_trigger      = null
+oci_globally_distributed_database_get_connection_string_trigger                         = null
+oci_globally_distributed_database_start_database_trigger                                = null
+oci_globally_distributed_database_stop_database_trigger                                 = null
+oci_globally_distributed_database_validate_network_trigger                              = null
+
+#PATCH
+
+/*
+oci_globally_distributed_database_patch_operation_operation = "MERGE"
+oci_globally_distributed_database_patch_operation_selection = "shardDetails[?name=='c5600000td']"
+oci_globally_distributed_database_patch_operation_value = "{\"computeCount\":4,\"dataStorageSizeInGbs\":16,\"isAutoScalingEnabled\":false}"
+*/
+
+/*
+oci_globally_distributed_database_patch_operation_operation = "REMOVE"
+oci_globally_distributed_database_patch_operation_selection = "shardDetails[?name=='c5600000td']"
+oci_globally_distributed_database_patch_operation_value = ""
+*/
+
+/*
+oci_globally_distributed_database_patch_operation_operation = "INSERT"
+oci_globally_distributed_database_patch_operation_selection = "shardDetails"
+oci_globally_distributed_database_patch_operation_value = "{ \"characterSet\": \"AL32UTF8\", \"ncharacterSet\": \"AL16UTF16\", \"computeCount\": 2,  \"dataStorageSizeInGbs\": 32, \"shardSpace\": \"shardSpace1\", \"isAutoScalingEnabled\": \"false\", \"cloudAutonomousVmClusterId\": \"<cloud_autonomous_vm_cluster_id>\" }"
+*/
+
+

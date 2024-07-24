@@ -23,6 +23,9 @@ type VantagePointInfo struct {
 
 	// Unique name that can be edited. The name should not contain any confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
+
+	// List of workers running the assigned monitor.
+	WorkerList []string `mandatory:"false" json:"workerList"`
 }
 
 func (m VantagePointInfo) String() string {

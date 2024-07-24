@@ -9,6 +9,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 
   #Optional
   cluster_placement_group_id = var.cloud_exadata_infrastructure_cluster_placement_group_id
+  subscription_id = var.tenant_subscription_id
   compute_count = var.cloud_exadata_infrastructure_compute_count
   storage_count = var.cloud_exadata_infrastructure_storage_count
 }
@@ -35,6 +36,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
   scan_listener_port_tcp          = var.cloud_vm_cluster_scan_listener_port_tcp
   scan_listener_port_tcp_ssl      = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
   private_zone_id                 = oci_dns_zone.test_zone.id
+  subscription_id                 = var.tenant_subscription_id
 
   data_collection_options {
     #Optional

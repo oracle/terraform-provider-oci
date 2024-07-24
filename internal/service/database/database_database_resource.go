@@ -528,14 +528,7 @@ func createDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
-	if err := tfresource.CreateResource(d, sync); err != nil {
-		return err
-	}
-	err := sync.ChangeKeyStoreType()
-	if err != nil {
-		return err
-	}
-	return nil
+	return tfresource.CreateResource(d, sync)
 }
 
 func readDatabaseDatabase(d *schema.ResourceData, m interface{}) error {
@@ -954,6 +947,11 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if keyStoreId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_store_id")); ok {
+		tmp := keyStoreId.(string)
+		result.KeyStoreId = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
 		tmp := kmsKeyId.(string)
 		result.KmsKeyId = &tmp
@@ -1210,9 +1208,20 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 		return err
 	}
 
-	errExaCC := s.ChangeKeyStoreType()
-	if errExaCC != nil {
-		return errExaCC
+	if s.D.HasChange("key_store_id") {
+		oldVal, confVal := s.D.GetChange("key_store_id")
+		if oldVal.(string) != "" && confVal.(string) != "" {
+			return fmt.Errorf("[ERROR] no support for oldVal = '%s', confVal = '%s' now", oldVal.(string), confVal.(string))
+		}
+		if oldVal.(string) == "" {
+			errExaCC := s.ChangeKeyStoreType()
+			if errExaCC != nil {
+				return errExaCC
+			}
+		}
+		if confVal.(string) == "" && oldVal.(string) != "" {
+			return fmt.Errorf("[ERROR] no support for migrate to Oracle now")
+		}
 	}
 
 	if database, ok := s.D.GetOkExists("database"); ok {

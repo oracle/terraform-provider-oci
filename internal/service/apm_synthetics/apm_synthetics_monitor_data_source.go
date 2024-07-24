@@ -96,6 +96,10 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 		s.D.Set("configuration", nil)
 	}
 
+	if s.Res.CreatedBy != nil {
+		s.D.Set("created_by", *s.Res.CreatedBy)
+	}
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -106,12 +110,20 @@ func (s *ApmSyntheticsMonitorDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsIPv6 != nil {
+		s.D.Set("is_ipv6", *s.Res.IsIPv6)
+	}
+
 	if s.Res.IsRunNow != nil {
 		s.D.Set("is_run_now", *s.Res.IsRunNow)
 	}
 
 	if s.Res.IsRunOnce != nil {
 		s.D.Set("is_run_once", *s.Res.IsRunOnce)
+	}
+
+	if s.Res.LastUpdatedBy != nil {
+		s.D.Set("last_updated_by", *s.Res.LastUpdatedBy)
 	}
 
 	if s.Res.MaintenanceWindowSchedule != nil {

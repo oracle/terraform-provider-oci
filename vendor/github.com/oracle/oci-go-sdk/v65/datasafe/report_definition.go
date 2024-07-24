@@ -84,7 +84,7 @@ type ReportDefinition struct {
 	// No constraint introduced when it is '*'. When not, day of month must equal the given value
 	Schedule *string `mandatory:"false" json:"schedule"`
 
-	// Specifies the format of the report ( either .xls or .pdf )
+	// Specifies the format of the report ( either .xls or .pdf or .json)
 	ScheduledReportMimeType ReportDefinitionScheduledReportMimeTypeEnum `mandatory:"false" json:"scheduledReportMimeType,omitempty"`
 
 	// Specifies the limit on the number of rows in the report.

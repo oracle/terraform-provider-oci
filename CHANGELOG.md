@@ -1,3 +1,17 @@
+## 6.4.0 (July 24, 2024)
+
+### Added
+- Support for APM - Synthetics - SQL Monitor Type Support
+- Support for Oracle Sharded Database
+- Support for ADB-S: Licenses Input option for better BYOL flexibility
+- Support for Data Safe - Usability enhancements to data discovery feature
+- Support for Operations Insights : MYSQL Analytics
+- Support for [Add subscriptionId attribute support for AutonomousDatabase resource] Terraform Setup
+- Support for Add subscriptionId attribute support for Cloud Exa Infra/VM Cluster
+- Support for ExaDB-C@C OKV Integration Phase 2 with EXACC to Manage TDE Keys Dataguard / Create DB
+### Bug Fix
+- Terraform bug fixes - Data safe Audit (Provider-Only)
+
 ## 6.3.0 (July 16, 2024)
 
 ### Deprecation

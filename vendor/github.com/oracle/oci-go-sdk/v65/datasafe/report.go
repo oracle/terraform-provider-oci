@@ -39,7 +39,7 @@ type Report struct {
 	// Specifies a description of the report.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Specifies the format of report to be .xls or .pdf
+	// Specifies the format of report to be .xls or .pdf or .json
 	MimeType ReportMimeTypeEnum `mandatory:"false" json:"mimeType,omitempty"`
 
 	// The type of the audit report.

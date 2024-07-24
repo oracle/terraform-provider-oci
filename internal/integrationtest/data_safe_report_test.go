@@ -30,7 +30,11 @@ var (
 		"type":                      acctest.Representation{RepType: acctest.Optional, Create: `GENERATED`},
 	}
 
-	DataSafeReportResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_data_safe_report_definition", "test_report_definition", acctest.Required, acctest.Create, reportDefinitionRepresentation)
+	DataSafeReportRepresentation = map[string]interface{}{
+		"report_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_data_safe_report.test_report.id}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
 )
 
 // issue-routing-tag: data_safe/default
@@ -61,7 +65,7 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_reports", "test_reports", acctest.Required, acctest.Create, DataSafereportDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeReportResourceConfig + reportDefIdVariableStr + reportIdentifierStr,
+				compartmentIdVariableStr + reportDefIdVariableStr + reportIdentifierStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "report_collection.#"),
@@ -71,7 +75,7 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_data_safe_report", "test_report", acctest.Required, acctest.Create, DataSafereportSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + DataSafeReportResourceConfig + reportDefIdVariableStr + reportIdentifierStr,
+				compartmentIdVariableStr + reportDefIdVariableStr + reportIdentifierStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "report_id"),
 

@@ -111,6 +111,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("backup_retention_period_in_days", *s.Res.BackupRetentionPeriodInDays)
 	}
 
+	if s.Res.ByolComputeCountLimit != nil {
+		s.D.Set("byol_compute_count_limit", *s.Res.ByolComputeCountLimit)
+	}
+
 	if s.Res.CharacterSet != nil {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
@@ -415,6 +419,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	if s.Res.SubnetId != nil {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
+	}
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
 	}
 
 	s.D.Set("supported_regions_to_clone_to", s.Res.SupportedRegionsToCloneTo)
