@@ -290,7 +290,6 @@ func DatabaseDatabaseResource() *schema.Resource {
 			"kms_key_version_id": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 			"kms_key_rotation": {
 				Type:     schema.TypeInt,
@@ -1224,6 +1223,11 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	errKms := s.setDbKeyVersion(tmp)
+	if errKms != nil {
+		return errKms
+	}
+
 	if database, ok := s.D.GetOkExists("database"); ok {
 		if tmpList := database.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "database", 0)
@@ -1399,6 +1403,34 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 	return result
 }
 
+func (s *DatabaseDatabaseResourceCrud) setDbKeyVersion(databaseId string) error {
+	setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
+	setDbKeyVersionRequest.DatabaseId = &databaseId
+	setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+	details := oci_database.OciProviderSetKeyVersionDetails{}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
+		if oldRaw == "" && newRaw != "" {
+			temp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &temp
+			setDbKeyVersionRequest.SetKeyVersionDetails = details
+		}
+	}
+
+	response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+		}
+	}
+	return nil
+}
+
 func (s *DatabaseDatabaseResourceCrud) kmsRotation(databaseId string) error {
 	if _, ok := s.D.GetOkExists("kms_key_rotation"); ok && s.D.HasChange("kms_key_rotation") {
 		rotateKeyRequest := oci_database.RotateVaultKeyRequest{}
@@ -1458,9 +1490,6 @@ func (s *DatabaseDatabaseResourceCrud) kmsMigration(databaseId string) error {
 		return errors.New("kms_key_id can not be updated, please use migration or rotation")
 	}
 
-	if _, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") && !migrateOperation {
-		return errors.New("kms_key_version_id can not be updated, please use migration or rotation")
-	}
 	return nil
 }
 

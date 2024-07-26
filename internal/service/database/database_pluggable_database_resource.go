@@ -183,6 +183,10 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"kms_key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -340,6 +344,7 @@ func updateDatabasePluggableDatabase(d *schema.ResourceData, m interface{}) erro
 	sync := &DatabasePluggableDatabaseResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	if _, ok := sync.D.GetOkExists("convert_to_regular_trigger"); ok && sync.D.HasChange("convert_to_regular_trigger") {
 		oldRaw, newRaw := sync.D.GetChange("convert_to_regular_trigger")
@@ -573,6 +578,11 @@ func (s *DatabasePluggableDatabaseResourceCrud) Update() error {
 		return err
 	}
 
+	errKms := s.setPdbDbKeyVersion(tmp)
+	if errKms != nil {
+		return errKms
+	}
+
 	s.Res = &response.PluggableDatabase
 	return nil
 }
@@ -648,6 +658,36 @@ func (s *DatabasePluggableDatabaseResourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	return nil
+}
+
+func (s *DatabasePluggableDatabaseResourceCrud) setPdbDbKeyVersion(databaseId string) error {
+	setPdbDbKeyVersionRequest := oci_database.SetPdbKeyVersionRequest{}
+	setPdbDbKeyVersionRequest.PluggableDatabaseId = &databaseId
+	setPdbDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+	details := oci_database.OciProviderSetKeyVersionDetails{}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
+		if oldRaw == "" && newRaw != "" {
+			temp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &temp
+			setPdbDbKeyVersionRequest.SetKeyVersionDetails = details
+		} else {
+			return nil
+		}
+	}
+
+	response, err := s.Client.SetPdbKeyVersion(context.Background(), setPdbDbKeyVersionRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "pluggableDatabase", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+		}
+	}
 	return nil
 }
 
