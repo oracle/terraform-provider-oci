@@ -51,7 +51,7 @@ var (
 		"display_name":                          acctest.Representation{RepType: acctest.Required, Create: `autonomousVmCluster`},
 		"exadata_infrastructure_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"vm_cluster_network_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_database_vm_cluster_network.test_vm_cluster_network.id}`},
-		"compute_model":                         acctest.Representation{RepType: acctest.Optional, Create: `OCPU`},
+		"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `OCPU`},
 		"autonomous_data_storage_size_in_tbs":   acctest.Representation{RepType: acctest.Required, Create: `2.0`, Update: `4.0`},
 		"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `20`},
 		"db_servers":                            acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`, `${data.oci_database_db_servers.test_db_servers.db_servers.1.id}`}},
@@ -190,6 +190,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 						"compute_model":                         acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
 						"display_name":                          acctest.Representation{RepType: acctest.Required, Create: "testAVM2"},
 						"memory_per_oracle_compute_unit_in_gbs": acctest.Representation{RepType: acctest.Required, Create: "4"},
+						"cpu_core_count_per_node":               acctest.Representation{RepType: acctest.Required, Create: `20`},
 						"vm_cluster_network_id":                 acctest.Representation{RepType: acctest.Required, Create: "${oci_database_vm_cluster_network.test_vm_cluster_network2.id}"},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -217,7 +218,7 @@ func TestDatabaseAutonomousVmClusterResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "autonomous_data_storage_size_in_tbs", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count_per_node", "10"),
 				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "autonomousVmCluster"),

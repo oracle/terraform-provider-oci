@@ -36,7 +36,7 @@ var (
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backupDestinationMountTypeDetailsRepresentation},
+		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
 	}
 
 	backupDestinationADBCCNFSRepresentation = map[string]interface{}{
@@ -45,7 +45,7 @@ var (
 		"type":               acctest.Representation{RepType: acctest.Required, Create: `NFS`},
 		"defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
+		"mount_type_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: backupDestinationADBCCMountTypeDetailsRepresentation},
 	}
 
 	backupDestinationMountTypeDetailsRepresentation = map[string]interface{}{
