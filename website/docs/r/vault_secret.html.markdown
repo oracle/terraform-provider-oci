@@ -19,23 +19,15 @@ Creates a new secret according to the details of the request.
 resource "oci_vault_secret" "test_secret" {
 	#Required
 	compartment_id = var.compartment_id
-	secret_content {
-		#Required
-		content_type = var.secret_secret_content_content_type
-
-		#Optional
-		content = var.secret_secret_content_content
-		name = var.secret_secret_content_name
-		stage = var.secret_secret_content_stage
-	}
+	key_id = oci_kms_key.test_key.id
 	secret_name = oci_vault_secret.test_secret.name
 	vault_id = oci_kms_vault.test_vault.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.secret_description
+	enable_auto_generation = var.secret_enable_auto_generation
 	freeform_tags = {"Department"= "Finance"}
-	key_id = oci_kms_key.test_key.id
 	metadata = var.secret_metadata
 	rotation_config {
 		#Required
@@ -61,6 +53,15 @@ resource "oci_vault_secret" "test_secret" {
 		name = var.secret_secret_content_name
 		stage = var.secret_secret_content_stage
 	}
+	secret_generation_context {
+		#Required
+		generation_template = var.secret_secret_generation_context_generation_template
+		generation_type = var.secret_secret_generation_context_generation_type
+
+		#Optional
+		passphrase_length = var.secret_secret_generation_context_passphrase_length
+		secret_template = var.secret_secret_generation_context_secret_template
+	}
 	secret_rules {
 		#Required
 		rule_type = var.secret_secret_rules_rule_type
@@ -81,8 +82,9 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create the secret.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) A brief description of the secret. Avoid entering confidential information.
-* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
-* `key_id` - (Optional) The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
+* `enable_auto_generation` - (Optional) (Updatable) The value of this flag determines whether or not secret content will be generated automatically. If not set, it defaults to false. 
+* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}`
+* `key_id` - (Required) The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
 * `metadata` - (Optional) (Updatable) Additional metadata that you can use to provide context about how to use the secret during rotation or other administrative tasks. For example, for a secret that you use to connect to a database, the additional metadata might specify the connection endpoint and the connection string. Provide additional metadata as key-value pairs.
 * `rotation_config` - (Optional) (Updatable) Defines the frequency of the rotation and the information about the target system
 	* `is_scheduled_rotation_enabled` - (Optional) (Updatable) Enables auto rotation, when set to true rotationInterval must be set. 
@@ -96,6 +98,11 @@ The following arguments are supported:
 	* `content_type` - (Optional) (Updatable) The base64-encoded content of the secret.
 	* `name` - (Optional) (Updatable) Names should be unique within a secret. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods.
 	* `stage` - (Optional) (Updatable) The rotation state of the secret content. The default is `CURRENT`, meaning that the secret is currently in use. A secret version that you mark as `PENDING` is staged and available for use, but you don't yet want to rotate it into current, active use. For example, you might create or update a secret and mark its rotation state as `PENDING` if you haven't yet updated the secret on the target system. When creating a secret, only the value `CURRENT` is applicable, although the value `LATEST` is also automatically applied. When updating a secret, you can specify a version's rotation state as either `CURRENT` or `PENDING`. 
+* `secret_generation_context` - (Optional) (Updatable) Captures a configurable set of secret generation rules such as length, base characters, additional characters, and so on.
+	* `generation_template` - (Required) (Updatable) Name of random bytes generation template for generating random byte type secret.
+	* `generation_type` - (Required) (Updatable) Name of the predefined secret generation type.
+	* `passphrase_length` - (Applicable when generation_type=PASSPHRASE) (Updatable) Length of the passphrase to be generated
+	* `secret_template` - (Optional) (Updatable) SecretTemplate captures structure in which customer wants to store secrets. This is optional and a default structure is available for each secret type.  The template can have any structure with static values that are not generated. Within the template, you can insert predefined placeholders to store secrets.  These placeholders are later replaced with the generated content and saved as a Base64 encoded content. 
 * `secret_name` - (Required) A user-friendly name for the secret. Secret names should be unique within a vault. Avoid entering confidential information. Valid characters are uppercase or lowercase letters, numbers, hyphens, underscores, and periods. 
 * `secret_rules` - (Optional) (Updatable) A list of rules to control how the secret is used and managed.
 	* `is_enforced_on_deleted_secret_versions` - (Applicable when rule_type=SECRET_REUSE_RULE) (Updatable) A property indicating whether the rule is applied even if the secret version with the content you are trying to reuse was deleted. 
@@ -119,6 +126,7 @@ The following attributes are exported:
 * `description` - A brief description of the secret. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the secret.
+* `is_auto_generation_enabled` - The value of this flag determines whether or not secret content will be generated automatically. 
 * `key_id` - The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
 * `last_rotation_time` - A property indicating when the secret was last rotated successfully, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `lifecycle_details` - Additional information about the current lifecycle state of the secret.
@@ -132,6 +140,11 @@ The following attributes are exported:
 		* `function_id` - The unique identifier (OCID) of the Oracle Cloud Infrastructure Functions that vault secret connects to. 
 		* `target_system_type` - Unique identifier of the target system that Vault Secret connects to. 
 * `rotation_status` - Additional information about the status of the secret rotation
+* `secret_generation_context` - Captures a configurable set of secret generation rules such as length, base characters, additional characters, and so on.
+	* `generation_template` - Name of random bytes generation template for generating random byte type secret.
+	* `generation_type` - Name of the predefined secret generation type.
+	* `passphrase_length` - Length of the passphrase to be generated
+	* `secret_template` - SecretTemplate captures structure in which customer wants to store secrets. This is optional and a default structure is available for each secret type.  The template can have any structure with static values that are not generated. Within the template, you can insert predefined placeholders to store secrets.  These placeholders are later replaced with the generated content and saved as a Base64 encoded content. 
 * `secret_name` - The user-friendly name of the secret. Avoid entering confidential information.
 * `secret_rules` - A list of rules that control how the secret is used and managed.
 	* `is_enforced_on_deleted_secret_versions` - A property indicating whether the rule is applied even if the secret version with the content you are trying to reuse was deleted. 

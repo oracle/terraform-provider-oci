@@ -36,6 +36,7 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `content_type` - The content type of the secret version's secret contents.
+* `is_content_auto_generated` - Boolean flag indicating whether secret content for this secret version was auto-generated or not. 
 * `name` - The name of the secret version. A name is unique across versions of a secret. 
 * `secret_id` - The OCID of the secret.
 * `stages` - A list of possible rotation states for the secret version. A secret version marked `CURRENT` is currently in use. A secret version marked `PENDING` is staged and available for use, but has not been applied on the target system and, therefore, has not been rotated into current, active use. The secret most recently uploaded to a vault is always marked `LATEST`. (The first version of a secret is always marked as both `CURRENT` and `LATEST`.) A secret version marked `PREVIOUS` is the secret version that was most recently marked `CURRENT`, before the last secret version rotation. A secret version marked `DEPRECATED` is neither current, pending, nor the previous one in use. Only secret versions marked `DEPRECATED` can be scheduled for deletion. 

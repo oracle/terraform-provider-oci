@@ -51,7 +51,6 @@ func TestVaultSecretVersionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "secret_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secret_version_number", "1"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "stages.#", "2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "version_number"),
