@@ -21,8 +21,6 @@ data "oci_generative_ai_endpoints" "test_endpoints" {
   compartment_id                = var.compartment_ocid
 }
 
-
-
 locals {
     filtered_serving_models = [
 	for item in data.oci_generative_ai_models.serving_models.model_collection[0].items : item
