@@ -27,6 +27,7 @@ resource "oci_database_pluggable_database" "test_pluggable_database" {
 	container_database_admin_password = var.pluggable_database_container_database_admin_password
 	defined_tags = var.pluggable_database_defined_tags
 	freeform_tags = {"Department"= "Finance"}
+	kms_key_version_id = oci_kms_key_version.test_key_version.id
 	pdb_admin_password = var.pluggable_database_pdb_admin_password
 	pdb_creation_type_details {
 		#Required
@@ -58,6 +59,7 @@ The following arguments are supported:
 * `container_database_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the CDB
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `kms_key_id` - (Optional) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `pdb_admin_password` - (Optional) A strong password for PDB Admin. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numbers, and two special characters. The special characters must be _, \#, or -.
 * `pdb_creation_type_details` - (Optional) The Pluggable Database creation type. Use `LOCAL_CLONE_PDB` for creating a new PDB using Local Clone on Source Pluggable Database. This will Clone and starts a pluggable database (PDB) in the same database (CDB) as the source PDB. The source PDB must be in the `READ_WRITE` openMode to perform the clone operation. isThinClone options are supported only for Exadata VM cluster on Exascale Infrastructure. Use `REMOTE_CLONE_PDB` for creating a new PDB using Remote Clone on Source Pluggable Database. This will Clone a pluggable database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone. For Exadata Cloud@Customer instances, the source pluggable database (PDB) must be on the same Exadata Infrastructure as the target container database (CDB) to create a remote clone. isThinClone options are supported only for Exadata VM cluster on Exascale Infrastructure.
 
