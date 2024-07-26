@@ -54,14 +54,14 @@ resource "oci_vault_secret" "test_secret" {
     stage   = "CURRENT"
   }
   key_id = var.kms_key_ocid
-  secret_name = "TFsample1e13"
+  secret_name = "testSecretSample1"
   vault_id    = var.kms_vault_ocid
 }
 
 resource "oci_vault_secret" "test_secret_with_auto_rotation" {
   compartment_id = var.compartment_ocid
   key_id         = var.kms_key_ocid
-  secret_name    = "TFSecretAutoRotation211"
+  secret_name    = "testSecretSample2"
   vault_id       = var.kms_vault_ocid
 
   secret_content {
@@ -84,10 +84,23 @@ resource "oci_vault_secret" "test_secret_with_auto_rotation" {
   }
 }
 
+resource "oci_vault_secret" "test_secret_with_auto_generation" {
+  compartment_id = var.compartment_ocid
+  key_id         = var.kms_key_ocid
+  secret_name    = "testSecretSample3"
+  vault_id       = var.kms_vault_ocid
+
+  enable_auto_generation = true
+  secret_generation_context {
+    generation_type = "PASSPHRASE"
+    generation_template = "SECRETS_DEFAULT_PASSWORD"
+  }
+}
+
 resource "oci_vault_secret" "test_secret_with_target_system" {
   compartment_id = var.compartment_ocid
   key_id         = var.kms_key_ocid
-  secret_name    = "TFSecretWithTargetSyste2121m"
+  secret_name    = "testSecretSample4"
   vault_id       = var.kms_vault_ocid
 
   secret_content {
@@ -120,7 +133,7 @@ resource "oci_vault_secret" "test_secret_without_version_name" {
     stage   = "CURRENT"
   }
   key_id = var.kms_key_ocid
-  secret_name = "TFsampleWithoutVersionName212"
+  secret_name = "testSecretSample5"
   vault_id    = var.kms_vault_ocid
 }
 

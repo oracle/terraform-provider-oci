@@ -133,6 +133,10 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 			secret["id"] = *r.Id
 		}
 
+		if r.IsAutoGenerationEnabled != nil {
+			secret["is_auto_generation_enabled"] = *r.IsAutoGenerationEnabled
+		}
+
 		if r.KeyId != nil {
 			secret["key_id"] = *r.KeyId
 		}
@@ -156,6 +160,16 @@ func (s *VaultSecretsDataSourceCrud) SetData() error {
 		}
 
 		secret["rotation_status"] = r.RotationStatus
+
+		if r.SecretGenerationContext != nil {
+			secretGenerationContextArray := []interface{}{}
+			if secretGenerationContextMap := SecretGenerationContextToMap(&r.SecretGenerationContext); secretGenerationContextMap != nil {
+				secretGenerationContextArray = append(secretGenerationContextArray, secretGenerationContextMap)
+			}
+			secret["secret_generation_context"] = secretGenerationContextArray
+		} else {
+			secret["secret_generation_context"] = nil
+		}
 
 		if r.SecretName != nil {
 			secret["secret_name"] = *r.SecretName

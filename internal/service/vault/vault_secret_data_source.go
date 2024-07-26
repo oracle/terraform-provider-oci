@@ -85,6 +85,10 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsAutoGenerationEnabled != nil {
+		s.D.Set("is_auto_generation_enabled", *s.Res.IsAutoGenerationEnabled)
+	}
+
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
@@ -110,6 +114,16 @@ func (s *VaultSecretDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("rotation_status", s.Res.RotationStatus)
+
+	if s.Res.SecretGenerationContext != nil {
+		secretGenerationContextArray := []interface{}{}
+		if secretGenerationContextMap := SecretGenerationContextToMap(&s.Res.SecretGenerationContext); secretGenerationContextMap != nil {
+			secretGenerationContextArray = append(secretGenerationContextArray, secretGenerationContextMap)
+		}
+		s.D.Set("secret_generation_context", secretGenerationContextArray)
+	} else {
+		s.D.Set("secret_generation_context", nil)
+	}
 
 	if s.Res.SecretName != nil {
 		s.D.Set("secret_name", *s.Res.SecretName)

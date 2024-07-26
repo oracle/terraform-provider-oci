@@ -38,6 +38,7 @@ The following attributes are exported:
 * `description` - A brief description of the secret. Avoid entering confidential information.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the secret.
+* `is_auto_generation_enabled` - The value of this flag determines whether or not secret content will be generated automatically. 
 * `key_id` - The OCID of the master encryption key that is used to encrypt the secret. You must specify a symmetric key to encrypt the secret during import to the vault. You cannot encrypt secrets with asymmetric keys. Furthermore, the key must exist in the vault that you specify. 
 * `last_rotation_time` - A property indicating when the secret was last rotated successfully, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. Example: `2019-04-03T21:10:29.600Z` 
 * `lifecycle_details` - Additional information about the current lifecycle state of the secret.
@@ -51,6 +52,11 @@ The following attributes are exported:
 		* `function_id` - The unique identifier (OCID) of the Oracle Cloud Infrastructure Functions that vault secret connects to. 
 		* `target_system_type` - Unique identifier of the target system that Vault Secret connects to. 
 * `rotation_status` - Additional information about the status of the secret rotation
+* `secret_generation_context` - Captures a configurable set of secret generation rules such as length, base characters, additional characters, and so on.
+	* `generation_template` - Name of random bytes generation template for generating random byte type secret.
+	* `generation_type` - Name of the predefined secret generation type.
+	* `passphrase_length` - Length of the passphrase to be generated
+	* `secret_template` - SecretTemplate captures structure in which customer wants to store secrets. This is optional and a default structure is available for each secret type.  The template can have any structure with static values that are not generated. Within the template, you can insert predefined placeholders to store secrets.  These placeholders are later replaced with the generated content and saved as a Base64 encoded content. 
 * `secret_name` - The user-friendly name of the secret. Avoid entering confidential information.
 * `secret_rules` - A list of rules that control how the secret is used and managed.
 	* `is_enforced_on_deleted_secret_versions` - A property indicating whether the rule is applied even if the secret version with the content you are trying to reuse was deleted. 
