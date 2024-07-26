@@ -286,16 +286,7 @@ var (
 			"source_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	autonomousDatabaseRepresentationForScheduledOperations = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
-		"scheduled_operations": []acctest.RepresentationGroup{
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMonday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
-			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
-	})
+	autonomousDatabaseRepresentationForScheduledOperations = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{})
 
 	DatabaseAutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfigDbaas +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
@@ -663,6 +654,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "open_mode", "READ_ONLY"),
 				resource.TestCheckResourceAttr(resourceName, "operations_insights_status", "NOT_ENABLED"),
 				resource.TestCheckResourceAttr(resourceName, "permission_level", "RESTRICTED"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_placement_group_id"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -981,6 +973,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_local_data_guard_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_remote_data_guard_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_placement_group_id"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -1321,6 +1314,7 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.used_data_storage_size_in_gbs"),
 				//resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "local_standby_db.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_placement_group_id"),
 			),
 		},
 		//28. Verify singular datasource
