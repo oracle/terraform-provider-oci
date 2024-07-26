@@ -46,4 +46,5 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dedicated AI cluster.
 

@@ -1,13 +1,27 @@
 package generative_ai
 
 import (
-	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
+	"strings"
 
+	oci_generative_ai "github.com/oracle/oci-go-sdk/v65/generativeai"
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 
 func init() {
+	exportGenerativeAiModelHints.ProcessDiscoveredResourcesFn = processExcludingBaseModels
 	tf_export.RegisterCompartmentGraphs("generative_ai", generativeAiResourceGraph)
+}
+
+// Custom models are exposed to user but should not be part of their stack in resource discovery
+func processExcludingBaseModels(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	results := []*tf_export.OCIResource{}
+	for _, resource := range resources {
+		modelType := resource.SourceAttributes["type"].(string)
+		if strings.Compare(modelType, "BASE") != 0 {
+			results = append(results, resource)
+		}
+	}
+	return results, nil
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
