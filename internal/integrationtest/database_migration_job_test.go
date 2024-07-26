@@ -46,8 +46,10 @@ var (
 	}
 
 	DatabaseMigrationJobRepresentation = map[string]interface{}{
-		"job_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.job_new_api_id}`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"job_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_database_migration_job.test_job.id}`},
+		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
 	}
 )
 
@@ -71,13 +73,19 @@ func TestDatabaseMigrationJobResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "job_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "job-20240516171512"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "job-20240710000213"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "parameter_file_versions.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "progress.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "type"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "unsupported_objects.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.0.status", "COMPLETED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.issue", "An attempt to verify the configuration and status of the specified Oracle database failed."),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.action", "Review the accompanying messages, resolve the indicated problems, and then retry the operation."),
+				resource.TestCheckResourceAttr(singularDatasourceName, "progress.0.phases.1.status", "FAILED"),
 			),
 		},
 	})
