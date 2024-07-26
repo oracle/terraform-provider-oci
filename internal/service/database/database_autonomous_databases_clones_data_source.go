@@ -138,6 +138,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"cluster_placement_group_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"compartment_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1091,6 +1095,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.CharacterSet != nil {
 			autonomousDatabasesClone["character_set"] = *r.CharacterSet
+		}
+
+		if r.ClusterPlacementGroupId != nil {
+			autonomousDatabasesClone["cluster_placement_group_id"] = *r.ClusterPlacementGroupId
 		}
 
 		if r.ComputeCount != nil {
