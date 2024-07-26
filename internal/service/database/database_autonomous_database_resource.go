@@ -626,6 +626,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"cluster_placement_group_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"connection_strings": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -2031,6 +2035,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.CharacterSet != nil {
 		s.D.Set("character_set", *s.Res.CharacterSet)
+	}
+
+	if s.Res.ClusterPlacementGroupId != nil {
+		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
 
 	if s.Res.CompartmentId != nil {
