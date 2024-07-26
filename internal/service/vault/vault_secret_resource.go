@@ -39,6 +39,11 @@ func VaultSecretResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"key_id": {
+				Type:     schema.TypeString,
+				Required: true,
+				ForceNew: true,
+			},
 			"secret_name": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -63,18 +68,16 @@ func VaultSecretResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"enable_auto_generation": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
-			},
-			"key_id": {
-				Type: schema.TypeString,
-				//Optional: true,
-				//Computed: true,
-				Required: true,
-				ForceNew: true,
 			},
 			"metadata": {
 				Type:     schema.TypeMap,
@@ -179,6 +182,44 @@ func VaultSecretResource() *schema.Resource {
 					},
 				},
 			},
+			"secret_generation_context": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"generation_template": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"generation_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"BYTES",
+								"PASSPHRASE",
+								"SSH_KEY",
+							}, true),
+						},
+
+						// Optional
+						"passphrase_length": {
+							Type:     schema.TypeInt,
+							Optional: true,
+						},
+						"secret_template": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"secret_rules": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -227,6 +268,10 @@ func VaultSecretResource() *schema.Resource {
 			// Computed
 			"current_version_number": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"is_auto_generation_enabled": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"last_rotation_time": {
@@ -360,6 +405,11 @@ func (s *VaultSecretResourceCrud) Create() error {
 		request.Description = &tmp
 	}
 
+	if enableAutoGeneration, ok := s.D.GetOkExists("enable_auto_generation"); ok {
+		tmp := enableAutoGeneration.(bool)
+		request.EnableAutoGeneration = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -392,6 +442,17 @@ func (s *VaultSecretResourceCrud) Create() error {
 				return err
 			}
 			request.SecretContent = tmp
+		}
+	}
+
+	if secretGenerationContext, ok := s.D.GetOkExists("secret_generation_context"); ok {
+		if tmpList := secretGenerationContext.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secret_generation_context", 0)
+			tmp, err := s.mapToSecretGenerationContext(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecretGenerationContext = tmp
 		}
 	}
 
@@ -484,6 +545,11 @@ func (s *VaultSecretResourceCrud) Update() error {
 		request.Description = &tmp
 	}
 
+	if enableAutoGeneration, ok := s.D.GetOkExists("enable_auto_generation"); ok {
+		tmp := enableAutoGeneration.(bool)
+		request.EnableAutoGeneration = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -511,6 +577,17 @@ func (s *VaultSecretResourceCrud) Update() error {
 				return err
 			}
 			request.SecretContent = tmp
+		}
+	}
+
+	if secretGenerationContext, ok := s.D.GetOkExists("secret_generation_context"); ok {
+		if tmpList := secretGenerationContext.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secret_generation_context", 0)
+			tmp, err := s.mapToSecretGenerationContext(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.SecretGenerationContext = tmp
 		}
 	}
 
@@ -576,6 +653,10 @@ func (s *VaultSecretResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsAutoGenerationEnabled != nil {
+		s.D.Set("is_auto_generation_enabled", *s.Res.IsAutoGenerationEnabled)
+	}
+
 	if s.Res.KeyId != nil {
 		s.D.Set("key_id", *s.Res.KeyId)
 	}
@@ -601,6 +682,16 @@ func (s *VaultSecretResourceCrud) SetData() error {
 	}
 
 	s.D.Set("rotation_status", s.Res.RotationStatus)
+
+	if s.Res.SecretGenerationContext != nil {
+		secretGenerationContextArray := []interface{}{}
+		if secretGenerationContextMap := SecretGenerationContextToMap(&s.Res.SecretGenerationContext); secretGenerationContextMap != nil {
+			secretGenerationContextArray = append(secretGenerationContextArray, secretGenerationContextMap)
+		}
+		s.D.Set("secret_generation_context", secretGenerationContextArray)
+	} else {
+		s.D.Set("secret_generation_context", nil)
+	}
 
 	if s.Res.SecretName != nil {
 		s.D.Set("secret_name", *s.Res.SecretName)
@@ -728,6 +819,96 @@ func SecretContentDetailsToMap(obj *oci_vault.SecretContentDetails) map[string]i
 		}
 	default:
 		log.Printf("[WARN] Received 'content_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func (s *VaultSecretResourceCrud) mapToSecretGenerationContext(fieldKeyFormat string) (oci_vault.SecretGenerationContext, error) {
+	var baseObject oci_vault.SecretGenerationContext
+	//discriminator
+	generationTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generation_type"))
+	var generationType string
+	if ok {
+		generationType = generationTypeRaw.(string)
+	} else {
+		generationType = "" // default value
+	}
+	switch strings.ToLower(generationType) {
+	case strings.ToLower("BYTES"):
+		details := oci_vault.BytesGenerationContext{}
+		if generationTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generation_template")); ok {
+			details.GenerationTemplate = oci_vault.BytesGenerationContextGenerationTemplateEnum(generationTemplate.(string))
+		}
+		if secretTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_template")); ok {
+			tmp := secretTemplate.(string)
+			details.SecretTemplate = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PASSPHRASE"):
+		details := oci_vault.PassphraseGenerationContext{}
+		if generationTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generation_template")); ok {
+			details.GenerationTemplate = oci_vault.PassphraseGenerationContextGenerationTemplateEnum(generationTemplate.(string))
+		}
+		if passphraseLength, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "passphrase_length")); ok {
+			tmp := passphraseLength.(int)
+			details.PassphraseLength = &tmp
+		}
+		if secretTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_template")); ok {
+			tmp := secretTemplate.(string)
+			details.SecretTemplate = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("SSH_KEY"):
+		details := oci_vault.SshKeyGenerationContext{}
+		if generationTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "generation_template")); ok {
+			details.GenerationTemplate = oci_vault.SshKeyGenerationContextGenerationTemplateEnum(generationTemplate.(string))
+		}
+		if secretTemplate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_template")); ok {
+			tmp := secretTemplate.(string)
+			details.SecretTemplate = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown generation_type '%v' was specified", generationType)
+	}
+	return baseObject, nil
+}
+
+func SecretGenerationContextToMap(obj *oci_vault.SecretGenerationContext) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_vault.BytesGenerationContext:
+		result["generation_type"] = "BYTES"
+
+		result["generation_template"] = string(v.GenerationTemplate)
+
+		if v.SecretTemplate != nil {
+			result["secret_template"] = string(*v.SecretTemplate)
+		}
+	case oci_vault.PassphraseGenerationContext:
+		result["generation_type"] = "PASSPHRASE"
+
+		result["generation_template"] = string(v.GenerationTemplate)
+
+		if v.PassphraseLength != nil {
+			result["passphrase_length"] = int(*v.PassphraseLength)
+		}
+
+		if v.SecretTemplate != nil {
+			result["secret_template"] = string(*v.SecretTemplate)
+		}
+	case oci_vault.SshKeyGenerationContext:
+		result["generation_type"] = "SSH_KEY"
+
+		result["generation_template"] = string(v.GenerationTemplate)
+
+		if v.SecretTemplate != nil {
+			result["secret_template"] = string(*v.SecretTemplate)
+		}
+	default:
+		log.Printf("[WARN] Received 'generation_type' of unknown type %v", *obj)
 		return nil
 	}
 
