@@ -46,10 +46,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
-* `id` - An OCID that uniquely identifies this endpoint resource.
+* `description` - An optional description of the endpoint.
+* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `model_id` - The OCID of the model that's used to create this endpoint.
 * `state` - The current state of the endpoint.
-* `time_created` - The date and time that the endpoint was created in the format of an RFC3339 datetime string.
 * `time_updated` - The date and time that the endpoint was updated in the format of an RFC3339 datetime string.
 

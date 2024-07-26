@@ -22,6 +22,7 @@ resource "oci_generative_ai_model" "llama3_test_model" {
       lora_alpha                           = "8"
       lora_dropout                         = "0.1"
     }
+
   }
 
   #Optional
