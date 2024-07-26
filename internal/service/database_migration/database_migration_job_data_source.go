@@ -84,6 +84,12 @@ func (s *DatabaseMigrationJobDataSourceCrud) SetData() error {
 		s.D.Set("migration_id", *s.Res.MigrationId)
 	}
 
+	parameterFileVersions := []interface{}{}
+	for _, item := range s.Res.ParameterFileVersions {
+		parameterFileVersions = append(parameterFileVersions, ParameterFileVersionSummaryToMap(item))
+	}
+	s.D.Set("parameter_file_versions", parameterFileVersions)
+
 	if s.Res.Progress != nil {
 		s.D.Set("progress", []interface{}{MigrationJobProgressResourceToMap(s.Res.Progress)})
 	} else {
