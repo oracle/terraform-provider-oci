@@ -103,4 +103,3 @@ The following attributes are exported:
 * `state` - The state of the cluster.
 * `time_created` - The time the cluster was created, shown as an RFC 3339 formatted datetime string.
 * `time_updated` - The time the cluster was updated, shown as an RFC 3339 formatted datetime string.
-

@@ -4,6 +4,10 @@
 variable "tenancy_ocid" {
 }
 
+variable "cluster_profile" {
+default = "HADOOP"
+}
+
 variable "user_ocid" {
 }
 
@@ -29,8 +33,6 @@ variable "bds_instance_cluster_admin_password" {
 variable "kms_key_id" {
 }
 
-variable "cluster_profile" {
-}
 
 variable "bds_instance_cluster_public_key" {
   default = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpUa4zUZKyU3AkW9yoJTBDO550wpWZOXdHswfRq75gbJ2ZYlMtifvwiO3qUL/RIZSC6e1wA5OL2LQ97UaHrLLPXgjvKGVIDRHqPkzTOayjJ4ZA7NPNhcu6f/OxhKkCYF3TAQObhMJmUSMrWSUeufaRIujDz1HHqazxOgFk09fj4i2dcGnfPcm32t8a9MzlsHSmgexYCUwxGisuuWTsnMgxbqsj6DaY51l+SEPi5tf10iFmUWqziF0eKDDQ/jHkwLJ8wgBJef9FSOmwJReHcBY+NviwFTatGj7Cwtnks6CVomsFD+rAMJ9uzM8SCv5agYunx07hnEXbR9r/TXqgXGfN bdsclusterkey@oracleoci.com"
@@ -67,7 +69,7 @@ variable "bds_instance_network_config_cidr_block" {
 }
 
 variable "bds_instance_network_config_is_nat_gateway_required" {
-  default = false
+  default = true
 }
 
 variable "bds_instance_nodes_block_volume_size_in_gbs" {
@@ -83,7 +85,7 @@ variable "bds_instance_nodes_shape" {
 }
 
 variable "bds_instance_worker_node_shape" {
-  default = "VM.DenseIO.E4.Flex"
+  default = "VM.Standard.Generic"
 }
 
 variable "bds_instance_compute_only_worker_node_shape" {
@@ -135,64 +137,6 @@ provider "oci" {
   region           = var.region
 }
 
-#Uncomment this when running in home region (PHX)
-#resource "oci_identity_tag_namespace" "tag-namespace1" {
-#  #Required
-#  compartment_id = var.tenancy_ocid
-#  description    = var.tag_namespace_description
-#  name           = var.tag_namespace_name
-#}
-
-#Uncomment this when running in home region (PHX)
-#resource "oci_identity_tag" "tag1" {
-#  #Required
-#  description      = "tf example tag"
-#  name             = "tf-example-tag"
-#  tag_namespace_id = oci_identity_tag_namespace.tag-namespace1.id
-#}
-
-resource "oci_core_vcn" "vcn_bds" {
-  cidr_block     = "111.111.0.0/16"
-  compartment_id = var.compartment_id
-  display_name   = "BDS_VCN"
-  dns_label      = "bdsvcn"
-}
-
-resource "oci_core_service_gateway" "export_sgw" {
-  compartment_id = var.compartment_id
-  display_name   = "sgw"
-
-  services {
-    service_id = data.oci_core_services.test_bds_services.services[0]["id"]
-  }
-
-  vcn_id = oci_core_vcn.vcn_bds.id
-}
-
-resource "oci_core_route_table" "private_rt" {
-  compartment_id = var.compartment_id
-  display_name   = "private-rt"
-
-  route_rules {
-    destination       = data.oci_core_services.test_bds_services.services[0]["cidr_block"]
-    destination_type  = "SERVICE_CIDR_BLOCK"
-    network_entity_id = oci_core_service_gateway.export_sgw.id
-  }
-
-  vcn_id = oci_core_vcn.vcn_bds.id
-}
-
-resource "oci_core_subnet" "regional_subnet_bds" {
-  cidr_block        = "111.111.0.0/24"
-  display_name      = "regionalSubnetBds"
-  dns_label         = "regionalbds"
-  compartment_id    = var.compartment_id
-  vcn_id            = oci_core_vcn.vcn_bds.id
-  security_list_ids = [oci_core_vcn.vcn_bds.default_security_list_id]
-  route_table_id    = oci_core_vcn.vcn_bds.default_route_table_id
-  dhcp_options_id   = oci_core_vcn.vcn_bds.default_dhcp_options_id
-}
-
 resource "oci_bds_bds_instance" "test_bds_instance" {
   #Required
   cluster_admin_password = var.bds_instance_cluster_admin_password
@@ -204,72 +148,73 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   is_secure              = var.bds_instance_is_secure
   kms_key_id             = var.kms_key_id
   cluster_profile        = var.cluster_profile
-  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/1hWiiE-2GVzGiKhaBX1zyXVa_jTIu_cU5kDdKTyYS74Wk5xmEA2WKht9NTA2y935/n/oraclebigdatadb/b/bootstrap-script-sdk-test/o/bootstrapScriptTemplate1bootstrapScript1.sh"
+  bootstrap_script_url = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/Lk5JT9tnUIOG4yLm6S21QVR7m3Rm2uj1RAS2Olx5v14onLU2Y-b0lIc_N0RuUIge/n/idpbwtq1b3ta/b/bucket-20230214-1316/o/execute_bootstrap_script.sh"
 
   master_node {
     #Required
-    shape = var.bds_instance_nodes_shape
+    shape = "VM.Standard.E4.Flex"
 
     subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
+    shape_config {
+            memory_in_gbs = 120
+           ocpus         = 8
+        }
   }
 
   util_node {
     #Required
-    shape = var.bds_instance_nodes_shape
+    shape = "VM.Standard.E4.Flex"
 
     subnet_id                = var.subnet_id
     block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     number_of_nodes          = 1
+    shape_config {
+            memory_in_gbs = 120
+            ocpus         = 8
+        }
   }
 
   worker_node {
     #Required
     shape = var.bds_instance_worker_node_shape
-
+    block_volume_size_in_gbs = var.bds_instance_nodes_block_volume_size_in_gbs
     subnet_id                = var.subnet_id
-    number_of_nodes          = 4
-     shape_config {
-          memory_in_gbs = 128
-          ocpus         = 8
-          nvmes         = 1
-     }
-  }
+    number_of_nodes          = 3
+       shape_config {
+              memory_in_gbs = 120
+              ocpus         = 8
+         }
+      }
 
-  edge_node {
-    #Required
-    shape = var.bds_instance_edge_node_shape
+      edge_node {
+        #Required
+        shape = var.bds_instance_edge_node_shape
 
-    subnet_id                = var.subnet_id
-    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
-    number_of_nodes          = 1
-    shape_config {
-      memory_in_gbs = var.bds_instance_edge_memory_per_node
-      ocpus         = var.bds_instance_edge_ocpu_per_node
+        subnet_id                = var.subnet_id
+        block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+        number_of_nodes          = 1
+        shape_config {
+          memory_in_gbs = var.bds_instance_edge_memory_per_node
+          ocpus         = var.bds_instance_edge_ocpu_per_node
+        }
+      }
+
+      compute_only_worker_node {
+        #Required
+        shape = var.bds_instance_compute_only_worker_node_shape
+
+        subnet_id                = var.subnet_id
+        block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
+        number_of_nodes          = 1
+        shape_config {
+          memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
+          ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
     }
   }
 
-  compute_only_worker_node {
-    #Required
-    shape = var.bds_instance_compute_only_worker_node_shape
-
-    subnet_id                = var.subnet_id
-    block_volume_size_in_gbs = var.bds_instance_worker_nodes_block_volume_size_in_gbs
-    number_of_nodes          = 1
-    shape_config {
-      memory_in_gbs = var.bds_instance_compute_only_worker_memory_per_node
-      ocpus         = var.bds_instance_compute_only_worker_ocpu_per_node
-    }
-  }
-
-
-
-
-  #   cloud_sql_details {
-  #     shape                    = "VM.Standard2.4"
-  #     block_volume_size_in_gbs = 1000
-  #   }
+ ignore_existing_nodes_shape = ["worker", "master", "utility"]
 
   is_cloud_sql_configured = false
 

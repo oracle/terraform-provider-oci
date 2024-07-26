@@ -76,8 +76,9 @@ var (
 
 		//Uncomment this when running in home region (PHX)
 		//	"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		//"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceOdhNetworkConfigRepresentation},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"network_config":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceOdhNetworkConfigRepresentation},
+		"ignore_existing_nodes_shape": acctest.Representation{RepType: acctest.Optional, Update: []string{`worker`}},
 		//"os_patch_version": acctest.Representation{RepType: acctest.Optional, Update: `ol7.9-x86_64-1.28.0.619-0.0`}, // Test when patch is available
 	}
 
@@ -114,11 +115,17 @@ var (
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	bdsInstanceNodesOdhWorkerRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.4`},
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E5.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesWorkerShapeConfigRepresentation},
 	}
+	bdsInstanceNodesWorkerShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `120`, Update: `120`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`, Update: `8`},
+	}
+
 	bdsInstanceNodeFlexShapeRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
@@ -559,6 +566,7 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "master_node.0.shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(resourceName, "compute_only_worker_node.0.shape", "VM.Standard2.4"),
 				resource.TestCheckResourceAttr(resourceName, "edge_node.0.shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "worker_node.0.number_of_nodes", "4"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -723,6 +731,8 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				"compute_only_worker_node.0.shape_config",
 				"edge_node.0.shape_config",
 				"kafka_broker_node.0.shape_config",
+				"ignore_existing_nodes_shape.#",
+				"ignore_existing_nodes_shape.0",
 			},
 			ResourceName: resourceName,
 		},
