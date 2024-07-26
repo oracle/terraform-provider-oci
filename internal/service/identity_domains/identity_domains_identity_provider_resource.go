@@ -430,6 +430,11 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"auto_redirect_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"client_credential_in_payload": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -450,6 +455,38 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"jit_prov_assigned_groups": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"value": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"display": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+									"ref": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"jit_prov_group_static_list_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 						"profile_url": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -467,6 +504,11 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
 							},
+						},
+						"social_jit_provisioning_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
 						},
 						"status": {
 							Type:     schema.TypeString,
@@ -1902,6 +1944,11 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) mapToExtensionSocialIdenti
 		result.AuthzUrl = &tmp
 	}
 
+	if autoRedirectEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_redirect_enabled")); ok {
+		tmp := autoRedirectEnabled.(bool)
+		result.AutoRedirectEnabled = &tmp
+	}
+
 	if clientCredentialInPayload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_credential_in_payload")); ok {
 		tmp := clientCredentialInPayload.(bool)
 		result.ClientCredentialInPayload = &tmp
@@ -1930,6 +1977,28 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) mapToExtensionSocialIdenti
 	if idAttribute, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id_attribute")); ok {
 		tmp := idAttribute.(string)
 		result.IdAttribute = &tmp
+	}
+
+	if jitProvAssignedGroups, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "jit_prov_assigned_groups")); ok {
+		interfaces := jitProvAssignedGroups.([]interface{})
+		tmp := make([]oci_identity_domains.IdentityProviderJitProvAssignedGroups, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "jit_prov_assigned_groups"), stateDataIndex)
+			converted, err := s.mapToIdentityProviderJitProvAssignedGroups(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "jit_prov_assigned_groups")) {
+			result.JitProvAssignedGroups = tmp
+		}
+	}
+
+	if jitProvGroupStaticListEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "jit_prov_group_static_list_enabled")); ok {
+		tmp := jitProvGroupStaticListEnabled.(bool)
+		result.JitProvGroupStaticListEnabled = &tmp
 	}
 
 	if profileUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "profile_url")); ok {
@@ -1965,6 +2034,11 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) mapToExtensionSocialIdenti
 		result.ServiceProviderName = &tmp
 	}
 
+	if socialJitProvisioningEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "social_jit_provisioning_enabled")); ok {
+		tmp := socialJitProvisioningEnabled.(bool)
+		result.SocialJitProvisioningEnabled = &tmp
+	}
+
 	if status, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "status")); ok {
 		result.Status = oci_identity_domains.ExtensionSocialIdentityProviderStatusEnum(status.(string))
 	}
@@ -1987,6 +2061,10 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 
 	if obj.AuthzUrl != nil {
 		result["authz_url"] = string(*obj.AuthzUrl)
+	}
+
+	if obj.AutoRedirectEnabled != nil {
+		result["auto_redirect_enabled"] = bool(*obj.AutoRedirectEnabled)
 	}
 
 	if obj.ClientCredentialInPayload != nil {
@@ -2013,6 +2091,16 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 		result["id_attribute"] = string(*obj.IdAttribute)
 	}
 
+	jitProvAssignedGroups := []interface{}{}
+	for _, item := range obj.JitProvAssignedGroups {
+		jitProvAssignedGroups = append(jitProvAssignedGroups, IdentityProviderJitProvAssignedGroupsToMap(item))
+	}
+	result["jit_prov_assigned_groups"] = jitProvAssignedGroups
+
+	if obj.JitProvGroupStaticListEnabled != nil {
+		result["jit_prov_group_static_list_enabled"] = bool(*obj.JitProvGroupStaticListEnabled)
+	}
+
 	if obj.ProfileUrl != nil {
 		result["profile_url"] = string(*obj.ProfileUrl)
 	}
@@ -2029,6 +2117,10 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 
 	if obj.ServiceProviderName != nil {
 		result["service_provider_name"] = string(*obj.ServiceProviderName)
+	}
+
+	if obj.SocialJitProvisioningEnabled != nil {
+		result["social_jit_provisioning_enabled"] = bool(*obj.SocialJitProvisioningEnabled)
 	}
 
 	result["status"] = string(obj.Status)
@@ -2484,6 +2576,45 @@ func IdentityProviderCorrelationPolicyToMap(obj *oci_identity_domains.IdentityPr
 	}
 
 	result["type"] = string(obj.Type)
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func (s *IdentityDomainsIdentityProviderResourceCrud) mapToIdentityProviderJitProvAssignedGroups(fieldKeyFormat string) (oci_identity_domains.IdentityProviderJitProvAssignedGroups, error) {
+	result := oci_identity_domains.IdentityProviderJitProvAssignedGroups{}
+
+	if ref, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ref")); ok {
+		tmp := ref.(string)
+		result.Ref = &tmp
+	}
+
+	if display, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display")); ok {
+		tmp := display.(string)
+		result.Display = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func IdentityProviderJitProvAssignedGroupsToMap(obj oci_identity_domains.IdentityProviderJitProvAssignedGroups) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Ref != nil {
+		result["ref"] = string(*obj.Ref)
+	}
+
+	if obj.Display != nil {
+		result["display"] = string(*obj.Display)
+	}
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)

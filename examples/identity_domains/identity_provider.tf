@@ -213,6 +213,10 @@ variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_id
   default = "authzUrl"
 }
 
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_auto_redirect_enabled" {
+  default = false
+}
+
 variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_client_credential_in_payload" {
   default = false
 }
@@ -235,6 +239,18 @@ variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_id
 
 variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_id_attribute" {
   default = "idAttribute"
+}
+
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_jit_prov_assigned_groups_value" {
+  default = "value"
+}
+
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_jit_prov_group_static_list_enabled" {
+  default = false
+}
+
+variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_social_jit_provisioning_enabled" {
+  default = false
 }
 
 variable "identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_profile_url" {
@@ -416,10 +432,13 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
     access_token_url             = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_access_token_url
     admin_scope                  = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_admin_scope
     authz_url                    = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_authz_url
+    auto_redirect_enabled        = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_auto_redirect_enabled
     client_credential_in_payload = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_client_credential_in_payload
     clock_skew_in_seconds        = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_clock_skew_in_seconds
     discovery_url                = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_discovery_url
     id_attribute                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_id_attribute
+    jit_prov_group_static_list_enabled                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_jit_prov_group_static_list_enabled
+    social_jit_provisioning_enabled                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_social_jit_provisioning_enabled
     profile_url                  = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_profile_url
     redirect_url                 = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_redirect_url
     scope                        = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_scope

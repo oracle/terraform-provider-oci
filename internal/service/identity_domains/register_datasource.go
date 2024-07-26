@@ -105,6 +105,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_identity_domains_settings", IdentityDomainsSettingsDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_smtp_credential", IdentityDomainsSmtpCredentialDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_smtp_credentials", IdentityDomainsSmtpCredentialsDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_social_identity_provider", IdentityDomainsSocialIdentityProviderDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_social_identity_providers", IdentityDomainsSocialIdentityProvidersDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_user", IdentityDomainsUserDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_user_attributes_setting", IdentityDomainsUserAttributesSettingDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_user_attributes_settings", IdentityDomainsUserAttributesSettingsDataSource())
