@@ -207,14 +207,10 @@ func DatabaseDbHomeResource() *schema.Resource {
 						"kms_key_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-							ForceNew: true,
 						},
 						"kms_key_version_id": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
-							ForceNew: true,
 						},
 						"ncharacter_set": {
 							Type:     schema.TypeString,
@@ -605,6 +601,12 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		updateDbHomeRequest.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
+
+	errKms := s.setDbKeyVersion(s.Database.Id)
+	if errKms != nil {
+		return errKms
+	}
+
 	updateDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if oneOffPatches, ok := s.D.GetOkExists("one_off_patches"); ok {
@@ -776,6 +778,36 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 	}
 
 	return err
+}
+
+func (s *DatabaseDbHomeResourceCrud) setDbKeyVersion(databaseId *string) error {
+	setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
+	setDbKeyVersionRequest.DatabaseId = databaseId
+	setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+	details := oci_database.OciProviderSetKeyVersionDetails{}
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
+		if oldRaw == "" && newRaw != "" {
+			temp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &temp
+			setDbKeyVersionRequest.SetKeyVersionDetails = details
+		} else {
+			return nil
+		}
+	}
+
+	response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+		}
+	}
+	return nil
 }
 
 func (s *DatabaseDbHomeResourceCrud) getDatabaseId(fieldKeyFormat string) (string, error) {
