@@ -84,6 +84,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("master", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -146,6 +149,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("util", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -207,6 +213,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("worker", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -270,6 +279,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("compute_only_worker", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -322,6 +334,13 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"ignore_existing_nodes_shape": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 
 			"edge_node": {
 				Type:     schema.TypeList,
@@ -334,6 +353,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("edge", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -397,6 +419,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"shape": {
 							Type:     schema.TypeString,
 							Required: true,
+							DiffSuppressFunc: func(k, old, new string, d *schema.ResourceData) bool {
+								return ShapeChangeDiffSuppressFunction("kafka_broker", d)
+							},
 						},
 						"subnet_id": {
 							Type:     schema.TypeString,
@@ -865,13 +890,6 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		}
 		return tfresource.ReadResource(sync)
 	}
-
-	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
-	//	err := sync.InstallOsPatch()
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
 
 	if powerOff {
 		if err := sync.StopBdsInstance(); err != nil {
@@ -1533,17 +1551,83 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			return fmt.Errorf("the new value should be larger than previous one")
 		}
 	}
-
 	_, numOfWorkersPresent := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes"))
 	if numOfWorkersPresent && s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes")) {
 		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(workerNodeFieldKeyFormat, "number_of_nodes"))
 		tmpOld := oldRaw.(int)
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, nil, nil)
+			workerNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
+			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+			if ok1 && ok2 {
+				tmp := workerNodeShape.(string)
+				tmpRaw := blockVolumeSizeInGbs.(string)
+				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
 				if err != nil {
 					return err
+				}
+
+				workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+					err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &tmpInt64, &tmp, &workerShapeConfig)
+					if err != nil {
+						return err
+					}
+				}
+			}
+		} else {
+			return fmt.Errorf("the new value should be larger than previous one")
+		}
+	}
+	//	 ADD MASTER AND UTILITY NODES
+	_, numOfMastersPresent := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfMastersPresent && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
+		tmpOld := oldRaw.(int)
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			masterNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
+			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+			if ok1 && ok2 {
+				tmp := masterNodeShape.(string)
+				tmpRaw := blockVolumeSizeInGbs.(string)
+				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
+				if err != nil {
+					return err
+				}
+				masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+					err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &tmpInt64, &tmp, &masterShapeConfig)
+					if err != nil {
+						return err
+					}
+				}
+			}
+		} else {
+			return fmt.Errorf("the new value should be larger than previous one")
+		}
+	}
+	_, numOfUtilityPresent := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
+	if numOfUtilityPresent && s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
+		tmpOld := oldRaw.(int)
+		tmpNew := newRaw.(int)
+		if tmpNew > tmpOld {
+			utilNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
+			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "block_volume_size_in_gbs"))
+			if ok1 && ok2 {
+				tmp := utilNodeShape.(string)
+				tmpRaw := blockVolumeSizeInGbs.(string)
+				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
+				if err != nil {
+					return err
+				}
+				utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
+				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+					err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &tmpInt64, &tmp, &utilShapeConfig)
+					if err != nil {
+						return err
+					}
 				}
 			}
 		} else {
@@ -1570,67 +1654,104 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	result := oci_bds.ChangeShapeNodes{}
 
 	changeShapeRequest := oci_bds.ChangeShapeRequest{}
-	workerNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
-	if ok && (s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape_config"))) {
-		tmp := workerNodeShape.(string)
-		result.Worker = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
-			result.WorkerShapeConfig = &workerShapeConfig
+	var ignoreMasterShape, ignoreUtilShape, ignoreWorkerShape, ignoreComputeWorkerShape, ignoreEdgeShape, ignoreKafkaBrokerShape = false, false, false, false, false, false
+	if ignoreExistingNodesShape, ok := s.D.GetOkExists("ignore_existing_nodes_shape"); ok {
+		interfaces := ignoreExistingNodesShape.([]interface{})
+		tmp := make([]string, len(interfaces))
+		// Add now node types when they are released
+		for i := range interfaces {
+			tmp[i] = strings.TrimSpace(strings.ToLower(interfaces[i].(string)))
+			if tmp[i] == "master" {
+				ignoreMasterShape = true
+			}
+			if tmp[i] == "utility" {
+				ignoreUtilShape = true
+			}
+			if tmp[i] == "worker" {
+				ignoreWorkerShape = true
+			}
+			if tmp[i] == "compute_only_worker" {
+				ignoreComputeWorkerShape = true
+			}
+			if tmp[i] == "edge" {
+				ignoreEdgeShape = true
+			}
+			if tmp[i] == "kafka_broker" {
+				ignoreKafkaBrokerShape = true
+			}
+		}
+		s.D.Set("ignore_existing_nodes_shape", ignoreExistingNodesShape)
+	}
+	if ignoreWorkerShape == false {
+		workerNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
+		if ok && (s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(workerNodeFieldKeyFormat, "shape_config"))) {
+			tmp := workerNodeShape.(string)
+			result.Worker = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
+				result.WorkerShapeConfig = &workerShapeConfig
+			}
 		}
 	}
-	masterNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
-	if ok && (s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape_config"))) {
-		tmp := masterNodeShape.(string)
-		result.Master = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("master_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
-			result.MasterShapeConfig = &masterShapeConfig
+	if ignoreMasterShape == false {
+		masterNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
+		if ok && (s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "shape_config"))) {
+			tmp := masterNodeShape.(string)
+			result.Master = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("master_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
+				result.MasterShapeConfig = &masterShapeConfig
+			}
 		}
 	}
-
-	utilNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
-	if ok && (s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape_config"))) {
-		tmp := utilNodeShape.(string)
-		result.Utility = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("util_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
-			result.UtilityShapeConfig = &utilShapeConfig
+	if ignoreUtilShape == false {
+		utilNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
+		if ok && (s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "shape_config"))) {
+			tmp := utilNodeShape.(string)
+			result.Utility = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("util_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
+				result.UtilityShapeConfig = &utilShapeConfig
+			}
 		}
 	}
-
-	computeWorker, ok := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape"))
-	if ok && (!isComputeWorkerAdded) && (s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape_config"))) {
-		tmp := computeWorker.(string)
-		result.ComputeOnlyWorker = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("compute_only_worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			computeWorkerShapeConfig, _ := s.mapToShapeConfigDetails("compute_only_worker_node.0.shape_config.0.%s")
-			result.ComputeOnlyWorkerShapeConfig = &computeWorkerShapeConfig
+	if ignoreComputeWorkerShape == false {
+		computeWorker, ok := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape"))
+		if ok && (!isComputeWorkerAdded) && (s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "shape_config"))) {
+			tmp := computeWorker.(string)
+			result.ComputeOnlyWorker = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("compute_only_worker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				computeWorkerShapeConfig, _ := s.mapToShapeConfigDetails("compute_only_worker_node.0.shape_config.0.%s")
+				result.ComputeOnlyWorkerShapeConfig = &computeWorkerShapeConfig
+			}
 		}
 	}
-
-	edge, ok := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape"))
-	if ok && (!isEdgeAdded) && (s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape_config"))) {
-		tmp := edge.(string)
-		result.Edge = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("edge_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			edgeShapeConfig, _ := s.mapToShapeConfigDetails("edge_node.0.shape_config.0.%s")
-			result.EdgeShapeConfig = &edgeShapeConfig
+	if ignoreEdgeShape == false {
+		edge, ok := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape"))
+		if ok && (!isEdgeAdded) && (s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(edgeNodeFieldKeyFormat, "shape_config"))) {
+			tmp := edge.(string)
+			result.Edge = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("edge_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				edgeShapeConfig, _ := s.mapToShapeConfigDetails("edge_node.0.shape_config.0.%s")
+				result.EdgeShapeConfig = &edgeShapeConfig
+			}
 		}
 	}
-	kafkaBroker, ok := s.D.GetOkExists(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape"))
-	if ok && (!isKafkaBrokerAdded) && (s.D.HasChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape")) ||
-		s.D.HasChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape_config"))) {
-		tmp := kafkaBroker.(string)
-		result.KafkaBroker = &tmp
-		if nodeConfig, ok := s.D.GetOkExists("kafka_broker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
-			kafkaBrokerShapeConfig, _ := s.mapToShapeConfigDetails("kafka_broker_node.0.shape_config.0.%s")
-			result.KafkaBrokerShapeConfig = &kafkaBrokerShapeConfig
+	if ignoreKafkaBrokerShape == false {
+		kafkaBroker, ok := s.D.GetOkExists(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape"))
+		if ok && (!isKafkaBrokerAdded) && (s.D.HasChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape")) ||
+			s.D.HasChange(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "shape_config"))) {
+			tmp := kafkaBroker.(string)
+			result.KafkaBroker = &tmp
+			if nodeConfig, ok := s.D.GetOkExists("kafka_broker_node.0.shape_config"); ok && len(nodeConfig.([]interface{})) != 0 {
+				kafkaBrokerShapeConfig, _ := s.mapToShapeConfigDetails("kafka_broker_node.0.shape_config.0.%s")
+				result.KafkaBrokerShapeConfig = &kafkaBrokerShapeConfig
+			}
 		}
 	}
 	if _, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok {
@@ -1666,41 +1787,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 
 	tmp := s.D.Id()
 	request.BdsInstanceId = &tmp
-
-	//	 ADD MASTER AND UTILITY NODES
-	_, numOfMastersPresent := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
-	if numOfMastersPresent && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes")) {
-		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
-		tmpOld := oldRaw.(int)
-		tmpNew := newRaw.(int)
-		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, nil, nil)
-				if err != nil {
-					return err
-				}
-			}
-		} else {
-			return fmt.Errorf("the new value should be larger than previous one")
-		}
-	}
-
-	_, numOfUtilityPresent := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
-	if numOfUtilityPresent && s.D.HasChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes")) {
-		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(utilNodeFieldKeyFormat, "number_of_nodes"))
-		tmpOld := oldRaw.(int)
-		tmpNew := newRaw.(int)
-		if tmpNew > tmpOld {
-			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, nil, nil)
-				if err != nil {
-					return err
-				}
-			}
-		} else {
-			return fmt.Errorf("the new value should be larger than previous one")
-		}
-	}
 
 	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
 		tmp := bootstrapScriptUrl.(string)
@@ -2451,7 +2537,9 @@ func (s *BdsBdsInstanceResourceCrud) mapToShapeConfigDetails(fieldKeyFormat stri
 
 	if nvmes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nvmes")); ok {
 		tmp := nvmes.(int)
-		result.Nvmes = &tmp
+		if tmp != 0 {
+			result.Nvmes = &tmp
+		}
 	}
 
 	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
@@ -2691,11 +2779,65 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 		shapeConfigMap := map[string]interface{}{}
 		shapeConfigMap["ocpus"] = int(*obj.Ocpus)
 		shapeConfigMap["memory_in_gbs"] = int(*obj.MemoryInGBs)
+		// Add support for VM.DenseIO.E5.Flex when the shape is available
 		if result["shape"] == "VM.DenseIO.E4.Flex" {
 			shapeConfigMap["nvmes"] = int(*obj.Nvmes)
 		}
+
 		result["shape_config"] = []interface{}{shapeConfigMap}
 	}
-
 	return result
+}
+
+func ShapeChangeDiffSuppressFunction(nodeType string, d *schema.ResourceData) bool {
+	var ignoreMasterShape, ignoreUtilShape, ignoreWorkerShape, ignoreComputeWorkerShape, ignoreEdgeShape, ignoreKafkaBrokerShape = false, false, false, false, false, false
+	var addNode bool
+	if changeExistingNodesTrigger, ok := d.GetOkExists("ignore_existing_nodes_shape"); ok {
+		interfaces := changeExistingNodesTrigger.([]interface{})
+		tmp := make([]string, len(interfaces))
+		// Add now node types when they are released
+		for i := range interfaces {
+			tmp[i] = strings.TrimSpace(strings.ToLower(interfaces[i].(string)))
+			if tmp[i] == "master" {
+				ignoreMasterShape = true
+			}
+			if tmp[i] == "utility" {
+				ignoreUtilShape = true
+			}
+			if tmp[i] == "worker" {
+				ignoreWorkerShape = true
+			}
+			if tmp[i] == "compute_only_worker" {
+				ignoreComputeWorkerShape = true
+			}
+			if tmp[i] == "edge" {
+				ignoreEdgeShape = true
+			}
+			if tmp[i] == "kafka_broker" {
+				ignoreKafkaBrokerShape = true
+			}
+		}
+	} else {
+		return false
+	}
+	// Add now node types when they are released
+	if nodeType == "master" && ignoreMasterShape == true {
+		addNode = d.HasChange("master_node.0.number_of_nodes")
+	} else if nodeType == "util" && ignoreUtilShape == true {
+		addNode = d.HasChange("util_node.0.number_of_nodes")
+	} else if nodeType == "worker" && ignoreWorkerShape == true {
+		addNode = d.HasChange("worker_node.0.number_of_nodes")
+	} else if nodeType == "compute_only_worker" && ignoreComputeWorkerShape == true {
+		addNode = d.HasChange("compute_only_worker_node.0.number_of_nodes")
+	} else if nodeType == "edge" && ignoreEdgeShape == true {
+		addNode = d.HasChange("edge_node.0.number_of_nodes")
+	} else if nodeType == "kafka_broker" && ignoreKafkaBrokerShape == true {
+		addNode = d.HasChange("kafka_broker_node.0.number_of_nodes")
+	} else {
+		addNode = true
+	}
+	if !addNode {
+		return true
+	}
+	return false
 }
