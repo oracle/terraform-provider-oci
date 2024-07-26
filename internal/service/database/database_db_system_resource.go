@@ -362,11 +362,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
-						"is_unified_auditing_enabled": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
 
 						// Computed
 						"id": {
@@ -704,12 +699,6 @@ func DatabaseDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
-			},
-			"security_attributes": {
-				Type:     schema.TypeMap,
-				Optional: true,
-				Computed: true,
-				Elem:     schema.TypeString,
 			},
 			"source": {
 				Type:             schema.TypeString,
@@ -1097,7 +1086,7 @@ func (s *DatabaseDbSystemResourceCrud) Create() error {
 		if identifier != nil {
 			s.D.SetId(*identifier)
 		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1232,10 +1221,6 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 		request.RecoStorageSizeInGBs = &tmp
 	}
 
-	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-	}
-
 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -1264,7 +1249,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
@@ -1461,8 +1446,6 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
-
-	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
@@ -1964,11 +1947,6 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
-		tmp := isUnifiedAuditingEnabled.(bool)
-		result.IsUnifiedAuditingEnabled = &tmp
-	}
-
 	return result, nil
 }
 
@@ -1997,10 +1975,6 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 
 	result["freeform_tags"] = obj.FreeformTags
 
-	if obj.IsUnifiedAuditingEnabled != nil {
-		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
-	}
-
 	return result
 }
 
@@ -2028,15 +2002,6 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldK
 		result.DisplayName = &tmp
 	}
 
-	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
-		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
-		tmp := isUnifiedAuditingEnabled.(bool)
-		result.IsUnifiedAuditingEnabled = &tmp
-	}
-
 	return result, nil
 }
 
@@ -2053,12 +2018,6 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.IsUnifiedAuditingEnabled != nil {
-		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
 	}
 
 	return result
@@ -2598,9 +2557,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := privateIp.(string)
 			details.PrivateIp = &tmp
 		}
-		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -2782,9 +2738,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 			tmp := privateIp.(string)
 			details.PrivateIp = &tmp
 		}
-		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
 			details.Shape = &tmp
@@ -2963,9 +2916,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
 			tmp := privateIp.(string)
 			details.PrivateIp = &tmp
-		}
-		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -3157,9 +3107,6 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
 		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
 			tmp := privateIp.(string)
 			details.PrivateIp = &tmp
-		}
-		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
@@ -3444,7 +3391,7 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 		return fmt.Errorf("[ERROR] unable to get database after the Update: %v", err)
 	}
 
-	errKms := s.setDbKeyVersion()
+	errKms := s.setDbKeyVersion(s.Database.Id)
 	if errKms != nil {
 		return errKms
 	}
@@ -3453,21 +3400,21 @@ func (s *DatabaseDbSystemResourceCrud) UpdateDatabaseOperation() error {
 	return nil
 }
 
-func (s *DatabaseDbSystemResourceCrud) setDbKeyVersion() error {
+func (s *DatabaseDbSystemResourceCrud) setDbKeyVersion(databaseId *string) error {
 	setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
-	setDbKeyVersionRequest.DatabaseId = s.Database.Id
+	setDbKeyVersionRequest.DatabaseId = databaseId
 	setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 	details := oci_database.OciProviderSetKeyVersionDetails{}
-	if kmsKeyVersionId, ok := s.D.GetOkExists("db_home.0.database.0.kms_key_version_id"); ok && s.D.HasChange("db_home.0.database.0.kms_key_version_id") {
-		newKmsKeyVersionId := kmsKeyVersionId.(string)
-		oldKmsKeyVersionId, _ := s.D.GetChange("db_home.0.database.0.kms_key_version_id")
-		if oldKmsKeyVersionId == newKmsKeyVersionId {
+
+	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
+		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
+		if oldRaw == "" && newRaw != "" {
+			temp := kmsKeyVersionId.(string)
+			details.KmsKeyVersionId = &temp
+			setDbKeyVersionRequest.SetKeyVersionDetails = details
+		} else {
 			return nil
 		}
-		details.KmsKeyVersionId = &newKmsKeyVersionId
-		setDbKeyVersionRequest.SetKeyVersionDetails = details
-	} else {
-		return nil
 	}
 
 	response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
@@ -3497,7 +3444,7 @@ func (s *DatabaseDbSystemResourceCrud) sendUpdateForLicenseModel(dbSystemId stri
 
 	workId := response.OpcWorkRequestId
 	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "dbSystem", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
 		if err != nil {
 			return err
 		}
