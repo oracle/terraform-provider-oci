@@ -1065,6 +1065,19 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `auto_redirect_enabled` - Whether social auto redirect is enabled. The IDP policy should be configured with only one Social IDP, and without username/password selected.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `client_credential_in_payload` - Whether the client credential is contained in payload
 
 		**Added In:** 20.1.3
@@ -1143,6 +1156,69 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `jit_prov_assigned_groups` - Lists the groups each social JIT-provisioned user is a member. Just-in-Time user-provisioning applies this static list when jitProvGroupStaticListEnabled:true.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* idcsCompositeKey: [value]
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: complex
+		* uniqueness: none
+		* `_ref` - Group URI
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: default
+			* type: reference
+			* uniqueness: none
+		* `display` - A human readable name, primarily used for display purposes. READ-ONLY.
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: request
+			* type: string
+			* uniqueness: none
+		* `value` - Group identifier
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* caseExact: true
+			* idcsSearchable: true
+			* multiValued: false
+			* mutability: readWrite
+			* required: true
+			* returned: default
+			* type: string
+			* uniqueness: none
+	* `jit_prov_group_static_list_enabled` - Set to true to indicate Social JIT User Provisioning Groups should be assigned from a static list
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `profile_url` - Social IDP User profile URL
 
 		**Added In:** 20.1.3
@@ -1207,6 +1283,19 @@ The following attributes are exported:
 		* required: true
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `social_jit_provisioning_enabled` - Whether Social JIT Provisioning is enabled
+
+		**Added In:** 2307282043
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
 		* uniqueness: none
 	* `status` - Status
 
