@@ -17,5 +17,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_security_rule", NetworkFirewallNetworkFirewallPolicySecurityRuleResource())
 	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_service", NetworkFirewallNetworkFirewallPolicyServiceResource())
 	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_service_list", NetworkFirewallNetworkFirewallPolicyServiceListResource())
+	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_tunnel_inspection_rule", NetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleResource())
 	tfresource.RegisterResource("oci_network_firewall_network_firewall_policy_url_list", NetworkFirewallNetworkFirewallPolicyUrlListResource())
 }
