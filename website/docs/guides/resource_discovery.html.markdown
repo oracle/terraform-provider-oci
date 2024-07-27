@@ -987,6 +987,7 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service\_list
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
+* oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
 
 network_load_balancer
 

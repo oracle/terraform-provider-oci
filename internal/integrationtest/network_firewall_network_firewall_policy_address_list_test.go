@@ -29,7 +29,7 @@ var (
 		"oci_network_firewall_network_firewall_policy_address_list",
 		"test_network_firewall_policy_address_list",
 		acctest.Required, acctest.Create,
-		addressListRepresentationFQDN,
+		addressListRepresentation,
 	)
 
 	addressListSingularDataSourceRepresentation = map[string]interface{}{
@@ -41,11 +41,11 @@ var (
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
 	}
 
-	addressListRepresentationFQDN = map[string]interface{}{
+	addressListRepresentation = map[string]interface{}{
 		"name":                       acctest.Representation{RepType: acctest.Required, Create: `address_list_1`},
 		"network_firewall_policy_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_firewall_network_firewall_policy.test_network_firewall_policy.id}`},
-		"type":                       acctest.Representation{RepType: acctest.Required, Create: `FQDN`, Update: `FQDN`},
-		"addresses":                  acctest.Representation{RepType: acctest.Required, Create: []string{`www.google.com`, `www.facebook.com`}, Update: []string{`www.google.com`, `www.twitter.com`}},
+		"type":                       acctest.Representation{RepType: acctest.Required, Create: `IP`, Update: `IP`},
+		"addresses":                  acctest.Representation{RepType: acctest.Required, Create: []string{`1.1.1.1`, `10.1.10.0`}, Update: []string{`1.1.1.1`, `10.0.0.10`}},
 	}
 
 	addressListResourceDependencies = acctest.GenerateResourceFromRepresentationMap(
@@ -61,7 +61,7 @@ var (
 			"test_network_firewall_policy_address_list",
 			acctest.Optional,
 			acctest.Update,
-			addressListRepresentationFQDN,
+			addressListRepresentation,
 		)
 )
 
@@ -89,7 +89,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 				"test_network_firewall_policy_address_list",
 				acctest.Required,
 				acctest.Create,
-				addressListRepresentationFQDN),
+				addressListRepresentation),
 		"networkfirewall",
 		"networkFirewallPolicyAddressList", t)
 
@@ -101,7 +101,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "address_list_1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
-				resource.TestCheckResourceAttr(resourceName, "type", "FQDN"),
+				resource.TestCheckResourceAttr(resourceName, "type", "IP"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -121,7 +121,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "addresses.#", "2"),
 				resource.TestCheckResourceAttr(resourceName, "name", "address_list_1"),
-				resource.TestCheckResourceAttr(resourceName, "type", "FQDN"),
+				resource.TestCheckResourceAttr(resourceName, "type", "IP"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_firewall_policy_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "total_addresses"),
@@ -172,7 +172,7 @@ func TestNetworkFirewallNetworkFirewallPolicyAddressListResource_basic(t *testin
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "address_list_1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "parent_resource_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "total_addresses"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "type", "FQDN"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "IP"),
 			),
 		},
 		// verify resource import
