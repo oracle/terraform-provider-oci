@@ -185,6 +185,7 @@ func TestDataSafeAlertResource_basic(t *testing.T) {
 				compartmentIdVariableStr + alertIdVariableStr + DataSafeAlertResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_policy_rule_key"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "alert_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "comment", "comment2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),

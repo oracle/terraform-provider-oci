@@ -10,16 +10,15 @@ description: |-
 # Data Source: oci_data_safe_alert_policy_rule
 This data source provides details about a specific Alert Policy Rule resource in Oracle Cloud Infrastructure Data Safe service.
 
-Lists the rules of the specified alert policy. The alert policy is said to be satisfied when all rules in the policy evaulate to true.
-If there are three rules: rule1,rule2 and rule3, the policy is satisfied if rule1 AND rule2 AND rule3 is True.
-
+Gets the details of a policy rule by its key.
 
 ## Example Usage
 
 ```hcl
 data "oci_data_safe_alert_policy_rule" "test_alert_policy_rule" {
-	#Required
-	alert_policy_id = oci_data_safe_alert_policy.test_alert_policy.id
+  #Required
+  alert_policy_id = oci_data_safe_alert_policy.test_alert_policy.id
+  rule_key = var.alert_policy_rule_rule_key
 }
 ```
 
@@ -28,14 +27,16 @@ data "oci_data_safe_alert_policy_rule" "test_alert_policy_rule" {
 The following arguments are supported:
 
 * `alert_policy_id` - (Required) The OCID of the alert policy.
+* `rule_key` - (Required) The key of the alert policy rule.
 
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `items` - Array of alert policy rules summary
-	* `description` - Describes the alert policy rule.
-	* `expression` - The conditional expression of the alert policy rule which evaluates to boolean value.
-	* `key` - The unique key of the alert policy rule.
-
+* `description` - Describes the alert policy rule.
+* `display_name` - The display name of the alert policy rule.
+* `expression` - The conditional expression of the alert policy rule which evaluates to boolean value.
+* `key` - The unique key of the alert policy rule.
+* `state` - The current state of the alert policy rule.
+* `time_created` - Creation date and time of the alert policy rule, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

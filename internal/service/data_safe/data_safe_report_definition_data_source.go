@@ -117,6 +117,10 @@ func (s *DataSafeReportDefinitionDataSourceCrud) SetData() error {
 		s.D.Set("is_seeded", *s.Res.IsSeeded)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.ParentId != nil {
 		s.D.Set("parent_id", *s.Res.ParentId)
 	}

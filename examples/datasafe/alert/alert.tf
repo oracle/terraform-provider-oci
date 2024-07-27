@@ -35,7 +35,7 @@ variable "alert_freeform_tags" {
 variable "data_safe_alert_ocid" {}
 
 variable "alert_scim_query" {
-  default = "severity eq 'HIGH'"
+  default = ""
 }
 
 variable "alert_status" {
@@ -43,6 +43,8 @@ variable "alert_status" {
 }
 
 provider "oci" {
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -51,13 +53,21 @@ provider "oci" {
 }
 
 resource "oci_data_safe_alert" "test_alert" {
+
   #Required
   alert_id = var.data_safe_alert_ocid
+
 
   #Optional
   comment       = var.alert_comment
   freeform_tags = var.alert_freeform_tags
   status        = var.alert_status
+
+  lifecycle {
+    ignore_changes = [
+      feature_details, system_tags
+    ]
+  }
 }
 
 data "oci_data_safe_alerts" "test_alerts" {
@@ -70,4 +80,3 @@ data "oci_data_safe_alerts" "test_alerts" {
   id                        = var.data_safe_alert_ocid
   scim_query                = var.alert_scim_query
 }
-

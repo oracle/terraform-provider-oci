@@ -14,67 +14,13 @@ import (
 )
 
 func DataSafeAlertPolicyDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDataSafeAlertPolicy,
-		Schema: map[string]*schema.Schema{
-			"alert_policy_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"alert_policy_type": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"is_user_defined": {
-				Type:     schema.TypeBool,
-				Computed: true,
-			},
-			"severity": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["alert_policy_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(DataSafeAlertPolicyResource(), fieldMap, readSingularDataSafeAlertPolicy)
+
 }
 
 func readSingularDataSafeAlertPolicy(d *schema.ResourceData, m interface{}) error {
@@ -145,6 +91,10 @@ func (s *DataSafeAlertPolicyDataSourceCrud) SetData() error {
 		s.D.Set("is_user_defined", *s.Res.IsUserDefined)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	s.D.Set("severity", s.Res.Severity)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -163,52 +113,3 @@ func (s *DataSafeAlertPolicyDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-/*
-func AlertPolicySummaryToMap(obj oci_data_safe.AlertPolicySummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["alert_policy_type"] = string(obj.AlertPolicyType)
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	if obj.IsUserDefined != nil {
-		result["is_user_defined"] = bool(*obj.IsUserDefined)
-	}
-
-	result["severity"] = string(obj.Severity)
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeCreated != nil {
-		result["time_created"] = obj.TimeCreated.String()
-	}
-
-	if obj.TimeUpdated != nil {
-		result["time_updated"] = obj.TimeUpdated.String()
-	}
-
-	return result
-}
-
-*/

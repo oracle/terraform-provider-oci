@@ -84,6 +84,10 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	s.D.Set("mime_type", s.Res.MimeType)
 
 	if s.Res.ReportDefinitionId != nil {
@@ -104,45 +108,3 @@ func (s *DataSafeReportDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-/*
-func ReportSummaryToMap(obj oci_data_safe.ReportSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.CompartmentId != nil {
-		result["compartment_id"] = string(*obj.CompartmentId)
-	}
-
-	if obj.DefinedTags != nil {
-		result["defined_tags"] = definedTagsToMap(obj.DefinedTags)
-	}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.DisplayName != nil {
-		result["display_name"] = string(*obj.DisplayName)
-	}
-
-	result["freeform_tags"] = obj.FreeformTags
-
-	if obj.Id != nil {
-		result["id"] = string(*obj.Id)
-	}
-
-	result["mime_type"] = string(obj.MimeType)
-
-	if obj.ReportDefinitionId != nil {
-		result["report_definition_id"] = string(*obj.ReportDefinitionId)
-	}
-
-	result["state"] = string(obj.LifecycleState)
-
-	if obj.TimeGenerated != nil {
-		result["time_generated"] = obj.TimeGenerated.String()
-	}
-
-	return result
-}
-*/

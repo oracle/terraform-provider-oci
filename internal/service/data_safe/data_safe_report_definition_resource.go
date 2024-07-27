@@ -225,6 +225,10 @@ func DataSafeReportDefinitionResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"record_time_span": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -418,10 +422,6 @@ func (s *DataSafeReportDefinitionResourceCrud) Create() error {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
-
-	//if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-	//	request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	//}
 
 	if parentId, ok := s.D.GetOkExists("parent_id"); ok {
 		tmp := parentId.(string)
@@ -675,10 +675,6 @@ func (s *DataSafeReportDefinitionResourceCrud) Update() error {
 		request.DisplayName = &tmp
 	}
 
-	//if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-	//	request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	//}
-
 	tmp := s.D.Id()
 	request.ReportDefinitionId = &tmp
 
@@ -780,6 +776,10 @@ func (s *DataSafeReportDefinitionResourceCrud) SetData() error {
 
 	if s.Res.IsSeeded != nil {
 		s.D.Set("is_seeded", *s.Res.IsSeeded)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	if s.Res.ParentId != nil {

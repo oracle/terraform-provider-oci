@@ -67,6 +67,10 @@ func DataSafeReportResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"mime_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -158,7 +162,9 @@ func (s *DataSafeReportResourceCrud) ID() string {
 }
 
 func (s *DataSafeReportResourceCrud) CreatedPending() []string {
-	return []string{}
+	return []string{
+		string(oci_data_safe.ReportLifecycleStateCreating),
+	}
 }
 
 func (s *DataSafeReportResourceCrud) CreatedTarget() []string {
@@ -424,6 +430,10 @@ func (s *DataSafeReportResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
 
 	s.D.Set("mime_type", s.Res.MimeType)
 
