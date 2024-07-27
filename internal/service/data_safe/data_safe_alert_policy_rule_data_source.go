@@ -14,42 +14,16 @@ import (
 )
 
 func DataSafeAlertPolicyRuleDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularDataSafeAlertPolicyRule,
-		Schema: map[string]*schema.Schema{
-			"alert_policy_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"items": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"description": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"expression": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"key": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-		},
-		DeprecationMessage: tfresource.DatasourceDeprecatedForAnother("oci_data_safe_alert_policy_rule", "oci_data_safe_alert_policy_rules"),
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["alert_policy_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	fieldMap["rule_key"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
+	}
+	return tfresource.GetSingularDataSourceItemSchema(DataSafeAlertPolicyRuleResource(), fieldMap, readSingularDataSafeAlertPolicyRule)
 }
 
 func readSingularDataSafeAlertPolicyRule(d *schema.ResourceData, m interface{}) error {
@@ -63,7 +37,7 @@ func readSingularDataSafeAlertPolicyRule(d *schema.ResourceData, m interface{}) 
 type DataSafeAlertPolicyRuleDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_data_safe.DataSafeClient
-	Res    *oci_data_safe.ListAlertPolicyRulesResponse
+	Res    *oci_data_safe.GetAlertPolicyRuleResponse
 }
 
 func (s *DataSafeAlertPolicyRuleDataSourceCrud) VoidState() {
@@ -71,16 +45,21 @@ func (s *DataSafeAlertPolicyRuleDataSourceCrud) VoidState() {
 }
 
 func (s *DataSafeAlertPolicyRuleDataSourceCrud) Get() error {
-	request := oci_data_safe.ListAlertPolicyRulesRequest{}
+	request := oci_data_safe.GetAlertPolicyRuleRequest{}
 
 	if alertPolicyId, ok := s.D.GetOkExists("alert_policy_id"); ok {
 		tmp := alertPolicyId.(string)
 		request.AlertPolicyId = &tmp
 	}
 
+	if ruleKey, ok := s.D.GetOkExists("rule_key"); ok {
+		tmp := ruleKey.(string)
+		request.RuleKey = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
 
-	response, err := s.Client.ListAlertPolicyRules(context.Background(), request)
+	response, err := s.Client.GetAlertPolicyRule(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -96,11 +75,27 @@ func (s *DataSafeAlertPolicyRuleDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("DataSafeAlertPolicyRuleDataSource-", DataSafeAlertPolicyRuleDataSource(), s.D))
 
-	items := []interface{}{}
-	for _, item := range s.Res.Items {
-		items = append(items, AlertPolicyRuleSummaryToMap(item))
+	if s.Res.Description != nil {
+		s.D.Set("description", *s.Res.Description)
 	}
-	s.D.Set("items", items)
+
+	if s.Res.DisplayName != nil {
+		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.Expression != nil {
+		s.D.Set("expression", *s.Res.Expression)
+	}
+
+	if s.Res.Key != nil {
+		s.D.Set("key", *s.Res.Key)
+	}
+
+	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.TimeCreated != nil {
+		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
 
 	return nil
 }

@@ -27,7 +27,9 @@ var (
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"type":                      acctest.Representation{RepType: acctest.Optional, Create: `GENERATED`},
+		"time_generated_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedGreaterThanOrEqualTo`},
+		"time_generated_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedLessThan`},
+		"type":                                    acctest.Representation{RepType: acctest.Optional, Create: `GENERATED`},
 	}
 
 	DataSafeReportRepresentation = map[string]interface{}{
@@ -47,8 +49,6 @@ func TestDataSafeReportResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	//compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
-	//compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 	reportDefId := utils.GetEnvSettingWithBlankDefault("report_ocid")
 	reportDefIdVariableStr := fmt.Sprintf("variable \"report_ocid\" { default = \"%s\" }\n", reportDefId)
 

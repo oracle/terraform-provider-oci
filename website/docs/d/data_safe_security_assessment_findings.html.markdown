@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_data_safe_security_assessment_findings"
 sidebar_current: "docs-oci-datasource-data_safe-security_assessment_findings"
 description: |-
-  Provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service
+	Provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service
 ---
 
 # Data Source: oci_data_safe_security_assessment_findings
@@ -37,9 +37,9 @@ data "oci_data_safe_security_assessment_findings" "test_security_assessment_find
 
 The following arguments are supported:
 
-* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
-* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
-* `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings. 
+* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
+* `finding_key` - (Optional) Each finding in security assessment has an associated key (think of key as a finding's name). For a given finding, the key will be the same across targets. The user can use these keys to filter the findings.
 * `is_top_finding` - (Optional) A filter to return only the findings that are marked as top findings.
 * `references` - (Optional) An optional filter to return only findings containing the specified reference.
 * `security_assessment_id` - (Required) The OCID of the security assessment.
@@ -78,7 +78,6 @@ The following attributes are exported:
 * `state` - The current state of the finding.
 * `summary` - The brief summary of the finding. When the finding is informational, the summary typically reports only the number of data elements that were examined.
 * `target_id` - The OCID of the target database.
-* `time_updated` - The date and time the risk level of finding was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+* `time_updated` - The date and time the risk level of finding was last updated, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_valid_until` - The time until which the change in severity(deferred / modified) of this finding is valid.
 * `title` - The short title for the finding.
-

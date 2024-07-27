@@ -30,27 +30,7 @@ func DataSafeAlertPolicyRulesDataSource() *schema.Resource {
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"description": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"expression": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"key": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     DataSafeAlertPolicyRuleResource(),
 						},
 					},
 				},
@@ -119,7 +99,7 @@ func (s *DataSafeAlertPolicyRulesDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, datasafeAlertPolicyRuleSummaryToMap(item))
+		items = append(items, AlertPolicyRuleSummaryToMap(item))
 	}
 	alertPolicyRule["items"] = items
 
@@ -135,30 +115,15 @@ func (s *DataSafeAlertPolicyRulesDataSourceCrud) SetData() error {
 
 	return nil
 }
-
-func datasafeAlertPolicyRuleSummaryToMap(obj oci_data_safe.AlertPolicyRuleSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Description != nil {
-		result["description"] = string(*obj.Description)
-	}
-
-	if obj.Expression != nil {
-		result["expression"] = string(*obj.Expression)
-	}
-
-	if obj.Key != nil {
-		result["key"] = string(*obj.Key)
-	}
-
-	return result
-}
-
 func AlertPolicyRuleSummaryToMap(obj oci_data_safe.AlertPolicyRuleSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
+	}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
 	}
 
 	if obj.Expression != nil {

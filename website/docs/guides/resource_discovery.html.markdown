@@ -595,6 +595,8 @@ data_safe
 * oci\_data\_safe\_alert
 * oci\_data\_safe\_audit\_archive\_retrieval
 * oci\_data\_safe\_audit\_profile
+* oci\_data\_safe\_alert\_policy\_rule
+* oci\_data\_safe\_alert\_policy
 * oci\_data\_safe\_audit\_policy
 * oci\_data\_safe\_target\_alert\_policy\_association
 * oci\_data\_safe\_report

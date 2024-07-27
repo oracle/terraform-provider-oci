@@ -88,6 +88,10 @@ func (s *DataSafeTargetAlertPolicyAssociationDataSourceCrud) SetData() error {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.PolicyId != nil {
 		s.D.Set("policy_id", *s.Res.PolicyId)
 	}
