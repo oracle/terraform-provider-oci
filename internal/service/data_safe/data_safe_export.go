@@ -1,3 +1,6 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
 package data_safe
 
 import (
@@ -9,11 +12,24 @@ import (
 )
 
 func init() {
+	exportDataSafeAlertPolicyRuleHints.GetIdFn = getDataSafeAlertPolicyRuleId
 	exportDataSafeMaskingPoliciesMaskingColumnHints.GetIdFn = getDataSafeMaskingPoliciesMaskingColumnId
 	exportDataSafeSensitiveDataModelsSensitiveColumnHints.GetIdFn = getDataSafeSensitiveDataModelsSensitiveColumnId
+
 	exportDataSafeTargetDatabasePeerTargetDatabaseHints.GetIdFn = getDataSafeTargetDatabasePeerTargetDatabaseId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
+
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
+}
+
+func getDataSafeTargetDatabasePeerTargetDatabaseId(resource *tf_export.OCIResource) (string, error) {
+
+	peerTargetDatabaseId, ok := resource.SourceAttributes["peer_target_database_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find peerTargetDatabaseId for DataSafe TargetDatabasePeerTargetDatabase")
+	}
+	targetDatabaseId := resource.Parent.Id
+	return GetTargetDatabasePeerTargetDatabaseCompositeId(peerTargetDatabaseId, targetDatabaseId), nil
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
@@ -25,6 +41,16 @@ func getDataSafeDiscoveryJobsResultId(resource *tf_export.OCIResource) (string, 
 		return "", fmt.Errorf("[ERROR] unable to find resultKey for DataSafe DiscoveryJobsResult")
 	}
 	return GetDiscoveryJobsResultCompositeId(discoveryJobId, resultKey), nil
+}
+
+func getDataSafeAlertPolicyRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	alertPolicyId := resource.Parent.Id
+	ruleKey, ok := resource.SourceAttributes["key"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find ruleKey for DataSafe AlertPolicyRule")
+	}
+	return GetAlertPolicyRuleCompositeId(alertPolicyId, ruleKey), nil
 }
 
 func getDataSafeMaskingPoliciesMaskingColumnId(resource *tf_export.OCIResource) (string, error) {
@@ -45,16 +71,6 @@ func getDataSafeSensitiveDataModelsSensitiveColumnId(resource *tf_export.OCIReso
 	}
 	sensitiveDataModelId := resource.Parent.Id
 	return GetSensitiveDataModelsSensitiveColumnCompositeId(sensitiveColumnKey, sensitiveDataModelId), nil
-}
-
-func getDataSafeTargetDatabasePeerTargetDatabaseId(resource *tf_export.OCIResource) (string, error) {
-
-	peerTargetDatabaseId, ok := resource.SourceAttributes["peer_target_database_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find peerTargetDatabaseId for DataSafe TargetDatabasePeerTargetDatabase")
-	}
-	targetDatabaseId := resource.Parent.Id
-	return GetTargetDatabasePeerTargetDatabaseCompositeId(peerTargetDatabaseId, targetDatabaseId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -178,6 +194,30 @@ var exportDataSafeAuditProfileHints = &tf_export.TerraformResourceHints{
 	DiscoverableLifecycleStates: []string{
 		string(oci_data_safe.AuditProfileLifecycleStateActive),
 		string(oci_data_safe.AuditProfileLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDataSafeAlertPolicyRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_alert_policy_rule",
+	DatasourceClass:        "oci_data_safe_alert_policy_rules",
+	DatasourceItemsAttr:    "alert_policy_rule_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "alert_policy_rule",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.AlertPolicyRuleLifecycleStateActive),
+	},
+}
+
+var exportDataSafeAlertPolicyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_data_safe_alert_policy",
+	DatasourceClass:        "oci_data_safe_alert_policies",
+	DatasourceItemsAttr:    "alert_policy_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "alert_policy",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_data_safe.AlertPolicyLifecycleStateActive),
 	},
 }
 
@@ -350,6 +390,7 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeAlertHints},
 		{TerraformResourceHints: exportDataSafeAuditArchiveRetrievalHints},
 		{TerraformResourceHints: exportDataSafeAuditProfileHints},
+		{TerraformResourceHints: exportDataSafeAlertPolicyHints},
 		{TerraformResourceHints: exportDataSafeAuditPolicyHints},
 		{TerraformResourceHints: exportDataSafeTargetAlertPolicyAssociationHints},
 		{TerraformResourceHints: exportDataSafeReportHints},
@@ -359,6 +400,14 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDataSafeSensitiveDataModelHints},
 		{TerraformResourceHints: exportDataSafeDiscoveryJobHints},
 		{TerraformResourceHints: exportDataSafeSdmMaskingPolicyDifferenceHints},
+	},
+	"oci_data_safe_alert_policy": {
+		{
+			TerraformResourceHints: exportDataSafeAlertPolicyRuleHints,
+			DatasourceQueryParams: map[string]string{
+				"alert_policy_id": "id",
+			},
+		},
 	},
 	"oci_data_safe_target_database": {
 		{

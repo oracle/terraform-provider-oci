@@ -66,6 +66,7 @@ The following attributes are exported:
 * `display_name` - Name of the report.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the report.
+* `lifecycle_details` - Details about the current state of the report in Data Safe.
 * `mime_type` - Specifies the format of report to be .xls or .pdf or .json
 * `report_definition_id` - The OCID of the report definition.
 * `state` - The current state of the audit report.

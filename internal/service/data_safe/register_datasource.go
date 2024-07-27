@@ -35,7 +35,9 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_configuration", DataSafeDataSafeConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_private_endpoint", DataSafeDataSafePrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_private_endpoints", DataSafeDataSafePrivateEndpointsDataSource())
+
 	tfresource.RegisterDatasource("oci_data_safe_discovery_analytic", DataSafeDiscoveryAnalyticDataSource())
+
 	tfresource.RegisterDatasource("oci_data_safe_discovery_analytics", DataSafeDiscoveryAnalyticsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_discovery_job", DataSafeDiscoveryJobDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_discovery_jobs", DataSafeDiscoveryJobsDataSource())
@@ -79,6 +81,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_security_assessment_security_features", DataSafeSecurityAssessmentSecurityFeaturesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_assessment_findings_change_audit_logs", DataSafeSecurityAssessmentFindingsChangeAuditLogsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_assessments", DataSafeSecurityAssessmentsDataSource())
+
 	tfresource.RegisterDatasource("oci_data_safe_security_policies", DataSafeSecurityPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policy", DataSafeSecurityPolicyDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policy_deployment", DataSafeSecurityPolicyDeploymentDataSource())
@@ -92,6 +95,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_security_policy_report_database_view_access_entry", DataSafeSecurityPolicyReportDatabaseViewAccessEntryDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policy_report_role_grant_paths", DataSafeSecurityPolicyReportRoleGrantPathsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_security_policy_reports", DataSafeSecurityPolicyReportsDataSource())
+
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model", DataSafeSensitiveDataModelDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model_sensitive_objects", DataSafeSensitiveDataModelSensitiveObjectsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_sensitive_data_model_sensitive_schemas", DataSafeSensitiveDataModelSensitiveSchemasDataSource())

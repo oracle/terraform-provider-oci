@@ -84,6 +84,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the report definition.
 * `is_seeded` - Signifies whether the definition is seeded or user defined. Values can either be 'true' or 'false'.
+* `lifecycle_details` - Details about the current state of the report definition in Data Safe.
 * `parent_id` - The OCID of the parent report definition. In the case of seeded report definition, this is same as definition OCID.
 * `record_time_span` - The time span for the records in the report to be scheduled. <period-value><period> Allowed period strings - "H","D","M","Y" Each of the above fields potentially introduce constraints. A workRequest is created only when period-value satisfies all the constraints. Constraints introduced: 1. period = H (The allowed range for period-value is [1, 23]) 2. period = D (The allowed range for period-value is [1, 30]) 3. period = M (The allowed range for period-value is [1, 11]) 4. period = Y (The minimum period-value is 1) 
 * `schedule` - The schedule to generate the report periodically in the specified format: <version-string>;<version-specific-schedule>

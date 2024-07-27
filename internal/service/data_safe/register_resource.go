@@ -7,6 +7,8 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_alert", DataSafeAlertResource())
+	tfresource.RegisterResource("oci_data_safe_alert_policy", DataSafeAlertPolicyResource())
+	tfresource.RegisterResource("oci_data_safe_alert_policy_rule", DataSafeAlertPolicyRuleResource())
 	tfresource.RegisterResource("oci_data_safe_audit_archive_retrieval", DataSafeAuditArchiveRetrievalResource())
 	tfresource.RegisterResource("oci_data_safe_audit_policy", DataSafeAuditPolicyResource())
 	tfresource.RegisterResource("oci_data_safe_audit_policy_management", DataSafeAuditPolicyManagementResource())
@@ -25,8 +27,6 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_masking_policies_masking_column", DataSafeMaskingPoliciesMaskingColumnResource())
 	tfresource.RegisterResource("oci_data_safe_masking_policy", DataSafeMaskingPolicyResource())
 	tfresource.RegisterResource("oci_data_safe_on_prem_connector", DataSafeOnPremConnectorResource())
-	tfresource.RegisterResource("oci_data_safe_masking_report_management", DataSafeMaskingReportManagementResource())
-	tfresource.RegisterResource("oci_data_safe_masking_policy_health_report_management", DataSafeMaskingPolicyHealthReportManagementResource())
 	tfresource.RegisterResource("oci_data_safe_report", DataSafeReportResource())
 	tfresource.RegisterResource("oci_data_safe_report_definition", DataSafeReportDefinitionResource())
 	tfresource.RegisterResource("oci_data_safe_sdm_masking_policy_difference", DataSafeSdmMaskingPolicyDifferenceResource())
@@ -38,9 +38,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_data_safe_sensitive_data_model", DataSafeSensitiveDataModelResource())
 	tfresource.RegisterResource("oci_data_safe_sensitive_data_models_sensitive_column", DataSafeSensitiveDataModelsSensitiveColumnResource())
 	tfresource.RegisterResource("oci_data_safe_sensitive_type", DataSafeSensitiveTypeResource())
-	tfresource.RegisterResource("oci_data_safe_set_security_assessment_baseline_management", DataSafeSetSecurityAssessmentBaselineManagementResource())
 	tfresource.RegisterResource("oci_data_safe_set_security_assessment_baseline", DataSafeSetSecurityAssessmentBaselineResource())
-	tfresource.RegisterResource("oci_data_safe_set_user_assessment_baseline_management", DataSafeSetUserAssessmentBaselineManagementResource())
 	tfresource.RegisterResource("oci_data_safe_set_user_assessment_baseline", DataSafeSetUserAssessmentBaselineResource())
 	tfresource.RegisterResource("oci_data_safe_sql_collection", DataSafeSqlCollectionResource())
 	tfresource.RegisterResource("oci_data_safe_sql_firewall_policy", DataSafeSqlFirewallPolicyResource())

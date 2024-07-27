@@ -31,15 +31,15 @@ set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
 
 ```hcl
 data "oci_data_safe_user_assessment_profile_analytics" "test_user_assessment_profile_analytics" {
-	#Required
-	compartment_id = var.compartment_id
-	user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
+  #Required
+  compartment_id = var.compartment_id
+  user_assessment_id = oci_data_safe_user_assessment.test_user_assessment.id
 
-	#Optional
-	access_level = var.user_assessment_profile_analytic_access_level
-	compartment_id_in_subtree = var.user_assessment_profile_analytic_compartment_id_in_subtree
-	profile_name = oci_optimizer_profile.test_profile.name
-	target_id = oci_cloud_guard_target.test_target.id
+  #Optional
+  access_level = var.user_assessment_profile_analytic_access_level
+  compartment_id_in_subtree = var.user_assessment_profile_analytic_compartment_id_in_subtree
+  profile_name = oci_optimizer_profile.test_profile.name
+  target_id = oci_cloud_guard_target.test_target.id
 }
 ```
 
@@ -47,9 +47,9 @@ data "oci_data_safe_user_assessment_profile_analytics" "test_user_assessment_pro
 
 The following arguments are supported:
 
-* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed. 
+* `access_level` - (Optional) Valid values are RESTRICTED and ACCESSIBLE. Default is RESTRICTED. Setting this to ACCESSIBLE returns only those compartments for which the user has INSPECT permissions directly or indirectly (permissions can be on a resource in a subcompartment). When set to RESTRICTED permissions are checked and no partial results are displayed.
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
-* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
+* `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting.
 * `profile_name` - (Optional) A filter to return only items that match the specified profile name.
 * `target_id` - (Optional) A filter to return only items related to a specific target OCID.
 * `user_assessment_id` - (Required) The OCID of the user assessment.
@@ -65,7 +65,6 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
 * `items` - The array of profile aggregation data.
-
