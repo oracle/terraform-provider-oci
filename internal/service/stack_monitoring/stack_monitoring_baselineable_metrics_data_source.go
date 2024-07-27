@@ -26,6 +26,10 @@ func StackMonitoringBaselineableMetricsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_out_of_box": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"metric_namespace": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -35,6 +39,10 @@ func StackMonitoringBaselineableMetricsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"resource_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -87,6 +95,11 @@ func (s *StackMonitoringBaselineableMetricsDataSourceCrud) Get() error {
 		request.CompartmentId = &tmp
 	}
 
+	if isOutOfBox, ok := s.D.GetOkExists("is_out_of_box"); ok {
+		tmp := isOutOfBox.(bool)
+		request.IsOutOfBox = &tmp
+	}
+
 	if metricNamespace, ok := s.D.GetOkExists("metric_namespace"); ok {
 		tmp := metricNamespace.(string)
 		request.MetricNamespace = &tmp
@@ -100,6 +113,11 @@ func (s *StackMonitoringBaselineableMetricsDataSourceCrud) Get() error {
 	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
 		tmp := resourceGroup.(string)
 		request.ResourceGroup = &tmp
+	}
+
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		tmp := resourceType.(string)
+		request.ResourceType = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "stack_monitoring")

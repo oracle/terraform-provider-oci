@@ -19,9 +19,12 @@ resource "oci_stack_monitoring_baselineable_metric" "test_baselineable_metric" {
 	#Required
 	column = var.baselineable_metric_column
 	compartment_id = var.compartment_id
-	name = var.baselineable_metric_name
 	namespace = var.baselineable_metric_namespace
+
+	#Optional
+	name = var.baselineable_metric_name
 	resource_group = var.baselineable_metric_resource_group
+	resource_type = var.baselineable_metric_resource_type
 }
 ```
 
@@ -31,9 +34,10 @@ The following arguments are supported:
 
 * `column` - (Required) (Updatable) metric column name
 * `compartment_id` - (Required) (Updatable) OCID of the compartment
-* `name` - (Required) (Updatable) name of the metric
+* `name` - (Optional) (Updatable) name of the metric
 * `namespace` - (Required) (Updatable) namespace of the metric
-* `resource_group` - (Required) (Updatable) Resource group of the metric
+* `resource_group` - (Optional) (Updatable) Resource group of the metric
+* `resource_type` - (Optional) (Updatable) Resource type of the metric
 
 
 ** IMPORTANT **
@@ -54,6 +58,7 @@ The following attributes are exported:
 * `name` - name of the metric
 * `namespace` - namespace of the metric
 * `resource_group` - Resource group of the metric
+* `resource_type` - Resource type of the metric
 * `state` - The current lifecycle state of the metric extension
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenancy_id` - OCID of the tenancy

@@ -34,20 +34,27 @@ func StackMonitoringBaselineableMetricResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"name": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
 			"namespace": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			"resource_group": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
 
 			// Optional
+			"name": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"resource_group": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"resource_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"created_by": {
@@ -189,6 +196,11 @@ func (s *StackMonitoringBaselineableMetricResourceCrud) Create() error {
 		request.ResourceGroup = &tmp
 	}
 
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		tmp := resourceType.(string)
+		request.ResourceType = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "stack_monitoring")
 
 	response, err := s.Client.CreateBaselineableMetric(context.Background(), request)
@@ -266,6 +278,11 @@ func (s *StackMonitoringBaselineableMetricResourceCrud) Update() error {
 	if resourceGroup, ok := s.D.GetOkExists("resource_group"); ok {
 		tmp := resourceGroup.(string)
 		request.ResourceGroup = &tmp
+	}
+
+	if resourceType, ok := s.D.GetOkExists("resource_type"); ok {
+		tmp := resourceType.(string)
+		request.ResourceType = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
@@ -347,6 +364,10 @@ func (s *StackMonitoringBaselineableMetricResourceCrud) SetData() error {
 		s.D.Set("resource_group", *s.Res.ResourceGroup)
 	}
 
+	if s.Res.ResourceType != nil {
+		s.D.Set("resource_type", *s.Res.ResourceType)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -403,6 +424,10 @@ func BaselineableMetricSummaryToMap(obj oci_stack_monitoring.BaselineableMetricS
 
 	if obj.ResourceGroup != nil {
 		result["resource_group"] = string(*obj.ResourceGroup)
+	}
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
 	}
 
 	result["state"] = string(obj.LifecycleState)
