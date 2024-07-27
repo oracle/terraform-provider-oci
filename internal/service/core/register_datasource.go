@@ -84,6 +84,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_instance_console_connections", CoreInstanceConsoleConnectionsDataSource())
 	tfresource.RegisterDatasource("oci_core_instance_credentials", CoreInstanceCredentialDataSource())
 	tfresource.RegisterDatasource("oci_core_instance_devices", CoreInstanceDevicesDataSource())
+	tfresource.RegisterDatasource("oci_core_instance_maintenance_event", CoreInstanceMaintenanceEventDataSource())
+	tfresource.RegisterDatasource("oci_core_instance_maintenance_events", CoreInstanceMaintenanceEventsDataSource())
 	tfresource.RegisterDatasource("oci_core_instance_maintenance_reboot", CoreInstanceMaintenanceRebootDataSource())
 	tfresource.RegisterDatasource("oci_core_instance_measured_boot_report", CoreInstanceMeasuredBootReportDataSource())
 	tfresource.RegisterDatasource("oci_core_instance_pool", CoreInstancePoolDataSource())
