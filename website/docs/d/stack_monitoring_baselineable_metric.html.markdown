@@ -43,6 +43,7 @@ The following attributes are exported:
 * `name` - name of the metric
 * `namespace` - namespace of the metric
 * `resource_group` - Resource group of the metric
+* `resource_type` - Resource type of the metric
 * `state` - The current lifecycle state of the metric extension
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `tenancy_id` - OCID of the tenancy

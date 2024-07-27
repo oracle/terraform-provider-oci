@@ -104,6 +104,10 @@ func (s *StackMonitoringBaselineableMetricDataSourceCrud) SetData() error {
 		s.D.Set("resource_group", *s.Res.ResourceGroup)
 	}
 
+	if s.Res.ResourceType != nil {
+		s.D.Set("resource_type", *s.Res.ResourceType)
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

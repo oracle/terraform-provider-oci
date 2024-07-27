@@ -25,8 +25,17 @@ import (
 )
 
 var (
+	StackMonitoringBaselineableMetricRequiredOnlyResource = StackMonitoringBaselineableMetricResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_stack_monitoring_baselineable_metric",
+			"test_baselineable_metric", acctest.Required, acctest.Create,
+			StackMonitoringBaselineableMetricRepresentation)
+
 	StackMonitoringBaselineableMetricResourceConfig = StackMonitoringBaselineableMetricResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_baselineable_metric", "test_baselineable_metric", acctest.Optional, acctest.Update, StackMonitoringBaselineableMetricRepresentation)
+		acctest.GenerateResourceFromRepresentationMap(
+			"oci_stack_monitoring_baselineable_metric",
+			"test_baselineable_metric", acctest.Optional, acctest.Update,
+			StackMonitoringBaselineableMetricRepresentation)
 
 	StackMonitoringBaselineableMetricSingularDataSourceRepresentation = map[string]interface{}{
 		"baselineable_metric_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_baselineable_metric.test_baselineable_metric.id}`},
@@ -35,10 +44,13 @@ var (
 	StackMonitoringBaselineableMetricDataSourceRepresentation = map[string]interface{}{
 		"baselineable_metric_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_stack_monitoring_baselineable_metric.test_baselineable_metric.id}`},
 		"compartment_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"is_out_of_box":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"metric_namespace":       acctest.Representation{RepType: acctest.Optional, Create: `metricNamespace`},
 		"name":                   acctest.Representation{RepType: acctest.Optional, Create: `CPU`, Update: `name2`},
 		"resource_group":         acctest.Representation{RepType: acctest.Optional, Create: `oracle_database`, Update: `resourceGroup2`},
+		"resource_type":          acctest.Representation{RepType: acctest.Optional, Update: `oracle_database_type`},
 		"filter":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringBaselineableMetricDataSourceFilterRepresentation}}
+
 	StackMonitoringBaselineableMetricDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_stack_monitoring_baselineable_metric.test_baselineable_metric.id}`}},
@@ -47,11 +59,13 @@ var (
 	StackMonitoringBaselineableMetricRepresentation = map[string]interface{}{
 		"column":         acctest.Representation{RepType: acctest.Required, Create: `CPUUtilization`, Update: `column2`},
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `CPU`, Update: `name2`},
 		"namespace":      acctest.Representation{RepType: acctest.Required, Create: `oracle_appmgmt`, Update: `namespace2`},
-		"resource_group": acctest.Representation{RepType: acctest.Required, Create: `oracle_database`, Update: `resourceGroup2`},
+		"name":           acctest.Representation{RepType: acctest.Optional, Create: `CPU`, Update: `name2`},
+		"resource_group": acctest.Representation{RepType: acctest.Optional, Create: `oracle_database`, Update: `resourceGroup2`},
+		"resource_type":  acctest.Representation{RepType: acctest.Optional, Update: `oracle_database_type`},
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSensitiveBaselineableMetricRepresentation},
 	}
+
 	//Get API does not return sensitive data, it returns null
 	ignoreSensitiveBaselineableMetricRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`}},
@@ -75,9 +89,9 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 	singularDatasourceName := "data.oci_stack_monitoring_baselineable_metric.test_baselineable_metric"
 
 	var resId, resId2 string
-	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringBaselineableMetricResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_baselineable_metric", "test_baselineable_metric", acctest.Required, acctest.Create, StackMonitoringBaselineableMetricRepresentation), "stackmonitoring", "baselineableMetric", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_baselineable_metric", "test_baselineable_metric", acctest.Optional, acctest.Create, StackMonitoringBaselineableMetricRepresentation), "stackmonitoring", "baselineableMetric", t)
 
 	acctest.ResourceTest(t, testAccCheckStackMonitoringBaselineableMetricDestroy, []resource.TestStep{
 		// verify Create
@@ -87,9 +101,35 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column", "CPUUtilization"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "namespace", "oracle_appmgmt"),
+				resource.TestCheckResourceAttr(resourceName, "name", "oracle_appmgmt.CPUUtilization"),
+				resource.TestCheckResourceAttr(resourceName, "resource_group", "NOT_APPLICABLE"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "NOT_APPLICABLE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringBaselineableMetricResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringBaselineableMetricResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_baselineable_metric", "test_baselineable_metric", acctest.Optional, acctest.Create, StackMonitoringBaselineableMetricRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "column", "CPUUtilization"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_out_of_box"),
 				resource.TestCheckResourceAttr(resourceName, "name", "CPU"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "oracle_appmgmt"),
 				resource.TestCheckResourceAttr(resourceName, "resource_group", "oracle_database"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "oracle_database"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -115,6 +155,7 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(resourceName, "namespace", "namespace2"),
 				resource.TestCheckResourceAttr(resourceName, "resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "oracle_database_type"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -134,9 +175,11 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "baselineable_metric_id"),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "is_out_of_box", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "metric_namespace", "metricNamespace"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(datasourceName, "resource_type", "oracle_database_type"),
 
 				resource.TestCheckResourceAttr(datasourceName, "baselineable_metric_summary_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "baselineable_metric_summary_collection.0.items.#", "0"),
@@ -159,6 +202,7 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "namespace", "namespace2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_group", "resourceGroup2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "oracle_database_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "tenancy_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -167,7 +211,7 @@ func TestStackMonitoringBaselineableMetricResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:                  config + StackMonitoringBaselineableMetricResourceConfig,
+			Config:                  config + StackMonitoringBaselineableMetricRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
 			ImportStateVerifyIgnore: []string{},
