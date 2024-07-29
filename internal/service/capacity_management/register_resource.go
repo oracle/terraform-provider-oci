@@ -8,4 +8,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_capacity_management_occ_availability_catalog", CapacityManagementOccAvailabilityCatalogResource())
 	tfresource.RegisterResource("oci_capacity_management_occ_capacity_request", CapacityManagementOccCapacityRequestResource())
+	tfresource.RegisterResource("oci_capacity_management_occ_customer_group", CapacityManagementOccCustomerGroupResource())
+	tfresource.RegisterResource("oci_capacity_management_occ_customer_group_occ_customer", CapacityManagementOccCustomerGroupOccCustomerResource())
 }

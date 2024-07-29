@@ -49,13 +49,16 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - An array of capacity constraints.
-	* `available_quantity` - The quantity of available resource that the customer can request.
+	* `available_quantity` - The quantity of resource currently available that the customer can request.
 	* `catalog_id` - The OCID of the availability catalog.
 	* `date_expected_capacity_handover` - The date by which the capacity requested by customers before dateFinalCustomerOrder needs to be fulfilled.
 	* `date_final_customer_order` - The date by which the customer must place the order to have their capacity requirements met by the customer handover date.
+	* `demanded_quantity` - The quantity of resource currently demanded by the customer.
 	* `namespace` - The name of the Oracle Cloud Infrastructure service in consideration. For example, Compute, Exadata, and so on. 
 	* `resource_name` - The name of the resource that the customer can request.
 	* `resource_type` - The different types of resources against which customers can place capacity requests.
+	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+	* `total_available_quantity` - The total quantity of resource that the customer can request.
 	* `unit` - The unit in which the resource available is measured.
 	* `workload_type` - The type of workload (Generic/ROW).
 

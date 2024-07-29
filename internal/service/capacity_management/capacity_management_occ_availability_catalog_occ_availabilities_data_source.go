@@ -74,6 +74,10 @@ func CapacityManagementOccAvailabilityCatalogOccAvailabilitiesDataSource() *sche
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"demanded_quantity": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"namespace": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -83,6 +87,15 @@ func CapacityManagementOccAvailabilityCatalogOccAvailabilitiesDataSource() *sche
 										Computed: true,
 									},
 									"resource_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"total_available_quantity": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
