@@ -18,13 +18,13 @@ An internal api to list availability catalogs.
 data "oci_capacity_management_internal_occ_availability_catalogs" "test_internal_occ_availability_catalogs" {
 	#Required
 	compartment_id = var.compartment_id
+	occ_customer_group_id = oci_capacity_management_occ_customer_group.test_occ_customer_group.id
 
 	#Optional
 	catalog_state = var.internal_occ_availability_catalog_catalog_state
 	display_name = var.internal_occ_availability_catalog_display_name
 	id = var.internal_occ_availability_catalog_id
 	namespace = var.internal_occ_availability_catalog_namespace
-	occ_customer_group_id = oci_capacity_management_occ_customer_group.test_occ_customer_group.id
 }
 ```
 
@@ -37,7 +37,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only the resources that match the entire display name. The match is not case sensitive.
 * `id` - (Optional) The OCID of the availability catalog to filter the list of availability catalogs.
 * `namespace` - (Optional) The namespace by which we would filter the list.
-* `occ_customer_group_id` - (Optional) The customer group ocid by which we would filter the list.
+* `occ_customer_group_id` - (Required) The customer group ocid by which we would filter the list.
 
 
 ## Attributes Reference
@@ -55,7 +55,7 @@ The following attributes are exported:
 	* `compartment_id` - The OCID of the tenancy where the availability catalog resides.
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `description` - Text information about the availability catalog.
-	* `display_name` - An user-friendly name for the availability catalog. Does not have to be unique, and it's changeable. Avoid entering confidential information.
+	* `display_name` - An user-friendly name for the availability catalog. Does not have to be unique, and is changeable. Avoid entering confidential information.
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `id` - The OCID of the availability catalog.
 	* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed State.

@@ -119,6 +119,8 @@ func (s *CapacityManagementOccCapacityRequestDataSourceCrud) SetData() error {
 
 	s.D.Set("request_state", s.Res.RequestState)
 
+	s.D.Set("request_type", s.Res.RequestType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {

@@ -57,7 +57,7 @@ variable "occ_availability_catalog_id" {
 }
 
 variable "occ_capacity_request_availability_domain" {
-  default = "US-ASHBURN-1-AD-2"
+  default = "US-ASHBURN-1-AD-1"
 }
 
 variable "occ_capacity_request_date_expected_capacity_handover" {
@@ -97,7 +97,7 @@ variable "occ_capacity_request_details_resource_type" {
 }
 
 variable "occ_capacity_request_details_workload_type" {
-  default = "GENERIC"
+  default = "US_PROD"
 }
 
 variable "occ_capacity_request_display_name" {
@@ -190,7 +190,7 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
   compartment_id                  = var.customer_compartment_id
 #  date_expected_capacity_handover = lookup(data.oci_capacity_management_occ_availability_catalog_occ_availabilities.published_occ_availability_catalog_occ_availabilities.occ_availability_collection.0.items[0], "date_expected_capacity_handover")
 #  date_expected_capacity_handover = formatdate("YYYY-MM-DDTHH:MM:SSZ",data.oci_capacity_management_occ_availability_catalog_occ_availabilities.published_occ_availability_catalog_occ_availabilities.occ_availability_collection.0.items[0].date_expected_capacity_handover)
-   date_expected_capacity_handover = "2124-06-04T00:00:00.00Z"
+   date_expected_capacity_handover = "2124-06-15T00:00:00.00Z"
 
   details {
     #Required

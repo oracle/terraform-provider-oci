@@ -11,6 +11,18 @@ func init() {
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportCapacityManagementOccCustomerGroupHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_capacity_management_occ_customer_group",
+	DatasourceClass:        "oci_capacity_management_occ_customer_groups",
+	DatasourceItemsAttr:    "occ_customer_group_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "occ_customer_group",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_capacity_management.OccCustomerGroupLifecycleStateActive),
+	},
+}
+
 var exportCapacityManagementOccAvailabilityCatalogHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_capacity_management_occ_availability_catalog",
 	DatasourceClass:        "oci_capacity_management_occ_availability_catalogs",
@@ -48,6 +60,7 @@ var exportCapacityManagementInternalOccCapacityRequestHints = &tf_export.Terrafo
 
 var capacityManagementResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportCapacityManagementOccCustomerGroupHints},
 		{TerraformResourceHints: exportCapacityManagementInternalOccCapacityRequestHints},
 		{TerraformResourceHints: exportCapacityManagementOccAvailabilityCatalogHints},
 		{TerraformResourceHints: exportCapacityManagementOccCapacityRequestHints},

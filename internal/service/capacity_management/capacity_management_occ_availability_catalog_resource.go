@@ -126,6 +126,10 @@ func CapacityManagementOccAvailabilityCatalogResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"demanded_quantity": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"namespace": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -135,6 +139,15 @@ func CapacityManagementOccAvailabilityCatalogResource() *schema.Resource {
 							Computed: true,
 						},
 						"resource_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"total_available_quantity": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -531,6 +544,10 @@ func OccAvailabilitySummaryToMap(obj oci_capacity_management.OccAvailabilitySumm
 		result["date_final_customer_order"] = obj.DateFinalCustomerOrder.String()
 	}
 
+	if obj.DemandedQuantity != nil {
+		result["demanded_quantity"] = strconv.FormatInt(*obj.DemandedQuantity, 10)
+	}
+
 	result["namespace"] = string(obj.Namespace)
 
 	if obj.ResourceName != nil {
@@ -539,6 +556,14 @@ func OccAvailabilitySummaryToMap(obj oci_capacity_management.OccAvailabilitySumm
 
 	if obj.ResourceType != nil {
 		result["resource_type"] = string(*obj.ResourceType)
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TotalAvailableQuantity != nil {
+		result["total_available_quantity"] = strconv.FormatInt(*obj.TotalAvailableQuantity, 10)
 	}
 
 	if obj.Unit != nil {

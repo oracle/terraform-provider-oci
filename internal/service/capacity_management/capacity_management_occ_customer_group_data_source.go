@@ -14,96 +14,12 @@ import (
 )
 
 func CapacityManagementOccCustomerGroupDataSource() *schema.Resource {
-	return &schema.Resource{
-		Read: readSingularCapacityManagementOccCustomerGroup,
-		Schema: map[string]*schema.Schema{
-			"occ_customer_group_id": {
-				Type:     schema.TypeString,
-				Required: true,
-			},
-			// Computed
-			"compartment_id": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"customers_list": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"description": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"occ_customer_group_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"status": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"tenancy_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"defined_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"description": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"display_name": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"freeform_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"lifecycle_details": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"status": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"system_tags": {
-				Type:     schema.TypeMap,
-				Computed: true,
-				Elem:     schema.TypeString,
-			},
-			"time_created": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"time_updated": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-		},
+	fieldMap := make(map[string]*schema.Schema)
+	fieldMap["occ_customer_group_id"] = &schema.Schema{
+		Type:     schema.TypeString,
+		Required: true,
 	}
+	return tfresource.GetSingularDataSourceItemSchema(CapacityManagementOccCustomerGroupResource(), fieldMap, readSingularCapacityManagementOccCustomerGroup)
 }
 
 func readSingularCapacityManagementOccCustomerGroup(d *schema.ResourceData, m interface{}) error {

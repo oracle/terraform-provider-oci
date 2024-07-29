@@ -39,12 +39,17 @@ The following attributes are exported:
 * `description` - Meaningful text about the capacity request.
 * `details` - A list of resources requested as part of this request
 	* `actual_handover_quantity` - The actual handed over quantity of resources at the time of request resolution.
+	* `associated_occ_handover_resource_block_list` - A list containing details about occHandoverResourceBlocks which were handed over for the corresponding resource name. 
+		* `handover_quantity` - The total quantity of the resource that was made available to the customer as part of this resource block 
+		* `occ_handover_resource_block_id` - The OCID of the handed over resource block. 
+	* `availability_domain` - The availability domain of the resource which is to be transferred. Note that this is only required for Capacity Request Transfer requests.
 	* `date_actual_handover` - The date on which the actual handover quantity of resources is delivered.
 	* `date_expected_handover` - The date on which the latest increment to supplied quantity of resources was delivered.
 	* `demand_quantity` - The number of compute server's with name <resourceName> required by the user.
 	* `expected_handover_quantity` - The incremental quantity of resources supplied as the provisioning is underway.
 	* `resource_name` - The name of the COMPUTE server shape for which the request is made. Do not use CAPACITY_CONSTRAINT as the resource name.
 	* `resource_type` - The type of the resource against which the user wants to place a capacity request.
+	* `source_workload_type` - The WorkloadType from where capacity request are to be transferred.
 	* `workload_type` - The type of the workload (Generic/ROW).
 * `display_name` - The display name of the capacity request.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -55,6 +60,7 @@ The following attributes are exported:
 * `occ_customer_group_id` - The OCID of the customer group to which this customer belongs to.
 * `region` - The name of the region for which the capacity request was made.
 * `request_state` - The different states the capacity request goes through.
+* `request_type` - Type of Capacity Request(New or Transfer)
 * `state` - The current lifecycle state of the resource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the capacity request was created.

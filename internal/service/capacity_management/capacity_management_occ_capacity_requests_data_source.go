@@ -38,6 +38,10 @@ func CapacityManagementOccCapacityRequestsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"request_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"occ_capacity_request_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -99,6 +103,10 @@ func (s *CapacityManagementOccCapacityRequestsDataSourceCrud) Get() error {
 	if occAvailabilityCatalogId, ok := s.D.GetOkExists("occ_availability_catalog_id"); ok {
 		tmp := occAvailabilityCatalogId.(string)
 		request.OccAvailabilityCatalogId = &tmp
+	}
+
+	if requestType, ok := s.D.GetOkExists("request_type"); ok {
+		request.RequestType = oci_capacity_management.OccCapacityRequestRequestTypeEnum(requestType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "capacity_management")

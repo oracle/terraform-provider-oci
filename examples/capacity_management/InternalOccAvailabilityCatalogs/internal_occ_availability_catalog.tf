@@ -1,4 +1,4 @@
-// Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
 variable "tenancy_ocid" {}
@@ -9,7 +9,7 @@ variable "region" {}
 variable "compartment_id" {}
 
 variable "internal_occ_availability_catalog_catalog_state" {
-  default = "NOT_UPLOADED"
+  default = "STAGED"
 }
 
 variable "internal_occ_availability_catalog_display_name" {
@@ -24,7 +24,9 @@ variable "internal_occ_availability_catalog_namespace" {
   default = "COMPUTE"
 }
 
-
+variable "occ_customer_group_id" {
+  default = "customerGroupId"
+}
 
 provider "oci" {
   tenancy_ocid     = var.tenancy_ocid
@@ -36,12 +38,12 @@ provider "oci" {
 
 data "oci_capacity_management_internal_occ_availability_catalogs" "test_internal_occ_availability_catalogs" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id        = var.compartment_id
+  occ_customer_group_id = var.occ_customer_group_id
 
   #Optional
-  catalog_state         = var.internal_occ_availability_catalog_catalog_state
-  display_name          = var.internal_occ_availability_catalog_display_name
-  id                    = var.internal_occ_availability_catalog_id
-  namespace             = var.internal_occ_availability_catalog_namespace
-  occ_customer_group_id = oci_capacity_management_occ_customer_group.test_occ_customer_group.id
+  catalog_state = var.internal_occ_availability_catalog_catalog_state
+  display_name  = var.internal_occ_availability_catalog_display_name
+  id            = var.internal_occ_availability_catalog_id
+  namespace     = var.internal_occ_availability_catalog_namespace
 }
