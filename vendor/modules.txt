@@ -279,6 +279,7 @@ github.com/oracle/oci-go-sdk/v65/email
 github.com/oracle/oci-go-sdk/v65/emwarehouse
 github.com/oracle/oci-go-sdk/v65/events
 github.com/oracle/oci-go-sdk/v65/filestorage
+github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate
 github.com/oracle/oci-go-sdk/v65/functions
 github.com/oracle/oci-go-sdk/v65/fusionapps
 github.com/oracle/oci-go-sdk/v65/generativeai
