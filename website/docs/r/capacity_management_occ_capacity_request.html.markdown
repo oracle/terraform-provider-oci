@@ -18,7 +18,6 @@ Create Capacity Request.
 ```hcl
 resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_request" {
 	#Required
-	availability_domain = var.occ_capacity_request_availability_domain
 	compartment_id = var.compartment_id
 	date_expected_capacity_handover = var.occ_capacity_request_date_expected_capacity_handover
 	details {
@@ -30,21 +29,30 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
 
 		#Optional
 		actual_handover_quantity = var.occ_capacity_request_details_actual_handover_quantity
+		associated_occ_handover_resource_block_list {
+
+			#Optional
+			handover_quantity = var.occ_capacity_request_details_associated_occ_handover_resource_block_list_handover_quantity
+			occ_handover_resource_block_id = oci_capacity_management_occ_handover_resource_block.test_occ_handover_resource_block.id
+		}
+		availability_domain = var.occ_capacity_request_details_availability_domain
 		date_actual_handover = var.occ_capacity_request_details_date_actual_handover
 		date_expected_handover = var.occ_capacity_request_details_date_expected_handover
 		expected_handover_quantity = var.occ_capacity_request_details_expected_handover_quantity
+		source_workload_type = var.occ_capacity_request_details_source_workload_type
 	}
 	display_name = var.occ_capacity_request_display_name
 	namespace = var.occ_capacity_request_namespace
-	occ_availability_catalog_id = oci_capacity_management_occ_availability_catalog.test_occ_availability_catalog.id
 	occ_capacity_request_id = var.occ_capacity_request_occ_capacity_request_id
 	region = var.occ_capacity_request_region
 
 	#Optional
+	availability_domain = var.occ_capacity_request_availability_domain
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.occ_capacity_request_description
 	freeform_tags = {"bar-key"= "value"}
 	lifecycle_details = var.occ_capacity_request_lifecycle_details
+	occ_availability_catalog_id = oci_capacity_management_occ_availability_catalog.test_occ_availability_catalog.id
 	patch_operations {
 		#Required
 		operation = var.occ_capacity_request_patch_operations_operation
@@ -58,6 +66,7 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
 		values = var.occ_capacity_request_patch_operations_values
 	}
 	request_state = var.occ_capacity_request_request_state
+	request_type = var.occ_capacity_request_request_type
 }
 ```
 
@@ -65,25 +74,30 @@ resource "oci_capacity_management_occ_capacity_request" "test_occ_capacity_reque
 
 The following arguments are supported:
 
-* `availability_domain` - (Required) The availability domain (AD) for which the capacity request is made. If this is specified then the capacity will be validated and fulfilled within the scope of this AD.
+* `availability_domain` - (Optional) The availability domain (AD) in which the new resource is to be placed. If this is specified then the capacity will be validated and fulfilled within the scope of this AD. Note that this field is NOT required for Capacity request Transfer requests.
 * `compartment_id` - (Required) Since all resources are at tenancy level hence this will be the ocid of the tenancy where operation is to be performed.
 * `date_expected_capacity_handover` - (Required) The date by which the capacity requested by customers before dateFinalCustomerOrder needs to be fulfilled.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) Meaningful text about the capacity request.
 * `details` - (Required) A list of different resources requested by the user.
 	* `actual_handover_quantity` - (Optional) The actual handed over quantity of resources at the time of request resolution.
+	* `associated_occ_handover_resource_block_list` - (Optional) A list containing details about occHandoverResourceBlocks which were handed over for the corresponding resource name. 
+		* `handover_quantity` - (Optional) The total quantity of the resource that was made available to the customer as part of this resource block 
+		* `occ_handover_resource_block_id` - (Optional) The OCID of the handed over resource block. 
+	* `availability_domain` - (Optional) The availability domain of the resource which is to be transferred. Note that this is only required for Capacity Request Transfer requests.
 	* `date_actual_handover` - (Optional) The date on which the actual handover quantity of resources is delivered.
 	* `date_expected_handover` - (Optional) The date on which the latest increment to supplied quantity of resources was delivered.
 	* `demand_quantity` - (Required) The number of compute server's with name <resourceName> required by the user.
 	* `expected_handover_quantity` - (Optional) The incremental quantity of resources supplied as the provisioning is underway.
 	* `resource_name` - (Required) The name of the COMPUTE server shape for which the request is made. Do not use CAPACITY_CONSTRAINT as the resource name.
 	* `resource_type` - (Required) The type of the resource against which the user wants to place a capacity request.
+	* `source_workload_type` - (Optional) The WorkloadType from where capacity request are to be transferred.
 	* `workload_type` - (Required) The type of the workload (Generic/ROW).
 * `display_name` - (Required) (Updatable) An user-friendly name for the capacity request. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `lifecycle_details` - (Optional) A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed State.
 * `namespace` - (Required) The name of the Oracle Cloud Infrastructure service in consideration. For example, Compute, Exadata, and so on.
-* `occ_availability_catalog_id` - (Required) The OCID of the availability catalog against which capacity request is made.
+* `occ_availability_catalog_id` - (Optional) The OCID of the availability catalog against which capacity request is made.
 * `occ_capacity_request_id` - (Required) 
 * `patch_operations` - (Optional) (Updatable) 
 	* `from` - (Required when operation=MOVE) (Updatable) 
@@ -95,6 +109,7 @@ The following arguments are supported:
 	* `values` - (Required when operation=INSERT_MULTIPLE) (Updatable) 
 * `region` - (Required) The name of the region for which the capacity request is made.
 * `request_state` - (Optional) (Updatable) The subset of request states available for creating the capacity request.
+* `request_type` - (Optional) Type of Capacity Request(New or Transfer)
 
 
 ** IMPORTANT **
@@ -111,12 +126,17 @@ The following attributes are exported:
 * `description` - Meaningful text about the capacity request.
 * `details` - A list of resources requested as part of this request
 	* `actual_handover_quantity` - The actual handed over quantity of resources at the time of request resolution.
+	* `associated_occ_handover_resource_block_list` - A list containing details about occHandoverResourceBlocks which were handed over for the corresponding resource name. 
+		* `handover_quantity` - The total quantity of the resource that was made available to the customer as part of this resource block 
+		* `occ_handover_resource_block_id` - The OCID of the handed over resource block. 
+	* `availability_domain` - The availability domain of the resource which is to be transferred. Note that this is only required for Capacity Request Transfer requests.
 	* `date_actual_handover` - The date on which the actual handover quantity of resources is delivered.
 	* `date_expected_handover` - The date on which the latest increment to supplied quantity of resources was delivered.
 	* `demand_quantity` - The number of compute server's with name <resourceName> required by the user.
 	* `expected_handover_quantity` - The incremental quantity of resources supplied as the provisioning is underway.
 	* `resource_name` - The name of the COMPUTE server shape for which the request is made. Do not use CAPACITY_CONSTRAINT as the resource name.
 	* `resource_type` - The type of the resource against which the user wants to place a capacity request.
+	* `source_workload_type` - The WorkloadType from where capacity request are to be transferred.
 	* `workload_type` - The type of the workload (Generic/ROW).
 * `display_name` - The display name of the capacity request.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
@@ -127,6 +147,7 @@ The following attributes are exported:
 * `occ_customer_group_id` - The OCID of the customer group to which this customer belongs to.
 * `region` - The name of the region for which the capacity request was made.
 * `request_state` - The different states the capacity request goes through.
+* `request_type` - Type of Capacity Request(New or Transfer)
 * `state` - The current lifecycle state of the resource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time when the capacity request was created.

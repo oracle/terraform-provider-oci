@@ -426,8 +426,10 @@ budget
 
 capacity_management
     
+* oci\_capacity\_management\_occ\_customer\_group
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
+* oci\_capacity\_management\_occ\_customer\_group\_occ\_customer
 
 certificates_management
     

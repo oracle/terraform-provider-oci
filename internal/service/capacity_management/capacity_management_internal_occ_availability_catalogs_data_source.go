@@ -40,7 +40,7 @@ func CapacityManagementInternalOccAvailabilityCatalogsDataSource() *schema.Resou
 			},
 			"occ_customer_group_id": {
 				Type:     schema.TypeString,
-				Optional: true,
+				Required: true,
 			},
 			"occ_availability_catalog_collection": {
 				Type:     schema.TypeList,
