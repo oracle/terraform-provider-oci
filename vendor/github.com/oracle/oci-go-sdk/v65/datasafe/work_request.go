@@ -207,6 +207,13 @@ const (
 	WorkRequestOperationTypeRemoveScheduleReport                      WorkRequestOperationTypeEnum = "REMOVE_SCHEDULE_REPORT"
 	WorkRequestOperationTypeUpdateAllAlert                            WorkRequestOperationTypeEnum = "UPDATE_ALL_ALERT"
 	WorkRequestOperationTypePatchTargetAlertPolicyAssociation         WorkRequestOperationTypeEnum = "PATCH_TARGET_ALERT_POLICY_ASSOCIATION"
+	WorkRequestOperationTypeCreateAlertPolicy                         WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY"
+	WorkRequestOperationTypeUpdateAlertPolicy                         WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY"
+	WorkRequestOperationTypeDeleteAlertPolicy                         WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY"
+	WorkRequestOperationTypeCreateAlertPolicyRule                     WorkRequestOperationTypeEnum = "CREATE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeUpdateAlertPolicyRule                     WorkRequestOperationTypeEnum = "UPDATE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeDeleteAlertPolicyRule                     WorkRequestOperationTypeEnum = "DELETE_ALERT_POLICY_RULE"
+	WorkRequestOperationTypeChangeAlertPolicyCompartment              WorkRequestOperationTypeEnum = "CHANGE_ALERT_POLICY_COMPARTMENT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -344,6 +351,13 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"REMOVE_SCHEDULE_REPORT":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"UPDATE_ALL_ALERT":                              WorkRequestOperationTypeUpdateAllAlert,
 	"PATCH_TARGET_ALERT_POLICY_ASSOCIATION":         WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
+	"CREATE_ALERT_POLICY":                           WorkRequestOperationTypeCreateAlertPolicy,
+	"UPDATE_ALERT_POLICY":                           WorkRequestOperationTypeUpdateAlertPolicy,
+	"DELETE_ALERT_POLICY":                           WorkRequestOperationTypeDeleteAlertPolicy,
+	"CREATE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeCreateAlertPolicyRule,
+	"UPDATE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
+	"DELETE_ALERT_POLICY_RULE":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
+	"CHANGE_ALERT_POLICY_COMPARTMENT":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -481,6 +495,13 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"remove_schedule_report":                        WorkRequestOperationTypeRemoveScheduleReport,
 	"update_all_alert":                              WorkRequestOperationTypeUpdateAllAlert,
 	"patch_target_alert_policy_association":         WorkRequestOperationTypePatchTargetAlertPolicyAssociation,
+	"create_alert_policy":                           WorkRequestOperationTypeCreateAlertPolicy,
+	"update_alert_policy":                           WorkRequestOperationTypeUpdateAlertPolicy,
+	"delete_alert_policy":                           WorkRequestOperationTypeDeleteAlertPolicy,
+	"create_alert_policy_rule":                      WorkRequestOperationTypeCreateAlertPolicyRule,
+	"update_alert_policy_rule":                      WorkRequestOperationTypeUpdateAlertPolicyRule,
+	"delete_alert_policy_rule":                      WorkRequestOperationTypeDeleteAlertPolicyRule,
+	"change_alert_policy_compartment":               WorkRequestOperationTypeChangeAlertPolicyCompartment,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -629,6 +650,13 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"REMOVE_SCHEDULE_REPORT",
 		"UPDATE_ALL_ALERT",
 		"PATCH_TARGET_ALERT_POLICY_ASSOCIATION",
+		"CREATE_ALERT_POLICY",
+		"UPDATE_ALERT_POLICY",
+		"DELETE_ALERT_POLICY",
+		"CREATE_ALERT_POLICY_RULE",
+		"UPDATE_ALERT_POLICY_RULE",
+		"DELETE_ALERT_POLICY_RULE",
+		"CHANGE_ALERT_POLICY_COMPARTMENT",
 	}
 }
 

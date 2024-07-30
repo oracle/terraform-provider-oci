@@ -447,6 +447,9 @@ type AutonomousDatabaseSummary struct {
 
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
 	NetServicesArchitecture AutonomousDatabaseSummaryNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Autonomous Serverless Database.
+	ClusterPlacementGroupId *string `mandatory:"false" json:"clusterPlacementGroupId"`
 }
 
 func (m AutonomousDatabaseSummary) String() string {

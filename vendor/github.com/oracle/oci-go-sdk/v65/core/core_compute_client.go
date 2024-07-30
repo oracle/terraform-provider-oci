@@ -3290,6 +3290,63 @@ func (client ComputeClient) getInstanceConsoleConnection(ctx context.Context, re
 	return response, err
 }
 
+// GetInstanceMaintenanceEvent Gets the maintenance event for the given instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetInstanceMaintenanceEvent.go.html to see an example of how to use GetInstanceMaintenanceEvent API.
+func (client ComputeClient) GetInstanceMaintenanceEvent(ctx context.Context, request GetInstanceMaintenanceEventRequest) (response GetInstanceMaintenanceEventResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInstanceMaintenanceEvent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInstanceMaintenanceEventResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInstanceMaintenanceEventResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInstanceMaintenanceEventResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInstanceMaintenanceEventResponse")
+	}
+	return
+}
+
+// getInstanceMaintenanceEvent implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getInstanceMaintenanceEvent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceMaintenanceEvents/{instanceMaintenanceEventId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetInstanceMaintenanceEventResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEvent/GetInstanceMaintenanceEvent"
+		err = common.PostProcessServiceError(err, "Compute", "GetInstanceMaintenanceEvent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInstanceMaintenanceReboot Gets the maximum possible date that a maintenance reboot can be extended. For more information, see
 // Infrastructure Maintenance (https://docs.cloud.oracle.com/iaas/Content/Compute/References/infrastructure-maintenance.htm).
 //
@@ -5162,6 +5219,63 @@ func (client ComputeClient) listInstanceDevices(ctx context.Context, request com
 	return response, err
 }
 
+// ListInstanceMaintenanceEvents Gets a list of all the maintenance events for the given instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListInstanceMaintenanceEvents.go.html to see an example of how to use ListInstanceMaintenanceEvents API.
+func (client ComputeClient) ListInstanceMaintenanceEvents(ctx context.Context, request ListInstanceMaintenanceEventsRequest) (response ListInstanceMaintenanceEventsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInstanceMaintenanceEvents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInstanceMaintenanceEventsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInstanceMaintenanceEventsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInstanceMaintenanceEventsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInstanceMaintenanceEventsResponse")
+	}
+	return
+}
+
+// listInstanceMaintenanceEvents implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listInstanceMaintenanceEvents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/instanceMaintenanceEvents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInstanceMaintenanceEventsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEventSummary/ListInstanceMaintenanceEvents"
+		err = common.PostProcessServiceError(err, "Compute", "ListInstanceMaintenanceEvents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListInstances Lists the instances in the specified compartment and the specified availability domain.
 // You can filter the results by specifying an instance name (the list will include all the identically-named
 // instances in the compartment).
@@ -6077,6 +6191,69 @@ func (client ComputeClient) updateInstanceConsoleConnection(ctx context.Context,
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceConsoleConnection/UpdateInstanceConsoleConnection"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateInstanceConsoleConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInstanceMaintenanceEvent Updates the maintenance event for the given instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateInstanceMaintenanceEvent.go.html to see an example of how to use UpdateInstanceMaintenanceEvent API.
+// A default retry strategy applies to this operation UpdateInstanceMaintenanceEvent()
+func (client ComputeClient) UpdateInstanceMaintenanceEvent(ctx context.Context, request UpdateInstanceMaintenanceEventRequest) (response UpdateInstanceMaintenanceEventResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateInstanceMaintenanceEvent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInstanceMaintenanceEventResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInstanceMaintenanceEventResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInstanceMaintenanceEventResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInstanceMaintenanceEventResponse")
+	}
+	return
+}
+
+// updateInstanceMaintenanceEvent implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateInstanceMaintenanceEvent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/instanceMaintenanceEvents/{instanceMaintenanceEventId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateInstanceMaintenanceEventResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InstanceMaintenanceEvent/UpdateInstanceMaintenanceEvent"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateInstanceMaintenanceEvent", apiReferenceLink)
 		return response, err
 	}
 
