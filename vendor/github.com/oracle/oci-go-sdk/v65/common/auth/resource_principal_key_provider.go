@@ -8,10 +8,11 @@ import (
 	"crypto/x509"
 	"errors"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
 	"io/ioutil"
 	"os"
 	"path"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 const (
@@ -49,6 +50,7 @@ const (
 	ResourcePrincipalRptURLForParent             = "OCI_RESOURCE_PRINCIPAL_RPT_URL_FOR_PARENT_RESOURCE"
 	ResourcePrincipalRpstEndpointForParent       = "OCI_RESOURCE_PRINCIPAL_RPST_ENDPOINT_FOR_PARENT_RESOURCE"
 	ResourcePrincipalTenancyIDForLeaf            = "OCI_RESOURCE_PRINCIPAL_TENANCY_ID_FOR_LEAF_RESOURCE"
+	OpcParentRptUrlHeader                        = "opc-parent-rpt-url"
 
 	// KubernetesServiceAccountTokenPath that contains cluster information
 	KubernetesServiceAccountTokenPath = "/var/run/secrets/kubernetes.io/serviceaccount/token"
@@ -350,7 +352,7 @@ func newResourcePrincipalKeyProvider30() (ConfigurationProviderWithClaimAccess, 
 		if err != nil {
 			return nil, err
 		}
-		return ResourcePrincipalV3ConfiguratorBuilder(leafResourceAuthProvider).Build()
+		return ResourcePrincipalConfigurationProviderV3(leafResourceAuthProvider)
 	case ResourcePrincipalVersion2_2:
 		rpst := requireEnv(ResourcePrincipalRpstForLeaf)
 		if rpst == nil {
@@ -373,7 +375,7 @@ func newResourcePrincipalKeyProvider30() (ConfigurationProviderWithClaimAccess, 
 		if err != nil {
 			return nil, err
 		}
-		return ResourcePrincipalV3ConfiguratorBuilder(leafResourceAuthProvider).Build()
+		return ResourcePrincipalConfigurationProviderV3(leafResourceAuthProvider)
 	default:
 		err := fmt.Errorf("can not create resource principal, environment variable: %s, must be valid", ResourcePrincipalVersionForLeaf)
 		return nil, resourcePrincipalError{err: err}

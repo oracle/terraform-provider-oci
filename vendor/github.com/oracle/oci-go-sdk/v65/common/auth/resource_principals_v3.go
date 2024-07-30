@@ -7,12 +7,13 @@ import (
 	"context"
 	"crypto/rsa"
 	"fmt"
-	"github.com/oracle/oci-go-sdk/v65/common"
 	"net/http"
 	"net/url"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/oracle/oci-go-sdk/v65/common"
 )
 
 type resourcePrincipalV3Client struct {
@@ -49,7 +50,7 @@ func (c *resourcePrincipalV3Client) acquireResourcePrincipalToken(rptClient comm
 	defer common.CloseBodyIfValid(response)
 
 	// Extract the opc-parent-rpt-url header value
-	parentRptURL = response.Header.Get(ResourcePrincipalRptURLForParent)
+	parentRptURL = response.Header.Get(OpcParentRptUrlHeader)
 
 	tokenResponse = resourcePrincipalTokenResponse{}
 	err = common.UnmarshalResponse(response, &tokenResponse)
