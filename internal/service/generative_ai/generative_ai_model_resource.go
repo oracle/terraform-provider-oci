@@ -1083,6 +1083,7 @@ func TrainingConfigToMap(obj *oci_generative_ai.TrainingConfig) map[string]inter
 		if v.LoraR != nil {
 			result["lora_r"] = int(*v.LoraR)
 		}
+
 		if v.EarlyStoppingPatience != nil {
 			result["early_stopping_patience"] = int(*v.EarlyStoppingPatience)
 		}

@@ -19,6 +19,7 @@ func init() {
 	exportNetworkFirewallNetworkFirewallPolicyServiceListHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyServiceListId
 	exportNetworkFirewallNetworkFirewallPolicyServiceHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyServiceId
 	exportNetworkFirewallNetworkFirewallPolicyDecryptionProfileHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyDecryptionProfileId
+	exportNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleHints.GetIdFn = getNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleId
 	tf_export.RegisterCompartmentGraphs("network_firewall", networkFirewallResourceGraph)
 }
 
@@ -122,6 +123,16 @@ func getNetworkFirewallNetworkFirewallPolicyDecryptionProfileId(resource *tf_exp
 	}
 	networkFirewallPolicyId := resource.Parent.Id
 	return GetNetworkFirewallPolicySubResourceCompositeId(decryptionProfileName, networkFirewallPolicyId, "decryptionProfiles"), nil
+}
+
+func getNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleId(resource *tf_export.OCIResource) (string, error) {
+
+	networkFirewallPolicyId := resource.Parent.Id
+	tunnelInspectionRuleName, ok := resource.SourceAttributes["tunnel_inspection_rule_name"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find tunnelInspectionRuleName for NetworkFirewall NetworkFirewallPolicyTunnelInspectionRule")
+	}
+	return GetNetworkFirewallPolicyTunnelInspectionRuleCompositeId(networkFirewallPolicyId, tunnelInspectionRuleName), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -241,6 +252,15 @@ var exportNetworkFirewallNetworkFirewallPolicyDecryptionProfileHints = &tf_expor
 	RequireResourceRefresh: true,
 }
 
+var exportNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_network_firewall_network_firewall_policy_tunnel_inspection_rule",
+	DatasourceClass:        "oci_network_firewall_network_firewall_policy_tunnel_inspection_rules",
+	DatasourceItemsAttr:    "tunnel_inspection_rule_summary_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "network_firewall_policy_tunnel_inspection_rule",
+	RequireResourceRefresh: true,
+}
+
 var networkFirewallResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyHints},
@@ -297,6 +317,12 @@ var networkFirewallResourceGraph = tf_export.TerraformResourceGraph{
 		},
 		{
 			TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyServiceListHints,
+			DatasourceQueryParams: map[string]string{
+				"network_firewall_policy_id": "id",
+			},
+		},
+		{
+			TerraformResourceHints: exportNetworkFirewallNetworkFirewallPolicyTunnelInspectionRuleHints,
 			DatasourceQueryParams: map[string]string{
 				"network_firewall_policy_id": "id",
 			},

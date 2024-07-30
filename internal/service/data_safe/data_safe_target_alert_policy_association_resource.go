@@ -76,6 +76,10 @@ func DataSafeTargetAlertPolicyAssociationResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -454,7 +458,13 @@ func (s *DataSafeTargetAlertPolicyAssociationResourceCrud) SetData() error {
 	if s.Res.IsEnabled != nil {
 		s.D.Set("is_enabled", *s.Res.IsEnabled)
 	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	fmt.Println("logsss SetData() Isenabled:", *s.Res.IsEnabled)
+
 	if s.Res.PolicyId != nil {
 		s.D.Set("policy_id", *s.Res.PolicyId)
 	}
@@ -507,6 +517,10 @@ func TargetAlertPolicyAssociationSummaryToMap(obj oci_data_safe.TargetAlertPolic
 
 	if obj.IsEnabled != nil {
 		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.LifecycleDetails != nil {
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	if obj.PolicyId != nil {

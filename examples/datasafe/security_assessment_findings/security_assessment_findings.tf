@@ -19,6 +19,8 @@ variable "display_name" {
 }
 
 provider "oci" {
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

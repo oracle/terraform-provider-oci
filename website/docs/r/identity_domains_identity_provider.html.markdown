@@ -98,17 +98,27 @@ resource "oci_identity_domains_identity_provider" "test_identity_provider" {
 		service_provider_name = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_service_provider_name
 
 		#Optional
-		access_token_url = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_access_token_url
-		admin_scope = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_admin_scope
-		authz_url = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_authz_url
-		client_credential_in_payload = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_client_credential_in_payload
-		clock_skew_in_seconds = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_clock_skew_in_seconds
-		discovery_url = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_discovery_url
-		id_attribute = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_id_attribute
-		profile_url = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_profile_url
-		redirect_url = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_redirect_url
-		scope = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_scope
-		status = var.identity_provider_urnietfparamsscimschemasoracleidcsextensionsocial_identity_provider_status
+		access_token_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_access_token_url
+		admin_scope = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_admin_scope
+		authz_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_authz_url
+		auto_redirect_enabled = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_auto_redirect_enabled
+		client_credential_in_payload = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_client_credential_in_payload
+		clock_skew_in_seconds = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_clock_skew_in_seconds
+		discovery_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_discovery_url
+		id_attribute = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_id_attribute
+		jit_prov_assigned_groups {
+			#Required
+			value = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_jit_prov_assigned_groups_value
+
+			#Optional
+			display = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_jit_prov_assigned_groups_display
+		}
+		jit_prov_group_static_list_enabled = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_jit_prov_group_static_list_enabled
+		profile_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_profile_url
+		redirect_url = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_redirect_url
+		scope = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_scope
+		social_jit_provisioning_enabled = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_social_jit_provisioning_enabled
+		status = var.identity_provider_urn_ietf_params_scim_schemas_oracle_idcs_extension_social_identity_provider_status
 	}
 	urnietfparamsscimschemasoracleidcsextensionx509identity_provider {
 		#Required
@@ -1167,6 +1177,19 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `auto_redirect_enabled` - (Optional) (Updatable) Whether social auto redirect is enabled. The IDP policy should be configured with only one Social IDP, and without username/password selected.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `client_credential_in_payload` - (Optional) (Updatable) Whether the client credential is contained in payload
 
 		**Added In:** 20.1.3
@@ -1245,6 +1268,69 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `jit_prov_assigned_groups` - (Optional) (Updatable) Lists the groups each social JIT-provisioned user is a member. Just-in-Time user-provisioning applies this static list when jitProvGroupStaticListEnabled:true.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* idcsCompositeKey: [value]
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: complex
+		* uniqueness: none
+		* `_ref` - (Optional) (Updatable) Group URI
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: default
+			* type: reference
+			* uniqueness: none
+		* `display` - (Optional) (Updatable) A human readable name, primarily used for display purposes. READ-ONLY.
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: request
+			* type: string
+			* uniqueness: none
+		* `value` - (Required) (Updatable) Group identifier
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* caseExact: true
+			* idcsSearchable: true
+			* multiValued: false
+			* mutability: readWrite
+			* required: true
+			* returned: default
+			* type: string
+			* uniqueness: none
+	* `jit_prov_group_static_list_enabled` - (Optional) (Updatable) Set to true to indicate Social JIT User Provisioning Groups should be assigned from a static list
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `profile_url` - (Optional) (Updatable) Social IDP User profile URL
 
 		**Added In:** 20.1.3
@@ -1309,6 +1395,19 @@ The following arguments are supported:
 		* required: true
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `social_jit_provisioning_enabled` - (Optional) (Updatable) Whether Social JIT Provisioning is enabled
+
+		**Added In:** 2307282043
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
 		* uniqueness: none
 	* `status` - (Optional) (Updatable) Status
 
@@ -2603,6 +2702,19 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `auto_redirect_enabled` - Whether social auto redirect is enabled. The IDP policy should be configured with only one Social IDP, and without username/password selected.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `client_credential_in_payload` - Whether the client credential is contained in payload
 
 		**Added In:** 20.1.3
@@ -2681,6 +2793,69 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
+	* `jit_prov_assigned_groups` - Lists the groups each social JIT-provisioned user is a member. Just-in-Time user-provisioning applies this static list when jitProvGroupStaticListEnabled:true.
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* idcsCompositeKey: [value]
+		* idcsSearchable: false
+		* multiValued: true
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: complex
+		* uniqueness: none
+		* `_ref` - Group URI
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: default
+			* type: reference
+			* uniqueness: none
+		* `display` - A human readable name, primarily used for display purposes. READ-ONLY.
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* idcsSearchable: false
+			* multiValued: false
+			* mutability: readOnly
+			* required: false
+			* returned: request
+			* type: string
+			* uniqueness: none
+		* `value` - Group identifier
+
+			**Added In:** 2310202314
+
+			**SCIM++ Properties:**
+			* caseExact: true
+			* idcsSearchable: true
+			* multiValued: false
+			* mutability: readWrite
+			* required: true
+			* returned: default
+			* type: string
+			* uniqueness: none
+	* `jit_prov_group_static_list_enabled` - Set to true to indicate Social JIT User Provisioning Groups should be assigned from a static list
+
+		**Added In:** 2310202314
+
+		**SCIM++ Properties:**
+		* caseExact: false
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
+		* uniqueness: none
 	* `profile_url` - Social IDP User profile URL
 
 		**Added In:** 20.1.3
@@ -2745,6 +2920,19 @@ The following attributes are exported:
 		* required: true
 		* returned: default
 		* type: string
+		* uniqueness: none
+	* `social_jit_provisioning_enabled` - Whether Social JIT Provisioning is enabled
+
+		**Added In:** 2307282043
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: readWrite
+		* required: false
+		* returned: default
+		* type: boolean
 		* uniqueness: none
 	* `status` - Status
 

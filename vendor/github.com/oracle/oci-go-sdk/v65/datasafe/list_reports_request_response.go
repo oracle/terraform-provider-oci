@@ -286,16 +286,22 @@ type ListReportsLifecycleStateEnum string
 const (
 	ListReportsLifecycleStateUpdating ListReportsLifecycleStateEnum = "UPDATING"
 	ListReportsLifecycleStateActive   ListReportsLifecycleStateEnum = "ACTIVE"
+	ListReportsLifecycleStateCreating ListReportsLifecycleStateEnum = "CREATING"
+	ListReportsLifecycleStateFailed   ListReportsLifecycleStateEnum = "FAILED"
 )
 
 var mappingListReportsLifecycleStateEnum = map[string]ListReportsLifecycleStateEnum{
 	"UPDATING": ListReportsLifecycleStateUpdating,
 	"ACTIVE":   ListReportsLifecycleStateActive,
+	"CREATING": ListReportsLifecycleStateCreating,
+	"FAILED":   ListReportsLifecycleStateFailed,
 }
 
 var mappingListReportsLifecycleStateEnumLowerCase = map[string]ListReportsLifecycleStateEnum{
 	"updating": ListReportsLifecycleStateUpdating,
 	"active":   ListReportsLifecycleStateActive,
+	"creating": ListReportsLifecycleStateCreating,
+	"failed":   ListReportsLifecycleStateFailed,
 }
 
 // GetListReportsLifecycleStateEnumValues Enumerates the set of values for ListReportsLifecycleStateEnum
@@ -312,6 +318,8 @@ func GetListReportsLifecycleStateEnumStringValues() []string {
 	return []string{
 		"UPDATING",
 		"ACTIVE",
+		"CREATING",
+		"FAILED",
 	}
 }
 

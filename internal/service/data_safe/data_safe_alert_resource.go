@@ -66,6 +66,14 @@ func DataSafeAlertResource() *schema.Resource {
 			},
 
 			// Computed
+			"alert_policy_rule_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"alert_policy_rule_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"alert_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -340,6 +348,14 @@ func (s *DataSafeAlertResourceCrud) Update() error {
 }
 
 func (s *DataSafeAlertResourceCrud) SetData() error {
+	if s.Res.AlertPolicyRuleKey != nil {
+		s.D.Set("alert_policy_rule_key", *s.Res.AlertPolicyRuleKey)
+	}
+
+	if s.Res.AlertPolicyRuleName != nil {
+		s.D.Set("alert_policy_rule_name", *s.Res.AlertPolicyRuleName)
+	}
+
 	s.D.Set("alert_type", s.Res.AlertType)
 
 	if s.Res.Comment != nil {
@@ -409,6 +425,14 @@ func (s *DataSafeAlertResourceCrud) SetData() error {
 
 func AlertSummaryToMap(obj oci_data_safe.AlertSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AlertPolicyRuleKey != nil {
+		result["alert_policy_rule_key"] = string(*obj.AlertPolicyRuleKey)
+	}
+
+	if obj.AlertPolicyRuleName != nil {
+		result["alert_policy_rule_name"] = string(*obj.AlertPolicyRuleName)
+	}
 
 	result["alert_type"] = string(obj.AlertType)
 

@@ -38,6 +38,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_instance", CoreInstanceResource())
 	tfresource.RegisterResource("oci_core_instance_configuration", CoreInstanceConfigurationResource())
 	tfresource.RegisterResource("oci_core_instance_console_connection", CoreInstanceConsoleConnectionResource())
+	tfresource.RegisterResource("oci_core_instance_maintenance_event", CoreInstanceMaintenanceEventResource())
 	tfresource.RegisterResource("oci_core_instance_pool", CoreInstancePoolResource())
 	tfresource.RegisterResource("oci_core_instance_pool_instance", CoreInstancePoolInstanceResource())
 	tfresource.RegisterResource("oci_core_internet_gateway", CoreInternetGatewayResource())

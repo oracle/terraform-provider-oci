@@ -721,6 +721,69 @@ func (client NetworkFirewallClient) bulkUploadServices(ctx context.Context, requ
 	return response, err
 }
 
+// BulkUploadTunnelInspectionRules Creates a new Tunnel Inspection Rule at bulk for the Network Firewall Policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/BulkUploadTunnelInspectionRules.go.html to see an example of how to use BulkUploadTunnelInspectionRules API.
+// A default retry strategy applies to this operation BulkUploadTunnelInspectionRules()
+func (client NetworkFirewallClient) BulkUploadTunnelInspectionRules(ctx context.Context, request BulkUploadTunnelInspectionRulesRequest) (response BulkUploadTunnelInspectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.bulkUploadTunnelInspectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkUploadTunnelInspectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkUploadTunnelInspectionRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkUploadTunnelInspectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkUploadTunnelInspectionRulesResponse")
+	}
+	return
+}
+
+// bulkUploadTunnelInspectionRules implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) bulkUploadTunnelInspectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules/actions/bulkUpload", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkUploadTunnelInspectionRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/BulkUploadTunnelInspectionRules"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "BulkUploadTunnelInspectionRules", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // BulkUploadUrlLists Creates a new Url Lists at bulk for the Network Firewall Policy.
 //
 // # See also
@@ -1724,6 +1787,69 @@ func (client NetworkFirewallClient) createServiceList(ctx context.Context, reque
 	return response, err
 }
 
+// CreateTunnelInspectionRule Creates a new tunnel inspection rule for the network firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/CreateTunnelInspectionRule.go.html to see an example of how to use CreateTunnelInspectionRule API.
+// A default retry strategy applies to this operation CreateTunnelInspectionRule()
+func (client NetworkFirewallClient) CreateTunnelInspectionRule(ctx context.Context, request CreateTunnelInspectionRuleRequest) (response CreateTunnelInspectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createTunnelInspectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateTunnelInspectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateTunnelInspectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateTunnelInspectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateTunnelInspectionRuleResponse")
+	}
+	return
+}
+
+// createTunnelInspectionRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) createTunnelInspectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateTunnelInspectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/CreateTunnelInspectionRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "CreateTunnelInspectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &tunnelinspectionrule{})
+	return response, err
+}
+
 // CreateUrlList Creates a new Url List for the Network Firewall Policy.
 //
 // # See also
@@ -2425,6 +2551,64 @@ func (client NetworkFirewallClient) deleteServiceList(ctx context.Context, reque
 	return response, err
 }
 
+// DeleteTunnelInspectionRule Deletes a tunnel inspection rule resource with the given identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/DeleteTunnelInspectionRule.go.html to see an example of how to use DeleteTunnelInspectionRule API.
+// A default retry strategy applies to this operation DeleteTunnelInspectionRule()
+func (client NetworkFirewallClient) DeleteTunnelInspectionRule(ctx context.Context, request DeleteTunnelInspectionRuleRequest) (response DeleteTunnelInspectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteTunnelInspectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteTunnelInspectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteTunnelInspectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteTunnelInspectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteTunnelInspectionRuleResponse")
+	}
+	return
+}
+
+// deleteTunnelInspectionRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) deleteTunnelInspectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules/{tunnelInspectionRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteTunnelInspectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/DeleteTunnelInspectionRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "DeleteTunnelInspectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteUrlList Deletes a Url List resource with the given identifier.
 //
 // # See also
@@ -3118,6 +3302,64 @@ func (client NetworkFirewallClient) getServiceList(ctx context.Context, request 
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetTunnelInspectionRule Get tunnel inspection rule by the given name in the context of network firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/GetTunnelInspectionRule.go.html to see an example of how to use GetTunnelInspectionRule API.
+// A default retry strategy applies to this operation GetTunnelInspectionRule()
+func (client NetworkFirewallClient) GetTunnelInspectionRule(ctx context.Context, request GetTunnelInspectionRuleRequest) (response GetTunnelInspectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getTunnelInspectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetTunnelInspectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetTunnelInspectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetTunnelInspectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetTunnelInspectionRuleResponse")
+	}
+	return
+}
+
+// getTunnelInspectionRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) getTunnelInspectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules/{tunnelInspectionRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetTunnelInspectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/GetTunnelInspectionRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "GetTunnelInspectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &tunnelinspectionrule{})
 	return response, err
 }
 
@@ -3868,6 +4110,64 @@ func (client NetworkFirewallClient) listServices(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/Service/ListServices"
 		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListServices", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListTunnelInspectionRules Returns a list of tunnel inspection rules for the network firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/ListTunnelInspectionRules.go.html to see an example of how to use ListTunnelInspectionRules API.
+// A default retry strategy applies to this operation ListTunnelInspectionRules()
+func (client NetworkFirewallClient) ListTunnelInspectionRules(ctx context.Context, request ListTunnelInspectionRulesRequest) (response ListTunnelInspectionRulesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listTunnelInspectionRules, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListTunnelInspectionRulesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListTunnelInspectionRulesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListTunnelInspectionRulesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListTunnelInspectionRulesResponse")
+	}
+	return
+}
+
+// listTunnelInspectionRules implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) listTunnelInspectionRules(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListTunnelInspectionRulesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/ListTunnelInspectionRules"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "ListTunnelInspectionRules", apiReferenceLink)
 		return response, err
 	}
 
@@ -4805,6 +5105,64 @@ func (client NetworkFirewallClient) updateServiceList(ctx context.Context, reque
 	}
 
 	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateTunnelInspectionRule Updates the tunnel inspection rule with the given name in the network firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkfirewall/UpdateTunnelInspectionRule.go.html to see an example of how to use UpdateTunnelInspectionRule API.
+// A default retry strategy applies to this operation UpdateTunnelInspectionRule()
+func (client NetworkFirewallClient) UpdateTunnelInspectionRule(ctx context.Context, request UpdateTunnelInspectionRuleRequest) (response UpdateTunnelInspectionRuleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateTunnelInspectionRule, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateTunnelInspectionRuleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateTunnelInspectionRuleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateTunnelInspectionRuleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateTunnelInspectionRuleResponse")
+	}
+	return
+}
+
+// updateTunnelInspectionRule implements the OCIOperation interface (enables retrying operations)
+func (client NetworkFirewallClient) updateTunnelInspectionRule(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkFirewallPolicies/{networkFirewallPolicyId}/tunnelInspectionRules/{tunnelInspectionRuleName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateTunnelInspectionRuleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/network-firewall/20230501/TunnelInspectionRule/UpdateTunnelInspectionRule"
+		err = common.PostProcessServiceError(err, "NetworkFirewall", "UpdateTunnelInspectionRule", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &tunnelinspectionrule{})
 	return response, err
 }
 

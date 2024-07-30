@@ -314,7 +314,7 @@ func (s *DatabaseDbNodeResourceCrud) Update() error {
 
 func (s *DatabaseDbNodeResourceCrud) SetData() error {
 	if s.Res.Id != nil {
-		s.D.Set("id", *s.Res.Id)
+		s.D.Set("db_node_id", *s.Res.Id)
 	}
 
 	if s.Res.AdditionalDetails != nil {

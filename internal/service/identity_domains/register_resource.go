@@ -48,6 +48,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_identity_domains_self_registration_profile", IdentityDomainsSelfRegistrationProfileResource())
 	tfresource.RegisterResource("oci_identity_domains_setting", IdentityDomainsSettingResource())
 	tfresource.RegisterResource("oci_identity_domains_smtp_credential", IdentityDomainsSmtpCredentialResource())
+	tfresource.RegisterResource("oci_identity_domains_social_identity_provider", IdentityDomainsSocialIdentityProviderResource())
 	tfresource.RegisterResource("oci_identity_domains_user", IdentityDomainsUserResource())
 	tfresource.RegisterResource("oci_identity_domains_user_db_credential", IdentityDomainsUserDbCredentialResource())
 }

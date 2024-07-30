@@ -18,8 +18,8 @@ If there are three rules: rule1,rule2 and rule3, the policy is satisfied if rule
 
 ```hcl
 data "oci_data_safe_alert_policy_rules" "test_alert_policy_rules" {
-	#Required
-	alert_policy_id = oci_data_safe_alert_policy.test_alert_policy.id
+  #Required
+  alert_policy_id = oci_data_safe_alert_policy.test_alert_policy.id
 }
 ```
 
@@ -40,8 +40,9 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - Array of alert policy rules summary
-	* `description` - Describes the alert policy rule.
-	* `expression` - The conditional expression of the alert policy rule which evaluates to boolean value.
-	* `key` - The unique key of the alert policy rule.
-
+* `description` - Describes the alert policy rule.
+* `display_name` - The display name of the alert policy rule.
+* `expression` - The conditional expression of the alert policy rule which evaluates to boolean value.
+* `key` - The unique key of the alert policy rule.
+* `state` - The current state of the alert policy rule.
+* `time_created` - Creation date and time of the alert policy rule, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

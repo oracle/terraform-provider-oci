@@ -166,13 +166,48 @@ resource "oci_database_autonomous_database" "test_autonomous_database_db_tools" 
   license_model                        = "LICENSE_INCLUDED"
   is_free_tier                         = "false"
   db_tools_details {
-      #Required
-      name = "ORDS"
-
-      #Optional
-      is_enabled = true
-   }
-}
+              name = "APEX"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "DATA_TRANSFORMS"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "DATABASE_ACTIONS"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "GRAPH_STUDIO"
+                is_enabled = false
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "MONGODB_API"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "OML"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+              db_tools_details {
+                name = "ORDS"
+                is_enabled = true
+                compute_count = 0
+                max_idle_time_in_minutes = 0
+              }
+    }
 
 resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
   admin_password           = random_string.autonomous_database_admin_password.result
@@ -187,11 +222,6 @@ resource "oci_database_autonomous_database" "test_autonomous_database_actions" {
   state                    = "STOPPED"
 }
 
-resource "oci_database_autonomous_database_backup" "autonomous_database_backup" {
-  #Required
-  autonomous_database_id = oci_database_autonomous_database.autonomous_database.id
-  display_name           = var.autonomous_database_backup_display_name
-}
 
 resource "oci_database_autonomous_database" "autonomous_database_oneway_tls_connection" {
   admin_password              = random_string.autonomous_database_admin_password.result
@@ -243,6 +273,7 @@ resource "oci_database_autonomous_database" "autonomous_database_from_backup_tim
 }
 */
 
+/*
 resource "oci_database_autonomous_database" "autonomous_database_from_backup_latest" {
   #Required
   admin_password           = random_string.autonomous_database_admin_password.result
@@ -257,7 +288,7 @@ resource "oci_database_autonomous_database" "autonomous_database_from_backup_lat
   use_latest_available_backup_time_stamp              = "true"
   whitelisted_ips             = ["1.1.1.1/28"]
 }
-
+*/
 resource "oci_core_vcn" "test_vcn" {
   cidr_block = "10.0.0.0/16"
   compartment_id = var.compartment_ocid
