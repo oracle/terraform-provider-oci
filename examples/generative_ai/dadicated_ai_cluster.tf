@@ -52,7 +52,6 @@ data "oci_generative_ai_dedicated_ai_cluster" "test_fine_tuning_cluster" {
   dedicated_ai_cluster_id       = oci_generative_ai_dedicated_ai_cluster.test_fine_tuning_cluster.id
 }
 
-
 data "oci_generative_ai_dedicated_ai_cluster" "test_dedicated_ai_cluster_large_generic" {
   #Required
   dedicated_ai_cluster_id       = oci_generative_ai_dedicated_ai_cluster.test_dedicated_ai_cluster_large_generic.id

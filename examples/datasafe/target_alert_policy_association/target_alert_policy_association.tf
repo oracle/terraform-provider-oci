@@ -27,6 +27,8 @@ variable "target_alert_policy_association_is_enabled" {
 }
 
 provider "oci" {
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -55,4 +57,3 @@ data "oci_data_safe_target_alert_policy_associations" "test_target_alert_policy_
   target_alert_policy_association_id = oci_data_safe_target_alert_policy_association.test_target_alert_policy_association.id
   target_id = var.data_safe_target_ocid
 }
-

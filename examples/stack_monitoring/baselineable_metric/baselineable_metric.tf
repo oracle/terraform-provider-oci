@@ -20,6 +20,7 @@ resource "oci_stack_monitoring_baselineable_metric" "test_baselineable_metric" {
 	#Required
 	compartment_id = var.compartment_ocid
 	resource_group = "my_resource"
+	resource_type = "resource_type"
 	namespace = "my_namespace"
 	name = "metric_name"
 	column = "metric_column"

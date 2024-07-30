@@ -123,6 +123,7 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 	freeform_tags = var.bds_instance_freeform_tags
 	kerberos_realm_name = var.bds_instance_kerberos_realm_name
 	kms_key_id = var.bds_instance_kms_key_id
+	ignore_existing_nodes_shape = var.ignore_existing_nodes_shape
 	network_config {
 
 		#Optional
@@ -174,6 +175,7 @@ The following arguments are supported:
 * `os_patch_version`  - (Optional) (Updatable) The version of the patch to be upated.
 * `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE` to start/stop the bds instance.
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
+* `ignore_existing_nodes_shape` - Tag to ignore changing the shape of existing worker, master, utility, compute_only_worker, edge, kafka_broker nodes, in a list format, when new nodes are added with a different shape.
 * `master_node` - (Required) The master node in the BDS instance
 	* `block_volume_size_in_gbs` - (Optional) The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself.
 	* `number_of_nodes` - (Required) The amount of master nodes should be created.

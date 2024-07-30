@@ -23,6 +23,9 @@ type UpdateAlertPolicyRuleDetails struct {
 
 	// The conditional expression of the alert policy rule which evaluates to boolean value.
 	Expression *string `mandatory:"false" json:"expression"`
+
+	// The display name of the alert policy rule.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 
 func (m UpdateAlertPolicyRuleDetails) String() string {

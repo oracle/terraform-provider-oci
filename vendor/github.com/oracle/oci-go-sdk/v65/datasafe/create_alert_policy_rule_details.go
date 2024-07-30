@@ -23,6 +23,9 @@ type CreateAlertPolicyRuleDetails struct {
 
 	// Describes the alert policy rule.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The display name of the alert policy rule.
+	DisplayName *string `mandatory:"false" json:"displayName"`
 }
 
 func (m CreateAlertPolicyRuleDetails) String() string {

@@ -48,6 +48,9 @@ type AlertPolicySummary struct {
 	// Severity level of the alert raised by this policy.
 	Severity AlertSeverityEnum `mandatory:"false" json:"severity,omitempty"`
 
+	// Details about the current state of the alert policy.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

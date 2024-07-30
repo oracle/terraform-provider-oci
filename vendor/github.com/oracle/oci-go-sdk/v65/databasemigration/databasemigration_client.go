@@ -593,6 +593,69 @@ func (client DatabaseMigrationClient) createMigration(ctx context.Context, reque
 	return response, err
 }
 
+// CreateParameterFileVersion Creates a new version of the current parameter file contents to the specified value.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/CreateParameterFileVersion.go.html to see an example of how to use CreateParameterFileVersion API.
+// A default retry strategy applies to this operation CreateParameterFileVersion()
+func (client DatabaseMigrationClient) CreateParameterFileVersion(ctx context.Context, request CreateParameterFileVersionRequest) (response CreateParameterFileVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createParameterFileVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateParameterFileVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateParameterFileVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateParameterFileVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateParameterFileVersionResponse")
+	}
+	return
+}
+
+// createParameterFileVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) createParameterFileVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/parameterFileVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateParameterFileVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/CreateParameterFileVersion"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "CreateParameterFileVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteConnection Deletes the Database Connection represented by the specified connection ID.
 //
 // # See also
@@ -760,6 +823,64 @@ func (client DatabaseMigrationClient) deleteMigration(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Migration/DeleteMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteParameterFileVersion Deletes the given parameter file version
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/DeleteParameterFileVersion.go.html to see an example of how to use DeleteParameterFileVersion API.
+// A default retry strategy applies to this operation DeleteParameterFileVersion()
+func (client DatabaseMigrationClient) DeleteParameterFileVersion(ctx context.Context, request DeleteParameterFileVersionRequest) (response DeleteParameterFileVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteParameterFileVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteParameterFileVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteParameterFileVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteParameterFileVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteParameterFileVersionResponse")
+	}
+	return
+}
+
+// deleteParameterFileVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) deleteParameterFileVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/jobs/{jobId}/parameterFileVersions/{parameterFileName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteParameterFileVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/DeleteParameterFileVersion"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "DeleteParameterFileVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -1116,6 +1237,65 @@ func (client DatabaseMigrationClient) getMigration(ctx context.Context, request 
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &migration{})
+	return response, err
+}
+
+// GetParameterFileVersion Obtain the parameter file version contents for the specified parameter file name and the associated job. This operation will
+// be allowed only if the job is certain acceptable lifecycle states.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/GetParameterFileVersion.go.html to see an example of how to use GetParameterFileVersion API.
+// A default retry strategy applies to this operation GetParameterFileVersion()
+func (client DatabaseMigrationClient) GetParameterFileVersion(ctx context.Context, request GetParameterFileVersionRequest) (response GetParameterFileVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getParameterFileVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetParameterFileVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetParameterFileVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetParameterFileVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetParameterFileVersionResponse")
+	}
+	return
+}
+
+// getParameterFileVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) getParameterFileVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/parameterFileVersions/{parameterFileName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetParameterFileVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/GetParameterFileVersion"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "GetParameterFileVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 
@@ -1642,6 +1822,66 @@ func (client DatabaseMigrationClient) listMigrations(ctx context.Context, reques
 	return response, err
 }
 
+// ListParameterFileVersions Return a list of the parameter file metadata of the migration execution of the specified job.  This will
+// only be acceptable if the job is in particular state. It will be accessible if the job is in
+// the FAILED, PAUSED or SUSPENDED state.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/ListParameterFileVersions.go.html to see an example of how to use ListParameterFileVersions API.
+// A default retry strategy applies to this operation ListParameterFileVersions()
+func (client DatabaseMigrationClient) ListParameterFileVersions(ctx context.Context, request ListParameterFileVersionsRequest) (response ListParameterFileVersionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listParameterFileVersions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListParameterFileVersionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListParameterFileVersionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListParameterFileVersionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListParameterFileVersionsResponse")
+	}
+	return
+}
+
+// listParameterFileVersions implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) listParameterFileVersions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/jobs/{jobId}/parameterFileVersions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListParameterFileVersionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/ListParameterFileVersions"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListParameterFileVersions", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Gets the errors for a work request.
 //
 // # See also
@@ -1809,6 +2049,69 @@ func (client DatabaseMigrationClient) listWorkRequests(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// MakeCurrentParameterFileVersion Make current the given parameter file version
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/MakeCurrentParameterFileVersion.go.html to see an example of how to use MakeCurrentParameterFileVersion API.
+// A default retry strategy applies to this operation MakeCurrentParameterFileVersion()
+func (client DatabaseMigrationClient) MakeCurrentParameterFileVersion(ctx context.Context, request MakeCurrentParameterFileVersionRequest) (response MakeCurrentParameterFileVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.makeCurrentParameterFileVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MakeCurrentParameterFileVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MakeCurrentParameterFileVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MakeCurrentParameterFileVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MakeCurrentParameterFileVersionResponse")
+	}
+	return
+}
+
+// makeCurrentParameterFileVersion implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) makeCurrentParameterFileVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/parameterFileVersions/{parameterFileName}/actions/makeCurrent", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MakeCurrentParameterFileVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/MakeCurrentParameterFileVersion"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "MakeCurrentParameterFileVersion", apiReferenceLink)
 		return response, err
 	}
 
@@ -2051,6 +2354,69 @@ func (client DatabaseMigrationClient) startMigration(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/StartMigration"
 		err = common.PostProcessServiceError(err, "DatabaseMigration", "StartMigration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SuspendJob Place the currently executing migration Job in a Suspended State.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/databasemigration/SuspendJob.go.html to see an example of how to use SuspendJob API.
+// A default retry strategy applies to this operation SuspendJob()
+func (client DatabaseMigrationClient) SuspendJob(ctx context.Context, request SuspendJobRequest) (response SuspendJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.suspendJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SuspendJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SuspendJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SuspendJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SuspendJobResponse")
+	}
+	return
+}
+
+// suspendJob implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseMigrationClient) suspendJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/jobs/{jobId}/actions/suspend", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SuspendJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-migration/20230518/Job/SuspendJob"
+		err = common.PostProcessServiceError(err, "DatabaseMigration", "SuspendJob", apiReferenceLink)
 		return response, err
 	}
 

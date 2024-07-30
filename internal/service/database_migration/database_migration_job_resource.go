@@ -5,6 +5,7 @@ package database_migration
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -51,6 +52,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"suspend_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"lifecycle_details": {
@@ -60,6 +65,58 @@ func DatabaseMigrationJobResource() *schema.Resource {
 			"migration_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"parameter_file_versions": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"defined_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"description": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"freeform_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"is_current": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_factory": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"kind": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"progress": {
 				Type:     schema.TypeList,
@@ -97,6 +154,13 @@ func DatabaseMigrationJobResource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"editable_parameter_files": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"extract": {
 										Type:     schema.TypeList,
 										Computed: true,
@@ -119,6 +183,10 @@ func DatabaseMigrationJobResource() *schema.Resource {
 										},
 									},
 									"is_advisor_report_available": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"is_suspend_available": {
 										Type:     schema.TypeBool,
 										Computed: true,
 									},
@@ -224,7 +292,18 @@ func createDatabaseMigrationJob(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("suspend_trigger"); ok {
+		err := sync.SuspendJob()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readDatabaseMigrationJob(d *schema.ResourceData, m interface{}) error {
@@ -240,7 +319,27 @@ func updateDatabaseMigrationJob(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseMigrationClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("suspend_trigger"); ok && sync.D.HasChange("suspend_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("suspend_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.SuspendJob()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("suspend_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteDatabaseMigrationJob(d *schema.ResourceData, m interface{}) error {
@@ -401,6 +500,12 @@ func (s *DatabaseMigrationJobResourceCrud) SetData() error {
 		s.D.Set("migration_id", *s.Res.MigrationId)
 	}
 
+	parameterFileVersions := []interface{}{}
+	for _, item := range s.Res.ParameterFileVersions {
+		parameterFileVersions = append(parameterFileVersions, ParameterFileVersionSummaryToMap(item))
+	}
+	s.D.Set("parameter_file_versions", parameterFileVersions)
+
 	if s.Res.Progress != nil {
 		s.D.Set("progress", []interface{}{MigrationJobProgressResourceToMap(s.Res.Progress)})
 	} else {
@@ -429,6 +534,30 @@ func (s *DatabaseMigrationJobResourceCrud) SetData() error {
 	}
 	s.D.Set("unsupported_objects", unsupportedObjects)
 
+	return nil
+}
+
+func (s *DatabaseMigrationJobResourceCrud) SuspendJob() error {
+	request := oci_database_migration.SuspendJobRequest{}
+
+	idTmp := s.D.Id()
+	request.JobId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_migration")
+
+	response, err := s.Client.SuspendJob(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("suspend_trigger")
+	s.D.Set("suspend_trigger", val)
+
+	s.Res = &response.Job
 	return nil
 }
 
@@ -528,6 +657,44 @@ func MigrationJobProgressSummaryToMap(obj *oci_database_migration.MigrationJobPr
 	return result
 }
 
+func ParameterFileVersionSummaryToMap(obj oci_database_migration.ParameterFileVersionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	if obj.Description != nil {
+		result["description"] = string(*obj.Description)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IsCurrent != nil {
+		result["is_current"] = bool(*obj.IsCurrent)
+	}
+
+	if obj.IsFactory != nil {
+		result["is_factory"] = bool(*obj.IsFactory)
+	}
+
+	result["kind"] = string(obj.Kind)
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	return result
+}
+
 func PhaseExtractEntryToMap(obj oci_database_migration.PhaseExtractEntry) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -551,6 +718,8 @@ func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interfa
 		result["duration_in_ms"] = int(*obj.DurationInMs)
 	}
 
+	result["editable_parameter_files"] = obj.EditableParameterFiles
+
 	extract := []interface{}{}
 	for _, item := range obj.Extract {
 		extract = append(extract, PhaseExtractEntryToMap(item))
@@ -559,6 +728,10 @@ func PhaseStatusToMap(obj oci_database_migration.PhaseStatus) map[string]interfa
 
 	if obj.IsAdvisorReportAvailable != nil {
 		result["is_advisor_report_available"] = bool(*obj.IsAdvisorReportAvailable)
+	}
+
+	if obj.IsSuspendAvailable != nil {
+		result["is_suspend_available"] = bool(*obj.IsSuspendAvailable)
 	}
 
 	if obj.Issue != nil {

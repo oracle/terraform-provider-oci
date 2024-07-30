@@ -54,6 +54,7 @@ import (
 	tf_email "github.com/oracle/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
+	tf_fleet_software_update "github.com/oracle/terraform-provider-oci/internal/service/fleet_software_update"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
@@ -273,6 +274,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("filestorage") {
 		tf_file_storage.RegisterResource()
+	}
+	if common.CheckForEnabledServices("fleetsoftwareupdate") {
+		tf_fleet_software_update.RegisterResource()
 	}
 	if common.CheckForEnabledServices("functions") {
 		tf_functions.RegisterResource()

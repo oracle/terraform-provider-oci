@@ -63,6 +63,7 @@ func TestDataSafeSecurityAssessmentFindingResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.has_target_db_risk_level_changed"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_risk_modified"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.key"),
+				//resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oneline"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.oracle_defined_severity"),
 				resource.TestCheckResourceAttr(datasourceName, "findings.0.references.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "findings.0.is_top_finding"),

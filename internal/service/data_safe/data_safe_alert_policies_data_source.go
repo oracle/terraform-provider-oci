@@ -65,73 +65,11 @@ func DataSafeAlertPoliciesDataSource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
+
 						"items": {
 							Type:     schema.TypeList,
 							Computed: true,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									// Required
-
-									// Optional
-
-									// Computed
-									"alert_policy_type": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"compartment_id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"defined_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"description": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"display_name": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"freeform_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"id": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"is_user_defined": {
-										Type:     schema.TypeBool,
-										Computed: true,
-									},
-									"severity": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"state": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"system_tags": {
-										Type:     schema.TypeMap,
-										Computed: true,
-										Elem:     schema.TypeString,
-									},
-									"time_created": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"time_updated": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-								},
-							},
+							Elem:     tfresource.GetDataSourceItemSchema(DataSafeAlertPolicyResource()),
 						},
 					},
 				},
@@ -185,10 +123,8 @@ func (s *DataSafeAlertPoliciesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	if isUserDefined, ok := s.D.GetOkExists("is_user_defined"); ok {
-		tmp := isUserDefined.(bool)
-		request.IsUserDefined = &tmp
-	}
+	tmp := true
+	request.IsUserDefined = &tmp
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListAlertPoliciesLifecycleStateEnum(state.(string))
@@ -264,7 +200,6 @@ func (s *DataSafeAlertPoliciesDataSourceCrud) SetData() error {
 
 	return nil
 }
-
 func AlertPolicySummaryToMap(obj oci_data_safe.AlertPolicySummary) map[string]interface{} {
 	result := map[string]interface{}{}
 

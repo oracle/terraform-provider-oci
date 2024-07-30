@@ -930,6 +930,17 @@ var exportCoreComputeCapacityTopologyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreInstanceMaintenanceEventHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_instance_maintenance_event",
+	DatasourceClass:        "oci_core_instance_maintenance_events",
+	DatasourceItemsAttr:    "instance_maintenance_events",
+	ResourceAbbreviation:   "instance_maintenance_event",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.InstanceMaintenanceEventLifecycleStateSucceeded),
+	},
+}
+
 var coreResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportCoreBootVolumeBackupHints},
@@ -979,6 +990,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreCaptureFilterHints},
 		{TerraformResourceHints: exportCoreVtapHints},
 		{TerraformResourceHints: exportCoreComputeClusterHints},
+		{TerraformResourceHints: exportCoreInstanceMaintenanceEventHints},
 		{TerraformResourceHints: exportCoreComputeCapacityTopologyHints},
 	},
 	"oci_core_boot_volume": {

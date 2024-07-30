@@ -33,6 +33,9 @@ type CreateAlertPolicyDetails struct {
 	// The description of the alert policy.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The details of the alert policy rule.
+	AlertPolicyRuleDetails []CreateAlertPolicyRuleDetails `mandatory:"false" json:"alertPolicyRuleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
