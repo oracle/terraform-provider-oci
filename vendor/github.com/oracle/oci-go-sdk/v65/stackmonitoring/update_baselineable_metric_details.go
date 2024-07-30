@@ -45,6 +45,9 @@ type UpdateBaselineableMetricDetails struct {
 	// OCID of the compartment
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// Resource type of the metric
+	ResourceType *string `mandatory:"false" json:"resourceType"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

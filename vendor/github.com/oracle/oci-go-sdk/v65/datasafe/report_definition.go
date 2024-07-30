@@ -110,6 +110,9 @@ type ReportDefinition struct {
 	// The list of the data protection regulations/standards used in the report that will help demonstrate compliance.
 	ComplianceStandards []string `mandatory:"false" json:"complianceStandards"`
 
+	// Details about the current state of the report definition in Data Safe.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

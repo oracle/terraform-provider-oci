@@ -48,6 +48,9 @@ type Job struct {
 	// for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// A list of parameter file versions that can be viewed or edited for the current job.
+	ParameterFileVersions []ParameterFileVersionSummary `mandatory:"false" json:"parameterFileVersions"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags. Example: {"Department": "Finance"}
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

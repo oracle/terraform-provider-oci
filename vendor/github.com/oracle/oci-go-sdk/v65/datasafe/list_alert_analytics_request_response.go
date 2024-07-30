@@ -319,54 +319,63 @@ type ListAlertAnalyticsSummaryFieldEnum string
 
 // Set of constants representing the allowable values for ListAlertAnalyticsSummaryFieldEnum
 const (
-	ListAlertAnalyticsSummaryFieldAlerttype     ListAlertAnalyticsSummaryFieldEnum = "alertType"
-	ListAlertAnalyticsSummaryFieldTargetids     ListAlertAnalyticsSummaryFieldEnum = "targetIds"
-	ListAlertAnalyticsSummaryFieldTargetnames   ListAlertAnalyticsSummaryFieldEnum = "targetNames"
-	ListAlertAnalyticsSummaryFieldAlertseverity ListAlertAnalyticsSummaryFieldEnum = "alertSeverity"
-	ListAlertAnalyticsSummaryFieldAlertstatus   ListAlertAnalyticsSummaryFieldEnum = "alertStatus"
-	ListAlertAnalyticsSummaryFieldTimecreated   ListAlertAnalyticsSummaryFieldEnum = "timeCreated"
-	ListAlertAnalyticsSummaryFieldPolicyid      ListAlertAnalyticsSummaryFieldEnum = "policyId"
-	ListAlertAnalyticsSummaryFieldOpen          ListAlertAnalyticsSummaryFieldEnum = "open"
-	ListAlertAnalyticsSummaryFieldClosed        ListAlertAnalyticsSummaryFieldEnum = "closed"
-	ListAlertAnalyticsSummaryFieldCritical      ListAlertAnalyticsSummaryFieldEnum = "critical"
-	ListAlertAnalyticsSummaryFieldHigh          ListAlertAnalyticsSummaryFieldEnum = "high"
-	ListAlertAnalyticsSummaryFieldMedium        ListAlertAnalyticsSummaryFieldEnum = "medium"
-	ListAlertAnalyticsSummaryFieldLow           ListAlertAnalyticsSummaryFieldEnum = "low"
-	ListAlertAnalyticsSummaryFieldAlertcount    ListAlertAnalyticsSummaryFieldEnum = "alertcount"
+	ListAlertAnalyticsSummaryFieldAlerttype           ListAlertAnalyticsSummaryFieldEnum = "alertType"
+	ListAlertAnalyticsSummaryFieldTargetids           ListAlertAnalyticsSummaryFieldEnum = "targetIds"
+	ListAlertAnalyticsSummaryFieldTargetnames         ListAlertAnalyticsSummaryFieldEnum = "targetNames"
+	ListAlertAnalyticsSummaryFieldAlertseverity       ListAlertAnalyticsSummaryFieldEnum = "alertSeverity"
+	ListAlertAnalyticsSummaryFieldAlertstatus         ListAlertAnalyticsSummaryFieldEnum = "alertStatus"
+	ListAlertAnalyticsSummaryFieldTimecreated         ListAlertAnalyticsSummaryFieldEnum = "timeCreated"
+	ListAlertAnalyticsSummaryFieldPolicyid            ListAlertAnalyticsSummaryFieldEnum = "policyId"
+	ListAlertAnalyticsSummaryFieldOpen                ListAlertAnalyticsSummaryFieldEnum = "open"
+	ListAlertAnalyticsSummaryFieldClosed              ListAlertAnalyticsSummaryFieldEnum = "closed"
+	ListAlertAnalyticsSummaryFieldCritical            ListAlertAnalyticsSummaryFieldEnum = "critical"
+	ListAlertAnalyticsSummaryFieldHigh                ListAlertAnalyticsSummaryFieldEnum = "high"
+	ListAlertAnalyticsSummaryFieldMedium              ListAlertAnalyticsSummaryFieldEnum = "medium"
+	ListAlertAnalyticsSummaryFieldLow                 ListAlertAnalyticsSummaryFieldEnum = "low"
+	ListAlertAnalyticsSummaryFieldAlertcount          ListAlertAnalyticsSummaryFieldEnum = "alertcount"
+	ListAlertAnalyticsSummaryFieldAlertpolicyrulekey  ListAlertAnalyticsSummaryFieldEnum = "alertPolicyRuleKey"
+	ListAlertAnalyticsSummaryFieldAlertpolicyrulename ListAlertAnalyticsSummaryFieldEnum = "alertPolicyRuleName"
+	ListAlertAnalyticsSummaryFieldThrottled           ListAlertAnalyticsSummaryFieldEnum = "throttled"
 )
 
 var mappingListAlertAnalyticsSummaryFieldEnum = map[string]ListAlertAnalyticsSummaryFieldEnum{
-	"alertType":     ListAlertAnalyticsSummaryFieldAlerttype,
-	"targetIds":     ListAlertAnalyticsSummaryFieldTargetids,
-	"targetNames":   ListAlertAnalyticsSummaryFieldTargetnames,
-	"alertSeverity": ListAlertAnalyticsSummaryFieldAlertseverity,
-	"alertStatus":   ListAlertAnalyticsSummaryFieldAlertstatus,
-	"timeCreated":   ListAlertAnalyticsSummaryFieldTimecreated,
-	"policyId":      ListAlertAnalyticsSummaryFieldPolicyid,
-	"open":          ListAlertAnalyticsSummaryFieldOpen,
-	"closed":        ListAlertAnalyticsSummaryFieldClosed,
-	"critical":      ListAlertAnalyticsSummaryFieldCritical,
-	"high":          ListAlertAnalyticsSummaryFieldHigh,
-	"medium":        ListAlertAnalyticsSummaryFieldMedium,
-	"low":           ListAlertAnalyticsSummaryFieldLow,
-	"alertcount":    ListAlertAnalyticsSummaryFieldAlertcount,
+	"alertType":           ListAlertAnalyticsSummaryFieldAlerttype,
+	"targetIds":           ListAlertAnalyticsSummaryFieldTargetids,
+	"targetNames":         ListAlertAnalyticsSummaryFieldTargetnames,
+	"alertSeverity":       ListAlertAnalyticsSummaryFieldAlertseverity,
+	"alertStatus":         ListAlertAnalyticsSummaryFieldAlertstatus,
+	"timeCreated":         ListAlertAnalyticsSummaryFieldTimecreated,
+	"policyId":            ListAlertAnalyticsSummaryFieldPolicyid,
+	"open":                ListAlertAnalyticsSummaryFieldOpen,
+	"closed":              ListAlertAnalyticsSummaryFieldClosed,
+	"critical":            ListAlertAnalyticsSummaryFieldCritical,
+	"high":                ListAlertAnalyticsSummaryFieldHigh,
+	"medium":              ListAlertAnalyticsSummaryFieldMedium,
+	"low":                 ListAlertAnalyticsSummaryFieldLow,
+	"alertcount":          ListAlertAnalyticsSummaryFieldAlertcount,
+	"alertPolicyRuleKey":  ListAlertAnalyticsSummaryFieldAlertpolicyrulekey,
+	"alertPolicyRuleName": ListAlertAnalyticsSummaryFieldAlertpolicyrulename,
+	"throttled":           ListAlertAnalyticsSummaryFieldThrottled,
 }
 
 var mappingListAlertAnalyticsSummaryFieldEnumLowerCase = map[string]ListAlertAnalyticsSummaryFieldEnum{
-	"alerttype":     ListAlertAnalyticsSummaryFieldAlerttype,
-	"targetids":     ListAlertAnalyticsSummaryFieldTargetids,
-	"targetnames":   ListAlertAnalyticsSummaryFieldTargetnames,
-	"alertseverity": ListAlertAnalyticsSummaryFieldAlertseverity,
-	"alertstatus":   ListAlertAnalyticsSummaryFieldAlertstatus,
-	"timecreated":   ListAlertAnalyticsSummaryFieldTimecreated,
-	"policyid":      ListAlertAnalyticsSummaryFieldPolicyid,
-	"open":          ListAlertAnalyticsSummaryFieldOpen,
-	"closed":        ListAlertAnalyticsSummaryFieldClosed,
-	"critical":      ListAlertAnalyticsSummaryFieldCritical,
-	"high":          ListAlertAnalyticsSummaryFieldHigh,
-	"medium":        ListAlertAnalyticsSummaryFieldMedium,
-	"low":           ListAlertAnalyticsSummaryFieldLow,
-	"alertcount":    ListAlertAnalyticsSummaryFieldAlertcount,
+	"alerttype":           ListAlertAnalyticsSummaryFieldAlerttype,
+	"targetids":           ListAlertAnalyticsSummaryFieldTargetids,
+	"targetnames":         ListAlertAnalyticsSummaryFieldTargetnames,
+	"alertseverity":       ListAlertAnalyticsSummaryFieldAlertseverity,
+	"alertstatus":         ListAlertAnalyticsSummaryFieldAlertstatus,
+	"timecreated":         ListAlertAnalyticsSummaryFieldTimecreated,
+	"policyid":            ListAlertAnalyticsSummaryFieldPolicyid,
+	"open":                ListAlertAnalyticsSummaryFieldOpen,
+	"closed":              ListAlertAnalyticsSummaryFieldClosed,
+	"critical":            ListAlertAnalyticsSummaryFieldCritical,
+	"high":                ListAlertAnalyticsSummaryFieldHigh,
+	"medium":              ListAlertAnalyticsSummaryFieldMedium,
+	"low":                 ListAlertAnalyticsSummaryFieldLow,
+	"alertcount":          ListAlertAnalyticsSummaryFieldAlertcount,
+	"alertpolicyrulekey":  ListAlertAnalyticsSummaryFieldAlertpolicyrulekey,
+	"alertpolicyrulename": ListAlertAnalyticsSummaryFieldAlertpolicyrulename,
+	"throttled":           ListAlertAnalyticsSummaryFieldThrottled,
 }
 
 // GetListAlertAnalyticsSummaryFieldEnumValues Enumerates the set of values for ListAlertAnalyticsSummaryFieldEnum
@@ -395,6 +404,9 @@ func GetListAlertAnalyticsSummaryFieldEnumStringValues() []string {
 		"medium",
 		"low",
 		"alertcount",
+		"alertPolicyRuleKey",
+		"alertPolicyRuleName",
+		"throttled",
 	}
 }
 
@@ -409,33 +421,39 @@ type ListAlertAnalyticsGroupByEnum string
 
 // Set of constants representing the allowable values for ListAlertAnalyticsGroupByEnum
 const (
-	ListAlertAnalyticsGroupByAlerttype     ListAlertAnalyticsGroupByEnum = "alertType"
-	ListAlertAnalyticsGroupByTargetids     ListAlertAnalyticsGroupByEnum = "targetIds"
-	ListAlertAnalyticsGroupByTargetnames   ListAlertAnalyticsGroupByEnum = "targetNames"
-	ListAlertAnalyticsGroupByAlertseverity ListAlertAnalyticsGroupByEnum = "alertSeverity"
-	ListAlertAnalyticsGroupByAlertstatus   ListAlertAnalyticsGroupByEnum = "alertStatus"
-	ListAlertAnalyticsGroupByTimecreated   ListAlertAnalyticsGroupByEnum = "timeCreated"
-	ListAlertAnalyticsGroupByPolicyid      ListAlertAnalyticsGroupByEnum = "policyId"
+	ListAlertAnalyticsGroupByAlerttype           ListAlertAnalyticsGroupByEnum = "alertType"
+	ListAlertAnalyticsGroupByTargetids           ListAlertAnalyticsGroupByEnum = "targetIds"
+	ListAlertAnalyticsGroupByTargetnames         ListAlertAnalyticsGroupByEnum = "targetNames"
+	ListAlertAnalyticsGroupByAlertseverity       ListAlertAnalyticsGroupByEnum = "alertSeverity"
+	ListAlertAnalyticsGroupByAlertstatus         ListAlertAnalyticsGroupByEnum = "alertStatus"
+	ListAlertAnalyticsGroupByTimecreated         ListAlertAnalyticsGroupByEnum = "timeCreated"
+	ListAlertAnalyticsGroupByPolicyid            ListAlertAnalyticsGroupByEnum = "policyId"
+	ListAlertAnalyticsGroupByAlertpolicyrulekey  ListAlertAnalyticsGroupByEnum = "alertPolicyRuleKey"
+	ListAlertAnalyticsGroupByAlertpolicyrulename ListAlertAnalyticsGroupByEnum = "alertPolicyRuleName"
 )
 
 var mappingListAlertAnalyticsGroupByEnum = map[string]ListAlertAnalyticsGroupByEnum{
-	"alertType":     ListAlertAnalyticsGroupByAlerttype,
-	"targetIds":     ListAlertAnalyticsGroupByTargetids,
-	"targetNames":   ListAlertAnalyticsGroupByTargetnames,
-	"alertSeverity": ListAlertAnalyticsGroupByAlertseverity,
-	"alertStatus":   ListAlertAnalyticsGroupByAlertstatus,
-	"timeCreated":   ListAlertAnalyticsGroupByTimecreated,
-	"policyId":      ListAlertAnalyticsGroupByPolicyid,
+	"alertType":           ListAlertAnalyticsGroupByAlerttype,
+	"targetIds":           ListAlertAnalyticsGroupByTargetids,
+	"targetNames":         ListAlertAnalyticsGroupByTargetnames,
+	"alertSeverity":       ListAlertAnalyticsGroupByAlertseverity,
+	"alertStatus":         ListAlertAnalyticsGroupByAlertstatus,
+	"timeCreated":         ListAlertAnalyticsGroupByTimecreated,
+	"policyId":            ListAlertAnalyticsGroupByPolicyid,
+	"alertPolicyRuleKey":  ListAlertAnalyticsGroupByAlertpolicyrulekey,
+	"alertPolicyRuleName": ListAlertAnalyticsGroupByAlertpolicyrulename,
 }
 
 var mappingListAlertAnalyticsGroupByEnumLowerCase = map[string]ListAlertAnalyticsGroupByEnum{
-	"alerttype":     ListAlertAnalyticsGroupByAlerttype,
-	"targetids":     ListAlertAnalyticsGroupByTargetids,
-	"targetnames":   ListAlertAnalyticsGroupByTargetnames,
-	"alertseverity": ListAlertAnalyticsGroupByAlertseverity,
-	"alertstatus":   ListAlertAnalyticsGroupByAlertstatus,
-	"timecreated":   ListAlertAnalyticsGroupByTimecreated,
-	"policyid":      ListAlertAnalyticsGroupByPolicyid,
+	"alerttype":           ListAlertAnalyticsGroupByAlerttype,
+	"targetids":           ListAlertAnalyticsGroupByTargetids,
+	"targetnames":         ListAlertAnalyticsGroupByTargetnames,
+	"alertseverity":       ListAlertAnalyticsGroupByAlertseverity,
+	"alertstatus":         ListAlertAnalyticsGroupByAlertstatus,
+	"timecreated":         ListAlertAnalyticsGroupByTimecreated,
+	"policyid":            ListAlertAnalyticsGroupByPolicyid,
+	"alertpolicyrulekey":  ListAlertAnalyticsGroupByAlertpolicyrulekey,
+	"alertpolicyrulename": ListAlertAnalyticsGroupByAlertpolicyrulename,
 }
 
 // GetListAlertAnalyticsGroupByEnumValues Enumerates the set of values for ListAlertAnalyticsGroupByEnum
@@ -457,6 +475,8 @@ func GetListAlertAnalyticsGroupByEnumStringValues() []string {
 		"alertStatus",
 		"timeCreated",
 		"policyId",
+		"alertPolicyRuleKey",
+		"alertPolicyRuleName",
 	}
 }
 

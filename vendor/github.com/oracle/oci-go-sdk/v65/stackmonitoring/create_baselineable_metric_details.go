@@ -21,17 +21,20 @@ type CreateBaselineableMetricDetails struct {
 	// OCID of the compartment
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// name of the metric
-	Name *string `mandatory:"true" json:"name"`
-
 	// metric column name
 	Column *string `mandatory:"true" json:"column"`
 
 	// namespace of the metric
 	Namespace *string `mandatory:"true" json:"namespace"`
 
+	// name of the metric
+	Name *string `mandatory:"false" json:"name"`
+
 	// Resource group of the metric
-	ResourceGroup *string `mandatory:"true" json:"resourceGroup"`
+	ResourceGroup *string `mandatory:"false" json:"resourceGroup"`
+
+	// Resource type of the metric
+	ResourceType *string `mandatory:"false" json:"resourceType"`
 }
 
 func (m CreateBaselineableMetricDetails) String() string {
