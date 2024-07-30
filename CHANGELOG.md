@@ -1,3 +1,21 @@
+## 6.5.0 (Unreleased)
+
+### Added
+- Support for Instance maintenance events api
+- Support for Fleet Patching Service for ExaCS and ExaCC
+- Support for Implicit JIT and Group Membership Support in OIDC Flow
+-Support for OCI Cache -Lua Support on Redis 7.0.15
+- Support for Stack Monitoring: Baseline / Anomalies Enhancements
+- Support for Tunnel inspection rules in network firewall policy
+- Support for Data Safe - Custom Alert Policy for Audit - Examples
+- Support for [Expose Logical CPG ID] Terraform Support in Prod Region ADB-S: Adding an attribute to the autonomous database summary object
+- Support for Goldengate Suspend Phase / Parameter File Update Support
+### Bug Fix
+- Fixing tvarious CC test cases
+- Db_Node id setting causing an issue with backward compatability
+- Take shape as input for add node
+- Excluding basemodels in the stack in resource discovery
+
 ## 6.4.0 (July 24, 2024)
 
 ### Added
