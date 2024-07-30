@@ -1,4 +1,4 @@
-## 6.5.0 (Unreleased)
+## 6.5.0 (July 30, 2024)
 
 ### Added
 - Support for Instance maintenance events api
