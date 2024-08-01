@@ -87,9 +87,9 @@ func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) Get() error {
 		request.DrPlanExecutionId = &tmp
 	}
 
-	if drPlanExecutionType, ok := s.D.GetOkExists("dr_plan_execution_type"); ok {
+	/*if drPlanExecutionType, ok := s.D.GetOkExists("dr_plan_execution_type"); ok {
 		request.DrPlanExecutionType = oci_disaster_recovery.ListDrPlanExecutionsDrPlanExecutionTypeEnum(drPlanExecutionType.(string))
-	}
+	}*/
 
 	if drProtectionGroupId, ok := s.D.GetOkExists("dr_protection_group_id"); ok {
 		tmp := drProtectionGroupId.(string)
