@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// SuppressionCondition Precondition for an alarm suppression within the suppression date/time range (timeSuppressFrom to timeSuppressUntil).
+// SuppressionCondition Precondition for an alarm suppression within the suppression date and time range (`timeSuppressFrom` to `timeSuppressUntil`).
 type SuppressionCondition interface {
 }
 

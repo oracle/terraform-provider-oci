@@ -29,6 +29,11 @@ type EnableReverseConnectionsDetails struct {
 	// an empty list is provided, an IP address will be chosen from the customer subnet's CIDR.
 	ReverseConnectionsSourceIps []ReverseConnectionsSourceIpDetails `mandatory:"false" json:"reverseConnectionsSourceIps"`
 
+	// A list of IPv6 addresses in the customer VCN to be used as the source IPs for reverse connection packets
+	// traveling from the service's VCN to the customer's VCN. If no list is specified or
+	// an empty list is provided, an IP address will be chosen from the customer subnet's CIDR.
+	ReverseConnectionsSourceIpv6s []ReverseConnectionsSourceIpDetails `mandatory:"false" json:"reverseConnectionsSourceIpv6s"`
+
 	// Whether a proxy should be configured for the reverse connection. If the service
 	// does not intend to use any proxy, set this to `false`.
 	// Example: `false`
@@ -43,6 +48,14 @@ type EnableReverseConnectionsDetails struct {
 	// services DNS & SCAN proxy. If no value is provided, an available IP address will
 	// be chosen from the service subnet's CIDR.
 	ProxyIp *string `mandatory:"false" json:"proxyIp"`
+
+	// The IPv6 address in the service VCN to be used to reach the reverse connection proxy
+	// services DNS & SCAN proxy. If no value is provided, an available IP address will
+	// be chosen from the service subnet's CIDR.
+	ProxyIpv6 *string `mandatory:"false" json:"proxyIpv6"`
+
+	// This optional field will indicate whether the RCE dns proxy will use v4 and v6 address in service dualstack subnet.
+	IsAssignDualstackProxyIpv6 *bool `mandatory:"false" json:"isAssignDualstackProxyIpv6"`
 
 	// The IP address in the service VCN to be used to reach the DNS proxy that resolves the
 	// customer FQDN for reverse connections. If no value is provided, an available IP address will
@@ -83,6 +96,16 @@ type EnableReverseConnectionsDetails struct {
 	// The size may not be updated with smaller number than previously specified value, but may be increased.
 	CustomerEndpointsSize *int `mandatory:"false" json:"customerEndpointsSize"`
 
+	// Number of customer endpoints that the service provider expects to establish connections to using this RCE. The default is 0.
+	// When non-zero value is specified, reverse connection configuration will be allocated with a list of CIDRs, from
+	// which NAT IPv6 addresses will be allocated. These list of CIDRs will not be shared by other reverse
+	// connection enabled private endpoints.
+	// When zero is specified, reverse connection configuration will get NAT IP addresses from common pool of CIDRs,
+	// which will be shared with other reverse connection enabled private endpoints.
+	// If the private endpoint was enabled with reverse connection with 0 already, the field is not updatable.
+	// The size may not be updated with smaller number than previously specified value, but may be increased.
+	CustomerEndpointsV6Size *int `mandatory:"false" json:"customerEndpointsV6Size"`
+
 	// Layer 4 transport protocol to be used when resolving DNS queries within the default DNS resolution context.
 	DefaultDnsContextTransport EnableReverseConnectionsDetailsDefaultDnsContextTransportEnum `mandatory:"false" json:"defaultDnsContextTransport,omitempty"`
 
@@ -92,6 +115,13 @@ type EnableReverseConnectionsDetails struct {
 	// NAT IP addresses from the dedicated pool of CIDRs, else will get specified from the common pool of CIDRs.
 	// This field cannot be specified if the customerEndpointsSize field is non null and vice versa.
 	ReverseConnectionNatIpCidrs []string `mandatory:"false" json:"reverseConnectionNatIpCidrs"`
+
+	// List of CIDRs that this reverse connection configuration will allocate the NAT IP addresses from.
+	// CIDRs on this list should not be shared by other reverse connection enabled private endpoints.
+	// When not specified, if the customerEndpointSize is non null, reverse connection configuration will get
+	// NAT IPv6 addresses from the dedicated pool of CIDRs, else will get specified from the common pool of CIDRs.
+	// This field cannot be specified if the customerEndpointsSize field is non null and vice versa.
+	ReverseConnectionNatIpv6Cidrs []string `mandatory:"false" json:"reverseConnectionNatIpv6Cidrs"`
 
 	// Whether the reverse connection should be configured with single Ip. If the service
 	// does not intend to use single Ip for both forward and reverse connection, set this to `false`.

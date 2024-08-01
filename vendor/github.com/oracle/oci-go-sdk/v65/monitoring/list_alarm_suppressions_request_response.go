@@ -22,7 +22,7 @@ type ListAlarmSuppressionsRequest struct {
 	AlarmId *string `mandatory:"false" contributesTo:"query" name:"alarmId"`
 
 	// A filter to return only resources that match the given display name exactly.
-	// Use this filter to list a alarm suppression by name.
+	// Use this filter to list an alarm suppression by name.
 	// Alternatively, when you know the alarm suppression OCID, use the GetAlarmSuppression operation.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -35,9 +35,9 @@ type ListAlarmSuppressionsRequest struct {
 	Level AlarmSuppressionLevelEnum `mandatory:"false" contributesTo:"query" name:"level" omitEmpty:"true"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment for searching.
-	// Use tenancyId to search in the root compartment.
-	// If targetType is not specified, this parameter results in all the suppressions defined under the compartment.
-	// If targetType is `COMPARTMENT`, this parameter results in suppressions with the compartment ID as target.
+	// Use the tenancy OCID to search in the root compartment.
+	// If targetType is not specified, searches all suppressions defined under the compartment.
+	// If targetType is `COMPARTMENT`, searches suppressions in the specified compartment only.
 	// Example: `ocid1.compartment.oc1..exampleuniqueID`
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
@@ -49,9 +49,16 @@ type ListAlarmSuppressionsRequest struct {
 	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
 
 	// The target type to use when listing alarm suppressions.
-	// `ALARM` lists all suppression records targeting an alarm.
-	// `COMPARTMENT` lists all suppression records targeting alarms in a compartment / tenancy.
+	// `ALARM` lists all suppression records for the specified alarm.
+	// `COMPARTMENT` lists all suppression records for the specified compartment or tenancy.
 	TargetType ListAlarmSuppressionsTargetTypeEnum `mandatory:"false" contributesTo:"query" name:"targetType" omitEmpty:"true"`
+
+	// Setting this parameter to true requires the query to specify the alarm (`alarmId`).
+	// When true, lists all alarm suppressions that affect the specified alarm,
+	// including suppressions that target the corresponding compartment or tenancy.
+	// When false, lists only the alarm suppressions that target the specified alarm.
+	// Default is false.
+	IsAllSuppressions *bool `mandatory:"false" contributesTo:"query" name:"isAllSuppressions"`
 
 	// The field to use when sorting returned alarm suppressions. Only one sorting level is provided.
 	// Example: `timeCreated`

@@ -19,23 +19,18 @@ import (
 	"strings"
 )
 
-// Recurrence Alarm suppression recurring schedule. Only one recurrence condition is supported for suppression.
+// Recurrence Alarm suppression recurring schedule. Only one recurrence condition is supported within the list of preconditions for a suppression (`suppressionConditions`).
 type Recurrence struct {
 
-	// This specify frequency and time of recurring suppression. suppressionRecurrence is following standard RFC 5545 section.
-	// Please refer this for details:https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10
-	// FREQ = frequency of recurring suppression. Only WEEKLY and DAILY supported.
-	// BYDAY = Comma separated days for Weekly suppression.
-	// BYHOUR, BYMINUTE, BYSECOND = These specify recurring suppression start time in UTC after `timeSuppressFrom` value. Defaults to "00:00:00" if not specified.
-	// Other Rules are not supported.
-	// Example:
-	// To create recurring suppression on every Monday and Tuesday at 10:00:00 UTC
-	// FREQ=WEEKLY;BYDAY=MO,TU;BYHOUR=10
-	// To create recurring suppression every day at 21:30 UTC
-	// FREQ=DAILY;BYHOUR=21;BYMINUTE=30
+	// Frequency and start time of the recurring suppression. The format follows
+	// the iCalendar specification (RFC 5545, section 3.3.10) (https://datatracker.ietf.org/doc/html/rfc5545#section-3.3.10).
+	// Supported rule parts:
+	// * `FREQ`: Frequency of the recurring suppression: `WEEKLY` or `DAILY` only.
+	// * `BYDAY`: Comma separated days. Use with weekly suppressions only. Supported values: `MO`, `TU`, `WE`, `TH`, `FR`, `SA` ,`SU`.
+	// * `BYHOUR`, `BYMINUTE`, `BYSECOND`: Start time in UTC, after `timeSuppressFrom` value. Default is 00:00:00 UTC after `timeSuppressFrom`.
 	SuppressionRecurrence *string `mandatory:"true" json:"suppressionRecurrence"`
 
-	// Recurring suppression duration. example: PT10M, PT1H
+	// Duration of the recurring suppression. Specified as a string in ISO 8601 format. Minimum: `PT1M` (1 minute). Maximum: `PT24H` (24 hours).
 	SuppressionDuration *string `mandatory:"true" json:"suppressionDuration"`
 }
 

@@ -54,6 +54,9 @@ type FusionEnvironmentFamily struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Indicates when the family received the last subscription update
+	TimeLastSubscriptionUpdate *common.SDKTime `mandatory:"false" json:"timeLastSubscriptionUpdate"`
 }
 
 func (m FusionEnvironmentFamily) String() string {

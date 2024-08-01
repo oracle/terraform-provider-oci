@@ -91,6 +91,10 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberComputeInstanceNonMovable{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AUTONOMOUS_CONTAINER_DATABASE":
+		mm := DrProtectionGroupMemberAutonomousContainerDatabase{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := DrProtectionGroupMemberDatabase{}
 		err = json.Unmarshal(data, &mm)

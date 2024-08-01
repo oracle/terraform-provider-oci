@@ -39,6 +39,9 @@ type CreateEndpointServiceDetails struct {
 	// private endpoint service, customers never see this description. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// List of service IPv6 addresses (in the service VCN) that handle requests to the endpoint service.(Optional field)
+	ServiceIpv6s []EndpointServiceIpDetails `mandatory:"false" json:"serviceIpv6s"`
+
 	// A friendly name for the endpoint service. Must be unique within the VCN. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

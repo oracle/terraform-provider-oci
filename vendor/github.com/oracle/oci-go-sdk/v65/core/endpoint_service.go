@@ -38,7 +38,7 @@ type EndpointService struct {
 	// endpoint service.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of service IP addresses (in the service VCN) that handle requests to the endpoint service.
+	// List of service IPv4 addresses (in the service VCN) that handle requests to the endpoint service.
 	ServiceIps []EndpointServiceIpDetails `mandatory:"true" json:"serviceIps"`
 
 	// The ports on the endpoint service IPs that are open for private endpoint traffic for this
@@ -81,6 +81,9 @@ type EndpointService struct {
 
 	// Reserved for future use.
 	IsVcnMetadataEnabled *bool `mandatory:"false" json:"isVcnMetadataEnabled"`
+
+	// List of service IPv6 addresses (in the service VCN) that handle requests to the endpoint service. (Optional field)
+	ServiceIpv6s []EndpointServiceIpDetails `mandatory:"false" json:"serviceIpv6s"`
 
 	// ES from substrate or not
 	IsSubstrate *bool `mandatory:"false" json:"isSubstrate"`

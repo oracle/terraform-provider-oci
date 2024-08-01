@@ -90,6 +90,10 @@ type ReverseConnectionConfiguration struct {
 	// CIDRs on this list is guaranteed to be not shared by other reverse connection enabled private endpoints.
 	ReverseConnectionNatIpCidrs []string `mandatory:"false" json:"reverseConnectionNatIpCidrs"`
 
+	// List of IPv6 CIDRs that this reverse connection configuration will allocate the NAT IPv6 addresses from.
+	// IPv6 CIDRs on this list is guaranteed to be not shared by other reverse connection enabled private endpoints. (Optional field)
+	ReverseConnectionNatIpv6Cidrs []string `mandatory:"false" json:"reverseConnectionNatIpv6Cidrs"`
+
 	// Layer 4 transport protocol to be used when resolving DNS queries within the default DNS resolution context.
 	DefaultDnsContextTransport ReverseConnectionConfigurationDefaultDnsContextTransportEnum `mandatory:"false" json:"defaultDnsContextTransport,omitempty"`
 

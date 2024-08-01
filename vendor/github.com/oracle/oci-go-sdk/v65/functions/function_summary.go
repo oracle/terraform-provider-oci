@@ -67,6 +67,9 @@ type FunctionSummary struct {
 	// The base https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.
 	InvokeEndpoint *string `mandatory:"false" json:"invokeEndpoint"`
 
+	// The base dual-stack(IPV6 and IPv4) https invoke URL to set on a client in order to invoke a function. This URL will never change over the lifetime of the function and can be cached.
+	DualStackInvokeEndpoint *string `mandatory:"false" json:"dualStackInvokeEndpoint"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
@@ -121,6 +124,7 @@ func (m *FunctionSummary) UnmarshalJSON(data []byte) (e error) {
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		InvokeEndpoint               *string                              `json:"invokeEndpoint"`
+		DualStackInvokeEndpoint      *string                              `json:"dualStackInvokeEndpoint"`
 		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
 		TimeCreated                  *common.SDKTime                      `json:"timeCreated"`
 		TimeUpdated                  *common.SDKTime                      `json:"timeUpdated"`
@@ -175,6 +179,8 @@ func (m *FunctionSummary) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.InvokeEndpoint = model.InvokeEndpoint
+
+	m.DualStackInvokeEndpoint = model.DualStackInvokeEndpoint
 
 	m.DefinedTags = model.DefinedTags
 

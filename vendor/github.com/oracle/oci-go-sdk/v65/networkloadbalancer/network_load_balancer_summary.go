@@ -38,7 +38,7 @@ type NetworkLoadBalancerSummary struct {
 	// An array of IP addresses.
 	IpAddresses []IpAddress `mandatory:"true" json:"ipAddresses"`
 
-	// The subnet in which the network load balancer is spawned OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)."
+	// The subnet in which the network load balancer is spawned OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	// A message describing the current state in more detail.
@@ -58,7 +58,7 @@ type NetworkLoadBalancerSummary struct {
 	// A public network load balancer is accessible from the internet, depending the
 	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and
 	// private network load balancers,
-	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/overview.htm).
+	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
@@ -81,6 +81,10 @@ type NetworkLoadBalancerSummary struct {
 	// Example: ["ocid1.nsg.oc1.phx.unique_ID"]
 	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
+	// for the ServiceVnic placement.
+	CpgId *string `mandatory:"false" json:"cpgId"`
+
 	// Listeners associated with the network load balancer.
 	Listeners map[string]Listener `mandatory:"false" json:"listeners"`
 
@@ -91,6 +95,11 @@ type NetworkLoadBalancerSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{ "oracle-zpr": { "td": { "value": "42", "mode": "audit" } } }`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).

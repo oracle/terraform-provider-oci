@@ -16,8 +16,8 @@ import (
 )
 
 // ListenerDetails The listener's configuration.
-// For more information about listener configuration, see
-// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
+// For more information about backend set configuration, see
+// Managing Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
 type ListenerDetails struct {
 
 	// A friendly name for the listener. It must be unique and it cannot be changed.
@@ -49,12 +49,12 @@ type ListenerDetails struct {
 	// Example: ["VCN_ID"]
 	InternalProxyProtocolOptions []MetadataOptionsEnum `mandatory:"false" json:"internalProxyProtocolOptions"`
 
-	// The duration for TCP idle timeout
-	// Example: `200`
+	// The duration for TCP idle timeout in seconds.
+	// Example: `300`
 	TcpIdleTimeout *int `mandatory:"false" json:"tcpIdleTimeout"`
 
-	// The duration for UDP idle timeout
-	// Example: `200`
+	// The duration for UDP idle timeout in seconds.
+	// Example: `120`
 	UdpIdleTimeout *int `mandatory:"false" json:"udpIdleTimeout"`
 }
 

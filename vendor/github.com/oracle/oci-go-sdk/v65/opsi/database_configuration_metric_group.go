@@ -70,8 +70,24 @@ func (m *databaseconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte)
 		mm := DbParameters{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_CONNECTION_STATUS":
+		mm := DbConnectionStatus{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HOST_RESOURCE_ALLOCATION":
+		mm := HostAllocation{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "EXADATA_CELL_CONFIG":
+		mm := ExadataCellConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DB_EXTERNAL_PROPERTIES":
 		mm := DbExternalProperties{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "ASM_ENTITY":
+		mm := ExadataAsmEntity{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -106,24 +122,36 @@ type DatabaseConfigurationMetricGroupMetricNameEnum string
 
 // Set of constants representing the allowable values for DatabaseConfigurationMetricGroupMetricNameEnum
 const (
-	DatabaseConfigurationMetricGroupMetricNameExternalProperties DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_PROPERTIES"
-	DatabaseConfigurationMetricGroupMetricNameExternalInstance   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_INSTANCE"
-	DatabaseConfigurationMetricGroupMetricNameOsConfigInstance   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_OS_CONFIG_INSTANCE"
-	DatabaseConfigurationMetricGroupMetricNameParameters         DatabaseConfigurationMetricGroupMetricNameEnum = "DB_PARAMETERS"
+	DatabaseConfigurationMetricGroupMetricNameDbExternalProperties   DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_PROPERTIES"
+	DatabaseConfigurationMetricGroupMetricNameDbExternalInstance     DatabaseConfigurationMetricGroupMetricNameEnum = "DB_EXTERNAL_INSTANCE"
+	DatabaseConfigurationMetricGroupMetricNameDbOsConfigInstance     DatabaseConfigurationMetricGroupMetricNameEnum = "DB_OS_CONFIG_INSTANCE"
+	DatabaseConfigurationMetricGroupMetricNameDbParameters           DatabaseConfigurationMetricGroupMetricNameEnum = "DB_PARAMETERS"
+	DatabaseConfigurationMetricGroupMetricNameDbConnectionStatus     DatabaseConfigurationMetricGroupMetricNameEnum = "DB_CONNECTION_STATUS"
+	DatabaseConfigurationMetricGroupMetricNameHostResourceAllocation DatabaseConfigurationMetricGroupMetricNameEnum = "HOST_RESOURCE_ALLOCATION"
+	DatabaseConfigurationMetricGroupMetricNameAsmEntity              DatabaseConfigurationMetricGroupMetricNameEnum = "ASM_ENTITY"
+	DatabaseConfigurationMetricGroupMetricNameExadataCellConfig      DatabaseConfigurationMetricGroupMetricNameEnum = "EXADATA_CELL_CONFIG"
 )
 
 var mappingDatabaseConfigurationMetricGroupMetricNameEnum = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
-	"DB_EXTERNAL_PROPERTIES": DatabaseConfigurationMetricGroupMetricNameExternalProperties,
-	"DB_EXTERNAL_INSTANCE":   DatabaseConfigurationMetricGroupMetricNameExternalInstance,
-	"DB_OS_CONFIG_INSTANCE":  DatabaseConfigurationMetricGroupMetricNameOsConfigInstance,
-	"DB_PARAMETERS":          DatabaseConfigurationMetricGroupMetricNameParameters,
+	"DB_EXTERNAL_PROPERTIES":   DatabaseConfigurationMetricGroupMetricNameDbExternalProperties,
+	"DB_EXTERNAL_INSTANCE":     DatabaseConfigurationMetricGroupMetricNameDbExternalInstance,
+	"DB_OS_CONFIG_INSTANCE":    DatabaseConfigurationMetricGroupMetricNameDbOsConfigInstance,
+	"DB_PARAMETERS":            DatabaseConfigurationMetricGroupMetricNameDbParameters,
+	"DB_CONNECTION_STATUS":     DatabaseConfigurationMetricGroupMetricNameDbConnectionStatus,
+	"HOST_RESOURCE_ALLOCATION": DatabaseConfigurationMetricGroupMetricNameHostResourceAllocation,
+	"ASM_ENTITY":               DatabaseConfigurationMetricGroupMetricNameAsmEntity,
+	"EXADATA_CELL_CONFIG":      DatabaseConfigurationMetricGroupMetricNameExadataCellConfig,
 }
 
 var mappingDatabaseConfigurationMetricGroupMetricNameEnumLowerCase = map[string]DatabaseConfigurationMetricGroupMetricNameEnum{
-	"db_external_properties": DatabaseConfigurationMetricGroupMetricNameExternalProperties,
-	"db_external_instance":   DatabaseConfigurationMetricGroupMetricNameExternalInstance,
-	"db_os_config_instance":  DatabaseConfigurationMetricGroupMetricNameOsConfigInstance,
-	"db_parameters":          DatabaseConfigurationMetricGroupMetricNameParameters,
+	"db_external_properties":   DatabaseConfigurationMetricGroupMetricNameDbExternalProperties,
+	"db_external_instance":     DatabaseConfigurationMetricGroupMetricNameDbExternalInstance,
+	"db_os_config_instance":    DatabaseConfigurationMetricGroupMetricNameDbOsConfigInstance,
+	"db_parameters":            DatabaseConfigurationMetricGroupMetricNameDbParameters,
+	"db_connection_status":     DatabaseConfigurationMetricGroupMetricNameDbConnectionStatus,
+	"host_resource_allocation": DatabaseConfigurationMetricGroupMetricNameHostResourceAllocation,
+	"asm_entity":               DatabaseConfigurationMetricGroupMetricNameAsmEntity,
+	"exadata_cell_config":      DatabaseConfigurationMetricGroupMetricNameExadataCellConfig,
 }
 
 // GetDatabaseConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for DatabaseConfigurationMetricGroupMetricNameEnum
@@ -142,6 +170,10 @@ func GetDatabaseConfigurationMetricGroupMetricNameEnumStringValues() []string {
 		"DB_EXTERNAL_INSTANCE",
 		"DB_OS_CONFIG_INSTANCE",
 		"DB_PARAMETERS",
+		"DB_CONNECTION_STATUS",
+		"HOST_RESOURCE_ALLOCATION",
+		"ASM_ENTITY",
+		"EXADATA_CELL_CONFIG",
 	}
 }
 

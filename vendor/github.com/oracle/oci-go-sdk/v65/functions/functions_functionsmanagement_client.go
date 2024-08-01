@@ -15,12 +15,15 @@ import (
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"github.com/oracle/oci-go-sdk/v65/common/auth"
 	"net/http"
+
+	"regexp"
 )
 
 // FunctionsManagementClient a client for FunctionsManagement
 type FunctionsManagementClient struct {
 	common.BaseClient
-	config *common.ConfigurationProvider
+	config                   *common.ConfigurationProvider
+	requiredParamsInEndpoint map[string][]common.TemplateParamForPerRealmEndpoint
 }
 
 // NewFunctionsManagementClientWithConfigurationProvider Creates a new default FunctionsManagement client with the given configuration provider.
@@ -67,7 +70,8 @@ func newFunctionsManagementClientFromBaseClient(baseClient common.BaseClient, co
 
 // SetRegion overrides the region of this client.
 func (client *FunctionsManagementClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("functions", "https://functions.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("functions", client.getEndpointTemplatePerRealm(region), "functions")
+	client.parseEndpointTemplatePerRealm()
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,6 +93,64 @@ func (client *FunctionsManagementClient) setConfigurationProvider(configProvider
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *FunctionsManagementClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *FunctionsManagementClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
+}
+
+// getEndpointTemplatePerRealm returns the endpoint template for the given region, if not found, returns the default endpoint template
+func (client *FunctionsManagementClient) getEndpointTemplatePerRealm(region string) string {
+	if client.IsOciRealmSpecificServiceEndpointTemplateEnabled() {
+		realm, _ := common.StringToRegion(region).RealmID()
+		templatePerRealmDict := map[string]string{
+			"oc1":  "https://{dualStack?ds.:}functions.{region}.oci.{secondLevelDomain}",
+			"oc16": "https://{dualStack?ds.:}functions.{region}.oci.{secondLevelDomain}",
+		}
+		if template, ok := templatePerRealmDict[realm]; ok {
+			return template
+		}
+	}
+	return "https://functions.{region}.oci.{secondLevelDomain}"
+}
+
+// parseEndpointTemplatePerRealm parses the endpoint template per realm from the service endpoint template
+// This function will build a map of template params to their values, this map is used when building the API endpoint
+func (client *FunctionsManagementClient) parseEndpointTemplatePerRealm() {
+	client.requiredParamsInEndpoint = make(map[string][]common.TemplateParamForPerRealmEndpoint)
+	templateRegex := regexp.MustCompile(`{.*?}`)
+	templateSubRegex := regexp.MustCompile(`{(.+)\+Dot}`)
+	templates := templateRegex.FindAllString(client.Host, -1)
+	for _, template := range templates {
+		templateParam := templateSubRegex.FindStringSubmatch(template)
+		if len(templateParam) > 1 {
+			client.requiredParamsInEndpoint[templateParam[1]] = append(client.requiredParamsInEndpoint[templateParam[1]], common.TemplateParamForPerRealmEndpoint{
+				Template:    templateParam[0],
+				EndsWithDot: true,
+			})
+		} else {
+			templateParam := template[1 : len(template)-1]
+			client.requiredParamsInEndpoint[templateParam] = append(client.requiredParamsInEndpoint[templateParam], common.TemplateParamForPerRealmEndpoint{
+				Template:    template,
+				EndsWithDot: false,
+			})
+		}
+	}
+}
+
+// SetCustomClientConfiguration sets client with retry and other custom configurations
+func (client *FunctionsManagementClient) SetCustomClientConfiguration(config common.CustomClientConfiguration) {
+	client.Configuration = config
+	client.refreshRegion()
+}
+
+// refreshRegion will refresh the region of this client, this function will be called after setting the CustomClientConfiguration
+func (client *FunctionsManagementClient) refreshRegion() {
+	configProvider := *client.config
+	region, _ := configProvider.Region()
+	client.SetRegion(region)
 }
 
 // ChangeApplicationCompartment Moves an application into a different compartment within the same tenancy.
@@ -130,6 +192,14 @@ func (client FunctionsManagementClient) changeApplicationCompartment(ctx context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ChangeApplicationCompartmentRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeApplicationCompartmentResponse
 	var httpResponse *http.Response
@@ -185,6 +255,14 @@ func (client FunctionsManagementClient) createApplication(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(CreateApplicationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateApplicationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -238,6 +316,14 @@ func (client FunctionsManagementClient) createFunction(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(CreateFunctionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateFunctionResponse
 	var httpResponse *http.Response
@@ -293,6 +379,14 @@ func (client FunctionsManagementClient) deleteApplication(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(DeleteApplicationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteApplicationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -346,6 +440,14 @@ func (client FunctionsManagementClient) deleteFunction(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(DeleteFunctionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteFunctionResponse
 	var httpResponse *http.Response
@@ -401,6 +503,14 @@ func (client FunctionsManagementClient) getApplication(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetApplicationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetApplicationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -454,6 +564,14 @@ func (client FunctionsManagementClient) getFunction(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetFunctionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetFunctionResponse
 	var httpResponse *http.Response
@@ -509,6 +627,14 @@ func (client FunctionsManagementClient) getPbfListing(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	request.(GetPbfListingRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetPbfListingResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -562,6 +688,14 @@ func (client FunctionsManagementClient) getPbfListingVersion(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(GetPbfListingVersionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetPbfListingVersionResponse
 	var httpResponse *http.Response
@@ -617,6 +751,14 @@ func (client FunctionsManagementClient) listApplications(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListApplicationsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListApplicationsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -670,6 +812,14 @@ func (client FunctionsManagementClient) listFunctions(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListFunctionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListFunctionsResponse
 	var httpResponse *http.Response
@@ -728,6 +878,14 @@ func (client FunctionsManagementClient) listPbfListingVersions(ctx context.Conte
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListPbfListingVersionsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPbfListingVersionsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -783,6 +941,14 @@ func (client FunctionsManagementClient) listPbfListings(ctx context.Context, req
 		return nil, err
 	}
 
+	host := client.Host
+	request.(ListPbfListingsRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPbfListingsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -836,6 +1002,14 @@ func (client FunctionsManagementClient) listTriggers(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(ListTriggersRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListTriggersResponse
 	var httpResponse *http.Response
@@ -891,6 +1065,14 @@ func (client FunctionsManagementClient) updateApplication(ctx context.Context, r
 		return nil, err
 	}
 
+	host := client.Host
+	request.(UpdateApplicationRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateApplicationResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -944,6 +1126,14 @@ func (client FunctionsManagementClient) updateFunction(ctx context.Context, requ
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	request.(UpdateFunctionRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateFunctionResponse
 	var httpResponse *http.Response

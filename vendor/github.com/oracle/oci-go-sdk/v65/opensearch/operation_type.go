@@ -27,6 +27,9 @@ const (
 	OperationTypeUpdateOpensearchClusterBackup                     OperationTypeEnum = "UPDATE_OPENSEARCH_CLUSTER_BACKUP"
 	OperationTypeMoveOpensearchClusterBackup                       OperationTypeEnum = "MOVE_OPENSEARCH_CLUSTER_BACKUP"
 	OperationTypeDeleteOpensearchClusterBackup                     OperationTypeEnum = "DELETE_OPENSEARCH_CLUSTER_BACKUP"
+	OperationTypeCreateOpensearchPipeline                          OperationTypeEnum = "CREATE_OPENSEARCH_PIPELINE"
+	OperationTypeUpdateOpensearchPipeline                          OperationTypeEnum = "UPDATE_OPENSEARCH_PIPELINE"
+	OperationTypeDeleteOpensearchPipeline                          OperationTypeEnum = "DELETE_OPENSEARCH_PIPELINE"
 	OperationTypeUpdateOpensearchClusterSecurityConfig             OperationTypeEnum = "UPDATE_OPENSEARCH_CLUSTER_SECURITY_CONFIG"
 	OperationTypeUpdateOpensearchCrossClusterConfig                OperationTypeEnum = "UPDATE_OPENSEARCH_CROSS_CLUSTER_CONFIG"
 	OperationTypeUpdateOpensearchClusterReverseConnectionEndpoints OperationTypeEnum = "UPDATE_OPENSEARCH_CLUSTER_REVERSE_CONNECTION_ENDPOINTS"
@@ -43,6 +46,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_OPENSEARCH_CLUSTER_BACKUP":                       OperationTypeUpdateOpensearchClusterBackup,
 	"MOVE_OPENSEARCH_CLUSTER_BACKUP":                         OperationTypeMoveOpensearchClusterBackup,
 	"DELETE_OPENSEARCH_CLUSTER_BACKUP":                       OperationTypeDeleteOpensearchClusterBackup,
+	"CREATE_OPENSEARCH_PIPELINE":                             OperationTypeCreateOpensearchPipeline,
+	"UPDATE_OPENSEARCH_PIPELINE":                             OperationTypeUpdateOpensearchPipeline,
+	"DELETE_OPENSEARCH_PIPELINE":                             OperationTypeDeleteOpensearchPipeline,
 	"UPDATE_OPENSEARCH_CLUSTER_SECURITY_CONFIG":              OperationTypeUpdateOpensearchClusterSecurityConfig,
 	"UPDATE_OPENSEARCH_CROSS_CLUSTER_CONFIG":                 OperationTypeUpdateOpensearchCrossClusterConfig,
 	"UPDATE_OPENSEARCH_CLUSTER_REVERSE_CONNECTION_ENDPOINTS": OperationTypeUpdateOpensearchClusterReverseConnectionEndpoints,
@@ -59,6 +65,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_opensearch_cluster_backup":                       OperationTypeUpdateOpensearchClusterBackup,
 	"move_opensearch_cluster_backup":                         OperationTypeMoveOpensearchClusterBackup,
 	"delete_opensearch_cluster_backup":                       OperationTypeDeleteOpensearchClusterBackup,
+	"create_opensearch_pipeline":                             OperationTypeCreateOpensearchPipeline,
+	"update_opensearch_pipeline":                             OperationTypeUpdateOpensearchPipeline,
+	"delete_opensearch_pipeline":                             OperationTypeDeleteOpensearchPipeline,
 	"update_opensearch_cluster_security_config":              OperationTypeUpdateOpensearchClusterSecurityConfig,
 	"update_opensearch_cross_cluster_config":                 OperationTypeUpdateOpensearchCrossClusterConfig,
 	"update_opensearch_cluster_reverse_connection_endpoints": OperationTypeUpdateOpensearchClusterReverseConnectionEndpoints,
@@ -86,6 +95,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_OPENSEARCH_CLUSTER_BACKUP",
 		"MOVE_OPENSEARCH_CLUSTER_BACKUP",
 		"DELETE_OPENSEARCH_CLUSTER_BACKUP",
+		"CREATE_OPENSEARCH_PIPELINE",
+		"UPDATE_OPENSEARCH_PIPELINE",
+		"DELETE_OPENSEARCH_PIPELINE",
 		"UPDATE_OPENSEARCH_CLUSTER_SECURITY_CONFIG",
 		"UPDATE_OPENSEARCH_CROSS_CLUSTER_CONFIG",
 		"UPDATE_OPENSEARCH_CLUSTER_REVERSE_CONNECTION_ENDPOINTS",

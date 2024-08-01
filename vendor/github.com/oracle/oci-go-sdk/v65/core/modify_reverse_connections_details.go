@@ -24,6 +24,15 @@ import (
 // ModifyReverseConnectionsDetails Details for modifying reverse connections configuration for the specified private endpoint.
 type ModifyReverseConnectionsDetails struct {
 
+	// The IPv6 address in the service VCN to be used to reach the DNS proxy that resolves the
+	// customer FQDN for reverse connections. If no value is provided, an available IP address will
+	// be chosen from the service subnet's CIDR.
+	// This field will be deprecated in favor of proxyIp in future. (Optional field)
+	ProxyIpv6 *string `mandatory:"false" json:"proxyIpv6"`
+
+	// This optional field will indicate whether the RCE dns proxy will use v4 and v6 address in service dualstack subnet.
+	IsAssignDualstackProxyIpv6 *bool `mandatory:"false" json:"isAssignDualstackProxyIpv6"`
+
 	// List of DNS zones to exclude from the default DNS resolution context.
 	ExcludedDnsZones []string `mandatory:"false" json:"excludedDnsZones"`
 
@@ -52,6 +61,24 @@ type ModifyReverseConnectionsDetails struct {
 	// This field cannot be specified if the customerEndpointsSize field is non null and vice versa.
 	// Additional Cidrs can be specified, however the existing CIDRs cannot be modified or removed.
 	ReverseConnectionNatIpCidrs []string `mandatory:"false" json:"reverseConnectionNatIpCidrs"`
+
+	// Number of customer endpoints that the service provider expects to establish connections to using this RCE. The default is 0.
+	// When non-zero value is specified, reverse connection configuration will be allocated with a list of CIDRs, from
+	// which NAT IPv6 addresses will be allocated. These list of CIDRs will not be shared by other reverse
+	// connection enabled private endpoints.
+	// When zero is specified, reverse connection configuration will get NAT IP addresses from common pool of CIDRs,
+	// which will be shared with other reverse connection enabled private endpoints.
+	// If the private endpoint was enabled with reverse connection with 0 already, the field is not updatable.
+	// The size may not be updated with smaller number than previously specified value, but may be increased.
+	CustomerEndpointsV6Size *int `mandatory:"false" json:"customerEndpointsV6Size"`
+
+	// List of CIDRs that this reverse connection configuration will allocate the NAT IP addresses from.
+	// CIDRs on this list should not be shared by other reverse connection enabled private endpoints.
+	// When not specified, if the customerEndpointSize is non null, reverse connection configuration will get
+	// NAT IPv6 addresses from the dedicated pool of CIDRs, else will get specified from the common pool of CIDRs.
+	// This field cannot be specified if the customerEndpointsV6Size field is non null and vice versa.
+	// Additional Cidrs can be specified, however the existing CIDRs cannot be modified or removed.
+	ReverseConnectionNatIpv6Cidrs []string `mandatory:"false" json:"reverseConnectionNatIpv6Cidrs"`
 }
 
 func (m ModifyReverseConnectionsDetails) String() string {

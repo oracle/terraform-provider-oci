@@ -106,6 +106,10 @@ type CreateMountTargetDetails struct {
 
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
+	// Throughput for mount target in Gbps. Available shapes and corresponding throughput is listed at
+	//   MountTargetPerformanceOverview (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#Overview__performance)
+	RequestedThroughput *int64 `mandatory:"false" json:"requestedThroughput"`
 }
 
 func (m CreateMountTargetDetails) String() string {

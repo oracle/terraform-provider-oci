@@ -60,6 +60,31 @@ func (request GetPathRouteSetRequest) BinaryRequestBody() (*common.OCIReadSeekCl
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request GetPathRouteSetRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["loadBalancerId"] != nil {
+		templateParam := mandatoryParamMap["loadBalancerId"]
+		for _, template := range templateParam {
+			replacementParam := *request.LoadBalancerId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["pathRouteSetName"] != nil {
+		templateParam := mandatoryParamMap["pathRouteSetName"]
+		for _, template := range templateParam {
+			replacementParam := *request.PathRouteSetName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request GetPathRouteSetRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

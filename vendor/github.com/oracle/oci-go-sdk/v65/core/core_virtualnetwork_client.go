@@ -7947,6 +7947,8 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the service gateway, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+// Use the ListServices operation to find service CIDR labels
+// available in the region.
 func (client VirtualNetworkClient) CreateServiceGateway(ctx context.Context, request CreateServiceGatewayRequest) (response CreateServiceGatewayResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

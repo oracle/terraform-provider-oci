@@ -36,6 +36,9 @@ type UpdatePrivateEndpointDetails struct {
 	// NetworkSecurityGroup.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
+	// This optional field will indicate to assign IPv6 address to the private endpoint when it is created in Dualstack subnet.
+	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
+
 	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are
 	// updated with this FQDN.
 	// For important information about how this attribute is used, see the discussion

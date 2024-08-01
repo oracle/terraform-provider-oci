@@ -69,6 +69,10 @@ func (m *createdatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.EntitySource {
+	case "MACS_MANAGED_CLOUD_DATABASE":
+		mm := CreateMacsManagedCloudDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := CreateAutonomousDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)

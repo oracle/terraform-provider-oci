@@ -2052,8 +2052,7 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
-// DeleteQuotaRule Remove an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
+// DeleteQuotaRule Remove an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) DeleteQuotaRule(ctx context.Context, request DeleteQuotaRuleRequest) (response DeleteQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2896,8 +2895,7 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 	return response, err
 }
 
-// GetQuotaRule Get an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
+// GetQuotaRule Get an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) GetQuotaRule(ctx context.Context, request GetQuotaRuleRequest) (response GetQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4235,6 +4233,66 @@ func (client FileStorageClient) listSnapshots(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/SnapshotSummary/ListSnapshots"
 		err = common.PostProcessServiceError(err, "FileStorage", "ListSnapshots", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListWorkRequestErrors Returns a list of errors for a given work request.
+func (client FileStorageClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listWorkRequestErrors, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListWorkRequestErrorsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListWorkRequestErrorsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListWorkRequestErrorsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListWorkRequestErrorsResponse")
+	}
+	return
+}
+
+// listWorkRequestErrors implements the OCIOperation interface (enables retrying operations)
+func (client FileStorageClient) listWorkRequestErrors(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/workRequests/{workRequestId}/errors", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListWorkRequestErrorsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/filestorage/20171215/WorkRequest/ListWorkRequestErrors"
+		err = common.PostProcessServiceError(err, "FileStorage", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
 
@@ -5774,6 +5832,11 @@ func (client FileStorageClient) ToggleQuotaRules(ctx context.Context, request To
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
 	ociResponse, err = common.Retry(ctx, request, client.toggleQuotaRules, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -6313,8 +6376,7 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
-// UpdateQuotaRule Edit an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
-// `isHardQuota` parameters.
+// UpdateQuotaRule Edit an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) UpdateQuotaRule(ctx context.Context, request UpdateQuotaRuleRequest) (response UpdateQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

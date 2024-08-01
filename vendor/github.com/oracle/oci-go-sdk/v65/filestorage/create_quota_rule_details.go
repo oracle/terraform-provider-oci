@@ -22,10 +22,6 @@ type CreateQuotaRuleDetails struct {
 	// The type of the owner of this quota rule and usage.
 	PrincipalType CreateQuotaRuleDetailsPrincipalTypeEnum `mandatory:"true" json:"principalType"`
 
-	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
-	// identify a user or group to manage access control.
-	PrincipalId *int `mandatory:"true" json:"principalId"`
-
 	// The flag is an identifier to tell whether the quota rule will be enforced.
 	// If `isHardQuota` is true, the quota rule will be enforced so the write will be blocked if usage
 	// exceeds the hard quota limit.
@@ -35,6 +31,10 @@ type CreateQuotaRuleDetails struct {
 
 	// The value of the quota rule. The unit is Gigabyte.
 	QuotaLimitInGigabytes *int `mandatory:"true" json:"quotaLimitInGigabytes"`
+
+	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
+	// identify a user or group to manage access control.
+	PrincipalId *int `mandatory:"false" json:"principalId"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.

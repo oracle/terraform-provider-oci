@@ -125,6 +125,10 @@ func (m *exadatainsightsummary) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.EntitySource {
+	case "MACS_MANAGED_CLOUD_EXADATA":
+		mm := MacsManagedCloudExadataInsightSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EM_MANAGED_EXTERNAL_EXADATA":
 		mm := EmManagedExternalExadataInsightSummary{}
 		err = json.Unmarshal(data, &mm)

@@ -212,6 +212,9 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsCdb    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsPdb    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsNoncdb SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccCdb    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACC-CDB"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "MDS-MYSQL"
 )
 
@@ -231,6 +234,9 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[stri
 	"COMANAGED-EXACS-CDB":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsNoncdb,
+	"COMANAGED-EXACC-CDB":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccCdb,
+	"COMANAGED-EXACC-PDB":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb,
+	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql,
 }
 
@@ -250,6 +256,9 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumLowerCase =
 	"comanaged-exacs-cdb":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExacsNoncdb,
+	"comanaged-exacc-cdb":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccCdb,
+	"comanaged-exacc-pdb":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb,
+	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql,
 }
 
@@ -280,6 +289,9 @@ func GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues()
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"COMANAGED-EXACC-CDB",
+		"COMANAGED-EXACC-PDB",
+		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 	}
 }

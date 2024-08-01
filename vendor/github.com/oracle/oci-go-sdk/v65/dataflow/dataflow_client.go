@@ -2753,6 +2753,65 @@ func (client DataFlowClient) startPool(ctx context.Context, request common.OCIRe
 	return response, err
 }
 
+// StartSqlEndpoint Starts the SqlEndpoint for a given `SqlEndpointId`. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation StartSqlEndpoint()
+func (client DataFlowClient) StartSqlEndpoint(ctx context.Context, request StartSqlEndpointRequest) (response StartSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartSqlEndpointResponse")
+	}
+	return
+}
+
+// startSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) startSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlEndpoints/{sqlEndpointId}/actions/start", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/StartSqlEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "StartSqlEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // StopComputeCluster Stops the dataflow compute cluster for a given `computeClusterId`. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation StopComputeCluster()
 func (client DataFlowClient) StopComputeCluster(ctx context.Context, request StopComputeClusterRequest) (response StopComputeClusterResponse, err error) {
@@ -2864,6 +2923,65 @@ func (client DataFlowClient) stopPool(ctx context.Context, request common.OCIReq
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Pool/StopPool"
 		err = common.PostProcessServiceError(err, "DataFlow", "StopPool", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StopSqlEndpoint Stops the SqlEndpoint for a given `SqlEndpointId`. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation StopSqlEndpoint()
+func (client DataFlowClient) StopSqlEndpoint(ctx context.Context, request StopSqlEndpointRequest) (response StopSqlEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stopSqlEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopSqlEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopSqlEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopSqlEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopSqlEndpointResponse")
+	}
+	return
+}
+
+// stopSqlEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) stopSqlEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlEndpoints/{sqlEndpointId}/actions/stop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopSqlEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/SqlEndpoint/StopSqlEndpoint"
+		err = common.PostProcessServiceError(err, "DataFlow", "StopSqlEndpoint", apiReferenceLink)
 		return response, err
 	}
 

@@ -22,8 +22,9 @@ import (
 // AlarmSuppressionCompartmentTarget The compartment target of the alarm suppression.
 type AlarmSuppressionCompartmentTarget struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment / tenancy that is the
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment or tenancy that is the
 	// target of the alarm suppression.
+	// Example: `ocid1.compartment.oc1..exampleuniqueID`
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// When true, the alarm suppression targets all alarms under all compartments and subcompartments of

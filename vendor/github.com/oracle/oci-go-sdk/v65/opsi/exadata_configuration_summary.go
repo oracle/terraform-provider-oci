@@ -107,6 +107,10 @@ func (m *exadataconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := ExadataExacsConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_CLOUD_EXADATA":
+		mm := ExadataExaccConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for ExadataConfigurationSummary: %s.", m.EntitySource)
 		return *m, nil

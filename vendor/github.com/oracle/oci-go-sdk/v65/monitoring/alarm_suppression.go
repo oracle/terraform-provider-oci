@@ -19,7 +19,7 @@ import (
 	"strings"
 )
 
-// AlarmSuppression The configuration details for a alarm suppression.
+// AlarmSuppression The configuration details for an alarm suppression.
 type AlarmSuppression struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm suppression.
@@ -37,10 +37,6 @@ type AlarmSuppression struct {
 
 	// A user-friendly name for the alarm suppression. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
-
-	// Configured dimension filter for suppressing alarm state entries that include the set of specified dimension key-value pairs.
-	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
-	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
 	// The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.
 	// Example: `2018-02-01T01:02:29.600Z`
@@ -78,6 +74,10 @@ type AlarmSuppression struct {
 	// Example: `Planned outage due to change IT-1234.`
 	Description *string `mandatory:"false" json:"description"`
 
+	// Configured dimension filter for suppressing alarm state entries that include the set of specified dimension key-value pairs.
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
+	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -114,6 +114,7 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		SuppressionConditions  []suppressioncondition             `json:"suppressionConditions"`
 		Description            *string                            `json:"description"`
+		Dimensions             map[string]string                  `json:"dimensions"`
 		FreeformTags           map[string]string                  `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{}  `json:"definedTags"`
 		Id                     *string                            `json:"id"`
@@ -121,7 +122,6 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 		AlarmSuppressionTarget alarmsuppressiontarget             `json:"alarmSuppressionTarget"`
 		Level                  AlarmSuppressionLevelEnum          `json:"level"`
 		DisplayName            *string                            `json:"displayName"`
-		Dimensions             map[string]string                  `json:"dimensions"`
 		TimeSuppressFrom       *common.SDKTime                    `json:"timeSuppressFrom"`
 		TimeSuppressUntil      *common.SDKTime                    `json:"timeSuppressUntil"`
 		LifecycleState         AlarmSuppressionLifecycleStateEnum `json:"lifecycleState"`
@@ -148,6 +148,8 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 	}
 	m.Description = model.Description
 
+	m.Dimensions = model.Dimensions
+
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
@@ -169,8 +171,6 @@ func (m *AlarmSuppression) UnmarshalJSON(data []byte) (e error) {
 	m.Level = model.Level
 
 	m.DisplayName = model.DisplayName
-
-	m.Dimensions = model.Dimensions
 
 	m.TimeSuppressFrom = model.TimeSuppressFrom
 

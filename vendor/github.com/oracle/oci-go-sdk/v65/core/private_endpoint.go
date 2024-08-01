@@ -115,6 +115,13 @@ type PrivateEndpoint struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The private IPv6 address (in the customer's VCN) that represents the access point for the
+	// associated endpoint service. (Optional field)
+	PrivateEndpointIpv6 *string `mandatory:"false" json:"privateEndpointIpv6"`
+
+	// This optional field will indicate to assign IPv6 address to the private endpoint when it is created in Dualstack subnet.
+	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
+
 	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are
 	// updated with this FQDN.
 	// If you provide a value for this attribute, it overrides the `endpointFqdn` in the associated

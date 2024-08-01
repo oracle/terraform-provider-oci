@@ -17,9 +17,11 @@ import (
 
 // BackendSetDetails The configuration of a network load balancer backend set.
 // For more information about backend set configuration, see
-// Managing Backend Sets (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
+// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type BackendSetDetails struct {
+
+	// The health check policy configuration.
 	HealthChecker *HealthChecker `mandatory:"true" json:"healthChecker"`
 
 	// The network load balancer policy for the backend set.

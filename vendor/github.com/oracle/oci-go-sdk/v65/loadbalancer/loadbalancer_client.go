@@ -68,7 +68,7 @@ func newLoadBalancerClientFromBaseClient(baseClient common.BaseClient, configPro
 
 // SetRegion overrides the region of this client.
 func (client *LoadBalancerClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("iaas", "https://iaas.{region}.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("iaas", "https://{dualStack?ds.:}iaas.{region}.{dualStack?oci.:}{secondLevelDomain}", "iaas")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -90,6 +90,12 @@ func (client *LoadBalancerClient) setConfigurationProvider(configProvider common
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *LoadBalancerClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *LoadBalancerClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // ChangeLoadBalancerCompartment Moves a load balancer into a different compartment within the same tenancy. For information about moving resources
@@ -135,6 +141,13 @@ func (client LoadBalancerClient) changeLoadBalancerCompartment(ctx context.Conte
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ChangeLoadBalancerCompartmentResponse
 	var httpResponse *http.Response
@@ -194,6 +207,13 @@ func (client LoadBalancerClient) createBackend(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateBackendResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -251,6 +271,13 @@ func (client LoadBalancerClient) createBackendSet(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateBackendSetResponse
 	var httpResponse *http.Response
@@ -310,6 +337,13 @@ func (client LoadBalancerClient) createCertificate(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateCertificateResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -367,6 +401,13 @@ func (client LoadBalancerClient) createCidrBlocks(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateCidrBlocksResponse
 	var httpResponse *http.Response
@@ -427,6 +468,13 @@ func (client LoadBalancerClient) createHostname(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -484,6 +532,13 @@ func (client LoadBalancerClient) createListener(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreateListenerResponse
 	var httpResponse *http.Response
@@ -563,6 +618,13 @@ func (client LoadBalancerClient) createLoadBalancer(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateLoadBalancerResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -621,6 +683,13 @@ func (client LoadBalancerClient) createPathRouteSet(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response CreatePathRouteSetResponse
 	var httpResponse *http.Response
@@ -681,6 +750,13 @@ func (client LoadBalancerClient) createRoutingPolicy(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateRoutingPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -740,6 +816,13 @@ func (client LoadBalancerClient) createRuleSet(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -798,6 +881,13 @@ func (client LoadBalancerClient) createSSLCipherSuite(ctx context.Context, reque
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response CreateSSLCipherSuiteResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -850,6 +940,13 @@ func (client LoadBalancerClient) deleteBackend(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteBackendResponse
 	var httpResponse *http.Response
@@ -905,6 +1002,13 @@ func (client LoadBalancerClient) deleteBackendSet(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteBackendSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -957,6 +1061,13 @@ func (client LoadBalancerClient) deleteCertificate(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteCertificateResponse
 	var httpResponse *http.Response
@@ -1011,6 +1122,13 @@ func (client LoadBalancerClient) deleteCidrBlocks(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteCidrBlocksResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1063,6 +1181,13 @@ func (client LoadBalancerClient) deleteHostname(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteHostnameResponse
 	var httpResponse *http.Response
@@ -1117,6 +1242,13 @@ func (client LoadBalancerClient) deleteListener(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteListenerResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1169,6 +1301,13 @@ func (client LoadBalancerClient) deleteLoadBalancer(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteLoadBalancerResponse
 	var httpResponse *http.Response
@@ -1225,6 +1364,13 @@ func (client LoadBalancerClient) deletePathRouteSet(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeletePathRouteSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1279,6 +1425,13 @@ func (client LoadBalancerClient) deleteRoutingPolicy(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteRoutingPolicyResponse
 	var httpResponse *http.Response
@@ -1335,6 +1488,13 @@ func (client LoadBalancerClient) deleteRuleSet(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response DeleteRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1387,6 +1547,13 @@ func (client LoadBalancerClient) deleteSSLCipherSuite(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteSSLCipherSuiteResponse
 	var httpResponse *http.Response
@@ -1441,6 +1608,13 @@ func (client LoadBalancerClient) getBackend(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetBackendResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1493,6 +1667,13 @@ func (client LoadBalancerClient) getBackendHealth(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetBackendHealthResponse
 	var httpResponse *http.Response
@@ -1547,6 +1728,13 @@ func (client LoadBalancerClient) getBackendSet(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetBackendSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1599,6 +1787,13 @@ func (client LoadBalancerClient) getBackendSetHealth(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetBackendSetHealthResponse
 	var httpResponse *http.Response
@@ -1653,6 +1848,13 @@ func (client LoadBalancerClient) getCidrBlocks(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetCidrBlocksResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1705,6 +1907,13 @@ func (client LoadBalancerClient) getHealthChecker(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetHealthCheckerResponse
 	var httpResponse *http.Response
@@ -1759,6 +1968,13 @@ func (client LoadBalancerClient) getHostname(ctx context.Context, request common
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1811,6 +2027,13 @@ func (client LoadBalancerClient) getLoadBalancer(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetLoadBalancerResponse
 	var httpResponse *http.Response
@@ -1865,6 +2088,13 @@ func (client LoadBalancerClient) getLoadBalancerHealth(ctx context.Context, requ
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetLoadBalancerHealthResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -1917,6 +2147,13 @@ func (client LoadBalancerClient) getPathRouteSet(ctx context.Context, request co
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetPathRouteSetResponse
 	var httpResponse *http.Response
@@ -1971,6 +2208,13 @@ func (client LoadBalancerClient) getRoutingPolicy(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetRoutingPolicyResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2023,6 +2267,13 @@ func (client LoadBalancerClient) getRuleSet(ctx context.Context, request common.
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetRuleSetResponse
 	var httpResponse *http.Response
@@ -2077,6 +2328,13 @@ func (client LoadBalancerClient) getSSLCipherSuite(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response GetSSLCipherSuiteResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2129,6 +2387,13 @@ func (client LoadBalancerClient) getWorkRequest(ctx context.Context, request com
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetWorkRequestResponse
 	var httpResponse *http.Response
@@ -2183,6 +2448,13 @@ func (client LoadBalancerClient) listBackendSets(ctx context.Context, request co
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListBackendSetsResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2235,6 +2507,13 @@ func (client LoadBalancerClient) listBackends(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListBackendsResponse
 	var httpResponse *http.Response
@@ -2289,6 +2568,13 @@ func (client LoadBalancerClient) listCertificates(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCertificatesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2342,6 +2628,13 @@ func (client LoadBalancerClient) listCidrBlocks(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListCidrBlocksResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2394,6 +2687,13 @@ func (client LoadBalancerClient) listHostnames(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListHostnamesResponse
 	var httpResponse *http.Response
@@ -2453,6 +2753,13 @@ func (client LoadBalancerClient) listListenerRules(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListListenerRulesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2505,6 +2812,13 @@ func (client LoadBalancerClient) listLoadBalancerHealths(ctx context.Context, re
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListLoadBalancerHealthsResponse
 	var httpResponse *http.Response
@@ -2559,6 +2873,13 @@ func (client LoadBalancerClient) listLoadBalancers(ctx context.Context, request 
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListLoadBalancersResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2611,6 +2932,13 @@ func (client LoadBalancerClient) listPathRouteSets(ctx context.Context, request 
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListPathRouteSetsResponse
 	var httpResponse *http.Response
@@ -2665,6 +2993,13 @@ func (client LoadBalancerClient) listPolicies(ctx context.Context, request commo
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListPoliciesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2717,6 +3052,13 @@ func (client LoadBalancerClient) listProtocols(ctx context.Context, request comm
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListProtocolsResponse
 	var httpResponse *http.Response
@@ -2771,6 +3113,13 @@ func (client LoadBalancerClient) listRoutingPolicies(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListRoutingPoliciesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2823,6 +3172,13 @@ func (client LoadBalancerClient) listRuleSets(ctx context.Context, request commo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListRuleSetsResponse
 	var httpResponse *http.Response
@@ -2877,6 +3233,13 @@ func (client LoadBalancerClient) listSSLCipherSuites(ctx context.Context, reques
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListSSLCipherSuitesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2930,6 +3293,13 @@ func (client LoadBalancerClient) listShapes(ctx context.Context, request common.
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response ListShapesResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -2982,6 +3352,13 @@ func (client LoadBalancerClient) listWorkRequests(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response ListWorkRequestsResponse
 	var httpResponse *http.Response
@@ -3041,6 +3418,13 @@ func (client LoadBalancerClient) updateBackend(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateBackendResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3098,6 +3482,13 @@ func (client LoadBalancerClient) updateBackendSet(ctx context.Context, request c
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateBackendSetResponse
 	var httpResponse *http.Response
@@ -3157,6 +3548,13 @@ func (client LoadBalancerClient) updateCidrBlocks(ctx context.Context, request c
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateCidrBlocksResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3214,6 +3612,13 @@ func (client LoadBalancerClient) updateHealthChecker(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateHealthCheckerResponse
 	var httpResponse *http.Response
@@ -3274,6 +3679,13 @@ func (client LoadBalancerClient) updateHostname(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateHostnameResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3332,6 +3744,13 @@ func (client LoadBalancerClient) updateListener(ctx context.Context, request com
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateListenerResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3389,6 +3808,13 @@ func (client LoadBalancerClient) updateLoadBalancer(ctx context.Context, request
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateLoadBalancerResponse
 	var httpResponse *http.Response
@@ -3453,6 +3879,13 @@ func (client LoadBalancerClient) updateLoadBalancerShape(ctx context.Context, re
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateLoadBalancerShapeResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3510,6 +3943,13 @@ func (client LoadBalancerClient) updateNetworkSecurityGroups(ctx context.Context
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateNetworkSecurityGroupsResponse
 	var httpResponse *http.Response
@@ -3573,6 +4013,13 @@ func (client LoadBalancerClient) updatePathRouteSet(ctx context.Context, request
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdatePathRouteSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3632,6 +4079,13 @@ func (client LoadBalancerClient) updateRoutingPolicy(ctx context.Context, reques
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateRoutingPolicyResponse
 	var httpResponse *http.Response
@@ -3693,6 +4147,13 @@ func (client LoadBalancerClient) updateRuleSet(ctx context.Context, request comm
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response UpdateRuleSetResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -3750,6 +4211,13 @@ func (client LoadBalancerClient) updateSSLCipherSuite(ctx context.Context, reque
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateSSLCipherSuiteResponse
 	var httpResponse *http.Response

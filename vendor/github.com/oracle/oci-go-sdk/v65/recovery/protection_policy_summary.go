@@ -38,6 +38,9 @@ type ProtectionPolicySummary struct {
 	// An RFC3339 formatted datetime string that specifies the exact date and time for the retention lock to take effect and permanently lock the retention period defined in the policy.
 	PolicyLockedDateTime *string `mandatory:"false" json:"policyLockedDateTime"`
 
+	// Indicates whether the protection policy enforces Recovery Service to retain backups in the same cloud service environment where your Oracle Database is provisioned.
+	MustEnforceCloudLocality *bool `mandatory:"false" json:"mustEnforceCloudLocality"`
+
 	// The time the Protection Policy was created. An RFC3339 formatted datetime string
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

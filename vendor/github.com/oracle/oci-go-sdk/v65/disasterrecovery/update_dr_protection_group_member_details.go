@@ -83,6 +83,10 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AUTONOMOUS_CONTAINER_DATABASE":
+		mm := UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOAD_BALANCER":
 		mm := UpdateDrProtectionGroupMemberLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)

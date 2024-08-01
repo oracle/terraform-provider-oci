@@ -19,22 +19,12 @@ import (
 	"strings"
 )
 
-// CreateAlarmSuppressionDetails The configuration details for creating a alarm suppression.
+// CreateAlarmSuppressionDetails The configuration details for creating an alarm suppression.
 type CreateAlarmSuppressionDetails struct {
 	AlarmSuppressionTarget AlarmSuppressionTarget `mandatory:"true" json:"alarmSuppressionTarget"`
 
 	// A user-friendly name for the alarm suppression. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
-
-	// A filter to suppress only alarm state entries that include the set of specified dimension key-value pairs.
-	// If you specify {"availabilityDomain": "phx-ad-1"}
-	// and the alarm state entry corresponds to the set {"availabilityDomain": "phx-ad-1" and "resourceId": "ocid1.instance.region1.phx.exampleuniqueID"},
-	// then this alarm will be included for suppression.
-	// The value cannot be an empty object.
-	// Only a single value is allowed per key. No grouping of multiple values is allowed under the same key.
-	// Maximum characters (after serialization): 4000. This maximum satisfies typical use cases.
-	// The response for an exceeded maximum is `HTTP 400` with an "dimensions values are too long" message.
-	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
 	// The start date and time for the suppression to take place, inclusive. Format defined by RFC3339.
 	// Example: `2023-02-01T01:02:29.600Z`
@@ -47,7 +37,7 @@ type CreateAlarmSuppressionDetails struct {
 	// The level of this alarm suppression.
 	// `ALARM` indicates a suppression of the entire alarm, regardless of dimension.
 	// `DIMENSION` indicates a suppression configured for specified dimensions.
-	// Defaut: DIMENSION
+	// Defaut: `DIMENSION`
 	Level AlarmSuppressionLevelEnum `mandatory:"false" json:"level,omitempty"`
 
 	// Human-readable reason for this alarm suppression.
@@ -57,6 +47,16 @@ type CreateAlarmSuppressionDetails struct {
 	// such as a ticket number.
 	// Example: `Planned outage due to change IT-1234.`
 	Description *string `mandatory:"false" json:"description"`
+
+	// A filter to suppress only alarm state entries that include the set of specified dimension key-value pairs.
+	// If you specify {"availabilityDomain": "phx-ad-1"}
+	// and the alarm state entry corresponds to the set {"availabilityDomain": "phx-ad-1" and "resourceId": "ocid1.instance.region1.phx.exampleuniqueID"},
+	// then this alarm will be included for suppression.
+	// This is required only when the value of level is `DIMENSION`. If required, the value cannot be an empty object.
+	// Only a single value is allowed per key. No grouping of multiple values is allowed under the same key.
+	// Maximum characters (after serialization): 4000. This maximum satisfies typical use cases.
+	// The response for an exceeded maximum is `HTTP 400` with an "dimensions values are too long" message.
+	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
@@ -99,12 +99,12 @@ func (m *CreateAlarmSuppressionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Level                  AlarmSuppressionLevelEnum         `json:"level"`
 		Description            *string                           `json:"description"`
+		Dimensions             map[string]string                 `json:"dimensions"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		SuppressionConditions  []suppressioncondition            `json:"suppressionConditions"`
 		AlarmSuppressionTarget alarmsuppressiontarget            `json:"alarmSuppressionTarget"`
 		DisplayName            *string                           `json:"displayName"`
-		Dimensions             map[string]string                 `json:"dimensions"`
 		TimeSuppressFrom       *common.SDKTime                   `json:"timeSuppressFrom"`
 		TimeSuppressUntil      *common.SDKTime                   `json:"timeSuppressUntil"`
 	}{}
@@ -117,6 +117,8 @@ func (m *CreateAlarmSuppressionDetails) UnmarshalJSON(data []byte) (e error) {
 	m.Level = model.Level
 
 	m.Description = model.Description
+
+	m.Dimensions = model.Dimensions
 
 	m.FreeformTags = model.FreeformTags
 
@@ -145,8 +147,6 @@ func (m *CreateAlarmSuppressionDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 
 	m.DisplayName = model.DisplayName
-
-	m.Dimensions = model.Dimensions
 
 	m.TimeSuppressFrom = model.TimeSuppressFrom
 

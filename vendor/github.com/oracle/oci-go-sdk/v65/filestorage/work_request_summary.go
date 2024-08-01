@@ -40,6 +40,9 @@ type WorkRequestSummary struct {
 	// Date and time the request was created. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeAccepted *common.SDKTime `mandatory:"true" json:"timeAccepted"`
 
+	// Date and time the request was updated, Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// Date and time the request was started. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 

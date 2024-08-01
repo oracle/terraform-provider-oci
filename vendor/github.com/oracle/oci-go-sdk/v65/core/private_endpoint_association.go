@@ -32,6 +32,10 @@ type PrivateEndpointAssociation struct {
 	// associated endpoint service.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
+	// The private IPv6 address (in the customer's VCN) that represents the access point for the
+	// associated endpoint service. (Optional field)
+	PrivateEndpointIpv6 *string `mandatory:"false" json:"privateEndpointIpv6"`
+
 	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records use
 	// this FQDN.
 	// For important information about how this attribute is used, see the discussion

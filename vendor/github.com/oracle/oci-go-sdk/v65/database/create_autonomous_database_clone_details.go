@@ -783,16 +783,19 @@ type CreateAutonomousDatabaseCloneDetailsCloneTypeEnum string
 const (
 	CreateAutonomousDatabaseCloneDetailsCloneTypeFull     CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "FULL"
 	CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "METADATA"
+	CreateAutonomousDatabaseCloneDetailsCloneTypePartial  CreateAutonomousDatabaseCloneDetailsCloneTypeEnum = "PARTIAL"
 )
 
 var mappingCreateAutonomousDatabaseCloneDetailsCloneTypeEnum = map[string]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum{
 	"FULL":     CreateAutonomousDatabaseCloneDetailsCloneTypeFull,
 	"METADATA": CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata,
+	"PARTIAL":  CreateAutonomousDatabaseCloneDetailsCloneTypePartial,
 }
 
 var mappingCreateAutonomousDatabaseCloneDetailsCloneTypeEnumLowerCase = map[string]CreateAutonomousDatabaseCloneDetailsCloneTypeEnum{
 	"full":     CreateAutonomousDatabaseCloneDetailsCloneTypeFull,
 	"metadata": CreateAutonomousDatabaseCloneDetailsCloneTypeMetadata,
+	"partial":  CreateAutonomousDatabaseCloneDetailsCloneTypePartial,
 }
 
 // GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumValues Enumerates the set of values for CreateAutonomousDatabaseCloneDetailsCloneTypeEnum
@@ -809,6 +812,7 @@ func GetCreateAutonomousDatabaseCloneDetailsCloneTypeEnumStringValues() []string
 	return []string{
 		"FULL",
 		"METADATA",
+		"PARTIAL",
 	}
 }
 

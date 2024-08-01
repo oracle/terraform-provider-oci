@@ -76,6 +76,21 @@ func (request ListPbfListingVersionsRequest) BinaryRequestBody() (*common.OCIRea
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request ListPbfListingVersionsRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["pbfListingId"] != nil {
+		templateParam := mandatoryParamMap["pbfListingId"]
+		for _, template := range templateParam {
+			replacementParam := *request.PbfListingId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request ListPbfListingVersionsRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

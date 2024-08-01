@@ -16,7 +16,7 @@ import (
 )
 
 // CreateNetworkLoadBalancerDetails The properties that define a network load balancer. For more information, see
-// Managing a network load balancer (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/NetworkLoadBalancers/network-load-balancer-management.htm).
+// Managing a network load balancer (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingloadbalancer.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, then
 // contact an administrator. If you are an administrator who writes policies to give users access, then see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -51,7 +51,7 @@ type CreateNetworkLoadBalancerDetails struct {
 	// A public network load balancer is accessible from the internet, depending on the
 	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and
 	// private network load balancers,
-	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/overview.htm).
+	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`
@@ -99,6 +99,10 @@ type CreateNetworkLoadBalancerDetails struct {
 	// Indicates if VNIC is latency sensitive and needs to be placed in dedicated latency sensitive pod.
 	IsLatencySensitive *bool `mandatory:"false" json:"isLatencySensitive"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
+	// for the NLB's ServiceVnic placement.
+	CpgId *string `mandatory:"false" json:"cpgId"`
+
 	// Simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -106,6 +110,11 @@ type CreateNetworkLoadBalancerDetails struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 }
 
 func (m CreateNetworkLoadBalancerDetails) String() string {
