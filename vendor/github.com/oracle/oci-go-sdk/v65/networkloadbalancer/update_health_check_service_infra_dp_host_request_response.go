@@ -67,6 +67,31 @@ func (request UpdateHealthCheckServiceInfraDpHostRequest) BinaryRequestBody() (*
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request UpdateHealthCheckServiceInfraDpHostRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["availabilityDomain"] != nil {
+		templateParam := mandatoryParamMap["availabilityDomain"]
+		for _, template := range templateParam {
+			replacementParam := *request.AvailabilityDomain
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["dpHostId"] != nil {
+		templateParam := mandatoryParamMap["dpHostId"]
+		for _, template := range templateParam {
+			replacementParam := *request.DpHostId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request UpdateHealthCheckServiceInfraDpHostRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

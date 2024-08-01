@@ -85,6 +85,9 @@ type ContainerInstance struct {
 	// The time the container instance was updated, in the format defined by RFC 3339 (https://tools.ietf.org/rfc/rfc3339).
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// The physical shape of the generic shape container instance. If CI is non-generic physical shape will be the same as shape.
+	PhysicalShape *string `mandatory:"false" json:"physicalShape"`
+
 	DnsConfig *ContainerDnsConfig `mandatory:"false" json:"dnsConfig"`
 
 	// The amount of time that processes in a container have to gracefully end when the container must be stopped. For example, when you delete a container instance. After the timeout is reached, the processes are sent a signal to be deleted.
@@ -132,6 +135,7 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 		Volumes                          []containervolume                           `json:"volumes"`
 		VolumeCount                      *int                                        `json:"volumeCount"`
 		TimeUpdated                      *common.SDKTime                             `json:"timeUpdated"`
+		PhysicalShape                    *string                                     `json:"physicalShape"`
 		DnsConfig                        *ContainerDnsConfig                         `json:"dnsConfig"`
 		GracefulShutdownTimeoutInSeconds *int64                                      `json:"gracefulShutdownTimeoutInSeconds"`
 		ImagePullSecrets                 []imagepullsecret                           `json:"imagePullSecrets"`
@@ -181,6 +185,8 @@ func (m *ContainerInstance) UnmarshalJSON(data []byte) (e error) {
 	m.VolumeCount = model.VolumeCount
 
 	m.TimeUpdated = model.TimeUpdated
+
+	m.PhysicalShape = model.PhysicalShape
 
 	m.DnsConfig = model.DnsConfig
 

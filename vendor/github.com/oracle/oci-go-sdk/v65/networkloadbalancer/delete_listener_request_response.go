@@ -58,6 +58,31 @@ func (request DeleteListenerRequest) BinaryRequestBody() (*common.OCIReadSeekClo
 
 }
 
+// ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
+// Not all services are supporting this feature and this method will be a no-op for those services.
+func (request DeleteListenerRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+	if mandatoryParamMap["networkLoadBalancerId"] != nil {
+		templateParam := mandatoryParamMap["networkLoadBalancerId"]
+		for _, template := range templateParam {
+			replacementParam := *request.NetworkLoadBalancerId
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+	if mandatoryParamMap["listenerName"] != nil {
+		templateParam := mandatoryParamMap["listenerName"]
+		for _, template := range templateParam {
+			replacementParam := *request.ListenerName
+			if template.EndsWithDot {
+				replacementParam = replacementParam + "."
+			}
+			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
+		}
+	}
+}
+
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
 func (request DeleteListenerRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy

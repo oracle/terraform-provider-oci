@@ -67,7 +67,7 @@ func newHealthCheckServiceInfraDpHostClientFromBaseClient(baseClient common.Base
 
 // SetRegion overrides the region of this client.
 func (client *HealthCheckServiceInfraDpHostClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("networkloadbalancer", "https://network-load-balancer-api.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("networkloadbalancer", "https://{dualStack?ds.:}network-load-balancer-api.{region}.oci.{secondLevelDomain}", "network-load-balancer-api")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -89,6 +89,12 @@ func (client *HealthCheckServiceInfraDpHostClient) setConfigurationProvider(conf
 // ConfigurationProvider the ConfigurationProvider used in this client, or null if none set
 func (client *HealthCheckServiceInfraDpHostClient) ConfigurationProvider() *common.ConfigurationProvider {
 	return client.config
+}
+
+// EnableDualStackEndpoints Determines whether dual stack endpoint should be used or not.
+// Default value is false
+func (client *HealthCheckServiceInfraDpHostClient) EnableDualStackEndpoints(enableDualStack bool) {
+	client.BaseClient.EnableDualStackEndpoints(enableDualStack)
 }
 
 // DeleteHealthCheckServiceInfraDpHost Delete hcs dp host configuration by identifier.
@@ -129,6 +135,13 @@ func (client HealthCheckServiceInfraDpHostClient) deleteHealthCheckServiceInfraD
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response DeleteHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
@@ -183,6 +196,13 @@ func (client HealthCheckServiceInfraDpHostClient) getHealthCheckServiceInfraDpHo
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response GetHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
@@ -243,6 +263,13 @@ func (client HealthCheckServiceInfraDpHostClient) postHeartBeat(ctx context.Cont
 		return nil, err
 	}
 
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
 	var response PostHeartBeatResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
@@ -301,6 +328,13 @@ func (client HealthCheckServiceInfraDpHostClient) updateHealthCheckServiceInfraD
 	if err != nil {
 		return nil, err
 	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
 
 	var response UpdateHealthCheckServiceInfraDpHostResponse
 	var httpResponse *http.Response
