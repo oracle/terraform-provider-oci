@@ -10,7 +10,7 @@ description: |-
 # oci_devops_repository_ref
 This resource provides the Repository Ref resource in Oracle Cloud Infrastructure Devops service.
 
-Creates a new reference or updates an existing one.
+Creates a new reference or updates an existing one. This API will be deprecated on Wed, 12 June 2024 01:00:00 GMT as it does not get recognized when refName has '/'. This will be replaced by "/repositories/{repositoryId}/actions/createOrUpdateGitRef"
 
 
 ## Example Usage

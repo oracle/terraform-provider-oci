@@ -1,4 +1,4 @@
-# Step 5 - Ensure Backward compatibility
+#Step 6 - Example
 variable "tenancy_ocid" {}
 variable "user_ocid" {}
 variable "fingerprint" {}
@@ -17,15 +17,6 @@ variable "targetVersion" {
 }
 variable "connection_access_token" {
   default = ""
-}
-
-provider "oci" {
-  version          = "5.13.0"
-  region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
 }
 
 resource "random_string" "topicname" {
@@ -78,6 +69,12 @@ resource "oci_devops_repository" "test_repository" {
   description    = "description"
 }
 
+# Retrieve List of commits in HOSTED repository
+data "oci_devops_repository_commits" "test_repository_commits" {
+  #Required
+  repository_id = oci_devops_repository.test_repository.id
+}
+
 # Create new branch in HOSTED repository
 resource "oci_devops_repository_ref" "test_repository_ref" {
   commit_id = lookup(data.oci_devops_repository_commits.test_repository_commits.repository_commit_collection[0].items[0], "commit_id")
@@ -93,46 +90,28 @@ resource "oci_devops_repository_ref" "test_repository_ref" {
   }
 }
 
-# Create MIRRORED repository
-resource "oci_devops_repository" "test_mirrored_repository" {
+# Creating new resource FORKED repository
+resource "oci_devops_repository" "test_repository_fork" {
   #Required
-  name       = "repositoryMirroredName"
+  name      = "forkRepositoryName"
   project_id = oci_devops_project.test_project.id
-  repository_type = "MIRRORED"
+  repository_type = "FORKED"
 
   #Optional
-  default_branch = var.default_branch
-  description    = "description"
-  mirror_repository_config {
-    connector_id = oci_devops_connection.test_connection.id
-    repository_url = "<repository_url>"
-    trigger_schedule {
-      schedule_type = "NONE"
-    }
-  }
-}
-
-# Mirror/Sync MIRRORED repository
-resource "oci_devops_repository_mirror" "test_repository_mirror" {
-  #Required
-  repository_id = oci_devops_repository.test_mirrored_repository.id
-}
-
-# Retrieve List of commits in HOSTED repository
-data "oci_devops_repository_commits" "test_repository_commits" {
-  #Required
-  repository_id = oci_devops_repository.test_repository.id
+  description = "description"
+  parent_repository_id = oci_devops_repository.test_repository.id
 }
 
 # ListCommitsDiff
 data "oci_devops_repository_diffs" "test_repository_diff" {
   #Required
   base_version = var.baseVersion_fork
-  repository_id = oci_devops_repository.test_repository.id
+  repository_id = oci_devops_repository.test_repository_fork.id
   target_version = var.targetVersion
 
   #Optional
   is_comparison_from_merge_base = false
+  target_repository_id = oci_devops_repository.test_repository.id
 }
 
 output "commit_diffs" {

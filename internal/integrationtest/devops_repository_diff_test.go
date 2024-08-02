@@ -25,9 +25,11 @@ var (
 	}
 
 	DevopsRepositoryDiffDataSourceRepresentation = map[string]interface{}{
-		"base_version":   acctest.Representation{RepType: acctest.Required, Create: `main`},
-		"repository_id":  acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
-		"target_version": acctest.Representation{RepType: acctest.Required, Create: `main`},
+		"base_version":                  acctest.Representation{RepType: acctest.Required, Create: `baseVersion`},
+		"repository_id":                 acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_repository.test_repository.id}`},
+		"target_version":                acctest.Representation{RepType: acctest.Required, Create: `targetVersion`},
+		"is_comparison_from_merge_base": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"target_repository_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_devops_repository.test_repository.id}`},
 	}
 
 	DevopsRepositoryDiffResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_devops_project", "test_project", acctest.Required, acctest.Create, DevopsProjectRepresentation) +
@@ -63,6 +65,7 @@ func TestDevopsRepositoryDiffResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "base_version", "baseVersion"),
 				resource.TestCheckResourceAttr(datasourceName, "is_comparison_from_merge_base", "false"),
 				resource.TestCheckResourceAttrSet(datasourceName, "repository_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "target_repository_id"),
 				resource.TestCheckResourceAttr(datasourceName, "target_version", "targetVersion"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "diff_collection.#"),

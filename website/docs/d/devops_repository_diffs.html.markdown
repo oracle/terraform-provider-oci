@@ -24,6 +24,7 @@ data "oci_devops_repository_diffs" "test_repository_diffs" {
 
 	#Optional
 	is_comparison_from_merge_base = var.repository_diff_is_comparison_from_merge_base
+	target_repository_id = oci_devops_repository.test_repository.id
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `base_version` - (Required) The commit or reference name to compare changes against.
 * `is_comparison_from_merge_base` - (Optional) Boolean value to indicate whether to use merge base or most recent revision.
 * `repository_id` - (Required) Unique repository identifier.
+* `target_repository_id` - (Optional) The target repository identifier
 * `target_version` - (Required) The commit or reference name where changes are coming from.
 
 
