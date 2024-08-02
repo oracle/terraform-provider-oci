@@ -134,6 +134,10 @@ func JmsJavaFamiliesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"release_date": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"support_type": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -260,6 +264,10 @@ func JavaFamilySummaryToMap(obj oci_jms.JavaFamilySummary) map[string]interface{
 
 	if obj.LatestReleaseVersion != nil {
 		result["latest_release_version"] = string(*obj.LatestReleaseVersion)
+	}
+
+	if obj.ReleaseDate != nil {
+		result["release_date"] = obj.ReleaseDate.String()
 	}
 
 	result["support_type"] = string(obj.SupportType)

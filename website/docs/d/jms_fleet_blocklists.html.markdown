@@ -21,7 +21,7 @@ data "oci_jms_fleet_blocklists" "test_fleet_blocklists" {
 	fleet_id = oci_jms_fleet.test_fleet.id
 
 	#Optional
-	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
+	managed_instance_id = var.fleet_blocklist_managed_instance_id
 	operation = var.fleet_blocklist_operation
 }
 ```

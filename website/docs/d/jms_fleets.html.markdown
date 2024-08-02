@@ -35,7 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
 * `display_name` - (Optional) The display name.
 * `display_name_contains` - (Optional) Filter the list with displayName contains the given value. 
-* `id` - (Optional) The ID of the Fleet.
+* `id` - (Optional) The ID.
 * `state` - (Optional) The state of the lifecycle.
 
 
