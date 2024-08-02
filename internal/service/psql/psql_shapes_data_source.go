@@ -50,6 +50,10 @@ func PsqlShapesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_flexible": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"memory_size_in_gbs": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -61,6 +65,60 @@ func PsqlShapesDataSource() *schema.Resource {
 									"shape": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"shape_memory_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"default_per_ocpu_in_gbs": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"max_in_gbs": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"max_per_ocpu_in_gbs": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"min_in_gbs": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"min_per_ocpu_in_gbs": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"shape_ocpu_options": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"max": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"min": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
@@ -154,11 +212,55 @@ func (s *PsqlShapesDataSourceCrud) SetData() error {
 	return nil
 }
 
+func ShapeMemoryOptionsToMap(obj *oci_psql.ShapeMemoryOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DefaultPerOcpuInGBs != nil {
+		result["default_per_ocpu_in_gbs"] = int(*obj.DefaultPerOcpuInGBs)
+	}
+
+	if obj.MaxInGBs != nil {
+		result["max_in_gbs"] = int(*obj.MaxInGBs)
+	}
+
+	if obj.MaxPerOcpuInGBs != nil {
+		result["max_per_ocpu_in_gbs"] = int(*obj.MaxPerOcpuInGBs)
+	}
+
+	if obj.MinInGBs != nil {
+		result["min_in_gbs"] = int(*obj.MinInGBs)
+	}
+
+	if obj.MinPerOcpuInGBs != nil {
+		result["min_per_ocpu_in_gbs"] = int(*obj.MinPerOcpuInGBs)
+	}
+
+	return result
+}
+
+func ShapeOcpuOptionsToMap(obj *oci_psql.ShapeOcpuOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Max != nil {
+		result["max"] = int(*obj.Max)
+	}
+
+	if obj.Min != nil {
+		result["min"] = int(*obj.Min)
+	}
+
+	return result
+}
+
 func ShapeSummaryToMap(obj oci_psql.ShapeSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsFlexible != nil {
+		result["is_flexible"] = bool(*obj.IsFlexible)
 	}
 
 	if obj.MemorySizeInGBs != nil {
@@ -171,6 +273,14 @@ func ShapeSummaryToMap(obj oci_psql.ShapeSummary) map[string]interface{} {
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)
+	}
+
+	if obj.ShapeMemoryOptions != nil {
+		result["shape_memory_options"] = []interface{}{ShapeMemoryOptionsToMap(obj.ShapeMemoryOptions)}
+	}
+
+	if obj.ShapeOcpuOptions != nil {
+		result["shape_ocpu_options"] = []interface{}{ShapeOcpuOptionsToMap(obj.ShapeOcpuOptions)}
 	}
 
 	return result

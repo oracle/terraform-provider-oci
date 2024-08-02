@@ -10,9 +10,7 @@ import (
 	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
-
 	oci_psql "github.com/oracle/oci-go-sdk/v65/psql"
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
@@ -82,16 +80,6 @@ func PsqlConfigurationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"instance_memory_size_in_gbs": {
-				Type:     schema.TypeInt,
-				Required: true,
-				ForceNew: true,
-			},
-			"instance_ocpu_count": {
-				Type:     schema.TypeInt,
-				Required: true,
-				ForceNew: true,
-			},
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -117,6 +105,24 @@ func PsqlConfigurationResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"instance_memory_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"instance_ocpu_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"is_flexible": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"system_tags": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -126,6 +132,10 @@ func PsqlConfigurationResource() *schema.Resource {
 			},
 
 			// Computed
+			"config_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"configuration_details": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -322,6 +332,11 @@ func (s *PsqlConfigurationResourceCrud) Create() error {
 		request.InstanceOcpuCount = &tmp
 	}
 
+	if isFlexible, ok := s.D.GetOkExists("is_flexible"); ok {
+		tmp := isFlexible.(bool)
+		request.IsFlexible = &tmp
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -428,6 +443,8 @@ func (s *PsqlConfigurationResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("config_type", s.Res.ConfigType)
+
 	if s.Res.ConfigurationDetails != nil {
 		s.D.Set("configuration_details", []interface{}{ConfigurationDetailsToMap(s.Res.ConfigurationDetails)})
 	} else {
@@ -459,6 +476,10 @@ func (s *PsqlConfigurationResourceCrud) SetData() error {
 
 	if s.Res.InstanceOcpuCount != nil {
 		s.D.Set("instance_ocpu_count", *s.Res.InstanceOcpuCount)
+	}
+
+	if s.Res.IsFlexible != nil {
+		s.D.Set("is_flexible", *s.Res.IsFlexible)
 	}
 
 	if s.Res.LifecycleDetails != nil {
@@ -594,6 +615,10 @@ func ConfigurationSummaryToMap(obj oci_psql.ConfigurationSummary) map[string]int
 
 	if obj.InstanceOcpuCount != nil {
 		result["instance_ocpu_count"] = int(*obj.InstanceOcpuCount)
+	}
+
+	if obj.IsFlexible != nil {
+		result["is_flexible"] = bool(*obj.IsFlexible)
 	}
 
 	if obj.LifecycleDetails != nil {

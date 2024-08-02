@@ -45,8 +45,13 @@ The following attributes are exported:
 * `description` - A description for the configuration.
 * `display_name` - A user-friendly display name for the configuration.
 * `id` - A unique identifier for the configuration.
-* `instance_memory_size_in_gbs` - Memory size in gigabytes with 1GB increment. 
-* `instance_ocpu_count` - CPU core count. Minimum value is 1. 
+* `instance_memory_size_in_gbs` - Memory size in gigabytes with 1GB increment.
+
+	Its value is set to 0 if configuration is for a flexible shape. 
+* `instance_ocpu_count` - CPU core count.
+
+	Its value is set to 0 if configuration is for a flexible shape. 
+* `is_flexible` - True if the configuration supports flexible shapes, false otherwise.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `shape` - The name of the shape for the configuration. Example: `VM.Standard.E4.Flex` 
 * `state` - The current state of the configuration.

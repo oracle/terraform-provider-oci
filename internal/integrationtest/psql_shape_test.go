@@ -49,6 +49,8 @@ func TestPsqlShapeResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "shape_collection.0.items.0.id", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
 				resource.TestCheckResourceAttrSet(datasourceName, "shape_collection.#"),
 				resource.TestCheckResourceAttr(datasourceName, "shape_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shape_collection.0.items.0.shape_memory_options.#"),
+				resource.TestCheckResourceAttrSet(datasourceName, "shape_collection.0.items.0.shape_ocpu_options.#"),
 			),
 		},
 	})
