@@ -103,6 +103,7 @@ The following attributes are exported:
 	* `node_type` - Cluster node type.
 	* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 	* `ocpus` - The total number of OCPUs available to the node.
+	* `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) for the node.
 	* `os_version` - BDS-assigned Operating System version for the node.
 	* `shape` - Shape of the node.
 	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.

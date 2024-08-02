@@ -169,8 +169,7 @@ The following arguments are supported:
 	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
 * `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
 * `execute_bootstrap_script_trigger` - (Optional) (Updatable) An optional property when incremented triggers Execute Bootstrap Script. Could be set to any integer value.
-
-
+* `remove_kafka_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Kafka. Could be set to any integer value.
 * `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
 * `is_kafka_configured` - (Optional) Boolean flag specifying whether or not Kafka should be configured.
@@ -292,6 +291,7 @@ The following attributes are exported:
 	* `node_type` - Cluster node type.
 	* `nvmes` - The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 	* `ocpus` - The total number of OCPUs available to the node.
+	* `odh_version` - Version of the ODH (Oracle Distribution including Apache Hadoop) for the node.
 	* `os_version` - BDS-assigned Operating System version for the node.
 	* `shape` - Shape of the node.
 	* `ssh_fingerprint` - The fingerprint of the SSH key used for node access.
