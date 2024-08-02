@@ -55,6 +55,7 @@ resource "oci_os_management_hub_software_source" "test_software_source" {
 	is_auto_resolve_dependencies = var.software_source_is_auto_resolve_dependencies
 	is_automatically_updated = var.software_source_is_automatically_updated
 	is_created_from_package_list = var.software_source_is_created_from_package_list
+	is_latest_content_only = var.software_source_is_latest_content_only
 	origin_software_source_id = oci_os_management_hub_software_source.test_software_source.id
 	packages = var.software_source_packages
 	software_source_version = var.software_source_software_source_version
@@ -93,6 +94,12 @@ The following arguments are supported:
 * `is_auto_resolve_dependencies` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 * `is_automatically_updated` - (Applicable when software_source_type=CUSTOM) (Updatable) Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
 * `is_created_from_package_list` - (Applicable when software_source_type=CUSTOM | VERSIONED) Indicates whether the service should create the software source from a list of packages provided by the user.
+* `is_latest_content_only` - (Applicable when software_source_type=CUSTOM | VERSIONED) (Updatable) Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
+	* For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.
+	* For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.
+	* For a package filter that does not specify a version, this will include only the latest available version of the package.
+	* For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).
+	* For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored). 
 * `origin_software_source_id` - (Required when software_source_type=VENDOR) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment that is being replicated.
 * `packages` - (Applicable when software_source_type=CUSTOM | VERSIONED) A property used for compatibility only. It doesn't provide a complete list of packages. See [AddPackagesToSoftwareSourceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/osmh/latest/datatypes/AddPackagesToSoftwareSourceDetails) for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
 * `software_source_type` - (Required) (Updatable) Type of software source.
@@ -139,6 +146,12 @@ The following attributes are exported:
 * `is_auto_resolve_dependencies` - Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 * `is_automatically_updated` - Indicates whether the service should automatically update the custom software source to use the latest package versions available. The service reviews packages levels once a day.
 * `is_created_from_package_list` - Indicates whether the service should create the software source from a list of packages provided by the user.
+* `is_latest_content_only` - Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
+	* For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.
+	* For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.
+	* For a package filter that does not specify a version, this will include only the latest available version of the package.
+	* For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).
+	* For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored). 
 * `is_mandatory_for_autonomous_linux` - Indicates whether the software source is required for the Autonomous Linux service.
 * `origin_software_source_id` - This property applies only to replicated vendor software sources. This is the [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the vendor software source in the root compartment.
 * `os_family` - The OS family the software source belongs to.

@@ -60,13 +60,13 @@ resource "oci_os_management_hub_software_source" "test_software_source_filter" {
     display_name = "displayName"
     software_source_type = "CUSTOM"
     vendor_software_sources {
+        display_name = "ol8_baseos_latest-x86_64"
+        id = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
+    }
+    vendor_software_sources {
         #Required
         display_name = "ol8_appstream-x86_64"
         id = data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id
-    }
-    vendor_software_sources {
-        display_name = "ol8_baseos_latest-x86_64"
-        id = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
     }
 
     #Optional
@@ -96,6 +96,12 @@ resource "oci_os_management_hub_software_source" "test_software_source_filter" {
     is_auto_resolve_dependencies = "false"
     is_automatically_updated = "true"
     is_created_from_package_list = "false"
+    is_latest_content_only = "false"
+    origin_software_source_id = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
+
+    lifecycle {
+        ignore_changes = [defined_tags]
+    }
 }
 
 resource "oci_os_management_hub_software_source" "test_software_source_list" {
@@ -104,13 +110,13 @@ resource "oci_os_management_hub_software_source" "test_software_source_list" {
     display_name = "displayName"
     software_source_type = "CUSTOM"
     vendor_software_sources {
+        display_name = "ol8_baseos_latest-x86_64"
+        id = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
+    }
+    vendor_software_sources {
         #Required
         display_name = "ol8_appstream-x86_64"
         id = data.oci_os_management_hub_software_sources.ol8_appstream_x86_64.software_source_collection[0].items[0].id
-    }
-    vendor_software_sources {
-        display_name = "ol8_baseos_latest-x86_64"
-        id = data.oci_os_management_hub_software_sources.ol8_baseos_latest_x86_64.software_source_collection[0].items[0].id
     }
 
     #Optional
@@ -120,6 +126,10 @@ resource "oci_os_management_hub_software_source" "test_software_source_list" {
     is_auto_resolve_dependencies = "false"
     is_automatically_updated = "true"
     is_created_from_package_list = "true"
+
+    lifecycle {
+        ignore_changes = [defined_tags]
+    }
 }
 
 # Get software source
@@ -196,7 +206,7 @@ data "oci_os_management_hub_software_package_software_source" "test_software_pac
 
 # Add software package
 resource "oci_os_management_hub_software_source_add_packages_management" "test_software_source_add_packages_management" {
-    packages = ["ModemManager-glib-1.10.4-1.el8.x86_64.rpm"]
+    packages = ["ModemManager-glib-1.10.4-1.el8.x86_64"]
     software_source_id = oci_os_management_hub_software_source.test_software_source_list.id
 }
 

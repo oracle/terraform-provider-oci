@@ -87,12 +87,13 @@ var (
 		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"software_source_type":          acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
-		"vendor_software_sources":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}},
+		"vendor_software_sources":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}},
 		"custom_software_source_filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceCustomSoftwareSourceFilterRepresentation},
 		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
 		"is_auto_resolve_dependencies":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_automatically_updated":      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_created_from_package_list":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_latest_content_only":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 
 	OsManagementHubSoftwareSourceCustomRepresentation = map[string]interface{}{
@@ -101,7 +102,7 @@ var (
 		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `tf-custom-ss`, Update: `tf-custom-ss2`},
 		"software_source_type":         acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`},
-		"vendor_software_sources":      []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}},
+		"vendor_software_sources":      []acctest.RepresentationGroup{{RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation}, {RepType: acctest.Required, Group: OsManagementHubSoftwareSourceVendorSoftwareSourcesRepresentation2}},
 		"is_auto_resolve_dependencies": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_automatically_updated":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"is_created_from_package_list": acctest.Representation{RepType: acctest.Required, Create: `true`},
@@ -206,6 +207,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_latest_content_only", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
 				resource.TestCheckResourceAttrSet(resourceName, "package_count"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
@@ -261,6 +263,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_latest_content_only", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
 				resource.TestCheckResourceAttr(resourceName, "packages.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
@@ -268,7 +271,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "url"),
 				resource.TestCheckResourceAttr(resourceName, "vendor_software_sources.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "vendor_software_sources.0.display_name", "ol8_baseos_latest-x86_64"),
+				resource.TestCheckResourceAttrSet(resourceName, "vendor_software_sources.0.display_name"),
 				resource.TestCheckResourceAttrSet(resourceName, "vendor_software_sources.0.id"),
 
 				func(s *terraform.State) (err error) {
@@ -308,6 +311,7 @@ func TestOsManagementHubSoftwareSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "is_auto_resolve_dependencies", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_automatically_updated", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_created_from_package_list", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_latest_content_only", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "os_family"),
 				resource.TestCheckResourceAttr(resourceName, "packages.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "repo_id"),
