@@ -135,6 +135,10 @@ func (s *DevopsRepositoryDataSourceCrud) SetData() error {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
+	if s.Res.ParentRepositoryId != nil {
+		s.D.Set("parent_repository_id", *s.Res.ParentRepositoryId)
+	}
+
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
 	}

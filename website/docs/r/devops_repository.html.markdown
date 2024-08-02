@@ -40,6 +40,7 @@ resource "oci_devops_repository" "test_repository" {
 			custom_schedule = var.repository_mirror_repository_config_trigger_schedule_custom_schedule
 		}
 	}
+	parent_repository_id = oci_devops_repository.test_repository.id
 }
 ```
 
@@ -57,9 +58,10 @@ The following arguments are supported:
 	* `trigger_schedule` - (Optional) (Updatable) Specifies a trigger schedule. Timing information for when to initiate automated syncs.
 		* `custom_schedule` - (Optional) (Updatable) Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
 		* `schedule_type` - (Required) (Updatable) Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
-* `name` - (Required) (Updatable) Unique name of a repository.
+* `name` - (Required) (Updatable) Name of the repository. Should be unique within the project.
+* `parent_repository_id` - (Optional) The OCID of the parent repository.
 * `project_id` - (Required) The OCID of the DevOps project containing the repository.
-* `repository_type` - (Required) (Updatable) Type of repository. Allowed values:  `MIRRORED`  `HOSTED` 
+* `repository_type` - (Required) (Updatable) Type of repository. Allowed values:  `MIRRORED`  `HOSTED` `FORKED` 
 
 
 ** IMPORTANT **
@@ -85,18 +87,19 @@ The following attributes are exported:
 	* `trigger_schedule` - Specifies a trigger schedule. Timing information for when to initiate automated syncs.
 		* `custom_schedule` - Valid if type is CUSTOM. Following RFC 5545 recurrence rules, we can specify starting time, occurrence frequency, and interval size. Example for frequency could be DAILY/WEEKLY/HOURLY or any RFC 5545 supported frequency, which is followed by start time of this window. You can control the start time with BYHOUR, BYMINUTE and BYSECONDS. It is followed by the interval size. 
 		* `schedule_type` - Different types of trigger schedule: NONE - No automated synchronization schedule. DEFAULT - Trigger schedule is every 30 minutes. CUSTOM - Custom triggering schedule. 
-* `name` - Unique name of a repository. This value is mutable.
+* `name` - Name of the repository. Should be unique within the project. This value is mutable.
 * `namespace` - Tenancy unique namespace.
+* `parent_repository_id` - The OCID of the parent repository.
 * `project_id` - The OCID of the DevOps project containing the repository.
 * `project_name` - Unique project name in a namespace.
-* `repository_type` - Type of repository: MIRRORED - Repository created by mirroring an existing repository. HOSTED - Repository created and hosted using Oracle Cloud Infrastructure DevOps code repository. 
+* `repository_type` - Type of repository: MIRRORED - Repository created by mirroring an existing repository. HOSTED - Repository created and hosted using Oracle Cloud Infrastructure DevOps code repository. FORKED - Repository created by forking an existing repository. 
 * `size_in_bytes` - The size of the repository in bytes.
 * `ssh_url` - SSH URL that you use to git clone, pull and push.
 * `state` - The current state of the repository.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 * `time_created` - The time the repository was created. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
 * `time_updated` - The time the repository was updated. Format defined by [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339).
-* `trigger_build_events` - Trigger build events supported for this repository: PUSH - Build is triggered when a push event occurs. COMMIT_UPDATES - Build is triggered when new commits are mirrored into a repository. 
+* `trigger_build_events` - Trigger build events supported for this repository: PUSH - Build is triggered when a push event occurs. PULL_REQUEST_CREATED - Build is triggered when a pull request is created in the repository. PULL_REQUEST_UPDATED - Build is triggered when a push is made to a branch with an open pull request. COMMIT_UPDATES - Build is triggered when new commits are mirrored into a repository. 
 
 ## Timeouts
 
