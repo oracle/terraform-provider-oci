@@ -21,6 +21,8 @@ var (
 	JmsFleetCryptoAnalysisResultInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
 	JmsFleetCryptoAnalysisResultOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
 
+	JmsFleetCryptoAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
+
 	JmsFleetCryptoAnalysisResultResourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetCryptoAnalysisResultCompartmentId},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Crypto Analysis Result`},
@@ -56,8 +58,16 @@ var (
 	}
 
 	JmsFleetCryptoAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
-		"aggregation_mode": acctest.Representation{RepType: acctest.Optional, Create: `JFR`},
+		"fleet_id":                                 acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"aggregation_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `JFR`},
+		"finding_count":                            acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"finding_count_greater_than":               acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"host_name":                                acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
+		"managed_instance_id":                      acctest.Representation{RepType: acctest.Optional, Create: JmsFleetCryptoAnalysisResultDummyManagedInstanceId},
+		"non_compliant_finding_count":              acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"non_compliant_finding_count_greater_than": acctest.Representation{RepType: acctest.Optional, Create: `10`},
+		"time_start":                               acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T15:15:15.000Z`},
+		"time_end":                                 acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T16:16:16.000Z`},
 	}
 )
 
@@ -90,13 +100,26 @@ func TestJmsFleetCryptoAnalysisResultResource_basic(t *testing.T) {
 					JmsFleetCryptoAnalysisResultDataSourceRepresentation,
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(datasourceName, "aggregation_mode", "JFR"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "aggregation_mode", "JFR"),
+				resource.TestCheckResourceAttr(datasourceName, "finding_count", `10`),
+				resource.TestCheckResourceAttr(datasourceName, "finding_count_greater_than", `10`),
+				resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsFleetCryptoAnalysisResultDummyManagedInstanceId),
+				resource.TestCheckResourceAttr(datasourceName, "non_compliant_finding_count", `10`),
+				resource.TestCheckResourceAttr(datasourceName, "non_compliant_finding_count_greater_than", `10`),
+				resource.TestCheckResourceAttr(datasourceName, "time_start", `2024-01-20T15:15:15.000Z`),
+				resource.TestCheckResourceAttr(datasourceName, "time_end", `2024-01-20T16:16:16.000Z`),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "crypto_analysis_result_collection.#"),
+				// we can only verify that response contain zero items because we are using dummy test data values
+				// we cannot use actual values because it requires setup of fleet -> compute instance -> management agent -> jms plugin.
 				resource.TestCheckResourceAttr(datasourceName, "crypto_analysis_result_collection.0.items.#", "0"),
 			),
 		},
+		// verify singular datasource
+		// note: we cannot write test to verify singular data source because
+		// crypto analysis processing requires setup of fleet -> compute instance -> management agent -> jms plugin.
 	})
 }
 

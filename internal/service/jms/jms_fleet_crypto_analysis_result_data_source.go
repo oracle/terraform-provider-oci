@@ -70,11 +70,19 @@ func JmsFleetCryptoAnalysisResultDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_finished": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_first_event": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
 			"time_last_event": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_started": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -181,12 +189,20 @@ func (s *JmsFleetCryptoAnalysisResultDataSourceCrud) SetData() error {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TimeFinished != nil {
+		s.D.Set("time_finished", s.Res.TimeFinished.String())
+	}
+
 	if s.Res.TimeFirstEvent != nil {
 		s.D.Set("time_first_event", s.Res.TimeFirstEvent.String())
 	}
 
 	if s.Res.TimeLastEvent != nil {
 		s.D.Set("time_last_event", s.Res.TimeLastEvent.String())
+	}
+
+	if s.Res.TimeStarted != nil {
+		s.D.Set("time_started", s.Res.TimeStarted.String())
 	}
 
 	if s.Res.TotalEventCount != nil {

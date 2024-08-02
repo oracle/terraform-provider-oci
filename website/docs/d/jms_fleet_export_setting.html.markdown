@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_jms_fleet_export_setting
 This data source provides details about a specific Fleet Export Setting resource in Oracle Cloud Infrastructure Jms service.
 
-Returns export setting for the specified Fleet.
+Returns export setting for the specified fleet.
 
 ## Example Usage
 
@@ -41,7 +41,7 @@ The following attributes are exported:
 * `is_enabled` - ExportSetting flag to store enabled or disabled status.
 * `target_bucket_name` - The name of the bucket where data will be exported. 
 * `target_bucket_namespace` - The namespace of the bucket where data will be exported. 
-* `target_bucket_region` - The namespace of the bucket where data will be exported. 
+* `target_bucket_region` - The id of the region of the target bucket. 
 * `time_created` - The creation date and time of the export setting (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 * `time_last_modified` - The update date and time of the export setting (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 

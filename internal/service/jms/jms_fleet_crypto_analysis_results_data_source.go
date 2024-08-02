@@ -24,12 +24,32 @@ func JmsFleetCryptoAnalysisResultsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"finding_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"finding_count_greater_than": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 			"fleet_id": {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"host_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"non_compliant_finding_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"non_compliant_finding_count_greater_than": {
+				Type:     schema.TypeInt,
 				Optional: true,
 			},
 			"time_end": {
@@ -107,11 +127,19 @@ func JmsFleetCryptoAnalysisResultsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"time_finished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"time_first_event": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
 									"time_last_event": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_started": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -158,14 +186,39 @@ func (s *JmsFleetCryptoAnalysisResultsDataSourceCrud) Get() error {
 		request.AggregationMode = oci_jms.ListCryptoAnalysisResultsAggregationModeEnum(aggregationMode.(string))
 	}
 
+	if findingCount, ok := s.D.GetOkExists("finding_count"); ok {
+		tmp := findingCount.(int)
+		request.FindingCount = &tmp
+	}
+
+	if findingCountGreaterThan, ok := s.D.GetOkExists("finding_count_greater_than"); ok {
+		tmp := findingCountGreaterThan.(int)
+		request.FindingCountGreaterThan = &tmp
+	}
+
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
 		tmp := fleetId.(string)
 		request.FleetId = &tmp
 	}
 
+	if hostName, ok := s.D.GetOkExists("host_name"); ok {
+		tmp := hostName.(string)
+		request.HostName = &tmp
+	}
+
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
 		tmp := managedInstanceId.(string)
 		request.ManagedInstanceId = &tmp
+	}
+
+	if nonCompliantFindingCount, ok := s.D.GetOkExists("non_compliant_finding_count"); ok {
+		tmp := nonCompliantFindingCount.(int)
+		request.NonCompliantFindingCount = &tmp
+	}
+
+	if nonCompliantFindingCountGreaterThan, ok := s.D.GetOkExists("non_compliant_finding_count_greater_than"); ok {
+		tmp := nonCompliantFindingCountGreaterThan.(int)
+		request.NonCompliantFindingCountGreaterThan = &tmp
 	}
 
 	if timeEnd, ok := s.D.GetOkExists("time_end"); ok {
@@ -288,12 +341,20 @@ func CryptoAnalysisResultSummaryToMap(obj oci_jms.CryptoAnalysisResultSummary) m
 		result["time_created"] = obj.TimeCreated.String()
 	}
 
+	if obj.TimeFinished != nil {
+		result["time_finished"] = obj.TimeFinished.String()
+	}
+
 	if obj.TimeFirstEvent != nil {
 		result["time_first_event"] = obj.TimeFirstEvent.String()
 	}
 
 	if obj.TimeLastEvent != nil {
 		result["time_last_event"] = obj.TimeLastEvent.String()
+	}
+
+	if obj.TimeStarted != nil {
+		result["time_started"] = obj.TimeStarted.String()
 	}
 
 	if obj.TotalEventCount != nil {

@@ -21,6 +21,8 @@ var (
 	JmsFleetPerformanceTuningAnalysisResultInventoryLogId = utils.GetEnvSettingWithBlankDefault("fleet_inventory_log_ocid")
 	JmsFleetPerformanceTuningAnalysisResultOperationLogId = utils.GetEnvSettingWithBlankDefault("fleet_operation_log_ocid")
 
+	JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId = utils.GetEnvSettingWithBlankDefault("managed_instance_ocid")
+
 	JmsFleetPerformanceTuningAnalysisResultResourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: JmsFleetPerformanceTuningAnalysisResultCompartmentId},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `Created Fleet for Crypto Analysis Result`},
@@ -56,7 +58,12 @@ var (
 	}
 
 	JmsFleetPerformanceTuningAnalysisResultDataSourceRepresentation = map[string]interface{}{
-		"fleet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"fleet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_jms_fleet.test_fleet.id}`},
+		"application_id":      acctest.Representation{RepType: acctest.Optional, Create: `dummy-application-id`},
+		"host_name":           acctest.Representation{RepType: acctest.Optional, Create: `dummy-host-name`},
+		"managed_instance_id": acctest.Representation{RepType: acctest.Optional, Create: JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId},
+		"time_start":          acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T15:15:15.000Z`},
+		"time_end":            acctest.Representation{RepType: acctest.Optional, Create: `2024-01-20T16:16:16.000Z`},
 	}
 )
 
@@ -89,11 +96,21 @@ func TestJmsFleetPerformanceTuningAnalysisResultResource_basic(t *testing.T) {
 				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
+				resource.TestCheckResourceAttr(datasourceName, "application_id", `dummy-application-id`),
+				resource.TestCheckResourceAttr(datasourceName, "host_name", `dummy-host-name`),
+				resource.TestCheckResourceAttr(datasourceName, "managed_instance_id", JmsFleetPerformanceTuningAnalysisResultDummyManagedInstanceId),
+				resource.TestCheckResourceAttr(datasourceName, "time_start", `2024-01-20T15:15:15.000Z`),
+				resource.TestCheckResourceAttr(datasourceName, "time_end", `2024-01-20T16:16:16.000Z`),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "performance_tuning_analysis_result_collection.#"),
+				// we can only verify that response contain zero items because we are using dummy test data values
+				// we cannot use actual values because it requires setup of fleet -> compute instance -> management agent -> jms plugin.
 				resource.TestCheckResourceAttr(datasourceName, "performance_tuning_analysis_result_collection.0.items.#", "0"),
 			),
 		},
+		// verify singular datasource
+		// note: we cannot write test to verify singular data source because
+		// performance tuning analysis processing requires setup of fleet -> compute instance -> management agent -> jms plugin.
 	})
 }
 

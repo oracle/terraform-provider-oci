@@ -39,9 +39,23 @@ var exportJmsFleetAdvancedFeatureConfigurationHints = &tf_export.TerraformResour
 	ResourceAbbreviation: "fleet_advanced_feature_configuration",
 }
 
+var exportJmsJmsPluginHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_jms_jms_plugin",
+	DatasourceClass:        "oci_jms_jms_plugins",
+	DatasourceItemsAttr:    "jms_plugin_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "jms_plugin",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_jms.JmsPluginLifecycleStateActive),
+		string(oci_jms.JmsPluginLifecycleStateNeedsAttention),
+	},
+}
+
 var jmsResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportJmsFleetHints},
+		{TerraformResourceHints: exportJmsJmsPluginHints},
 	},
 	"oci_jms_fleet": {
 		{

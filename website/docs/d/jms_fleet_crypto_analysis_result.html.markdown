@@ -17,7 +17,7 @@ Retrieve the metadata for the result of a Crypto event analysis.
 ```hcl
 data "oci_jms_fleet_crypto_analysis_result" "test_fleet_crypto_analysis_result" {
 	#Required
-	crypto_analysis_result_id = oci_apm_synthetics_result.test_result.id
+	crypto_analysis_result_id = var.fleet_crypto_analysis_result_id
 	fleet_id = oci_jms_fleet.test_fleet.id
 }
 ```
@@ -47,8 +47,10 @@ The following attributes are exported:
 * `object` - The Object Storage object name of this analysis result.
 * `summarized_event_count` - Total number of summarized events. Summarized events are deduplicated events of interest.
 * `time_created` - The time the result is compiled.
+* `time_finished` - The time the JFR recording has finished.
 * `time_first_event` - Time of the first event in the analysis.
 * `time_last_event` - Time of the last event in the analysis.
+* `time_started` - The time the JFR recording has started.
 * `total_event_count` - Total number of events in the analysis.
 * `work_request_id` - The OCID of the work request to start the analysis.
 

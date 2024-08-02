@@ -28,6 +28,10 @@ func JmsFleetPerformanceTuningAnalysisResultsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"host_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -162,6 +166,11 @@ func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) Get() error {
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
 		tmp := fleetId.(string)
 		request.FleetId = &tmp
+	}
+
+	if hostName, ok := s.D.GetOkExists("host_name"); ok {
+		tmp := hostName.(string)
+		request.HostName = &tmp
 	}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {
