@@ -2223,6 +2223,7 @@ func (s *BdsBdsInstanceResourceCrud) ExecuteBootstrapScript() error {
 	workId := response.OpcWorkRequestId
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
+
 func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type string, node_map map[string]interface{}) {
 	if _, ok := s.D.GetOkExists(node_type); ok {
 		fieldKey := fmt.Sprintf("%s.%d.%s", node_type, 0, "shape_config")
