@@ -19,6 +19,19 @@ Creates a new database system.
 resource "oci_psql_db_system" "test_db_system" {
 	#Required
 	compartment_id = var.compartment_id
+	credentials {
+		#Required
+		password_details {
+			#Required
+			password_type = var.db_system_credentials_password_details_password_type
+
+			#Optional
+			password = var.db_system_credentials_password_details_password
+			secret_id = oci_vault_secret.test_secret.id
+			secret_version = var.db_system_credentials_password_details_secret_version
+		}
+		username = var.db_system_credentials_username
+	}
 	db_version = var.db_system_db_version
 	display_name = var.db_system_display_name
 	network_details {
@@ -42,20 +55,6 @@ resource "oci_psql_db_system" "test_db_system" {
 
 	#Optional
 	config_id = oci_apm_config_config.test_config.id
-	apply_config = var.db_system_apply_config_type
-	credentials {
-		#Required
-		password_details {
-			#Required
-			password_type = var.db_system_credentials_password_details_password_type
-
-			#Optional
-			password = var.db_system_credentials_password_details_password
-			secret_id = oci_vault_secret.test_secret.id
-			secret_version = var.db_system_credentials_password_details_secret_version
-		}
-		username = var.db_system_credentials_username
-	}
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.db_system_description
 	freeform_tags = {"bar-key"= "value"}
@@ -123,10 +122,10 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - (Optional) (Updatable) A user-provided description of a database system.
 * `display_name` - (Required) (Updatable) A user-friendly display name for the database system. Avoid entering confidential information.
-* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `instance_count` - (Required) (Updatable when patch_operations are specified) Count of database instances nodes to be created in the database system. 
-* `instance_memory_size_in_gbs` - (Optional) The total amount of memory available to each database instance node, in gigabytes.
-* `instance_ocpu_count` - (Optional) The total number of OCPUs available to each database instance node.
+* `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+* `instance_count` - (Optional) Count of database instances nodes to be created in the database system. 
+* `instance_memory_size_in_gbs` - (Optional) (Updatable) The total amount of memory available to each database instance node, in gigabytes.
+* `instance_ocpu_count` - (Optional) (Updatable) The total number of OCPUs available to each database instance node.
 * `instances_details` - (Optional) Details of database instances nodes to be created. This parameter is optional. If specified, its size must match `instanceCount`. 
 	* `description` - (Optional) A user-provided description of the database instance node.
 	* `display_name` - (Optional) Display name of the database instance node. Avoid entering confidential information.
@@ -138,16 +137,18 @@ The following arguments are supported:
 		* `days_of_the_week` - (Required when kind=WEEKLY) (Updatable) The day of the week that the backup starts.
 		* `kind` - (Optional) (Updatable) The kind of backup policy.
 		* `retention_days` - (Optional) (Updatable) How many days the data should be stored after the database system deletion.
-	* `maintenance_window_start` - (Optional) (Updatable) The start of the maintenance window. 
-* `network_details` - (Required) Network details for the database system.
-	* `nsg_ids` - (Optional) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
+	* `maintenance_window_start` - (Optional) (Updatable) The start of the maintenance window in UTC.
+
+		This string is of the format: "{day-of-week} {time-of-day}". "{day-of-week}" is a case-insensitive string like "mon", "tue", &c. "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
+* `network_details` - (Required) (Updatable) Network details for the database system.
+	* `nsg_ids` - (Optional) (Updatable) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - (Optional) Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
+* `shape` - (Required) (Updatable) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `VM.Standard.E4.Flex` 
 * `patch_operations` - (Optional) (Updatable) For adding and removing from read replica database instances. Please remove the patch_operations after it is applied. Update the instance_count arrodrandly. Cannot be specified when creating the resource.
 	* `operation` - (Required) The operation can be one of these values: `INSERT`, `REMOVE`. 
 	* `selection` - (Required) In case of `INSERT`, selection is `instances`. In case of `REMOVE`, selection is `instances[?id == '${var.instance_id}']`.
 	* `value` - (Required when operation=INSERT) Specify instance details such as displayName, description or privateIp. Example: `{"displayName": "value"}`.
-* `shape` - (Required) The name of the shape for the database instance node. Use the /shapes API for accepted shapes. Example: `PostgreSQL.VM.Standard.E4.Flex.2.32GB`. Find more about the supported shapes [here](https://docs.oracle.com/en-us/iaas/Content/postgresql/supported-shapes.htm).
 * `source` - (Optional) The source used to restore the database system.
 	* `backup_id` - (Required when source_type=BACKUP) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database system backup.
 	* `is_having_restore_config_overrides` - (Applicable when source_type=BACKUP) Deprecated. Don't use.
