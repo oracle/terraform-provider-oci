@@ -94,6 +94,12 @@ func DevopsRepositoriesDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"parent_repository_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"mirror_repository_config": {
 										Type:     schema.TypeList,
 										Optional: true,

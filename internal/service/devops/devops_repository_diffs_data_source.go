@@ -30,6 +30,10 @@ func DevopsRepositoryDiffsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"target_repository_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"target_version": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -201,6 +205,11 @@ func (s *DevopsRepositoryDiffsDataSourceCrud) Get() error {
 	if repositoryId, ok := s.D.GetOkExists("repository_id"); ok {
 		tmp := repositoryId.(string)
 		request.RepositoryId = &tmp
+	}
+
+	if targetRepositoryId, ok := s.D.GetOkExists("target_repository_id"); ok {
+		tmp := targetRepositoryId.(string)
+		request.TargetRepositoryId = &tmp
 	}
 
 	if targetVersion, ok := s.D.GetOkExists("target_version"); ok {
