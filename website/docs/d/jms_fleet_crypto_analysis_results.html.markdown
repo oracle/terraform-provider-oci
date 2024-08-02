@@ -21,7 +21,12 @@ data "oci_jms_fleet_crypto_analysis_results" "test_fleet_crypto_analysis_results
 
 	#Optional
 	aggregation_mode = var.fleet_crypto_analysis_result_aggregation_mode
-	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
+	finding_count = var.fleet_crypto_analysis_result_finding_count
+	finding_count_greater_than = var.fleet_crypto_analysis_result_finding_count_greater_than
+	host_name = var.fleet_crypto_analysis_result_host_name
+	managed_instance_id = var.fleet_crypto_analysis_result_managed_instance_ocid
+	non_compliant_finding_count = var.fleet_crypto_analysis_result_non_compliant_finding_count
+	non_compliant_finding_count_greater_than = var.fleet_crypto_analysis_result_non_compliant_finding_count_greater_than
 	time_end = var.fleet_crypto_analysis_result_time_end
 	time_start = var.fleet_crypto_analysis_result_time_start
 }
@@ -32,8 +37,13 @@ data "oci_jms_fleet_crypto_analysis_results" "test_fleet_crypto_analysis_results
 The following arguments are supported:
 
 * `aggregation_mode` - (Optional) The aggregation mode of the crypto event analysis result.
+* `finding_count` - (Optional) FindingCount of CryptoAnalysis Report.
+* `finding_count_greater_than` - (Optional) FindingCount of CryptoAnalysis Report.
 * `fleet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
+* `host_name` - (Optional) The host [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 * `managed_instance_id` - (Optional) The Fleet-unique identifier of the related managed instance.
+* `non_compliant_finding_count` - (Optional) Non Compliant Finding Count of CryptoAnalysis Report.
+* `non_compliant_finding_count_greater_than` - (Optional) Non Compliant Finding Count of CryptoAnalysis Report.
 * `time_end` - (Optional) The end of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 * `time_start` - (Optional) The start of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 
@@ -61,8 +71,10 @@ The following attributes are exported:
 * `object` - The Object Storage object name of this analysis result.
 * `summarized_event_count` - Total number of summarized events. Summarized events are deduplicated events of interest.
 * `time_created` - The time the result is compiled.
+* `time_finished` - The time the JFR recording has finished.
 * `time_first_event` - Time of the first event in the analysis.
 * `time_last_event` - Time of the last event in the analysis.
+* `time_started` - The time the JFR recording has started.
 * `total_event_count` - Total number of events in the analysis.
 * `work_request_id` - The OCID of the work request to start the analysis.
 
