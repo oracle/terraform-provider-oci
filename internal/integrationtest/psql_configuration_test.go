@@ -10,6 +10,8 @@ import (
 	"testing"
 	"time"
 
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
+
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -19,7 +21,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -38,7 +39,7 @@ var (
 	PsqlConfigurationDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"db_version":     acctest.Representation{RepType: acctest.Optional, Create: `14`},
-		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex.4.64GB`},
+		"shape":          acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlConfigurationDataSourceFilterRepresentation},
 	}
@@ -58,8 +59,9 @@ var (
 	}
 
 	PsqlConfigurationRepresentation = map[string]interface{}{
-		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"db_configuration_overrides":  acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlConfigurationDbConfigurationOverridesRepresentation},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"db_configuration_overrides": acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlConfigurationDbConfigurationOverridesRepresentation},
+
 		"db_version":                  acctest.Representation{RepType: acctest.Required, Create: `14`},
 		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `terraform-test-config`, Update: `terraform-test-config-2`},
 		"instance_memory_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `64`},
@@ -67,6 +69,24 @@ var (
 		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `description1`, Update: `description2`},
+		"is_flexible":                 acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"system_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sys-namespace.tag-key": "value"}},
+		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesRep},
+	}
+
+	PsqlFlexConfigurationRepresentation = map[string]interface{}{
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"db_configuration_overrides": acctest.RepresentationGroup{RepType: acctest.Required, Group: PsqlConfigurationDbConfigurationOverridesRepresentation},
+
+		"db_version":                  acctest.Representation{RepType: acctest.Required, Create: `14`},
+		"display_name":                acctest.Representation{RepType: acctest.Required, Create: `terraform-test-config-flex`, Update: `terraform-test-config-flex-2`},
+		"instance_memory_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `0`},
+		"instance_ocpu_count":         acctest.Representation{RepType: acctest.Optional, Create: `0`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`},
+		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
+		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `description1`, Update: `description2`},
+		"is_flexible":                 acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"system_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"sys-namespace.tag-key": "value"}},
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesRep},
@@ -107,9 +127,37 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+PsqlConfigurationResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Optional, acctest.Create, PsqlConfigurationRepresentation), "psql", "configuration", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Required, acctest.Create, PsqlConfigurationRepresentation), "psql", "configuration", t)
 
 	acctest.ResourceTest(t, testAccCheckPsqlConfigurationDestroy, []resource.TestStep{
+		// verify flex create
+		{
+			Config: config + compartmentIdVariableStr + PsqlConfigurationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_configuration", "test_configuration", acctest.Optional, acctest.Create, PsqlFlexConfigurationRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.0.config_key", "effective_io_concurrency"),
+				resource.TestCheckResourceAttr(resourceName, "db_configuration_overrides.0.items.0.overriden_config_value", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_version", "14"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraform-test-config-flex"),
+				resource.TestCheckResourceAttr(resourceName, "instance_memory_size_in_gbs", "0"),
+				resource.TestCheckResourceAttr(resourceName, "instance_ocpu_count", "0"),
+				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
+
+				func(s *terraform.State) (err error) {
+					fmt.Println("Testcase for flex shape")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + PsqlConfigurationResourceDependencies,
+		},
+
 		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + PsqlConfigurationResourceDependencies +
@@ -155,6 +203,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_memory_size_in_gbs", "64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "is_flexible", "false"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -171,6 +220,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				},
 			),
 		},
+
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + PsqlConfigurationResourceDependencies +
@@ -192,6 +242,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_memory_size_in_gbs", "64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "is_flexible", "false"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -225,6 +276,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_memory_size_in_gbs", "64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "is_flexible", "false"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttr(resourceName, "system_tags.%", "0"),
@@ -248,7 +300,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "db_version", "14"),
-				resource.TestCheckResourceAttr(datasourceName, "shape", "VM.Standard.E4.Flex.4.64GB"),
+				resource.TestCheckResourceAttr(datasourceName, "shape", "VM.Standard.E4.Flex"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "configuration_collection.0.items.0.id"),
@@ -304,6 +356,7 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "configuration_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "config_type"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_version", "14"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
@@ -312,6 +365,8 @@ func TestPsqlConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_memory_size_in_gbs", "64"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_ocpu_count", "4"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_flexible", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard.E4.Flex.4.64GB"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "system_tags.%", "0"),

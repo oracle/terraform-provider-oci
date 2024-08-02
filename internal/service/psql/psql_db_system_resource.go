@@ -50,7 +50,6 @@ func PsqlDbSystemResource() *schema.Resource {
 			"network_details": {
 				Type:     schema.TypeList,
 				Required: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -67,7 +66,6 @@ func PsqlDbSystemResource() *schema.Resource {
 							Type:     schema.TypeSet,
 							Optional: true,
 							Computed: true,
-							ForceNew: true,
 							Set:      tfresource.LiteralTypeHashCodeForSets,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
@@ -87,7 +85,6 @@ func PsqlDbSystemResource() *schema.Resource {
 			"shape": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"storage_details": {
 				Type:     schema.TypeList,
@@ -234,13 +231,11 @@ func PsqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"instance_ocpu_count": {
 				Type:     schema.TypeInt,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"instances_details": {
 				Type:     schema.TypeList,
@@ -967,12 +962,12 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if description, ok := s.D.GetOkExists("description"); ok {
+	if description, ok := s.D.GetOkExists("description"); ok && s.D.HasChange("description") {
 		tmp := description.(string)
 		request.Description = &tmp
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -981,7 +976,17 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	if managementPolicy, ok := s.D.GetOkExists("management_policy"); ok {
+	if instanceMemorySizeInGBs, ok := s.D.GetOkExists("instance_memory_size_in_gbs"); ok && s.D.HasChange("instance_memory_size_in_gbs") {
+		tmp := instanceMemorySizeInGBs.(int)
+		request.InstanceMemorySizeInGBs = &tmp
+	}
+
+	if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok && s.D.HasChange("instance_ocpu_count") {
+		tmp := instanceOcpuCount.(int)
+		request.InstanceOcpuCount = &tmp
+	}
+
+	if managementPolicy, ok := s.D.GetOkExists("management_policy"); ok && s.D.HasChange("management_policy") {
 		if tmpList := managementPolicy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "management_policy", 0)
 			tmp, err := s.mapToManagementPolicyDetails(fieldKeyFormat)
@@ -992,7 +997,45 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
-	if storageDetails, ok := s.D.GetOkExists("storage_details"); ok {
+	if networkDetails, ok := s.D.GetOkExists("network_details"); ok && s.D.HasChange("network_details") {
+		if tmpList := networkDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_details", 0)
+			tmp, err := s.mapToUpdateNetworkDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkDetails = &tmp
+		}
+	}
+
+	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+
+	if s.D.HasChange("shape") || s.D.HasChange("instance_ocpu_count") || s.D.HasChange("instance_memory_size_in_gbs") {
+		if shape, ok := s.D.GetOkExists("shape"); ok {
+			tmp := shape.(string)
+			request.Shape = &tmp
+		}
+		if instanceOcpuCount, ok := s.D.GetOkExists("instance_ocpu_count"); ok {
+			tmp := instanceOcpuCount.(int)
+			request.InstanceOcpuCount = &tmp
+		}
+		if instanceMemorySizeInGBs, ok := s.D.GetOkExists("instance_memory_size_in_gbs"); ok {
+			tmp := instanceMemorySizeInGBs.(int)
+			request.InstanceMemorySizeInGBs = &tmp
+		}
+		if configId, ok := s.D.GetOkExists("config_id"); ok {
+			configRequest := oci_psql.UpdateDbConfigParams{}
+
+			tmp := configId.(string)
+			configRequest.ConfigId = &tmp
+			request.DbConfigurationParams = &configRequest
+		}
+	}
+
+	if storageDetails, ok := s.D.GetOkExists("storage_details"); ok && s.D.HasChange("storage_details") {
 		if tmpList := storageDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "storage_details", 0)
 			tmp, err := s.mapToUpdateStorageDetailsParams(fieldKeyFormat)
@@ -1111,7 +1154,14 @@ func (s *PsqlDbSystemResourceCrud) SetData() error {
 	}
 
 	if s.Res.Shape != nil {
-		s.D.Set("shape", "PostgreSQL."+*s.Res.Shape+"."+strconv.Itoa(*s.Res.InstanceOcpuCount)+"."+strconv.Itoa(*s.Res.InstanceMemorySizeInGBs)+"GB")
+		shape := "PostgreSQL." + *s.Res.Shape + "." + strconv.Itoa(*s.Res.InstanceOcpuCount) + "." + strconv.Itoa(*s.Res.InstanceMemorySizeInGBs) + "GB"
+
+		if s.Res.ConfigId != nil {
+			if s.isFlexibleConfig(s.Res.ConfigId) {
+				shape = "PostgreSQL." + strings.TrimSuffix(*s.Res.Shape, "."+strconv.Itoa(*s.Res.InstanceOcpuCount)+"."+strconv.Itoa(*s.Res.InstanceMemorySizeInGBs)+"GB")
+			}
+		}
+		s.D.Set("shape", shape)
 	}
 
 	if s.Res.Source != nil {
@@ -1574,6 +1624,26 @@ func (s *PsqlDbSystemResourceCrud) mapToNetworkDetails(fieldKeyFormat string) (o
 	return result, nil
 }
 
+func (s *PsqlDbSystemResourceCrud) mapToUpdateNetworkDetails(fieldKeyFormat string) (oci_psql.UpdateNetworkDetails, error) {
+	result := oci_psql.UpdateNetworkDetails{}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
 func NetworkDetailsToMap(obj *oci_psql.NetworkDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1881,4 +1951,26 @@ func (s *PsqlDbSystemResourceCrud) updateCompartment(compartment interface{}) er
 	}
 
 	return nil
+}
+
+func (s *PsqlDbSystemResourceCrud) isFlexibleConfig(configId *string) bool {
+	if strings.Contains(*configId, "defaultconfiguration") {
+		request := oci_psql.GetDefaultConfigurationRequest{}
+		request.DefaultConfigurationId = configId
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+		response, err := s.Client.GetDefaultConfiguration(context.Background(), request)
+
+		if err == nil && response.IsFlexible != nil && *response.IsFlexible {
+			return true
+		}
+	} else {
+		request := oci_psql.GetConfigurationRequest{}
+		request.ConfigurationId = configId
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "psql")
+		response, err := s.Client.GetConfiguration(context.Background(), request)
+		if err == nil && response.IsFlexible != nil && *response.IsFlexible {
+			return true
+		}
+	}
+	return false
 }
