@@ -502,5 +502,11 @@
         "realmKey": "oc24",
         "regionIdentifier": "eu-crissier-1",
         "realmDomainComponent": "oraclecloud24.com"
+    },
+    {
+        "regionKey": "dfw",
+        "realmKey": "oc1",
+        "regionIdentifier": "us-dallas-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]
