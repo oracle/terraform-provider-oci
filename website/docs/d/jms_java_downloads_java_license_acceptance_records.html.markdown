@@ -35,7 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy. 
 * `id` - (Optional) Unique Java license acceptance record identifier.
 * `license_type` - (Optional) Unique Java license type.
-* `search_by_user` - (Optional) A filter to return only resources that match the user principal detail.  The search string can be any of the property values from the [Principal](https://docs.cloud.oracle.com/iaas/api/#/en/jms/latest/datatypes/Principal) object. This object is used as response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource. 
+* `search_by_user` - (Optional) A filter to return only resources that match the user principal detail.  The search string can be any of the property values from the [Principal](https://docs.cloud.oracle.com/iaas/api/#/en/jms/latest/datatypes/Principal) object. This object is used as a response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource. 
 * `status` - (Optional) The status of license acceptance.
 
 
