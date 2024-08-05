@@ -1,3 +1,16 @@
+## 6.6.0 (Unreleased)
+
+### Added
+- Support for BDS - Implement ODH Patching in Staged manner
+- Support for Java Management Service 9.0
+- Support for Pull Request - settings and protected branches
+- Support for Functionality enhancements to support in-place DbSystem updates
+- Support for OS Management Hub: Limit CSS/VCSS content to the latest package versions only
+- remove useless code
+- Support for Java Management Service 9.0 - Java Downloads Component
+- Support for BDS - Autoscale with Memory Utilization
+- Support for [DMS] to fix the initial load settings issue
+
 ## 6.5.0 (July 30, 2024)
 
 ### Added
