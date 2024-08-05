@@ -27,7 +27,11 @@ type CreateRepositoryDetails struct {
 	// Type of repository. Allowed values:
 	// `MIRRORED`
 	// `HOSTED`
+	// `FORKED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"true" json:"repositoryType"`
+
+	// The OCID of the parent repository.
+	ParentRepositoryId *string `mandatory:"false" json:"parentRepositoryId"`
 
 	// The default branch of the repository.
 	DefaultBranch *string `mandatory:"false" json:"defaultBranch"`

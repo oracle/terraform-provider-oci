@@ -27,6 +27,9 @@ type ListCommitDiffsRequest struct {
 	// The commit or reference name where changes are coming from.
 	TargetVersion *string `mandatory:"true" contributesTo:"query" name:"targetVersion"`
 
+	// The target repository identifier
+	TargetRepositoryId *string `mandatory:"false" contributesTo:"query" name:"targetRepositoryId"`
+
 	// Boolean value to indicate whether to use merge base or most recent revision.
 	IsComparisonFromMergeBase *bool `mandatory:"false" contributesTo:"query" name:"isComparisonFromMergeBase"`
 

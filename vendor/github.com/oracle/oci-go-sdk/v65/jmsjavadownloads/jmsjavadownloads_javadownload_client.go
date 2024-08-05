@@ -514,10 +514,10 @@ func (client JavaDownloadClient) deleteJavaLicenseAcceptanceRecord(ctx context.C
 	return response, err
 }
 
-// GenerateArtifactDownloadUrl Generates a short-lived download URL and returns it in the response payload.
-// The returned URL can then be used for downloading the specific Java runtime artifact.
+// GenerateArtifactDownloadUrl Generates a download URL and returns it in the response payload.
+// The URL in the response can then be used for downloading the specific Java runtime artifact.
 // Use the GetJavaRelease API
-// to get information about available artifacts for a specific release. Each such artifact is uniquely identified by an `artifactId`.
+// to get information about available artifacts for a specific release. Each artifact is uniquely identified by an `artifactId`.
 // Refer JavaArtifact for more details.
 //
 // # See also

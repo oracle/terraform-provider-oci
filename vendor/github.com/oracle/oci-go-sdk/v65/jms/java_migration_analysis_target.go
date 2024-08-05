@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -16,7 +16,7 @@ import (
 )
 
 // JavaMigrationAnalysisTarget The target describes the input data for Java migration analysis.
-// A target contains a managed instance, application Installation Key, sourceJdkVersion, and targetJdkVersion.
+// A target contains a managed instance, application Installation Key, sourceJdkVersion, targetJdkVersion and optional excludePackagePrefixes.
 type JavaMigrationAnalysisTarget struct {
 
 	// The OCID of the managed instance that hosts the application for which the Java migration analysis was performed.
@@ -30,6 +30,9 @@ type JavaMigrationAnalysisTarget struct {
 
 	// The JDK version against which the migration analysis was performed to identify effort required to move from source JDK.
 	TargetJdkVersion *string `mandatory:"true" json:"targetJdkVersion"`
+
+	// Excludes the packages that starts with the prefix from the migration analysis result.
+	ExcludePackagePrefixes []string `mandatory:"false" json:"excludePackagePrefixes"`
 }
 
 func (m JavaMigrationAnalysisTarget) String() string {

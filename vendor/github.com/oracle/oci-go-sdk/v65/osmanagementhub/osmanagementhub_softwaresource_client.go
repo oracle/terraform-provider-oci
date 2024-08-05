@@ -283,7 +283,7 @@ func (client SoftwareSourceClient) changeSoftwareSourceCompartment(ctx context.C
 	return response, err
 }
 
-// CreateEntitlement Registers the necessary entitlement credentials for OS vendor software sources.
+// CreateEntitlement Registers the necessary entitlement credentials for OS vendor software sources for a tenancy.
 //
 // # See also
 //

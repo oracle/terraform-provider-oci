@@ -24,7 +24,7 @@ type ListDefaultConfigurationsRequest struct {
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Verison of the PostgreSQL database, such as 14.9.
+	// Version of the PostgreSQL database, such as 14.9.
 	DbVersion *string `mandatory:"false" contributesTo:"query" name:"dbVersion"`
 
 	// The name of the shape for the configuration.
