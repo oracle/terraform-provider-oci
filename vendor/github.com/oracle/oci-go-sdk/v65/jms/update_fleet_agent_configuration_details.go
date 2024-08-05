@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -29,6 +29,12 @@ type UpdateFleetAgentConfigurationDetails struct {
 
 	// Agent polling interval in minutes
 	AgentPollingIntervalInMinutes *int `mandatory:"false" json:"agentPollingIntervalInMinutes"`
+
+	// Collect JMS agent metrics on all managed instances in the fleet.
+	IsCollectingManagedInstanceMetricsEnabled *bool `mandatory:"false" json:"isCollectingManagedInstanceMetricsEnabled"`
+
+	// Collect username for application invocations for all managed instances in the fleet.
+	IsCollectingUsernamesEnabled *bool `mandatory:"false" json:"isCollectingUsernamesEnabled"`
 
 	LinuxConfiguration *FleetAgentOsConfiguration `mandatory:"false" json:"linuxConfiguration"`
 

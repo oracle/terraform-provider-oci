@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -24,6 +24,7 @@ const (
 	ApplicationSortByApproximateJreCount             ApplicationSortByEnum = "approximateJreCount"
 	ApplicationSortByApproximateInstallationCount    ApplicationSortByEnum = "approximateInstallationCount"
 	ApplicationSortByApproximateManagedInstanceCount ApplicationSortByEnum = "approximateManagedInstanceCount"
+	ApplicationSortByApproximateLibraryCount         ApplicationSortByEnum = "approximateLibraryCount"
 	ApplicationSortByOsName                          ApplicationSortByEnum = "osName"
 )
 
@@ -34,6 +35,7 @@ var mappingApplicationSortByEnum = map[string]ApplicationSortByEnum{
 	"approximateJreCount":             ApplicationSortByApproximateJreCount,
 	"approximateInstallationCount":    ApplicationSortByApproximateInstallationCount,
 	"approximateManagedInstanceCount": ApplicationSortByApproximateManagedInstanceCount,
+	"approximateLibraryCount":         ApplicationSortByApproximateLibraryCount,
 	"osName":                          ApplicationSortByOsName,
 }
 
@@ -44,6 +46,7 @@ var mappingApplicationSortByEnumLowerCase = map[string]ApplicationSortByEnum{
 	"approximatejrecount":             ApplicationSortByApproximateJreCount,
 	"approximateinstallationcount":    ApplicationSortByApproximateInstallationCount,
 	"approximatemanagedinstancecount": ApplicationSortByApproximateManagedInstanceCount,
+	"approximatelibrarycount":         ApplicationSortByApproximateLibraryCount,
 	"osname":                          ApplicationSortByOsName,
 }
 
@@ -65,6 +68,7 @@ func GetApplicationSortByEnumStringValues() []string {
 		"approximateJreCount",
 		"approximateInstallationCount",
 		"approximateManagedInstanceCount",
+		"approximateLibraryCount",
 		"osName",
 	}
 }

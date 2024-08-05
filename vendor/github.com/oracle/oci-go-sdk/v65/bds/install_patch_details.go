@@ -10,6 +10,7 @@
 package bds
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -23,6 +24,8 @@ type InstallPatchDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+
+	PatchingConfig OdhPatchingConfig `mandatory:"false" json:"patchingConfig"`
 }
 
 func (m InstallPatchDetails) String() string {
@@ -39,4 +42,34 @@ func (m InstallPatchDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *InstallPatchDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		PatchingConfig       odhpatchingconfig `json:"patchingConfig"`
+		Version              *string           `json:"version"`
+		ClusterAdminPassword *string           `json:"clusterAdminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.PatchingConfig.UnmarshalPolymorphicJSON(model.PatchingConfig.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.PatchingConfig = nn.(OdhPatchingConfig)
+	} else {
+		m.PatchingConfig = nil
+	}
+
+	m.Version = model.Version
+
+	m.ClusterAdminPassword = model.ClusterAdminPassword
+
+	return
 }

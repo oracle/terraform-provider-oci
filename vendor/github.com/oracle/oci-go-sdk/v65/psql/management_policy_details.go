@@ -20,7 +20,10 @@ import (
 // ManagementPolicyDetails PostgreSQL database system management policy update details.
 type ManagementPolicyDetails struct {
 
-	// The start of the maintenance window.
+	// The start of the maintenance window in UTC.
+	// This string is of the format: "{day-of-week} {time-of-day}".
+	// "{day-of-week}" is a case-insensitive string like "mon", "tue", &c.
+	// "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
 	MaintenanceWindowStart *string `mandatory:"false" json:"maintenanceWindowStart"`
 
 	BackupPolicy BackupPolicy `mandatory:"false" json:"backupPolicy"`

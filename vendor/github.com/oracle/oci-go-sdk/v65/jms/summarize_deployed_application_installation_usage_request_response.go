@@ -129,10 +129,10 @@ type SummarizeDeployedApplicationInstallationUsageResponse struct {
 	DeployedApplicationInstallationUsageSummaryCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -194,33 +194,39 @@ type SummarizeDeployedApplicationInstallationUsageSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeDeployedApplicationInstallationUsageSortByEnum
 const (
-	SummarizeDeployedApplicationInstallationUsageSortByApplicationname         SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationName"
-	SummarizeDeployedApplicationInstallationUsageSortByApplicationtype         SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationType"
-	SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath   SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationSourcePath"
-	SummarizeDeployedApplicationInstallationUsageSortByIsclustered             SummarizeDeployedApplicationInstallationUsageSortByEnum = "isClustered"
-	SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount SummarizeDeployedApplicationInstallationUsageSortByEnum = "javaServerInstanceCount"
-	SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen           SummarizeDeployedApplicationInstallationUsageSortByEnum = "timeFirstSeen"
-	SummarizeDeployedApplicationInstallationUsageSortByTimelastseen            SummarizeDeployedApplicationInstallationUsageSortByEnum = "timeLastSeen"
+	SummarizeDeployedApplicationInstallationUsageSortByApplicationname                    SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationName"
+	SummarizeDeployedApplicationInstallationUsageSortByApplicationtype                    SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationType"
+	SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath              SummarizeDeployedApplicationInstallationUsageSortByEnum = "applicationSourcePath"
+	SummarizeDeployedApplicationInstallationUsageSortByIsclustered                        SummarizeDeployedApplicationInstallationUsageSortByEnum = "isClustered"
+	SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount            SummarizeDeployedApplicationInstallationUsageSortByEnum = "javaServerInstanceCount"
+	SummarizeDeployedApplicationInstallationUsageSortByApproximatejavaserverinstancecount SummarizeDeployedApplicationInstallationUsageSortByEnum = "approximateJavaServerInstanceCount"
+	SummarizeDeployedApplicationInstallationUsageSortByApproximatelibrarycount            SummarizeDeployedApplicationInstallationUsageSortByEnum = "approximateLibraryCount"
+	SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen                      SummarizeDeployedApplicationInstallationUsageSortByEnum = "timeFirstSeen"
+	SummarizeDeployedApplicationInstallationUsageSortByTimelastseen                       SummarizeDeployedApplicationInstallationUsageSortByEnum = "timeLastSeen"
 )
 
 var mappingSummarizeDeployedApplicationInstallationUsageSortByEnum = map[string]SummarizeDeployedApplicationInstallationUsageSortByEnum{
-	"applicationName":         SummarizeDeployedApplicationInstallationUsageSortByApplicationname,
-	"applicationType":         SummarizeDeployedApplicationInstallationUsageSortByApplicationtype,
-	"applicationSourcePath":   SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath,
-	"isClustered":             SummarizeDeployedApplicationInstallationUsageSortByIsclustered,
-	"javaServerInstanceCount": SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount,
-	"timeFirstSeen":           SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen,
-	"timeLastSeen":            SummarizeDeployedApplicationInstallationUsageSortByTimelastseen,
+	"applicationName":                    SummarizeDeployedApplicationInstallationUsageSortByApplicationname,
+	"applicationType":                    SummarizeDeployedApplicationInstallationUsageSortByApplicationtype,
+	"applicationSourcePath":              SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath,
+	"isClustered":                        SummarizeDeployedApplicationInstallationUsageSortByIsclustered,
+	"javaServerInstanceCount":            SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount,
+	"approximateJavaServerInstanceCount": SummarizeDeployedApplicationInstallationUsageSortByApproximatejavaserverinstancecount,
+	"approximateLibraryCount":            SummarizeDeployedApplicationInstallationUsageSortByApproximatelibrarycount,
+	"timeFirstSeen":                      SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen,
+	"timeLastSeen":                       SummarizeDeployedApplicationInstallationUsageSortByTimelastseen,
 }
 
 var mappingSummarizeDeployedApplicationInstallationUsageSortByEnumLowerCase = map[string]SummarizeDeployedApplicationInstallationUsageSortByEnum{
-	"applicationname":         SummarizeDeployedApplicationInstallationUsageSortByApplicationname,
-	"applicationtype":         SummarizeDeployedApplicationInstallationUsageSortByApplicationtype,
-	"applicationsourcepath":   SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath,
-	"isclustered":             SummarizeDeployedApplicationInstallationUsageSortByIsclustered,
-	"javaserverinstancecount": SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount,
-	"timefirstseen":           SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen,
-	"timelastseen":            SummarizeDeployedApplicationInstallationUsageSortByTimelastseen,
+	"applicationname":                    SummarizeDeployedApplicationInstallationUsageSortByApplicationname,
+	"applicationtype":                    SummarizeDeployedApplicationInstallationUsageSortByApplicationtype,
+	"applicationsourcepath":              SummarizeDeployedApplicationInstallationUsageSortByApplicationsourcepath,
+	"isclustered":                        SummarizeDeployedApplicationInstallationUsageSortByIsclustered,
+	"javaserverinstancecount":            SummarizeDeployedApplicationInstallationUsageSortByJavaserverinstancecount,
+	"approximatejavaserverinstancecount": SummarizeDeployedApplicationInstallationUsageSortByApproximatejavaserverinstancecount,
+	"approximatelibrarycount":            SummarizeDeployedApplicationInstallationUsageSortByApproximatelibrarycount,
+	"timefirstseen":                      SummarizeDeployedApplicationInstallationUsageSortByTimefirstseen,
+	"timelastseen":                       SummarizeDeployedApplicationInstallationUsageSortByTimelastseen,
 }
 
 // GetSummarizeDeployedApplicationInstallationUsageSortByEnumValues Enumerates the set of values for SummarizeDeployedApplicationInstallationUsageSortByEnum
@@ -240,6 +246,8 @@ func GetSummarizeDeployedApplicationInstallationUsageSortByEnumStringValues() []
 		"applicationSourcePath",
 		"isClustered",
 		"javaServerInstanceCount",
+		"approximateJavaServerInstanceCount",
+		"approximateLibraryCount",
 		"timeFirstSeen",
 		"timeLastSeen",
 	}

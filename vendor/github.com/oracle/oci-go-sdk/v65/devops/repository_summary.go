@@ -30,6 +30,9 @@ type RepositorySummary struct {
 	// Name of the repository. Should be unique within the project. This value is mutable.
 	Name *string `mandatory:"false" json:"name"`
 
+	// The OCID of the parent repository.
+	ParentRepositoryId *string `mandatory:"false" json:"parentRepositoryId"`
+
 	// Tenancy unique namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
@@ -45,6 +48,7 @@ type RepositorySummary struct {
 	// Type of repository. Allowed values:
 	// `MIRRORED`
 	// `HOSTED`
+	// `FORKED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	// SSH URL that you use to git clone, pull and push.

@@ -27,6 +27,9 @@ type GetCommitDiffRequest struct {
 	// The commit or reference name to compare changes against. If base version is not provided, the difference goes against an empty tree.
 	BaseVersion *string `mandatory:"false" contributesTo:"query" name:"baseVersion"`
 
+	// The target repository identifier
+	TargetRepositoryId *string `mandatory:"false" contributesTo:"query" name:"targetRepositoryId"`
+
 	// Boolean value to indicate whether to use merge base or most recent revision.
 	IsComparisonFromMergeBase *bool `mandatory:"false" contributesTo:"query" name:"isComparisonFromMergeBase"`
 

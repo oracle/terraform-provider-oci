@@ -25,23 +25,28 @@ type CreateConfigurationDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the configuration.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The name of the shape for the configuration.
-	// Example: `VM.Standard.E4.Flex`
-	Shape *string `mandatory:"true" json:"shape"`
-
 	// Version of the PostgreSQL database.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
 
-	// CPU core count.
-	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
-
-	// Memory size in gigabytes with 1GB increment.
-	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
+	// The name of the shape for the configuration.
+	// Example: `VM.Standard.E4.Flex`
+	Shape *string `mandatory:"true" json:"shape"`
 
 	DbConfigurationOverrides *DbConfigurationOverrideCollection `mandatory:"true" json:"dbConfigurationOverrides"`
 
 	// Details about the configuration set.
 	Description *string `mandatory:"false" json:"description"`
+
+	// Whether the configuration supports flexible shapes.
+	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
+
+	// CPU core count.
+	// Skip or set it's value to 0 if configuration is for a flexible shape.
+	InstanceOcpuCount *int `mandatory:"false" json:"instanceOcpuCount"`
+
+	// Memory size in gigabytes with 1GB increment.
+	// Skip or set it's value to 0 if configuration is for a flexible shape.
+	InstanceMemorySizeInGBs *int `mandatory:"false" json:"instanceMemorySizeInGBs"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`

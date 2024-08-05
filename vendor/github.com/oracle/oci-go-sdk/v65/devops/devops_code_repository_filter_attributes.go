@@ -21,6 +21,9 @@ type DevopsCodeRepositoryFilterAttributes struct {
 	// Branch for push event; source branch for pull requests
 	HeadRef *string `mandatory:"false" json:"headRef"`
 
+	// The target branch for pull requests; not applicable for push requests.
+	BaseRef *string `mandatory:"false" json:"baseRef"`
+
 	FileFilter *FileFilter `mandatory:"false" json:"fileFilter"`
 }
 

@@ -33,21 +33,26 @@ type DefaultConfigurationSummary struct {
 	// The current state of the configuration.
 	LifecycleState DefaultConfigurationLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// Version of the PostgreSQL database.
+	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
 	// The name of the shape for the configuration.
 	// Example: `VM.Standard.E4.Flex`
 	Shape *string `mandatory:"true" json:"shape"`
 
-	// Version of the PostgreSQL database.
-	DbVersion *string `mandatory:"true" json:"dbVersion"`
-
-	// CPU core count. Minimum value is 1.
+	// CPU core count.
+	// It's value is set to 0 if configuration is for a flexible shape.
 	InstanceOcpuCount *int `mandatory:"true" json:"instanceOcpuCount"`
 
 	// Memory size in gigabytes with 1GB increment.
+	// It's value is set to 0 if configuration is for a flexible shape.
 	InstanceMemorySizeInGBs *int `mandatory:"true" json:"instanceMemorySizeInGBs"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// True if the configuration supports flexible shapes, false otherwise.
+	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
 }
 
 func (m DefaultConfigurationSummary) String() string {
