@@ -5,10 +5,17 @@ variable "vm_multi_attach_instance_shape" {
   default = "VM.Standard2.1"
 }
 
-resource "oci_core_volume" "test_block_volume_multi_attach" {
+resource "oci_core_volume" "test_block_volume_multi_attach_iscsi" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
-  display_name        = "test_attach_existing_volume_on_instance_launch_1"
+  display_name        = "test_attach_existing_volume_on_instance_launch_iscsi"
+  size_in_gbs         = var.db_size
+}
+
+resource "oci_core_volume" "test_block_volume_multi_attach_pv" {
+  availability_domain = data.oci_identity_availability_domain.ad.name
+  compartment_id      = var.compartment_ocid
+  display_name        = "test_attach_existing_volume_on_instance_launch_pv"
   size_in_gbs         = var.db_size
 }
 
@@ -35,7 +42,7 @@ resource "oci_core_instance" "test_vm_multi_attach_instance_launch" {
     kms_key_id = var.kms_key_ocid
   }
 
-  // Create and attach a volume
+  // Create and attach a volume - iscsi
   launch_volume_attachments {
     type = "iscsi"
     display_name = "test_create_and_attach_volume_on_launch_1"
@@ -47,9 +54,9 @@ resource "oci_core_instance" "test_vm_multi_attach_instance_launch" {
     }
   }
 
-  // Create and attach a volume
+  // Create and attach a volume - pv
   launch_volume_attachments {
-    type = "iscsi"
+    type = "paravirtualized"
     display_name = "test_create_and_attach_volume_on_launch_2"
     launch_create_volume_details {
       volume_creation_type = "ATTRIBUTES"
@@ -59,11 +66,18 @@ resource "oci_core_instance" "test_vm_multi_attach_instance_launch" {
     }
   }
 
-  // Attach an existing volume
+  // Attach an existing volume - iscsi
   launch_volume_attachments {
     type = "iscsi"
     display_name = "test_attach_existing_volume_on_launch"
-    volume_id = oci_core_volume.test_block_volume_multi_attach.id
+    volume_id = oci_core_volume.test_block_volume_multi_attach_iscsi.id
+  }
+
+  // Attach an existing volume - pv
+  launch_volume_attachments {
+    type = "paravirtualized"
+    display_name = "test_attach_existing_volume_on_launch"
+    volume_id = oci_core_volume.test_block_volume_multi_attach_pv.id
   }
 
   # Apply the following flag only if you wish to preserve the attached boot volume upon destroying this instance

@@ -439,6 +439,7 @@ func CoreInstanceResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"iscsi",
+								"paravirtualized",
 							}, true),
 						},
 
@@ -459,6 +460,11 @@ func CoreInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						"is_agent_auto_iscsi_login_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -2438,6 +2444,43 @@ func (s *CoreInstanceResourceCrud) mapToLaunchAttachVolumeDetails(fieldKeyFormat
 			details.VolumeId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("paravirtualized"):
+		details := oci_core.LaunchAttachParavirtualizedVolumeDetails{}
+		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
+			tmp := isPvEncryptionInTransitEnabled.(bool)
+			details.IsPvEncryptionInTransitEnabled = &tmp
+		}
+		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
+			tmp := device.(string)
+			details.Device = &tmp
+		}
+		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+			tmp := displayName.(string)
+			details.DisplayName = &tmp
+		}
+		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
+			tmp := isReadOnly.(bool)
+			details.IsReadOnly = &tmp
+		}
+		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
+			tmp := isShareable.(bool)
+			details.IsShareable = &tmp
+		}
+		if launchCreateVolumeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details")); ok {
+			if tmpList := launchCreateVolumeDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details"), 0)
+				tmp, err := s.mapToLaunchCreateVolumeDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert launch_create_volume_details, encountered error: %v", err)
+				}
+				details.LaunchCreateVolumeDetails = tmp
+			}
+		}
+		if volumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_id")); ok {
+			tmp := volumeId.(string)
+			details.VolumeId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -2458,6 +2501,12 @@ func LaunchAttachVolumeDetailsToMap(obj oci_core.LaunchAttachVolumeDetails) map[
 
 		if v.UseChap != nil {
 			result["use_chap"] = bool(*v.UseChap)
+		}
+	case oci_core.LaunchAttachParavirtualizedVolumeDetails:
+		result["type"] = "paravirtualized"
+
+		if v.IsPvEncryptionInTransitEnabled != nil {
+			result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
