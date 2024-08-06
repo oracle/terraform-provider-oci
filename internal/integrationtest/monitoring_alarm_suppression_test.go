@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"strconv"
 	"testing"
 	"time"
@@ -19,8 +20,6 @@ import (
 	"github.com/oracle/terraform-provider-oci/httpreplay"
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	tf_client "github.com/oracle/terraform-provider-oci/internal/client"
-	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
-
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
@@ -37,10 +36,14 @@ var (
 	}
 
 	MonitoringAlarmSuppressionDataSourceRepresentation = map[string]interface{}{
-		"alarm_id":     acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `Suppression for monthly downtime of resource ABC`},
-		"state":        acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":       acctest.RepresentationGroup{RepType: acctest.Required, Group: MonitoringAlarmSuppressionDataSourceFilterRepresentation}}
+		"alarm_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_monitoring_alarm.test_alarm.id}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `Suppression for monthly downtime of resource ABC`},
+		"is_all_suppressions": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"level":               acctest.Representation{RepType: acctest.Optional, Create: `DIMENSION`},
+		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"target_type":         acctest.Representation{RepType: acctest.Optional, Create: `ALARM`},
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: MonitoringAlarmSuppressionDataSourceFilterRepresentation}}
+
 	MonitoringAlarmSuppressionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_monitoring_alarm_suppression.test_alarm_suppression.id}`}},
@@ -48,17 +51,26 @@ var (
 
 	MonitoringDimensionAlarmSuppressionRepresentation = map[string]interface{}{
 		"alarm_suppression_target": acctest.RepresentationGroup{RepType: acctest.Required, Group: MonitoringAlarmSuppressionAlarmSuppressionTargetRepresentation},
-		"dimensions":               acctest.Representation{RepType: acctest.Required, Create: map[string]string{"resourceId": "instance.region1.phx.exampleuniqueID"}},
-		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `Suppression for monthly downtime of resource ABC`},
-		"time_suppress_from":       acctest.Representation{RepType: acctest.Required, Create: `2024-01-15T05:00:00.601Z`},
-		"time_suppress_until":      acctest.Representation{RepType: acctest.Required, Create: `2024-01-16T05:00:00.601Z`},
-		"defined_tags":             acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":              acctest.Representation{RepType: acctest.Optional, Create: `Suppression for monthly downtime of resource ABC, for support ticket IT-ABC`},
-		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+
+		"display_name":        acctest.Representation{RepType: acctest.Required, Create: `Suppression for monthly downtime of resource ABC`},
+		"time_suppress_from":  acctest.Representation{RepType: acctest.Required, Create: `2025-03-04T05:00:00Z`},
+		"time_suppress_until": acctest.Representation{RepType: acctest.Required, Create: `2025-03-31T17:00:00Z`},
+
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Suppression for monthly downtime of resource ABC, for support ticket IT-ABC`},
+		"dimensions":             acctest.Representation{RepType: acctest.Required, Create: map[string]string{"resourceId": "instance.instanceId.region1.phx.exampleuniqueID"}},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"level":                  acctest.Representation{RepType: acctest.Optional, Create: `DIMENSION`},
+		"suppression_conditions": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MonitoringAlarmSuppressionSuppressionConditionsRepresentation},
 	}
 	MonitoringAlarmSuppressionAlarmSuppressionTargetRepresentation = map[string]interface{}{
-		"alarm_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
 		"target_type": acctest.Representation{RepType: acctest.Required, Create: `ALARM`},
+		"alarm_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_monitoring_alarm.test_alarm.id}`},
+	}
+	MonitoringAlarmSuppressionSuppressionConditionsRepresentation = map[string]interface{}{
+		"condition_type":         acctest.Representation{RepType: acctest.Required, Create: `RECURRENCE`},
+		"suppression_duration":   acctest.Representation{RepType: acctest.Required, Create: `PT1H`},
+		"suppression_recurrence": acctest.Representation{RepType: acctest.Required, Create: `FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;BYMINUTE=00;BYSECOND=00`},
 	}
 
 	MonitoringAlarmSuppressionResourceDependencies = DefinedTagsDependencies +
@@ -73,7 +85,7 @@ func TestMonitoringAlarmSuppressionResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
-	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentId := utils.GetEnvSettingWithBlankDefault("TF_VAR_compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_monitoring_alarm_suppression.test_alarm_suppression"
@@ -94,10 +106,10 @@ func TestMonitoringAlarmSuppressionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "alarm_suppression_target.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "alarm_suppression_target.0.alarm_id"),
 				resource.TestCheckResourceAttr(resourceName, "alarm_suppression_target.0.target_type", "ALARM"),
-				resource.TestCheckResourceAttr(resourceName, "dimensions.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Suppression for monthly downtime of resource ABC"),
-				resource.TestCheckResourceAttr(resourceName, "time_suppress_from", "2024-01-15T05:00:00.601Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_suppress_until", "2024-01-16T05:00:00.601Z"),
+
+				resource.TestCheckResourceAttr(resourceName, "time_suppress_from", "2025-03-04T05:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_suppress_until", "2025-03-31T17:00:00Z"),
 			),
 		},
 
@@ -119,10 +131,17 @@ func TestMonitoringAlarmSuppressionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Suppression for monthly downtime of resource ABC"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "level", "DIMENSION"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "suppression_conditions.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "suppression_conditions.0.condition_type", "RECURRENCE"),
+				resource.TestCheckResourceAttr(resourceName, "suppression_conditions.0.suppression_duration", "PT1H"),
+				resource.TestCheckResourceAttr(resourceName, "suppression_conditions.0.suppression_recurrence", "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;BYMINUTE=00;BYSECOND=00"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
-				resource.TestCheckResourceAttr(resourceName, "time_suppress_from", "2024-01-15T05:00:00.601Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_suppress_until", "2024-01-16T05:00:00.601Z"),
+
+				resource.TestCheckResourceAttr(resourceName, "time_suppress_from", "2025-03-04T05:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_suppress_until", "2025-03-31T17:00:00Z"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
 
 				func(s *terraform.State) (err error) {
@@ -146,10 +165,18 @@ func TestMonitoringAlarmSuppressionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "alarm_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "Suppression for monthly downtime of resource ABC"),
+
+				resource.TestCheckResourceAttr(datasourceName, "is_all_suppressions", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "level", "DIMENSION"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceName, "target_type", "ALARM"),
 
 				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.0.items.0.suppression_conditions.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.0.items.0.suppression_conditions.0.condition_type", "RECURRENCE"),
+				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.0.items.0.suppression_conditions.0.suppression_duration", "PT1H"),
+				resource.TestCheckResourceAttr(datasourceName, "alarm_suppression_collection.0.items.0.suppression_conditions.0.suppression_recurrence", "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;BYMINUTE=00;BYSECOND=00"),
 			),
 		},
 		// verify singular datasource
@@ -168,7 +195,12 @@ func TestMonitoringAlarmSuppressionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Suppression for monthly downtime of resource ABC"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "level", "DIMENSION"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression_conditions.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression_conditions.0.condition_type", "RECURRENCE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression_conditions.0.suppression_duration", "PT1H"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "suppression_conditions.0.suppression_recurrence", "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;BYMINUTE=00;BYSECOND=00"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_suppress_from"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_suppress_until"),
@@ -274,25 +306,19 @@ func getMonitoringAlarmSuppressionIds(compartment string) ([]string, error) {
 	monitoringClient := acctest.GetTestClients(&schema.ResourceData{}).MonitoringClient()
 
 	listAlarmSuppressionsRequest := oci_monitoring.ListAlarmSuppressionsRequest{}
-	alarmIds, error := getMonitoringAlarmIds(compartment)
-	if error != nil {
-		return resourceIds, fmt.Errorf("Error getting alarmId required for AlarmSuppression resource requests \n")
+
+	listAlarmSuppressionsRequest.CompartmentId = &compartmentId
+	listAlarmSuppressionsRequest.LifecycleState = oci_monitoring.AlarmSuppressionLifecycleStateActive
+	listAlarmSuppressionsResponse, err := monitoringClient.ListAlarmSuppressions(context.Background(), listAlarmSuppressionsRequest)
+
+	if err != nil {
+		return resourceIds, fmt.Errorf("Error getting AlarmSuppression list for compartment id : %s , %s \n", compartmentId, err)
+
 	}
-	for _, alarmId := range alarmIds {
-		listAlarmSuppressionsRequest.AlarmId = &alarmId
-
-		listAlarmSuppressionsRequest.LifecycleState = oci_monitoring.AlarmSuppressionLifecycleStateActive
-		listAlarmSuppressionsResponse, err := monitoringClient.ListAlarmSuppressions(context.Background(), listAlarmSuppressionsRequest)
-
-		if err != nil {
-			return resourceIds, fmt.Errorf("Error getting AlarmSuppression list for compartment id : %s , %s \n", compartmentId, err)
-		}
-		for _, alarmSuppression := range listAlarmSuppressionsResponse.Items {
-			id := *alarmSuppression.Id
-			resourceIds = append(resourceIds, id)
-			acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "AlarmSuppressionId", id)
-		}
-
+	for _, alarmSuppression := range listAlarmSuppressionsResponse.Items {
+		id := *alarmSuppression.Id
+		resourceIds = append(resourceIds, id)
+		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "AlarmSuppressionId", id)
 	}
 	return resourceIds, nil
 }
