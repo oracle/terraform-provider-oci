@@ -20,13 +20,33 @@ func MonitoringAlarmSuppressionsDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"alarm_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"compartment_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"compartment_id_in_subtree": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"is_all_suppressions": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"level": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -74,13 +94,36 @@ func (s *MonitoringAlarmSuppressionsDataSourceCrud) Get() error {
 		request.AlarmId = &tmp
 	}
 
+	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+		tmp := compartmentId.(string)
+		request.CompartmentId = &tmp
+	}
+
+	if compartmentIdInSubtree, ok := s.D.GetOkExists("compartment_id_in_subtree"); ok {
+		tmp := compartmentIdInSubtree.(bool)
+		request.CompartmentIdInSubtree = &tmp
+	}
+
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
 
+	if isAllSuppressions, ok := s.D.GetOkExists("is_all_suppressions"); ok {
+		tmp := isAllSuppressions.(bool)
+		request.IsAllSuppressions = &tmp
+	}
+
+	if level, ok := s.D.GetOkExists("level"); ok {
+		request.Level = oci_monitoring.AlarmSuppressionLevelEnum(level.(string))
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_monitoring.AlarmSuppressionLifecycleStateEnum(state.(string))
+	}
+
+	if targetType, ok := s.D.GetOkExists("target_type"); ok {
+		request.TargetType = oci_monitoring.ListAlarmSuppressionsTargetTypeEnum(targetType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "monitoring")
