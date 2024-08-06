@@ -146,6 +146,7 @@ resource "oci_core_instance" "test_instance" {
 		display_name = var.instance_launch_volume_attachments_display_name
 		encryption_in_transit_type = var.instance_launch_volume_attachments_encryption_in_transit_type
 		is_agent_auto_iscsi_login_enabled = var.instance_launch_volume_attachments_is_agent_auto_iscsi_login_enabled
+		is_pv_encryption_in_transit_enabled = var.instance_launch_volume_attachments_is_pv_encryption_in_transit_enabled
 		is_read_only = var.instance_launch_volume_attachments_is_read_only
 		is_shareable = var.instance_launch_volume_attachments_is_shareable
 		launch_create_volume_details {
@@ -378,8 +379,9 @@ The following arguments are supported:
 	
     * `device` - (Optional) The device name. To retrieve a list of devices for a given instance, see [ListInstanceDevices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Device/ListInstanceDevices).
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `encryption_in_transit_type` - (Optional) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
-	* `is_agent_auto_iscsi_login_enabled` - (Optional) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
+	* `encryption_in_transit_type` - (Applicable when type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
+	* `is_agent_auto_iscsi_login_enabled` - (Applicable when type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
+	* `is_pv_encryption_in_transit_enabled` - (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 	* `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
 	* `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
 	* `launch_create_volume_details` - (Optional) Define a volume that will be created and attached or attached to an instance on creation.
@@ -396,7 +398,7 @@ The following arguments are supported:
 			* `20`: Represents Higher Performance option.
 			* `30`-`120`: Represents the Ultra High Performance option. 
 	* `type` - (Required) The type of volume. Currently, the only supported value is "iscsi".
-	* `use_chap` - (Optional) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
+	* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 	* `volume_id` - (Optional) The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request. 
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
@@ -497,7 +499,7 @@ The following arguments are supported:
 		* `operating_system` - (Applicable when source_type=image) The image's operating system.  Example: `Oracle Linux` 
 		* `operating_system_version` - (Applicable when source_type=image) The image's operating system version.  Example: `7.2`
 	* `kms_key_id` - (Applicable when source_type=image) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	* `source_id` - (Required) (Updatable) The OCID of the boot volume used to boot the instance.
+	* `source_id` - (Required) (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
 	* `source_type` - (Required) (Updatable) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID.
     * `is_preserve_boot_volume_enabled` - (Optional) (Updatable) Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
