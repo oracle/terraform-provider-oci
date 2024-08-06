@@ -99,7 +99,15 @@ func (s *MonitoringAlarmSuppressionDataSourceCrud) SetData() error {
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("level", s.Res.Level)
+
 	s.D.Set("state", s.Res.LifecycleState)
+
+	suppressionConditions := []interface{}{}
+	for _, item := range s.Res.SuppressionConditions {
+		suppressionConditions = append(suppressionConditions, SuppressionConditionToMap(item))
+	}
+	s.D.Set("suppression_conditions", suppressionConditions)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
