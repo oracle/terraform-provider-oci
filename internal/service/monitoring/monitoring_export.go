@@ -39,13 +39,6 @@ var exportMonitoringAlarmSuppressionHints = &tf_export.TerraformResourceHints{
 var monitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportMonitoringAlarmHints},
-	},
-	"oci_monitoring_alarm": {
-		{
-			TerraformResourceHints: exportMonitoringAlarmSuppressionHints,
-			DatasourceQueryParams: map[string]string{
-				"alarm_id": "id",
-			},
-		},
+		{TerraformResourceHints: exportMonitoringAlarmSuppressionHints},
 	},
 }
