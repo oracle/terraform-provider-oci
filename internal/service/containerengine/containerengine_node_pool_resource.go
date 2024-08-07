@@ -1543,20 +1543,6 @@ func (s *ContainerengineNodePoolResourceCrud) mapToKeyValue(fieldKeyFormat strin
 	return result, nil
 }
 
-func KeyValueToMap(obj oci_containerengine.KeyValue) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.Key != nil {
-		result["key"] = string(*obj.Key)
-	}
-
-	if obj.Value != nil {
-		result["value"] = string(*obj.Value)
-	}
-
-	return result
-}
-
 func NodeToMap(obj oci_containerengine.Node) map[string]interface{} {
 	result := map[string]interface{}{}
 
