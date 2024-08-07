@@ -43,7 +43,17 @@ The following attributes are exported:
 
 * `items` - List of supported shapes.
 	* `id` - A unique identifier for the shape.
+	* `is_flexible` - Indicates if the shape is a flex shape.
 	* `memory_size_in_gbs` - The amount of memory in gigabytes.
 	* `ocpu_count` - The number of OCPUs.
 	* `shape` - The name of the Compute VM shape. Example: `VM.Standard.E4.Flex` 
+	* `shape_memory_options` - Options for the the shape memory
+		* `default_per_ocpu_in_gbs` - Default per OCPU configuration in GBs
+		* `max_in_gbs` - Maximum Memory configuration in GBs
+		* `max_per_ocpu_in_gbs` - Maximum Memory configuration per OCPU in GBs
+		* `min_in_gbs` - Minimum Memory configuration in GBs
+		* `min_per_ocpu_in_gbs` - Minimum Memory configuration per OCPU in GBs
+	* `shape_ocpu_options` - Options for the the shape OCPU
+		* `max` - Maximum OCPU configuration
+		* `min` - Minimum OCPU configuration
 

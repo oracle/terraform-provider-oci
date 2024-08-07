@@ -27,6 +27,15 @@ type ListPerformanceTuningAnalysisResultsRequest struct {
 	// The Fleet-unique identifier of the related application.
 	ApplicationId *string `mandatory:"false" contributesTo:"query" name:"applicationId"`
 
+	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managed instance.
+	HostName *string `mandatory:"false" contributesTo:"query" name:"hostName"`
+
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
+
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -44,12 +53,6 @@ type ListPerformanceTuningAnalysisResultsRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
-	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
-
-	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
-	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -109,10 +112,10 @@ type ListPerformanceTuningAnalysisResultsResponse struct {
 	PerformanceTuningAnalysisResultCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -177,18 +180,21 @@ const (
 	ListPerformanceTuningAnalysisResultsSortByTimecreated       ListPerformanceTuningAnalysisResultsSortByEnum = "timeCreated"
 	ListPerformanceTuningAnalysisResultsSortByManagedinstanceid ListPerformanceTuningAnalysisResultsSortByEnum = "managedInstanceId"
 	ListPerformanceTuningAnalysisResultsSortByWorkrequestid     ListPerformanceTuningAnalysisResultsSortByEnum = "workRequestId"
+	ListPerformanceTuningAnalysisResultsSortByWarningcount      ListPerformanceTuningAnalysisResultsSortByEnum = "warningCount"
 )
 
 var mappingListPerformanceTuningAnalysisResultsSortByEnum = map[string]ListPerformanceTuningAnalysisResultsSortByEnum{
 	"timeCreated":       ListPerformanceTuningAnalysisResultsSortByTimecreated,
 	"managedInstanceId": ListPerformanceTuningAnalysisResultsSortByManagedinstanceid,
 	"workRequestId":     ListPerformanceTuningAnalysisResultsSortByWorkrequestid,
+	"warningCount":      ListPerformanceTuningAnalysisResultsSortByWarningcount,
 }
 
 var mappingListPerformanceTuningAnalysisResultsSortByEnumLowerCase = map[string]ListPerformanceTuningAnalysisResultsSortByEnum{
 	"timecreated":       ListPerformanceTuningAnalysisResultsSortByTimecreated,
 	"managedinstanceid": ListPerformanceTuningAnalysisResultsSortByManagedinstanceid,
 	"workrequestid":     ListPerformanceTuningAnalysisResultsSortByWorkrequestid,
+	"warningcount":      ListPerformanceTuningAnalysisResultsSortByWarningcount,
 }
 
 // GetListPerformanceTuningAnalysisResultsSortByEnumValues Enumerates the set of values for ListPerformanceTuningAnalysisResultsSortByEnum
@@ -206,6 +212,7 @@ func GetListPerformanceTuningAnalysisResultsSortByEnumStringValues() []string {
 		"timeCreated",
 		"managedInstanceId",
 		"workRequestId",
+		"warningCount",
 	}
 }
 

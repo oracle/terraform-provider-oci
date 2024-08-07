@@ -49,6 +49,14 @@ type UpdateCustomSoftwareSourceDetails struct {
 
 	// Indicates whether the service should automatically resolve package dependencies when including specific packages in the software source.
 	IsAutoResolveDependencies *bool `mandatory:"false" json:"isAutoResolveDependencies"`
+
+	// Indicates whether the software source will include only the latest versions of content from vendor software sources, while accounting for other constraints set in the custom or versioned custom software source (such as a package list or filters).
+	// * For a module filter that does not specify a stream, this will include all available streams, and within each stream only the latest version of packages.
+	// * For a module filter that does specify a stream, this will include only the latest version of packages for the specified stream.
+	// * For a package filter that does not specify a version, this will include only the latest available version of the package.
+	// * For a package filter that does specify a version, this will include only the specified version of the package (the isLatestContentOnly attribute is ignored).
+	// * For a package list, this will include only the specified version of packages and modules in the list (the isLatestContentOnly attribute is ignored).
+	IsLatestContentOnly *bool `mandatory:"false" json:"isLatestContentOnly"`
 }
 
 // GetCompartmentId returns CompartmentId

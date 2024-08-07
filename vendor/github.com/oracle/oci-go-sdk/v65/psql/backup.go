@@ -28,7 +28,7 @@ type Backup struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the backup.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The date and time the backup was created, expressed in
+	// The date and time the backup request was received, expressed in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`

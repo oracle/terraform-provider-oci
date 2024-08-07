@@ -66,15 +66,21 @@ type DevopsCodeRepositoryFilterEventsEnum string
 
 // Set of constants representing the allowable values for DevopsCodeRepositoryFilterEventsEnum
 const (
-	DevopsCodeRepositoryFilterEventsPush DevopsCodeRepositoryFilterEventsEnum = "PUSH"
+	DevopsCodeRepositoryFilterEventsPush               DevopsCodeRepositoryFilterEventsEnum = "PUSH"
+	DevopsCodeRepositoryFilterEventsPullRequestCreated DevopsCodeRepositoryFilterEventsEnum = "PULL_REQUEST_CREATED"
+	DevopsCodeRepositoryFilterEventsPullRequestUpdated DevopsCodeRepositoryFilterEventsEnum = "PULL_REQUEST_UPDATED"
 )
 
 var mappingDevopsCodeRepositoryFilterEventsEnum = map[string]DevopsCodeRepositoryFilterEventsEnum{
-	"PUSH": DevopsCodeRepositoryFilterEventsPush,
+	"PUSH":                 DevopsCodeRepositoryFilterEventsPush,
+	"PULL_REQUEST_CREATED": DevopsCodeRepositoryFilterEventsPullRequestCreated,
+	"PULL_REQUEST_UPDATED": DevopsCodeRepositoryFilterEventsPullRequestUpdated,
 }
 
 var mappingDevopsCodeRepositoryFilterEventsEnumLowerCase = map[string]DevopsCodeRepositoryFilterEventsEnum{
-	"push": DevopsCodeRepositoryFilterEventsPush,
+	"push":                 DevopsCodeRepositoryFilterEventsPush,
+	"pull_request_created": DevopsCodeRepositoryFilterEventsPullRequestCreated,
+	"pull_request_updated": DevopsCodeRepositoryFilterEventsPullRequestUpdated,
 }
 
 // GetDevopsCodeRepositoryFilterEventsEnumValues Enumerates the set of values for DevopsCodeRepositoryFilterEventsEnum
@@ -90,6 +96,8 @@ func GetDevopsCodeRepositoryFilterEventsEnumValues() []DevopsCodeRepositoryFilte
 func GetDevopsCodeRepositoryFilterEventsEnumStringValues() []string {
 	return []string{
 		"PUSH",
+		"PULL_REQUEST_CREATED",
+		"PULL_REQUEST_UPDATED",
 	}
 }
 

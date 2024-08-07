@@ -18,7 +18,7 @@ import (
 // AutoScalePolicyMetricRule Metric and threshold details for triggering an autoscale action.
 type AutoScalePolicyMetricRule struct {
 
-	// Allowed value is CPU_UTILIZATION.
+	// Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 	MetricType AutoScalePolicyMetricRuleMetricTypeEnum `mandatory:"true" json:"metricType"`
 
 	Threshold *MetricThresholdRule `mandatory:"true" json:"threshold"`
@@ -48,15 +48,18 @@ type AutoScalePolicyMetricRuleMetricTypeEnum string
 
 // Set of constants representing the allowable values for AutoScalePolicyMetricRuleMetricTypeEnum
 const (
-	AutoScalePolicyMetricRuleMetricTypeCpuUtilization AutoScalePolicyMetricRuleMetricTypeEnum = "CPU_UTILIZATION"
+	AutoScalePolicyMetricRuleMetricTypeCpuUtilization    AutoScalePolicyMetricRuleMetricTypeEnum = "CPU_UTILIZATION"
+	AutoScalePolicyMetricRuleMetricTypeMemoryUtilization AutoScalePolicyMetricRuleMetricTypeEnum = "MEMORY_UTILIZATION"
 )
 
 var mappingAutoScalePolicyMetricRuleMetricTypeEnum = map[string]AutoScalePolicyMetricRuleMetricTypeEnum{
-	"CPU_UTILIZATION": AutoScalePolicyMetricRuleMetricTypeCpuUtilization,
+	"CPU_UTILIZATION":    AutoScalePolicyMetricRuleMetricTypeCpuUtilization,
+	"MEMORY_UTILIZATION": AutoScalePolicyMetricRuleMetricTypeMemoryUtilization,
 }
 
 var mappingAutoScalePolicyMetricRuleMetricTypeEnumLowerCase = map[string]AutoScalePolicyMetricRuleMetricTypeEnum{
-	"cpu_utilization": AutoScalePolicyMetricRuleMetricTypeCpuUtilization,
+	"cpu_utilization":    AutoScalePolicyMetricRuleMetricTypeCpuUtilization,
+	"memory_utilization": AutoScalePolicyMetricRuleMetricTypeMemoryUtilization,
 }
 
 // GetAutoScalePolicyMetricRuleMetricTypeEnumValues Enumerates the set of values for AutoScalePolicyMetricRuleMetricTypeEnum
@@ -72,6 +75,7 @@ func GetAutoScalePolicyMetricRuleMetricTypeEnumValues() []AutoScalePolicyMetricR
 func GetAutoScalePolicyMetricRuleMetricTypeEnumStringValues() []string {
 	return []string{
 		"CPU_UTILIZATION",
+		"MEMORY_UTILIZATION",
 	}
 }
 

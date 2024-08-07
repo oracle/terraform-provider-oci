@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// BatchingBasedPatchingConfigs Patching configurations which allows patch the nodes batch by batch.
+// BatchingBasedPatchingConfigs Configuration that applies the patch in batches, the batch size is a user defined parameter.
 type BatchingBasedPatchingConfigs struct {
 
 	// How many nodes to be patched and rebooted in each iteration.

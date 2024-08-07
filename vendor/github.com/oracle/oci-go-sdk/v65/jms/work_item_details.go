@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -55,6 +55,10 @@ func (m *workitemdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 
 	var err error
 	switch m.Kind {
+	case "DEPLOYED_APPLICATION":
+		mm := DeployedApplicationWorkItemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LCM":
 		mm := LcmWorkItemDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -102,21 +106,24 @@ type WorkItemDetailsKindEnum string
 
 // Set of constants representing the allowable values for WorkItemDetailsKindEnum
 const (
-	WorkItemDetailsKindBasic       WorkItemDetailsKindEnum = "BASIC"
-	WorkItemDetailsKindApplication WorkItemDetailsKindEnum = "APPLICATION"
-	WorkItemDetailsKindLcm         WorkItemDetailsKindEnum = "LCM"
+	WorkItemDetailsKindBasic               WorkItemDetailsKindEnum = "BASIC"
+	WorkItemDetailsKindApplication         WorkItemDetailsKindEnum = "APPLICATION"
+	WorkItemDetailsKindLcm                 WorkItemDetailsKindEnum = "LCM"
+	WorkItemDetailsKindDeployedApplication WorkItemDetailsKindEnum = "DEPLOYED_APPLICATION"
 )
 
 var mappingWorkItemDetailsKindEnum = map[string]WorkItemDetailsKindEnum{
-	"BASIC":       WorkItemDetailsKindBasic,
-	"APPLICATION": WorkItemDetailsKindApplication,
-	"LCM":         WorkItemDetailsKindLcm,
+	"BASIC":                WorkItemDetailsKindBasic,
+	"APPLICATION":          WorkItemDetailsKindApplication,
+	"LCM":                  WorkItemDetailsKindLcm,
+	"DEPLOYED_APPLICATION": WorkItemDetailsKindDeployedApplication,
 }
 
 var mappingWorkItemDetailsKindEnumLowerCase = map[string]WorkItemDetailsKindEnum{
-	"basic":       WorkItemDetailsKindBasic,
-	"application": WorkItemDetailsKindApplication,
-	"lcm":         WorkItemDetailsKindLcm,
+	"basic":                WorkItemDetailsKindBasic,
+	"application":          WorkItemDetailsKindApplication,
+	"lcm":                  WorkItemDetailsKindLcm,
+	"deployed_application": WorkItemDetailsKindDeployedApplication,
 }
 
 // GetWorkItemDetailsKindEnumValues Enumerates the set of values for WorkItemDetailsKindEnum
@@ -134,6 +141,7 @@ func GetWorkItemDetailsKindEnumStringValues() []string {
 		"BASIC",
 		"APPLICATION",
 		"LCM",
+		"DEPLOYED_APPLICATION",
 	}
 }
 

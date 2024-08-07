@@ -154,10 +154,10 @@ type SummarizeManagedInstanceUsageResponse struct {
 	ManagedInstanceUsageCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -177,15 +177,18 @@ type SummarizeManagedInstanceUsageManagedInstanceTypeEnum string
 
 // Set of constants representing the allowable values for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
 const (
-	SummarizeManagedInstanceUsageManagedInstanceTypeOracleManagementAgent SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
+	SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_MANAGEMENT_AGENT"
+	SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent      SummarizeManagedInstanceUsageManagedInstanceTypeEnum = "ORACLE_CLOUD_AGENT"
 )
 
 var mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnum = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
-	"ORACLE_MANAGEMENT_AGENT": SummarizeManagedInstanceUsageManagedInstanceTypeOracleManagementAgent,
+	"ORACLE_MANAGEMENT_AGENT": SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
+	"ORACLE_CLOUD_AGENT":      SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
 }
 
 var mappingSummarizeManagedInstanceUsageManagedInstanceTypeEnumLowerCase = map[string]SummarizeManagedInstanceUsageManagedInstanceTypeEnum{
-	"oracle_management_agent": SummarizeManagedInstanceUsageManagedInstanceTypeOracleManagementAgent,
+	"oracle_management_agent": SummarizeManagedInstanceUsageManagedInstanceTypeManagementAgent,
+	"oracle_cloud_agent":      SummarizeManagedInstanceUsageManagedInstanceTypeCloudAgent,
 }
 
 // GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumValues Enumerates the set of values for SummarizeManagedInstanceUsageManagedInstanceTypeEnum
@@ -201,6 +204,7 @@ func GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumValues() []Summarize
 func GetSummarizeManagedInstanceUsageManagedInstanceTypeEnumStringValues() []string {
 	return []string{
 		"ORACLE_MANAGEMENT_AGENT",
+		"ORACLE_CLOUD_AGENT",
 	}
 }
 

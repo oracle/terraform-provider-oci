@@ -1145,6 +1145,68 @@ func (client BdsClient) createNodeReplaceConfiguration(ctx context.Context, requ
 	return response, err
 }
 
+// CreateResourcePrincipalConfiguration Create a resource principal session token configuration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/CreateResourcePrincipalConfiguration.go.html to see an example of how to use CreateResourcePrincipalConfiguration API.
+func (client BdsClient) CreateResourcePrincipalConfiguration(ctx context.Context, request CreateResourcePrincipalConfigurationRequest) (response CreateResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// createResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) createResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/CreateResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "CreateResourcePrincipalConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteBdsApiKey Deletes the user's API key represented by the provided ID.
 //
 // # See also
@@ -1616,6 +1678,68 @@ func (client BdsClient) executeBootstrapScript(ctx context.Context, request comm
 	return response, err
 }
 
+// ForceRefreshResourcePrincipal Force Refresh Resource Principal for the cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ForceRefreshResourcePrincipal.go.html to see an example of how to use ForceRefreshResourcePrincipal API.
+func (client BdsClient) ForceRefreshResourcePrincipal(ctx context.Context, request ForceRefreshResourcePrincipalRequest) (response ForceRefreshResourcePrincipalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.forceRefreshResourcePrincipal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ForceRefreshResourcePrincipalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ForceRefreshResourcePrincipalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ForceRefreshResourcePrincipalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ForceRefreshResourcePrincipalResponse")
+	}
+	return
+}
+
+// forceRefreshResourcePrincipal implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) forceRefreshResourcePrincipal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}/actions/forceRefreshResourcePrincipal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ForceRefreshResourcePrincipalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ForceRefreshResourcePrincipal"
+		err = common.PostProcessServiceError(err, "Bds", "ForceRefreshResourcePrincipal", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAutoScalingConfiguration Returns details of the autoscale configuration identified by the given ID.
 //
 // # See also
@@ -2070,6 +2194,63 @@ func (client BdsClient) getOsPatchDetails(ctx context.Context, request common.OC
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetOsPatchDetails"
 		err = common.PostProcessServiceError(err, "Bds", "GetOsPatchDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetResourcePrincipalConfiguration Returns details of the resourcePrincipalConfiguration identified by the given ID.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/GetResourcePrincipalConfiguration.go.html to see an example of how to use GetResourcePrincipalConfiguration API.
+func (client BdsClient) GetResourcePrincipalConfiguration(ctx context.Context, request GetResourcePrincipalConfigurationRequest) (response GetResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// getResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) getResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/GetResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "GetResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -2833,6 +3014,63 @@ func (client BdsClient) listPatches(ctx context.Context, request common.OCIReque
 	return response, err
 }
 
+// ListResourcePrincipalConfigurations Returns information about the ResourcePrincipalConfiguration.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/ListResourcePrincipalConfigurations.go.html to see an example of how to use ListResourcePrincipalConfigurations API.
+func (client BdsClient) ListResourcePrincipalConfigurations(ctx context.Context, request ListResourcePrincipalConfigurationsRequest) (response ListResourcePrincipalConfigurationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listResourcePrincipalConfigurations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListResourcePrincipalConfigurationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListResourcePrincipalConfigurationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListResourcePrincipalConfigurationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListResourcePrincipalConfigurationsResponse")
+	}
+	return
+}
+
+// listResourcePrincipalConfigurations implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) listResourcePrincipalConfigurations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListResourcePrincipalConfigurationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/ListResourcePrincipalConfigurations"
+		err = common.PostProcessServiceError(err, "Bds", "ListResourcePrincipalConfigurations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListWorkRequestErrors Returns a paginated list of errors for a work request identified by the given ID.
 //
 // # See also
@@ -3302,6 +3540,63 @@ func (client BdsClient) removeNodeReplaceConfiguration(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/NodeReplaceConfiguration/RemoveNodeReplaceConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "RemoveNodeReplaceConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveResourcePrincipalConfiguration Delete the resource principal configuration for the cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/RemoveResourcePrincipalConfiguration.go.html to see an example of how to use RemoveResourcePrincipalConfiguration API.
+func (client BdsClient) RemoveResourcePrincipalConfiguration(ctx context.Context, request RemoveResourcePrincipalConfigurationRequest) (response RemoveResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.removeResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// removeResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) removeResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}/actions/remove", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/ResourcePrincipalConfiguration/RemoveResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "RemoveResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -4016,6 +4311,68 @@ func (client BdsClient) updateNodeReplaceConfiguration(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateNodeReplaceConfiguration"
 		err = common.PostProcessServiceError(err, "Bds", "UpdateNodeReplaceConfiguration", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateResourcePrincipalConfiguration Updates fields on resourcePrincipalConfiguration, including the name, the lifeSpanInHours of the token.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/bds/UpdateResourcePrincipalConfiguration.go.html to see an example of how to use UpdateResourcePrincipalConfiguration API.
+func (client BdsClient) UpdateResourcePrincipalConfiguration(ctx context.Context, request UpdateResourcePrincipalConfigurationRequest) (response UpdateResourcePrincipalConfigurationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateResourcePrincipalConfiguration, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateResourcePrincipalConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateResourcePrincipalConfigurationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateResourcePrincipalConfigurationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateResourcePrincipalConfigurationResponse")
+	}
+	return
+}
+
+// updateResourcePrincipalConfiguration implements the OCIOperation interface (enables retrying operations)
+func (client BdsClient) updateResourcePrincipalConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/bdsInstances/{bdsInstanceId}/resourcePrincipalConfigurations/{resourcePrincipalConfigurationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateResourcePrincipalConfigurationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/bigdata/20190531/BdsInstance/UpdateResourcePrincipalConfiguration"
+		err = common.PostProcessServiceError(err, "Bds", "UpdateResourcePrincipalConfiguration", apiReferenceLink)
 		return response, err
 	}
 

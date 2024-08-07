@@ -39,6 +39,12 @@ type SummarizeLibraryUsageRequest struct {
 	// The library name.
 	LibraryName *string `mandatory:"false" contributesTo:"query" name:"libraryName"`
 
+	// Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
+	CvssScoreGreaterThan *int `mandatory:"false" contributesTo:"query" name:"cvssScoreGreaterThan"`
+
+	// Total Common Vulnerability Scoring System (CVSS) Score reported by the analysis.
+	CvssScoreLessThan *int `mandatory:"false" contributesTo:"query" name:"cvssScoreLessThan"`
+
 	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
 	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
 
@@ -119,10 +125,10 @@ type SummarizeLibraryUsageResponse struct {
 	LibraryUsageCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`

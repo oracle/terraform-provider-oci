@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -18,33 +18,39 @@ type DeployedApplicationInstallationSortByEnum string
 
 // Set of constants representing the allowable values for DeployedApplicationInstallationSortByEnum
 const (
-	DeployedApplicationInstallationSortByApplicationName         DeployedApplicationInstallationSortByEnum = "applicationName"
-	DeployedApplicationInstallationSortByApplicationType         DeployedApplicationInstallationSortByEnum = "applicationType"
-	DeployedApplicationInstallationSortByApplicationSourcePath   DeployedApplicationInstallationSortByEnum = "applicationSourcePath"
-	DeployedApplicationInstallationSortByIsClustered             DeployedApplicationInstallationSortByEnum = "isClustered"
-	DeployedApplicationInstallationSortByJavaServerInstanceCount DeployedApplicationInstallationSortByEnum = "javaServerInstanceCount"
-	DeployedApplicationInstallationSortByTimeFirstSeen           DeployedApplicationInstallationSortByEnum = "timeFirstSeen"
-	DeployedApplicationInstallationSortByTimeLastSeen            DeployedApplicationInstallationSortByEnum = "timeLastSeen"
+	DeployedApplicationInstallationSortByApplicationName                    DeployedApplicationInstallationSortByEnum = "applicationName"
+	DeployedApplicationInstallationSortByApplicationType                    DeployedApplicationInstallationSortByEnum = "applicationType"
+	DeployedApplicationInstallationSortByApplicationSourcePath              DeployedApplicationInstallationSortByEnum = "applicationSourcePath"
+	DeployedApplicationInstallationSortByIsClustered                        DeployedApplicationInstallationSortByEnum = "isClustered"
+	DeployedApplicationInstallationSortByJavaServerInstanceCount            DeployedApplicationInstallationSortByEnum = "javaServerInstanceCount"
+	DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount DeployedApplicationInstallationSortByEnum = "approximateJavaServerInstanceCount"
+	DeployedApplicationInstallationSortByApproximateLibraryCount            DeployedApplicationInstallationSortByEnum = "approximateLibraryCount"
+	DeployedApplicationInstallationSortByTimeFirstSeen                      DeployedApplicationInstallationSortByEnum = "timeFirstSeen"
+	DeployedApplicationInstallationSortByTimeLastSeen                       DeployedApplicationInstallationSortByEnum = "timeLastSeen"
 )
 
 var mappingDeployedApplicationInstallationSortByEnum = map[string]DeployedApplicationInstallationSortByEnum{
-	"applicationName":         DeployedApplicationInstallationSortByApplicationName,
-	"applicationType":         DeployedApplicationInstallationSortByApplicationType,
-	"applicationSourcePath":   DeployedApplicationInstallationSortByApplicationSourcePath,
-	"isClustered":             DeployedApplicationInstallationSortByIsClustered,
-	"javaServerInstanceCount": DeployedApplicationInstallationSortByJavaServerInstanceCount,
-	"timeFirstSeen":           DeployedApplicationInstallationSortByTimeFirstSeen,
-	"timeLastSeen":            DeployedApplicationInstallationSortByTimeLastSeen,
+	"applicationName":                    DeployedApplicationInstallationSortByApplicationName,
+	"applicationType":                    DeployedApplicationInstallationSortByApplicationType,
+	"applicationSourcePath":              DeployedApplicationInstallationSortByApplicationSourcePath,
+	"isClustered":                        DeployedApplicationInstallationSortByIsClustered,
+	"javaServerInstanceCount":            DeployedApplicationInstallationSortByJavaServerInstanceCount,
+	"approximateJavaServerInstanceCount": DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount,
+	"approximateLibraryCount":            DeployedApplicationInstallationSortByApproximateLibraryCount,
+	"timeFirstSeen":                      DeployedApplicationInstallationSortByTimeFirstSeen,
+	"timeLastSeen":                       DeployedApplicationInstallationSortByTimeLastSeen,
 }
 
 var mappingDeployedApplicationInstallationSortByEnumLowerCase = map[string]DeployedApplicationInstallationSortByEnum{
-	"applicationname":         DeployedApplicationInstallationSortByApplicationName,
-	"applicationtype":         DeployedApplicationInstallationSortByApplicationType,
-	"applicationsourcepath":   DeployedApplicationInstallationSortByApplicationSourcePath,
-	"isclustered":             DeployedApplicationInstallationSortByIsClustered,
-	"javaserverinstancecount": DeployedApplicationInstallationSortByJavaServerInstanceCount,
-	"timefirstseen":           DeployedApplicationInstallationSortByTimeFirstSeen,
-	"timelastseen":            DeployedApplicationInstallationSortByTimeLastSeen,
+	"applicationname":                    DeployedApplicationInstallationSortByApplicationName,
+	"applicationtype":                    DeployedApplicationInstallationSortByApplicationType,
+	"applicationsourcepath":              DeployedApplicationInstallationSortByApplicationSourcePath,
+	"isclustered":                        DeployedApplicationInstallationSortByIsClustered,
+	"javaserverinstancecount":            DeployedApplicationInstallationSortByJavaServerInstanceCount,
+	"approximatejavaserverinstancecount": DeployedApplicationInstallationSortByApproximateJavaServerInstanceCount,
+	"approximatelibrarycount":            DeployedApplicationInstallationSortByApproximateLibraryCount,
+	"timefirstseen":                      DeployedApplicationInstallationSortByTimeFirstSeen,
+	"timelastseen":                       DeployedApplicationInstallationSortByTimeLastSeen,
 }
 
 // GetDeployedApplicationInstallationSortByEnumValues Enumerates the set of values for DeployedApplicationInstallationSortByEnum
@@ -64,6 +70,8 @@ func GetDeployedApplicationInstallationSortByEnumStringValues() []string {
 		"applicationSourcePath",
 		"isClustered",
 		"javaServerInstanceCount",
+		"approximateJavaServerInstanceCount",
+		"approximateLibraryCount",
 		"timeFirstSeen",
 		"timeLastSeen",
 	}

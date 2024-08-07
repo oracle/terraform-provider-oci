@@ -33,6 +33,9 @@ type Repository struct {
 	// Tenancy unique namespace.
 	Namespace *string `mandatory:"false" json:"namespace"`
 
+	// The OCID of the parent repository.
+	ParentRepositoryId *string `mandatory:"false" json:"parentRepositoryId"`
+
 	// Unique project name in a namespace.
 	ProjectName *string `mandatory:"false" json:"projectName"`
 
@@ -51,6 +54,7 @@ type Repository struct {
 	// Type of repository:
 	// MIRRORED - Repository created by mirroring an existing repository.
 	// HOSTED - Repository created and hosted using OCI DevOps code repository.
+	// FORKED - Repository created by forking an existing repository.
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`
@@ -128,16 +132,19 @@ type RepositoryRepositoryTypeEnum string
 const (
 	RepositoryRepositoryTypeMirrored RepositoryRepositoryTypeEnum = "MIRRORED"
 	RepositoryRepositoryTypeHosted   RepositoryRepositoryTypeEnum = "HOSTED"
+	RepositoryRepositoryTypeForked   RepositoryRepositoryTypeEnum = "FORKED"
 )
 
 var mappingRepositoryRepositoryTypeEnum = map[string]RepositoryRepositoryTypeEnum{
 	"MIRRORED": RepositoryRepositoryTypeMirrored,
 	"HOSTED":   RepositoryRepositoryTypeHosted,
+	"FORKED":   RepositoryRepositoryTypeForked,
 }
 
 var mappingRepositoryRepositoryTypeEnumLowerCase = map[string]RepositoryRepositoryTypeEnum{
 	"mirrored": RepositoryRepositoryTypeMirrored,
 	"hosted":   RepositoryRepositoryTypeHosted,
+	"forked":   RepositoryRepositoryTypeForked,
 }
 
 // GetRepositoryRepositoryTypeEnumValues Enumerates the set of values for RepositoryRepositoryTypeEnum
@@ -154,6 +161,7 @@ func GetRepositoryRepositoryTypeEnumStringValues() []string {
 	return []string{
 		"MIRRORED",
 		"HOSTED",
+		"FORKED",
 	}
 }
 
@@ -171,6 +179,7 @@ const (
 	RepositoryLifecycleStateActive   RepositoryLifecycleStateEnum = "ACTIVE"
 	RepositoryLifecycleStateCreating RepositoryLifecycleStateEnum = "CREATING"
 	RepositoryLifecycleStateDeleted  RepositoryLifecycleStateEnum = "DELETED"
+	RepositoryLifecycleStateFailed   RepositoryLifecycleStateEnum = "FAILED"
 	RepositoryLifecycleStateDeleting RepositoryLifecycleStateEnum = "DELETING"
 )
 
@@ -178,6 +187,7 @@ var mappingRepositoryLifecycleStateEnum = map[string]RepositoryLifecycleStateEnu
 	"ACTIVE":   RepositoryLifecycleStateActive,
 	"CREATING": RepositoryLifecycleStateCreating,
 	"DELETED":  RepositoryLifecycleStateDeleted,
+	"FAILED":   RepositoryLifecycleStateFailed,
 	"DELETING": RepositoryLifecycleStateDeleting,
 }
 
@@ -185,6 +195,7 @@ var mappingRepositoryLifecycleStateEnumLowerCase = map[string]RepositoryLifecycl
 	"active":   RepositoryLifecycleStateActive,
 	"creating": RepositoryLifecycleStateCreating,
 	"deleted":  RepositoryLifecycleStateDeleted,
+	"failed":   RepositoryLifecycleStateFailed,
 	"deleting": RepositoryLifecycleStateDeleting,
 }
 
@@ -203,6 +214,7 @@ func GetRepositoryLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"CREATING",
 		"DELETED",
+		"FAILED",
 		"DELETING",
 	}
 }

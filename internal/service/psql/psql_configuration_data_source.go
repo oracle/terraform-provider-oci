@@ -70,6 +70,8 @@ func (s *PsqlConfigurationDataSourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	s.D.Set("config_type", s.Res.ConfigType)
+
 	if s.Res.ConfigurationDetails != nil {
 		s.D.Set("configuration_details", []interface{}{ConfigurationDetailsToMap(s.Res.ConfigurationDetails)})
 	} else {
@@ -101,6 +103,10 @@ func (s *PsqlConfigurationDataSourceCrud) SetData() error {
 
 	if s.Res.InstanceOcpuCount != nil {
 		s.D.Set("instance_ocpu_count", *s.Res.InstanceOcpuCount)
+	}
+
+	if s.Res.IsFlexible != nil {
+		s.D.Set("is_flexible", *s.Res.IsFlexible)
 	}
 
 	if s.Res.LifecycleDetails != nil {

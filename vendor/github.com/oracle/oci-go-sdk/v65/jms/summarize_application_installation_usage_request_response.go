@@ -149,10 +149,10 @@ type SummarizeApplicationInstallationUsageResponse struct {
 	ApplicationInstallationUsageSummaryCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -222,6 +222,7 @@ const (
 	SummarizeApplicationInstallationUsageSortByApproximatejrecount             SummarizeApplicationInstallationUsageSortByEnum = "approximateJreCount"
 	SummarizeApplicationInstallationUsageSortByApproximateinstallationcount    SummarizeApplicationInstallationUsageSortByEnum = "approximateInstallationCount"
 	SummarizeApplicationInstallationUsageSortByApproximatemanagedinstancecount SummarizeApplicationInstallationUsageSortByEnum = "approximateManagedInstanceCount"
+	SummarizeApplicationInstallationUsageSortByApproximatelibrarycount         SummarizeApplicationInstallationUsageSortByEnum = "approximateLibraryCount"
 )
 
 var mappingSummarizeApplicationInstallationUsageSortByEnum = map[string]SummarizeApplicationInstallationUsageSortByEnum{
@@ -233,6 +234,7 @@ var mappingSummarizeApplicationInstallationUsageSortByEnum = map[string]Summariz
 	"approximateJreCount":             SummarizeApplicationInstallationUsageSortByApproximatejrecount,
 	"approximateInstallationCount":    SummarizeApplicationInstallationUsageSortByApproximateinstallationcount,
 	"approximateManagedInstanceCount": SummarizeApplicationInstallationUsageSortByApproximatemanagedinstancecount,
+	"approximateLibraryCount":         SummarizeApplicationInstallationUsageSortByApproximatelibrarycount,
 }
 
 var mappingSummarizeApplicationInstallationUsageSortByEnumLowerCase = map[string]SummarizeApplicationInstallationUsageSortByEnum{
@@ -244,6 +246,7 @@ var mappingSummarizeApplicationInstallationUsageSortByEnumLowerCase = map[string
 	"approximatejrecount":             SummarizeApplicationInstallationUsageSortByApproximatejrecount,
 	"approximateinstallationcount":    SummarizeApplicationInstallationUsageSortByApproximateinstallationcount,
 	"approximatemanagedinstancecount": SummarizeApplicationInstallationUsageSortByApproximatemanagedinstancecount,
+	"approximatelibrarycount":         SummarizeApplicationInstallationUsageSortByApproximatelibrarycount,
 }
 
 // GetSummarizeApplicationInstallationUsageSortByEnumValues Enumerates the set of values for SummarizeApplicationInstallationUsageSortByEnum
@@ -266,6 +269,7 @@ func GetSummarizeApplicationInstallationUsageSortByEnumStringValues() []string {
 		"approximateJreCount",
 		"approximateInstallationCount",
 		"approximateManagedInstanceCount",
+		"approximateLibraryCount",
 	}
 }
 

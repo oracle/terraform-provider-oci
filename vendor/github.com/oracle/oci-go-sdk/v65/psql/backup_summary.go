@@ -52,7 +52,7 @@ type BackupSummary struct {
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// Specifies whether the backup was created manually, or by a management policy.
+	// Specifies whether the backup was created manually, taken on schedule defined in the a backup policy, or copied from the remote location.
 	SourceType BackupSourceTypeEnum `mandatory:"false" json:"sourceType,omitempty"`
 
 	// The size of the backup, in gigabytes.
