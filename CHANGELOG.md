@@ -1,4 +1,4 @@
-## 6.6.0 (Unreleased)
+## 6.6.0 (August 07, 2024)
 
 ### Added
 - Support for BDS - Implement ODH Patching in Staged manner
