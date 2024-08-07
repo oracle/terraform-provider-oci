@@ -106,6 +106,14 @@ const (
 	DrPlanStepTypeComputeCapacityReservationFailoverPrecheck                            DrPlanStepTypeEnum = "COMPUTE_CAPACITY_RESERVATION_FAILOVER_PRECHECK"
 	DrPlanStepTypeComputeCapacityAvailabilitySwitchoverPrecheck                         DrPlanStepTypeEnum = "COMPUTE_CAPACITY_AVAILABILITY_SWITCHOVER_PRECHECK"
 	DrPlanStepTypeComputeCapacityAvailabilityFailoverPrecheck                           DrPlanStepTypeEnum = "COMPUTE_CAPACITY_AVAILABILITY_FAILOVER_PRECHECK"
+	DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimaryPrecheck         DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY_PRECHECK"
+	DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandbyPrecheck   DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK"
+	DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandbyPrecheck           DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY_PRECHECK"
+	DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandbyPrecheck     DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK"
+	DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimary                 DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY"
+	DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby           DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY"
+	DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby                   DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY"
+	DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby             DrPlanStepTypeEnum = "OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY"
 )
 
 var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
@@ -194,6 +202,14 @@ var mappingDrPlanStepTypeEnum = map[string]DrPlanStepTypeEnum{
 	"COMPUTE_CAPACITY_RESERVATION_FAILOVER_PRECHECK":                                 DrPlanStepTypeComputeCapacityReservationFailoverPrecheck,
 	"COMPUTE_CAPACITY_AVAILABILITY_SWITCHOVER_PRECHECK":                              DrPlanStepTypeComputeCapacityAvailabilitySwitchoverPrecheck,
 	"COMPUTE_CAPACITY_AVAILABILITY_FAILOVER_PRECHECK":                                DrPlanStepTypeComputeCapacityAvailabilityFailoverPrecheck,
+	"OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY_PRECHECK":           DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimaryPrecheck,
+	"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK":    DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandbyPrecheck,
+	"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY_PRECHECK":             DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandbyPrecheck,
+	"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK":      DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandbyPrecheck,
+	"OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY":                    DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimary,
+	"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY":             DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby,
+	"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY":                      DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby,
+	"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY":               DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby,
 }
 
 var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
@@ -282,6 +298,14 @@ var mappingDrPlanStepTypeEnumLowerCase = map[string]DrPlanStepTypeEnum{
 	"compute_capacity_reservation_failover_precheck":                                 DrPlanStepTypeComputeCapacityReservationFailoverPrecheck,
 	"compute_capacity_availability_switchover_precheck":                              DrPlanStepTypeComputeCapacityAvailabilitySwitchoverPrecheck,
 	"compute_capacity_availability_failover_precheck":                                DrPlanStepTypeComputeCapacityAvailabilityFailoverPrecheck,
+	"object_storage_bucket_switchover_delete_replication_primary_precheck":           DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimaryPrecheck,
+	"object_storage_bucket_switchover_setup_reverse_replication_standby_precheck":    DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandbyPrecheck,
+	"object_storage_bucket_failover_delete_replication_standby_precheck":             DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandbyPrecheck,
+	"object_storage_bucket_failover_setup_reverse_replication_standby_precheck":      DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandbyPrecheck,
+	"object_storage_bucket_switchover_delete_replication_primary":                    DrPlanStepTypeObjectStorageBucketSwitchoverDeleteReplicationPrimary,
+	"object_storage_bucket_switchover_setup_reverse_replication_standby":             DrPlanStepTypeObjectStorageBucketSwitchoverSetupReverseReplicationStandby,
+	"object_storage_bucket_failover_delete_replication_standby":                      DrPlanStepTypeObjectStorageBucketFailoverDeleteReplicationStandby,
+	"object_storage_bucket_failover_setup_reverse_replication_standby":               DrPlanStepTypeObjectStorageBucketFailoverSetupReverseReplicationStandby,
 }
 
 // GetDrPlanStepTypeEnumValues Enumerates the set of values for DrPlanStepTypeEnum
@@ -381,6 +405,14 @@ func GetDrPlanStepTypeEnumStringValues() []string {
 		"COMPUTE_CAPACITY_RESERVATION_FAILOVER_PRECHECK",
 		"COMPUTE_CAPACITY_AVAILABILITY_SWITCHOVER_PRECHECK",
 		"COMPUTE_CAPACITY_AVAILABILITY_FAILOVER_PRECHECK",
+		"OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY_PRECHECK",
+		"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK",
+		"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY_PRECHECK",
+		"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY_PRECHECK",
+		"OBJECT_STORAGE_BUCKET_SWITCHOVER_DELETE_REPLICATION_PRIMARY",
+		"OBJECT_STORAGE_BUCKET_SWITCHOVER_SETUP_REVERSE_REPLICATION_STANDBY",
+		"OBJECT_STORAGE_BUCKET_FAILOVER_DELETE_REPLICATION_STANDBY",
+		"OBJECT_STORAGE_BUCKET_FAILOVER_SETUP_REVERSE_REPLICATION_STANDBY",
 	}
 }
 

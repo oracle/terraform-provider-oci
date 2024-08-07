@@ -45,6 +45,9 @@ type CreateInternalDrgRouteTableDetails struct {
 	// The DRG route table partitions's physical availability domain. This attribute will be null if this is a non-partitioned DRG route table.
 	// Example: `PHX-AD-1`
 	InternalAvailabilityDomain *string `mandatory:"false" json:"internalAvailabilityDomain"`
+
+	// Timings info for upstream services to track route propagation latency
+	UpstreamTimings []UpstreamTiming `mandatory:"false" json:"upstreamTimings"`
 }
 
 func (m CreateInternalDrgRouteTableDetails) String() string {

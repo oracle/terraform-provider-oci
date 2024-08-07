@@ -101,7 +101,11 @@ type ExadbVmClusterSummary struct {
 	// A valid Oracle Grid Infrastructure (GI) software version.
 	GiVersion *string `mandatory:"false" json:"giVersion"`
 
-	// Grid Setup will be done using this grid image id
+	// Grid Setup will be done using this grid image id.
+	// The grid image id can be extracted from
+	// 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name>
+	// 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using
+	// API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name>
 	GridImageId *string `mandatory:"false" json:"gridImageId"`
 
 	// The type of Grid Image

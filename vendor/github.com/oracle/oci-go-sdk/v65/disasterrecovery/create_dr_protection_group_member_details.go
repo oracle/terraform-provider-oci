@@ -95,6 +95,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_STORAGE_BUCKET":
+		mm := CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LOAD_BALANCER":
 		mm := CreateDrProtectionGroupMemberLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)

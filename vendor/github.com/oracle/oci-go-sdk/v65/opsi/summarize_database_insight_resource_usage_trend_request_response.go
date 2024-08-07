@@ -216,6 +216,7 @@ const (
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "MDS-MYSQL"
+	SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalMysql        SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
@@ -238,6 +239,7 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum = map[stri
 	"COMANAGED-EXACC-PDB":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalMysql,
 }
 
 var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum{
@@ -260,6 +262,7 @@ var mappingSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumLowerCase =
 	"comanaged-exacc-pdb":    SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeMdsMysql,
+	"external-mysql":         SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeExternalMysql,
 }
 
 // GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnum
@@ -293,6 +296,7 @@ func GetSummarizeDatabaseInsightResourceUsageTrendDatabaseTypeEnumStringValues()
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

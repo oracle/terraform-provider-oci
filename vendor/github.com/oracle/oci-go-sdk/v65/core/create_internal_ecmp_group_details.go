@@ -75,18 +75,21 @@ const (
 	CreateInternalEcmpGroupDetailsGatewayTypeServicegateway       CreateInternalEcmpGroupDetailsGatewayTypeEnum = "SERVICEGATEWAY"
 	CreateInternalEcmpGroupDetailsGatewayTypeNatgateway           CreateInternalEcmpGroupDetailsGatewayTypeEnum = "NATGATEWAY"
 	CreateInternalEcmpGroupDetailsGatewayTypePrivateaccessgateway CreateInternalEcmpGroupDetailsGatewayTypeEnum = "PRIVATEACCESSGATEWAY"
+	CreateInternalEcmpGroupDetailsGatewayTypeDns                  CreateInternalEcmpGroupDetailsGatewayTypeEnum = "DNS"
 )
 
 var mappingCreateInternalEcmpGroupDetailsGatewayTypeEnum = map[string]CreateInternalEcmpGroupDetailsGatewayTypeEnum{
 	"SERVICEGATEWAY":       CreateInternalEcmpGroupDetailsGatewayTypeServicegateway,
 	"NATGATEWAY":           CreateInternalEcmpGroupDetailsGatewayTypeNatgateway,
 	"PRIVATEACCESSGATEWAY": CreateInternalEcmpGroupDetailsGatewayTypePrivateaccessgateway,
+	"DNS":                  CreateInternalEcmpGroupDetailsGatewayTypeDns,
 }
 
 var mappingCreateInternalEcmpGroupDetailsGatewayTypeEnumLowerCase = map[string]CreateInternalEcmpGroupDetailsGatewayTypeEnum{
 	"servicegateway":       CreateInternalEcmpGroupDetailsGatewayTypeServicegateway,
 	"natgateway":           CreateInternalEcmpGroupDetailsGatewayTypeNatgateway,
 	"privateaccessgateway": CreateInternalEcmpGroupDetailsGatewayTypePrivateaccessgateway,
+	"dns":                  CreateInternalEcmpGroupDetailsGatewayTypeDns,
 }
 
 // GetCreateInternalEcmpGroupDetailsGatewayTypeEnumValues Enumerates the set of values for CreateInternalEcmpGroupDetailsGatewayTypeEnum
@@ -104,6 +107,7 @@ func GetCreateInternalEcmpGroupDetailsGatewayTypeEnumStringValues() []string {
 		"SERVICEGATEWAY",
 		"NATGATEWAY",
 		"PRIVATEACCESSGATEWAY",
+		"DNS",
 	}
 }
 

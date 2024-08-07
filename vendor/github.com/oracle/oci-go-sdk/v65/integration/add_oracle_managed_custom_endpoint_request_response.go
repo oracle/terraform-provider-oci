@@ -11,11 +11,11 @@ import (
 	"strings"
 )
 
-// EnableOracleManagedCustomEndpointRequest wrapper for the EnableOracleManagedCustomEndpoint operation
-type EnableOracleManagedCustomEndpointRequest struct {
+// AddOracleManagedCustomEndpointRequest wrapper for the AddOracleManagedCustomEndpoint operation
+type AddOracleManagedCustomEndpointRequest struct {
 
 	// Details for enabling oracle managed custom endpoint.
-	EnableOracleManagedCustomEndpointDetails `contributesTo:"body"`
+	AddOracleManagedCustomEndpointDetails `contributesTo:"body"`
 
 	// Unique Integration Instance identifier.
 	IntegrationInstanceId *string `mandatory:"true" contributesTo:"path" name:"integrationInstanceId"`
@@ -43,12 +43,12 @@ type EnableOracleManagedCustomEndpointRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request EnableOracleManagedCustomEndpointRequest) String() string {
+func (request AddOracleManagedCustomEndpointRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request EnableOracleManagedCustomEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request AddOracleManagedCustomEndpointRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -58,21 +58,21 @@ func (request EnableOracleManagedCustomEndpointRequest) HTTPRequest(method, path
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request EnableOracleManagedCustomEndpointRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request AddOracleManagedCustomEndpointRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request EnableOracleManagedCustomEndpointRequest) RetryPolicy() *common.RetryPolicy {
+func (request AddOracleManagedCustomEndpointRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request EnableOracleManagedCustomEndpointRequest) ValidateEnumValue() (bool, error) {
+func (request AddOracleManagedCustomEndpointRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -80,8 +80,8 @@ func (request EnableOracleManagedCustomEndpointRequest) ValidateEnumValue() (boo
 	return false, nil
 }
 
-// EnableOracleManagedCustomEndpointResponse wrapper for the EnableOracleManagedCustomEndpoint operation
-type EnableOracleManagedCustomEndpointResponse struct {
+// AddOracleManagedCustomEndpointResponse wrapper for the AddOracleManagedCustomEndpoint operation
+type AddOracleManagedCustomEndpointResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -96,11 +96,11 @@ type EnableOracleManagedCustomEndpointResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response EnableOracleManagedCustomEndpointResponse) String() string {
+func (response AddOracleManagedCustomEndpointResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response EnableOracleManagedCustomEndpointResponse) HTTPResponse() *http.Response {
+func (response AddOracleManagedCustomEndpointResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

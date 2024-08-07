@@ -173,6 +173,8 @@ type ExadataInfrastructureSummary struct {
 
 	// If true, the infrastructure is using granular maintenance scheduling preference.
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
+
+	ExascaleConfig *ExascaleConfigDetails `mandatory:"false" json:"exascaleConfig"`
 }
 
 func (m ExadataInfrastructureSummary) String() string {

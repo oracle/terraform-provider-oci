@@ -2603,6 +2603,122 @@ func (client DatabaseClient) configureAutonomousDatabaseVaultKey(ctx context.Con
 	return response, err
 }
 
+// ConfigureExascaleCloudExadataInfrastructure Configures Exascale on Cloud exadata infrastructure resource. Applies to Exadata Cloud Service instances only.
+func (client DatabaseClient) ConfigureExascaleCloudExadataInfrastructure(ctx context.Context, request ConfigureExascaleCloudExadataInfrastructureRequest) (response ConfigureExascaleCloudExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.configureExascaleCloudExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureExascaleCloudExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureExascaleCloudExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureExascaleCloudExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureExascaleCloudExadataInfrastructureResponse")
+	}
+	return
+}
+
+// configureExascaleCloudExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) configureExascaleCloudExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/cloudExadataInfrastructures/{cloudExadataInfrastructureId}/actions/configureExascale", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureExascaleCloudExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/ConfigureExascaleCloudExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "ConfigureExascaleCloudExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConfigureExascaleExadataInfrastructure Configures Exascale on Exadata infrastructure resource. Applies to Exadata Cloud@Customer instances only.
+func (client DatabaseClient) ConfigureExascaleExadataInfrastructure(ctx context.Context, request ConfigureExascaleExadataInfrastructureRequest) (response ConfigureExascaleExadataInfrastructureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.configureExascaleExadataInfrastructure, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConfigureExascaleExadataInfrastructureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConfigureExascaleExadataInfrastructureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConfigureExascaleExadataInfrastructureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureExascaleExadataInfrastructureResponse")
+	}
+	return
+}
+
+// configureExascaleExadataInfrastructure implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) configureExascaleExadataInfrastructure(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadataInfrastructures/{exadataInfrastructureId}/actions/configureExascale", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConfigureExascaleExadataInfrastructureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadataInfrastructure/ConfigureExascaleExadataInfrastructure"
+		err = common.PostProcessServiceError(err, "Database", "ConfigureExascaleExadataInfrastructure", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ConfigureSaasAdminUser This operation updates SaaS administrative user configuration of the Autonomous Database.
 func (client DatabaseClient) ConfigureSaasAdminUser(ctx context.Context, request ConfigureSaasAdminUserRequest) (response ConfigureSaasAdminUserResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -15612,6 +15728,59 @@ func (client DatabaseClient) listDbSystemUpgradeHistoryEntries(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemUpgradeHistoryEntry/ListDbSystemUpgradeHistoryEntries"
 		err = common.PostProcessServiceError(err, "Database", "ListDbSystemUpgradeHistoryEntries", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDbSystemUpgrades Lists the applicable upgrade components for a DB systems.
+func (client DatabaseClient) ListDbSystemUpgrades(ctx context.Context, request ListDbSystemUpgradesRequest) (response ListDbSystemUpgradesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDbSystemUpgrades, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDbSystemUpgradesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDbSystemUpgradesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDbSystemUpgradesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDbSystemUpgradesResponse")
+	}
+	return
+}
+
+// listDbSystemUpgrades implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listDbSystemUpgrades(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dbSystems/{dbSystemId}/dbSystemUpgrades", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDbSystemUpgradesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DbSystemUpgradeSummary/ListDbSystemUpgrades"
+		err = common.PostProcessServiceError(err, "Database", "ListDbSystemUpgrades", apiReferenceLink)
 		return response, err
 	}
 

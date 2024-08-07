@@ -73,6 +73,7 @@ const (
 	SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricNetwork        SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum = "NETWORK"
 	SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuUtilization SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum = "GPU_UTILIZATION"
 	SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuMemoryUsage SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum = "GPU_MEMORY_USAGE"
+	SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricIo             SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum = "IO"
 )
 
 var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum = map[string]SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum{
@@ -83,6 +84,7 @@ var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMe
 	"NETWORK":          SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricNetwork,
 	"GPU_UTILIZATION":  SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuUtilization,
 	"GPU_MEMORY_USAGE": SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuMemoryUsage,
+	"IO":               SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricIo,
 }
 
 var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum{
@@ -93,6 +95,7 @@ var mappingSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMe
 	"network":          SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricNetwork,
 	"gpu_utilization":  SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuUtilization,
 	"gpu_memory_usage": SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricGpuMemoryUsage,
+	"io":               SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricIo,
 }
 
 // GetSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetricEnum
@@ -114,6 +117,7 @@ func GetSummarizeHostInsightResourceUsageTrendAggregationCollectionResourceMetri
 		"NETWORK",
 		"GPU_UTILIZATION",
 		"GPU_MEMORY_USAGE",
+		"IO",
 	}
 }
 

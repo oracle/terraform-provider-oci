@@ -21,7 +21,7 @@ type CustomEndpointDetails struct {
 	// A custom hostname to be used for the integration instance URL, in FQDN format.
 	Hostname *string `mandatory:"true" json:"hostname"`
 
-	// Indicates if custom endpoing is managed by oracle or customer.
+	// Indicates if custom endpoint is managed by oracle or customer.
 	ManagedType CustomEndpointDetailsManagedTypeEnum `mandatory:"false" json:"managedType,omitempty"`
 
 	// DNS Zone name

@@ -67,6 +67,10 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberNetworkLoadBalancer{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OBJECT_STORAGE_BUCKET":
+		mm := DrProtectionGroupMemberObjectStorageBucket{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILE_SYSTEM":
 		mm := DrProtectionGroupMemberFileSystem{}
 		err = json.Unmarshal(data, &mm)

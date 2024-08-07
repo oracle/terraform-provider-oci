@@ -17,10 +17,8 @@ type ToggleQuotaRulesRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" contributesTo:"path" name:"fileSystemId"`
 
-	// The flag is an identifier to tell whether the quota rules will be enforced.
-	// If `areQuotaRulesEnabled` is false, the quota enforcement will be disabled.
-	// If `areQuotaRulesEnabled` is true, the quota enforcement will be enabled.
-	AreQuotaRulesEnabled *bool `mandatory:"true" contributesTo:"query" name:"areQuotaRulesEnabled"`
+	// Details for toggling quota enforcement in the file system.
+	ToggleQuotaRulesDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the
@@ -107,9 +105,6 @@ type ToggleQuotaRulesResponse struct {
 	// you need to contact Oracle about a particular request,
 	// please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// Unique Oracle-assigned identifier for the asynchronous request. You can use this to query status of the asynchronous operation.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response ToggleQuotaRulesResponse) String() string {

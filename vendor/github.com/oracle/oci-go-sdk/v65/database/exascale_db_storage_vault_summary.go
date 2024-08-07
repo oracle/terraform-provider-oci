@@ -65,6 +65,9 @@ type ExascaleDbStorageVaultSummary struct {
 
 	// The number of Exadata VM clusters used the Exadata Database Storage Vault.
 	VmClusterCount *int `mandatory:"false" json:"vmClusterCount"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata infrastructure.
+	ExadataInfrastructureId *string `mandatory:"false" json:"exadataInfrastructureId"`
 }
 
 func (m ExascaleDbStorageVaultSummary) String() string {

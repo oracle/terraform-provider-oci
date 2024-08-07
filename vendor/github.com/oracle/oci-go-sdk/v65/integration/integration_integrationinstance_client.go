@@ -91,6 +91,65 @@ func (client *IntegrationInstanceClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
+// AddOracleManagedCustomEndpoint Enable Oracle Managed Custom Endpoint for given integration instance.
+// A default retry strategy applies to this operation AddOracleManagedCustomEndpoint()
+func (client IntegrationInstanceClient) AddOracleManagedCustomEndpoint(ctx context.Context, request AddOracleManagedCustomEndpointRequest) (response AddOracleManagedCustomEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addOracleManagedCustomEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddOracleManagedCustomEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddOracleManagedCustomEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddOracleManagedCustomEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddOracleManagedCustomEndpointResponse")
+	}
+	return
+}
+
+// addOracleManagedCustomEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) addOracleManagedCustomEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/addOracleManagedCustomEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddOracleManagedCustomEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/AddOracleManagedCustomEndpoint"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "AddOracleManagedCustomEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeIntegrationInstanceCompartment Change the compartment for an integration instance
 func (client IntegrationInstanceClient) ChangeIntegrationInstanceCompartment(ctx context.Context, request ChangeIntegrationInstanceCompartmentRequest) (response ChangeIntegrationInstanceCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -434,65 +493,6 @@ func (client IntegrationInstanceClient) disasterRecoveryFailover(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/DisasterRecoveryFailover"
 		err = common.PostProcessServiceError(err, "IntegrationInstance", "DisasterRecoveryFailover", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// EnableOracleManagedCustomEndpoint Enable Oracle Managed Custom Endpoing for given integration instance.
-// A default retry strategy applies to this operation EnableOracleManagedCustomEndpoint()
-func (client IntegrationInstanceClient) EnableOracleManagedCustomEndpoint(ctx context.Context, request EnableOracleManagedCustomEndpointRequest) (response EnableOracleManagedCustomEndpointResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.enableOracleManagedCustomEndpoint, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = EnableOracleManagedCustomEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = EnableOracleManagedCustomEndpointResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(EnableOracleManagedCustomEndpointResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into EnableOracleManagedCustomEndpointResponse")
-	}
-	return
-}
-
-// enableOracleManagedCustomEndpoint implements the OCIOperation interface (enables retrying operations)
-func (client IntegrationInstanceClient) enableOracleManagedCustomEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/enableOracleManagedCustomEndpoint", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response EnableOracleManagedCustomEndpointResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/EnableOracleManagedCustomEndpoint"
-		err = common.PostProcessServiceError(err, "IntegrationInstance", "EnableOracleManagedCustomEndpoint", apiReferenceLink)
 		return response, err
 	}
 

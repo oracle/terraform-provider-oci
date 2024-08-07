@@ -5821,8 +5821,8 @@ func (client FileStorageClient) targetFileSystemGet(ctx context.Context, request
 }
 
 // ToggleQuotaRules Enable or disable quota enforcement for the file system.
-// If `areQuotaRulesEnabled` = true, then the quota enforcement will be enabled.
-// If `areQuotaRulesEnabled` = false, then the quota enforcement will be disabled.
+// If `areQuotaRulesEnabled` = `true`, then the quota enforcement will be enabled.
+// If `areQuotaRulesEnabled` = `false`, then the quota enforcement will be disabled.
 func (client FileStorageClient) ToggleQuotaRules(ctx context.Context, request ToggleQuotaRulesRequest) (response ToggleQuotaRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

@@ -18,18 +18,21 @@ type ContainerHealthCheckTypeEnum string
 
 // Set of constants representing the allowable values for ContainerHealthCheckTypeEnum
 const (
-	ContainerHealthCheckTypeHttp ContainerHealthCheckTypeEnum = "HTTP"
-	ContainerHealthCheckTypeTcp  ContainerHealthCheckTypeEnum = "TCP"
+	ContainerHealthCheckTypeHttp    ContainerHealthCheckTypeEnum = "HTTP"
+	ContainerHealthCheckTypeTcp     ContainerHealthCheckTypeEnum = "TCP"
+	ContainerHealthCheckTypeCommand ContainerHealthCheckTypeEnum = "COMMAND"
 )
 
 var mappingContainerHealthCheckTypeEnum = map[string]ContainerHealthCheckTypeEnum{
-	"HTTP": ContainerHealthCheckTypeHttp,
-	"TCP":  ContainerHealthCheckTypeTcp,
+	"HTTP":    ContainerHealthCheckTypeHttp,
+	"TCP":     ContainerHealthCheckTypeTcp,
+	"COMMAND": ContainerHealthCheckTypeCommand,
 }
 
 var mappingContainerHealthCheckTypeEnumLowerCase = map[string]ContainerHealthCheckTypeEnum{
-	"http": ContainerHealthCheckTypeHttp,
-	"tcp":  ContainerHealthCheckTypeTcp,
+	"http":    ContainerHealthCheckTypeHttp,
+	"tcp":     ContainerHealthCheckTypeTcp,
+	"command": ContainerHealthCheckTypeCommand,
 }
 
 // GetContainerHealthCheckTypeEnumValues Enumerates the set of values for ContainerHealthCheckTypeEnum
@@ -46,6 +49,7 @@ func GetContainerHealthCheckTypeEnumStringValues() []string {
 	return []string{
 		"HTTP",
 		"TCP",
+		"COMMAND",
 	}
 }
 

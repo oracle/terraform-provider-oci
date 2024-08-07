@@ -231,6 +231,7 @@ const (
 	SummarizeSqlStatisticsDatabaseTypeComanagedExaccPdb    SummarizeSqlStatisticsDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	SummarizeSqlStatisticsDatabaseTypeComanagedExaccNoncdb SummarizeSqlStatisticsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeSqlStatisticsDatabaseTypeMdsMysql             SummarizeSqlStatisticsDatabaseTypeEnum = "MDS-MYSQL"
+	SummarizeSqlStatisticsDatabaseTypeExternalMysql        SummarizeSqlStatisticsDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingSummarizeSqlStatisticsDatabaseTypeEnum = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
@@ -253,6 +254,7 @@ var mappingSummarizeSqlStatisticsDatabaseTypeEnum = map[string]SummarizeSqlStati
 	"COMANAGED-EXACC-PDB":    SummarizeSqlStatisticsDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": SummarizeSqlStatisticsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeSqlStatisticsDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         SummarizeSqlStatisticsDatabaseTypeExternalMysql,
 }
 
 var mappingSummarizeSqlStatisticsDatabaseTypeEnumLowerCase = map[string]SummarizeSqlStatisticsDatabaseTypeEnum{
@@ -275,6 +277,7 @@ var mappingSummarizeSqlStatisticsDatabaseTypeEnumLowerCase = map[string]Summariz
 	"comanaged-exacc-pdb":    SummarizeSqlStatisticsDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": SummarizeSqlStatisticsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeSqlStatisticsDatabaseTypeMdsMysql,
+	"external-mysql":         SummarizeSqlStatisticsDatabaseTypeExternalMysql,
 }
 
 // GetSummarizeSqlStatisticsDatabaseTypeEnumValues Enumerates the set of values for SummarizeSqlStatisticsDatabaseTypeEnum
@@ -308,6 +311,7 @@ func GetSummarizeSqlStatisticsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

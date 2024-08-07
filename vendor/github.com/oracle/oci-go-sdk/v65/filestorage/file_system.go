@@ -111,7 +111,10 @@ type FileSystem struct {
 	// controls the frequency of snapshot creation and retention period of the taken snapshots.
 	FilesystemSnapshotPolicyId *string `mandatory:"false" json:"filesystemSnapshotPolicyId"`
 
-	// Specifies the state of enforcement of quota rules on the file system.
+	// Specifies the enforcement of quota rules on the file system.
+	AreQuotaRulesEnabled *bool `mandatory:"false" json:"areQuotaRulesEnabled"`
+
+	// Displays the state of enforcement of quota rules on the file system.
 	QuotaEnforcementState FileSystemQuotaEnforcementStateEnum `mandatory:"false" json:"quotaEnforcementState,omitempty"`
 }
 

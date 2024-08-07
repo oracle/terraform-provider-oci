@@ -31,6 +31,7 @@ const (
 	DrProtectionGroupMemberTypeLoadBalancer                DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
 	DrProtectionGroupMemberTypeNetworkLoadBalancer         DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
 	DrProtectionGroupMemberTypeFileSystem                  DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
+	DrProtectionGroupMemberTypeObjectStorageBucket         DrProtectionGroupMemberTypeEnum = "OBJECT_STORAGE_BUCKET"
 )
 
 var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberTypeEnum{
@@ -44,6 +45,7 @@ var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberT
 	"LOAD_BALANCER":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"NETWORK_LOAD_BALANCER":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"FILE_SYSTEM":                   DrProtectionGroupMemberTypeFileSystem,
+	"OBJECT_STORAGE_BUCKET":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
 var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGroupMemberTypeEnum{
@@ -57,6 +59,7 @@ var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGro
 	"load_balancer":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"network_load_balancer":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"file_system":                   DrProtectionGroupMemberTypeFileSystem,
+	"object_storage_bucket":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
 // GetDrProtectionGroupMemberTypeEnumValues Enumerates the set of values for DrProtectionGroupMemberTypeEnum
@@ -81,6 +84,7 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"LOAD_BALANCER",
 		"NETWORK_LOAD_BALANCER",
 		"FILE_SYSTEM",
+		"OBJECT_STORAGE_BUCKET",
 	}
 }
 

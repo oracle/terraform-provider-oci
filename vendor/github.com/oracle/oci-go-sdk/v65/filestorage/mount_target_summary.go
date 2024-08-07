@@ -73,15 +73,15 @@ type MountTargetSummary struct {
 	//   Example: `2016-08-25T21:10:29.600Z`
 	TimeBillingCycleEnd *common.SDKTime `mandatory:"false" json:"timeBillingCycleEnd"`
 
-	// Current throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and
-	// corresponding throughput is listed at MountTargetPerformanceOverview (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#Overview__performance)
+	// Current billed throughput for mount target in Gbps. This corresponds to shape of mount target.
+	// Available shapes and corresponding throughput are listed at Mount Target Performance (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
 	ObservedThroughput *int64 `mandatory:"false" json:"observedThroughput"`
 
 	// - New throughput for mount target at the end of billing cycle in Gbps.
 	RequestedThroughput *int64 `mandatory:"false" json:"requestedThroughput"`
 
 	// - Reserved capacity (GB) associated with this mount target. Reserved capacity depends on observedThroughput value
-	// of mount target. Value is listed at MountTargetPerformanceOverview (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#Overview__performance)
+	// of mount target. Value is listed at Mount Target Performance (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
 	ReservedStorageCapacity *int64 `mandatory:"false" json:"reservedStorageCapacity"`
 
 	// Immediately available IOPS performance for the associated mount target. Three values are accepted: 50000,

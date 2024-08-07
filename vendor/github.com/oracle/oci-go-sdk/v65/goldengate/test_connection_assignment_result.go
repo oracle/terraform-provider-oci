@@ -16,12 +16,16 @@ import (
 )
 
 // TestConnectionAssignmentResult The result of the connectivity test performed between the GoldenGate deployment and the associated database / service.
+// The 'error' property is deprecated and will not contain values in the future. So, the error(s) will be returned in just the 'errors' property.
 type TestConnectionAssignmentResult struct {
 
 	// Type of the result (i.e. Success, Failure or Timeout).
 	ResultType TestConnectionAssignmentResultResultTypeEnum `mandatory:"true" json:"resultType"`
 
 	Error *TestConnectionAssignmentError `mandatory:"false" json:"error"`
+
+	// List of test connection assignment error objects.
+	Errors []TestConnectionAssignmentError `mandatory:"false" json:"errors"`
 }
 
 func (m TestConnectionAssignmentResult) String() string {

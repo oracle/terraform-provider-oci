@@ -27,6 +27,15 @@ type InfraStripeValidationFailurePolicy struct {
 	// List of scopes.
 	Scopes []string `mandatory:"true" json:"scopes"`
 
+	// The path to be used as fallback after OAuth2.
+	FallbackRedirectPath *string `mandatory:"false" json:"fallbackRedirectPath"`
+
+	// The path to be used as logout.
+	LogoutPath *string `mandatory:"false" json:"logoutPath"`
+
+	// The duration for which token should be cached before it is fetched again.
+	MaxCacheDurationInHours *int `mandatory:"false" json:"maxCacheDurationInHours"`
+
 	// Response Type.
 	ResponseType InfraStripeValidationFailurePolicyResponseTypeEnum `mandatory:"true" json:"responseType"`
 }
@@ -67,10 +76,13 @@ func (m InfraStripeValidationFailurePolicy) MarshalJSON() (buff []byte, e error)
 // UnmarshalJSON unmarshals from json
 func (m *InfraStripeValidationFailurePolicy) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ClientDetails    clientappdetails                                   `json:"clientDetails"`
-		SourceUriDetails sourceuridetails                                   `json:"sourceUriDetails"`
-		Scopes           []string                                           `json:"scopes"`
-		ResponseType     InfraStripeValidationFailurePolicyResponseTypeEnum `json:"responseType"`
+		FallbackRedirectPath    *string                                            `json:"fallbackRedirectPath"`
+		LogoutPath              *string                                            `json:"logoutPath"`
+		MaxCacheDurationInHours *int                                               `json:"maxCacheDurationInHours"`
+		ClientDetails           clientappdetails                                   `json:"clientDetails"`
+		SourceUriDetails        sourceuridetails                                   `json:"sourceUriDetails"`
+		Scopes                  []string                                           `json:"scopes"`
+		ResponseType            InfraStripeValidationFailurePolicyResponseTypeEnum `json:"responseType"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -78,6 +90,12 @@ func (m *InfraStripeValidationFailurePolicy) UnmarshalJSON(data []byte) (e error
 		return
 	}
 	var nn interface{}
+	m.FallbackRedirectPath = model.FallbackRedirectPath
+
+	m.LogoutPath = model.LogoutPath
+
+	m.MaxCacheDurationInHours = model.MaxCacheDurationInHours
+
 	nn, e = model.ClientDetails.UnmarshalPolymorphicJSON(model.ClientDetails.JsonData)
 	if e != nil {
 		return

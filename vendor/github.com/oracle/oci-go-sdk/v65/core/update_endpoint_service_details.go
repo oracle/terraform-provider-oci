@@ -48,6 +48,9 @@ type UpdateEndpointServiceDetails struct {
 	// List of service IP addresses (in the service VCN) that handle requests to the endpoint service.
 	ServiceIps []EndpointServiceIpDetails `mandatory:"false" json:"serviceIps"`
 
+	// List of service IPv6 addresses (in the service VCN) that handle requests to the endpoint service.(Optional field)
+	ServiceIpv6s []EndpointServiceIpDetails `mandatory:"false" json:"serviceIpv6s"`
+
 	// The ports on the endpoint service IPs that are open for private endpoint traffic for this
 	// endpoint service. If you provide no ports, all open ports on the service IPs are accessible.
 	Ports []int `mandatory:"false" json:"ports"`

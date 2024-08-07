@@ -71,6 +71,7 @@ const (
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricNetwork        SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "NETWORK"
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_UTILIZATION"
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_MEMORY_USAGE"
+	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo             SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "IO"
 )
 
 var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = map[string]SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum{
@@ -81,6 +82,7 @@ var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetr
 	"NETWORK":          SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricNetwork,
 	"GPU_UTILIZATION":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization,
 	"GPU_MEMORY_USAGE": SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage,
+	"IO":               SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo,
 }
 
 var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum{
@@ -91,6 +93,7 @@ var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetr
 	"network":          SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricNetwork,
 	"gpu_utilization":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization,
 	"gpu_memory_usage": SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage,
+	"io":               SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo,
 }
 
 // GetSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum
@@ -112,6 +115,7 @@ func GetSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricE
 		"NETWORK",
 		"GPU_UTILIZATION",
 		"GPU_MEMORY_USAGE",
+		"IO",
 	}
 }
 

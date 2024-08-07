@@ -60,6 +60,7 @@ type ColumnFilterOperatorEnum string
 const (
 	ColumnFilterOperatorIn    ColumnFilterOperatorEnum = "IN"
 	ColumnFilterOperatorEq    ColumnFilterOperatorEnum = "EQ"
+	ColumnFilterOperatorEqCs  ColumnFilterOperatorEnum = "EQ_CS"
 	ColumnFilterOperatorGt    ColumnFilterOperatorEnum = "GT"
 	ColumnFilterOperatorGe    ColumnFilterOperatorEnum = "GE"
 	ColumnFilterOperatorLt    ColumnFilterOperatorEnum = "LT"
@@ -68,6 +69,7 @@ const (
 	ColumnFilterOperatorOr    ColumnFilterOperatorEnum = "OR"
 	ColumnFilterOperatorNe    ColumnFilterOperatorEnum = "NE"
 	ColumnFilterOperatorCo    ColumnFilterOperatorEnum = "CO"
+	ColumnFilterOperatorCoCs  ColumnFilterOperatorEnum = "CO_CS"
 	ColumnFilterOperatorNot   ColumnFilterOperatorEnum = "NOT"
 	ColumnFilterOperatorNotIn ColumnFilterOperatorEnum = "NOT_IN"
 )
@@ -75,6 +77,7 @@ const (
 var mappingColumnFilterOperatorEnum = map[string]ColumnFilterOperatorEnum{
 	"IN":     ColumnFilterOperatorIn,
 	"EQ":     ColumnFilterOperatorEq,
+	"EQ_CS":  ColumnFilterOperatorEqCs,
 	"GT":     ColumnFilterOperatorGt,
 	"GE":     ColumnFilterOperatorGe,
 	"LT":     ColumnFilterOperatorLt,
@@ -83,6 +86,7 @@ var mappingColumnFilterOperatorEnum = map[string]ColumnFilterOperatorEnum{
 	"OR":     ColumnFilterOperatorOr,
 	"NE":     ColumnFilterOperatorNe,
 	"CO":     ColumnFilterOperatorCo,
+	"CO_CS":  ColumnFilterOperatorCoCs,
 	"NOT":    ColumnFilterOperatorNot,
 	"NOT_IN": ColumnFilterOperatorNotIn,
 }
@@ -90,6 +94,7 @@ var mappingColumnFilterOperatorEnum = map[string]ColumnFilterOperatorEnum{
 var mappingColumnFilterOperatorEnumLowerCase = map[string]ColumnFilterOperatorEnum{
 	"in":     ColumnFilterOperatorIn,
 	"eq":     ColumnFilterOperatorEq,
+	"eq_cs":  ColumnFilterOperatorEqCs,
 	"gt":     ColumnFilterOperatorGt,
 	"ge":     ColumnFilterOperatorGe,
 	"lt":     ColumnFilterOperatorLt,
@@ -98,6 +103,7 @@ var mappingColumnFilterOperatorEnumLowerCase = map[string]ColumnFilterOperatorEn
 	"or":     ColumnFilterOperatorOr,
 	"ne":     ColumnFilterOperatorNe,
 	"co":     ColumnFilterOperatorCo,
+	"co_cs":  ColumnFilterOperatorCoCs,
 	"not":    ColumnFilterOperatorNot,
 	"not_in": ColumnFilterOperatorNotIn,
 }
@@ -116,6 +122,7 @@ func GetColumnFilterOperatorEnumStringValues() []string {
 	return []string{
 		"IN",
 		"EQ",
+		"EQ_CS",
 		"GT",
 		"GE",
 		"LT",
@@ -124,6 +131,7 @@ func GetColumnFilterOperatorEnumStringValues() []string {
 		"OR",
 		"NE",
 		"CO",
+		"CO_CS",
 		"NOT",
 		"NOT_IN",
 	}

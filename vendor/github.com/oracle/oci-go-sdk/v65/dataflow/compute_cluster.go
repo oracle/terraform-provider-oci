@@ -51,6 +51,9 @@ type ComputeCluster struct {
 	// The description of the Compute Cluster.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The username of the user who created the cluster.
+	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
 	// Cluster node type encodes the node shape and associated resources.
 	NodeType *string `mandatory:"false" json:"nodeType"`
 

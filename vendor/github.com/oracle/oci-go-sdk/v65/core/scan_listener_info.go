@@ -31,6 +31,9 @@ type ScanListenerInfo struct {
 	// A SCAN listener's IP of the customer's Real Application Cluster (RAC).
 	ScanListenerIp *string `mandatory:"false" json:"scanListenerIp"`
 
+	// A SCAN listener's IPv6 of the customer's Real Application Cluster (RAC).
+	ScanListenerIpv6 *string `mandatory:"false" json:"scanListenerIpv6"`
+
 	// The port that customer's Real Application Cluster (RAC)'s SCAN listeners are listening on.
 	ScanListenerPort *int `mandatory:"false" json:"scanListenerPort"`
 }

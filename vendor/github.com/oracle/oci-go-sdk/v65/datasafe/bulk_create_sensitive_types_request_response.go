@@ -19,7 +19,7 @@ type BulkCreateSensitiveTypesRequest struct {
 	BulkCreateSensitiveTypesDetails io.ReadCloser `mandatory:"true" contributesTo:"body" encoding:"binary"`
 
 	// A header param to create bulk resources in the specified compartment OCID.
-	CompartmentId *string `mandatory:"true" contributesTo:"header" name:"compartment-id"`
+	OpcCompartmentId *string `mandatory:"true" contributesTo:"header" name:"opc-compartment-id"`
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

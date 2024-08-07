@@ -24,6 +24,9 @@ type UpdateDeploymentDetails struct {
 	// The Oracle license model that applies to a Deployment.
 	LicenseModel LicenseModelEnum `mandatory:"false" json:"licenseModel,omitempty"`
 
+	// Specifies whether the deployment is used in a production or development/testing environment.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
+
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -80,6 +83,9 @@ func (m UpdateDeploymentDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetLicenseModelEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

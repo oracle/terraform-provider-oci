@@ -36,6 +36,9 @@ type ComputeClusterSummary struct {
 	// The description of the Compute Cluster.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The username of the user who created the cluster.
+	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
 	// The time the Compute Cluster was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
