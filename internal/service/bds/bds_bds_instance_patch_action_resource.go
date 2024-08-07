@@ -11,6 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -46,6 +47,54 @@ func BdsBdsInstancePatchActionResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 				ForceNew: true,
+			},
+
+			// Optional
+			"patching_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"patching_config_strategy": {
+							Type:             schema.TypeString,
+							Required:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"BATCHING_BASED",
+								"DOMAIN_BASED",
+								"DOWNTIME_BASED",
+							}, true),
+						},
+
+						// Optional
+						"batch_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"wait_time_between_batch_in_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"wait_time_between_domain_in_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 		},
 	}
@@ -88,6 +137,17 @@ func (s *BdsBdsInstancePatchActionResourceCrud) Create() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if patchingConfig, ok := s.D.GetOkExists("patching_config"); ok {
+		if tmpList := patchingConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "patching_config", 0)
+			tmp, err := s.mapToOdhPatchingConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PatchingConfig = tmp
+		}
 	}
 
 	if version, ok := s.D.GetOkExists("version"); ok {
@@ -224,3 +284,70 @@ func getErrorFromBdsBdsInstancePatchActionWorkRequest(client *oci_bds.BdsClient,
 func (s *BdsBdsInstancePatchActionResourceCrud) SetData() error {
 	return nil
 }
+
+func (s *BdsBdsInstancePatchActionResourceCrud) mapToOdhPatchingConfig(fieldKeyFormat string) (oci_bds.OdhPatchingConfig, error) {
+	var baseObject oci_bds.OdhPatchingConfig
+	//discriminator
+	patchingConfigStrategyRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "patching_config_strategy"))
+	var patchingConfigStrategy string
+	if ok {
+		patchingConfigStrategy = patchingConfigStrategyRaw.(string)
+	} else {
+		patchingConfigStrategy = "" // default value
+	}
+	switch strings.ToLower(patchingConfigStrategy) {
+	case strings.ToLower("BATCHING_BASED"):
+		details := oci_bds.BatchingBasedOdhPatchingConfig{}
+		if batchSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "batch_size")); ok {
+			tmp := batchSize.(int)
+			details.BatchSize = &tmp
+		}
+		if waitTimeBetweenBatchInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wait_time_between_batch_in_seconds")); ok {
+			tmp := waitTimeBetweenBatchInSeconds.(int)
+			details.WaitTimeBetweenBatchInSeconds = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DOMAIN_BASED"):
+		details := oci_bds.DomainBasedOdhPatchingConfig{}
+		if waitTimeBetweenDomainInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wait_time_between_domain_in_seconds")); ok {
+			tmp := waitTimeBetweenDomainInSeconds.(int)
+			details.WaitTimeBetweenDomainInSeconds = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("DOWNTIME_BASED"):
+		details := oci_bds.DowntimeBasedOdhPatchingConfig{}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown patching_config_strategy '%v' was specified", patchingConfigStrategy)
+	}
+	return baseObject, nil
+}
+
+/*func OdhPatchingConfigToMap(obj *oci_bds.OdhPatchingConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_bds.BatchingBasedOdhPatchingConfig:
+		result["patching_config_strategy"] = "BATCHING_BASED"
+
+		if v.BatchSize != nil {
+			result["batch_size"] = int(*v.BatchSize)
+		}
+
+		if v.WaitTimeBetweenBatchInSeconds != nil {
+			result["wait_time_between_batch_in_seconds"] = int(*v.WaitTimeBetweenBatchInSeconds)
+		}
+	case oci_bds.DomainBasedOdhPatchingConfig:
+		result["patching_config_strategy"] = "DOMAIN_BASED"
+
+		if v.WaitTimeBetweenDomainInSeconds != nil {
+			result["wait_time_between_domain_in_seconds"] = int(*v.WaitTimeBetweenDomainInSeconds)
+		}
+	case oci_bds.DowntimeBasedOdhPatchingConfig:
+		result["patching_config_strategy"] = "DOWNTIME_BASED"
+	default:
+		log.Printf("[WARN] Received 'patching_config_strategy' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}*/

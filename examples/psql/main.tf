@@ -73,6 +73,33 @@ resource "oci_psql_db_system" "test_db_system" {
   system_type = "OCI_OPTIMIZED_STORAGE"
 }
 
+resource "oci_psql_db_system" "test_flexdb_system" {
+  #Required
+  db_version          = "14"
+  display_name = "tf-flex-test-dbSystem"
+  network_details {
+    subnet_id = oci_core_subnet.test_subnet.id
+  }
+  shape = "PostgreSQL.VM.Standard.E4.Flex"
+  storage_details {
+    is_regionally_durable = true
+    system_type = "OCI_OPTIMIZED_STORAGE"
+  }
+  credentials {
+    username = "adminUser"
+    password_details {
+      password_type = "PLAIN_TEXT"
+      password = "BEstrO0ng_#11"
+    }
+  }
+  compartment_id      = var.compartment_ocid
+  instance_count = "1"
+  instance_ocpu_count = "2"
+  instance_memory_size_in_gbs = "10"
+  system_type = "OCI_OPTIMIZED_STORAGE"
+  config_id = oci_psql_configuration.test_flexible_configuration.id
+}
+
 # Creating a dbSystem configuration
 resource "oci_psql_configuration" "test_configuration" {
 	#Required
@@ -86,11 +113,31 @@ resource "oci_psql_configuration" "test_configuration" {
   }
   db_version = "14"
 	display_name = "terraform test configuration"
-  instance_memory_size_in_gbs = "64"
-  instance_ocpu_count = "4"
 
 	#Optional
+  instance_memory_size_in_gbs = "64"
+  instance_ocpu_count = "4"
 	description = "test configuration created by terraform"
+}
+
+# Creating a dbSystem configuration
+resource "oci_psql_configuration" "test_flexible_configuration" {
+        #Required
+        compartment_id = var.compartment_ocid
+        shape = "VM.Standard.E4.Flex"
+  db_configuration_overrides {
+    items {
+      config_key = "effective_io_concurrency"
+      overriden_config_value = "1"
+    }
+  }
+  db_version = "14"
+        display_name = "terraform test flex configuration"
+        #Optional
+  instance_memory_size_in_gbs = "0"
+  instance_ocpu_count = "0"
+  is_flexible = true
+        description = "test configuration created by terraform"
 }
 
 data "oci_psql_configurations" "test_configurations" {

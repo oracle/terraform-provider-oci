@@ -106,6 +106,7 @@ The following attributes are exported:
 	* `items` - The IP address of the backend server. A server could be a compute instance or a load balancer.
 * `helm_command_artifact_ids` - List of Helm command artifact OCIDs.
 * `helm_chart_deploy_artifact_id` - Helm chart artifact OCID.
+* `helm_command_artifact_ids` - List of Helm command artifact OCIDs.
 * `id` - Unique identifier that is immutable on creation.
 * `is_async` - A boolean flag specifies whether this stage executes asynchronously.
 * `is_debug_enabled` - Enables helm --debug option to stream output to tf stdout. Set to false by default.

@@ -20,13 +20,13 @@ data "oci_jms_fleet_installation_sites" "test_fleet_installation_sites" {
 	fleet_id = oci_jms_fleet.test_fleet.id
 
 	#Optional
-	application_id = oci_dataflow_application.test_application.id
+	application_id = var.fleet_installation_site_application_id
 	installation_path = var.fleet_installation_site_installation_path
 	jre_distribution = var.fleet_installation_site_jre_distribution
 	jre_security_status = var.fleet_installation_site_jre_security_status
 	jre_vendor = var.fleet_installation_site_jre_vendor
 	jre_version = var.fleet_installation_site_jre_version
-	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
+	managed_instance_id = var.fleet_installation_site_managed_instance_id
 	os_family = var.fleet_installation_site_os_family
 	path_contains = var.fleet_installation_site_path_contains
 	time_end = var.fleet_installation_site_time_end
@@ -76,7 +76,7 @@ The following attributes are exported:
 	* `managed_instance_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related managed instance. 
 	* `operating_system` - Operating System of the platform on which the Java Runtime was reported. 
 		* `architecture` - The architecture of the operating system as provided by the Java system property os.arch.
-		* `family` - The operating system type, such as Windows or Linux
+		* `family` - The operating system type, such as Windows, Linux or macOS
 		* `managed_instance_count` - Number of instances running the operating system.
 		* `name` - The name of the operating system as provided by the Java system property os.name.
 		* `version` - The version of the operating system as provided by the Java system property os.version.

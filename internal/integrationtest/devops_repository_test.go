@@ -42,13 +42,13 @@ var (
 	}
 
 	DevopsRepositoryRepresentation = map[string]interface{}{
-		"name":       acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"project_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
-		//"default_branch":  acctest.Representation{RepType: acctest.Optional, Create: `defaultBranch`},
+		"name":            acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"project_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_devops_project.test_project.id}`},
+		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `HOSTED`},
+		"default_branch":  acctest.Representation{RepType: acctest.Optional, Create: `refs/heads/defaultBranch`},
 		"defined_tags":    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":     acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		"repository_type": acctest.Representation{RepType: acctest.Required, Create: `HOSTED`},
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesRepositoryRepresentation},
 	}
 
@@ -107,7 +107,6 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Create, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				//resource.TestCheckResourceAttr(resourceName, "default_branch", "defaultBranch"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -133,7 +132,6 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_devops_repository", "test_repository", acctest.Optional, acctest.Update, DevopsRepositoryRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "compartment_id"),
-				//resource.TestCheckResourceAttr(resourceName, "default_branch", "defaultBranch"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
@@ -171,7 +169,6 @@ func TestDevopsRepositoryResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "branch_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "commit_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
-				//resource.TestCheckResourceAttr(singularDatasourceName, "default_branch", "defaultBranch"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "http_url"),

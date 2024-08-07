@@ -30,6 +30,7 @@ type UpdateRepositoryDetails struct {
 	// Type of repository. Allowed values:
 	// `MIRRORED`
 	// `HOSTED`
+	// `FORKED`
 	RepositoryType RepositoryRepositoryTypeEnum `mandatory:"false" json:"repositoryType,omitempty"`
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`

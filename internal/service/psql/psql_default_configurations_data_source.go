@@ -131,6 +131,10 @@ func PsqlDefaultConfigurationsDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"is_flexible": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -320,6 +324,10 @@ func DefaultConfigurationSummaryToMap(obj oci_psql.DefaultConfigurationSummary) 
 
 	if obj.InstanceOcpuCount != nil {
 		result["instance_ocpu_count"] = int(*obj.InstanceOcpuCount)
+	}
+
+	if obj.IsFlexible != nil {
+		result["is_flexible"] = bool(*obj.IsFlexible)
 	}
 
 	if obj.LifecycleDetails != nil {

@@ -96,6 +96,10 @@ func PsqlDefaultConfigurationDataSource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"is_flexible": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -184,6 +188,10 @@ func (s *PsqlDefaultConfigurationDataSourceCrud) SetData() error {
 
 	if s.Res.InstanceOcpuCount != nil {
 		s.D.Set("instance_ocpu_count", *s.Res.InstanceOcpuCount)
+	}
+
+	if s.Res.IsFlexible != nil {
+		s.D.Set("is_flexible", *s.Res.IsFlexible)
 	}
 
 	if s.Res.LifecycleDetails != nil {

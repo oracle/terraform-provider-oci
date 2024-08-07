@@ -20,13 +20,13 @@ data "oci_jms_fleet_installation_site" "test_fleet_installation_site" {
 	fleet_id = oci_jms_fleet.test_fleet.id
 
 	#Optional
-	application_id = oci_dataflow_application.test_application.id
+	application_id = var.fleet_installation_site_application_id
 	installation_path = var.fleet_installation_site_installation_path
 	jre_distribution = var.fleet_installation_site_jre_distribution
 	jre_security_status = var.fleet_installation_site_jre_security_status
 	jre_vendor = var.fleet_installation_site_jre_vendor
 	jre_version = var.fleet_installation_site_jre_version
-	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
+	managed_instance_id = var.fleet_installation_site_managed_instance_id
 	os_family = var.fleet_installation_site_os_family
 	path_contains = var.fleet_installation_site_path_contains
 	time_end = var.fleet_installation_site_time_end

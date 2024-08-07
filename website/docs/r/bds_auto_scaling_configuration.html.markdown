@@ -88,7 +88,7 @@ The following arguments are supported:
 	* `rules` - (Required) (Updatable) The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
 		* `action` - (Required) (Updatable) The valid value are CHANGE_SHAPE_SCALE_UP or CHANGE_SHAPE_SCALE_DOWN.
 		* `metric` - (Required) (Updatable) Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - (Required) (Updatable) Allowed value is CPU_UTILIZATION.
+			* `metric_type` - (Required) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - (Required) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - (Required) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - (Required) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -108,7 +108,7 @@ The following arguments are supported:
 	* `scale_down_config` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Configration for a metric based vertical scale-down policy.
 		* `memory_step_size` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
 		* `metric` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed value is CPU_UTILIZATION.
+			* `metric_type` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -118,7 +118,7 @@ The following arguments are supported:
 		* `ocpu_step_size` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
 	* `scale_in_config` - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Configration for a metric based horizontal scale-in policy.
 		* `metric` - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed value is CPU_UTILIZATION.
+			* `metric_type` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -128,7 +128,7 @@ The following arguments are supported:
 	* `scale_out_config` - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Configration for a metric based horizontal scale-out policy.
 		* `max_node_count` - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the maximum number of nodes the cluster can be scaled-out to.
 		* `metric` - (Applicable when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed value is CPU_UTILIZATION.
+			* `metric_type` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - (Required when policy_type=METRIC_BASED_HORIZONTAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -139,7 +139,7 @@ The following arguments are supported:
 		* `max_ocpus_per_node` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes. 
 		* `memory_step_size` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
 		* `metric` - (Applicable when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed value is CPU_UTILIZATION.
+			* `metric_type` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - (Required when policy_type=METRIC_BASED_VERTICAL_SCALING_POLICY) (Updatable) The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -173,7 +173,7 @@ The following attributes are exported:
 	* `rules` - The list of rules for autoscaling. If an action has multiple rules, the last rule in the array will be applied.
 		* `action` - The valid value are CHANGE_SHAPE_SCALE_UP or CHANGE_SHAPE_SCALE_DOWN.
 		* `metric` - Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - Allowed value is CPU_UTILIZATION.
+			* `metric_type` - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -190,7 +190,7 @@ The following attributes are exported:
 	* `scale_down_config` - Configration for a metric based vertical scale-down policy.
 		* `memory_step_size` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
 		* `metric` - Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - Allowed value is CPU_UTILIZATION.
+			* `metric_type` - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -200,7 +200,7 @@ The following attributes are exported:
 		* `ocpu_step_size` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the number of OCPUs to remove from each node during a scale-down event. This value is not used for nodes with fixed compute shapes.
 	* `scale_in_config` - Configration for a metric based horizontal scale-in policy.
 		* `metric` - Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - Allowed value is CPU_UTILIZATION.
+			* `metric_type` - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -210,7 +210,7 @@ The following attributes are exported:
 	* `scale_out_config` - Configration for a metric based horizontal scale-out policy.
 		* `max_node_count` - This value is the maximum number of nodes the cluster can be scaled-out to.
 		* `metric` - Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - Allowed value is CPU_UTILIZATION.
+			* `metric_type` - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).
@@ -221,7 +221,7 @@ The following attributes are exported:
 		* `max_ocpus_per_node` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the maximum number of OCPUs each node can be scaled-up to. This value is not used for nodes with fixed compute shapes. 
 		* `memory_step_size` - For nodes with [flexible compute shapes](https://docs.cloud.oracle.com/iaas/Content/bigdata/create-cluster.htm#cluster-plan-shape), this value is the size of memory in GBs to add to each node during a scale-up event. This value is not used for nodes with fixed compute shapes.
 		* `metric` - Metric and threshold details for triggering an autoscale action.
-			* `metric_type` - Allowed value is CPU_UTILIZATION.
+			* `metric_type` - Allowed values are CPU_UTILIZATION and MEMORY_UTILIZATION.
 			* `threshold` - An autoscale action is triggered when a performance metric exceeds a threshold.
 				* `duration_in_minutes` - This value is the minimum period of time the metric value exceeds the threshold value before the action is triggered. The value is in minutes.
 				* `operator` - The comparison operator to use. Options are greater than (GT) or less than (LT).

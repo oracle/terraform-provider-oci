@@ -89,6 +89,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
 		}
 
+		if v.IsLatestContentOnly != nil {
+			s.D.Set("is_latest_content_only", *v.IsLatestContentOnly)
+		}
+
 		s.D.Set("packages", v.Packages)
 
 		vendorSoftwareSources := []interface{}{}
@@ -261,6 +265,10 @@ func (s *OsManagementHubSoftwareSourceDataSourceCrud) SetData() error {
 
 		if v.IsCreatedFromPackageList != nil {
 			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		if v.IsLatestContentOnly != nil {
+			s.D.Set("is_latest_content_only", *v.IsLatestContentOnly)
 		}
 
 		s.D.Set("packages", v.Packages)

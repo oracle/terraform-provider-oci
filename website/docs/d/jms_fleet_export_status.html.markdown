@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_jms_fleet_export_status
 This data source provides details about a specific Fleet Export Status resource in Oracle Cloud Infrastructure Jms service.
 
-Returns last export status for the specified Fleet.
+Returns last export status for the specified fleet.
 
 ## Example Usage
 

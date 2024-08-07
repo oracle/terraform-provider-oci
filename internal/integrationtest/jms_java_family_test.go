@@ -68,6 +68,7 @@ func TestJmsJavaFamilyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_supported_version"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "latest_release_artifacts.#"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "latest_release_version"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "release_date"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "support_type"),
 			),
 		},

@@ -31,6 +31,13 @@ type ShapeSummary struct {
 
 	// A unique identifier for the shape.
 	Id *string `mandatory:"false" json:"id"`
+
+	// Indicates if the shape is a flex shape.
+	IsFlexible *bool `mandatory:"false" json:"isFlexible"`
+
+	ShapeOcpuOptions *ShapeOcpuOptions `mandatory:"false" json:"shapeOcpuOptions"`
+
+	ShapeMemoryOptions *ShapeMemoryOptions `mandatory:"false" json:"shapeMemoryOptions"`
 }
 
 func (m ShapeSummary) String() string {

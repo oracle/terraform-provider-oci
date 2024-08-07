@@ -296,6 +296,19 @@ resource "oci_database_migration_migration" "test_oracle_rds_migration" {
       namespace = "namespace"
     }
   }
+  initial_load_settings {
+    job_mode = "SCHEMA"
+    export_directory_object {
+      name = "name"
+      path = "/test/test/test/dumpdir"
+
+    }
+    data_pump_parameters {
+      estimate = "BLOCKS"
+      is_cluster = "false"
+      table_exists_action = "TRUNCATE"
+    }
+  }
   type = "ONLINE"
   display_name = "displayName"
 }

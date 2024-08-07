@@ -57,7 +57,7 @@ The following attributes are exported:
 	* `artifact_description` - Description of the binary artifact. Typically includes the OS, architecture, and installer type.
 	* `artifact_file_name` - The file name of the artifact.
 	* `artifact_id` - Unique identifier for the artifact.
-	* `download_url` - The endpoint that returns a short-lived artifact download URL in the response payload. This download url can then be used for downloading the artifact. See this [API](https://docs.oracle.com/en-us/iaas/api/#/en/jms/20230601/JavaArtifact/GenerateArtifactDownloadUrl) for more details. 
+	* `download_url` - The endpoint that returns a short-lived artifact download URL in the response payload. This download url can then be used for downloading the artifact. See this [API](https://docs.oracle.com/en-us/iaas/api/#/en/jms-java-download/20230601/DownloadUrl/GenerateArtifactDownloadUrl) for more details. 
 	* `os_family` - The target Operating System family for the artifact.
 	* `package_type` - The package type(typically the file extension) of the artifact.
 	* `package_type_detail` - Additional information about the package type.
@@ -65,5 +65,6 @@ The following attributes are exported:
 	* `script_download_url` - The endpoint for downloading this artifact from command line, automatically in scripts and dockerfiles. Depending on the context, this can point to the archive or latest update release version artifact in the specified family. 
 	* `sha256` - SHA256 checksum of the artifact.
 * `latest_release_version` - Latest Java release version in the family.
+* `release_date` - The date on which the Java release family was first made available (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)). 
 * `support_type` - This indicates the support category for the Java release family.
 

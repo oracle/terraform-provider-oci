@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -25,6 +25,7 @@ const (
 	WorkItemStatusSucceeded      WorkItemStatusEnum = "SUCCEEDED"
 	WorkItemStatusNeedsAttention WorkItemStatusEnum = "NEEDS_ATTENTION"
 	WorkItemStatusRetrying       WorkItemStatusEnum = "RETRYING"
+	WorkItemStatusSkipped        WorkItemStatusEnum = "SKIPPED"
 )
 
 var mappingWorkItemStatusEnum = map[string]WorkItemStatusEnum{
@@ -35,6 +36,7 @@ var mappingWorkItemStatusEnum = map[string]WorkItemStatusEnum{
 	"SUCCEEDED":       WorkItemStatusSucceeded,
 	"NEEDS_ATTENTION": WorkItemStatusNeedsAttention,
 	"RETRYING":        WorkItemStatusRetrying,
+	"SKIPPED":         WorkItemStatusSkipped,
 }
 
 var mappingWorkItemStatusEnumLowerCase = map[string]WorkItemStatusEnum{
@@ -45,6 +47,7 @@ var mappingWorkItemStatusEnumLowerCase = map[string]WorkItemStatusEnum{
 	"succeeded":       WorkItemStatusSucceeded,
 	"needs_attention": WorkItemStatusNeedsAttention,
 	"retrying":        WorkItemStatusRetrying,
+	"skipped":         WorkItemStatusSkipped,
 }
 
 // GetWorkItemStatusEnumValues Enumerates the set of values for WorkItemStatusEnum
@@ -66,6 +69,7 @@ func GetWorkItemStatusEnumStringValues() []string {
 		"SUCCEEDED",
 		"NEEDS_ATTENTION",
 		"RETRYING",
+		"SKIPPED",
 	}
 }
 

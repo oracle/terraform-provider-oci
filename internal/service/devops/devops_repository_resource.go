@@ -121,6 +121,12 @@ func DevopsRepositoryResource() *schema.Resource {
 					},
 				},
 			},
+			"parent_repository_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"branch_count": {
@@ -292,6 +298,11 @@ func (s *DevopsRepositoryResourceCrud) Create() error {
 	if name, ok := s.D.GetOkExists("name"); ok {
 		tmp := name.(string)
 		request.Name = &tmp
+	}
+
+	if parentRepositoryId, ok := s.D.GetOkExists("parent_repository_id"); ok {
+		tmp := parentRepositoryId.(string)
+		request.ParentRepositoryId = &tmp
 	}
 
 	if projectId, ok := s.D.GetOkExists("project_id"); ok {
@@ -592,6 +603,10 @@ func (s *DevopsRepositoryResourceCrud) SetData() error {
 		s.D.Set("namespace", *s.Res.Namespace)
 	}
 
+	if s.Res.ParentRepositoryId != nil {
+		s.D.Set("parent_repository_id", *s.Res.ParentRepositoryId)
+	}
+
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
 	}
@@ -717,6 +732,10 @@ func DevopsRepositorySummaryToMap(obj oci_devops.RepositorySummary) map[string]i
 
 	if obj.Namespace != nil {
 		result["namespace"] = string(*obj.Namespace)
+	}
+
+	if obj.ParentRepositoryId != nil {
+		result["parent_repository_id"] = string(*obj.ParentRepositoryId)
 	}
 
 	if obj.ProjectId != nil {

@@ -56,6 +56,11 @@ func DevopsRepositoryAuthorsDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 								},
 							},
 						},

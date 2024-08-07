@@ -24,6 +24,18 @@ type ListJavaMigrationAnalysisResultsRequest struct {
 	// The Fleet-unique identifier of the related managed instance.
 	ManagedInstanceId *string `mandatory:"false" contributesTo:"query" name:"managedInstanceId"`
 
+	// The host OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the managed instance.
+	HostName *string `mandatory:"false" contributesTo:"query" name:"hostName"`
+
+	// The name of the application.
+	ApplicationName *string `mandatory:"false" contributesTo:"query" name:"applicationName"`
+
+	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
+
+	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
+	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
+
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -40,12 +52,6 @@ type ListJavaMigrationAnalysisResultsRequest struct {
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// The start of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
-	TimeStart *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeStart"`
-
-	// The end of the time period during which resources are searched (formatted according to RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339)).
-	TimeEnd *common.SDKTime `mandatory:"false" contributesTo:"query" name:"timeEnd"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
@@ -105,10 +111,10 @@ type ListJavaMigrationAnalysisResultsResponse struct {
 	JavaMigrationAnalysisResultCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`

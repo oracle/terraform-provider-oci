@@ -22,7 +22,7 @@ var (
 	PsqlDefaultConfigurationDataSourceRepresentation = map[string]interface{}{
 		//"configuration_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.default_config_id}`},
 		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `14`},
-		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_22`},
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_45`},
 		"shape":        acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex.2.32GB`},
 		"state":        acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 	}
@@ -61,13 +61,13 @@ func TestPsqlDefaultConfigurationResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 
 				resource.TestCheckResourceAttr(datasourceName, "db_version", "14"),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_22"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_45"),
 				resource.TestCheckResourceAttr(datasourceName, "shape", "VM.Standard.E4.Flex.2.32GB"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.id", defaultConfigId),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.db_version", "14"),
-				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_22"),
+				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_45"),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.shape", "VM.Standard.E4.Flex.2.32GB"),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.state", "ACTIVE"),
 
@@ -94,7 +94,7 @@ func TestPsqlDefaultConfigurationResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.id", defaultConfigId),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.db_version", "14"),
-				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_22"),
+				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.display_name", "PostgreSQL.VM.Standard.E4.Flex.2.32GB-14-0_45"),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.shape", "VM.Standard.E4.Flex.2.32GB"),
 				resource.TestCheckResourceAttr(datasourceName, "default_configuration_collection.0.items.0.state", "ACTIVE"),
 
@@ -125,6 +125,7 @@ func TestPsqlDefaultConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_memory_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_ocpu_count"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_flexible"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

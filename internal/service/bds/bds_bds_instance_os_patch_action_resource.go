@@ -54,6 +54,9 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						"patching_config_strategy": {
@@ -64,6 +67,7 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"DOWNTIME_BASED",
 								"BATCHING_BASED",
+								"DOMAIN_BASED",
 							}, true),
 						},
 
@@ -80,6 +84,18 @@ func BdsBdsInstanceOSPatchActionResource() *schema.Resource {
 						},
 
 						"tolerance_threshold_per_batch": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						"tolerance_threshold_per_domain": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						"wait_time_between_domain_in_seconds": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -288,6 +304,7 @@ func (s *BdsBdsInstanceOSPatchActionResourceCrud) mapToPatchingConfigs(fieldKeyF
 		patchingConfigStrategy = "" // default value
 	}
 	switch strings.ToLower(patchingConfigStrategy) {
+
 	case strings.ToLower("BATCHING_BASED"):
 		result := oci_bds.BatchingBasedPatchingConfigs{}
 
@@ -307,12 +324,26 @@ func (s *BdsBdsInstanceOSPatchActionResourceCrud) mapToPatchingConfigs(fieldKeyF
 		}
 
 		baseObject = result
+	case strings.ToLower("DOMAIN_BASED"):
+		result := oci_bds.DomainBasedPatchingConfigs{}
+
+		if waitTimeBetweenDomainInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "wait_time_between_domain_in_seconds")); ok {
+			tmp := waitTimeBetweenDomainInSeconds.(int)
+			result.WaitTimeBetweenDomainInSeconds = &tmp
+		}
+
+		if toleranceThresholdPerDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tolerance_threshold_per_domain")); ok {
+			tmp := toleranceThresholdPerDomain.(int)
+			result.ToleranceThresholdPerDomain = &tmp
+		}
+
+		baseObject = result
 	case strings.ToLower("DOWNTIME_BASED"):
 		result := oci_bds.DowntimeBasedPatchingConfigs{}
 		baseObject = result
 
 	default:
-		return baseObject, nil
+		return nil, fmt.Errorf("unknown patching_config_strategy '%v' was specified", patchingConfigStrategy)
 	}
 	return baseObject, nil
 }

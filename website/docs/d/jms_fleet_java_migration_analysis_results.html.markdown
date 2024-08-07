@@ -20,7 +20,9 @@ data "oci_jms_fleet_java_migration_analysis_results" "test_fleet_java_migration_
 	fleet_id = oci_jms_fleet.test_fleet.id
 
 	#Optional
-	managed_instance_id = oci_osmanagement_managed_instance.test_managed_instance.id
+	application_name = var.fleet_java_migration_analysis_result_application_name
+	host_name = var.fleet_java_migration_analysis_result_host_name
+	managed_instance_id = var.fleet_java_migration_analysis_result_managed_instance_id
 	time_end = var.fleet_java_migration_analysis_result_time_end
 	time_start = var.fleet_java_migration_analysis_result_time_start
 }
@@ -30,7 +32,9 @@ data "oci_jms_fleet_java_migration_analysis_results" "test_fleet_java_migration_
 
 The following arguments are supported:
 
+* `application_name` - (Optional) The name of the application.
 * `fleet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
+* `host_name` - (Optional) The host [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 * `managed_instance_id` - (Optional) The Fleet-unique identifier of the related managed instance.
 * `time_end` - (Optional) The end of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).
 * `time_start` - (Optional) The start of the time period during which resources are searched (formatted according to [RFC3339](https://datatracker.ietf.org/doc/html/rfc3339)).

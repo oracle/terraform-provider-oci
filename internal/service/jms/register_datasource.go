@@ -6,6 +6,7 @@ package jms
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_jms_agent_installers", JmsAgentInstallersDataSource())
 	tfresource.RegisterDatasource("oci_jms_announcements", JmsAnnouncementsDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet", JmsFleetDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_advanced_feature_configuration", JmsFleetAdvancedFeatureConfigurationDataSource())
@@ -28,6 +29,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_jms_java_family", JmsJavaFamilyDataSource())
 	tfresource.RegisterDatasource("oci_jms_java_release", JmsJavaReleaseDataSource())
 	tfresource.RegisterDatasource("oci_jms_java_releases", JmsJavaReleasesDataSource())
+	tfresource.RegisterDatasource("oci_jms_jms_plugin", JmsJmsPluginDataSource())
+	tfresource.RegisterDatasource("oci_jms_jms_plugins", JmsJmsPluginsDataSource())
 	tfresource.RegisterDatasource("oci_jms_list_jre_usage", JmsListJreUsageDataSource())
 	tfresource.RegisterDatasource("oci_jms_summarize_resource_inventory", JmsSummarizeResourceInventoryDataSource())
 }

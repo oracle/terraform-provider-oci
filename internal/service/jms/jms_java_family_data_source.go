@@ -107,6 +107,10 @@ func JmsJavaFamilyDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"release_date": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"support_type": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -183,6 +187,10 @@ func (s *JmsJavaFamilyDataSourceCrud) SetData() error {
 
 	if s.Res.LatestReleaseVersion != nil {
 		s.D.Set("latest_release_version", *s.Res.LatestReleaseVersion)
+	}
+
+	if s.Res.ReleaseDate != nil {
+		s.D.Set("release_date", s.Res.ReleaseDate.String())
 	}
 
 	s.D.Set("support_type", s.Res.SupportType)

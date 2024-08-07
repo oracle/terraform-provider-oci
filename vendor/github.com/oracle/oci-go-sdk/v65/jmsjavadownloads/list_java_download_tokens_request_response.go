@@ -38,7 +38,7 @@ type ListJavaDownloadTokensRequest struct {
 
 	// A filter to return only resources that match the user principal detail.
 	// The search string can be any of the property values from the Principal object.
-	// This object is used as response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource.
+	// This object is used as a response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource.
 	SearchByUser *string `mandatory:"false" contributesTo:"query" name:"searchByUser"`
 
 	// The maximum number of items to return.

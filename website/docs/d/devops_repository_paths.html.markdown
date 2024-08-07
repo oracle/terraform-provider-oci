@@ -57,5 +57,6 @@ The following attributes are exported:
 	* `sha` - SHA-1 checksum of blob or tree.
 	* `size_in_bytes` - Size of file or directory.
 	* `submodule_git_url` - The git URL of the submodule.
+	* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"orcl-cloud.free-tier-retained": "true"}`
 	* `type` - File or directory.
 
