@@ -378,6 +378,16 @@ var exportDataSafeTargetDatabasePeerTargetDatabaseHints = &tf_export.TerraformRe
 	},
 }
 
+var exportDataSafeCalculateAuditVolumeAvailableHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_calculate_audit_volume_available",
+	ResourceAbbreviation: "calculate_audit_volume_available",
+}
+
+var exportDataSafeCalculateAuditVolumeCollectedHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_calculate_audit_volume_collected",
+	ResourceAbbreviation: "calculate_audit_volume_collected",
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
