@@ -216,13 +216,13 @@ func DeploymentTypeSummaryToMap(obj oci_golden_gate.DeploymentTypeSummary) map[s
 		result["ogg_version"] = string(*obj.OggVersion)
 	}
 
-	result["source_technologies"] = obj.SourceTechnologies
+	//result["source_technologies"] = obj.SourceTechnologies
 
 	if obj.SupportedTechnologiesUrl != nil {
 		result["supported_technologies_url"] = string(*obj.SupportedTechnologiesUrl)
 	}
 
-	result["target_technologies"] = obj.TargetTechnologies
+	//result["target_technologies"] = obj.TargetTechnologies
 
 	return result
 }
