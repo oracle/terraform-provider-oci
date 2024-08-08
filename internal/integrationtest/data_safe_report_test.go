@@ -25,6 +25,7 @@ var (
 		"access_level":              acctest.Representation{RepType: acctest.Optional, Create: `RESTRICTED`},
 		"compartment_id_in_subtree": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"mime_type":                 acctest.Representation{RepType: acctest.Optional, Create: `PDF`},
 		"report_definition_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_data_safe_report_definition.test_report_definition.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"time_generated_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeGeneratedGreaterThanOrEqualTo`},
