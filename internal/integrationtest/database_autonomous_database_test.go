@@ -288,6 +288,21 @@ var (
 
 	autonomousDatabaseRepresentationForScheduledOperations = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{})
 
+	DatabaseAutonomousDatabaseRepresentationDeveloper = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `4`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"compute_model":           acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbName},
+		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_version":              acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":             acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+	}
+	autonomousDatabaseRepresentationForDevTier = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationDeveloper, map[string]interface{}{
+		"is_dev_tier": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
+	})
+
 	DatabaseAutonomousDatabaseResourceDependencies = DefinedTagsDependencies + KeyResourceDependencyConfigDbaas +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_db_versions", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDbVersionDataSourceRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_db_versions", "test_autonomous_dw_versions", acctest.Required, acctest.Create,
