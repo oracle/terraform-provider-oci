@@ -90,6 +90,18 @@ resource "oci_database_autonomous_database" "test_autonomous_database_ecpu" {
   is_free_tier             = "false"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_developer" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "4.0"
+  compute_model            = "ECPU"
+  data_storage_size_in_gb = "20"
+  db_name                  = "adbDeveloper"
+  db_version               = "19c"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+}
+
 resource "oci_database_autonomous_database" "test_autonomous_database_local_adg_failover_data_loss_limit" {
   admin_password           = random_string.autonomous_database_admin_password.result
   compartment_id           = var.compartment_ocid
