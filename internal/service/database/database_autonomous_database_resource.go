@@ -1738,7 +1738,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsDataGuardEnabled = &tmp
 	}
 
-	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+	if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok && s.D.HasChange("is_dev_tier") {
 		tmp := isDevTier.(bool)
 		request.IsDevTier = &tmp
 	}
@@ -4090,6 +4090,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isDedicated, ok := s.D.GetOkExists("is_dedicated"); ok {
 			tmp := isDedicated.(bool)
 			details.IsDedicated = &tmp
+		}
+		if isDevTier, ok := s.D.GetOkExists("is_dev_tier"); ok {
+			tmp := isDevTier.(bool)
+			details.IsDevTier = &tmp
 		}
 		if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok {
 			tmp := isFreeTier.(bool)
