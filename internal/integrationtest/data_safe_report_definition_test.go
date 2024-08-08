@@ -55,7 +55,7 @@ var (
 	}
 	reportDefinitionColumnFiltersRepresentation = map[string]interface{}{
 		"expressions": acctest.Representation{RepType: acctest.Required, Create: []string{`expressions`}, Update: []string{`expressions2`}},
-		"field_name":  acctest.Representation{RepType: acctest.Required, Create: `operation`, Update: `operation`},
+		"field_name":  acctest.Representation{RepType: acctest.Required, Create: `targetId`, Update: `targetId`},
 		"is_enabled":  acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"is_hidden":   acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
 		"operator":    acctest.Representation{RepType: acctest.Required, Create: `IN`, Update: `EQ`},
@@ -78,7 +78,7 @@ var (
 		"count_of":            acctest.Representation{RepType: acctest.Required, Create: `creates`, Update: `creates`},
 		"group_by_field_name": acctest.Representation{RepType: acctest.Optional, Create: `operation`, Update: `operation`},
 		"is_hidden":           acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-		"scim_filter":         acctest.Representation{RepType: acctest.Optional, Create: `not ( targetId pr)`, Update: `not ( targetId pr)`},
+		"scim_filter":         acctest.Representation{RepType: acctest.Optional, Create: `operation eq \"LOGON\"`, Update: `operation eq \"LOGON\"`},
 	}
 	ignoreReportDefinitionSystemTagsChangesRep = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `compliance_standards`}},
@@ -120,7 +120,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.expressions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
@@ -134,6 +134,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.is_ascending", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.sorting_order", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName18"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_id"),
 				resource.TestCheckResourceAttr(resourceName, "summary.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.display_order", "10"),
@@ -157,7 +158,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.expressions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
@@ -173,6 +174,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.sorting_order", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName18"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -182,7 +184,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "summary.0.group_by_field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "not ( targetId pr)"),
+				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "operation eq \"LOGON\""),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -206,7 +208,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.expressions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "IN"),
@@ -222,6 +224,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.sorting_order", "10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName18"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -231,7 +234,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "summary.0.group_by_field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "not ( targetId pr)"),
+				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "operation eq \"LOGON\""),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -250,7 +253,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "column_filters.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.expressions.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(resourceName, "column_filters.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "column_filters.0.operator", "EQ"),
@@ -266,6 +269,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "column_sortings.0.sorting_order", "11"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName19"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "parent_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -275,7 +279,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "summary.0.group_by_field_name", "operation"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(resourceName, "summary.0.name", "name"),
-				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "not ( targetId pr)"),
+				resource.TestCheckResourceAttr(resourceName, "summary.0.scim_filter", "operation eq \"LOGON\""),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -309,7 +313,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.expressions.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.field_name", "operation"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.field_name", "targetId"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.is_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "column_filters.0.operator", "EQ"),
@@ -335,7 +339,7 @@ func TestDataSafeReportDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.group_by_field_name", "operation"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.is_hidden", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.name", "name"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.scim_filter", "not ( targetId pr)"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "summary.0.scim_filter", "operation eq \"LOGON\""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),

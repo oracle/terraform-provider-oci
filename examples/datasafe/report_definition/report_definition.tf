@@ -22,7 +22,7 @@ variable "report_definition_column_filters_expressions" {
 }
 
 variable "report_definition_column_filters_field_name" {
-  default = "targetName"
+  default = "targetId"
 }
 
 variable "report_definition_column_filters_is_enabled" {
