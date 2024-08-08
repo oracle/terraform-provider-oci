@@ -753,7 +753,7 @@ func (s *DataSafeLibraryMaskingFormatResourceCrud) mapToFormatEntry(fieldKeyForm
 	case strings.ToLower("FIXED_NUMBER"):
 		details := oci_data_safe.FixedNumberFormatEntry{}
 		if fixedNumber, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "fixed_number")); ok {
-			tmp := fixedNumber.(float32)
+			tmp := float32(fixedNumber.(float64))
 			details.FixedNumber = &tmp
 		}
 		if description, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "description")); ok {

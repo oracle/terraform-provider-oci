@@ -36,6 +36,10 @@ func DataSafeReportsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"mime_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"report_definition_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -112,6 +116,10 @@ func (s *DataSafeReportsDataSourceCrud) Get() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if mimeType, ok := s.D.GetOkExists("mime_type"); ok {
+		request.MimeType = oci_data_safe.ListReportsMimeTypeEnum(mimeType.(string))
 	}
 
 	if reportDefinitionId, ok := s.D.GetOkExists("report_definition_id"); ok {
