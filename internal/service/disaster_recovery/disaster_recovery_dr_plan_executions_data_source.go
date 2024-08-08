@@ -26,10 +26,6 @@ func DisasterRecoveryDrPlanExecutionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"dr_plan_execution_type": {
-				Type:     schema.TypeString,
-				Optional: true,
-			},
 			"dr_protection_group_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -85,10 +81,6 @@ func (s *DisasterRecoveryDrPlanExecutionsDataSourceCrud) Get() error {
 	if drPlanExecutionId, ok := s.D.GetOkExists("id"); ok {
 		tmp := drPlanExecutionId.(string)
 		request.DrPlanExecutionId = &tmp
-	}
-
-	if drPlanExecutionType, ok := s.D.GetOkExists("dr_plan_execution_type"); ok {
-		request.DrPlanExecutionType = oci_disaster_recovery.ListDrPlanExecutionsDrPlanExecutionTypeEnum(drPlanExecutionType.(string))
 	}
 
 	if drProtectionGroupId, ok := s.D.GetOkExists("dr_protection_group_id"); ok {
