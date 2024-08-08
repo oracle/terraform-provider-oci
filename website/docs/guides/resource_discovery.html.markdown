@@ -612,6 +612,8 @@ data_safe
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
 * oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_calculate\_audit\_volume\_available
+* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
 
