@@ -23,6 +23,7 @@ data "oci_data_safe_reports" "test_reports" {
 	access_level = var.report_access_level
 	compartment_id_in_subtree = var.report_compartment_id_in_subtree
 	display_name = var.report_display_name
+	mime_type = var.report_mime_type
 	report_definition_id = oci_data_safe_report_definition.test_report_definition.id
 	state = var.report_state
 	time_generated_greater_than_or_equal_to = var.report_time_generated_greater_than_or_equal_to
@@ -39,6 +40,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) A filter to return only resources that match the specified compartment OCID.
 * `compartment_id_in_subtree` - (Optional) Default is false. When set to true, the hierarchy of compartments is traversed and all compartments and subcompartments in the tenancy are returned. Depends on the 'accessLevel' setting. 
 * `display_name` - (Optional) The name of the report definition to query.
+* `mime_type` - (Optional) An optional filter to return only resources that match the specified mime type.
 * `report_definition_id` - (Optional) The ID of the report definition to filter the list of reports
 * `state` - (Optional) An optional filter to return only resources that match the specified lifecycle state.
 * `time_generated_greater_than_or_equal_to` - (Optional) A filter to return only the resources that were generated after the specified date and time, as defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Using TimeGeneratedGreaterThanOrEqualToQueryParam parameter retrieves all resources generated after that date.
