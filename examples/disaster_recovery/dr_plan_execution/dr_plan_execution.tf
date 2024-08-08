@@ -18,10 +18,6 @@ variable "dr_plan_execution_display_name" {
   default = "displayName"
 }
 
-variable "dr_plan_execution_dr_plan_execution_type" {
-  default = "SWITCHOVER_PRECHECK"
-}
-
 variable "dr_plan_execution_execution_options_are_prechecks_enabled" {
   default = false
 }
@@ -81,6 +77,5 @@ data "oci_disaster_recovery_dr_plan_executions" "test_dr_plan_executions" {
   #Optional
   display_name           = var.dr_plan_execution_display_name
   dr_plan_execution_id   = oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id
-  dr_plan_execution_type = var.dr_plan_execution_dr_plan_execution_type
   #state                  = var.dr_plan_execution_state
 }
