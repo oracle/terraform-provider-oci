@@ -856,13 +856,22 @@ var GenerateTerraformNameFromResource = func(resourceAttributes map[string]inter
 
 var CheckDuplicateResourceName = func(terraformName string) string {
 	ResourceNameCountLock.Lock()
-	if count, resourceNameExists := ResourceNameCount[terraformName]; resourceNameExists {
-		ResourceNameCount[terraformName] = count + 1
-		terraformName = fmt.Sprintf("%s_%d", terraformName, count)
+	defer ResourceNameCountLock.Unlock() // Ensure the lock is released even if a panic occurs
 
+	originalName := terraformName
+
+	// Check if resource already exists
+	for {
+		if _, exists := ResourceNameCount[terraformName]; !exists {
+			break
+		}
+		count := ResourceNameCount[originalName]
+		ResourceNameCount[originalName] = count + 1
+		terraformName = fmt.Sprintf("%s_%d", originalName, count)
 	}
+
 	ResourceNameCount[terraformName] = 1
-	ResourceNameCountLock.Unlock()
+
 	return terraformName
 }
 
