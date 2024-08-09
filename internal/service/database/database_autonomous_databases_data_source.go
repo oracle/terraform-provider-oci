@@ -472,6 +472,9 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["long_term_backup_schedule"] = nil
 		}
 
+		if r.MaintenanceTargetComponent != nil {
+			autonomousDatabase["maintenance_target_component"] = *r.MaintenanceTargetComponent
+		}
 		//if r.MaxCpuCoreCount != nil {
 		//	autonomousDatabase["max_cpu_core_count"] = *r.MaxCpuCoreCount
 		//}

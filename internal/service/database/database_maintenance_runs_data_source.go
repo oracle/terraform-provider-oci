@@ -27,6 +27,10 @@ func DatabaseMaintenanceRunsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"is_local_adg": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"maintenance_subtype": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,11 @@ func (s *DatabaseMaintenanceRunsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if isLocalAdg, ok := s.D.GetOkExists("is_local_adg"); ok {
+		tmp := isLocalAdg.(bool)
+		request.IsLocalAdg = &tmp
 	}
 
 	if maintenanceSubtype, ok := s.D.GetOkExists("maintenance_subtype"); ok {
