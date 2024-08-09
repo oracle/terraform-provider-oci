@@ -634,12 +634,12 @@ func (s *NetworkLoadBalancerBackendSetResourceCrud) SetData() error {
 	}
 	s.D.Set("ip_version", s.Res.IpVersion)
 
-	if s.Res.IsInstantFailoverEnabled != nil {
-		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
-	}
-
 	if s.Res.IsFailOpen != nil {
 		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
+	}
+
+	if s.Res.IsInstantFailoverEnabled != nil {
+		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
 	}
 
 	if s.Res.IsPreserveSource != nil {
@@ -774,12 +774,12 @@ func NlbBackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) 
 
 	result["ip_version"] = string(obj.IpVersion)
 
-	if obj.IsInstantFailoverEnabled != nil {
-		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
-	}
-
 	if obj.IsFailOpen != nil {
 		result["is_fail_open"] = bool(*obj.IsFailOpen)
+	}
+
+	if obj.IsInstantFailoverEnabled != nil {
+		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
 	}
 
 	if obj.IsPreserveSource != nil {

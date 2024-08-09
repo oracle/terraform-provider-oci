@@ -45,7 +45,32 @@ var (
 		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
 		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"is_ppv2enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `UDP`, Update: `TCP`},
+		"tcp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Create: `180`, Update: `300`},
+		"udp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Create: `180`, Update: `300`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `TCP_AND_UDP`, Update: `TCP_AND_UDP`},
+		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+	}
+
+	NetworkLoadBalancerTCPListenerRepresentation = map[string]interface{}{
+		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"is_ppv2enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"tcp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Create: `180`, Update: `180`},
+		"udp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Update: `240`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `TCP`, Update: `TCP_AND_UDP`},
+		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
+	}
+
+	NetworkLoadBalancerUDPListenerRepresentation = map[string]interface{}{
+		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_backend_set.test_backend_set.name}`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `example_listener`},
+		"network_load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id}`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"is_ppv2enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"udp_idle_timeout":         acctest.Representation{RepType: acctest.Optional, Create: `180`, Update: `300`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `UDP`},
 		"ip_version":               acctest.Representation{RepType: acctest.Optional, Create: `IPV4`},
 	}
 
@@ -84,14 +109,120 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
-				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP_AND_UDP"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies,
+		},
 
+		// verify TCP Listener create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, NetworkLoadBalancerTCPListenerRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_idle_timeout", "180"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerTCPListenerRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP_AND_UDP"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_idle_timeout", "180"),
+				resource.TestCheckResourceAttr(resourceName, "udp_idle_timeout", "240"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies,
+		},
+
+		// verify UDP Listener create with optionals
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Create, NetworkLoadBalancerUDPListenerRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "10"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "udp_idle_timeout", "180"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_listener", "test_listener", acctest.Optional, acctest.Update, NetworkLoadBalancerUDPListenerRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "default_backend_set_name"),
+				resource.TestCheckResourceAttr(resourceName, "is_ppv2enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "ip_version", "IPV4"),
+				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
+				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "port", "11"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "udp_idle_timeout", "300"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerListenerResourceDependencies,
@@ -108,7 +239,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "10"),
-				resource.TestCheckResourceAttr(resourceName, "protocol", "UDP"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP_AND_UDP"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_idle_timeout", "180"),
+				resource.TestCheckResourceAttr(resourceName, "udp_idle_timeout", "180"),
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -132,7 +265,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_load_balancer_id"),
 				resource.TestCheckResourceAttr(resourceName, "port", "11"),
-				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(resourceName, "protocol", "TCP_AND_UDP"),
+				resource.TestCheckResourceAttr(resourceName, "tcp_idle_timeout", "300"),
+				resource.TestCheckResourceAttr(resourceName, "udp_idle_timeout", "300"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -167,7 +302,9 @@ func TestNetworkLoadBalancerListenerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "ip_version", "IPV4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "example_listener"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "11"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "protocol", "TCP_AND_UDP"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "tcp_idle_timeout", "300"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "udp_idle_timeout", "300"),
 			),
 		},
 		// verify resource import

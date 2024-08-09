@@ -69,6 +69,16 @@ func NetworkLoadBalancerListenerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"tcp_idle_timeout": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"udp_idle_timeout": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 		},
@@ -152,6 +162,16 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 
 	if protocol, ok := s.D.GetOkExists("protocol"); ok {
 		request.Protocol = oci_network_load_balancer.ListenerProtocolsEnum(protocol.(string))
+	}
+
+	if tcpIdleTimeout, ok := s.D.GetOkExists("tcp_idle_timeout"); ok {
+		tmp := tcpIdleTimeout.(int)
+		request.TcpIdleTimeout = &tmp
+	}
+
+	if udpIdleTimeout, ok := s.D.GetOkExists("udp_idle_timeout"); ok {
+		tmp := udpIdleTimeout.(int)
+		request.UdpIdleTimeout = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
@@ -350,6 +370,16 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.Protocol = oci_network_load_balancer.ListenerProtocolsEnum(protocol.(string))
 	}
 
+	if tcpIdleTimeout, ok := s.D.GetOkExists("tcp_idle_timeout"); ok {
+		tmp := tcpIdleTimeout.(int)
+		request.TcpIdleTimeout = &tmp
+	}
+
+	if udpIdleTimeout, ok := s.D.GetOkExists("udp_idle_timeout"); ok {
+		tmp := udpIdleTimeout.(int)
+		request.UdpIdleTimeout = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "network_load_balancer")
 
 	response, err := s.Client.UpdateListener(context.Background(), request)
@@ -417,6 +447,14 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 
 	s.D.Set("protocol", s.Res.Protocol)
 
+	if s.Res.TcpIdleTimeout != nil {
+		s.D.Set("tcp_idle_timeout", *s.Res.TcpIdleTimeout)
+	}
+
+	if s.Res.UdpIdleTimeout != nil {
+		s.D.Set("udp_idle_timeout", *s.Res.UdpIdleTimeout)
+	}
+
 	return nil
 }
 
@@ -461,6 +499,14 @@ func NlbListenerSummaryToMap(obj oci_network_load_balancer.ListenerSummary) map[
 	}
 
 	result["protocol"] = string(obj.Protocol)
+
+	if obj.TcpIdleTimeout != nil {
+		result["tcp_idle_timeout"] = int(*obj.TcpIdleTimeout)
+	}
+
+	if obj.UdpIdleTimeout != nil {
+		result["udp_idle_timeout"] = int(*obj.UdpIdleTimeout)
+	}
 
 	return result
 }
