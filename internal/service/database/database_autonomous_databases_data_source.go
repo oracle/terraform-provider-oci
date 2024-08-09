@@ -376,6 +376,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["is_auto_scaling_for_storage_enabled"] = *r.IsAutoScalingForStorageEnabled
 		}
 
+		if r.IsBackupRetentionLocked != nil {
+			autonomousDatabase["is_backup_retention_locked"] = *r.IsBackupRetentionLocked
+		}
+
 		if r.IsDataGuardEnabled != nil {
 			autonomousDatabase["is_data_guard_enabled"] = *r.IsDataGuardEnabled
 		}
