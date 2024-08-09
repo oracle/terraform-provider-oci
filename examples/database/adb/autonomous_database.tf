@@ -128,6 +128,20 @@ resource "oci_database_autonomous_database" "test_autonomous_database_apex" {
   is_free_tier             = "false"
 }
 
+resource "oci_database_autonomous_database" "test_autonomous_database_bck_ret_lock" {
+  admin_password           = random_string.autonomous_database_admin_password.result
+  compartment_id           = var.compartment_ocid
+  compute_count            = "2.0"
+  compute_model            = "ECPU"
+  data_storage_size_in_tbs = "1"
+  db_name                  = "adbBckRetLock"
+  db_version               = "19c"
+  license_model            = "LICENSE_INCLUDED"
+  is_free_tier             = "false"
+  is_backup_retention_locked = "false"
+}
+
+
 resource "oci_database_autonomous_database" "test_autonomous_database_bck_ret_days" {
   admin_password                       = random_string.autonomous_database_admin_password.result
   compartment_id                       = var.compartment_ocid
