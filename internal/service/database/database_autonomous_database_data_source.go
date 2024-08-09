@@ -491,6 +491,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_maintenance_end", s.Res.TimeMaintenanceEnd.String())
 	}
 
+	if s.Res.MaintenanceTargetComponent != nil {
+		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
+	}
+
 	if s.Res.TimeOfAutoRefreshStart != nil {
 		s.D.Set("time_of_auto_refresh_start", s.Res.TimeOfAutoRefreshStart.Format(time.RFC3339Nano))
 	}
