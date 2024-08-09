@@ -40,6 +40,10 @@ func LimitsLimitValuesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"limit_values": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -116,6 +120,11 @@ func (s *LimitsLimitValuesDataSourceCrud) Get() error {
 	if serviceName, ok := s.D.GetOkExists("service_name"); ok {
 		tmp := serviceName.(string)
 		request.ServiceName = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "limits")

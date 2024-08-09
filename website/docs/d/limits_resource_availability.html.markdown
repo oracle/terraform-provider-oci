@@ -13,7 +13,8 @@ This data source provides details about a specific Resource Availability resourc
 For a given compartmentId, resource limit name, and scope, returns the following:
   * The number of available resources associated with the given limit.
   * The usage in the selected compartment for the given limit.
-  Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
+If Subscription Id is provided, then usage for resource created in that subscription will be returned
+Note that not all resource limits support this API. If the value is not available, the API returns a 404 response.
 
 
 ## Example Usage
@@ -27,6 +28,7 @@ data "oci_limits_resource_availability" "test_resource_availability" {
 
 	#Optional
 	availability_domain = var.resource_availability_availability_domain
+    subscription_id = var.subscription_ocid
 }
 ```
 
@@ -38,6 +40,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The OCID of the compartment for which data is being fetched.
 * `limit_name` - (Required) The limit name for which to fetch the data.
 * `service_name` - (Required) The service name of the target quota.
+* `subscription_id` - (Optional) The OCID of the subscription assigned to tenant 
 
 
 ## Attributes Reference

@@ -23,6 +23,10 @@ func LimitsServicesDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"services": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -40,6 +44,13 @@ func LimitsServicesDataSource() *schema.Resource {
 						"name": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"supported_subscriptions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
 						},
 					},
 				},
@@ -72,6 +83,11 @@ func (s *LimitsServicesDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "limits")
@@ -115,6 +131,8 @@ func (s *LimitsServicesDataSourceCrud) SetData() error {
 		if r.Name != nil {
 			service["name"] = *r.Name
 		}
+
+		service["supported_subscriptions"] = r.SupportedSubscriptions
 
 		resources = append(resources, service)
 	}
