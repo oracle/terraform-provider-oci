@@ -415,6 +415,7 @@ resource "oci_network_load_balancer_listener" "nlb-listener1" {
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes1.name
   port                        = 80
   protocol                    = "TCP"
+  tcp_idle_timeout            = 360
   is_ppv2enabled	          = true
   depends_on = [oci_network_load_balancer_backend_set.nlb-bes3]
 }
@@ -424,6 +425,7 @@ resource "oci_network_load_balancer_listener" "nlb-listener2" {
   name                        = "udp_listener"
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes2.name
   port                        = 22
+  udp_idle_timeout            = 300
   protocol                    = "UDP"
   depends_on = [oci_network_load_balancer_listener.nlb-listener1]
 }
@@ -434,6 +436,8 @@ resource "oci_network_load_balancer_listener" "nlb-listener3" {
   default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes3.name
   port                        = 8080
   protocol                    = "TCP_AND_UDP"
+  tcp_idle_timeout            = 240
+  udp_idle_timeout            = 180
   depends_on = [oci_network_load_balancer_listener.nlb-listener2]
 }
 
