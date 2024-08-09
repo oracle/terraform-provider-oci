@@ -5,6 +5,10 @@ variable "tenancy_ocid" {
 
 }
 
+variable "subscription_ocid" {
+
+}
+
 variable "user_ocid" {
 }
 
@@ -30,37 +34,9 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_limits_quota" "test_quota" {
-  #Required
-  compartment_id = var.tenancy_ocid
-  description    = "Quotas for VCN"
-  name           = "TestQuotas"
-  statements     = ["Set vcn quotas to 0 in tenancy"]
-
-  depends_on = [oci_identity_tag.tag1]
-
-  #Optional
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "value"
-  }
-
-  freeform_tags = {
-    "Department" = "Finance"
-  }
-}
-
 data "oci_identity_availability_domain" "ad" {
   compartment_id = var.tenancy_ocid
   ad_number      = 1
-}
-
-data "oci_limits_quotas" "test_quotas" {
-  #Required
-  compartment_id = var.tenancy_ocid
-
-  #Optional
-  name  = "TestQuotas"
-  state = "ACTIVE"
 }
 
 data "oci_limits_services" "test_services" {
@@ -104,32 +80,22 @@ data "oci_limits_limit_values" "test_limit_values" {
   scope_type          = "AD"
 }
 
+#### Subscription Param
 
-## quota lock example
-
-resource "oci_limits_quota" "test_quota_lock" {
+data "oci_limits_services" "test_services_with_subscription" {
   #Required
   compartment_id = var.tenancy_ocid
-  description    = "Quotas for VCN"
-  name           = "TestQuotaLocks"
-  statements     = ["Set vcn quotas to 0 in tenancy"]
-  depends_on = [oci_identity_tag.tag1] 
+
   #Optional
-  locks { 
-        type = "FULL"
-        #Optional
-        message  = "lock testing" 
-        #Optional
-        related_resource_id = "some resource id"
-  } 
+  subscription_id = var.subscription_ocid
 }
 
-data "oci_limits_quotas" "test_quotas_lock" {
+data "oci_limits_limit_definitions" "test_limit_definitions_with_subscription" {
   #Required
-  compartment_id = var.tenancy_ocid 
-  depends_on = [oci_limits_quota.test_quota_lock]
-  #Optional  
-  name  = "TestQuotaLocks"
-  state = "ACTIVE"
+  compartment_id = var.tenancy_ocid
+
+  #Optional
+  subscription_id = var.subscription_ocid
 }
+
 
