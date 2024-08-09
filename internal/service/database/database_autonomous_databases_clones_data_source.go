@@ -577,6 +577,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"is_backup_retention_locked": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
 						"is_data_guard_enabled": {
 							Type:     schema.TypeBool,
 							Computed: true,
@@ -1397,6 +1401,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.IsAutoScalingForStorageEnabled != nil {
 			autonomousDatabasesClone["is_auto_scaling_for_storage_enabled"] = *r.IsAutoScalingForStorageEnabled
+		}
+
+		if r.IsBackupRetentionLocked != nil {
+			autonomousDatabasesClone["is_backup_retention_locked"] = *r.IsBackupRetentionLocked
 		}
 
 		if r.IsDataGuardEnabled != nil {
