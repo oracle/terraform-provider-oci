@@ -1087,6 +1087,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"maintenance_target_component": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1096,6 +1100,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_disaster_recovery_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_begin": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_end": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -1136,6 +1148,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"maintenance_target_component": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"memory_per_oracle_compute_unit_in_gbs": {
 				Type:     schema.TypeInt,
@@ -1300,6 +1316,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"maintenance_target_component": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1309,6 +1329,14 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 							Computed: true,
 						},
 						"time_disaster_recovery_role_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_begin": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_maintenance_end": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -2043,6 +2071,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		}
 	}
 
+	//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok && s.D.HasChange("max_cpu_core_count") {
+	//	tmp := maxCpuCoreCount.(int)
+	//	request.MaxCpuCoreCount = &tmp
+	//}
+
 	var updateNewtworkAccessFlag = false
 	if _, ok := s.D.GetOkExists("nsg_ids"); ok && s.D.HasChange("nsg_ids") {
 		updateNewtworkAccessFlag = true
@@ -2537,9 +2570,20 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("long_term_backup_schedule", nil)
 	}
 
+	if s.Res.MaintenanceTargetComponent != nil {
+		s.D.Set("maintenance_target_component", *s.Res.MaintenanceTargetComponent)
+	}
+	//if s.Res.MaxCpuCoreCount != nil {
+	//	s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	//}
+
 	if s.Res.MemoryPerOracleComputeUnitInGBs != nil {
 		s.D.Set("memory_per_oracle_compute_unit_in_gbs", *s.Res.MemoryPerOracleComputeUnitInGBs)
 	}
+
+	//if s.Res.MaxCpuCoreCount != nil {
+	//	s.D.Set("max_cpu_core_count", *s.Res.MaxCpuCoreCount)
+	//}
 
 	if s.Res.NcharacterSet != nil {
 		s.D.Set("ncharacter_set", *s.Res.NcharacterSet)
@@ -3055,6 +3099,10 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	if obj.MaintenanceTargetComponent != nil {
+		result["maintenance_target_component"] = string(*obj.MaintenanceTargetComponent)
+	}
+
 	result["state"] = string(obj.LifecycleState)
 
 	if obj.TimeDataGuardRoleChanged != nil {
@@ -3063,6 +3111,14 @@ func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseS
 
 	if obj.TimeDisasterRecoveryRoleChanged != nil {
 		result["time_disaster_recovery_role_changed"] = obj.TimeDisasterRecoveryRoleChanged.String()
+	}
+
+	if obj.TimeMaintenanceBegin != nil {
+		result["time_maintenance_begin"] = obj.TimeMaintenanceBegin.String()
+	}
+
+	if obj.TimeMaintenanceEnd != nil {
+		result["time_maintenance_end"] = obj.TimeMaintenanceEnd.String()
 	}
 
 	return result
@@ -3511,7 +3567,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -3828,7 +3887,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -4128,7 +4190,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -4956,7 +5021,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -5240,7 +5308,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
@@ -5527,7 +5598,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if licenseModel, ok := s.D.GetOkExists("license_model"); ok {
 			details.LicenseModel = oci_database.CreateAutonomousDatabaseBaseLicenseModelEnum(licenseModel.(string))
 		}
-
+		//if maxCpuCoreCount, ok := s.D.GetOkExists("max_cpu_core_count"); ok {
+		//	tmp := maxCpuCoreCount.(int)
+		//	details.MaxCpuCoreCount = &tmp
+		//}
 		if ncharacterSet, ok := s.D.GetOkExists("ncharacter_set"); ok {
 			tmp := ncharacterSet.(string)
 			details.NcharacterSet = &tmp
