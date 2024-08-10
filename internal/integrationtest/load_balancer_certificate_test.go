@@ -38,18 +38,31 @@ var (
 	}
 
 	certificateRepresentation = map[string]interface{}{
-		"certificate_name":   acctest.Representation{RepType: acctest.Required, Create: `example_certificate_bundle`},
-		"load_balancer_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
-		"ca_certificate":     acctest.Representation{RepType: acctest.Optional, Create: caCertificate},
-		"passphrase":         acctest.Representation{RepType: acctest.Optional, Create: `Mysecretunlockingcode42!1!`},
-		"private_key":        acctest.Representation{RepType: acctest.Optional, Create: `${var.private_key_value}`},
-		"public_certificate": acctest.Representation{RepType: acctest.Optional, Create: `${var.ca_certificate_value}`},
+		"certificate_name": acctest.Representation{RepType: acctest.Required, Create: `example_certificate_bundle`},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"ca_certificate":   acctest.Representation{RepType: acctest.Optional, Create: caCertificate},
+		// We don't test with private keys but if we were to do so we would have to set this.
+		// "passphrase":         acctest.Representation{RepType: acctest.Optional, Create: `Mysecretunlockingcode42!1!`},
+		"private_key":        acctest.Representation{RepType: acctest.Optional, Create: privateKeyData},
+		"public_certificate": acctest.Representation{RepType: acctest.Optional, Create: caCertificate},
 	}
 
-	caCertificate            = strings.ReplaceAll(utils.GetEnvSettingWithBlankDefault("ca_certificate"), `\\n`, `\n`)
+	// The following assumes you set the TF_VAR_ca_certificate variable to something like the following:
+	//     export TF_VAR_private_key_value="$(cat ~/certificate/example_2.com.key)"
+	// which results in
+	//     $ printenv TF_VAR_ca_certificate
+	//     -----BEGIN CERTIFICATE-----
+	//     MIIFRDCCAyygAwIBAgIUDB9s8795KLpchjLPGFI9sqdVaT4wDQYJKoZIhvcNAQEL
+	//     ...
+	//     eaiXT7X2gvU=
+	//     -----END CERTIFICATE-----
+	// We want the string
+	//     "-----BEGIN CERTIFICATE-----\\nMIIFRDCC...\\neaiXT7X2gvU=\\n-----END CERTIFICATE-----"
+	caCertificate            = strings.ReplaceAll(utils.GetEnvSettingWithBlankDefault("ca_certificate"), "\n", "\\n")
 	caCertificateVariableStr = fmt.Sprintf("variable \"ca_certificate_value\" { default = \"%s\" }\n", caCertificate)
-	privateKeyData           = utils.GetEnvSettingWithBlankDefault("private_key_data")
-	privateKeyVariableStr    = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
+
+	privateKeyData        = strings.ReplaceAll(utils.GetEnvSettingWithBlankDefault("private_key_data"), "\n", "\\n")
+	privateKeyVariableStr = fmt.Sprintf("variable \"private_key_value\" { default = \"%s\" }\n", privateKeyData)
 
 	CertificateResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
 		LoadBalancerSubnetDependencies + privateKeyVariableStr + caCertificateVariableStr
@@ -96,8 +109,10 @@ func TestLoadBalancerCertificateResource_basic(t *testing.T) {
 				resource.TestMatchResourceAttr(resourceName, "ca_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 				resource.TestCheckResourceAttr(resourceName, "certificate_name", "example_certificate_bundle"),
 				resource.TestCheckResourceAttrSet(resourceName, "load_balancer_id"),
-				resource.TestCheckResourceAttr(resourceName, "passphrase", "Mysecretunlockingcode42!1!"),
-				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN ENCRYPTED PRIVATE KEY.*")),
+				// We don't test with private keys but if we were to do so we would have to set
+				// resource.TestCheckResourceAttr(resourceName, "passphrase", "Mysecretunlockingcode42!1!"),
+				// resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN PRIVATE ENCRYPTED KEY.*")),
+				resource.TestMatchResourceAttr(resourceName, "private_key", regexp.MustCompile("-----BEGIN PRIVATE KEY.*")),
 				resource.TestMatchResourceAttr(resourceName, "public_certificate", regexp.MustCompile("-----BEGIN CERT.*")),
 
 				func(s *terraform.State) (err error) {

@@ -49,7 +49,7 @@ var (
 
 	WafWebAppFirewallPolicyRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"actions":        []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyActionsRepresentation}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}},
+		"actions":        []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyStaticTextActionsRepresentation}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}, {RepType: acctest.Optional, Group: WafWebAppFirewallPolicyDynamicTextActionsRepresentation}},
 		//"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -59,11 +59,19 @@ var (
 		"response_access_control": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyResponseAccessControlRepresentation},
 		//"response_protection":     acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRepresentation}, // can not be created at this point
 	}
-	WafWebAppFirewallPolicyActionsRepresentation = map[string]interface{}{
+	WafWebAppFirewallPolicyStaticTextActionsRepresentation = map[string]interface{}{
 		"name":    acctest.Representation{RepType: acctest.Required, Create: `actionName`, Update: `actionName2`},
 		"type":    acctest.Representation{RepType: acctest.Required, Create: `RETURN_HTTP_RESPONSE`, Update: `RETURN_HTTP_RESPONSE`},
-		"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsBodyRepresentation},
+		"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsStaticTextBodyRepresentation},
 		"code":    acctest.Representation{RepType: acctest.Optional, Create: `400`, Update: `500`},
+		"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyActionsHeadersRepresentation},
+	}
+
+	WafWebAppFirewallPolicyDynamicTextActionsRepresentation = map[string]interface{}{
+		"name":    acctest.Representation{RepType: acctest.Required, Create: `DynamicActionName`, Update: `DynamicActionName2`},
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `RETURN_HTTP_RESPONSE`, Update: `RETURN_HTTP_RESPONSE`},
+		"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsDynamicTextBodyRepresentation},
+		"code":    acctest.Representation{RepType: acctest.Optional, Create: `401`, Update: `501`},
 		"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: WafWebAppFirewallPolicyActionsHeadersRepresentation},
 	}
 
@@ -95,9 +103,13 @@ var (
 	//WafWebAppFirewallPolicyResponseProtectionRepresentation = map[string]interface{}{
 	//	"rules": acctest.RepresentationGroup{RepType: acctest.Optional,Group: WafWebAppFirewallPolicyResponseProtectionRulesRepresentation},
 	//}
-	webAppFirewallPolicyActionsBodyRepresentation = map[string]interface{}{
-		"text": acctest.Representation{RepType: acctest.Required, Create: `text`, Update: `text2`},
+	webAppFirewallPolicyActionsStaticTextBodyRepresentation = map[string]interface{}{
+		"text": acctest.Representation{RepType: acctest.Required, Create: `A STATIC_TEXT response: at creation`, Update: `A STATIC_TEXT response: afterUpdate`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `STATIC_TEXT`},
+	}
+	webAppFirewallPolicyActionsDynamicTextBodyRepresentation = map[string]interface{}{
+		"template": acctest.Representation{RepType: acctest.Required, Create: `A DYNAMIC response: at creation`, Update: `A DYNAMIC response: afterUpdate`},
+		"type":     acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`},
 	}
 	WafWebAppFirewallPolicyActionsHeadersRepresentation = map[string]interface{}{
 		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
@@ -249,9 +261,10 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Create, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "actions.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "4"),
+
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "text"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "A STATIC_TEXT response: at creation"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.type", "STATIC_TEXT"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.code", "400"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.#", "1"),
@@ -259,6 +272,16 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.name", "actionName"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
+
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.template", "A DYNAMIC response: at creation"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.type", "DYNAMIC"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.code", "401"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.name", "DynamicActionName"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -369,9 +392,9 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "actions.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "text"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "A STATIC_TEXT response: at creation"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.type", "STATIC_TEXT"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.code", "400"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.#", "1"),
@@ -379,6 +402,16 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.name", "actionName"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
+
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.template", "A DYNAMIC response: at creation"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.type", "DYNAMIC"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.code", "401"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.name", "name"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.name", "DynamicActionName"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
@@ -483,9 +516,9 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + WafWebAppFirewallPolicyResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_waf_web_app_firewall_policy", "test_web_app_firewall_policy", acctest.Optional, acctest.Update, WafWebAppFirewallPolicyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "actions.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "actions.#", "4"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "text2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.text", "A STATIC_TEXT response: afterUpdate"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.body.0.type", "STATIC_TEXT"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.code", "500"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.#", "1"),
@@ -493,6 +526,16 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "actions.0.headers.0.value", "value2"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.name", "actionName2"),
 				resource.TestCheckResourceAttr(resourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
+
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.template", "A DYNAMIC response: afterUpdate"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.type", "DYNAMIC"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.code", "501"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.value", "value2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.name", "DynamicActionName2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
@@ -617,9 +660,9 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "web_app_firewall_policy_id"),
 
-				resource.TestCheckResourceAttr(singularDatasourceName, "actions.#", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "actions.#", "4"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.body.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.body.0.text", "text2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.body.0.text", "A STATIC_TEXT response: afterUpdate"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.body.0.type", "STATIC_TEXT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.code", "500"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.headers.#", "1"),
@@ -627,6 +670,16 @@ func TestWafWebAppFirewallPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.headers.0.value", "value2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.name", "actionName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "actions.0.type", "RETURN_HTTP_RESPONSE"),
+
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.template", "A DYNAMIC response: afterUpdate"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.body.0.type", "DYNAMIC"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.code", "501"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.name", "name2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.headers.0.value", "value2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.name", "DynamicActionName2"),
+				resource.TestCheckResourceAttr(resourceName, "actions.3.type", "RETURN_HTTP_RESPONSE"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),

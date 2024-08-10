@@ -80,6 +80,11 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_request_id_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"network_security_group_ids": {
 				Type:     schema.TypeSet,
 				Optional: true,
@@ -87,6 +92,11 @@ func LoadBalancerLoadBalancerResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"request_id_header": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
 			},
 			"reserved_ips": {
 				Type:     schema.TypeList,
@@ -319,6 +329,11 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		request.IsPrivate = &tmp
 	}
 
+	if isRequestIdEnabled, ok := s.D.GetOkExists("is_request_id_enabled"); ok {
+		tmp := isRequestIdEnabled.(bool)
+		request.IsRequestIdEnabled = &tmp
+	}
+
 	if networkSecurityGroupIds, ok := s.D.GetOkExists("network_security_group_ids"); ok {
 		set := networkSecurityGroupIds.(*schema.Set)
 		interfaces := set.List()
@@ -330,6 +345,13 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("network_security_group_ids") {
 			request.NetworkSecurityGroupIds = tmp
+		}
+	}
+
+	if requestIdHeader, ok := s.D.GetOkExists("request_id_header"); ok {
+		if requestIdHeader != nil {
+			tmp := requestIdHeader.(string)
+			request.RequestIdHeader = &tmp
 		}
 	}
 
@@ -496,8 +518,20 @@ func (s *LoadBalancerLoadBalancerResourceCrud) Update() error {
 		request.IsDeleteProtectionEnabled = &tmp
 	}
 
+	if isRequestIdEnabled, ok := s.D.GetOkExists("is_request_id_enabled"); ok {
+		tmp := isRequestIdEnabled.(bool)
+		request.IsRequestIdEnabled = &tmp
+	}
+
 	tmp := s.D.Id()
 	request.LoadBalancerId = &tmp
+
+	if requestIdHeader, ok := s.D.GetOkExists("request_id_header"); ok {
+		if requestIdHeader != nil {
+			tmp := requestIdHeader.(string)
+			request.RequestIdHeader = &tmp
+		}
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "load_balancer")
 
@@ -600,11 +634,19 @@ func (s *LoadBalancerLoadBalancerResourceCrud) SetData() error {
 		s.D.Set("is_private", *s.Res.IsPrivate)
 	}
 
+	if s.Res.IsRequestIdEnabled != nil {
+		s.D.Set("is_request_id_enabled", *s.Res.IsRequestIdEnabled)
+	}
+
 	networkSecurityGroupIds := []interface{}{}
 	for _, item := range s.Res.NetworkSecurityGroupIds {
 		networkSecurityGroupIds = append(networkSecurityGroupIds, item)
 	}
 	s.D.Set("network_security_group_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds))
+
+	if s.Res.RequestIdHeader != nil {
+		s.D.Set("request_id_header", *s.Res.RequestIdHeader)
+	}
 
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape", *s.Res.ShapeName)

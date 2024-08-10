@@ -65,7 +65,7 @@ variable "availability_domain" {
 }
 
 provider "oci" {
-  #version          = "5.29.0"
+  #version          = "6.0.0"
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -271,6 +271,8 @@ resource "oci_load_balancer" "lb1" {
   }
 
   is_delete_protection_enabled = "false"
+  is_request_id_enabled = "true"
+  request_id_header = "X-MyRequest-Id"
 }
 
 resource "oci_load_balancer" "lb2" {
@@ -374,7 +376,7 @@ resource "oci_load_balancer_backend_set" "lb-bes3" {
   ssl_configuration {
     protocols         = ["TLSv1.1", "TLSv1.2"]
     cipher_suite_name = oci_load_balancer_ssl_cipher_suite.test_ssl_cipher_suite3.name
-    trusted_certificate_authority_ids  = var.trusted_certificate_authority_ids
+    trusted_certificate_authority_ids = jsondecode(var.trusted_certificate_authority_ids)
 
   }
 }
@@ -487,8 +489,8 @@ resource "oci_load_balancer_listener" "lb-listener4" {
   protocol                 = "HTTP"
 
   ssl_configuration {
-    certificate_ids                    = var.certificate_ids
-    trusted_certificate_authority_ids  = var.trusted_certificate_authority_ids
+    certificate_ids                    = jsondecode(var.certificate_ids)
+    trusted_certificate_authority_ids  = jsondecode(var.trusted_certificate_authority_ids)
     verify_peer_certificate            = false
     protocols                          = ["TLSv1.1", "TLSv1.2"]
     server_order_preference            = "ENABLED"

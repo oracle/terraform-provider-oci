@@ -56,7 +56,9 @@ resource "oci_load_balancer_load_balancer" "test_load_balancer" {
 	ip_mode = var.load_balancer_ip_mode
 	is_delete_protection_enabled = var.load_balancer_is_delete_protection_enabled
 	is_private = var.load_balancer_is_private
+	is_request_id_enabled = var.load_balancer_is_request_id_enabled
 	network_security_group_ids = var.load_balancer_network_security_group_ids
+	request_id_header = var.load_balancer_request_id_header
 	reserved_ips {
 
 		#Optional
@@ -101,6 +103,15 @@ The following arguments are supported:
 	A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm). For more information about public and private load balancers, see [How Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm#how-load-balancing-works).
 
 	Example: `true` 
+* `is_request_id_enabled` - (Optional) (Updatable) Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
+
+	If "true", the load balancer will attach a unique request id header to every request passed through from the load balancer to load balancer backends. This same request id header also will be added to the response the lb received from the backend handling the request before the load balancer returns the response to the requestor. The name of the unique request id header is set the by value of requestIdHeader.
+
+	If "false", the loadbalancer not add this unique request id header to either the request passed through to the load balancer backends nor to the reponse returned to the user.
+
+	New load balancers have the Request Id feature disabled unless isRequestIdEnabled is set to true.
+
+	Example: `true` 
 * `network_security_group_ids` - (Optional) (Updatable) An array of NSG [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this load balancer.
 
 	During the load balancer's creation, the service adds the new load balancer to the specified NSGs.
@@ -110,6 +121,17 @@ The following arguments are supported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: `["ocid1.nsg.oc1.phx.unique_ID"]` 
+* `request_id_header` - (Optional) (Updatable) If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
+
+	If a request to the load balancer already contains a header with same name as specified in requestIdHeader then the load balancer will not change the value of that field.
+
+	If isRequestIdEnabled is false then this field is ignored.
+
+	If this field is not set or is set to "" then this field defaults to X-Request-Id
+
+	**Notes:**
+	* Unless the header name is "" it must start with "X-" prefix.
+	* Setting the header name to "" will set it to the default: X-Request-Id. 
 * `reserved_ips` - (Optional) An array of reserved Ips. Pre-created public IP that will be used as the IP of this load balancer. This reserved IP will not be deleted when load balancer is deleted. This ip should not be already mapped to any other resource.
 	* `id` - (Optional) Ocid of the Reserved IP/Public Ip created with VCN.
 
@@ -229,6 +251,13 @@ The following attributes are exported:
 	A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm). For more information about public and private load balancers, see [How Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm#how-load-balancing-works).
 
 	Example: `true` 
+* `is_request_id_enabled` - Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
+
+	If "true", the load balancer will attach a unique request id header to every request passed through from the load balancer to load balancer backends. This same request id header also will be added to the response the lb received from the backend handling the request before the load balancer returns the response to the requestor. The name of the unique request id header is set the by value of requestIdHeader.
+
+	If "false", the loadbalancer not add this unique request id header to either the request passed through to the load balancer backends nor to the reponse returned to the user.
+
+	Example: `true` 
 * `network_security_group_ids` - An array of NSG [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the load balancer.
 
 	During the load balancer's creation, the service adds the new load balancer to the specified NSGs.
@@ -238,6 +267,11 @@ The following attributes are exported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `request_id_header` - If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
+
+	If a request to the load balancer already contains a header with same name as specified in requestIdHeader then the load balancer will not change the value of that field.
+
+	If this field is set to "" this field defaults to X-Request-Id. 
 * `routing_policies` - A named ordered list of routing rules that is applied to a listener.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 

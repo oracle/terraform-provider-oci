@@ -31,9 +31,14 @@ func TestWafWebAppFirewallPolicyResourceOptionalsUpdate_basic(t *testing.T) {
 	var (
 		WebAppFirewallPolicyResourceDependencies = ""
 
-		webAppFirewallPolicyActionsBodyRepresentation = map[string]interface{}{
+		webAppFirewallPolicyStaticTextActionsBodyRepresentation = map[string]interface{}{
 			"text": acctest.Representation{RepType: acctest.Required, Create: `text`},
 			"type": acctest.Representation{RepType: acctest.Required, Create: `STATIC_TEXT`},
+		}
+
+		webAppFirewallPolicyDynamicActionsBodyRepresentation = map[string]interface{}{
+			"template": acctest.Representation{RepType: acctest.Required, Create: `template`},
+			"type":     acctest.Representation{RepType: acctest.Required, Create: `DYNAMIC`},
 		}
 
 		webAppFirewallPolicyActionsHeadersRepresentation = map[string]interface{}{
@@ -41,11 +46,19 @@ func TestWafWebAppFirewallPolicyResourceOptionalsUpdate_basic(t *testing.T) {
 			"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
 		}
 
-		webAppFirewallPolicyActionsRepresentation1 = map[string]interface{}{
+		webAppFirewallPolicyStaticTextActionsRepresentation1 = map[string]interface{}{
 			"name":    acctest.Representation{RepType: acctest.Required, Create: `actionName`},
 			"type":    acctest.Representation{RepType: acctest.Required, Create: `RETURN_HTTP_RESPONSE`},
-			"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsBodyRepresentation},
+			"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyStaticTextActionsBodyRepresentation},
 			"code":    acctest.Representation{RepType: acctest.Optional, Create: `400`},
+			"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsHeadersRepresentation},
+		}
+
+		webAppFirewallPolicyDynamicActionsRepresentation1 = map[string]interface{}{
+			"name":    acctest.Representation{RepType: acctest.Required, Create: `dynamicActionName`},
+			"type":    acctest.Representation{RepType: acctest.Required, Create: `RETURN_HTTP_RESPONSE`},
+			"body":    acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyDynamicActionsBodyRepresentation},
+			"code":    acctest.Representation{RepType: acctest.Optional, Create: `401`},
 			"headers": acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsHeadersRepresentation},
 		}
 
@@ -132,7 +145,7 @@ func TestWafWebAppFirewallPolicyResourceOptionalsUpdate_basic(t *testing.T) {
 
 		webAppFirewallPolicyRepresentation = map[string]interface{}{
 			"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-			"actions":                 []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation1}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}},
+			"actions":                 []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: webAppFirewallPolicyStaticTextActionsRepresentation1}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation2}, {RepType: acctest.Optional, Group: webAppFirewallPolicyActionsRepresentation3}, {RepType: acctest.Optional, Group: webAppFirewallPolicyDynamicActionsRepresentation1}},
 			"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 			"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 			"request_access_control":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: webAppFirewallPolicyRequestAccessControlRepresentation},
