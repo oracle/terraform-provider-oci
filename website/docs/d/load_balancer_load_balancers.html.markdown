@@ -89,6 +89,13 @@ The following attributes are exported:
 	A public load balancer is accessible from the internet, depending on your VCN's [security list rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securitylists.htm). For more information about public and private load balancers, see [How Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm#how-load-balancing-works).
 
 	Example: `true` 
+* `is_request_id_enabled` - Whether or not the load balancer has the Request Id feature enabled for HTTP listeners.
+
+	If "true", the load balancer will attach a unique request id header to every request passed through from the load balancer to load balancer backends. This same request id header also will be added to the response the lb received from the backend handling the request before the load balancer returns the response to the requestor. The name of the unique request id header is set the by value of requestIdHeader.
+
+	If "false", the loadbalancer not add this unique request id header to either the request passed through to the load balancer backends nor to the reponse returned to the user.
+
+	Example: `true` 
 * `network_security_group_ids` - An array of NSG [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the load balancer.
 
 	During the load balancer's creation, the service adds the new load balancer to the specified NSGs.
@@ -98,6 +105,11 @@ The following attributes are exported:
 	*  The network security rules of other resources can reference the NSGs associated with the load balancer to ensure access.
 
 	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `request_id_header` - If isRequestIdEnabled is true then this field contains the name of the header field that contains the unique request id that is attached to every request from the load balancer to the load balancer backends and to every response from the load balancer.
+
+	If a request to the load balancer already contains a header with same name as specified in requestIdHeader then the load balancer will not change the value of that field.
+
+	If this field is set to "" this field defaults to X-Request-Id. 
 * `routing_policies` - A named ordered list of routing rules that is applied to a listener.
 
 	**Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API. 

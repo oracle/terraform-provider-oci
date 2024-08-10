@@ -78,6 +78,32 @@ resource "oci_waf_web_app_firewall_policy" "test_waf_web_app_firewall_policy" {
     }
   }
 
+  actions {
+    #Required
+    name = "dynamicReturn401Response"
+    type = "RETURN_HTTP_RESPONSE"
+    code = 401
+    body {
+      #Required
+      type = "DYNAMIC"
+      # need $${ so that terraform doesn't try to replace ${http.request.id}
+      template = "{\n\"code\": 401,\n\"message\":\"Unauthorised: requestId: $${http.request.id}}"
+    }
+
+    #Optional
+    headers {
+      #Required
+      name = "Header1"
+      value = "Value1"
+    }
+
+    headers {
+      #Required
+      name = "Header2"
+      value = "Value2"
+    }
+  }
+
   request_access_control {
     #Required
     default_action_name = "defaultAction"
