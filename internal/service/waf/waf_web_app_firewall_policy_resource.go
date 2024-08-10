@@ -71,20 +71,25 @@ func WafWebAppFirewallPolicyResource() *schema.Resource {
 							Elem: &schema.Resource{
 								Schema: map[string]*schema.Schema{
 									// Required
-									"text": {
-										Type:     schema.TypeString,
-										Required: true,
-									},
 									"type": {
 										Type:             schema.TypeString,
 										Required:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DYNAMIC",
 											"STATIC_TEXT",
 										}, true),
 									},
 
 									// Optional
+									"text": { // text is for STATIC_TEXT
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"template": { // template is for DYNAMIC
+										Type:     schema.TypeString,
+										Optional: true,
+									},
 
 									// Computed
 								},
@@ -1491,6 +1496,13 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToHttpResponseBody(fieldKeyForm
 		type_ = "" // default value
 	}
 	switch strings.ToLower(type_) {
+	case strings.ToLower("DYNAMIC"):
+		details := oci_waf.DynamicHttpResponseBody{}
+		if template, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "template")); ok {
+			tmp := template.(string)
+			details.Template = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("STATIC_TEXT"):
 		details := oci_waf.StaticTextHttpResponseBody{}
 		if text, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "text")); ok {
@@ -1507,6 +1519,12 @@ func (s *WafWebAppFirewallPolicyResourceCrud) mapToHttpResponseBody(fieldKeyForm
 func HttpResponseBodyToMap(obj *oci_waf.HttpResponseBody) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_waf.DynamicHttpResponseBody:
+		result["type"] = "DYNAMIC"
+
+		if v.Template != nil {
+			result["template"] = string(*v.Template)
+		}
 	case oci_waf.StaticTextHttpResponseBody:
 		result["type"] = "STATIC_TEXT"
 
