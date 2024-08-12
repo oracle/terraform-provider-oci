@@ -44,7 +44,6 @@ func DataflowSqlEndpointResource() *schema.Resource {
 			"display_name": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"driver_shape": {
 				Type:     schema.TypeString,
@@ -63,7 +62,6 @@ func DataflowSqlEndpointResource() *schema.Resource {
 			"max_executor_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"metastore_id": {
 				Type:     schema.TypeString,
@@ -73,7 +71,6 @@ func DataflowSqlEndpointResource() *schema.Resource {
 			"min_executor_count": {
 				Type:     schema.TypeInt,
 				Required: true,
-				ForceNew: true,
 			},
 			"network_configuration": {
 				Type:     schema.TypeList,
@@ -179,7 +176,6 @@ func DataflowSqlEndpointResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"driver_shape_config": {
 				Type:     schema.TypeList,
@@ -249,8 +245,23 @@ func DataflowSqlEndpointResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem:     schema.TypeString,
+			},
+			"state": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+				ValidateFunc: validation.StringInSlice([]string{
+					string(oci_dataflow.SqlEndpointLifecycleStateCreating),
+					string(oci_dataflow.SqlEndpointLifecycleStateActive),
+					string(oci_dataflow.SqlEndpointLifecycleStateDeleting),
+					string(oci_dataflow.SqlEndpointLifecycleStateDeleted),
+					string(oci_dataflow.SqlEndpointLifecycleStateFailed),
+					string(oci_dataflow.SqlEndpointLifecycleStateUpdating),
+					string(oci_dataflow.SqlEndpointLifecycleStateNeedsAttention),
+					string(oci_dataflow.SqlEndpointLifecycleStateInactive),
+				}, true),
 			},
 
 			// Computed
@@ -259,14 +270,6 @@ func DataflowSqlEndpointResource() *schema.Resource {
 				Computed: true,
 			},
 			"jdbc_endpoint_url": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"last_accepted_request_token": {
-				Type:     schema.TypeString,
-				Computed: true,
-			},
-			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -295,8 +298,26 @@ func createDataflowSqlEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync := &DataflowSqlEndpointResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
+	var powerOff = false
+	if powerState, ok := sync.D.GetOkExists("state"); ok {
+		wantedPowerState := oci_dataflow.SqlEndpointLifecycleStateEnum(strings.ToUpper(powerState.(string)))
+		if wantedPowerState == oci_dataflow.SqlEndpointLifecycleStateInactive {
+			powerOff = true
+		}
+	}
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if powerOff {
+		if err := sync.StopSqlEndpoint(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_dataflow.SqlEndpointLifecycleStateInactive)
+	}
+	return nil
+
 }
 
 func readDataflowSqlEndpoint(d *schema.ResourceData, m interface{}) error {
@@ -312,7 +333,36 @@ func updateDataflowSqlEndpoint(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DataFlowClient()
 
-	return tfresource.UpdateResource(d, sync)
+	powerOn, powerOff := false, false
+
+	if sync.D.HasChange("state") {
+		wantedState := strings.ToUpper(sync.D.Get("state").(string))
+		if oci_dataflow.SqlEndpointLifecycleStateActive == oci_dataflow.SqlEndpointLifecycleStateEnum(wantedState) {
+			powerOn = true
+		} else if oci_dataflow.SqlEndpointLifecycleStateInactive == oci_dataflow.SqlEndpointLifecycleStateEnum(wantedState) {
+			powerOff = true
+		}
+	}
+
+	if powerOn {
+		if err := sync.StartSqlEndpoint(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_dataflow.SqlEndpointLifecycleStateActive)
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	if powerOff {
+		if err := sync.StopSqlEndpoint(); err != nil {
+			return err
+		}
+		sync.D.Set("state", oci_dataflow.SqlEndpointLifecycleStateInactive)
+	}
+
+	return nil
 }
 
 func deleteDataflowSqlEndpoint(d *schema.ResourceData, m interface{}) error {
@@ -524,7 +574,7 @@ func waitForSqlEndpoint(sqlEndpointId *string, action oci_dataflow.SqlEndpointLi
 		Pending: []string{
 			string(oci_dataflow.SqlEndpointLifecycleStateCreating),
 			string(oci_dataflow.SqlEndpointLifecycleStateDeleting),
-			"UPDATING",
+			string(oci_dataflow.SqlEndpointLifecycleStateUpdating),
 		},
 		Target: []string{
 			string(action),
@@ -587,8 +637,32 @@ func (s *DataflowSqlEndpointResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if description, ok := s.D.GetOkExists("description"); ok {
+		tmp := description.(string)
+		request.Description = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+		tmp := displayName.(string)
+		request.DisplayName = &tmp
+	}
+
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if maxExecutorCount, ok := s.D.GetOkExists("max_executor_count"); ok {
+		tmp := maxExecutorCount.(int)
+		request.MaxExecutorCount = &tmp
+	}
+
+	if minExecutorCount, ok := s.D.GetOkExists("min_executor_count"); ok {
+		tmp := minExecutorCount.(int)
+		request.MinExecutorCount = &tmp
+	}
+
+	if sparkAdvancedConfigurations, ok := s.D.GetOkExists("spark_advanced_configurations"); ok {
+		request.SparkAdvancedConfigurations = tfresource.ObjectMapToStringMap(sparkAdvancedConfigurations.(map[string]interface{}))
 	}
 
 	tmp := s.D.Id()
@@ -669,10 +743,6 @@ func (s *DataflowSqlEndpointResourceCrud) SetData() error {
 		s.D.Set("lake_id", *s.Res.LakeId)
 	}
 
-	if s.Res.LastAcceptedRequestToken != nil {
-		s.D.Set("last_accepted_request_token", *s.Res.LastAcceptedRequestToken)
-	}
-
 	if s.Res.MaxExecutorCount != nil {
 		s.D.Set("max_executor_count", *s.Res.MaxExecutorCount)
 	}
@@ -724,6 +794,40 @@ func (s *DataflowSqlEndpointResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DataflowSqlEndpointResourceCrud) StartSqlEndpoint() error {
+	request := oci_dataflow.StartSqlEndpointRequest{}
+
+	idTmp := s.D.Id()
+	request.SqlEndpointId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	_, err := s.Client.StartSqlEndpoint(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_dataflow.SqlEndpointLifecycleStateActive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DataflowSqlEndpointResourceCrud) StopSqlEndpoint() error {
+	request := oci_dataflow.StopSqlEndpointRequest{}
+
+	idTmp := s.D.Id()
+	request.SqlEndpointId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+	_, err := s.Client.StopSqlEndpoint(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	retentionPolicyFunc := func() bool { return s.Res.LifecycleState == oci_dataflow.SqlEndpointLifecycleStateInactive }
+	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DataflowSqlEndpointResourceCrud) mapToSecureAccessControlRule(fieldKeyFormat string) (oci_dataflow.SecureAccessControlRule, error) {
@@ -941,10 +1045,6 @@ func SqlEndpointSummaryToMap(obj oci_dataflow.SqlEndpointSummary) map[string]int
 
 	if obj.LakeId != nil {
 		result["lake_id"] = string(*obj.LakeId)
-	}
-
-	if obj.LastAcceptedRequestToken != nil {
-		result["last_accepted_request_token"] = string(*obj.LastAcceptedRequestToken)
 	}
 
 	if obj.MaxExecutorCount != nil {
