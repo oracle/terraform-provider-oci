@@ -40,7 +40,7 @@ type RuleConditionGroup struct {
 	//  - uniqueness: none
 	Type RuleConditionGroupTypeEnum `mandatory:"true" json:"type"`
 
-	// Condition or ConditionGroup identifier
+	// Condition or ConditionGroup identifier.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true

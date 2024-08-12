@@ -203,6 +203,13 @@ func newAuthClient(region common.Region, provider common.KeyProvider) *common.Ba
 		client.Host = region.Endpoint("auth")
 	}
 	client.BasePath = "v1/x509"
+
+	if common.GlobalAuthClientCircuitBreakerSetting != nil {
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.GlobalAuthClientCircuitBreakerSetting)
+	} else if !common.IsEnvVarFalse("OCI_SDK_AUTH_CLIENT_CIRCUIT_BREAKER_ENABLED") {
+		common.Logf("Configuring DefaultAuthClientCircuitBreakerSetting for federation client")
+		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultAuthClientCircuitBreakerSetting())
+	}
 	return &client
 }
 
@@ -288,7 +295,7 @@ func (c *x509FederationClient) getSecurityToken() (securityToken, error) {
 	var httpResponse *http.Response
 	defer common.CloseBodyIfValid(httpResponse)
 
-	for retry := 0; retry < 5; retry++ {
+	for retry := 0; retry < 3; retry++ {
 		request := c.makeX509FederationRequest()
 
 		if httpRequest, err = common.MakeDefaultHTTPRequestWithTaggedStruct(http.MethodPost, "", request); err != nil {
@@ -298,7 +305,10 @@ func (c *x509FederationClient) getSecurityToken() (securityToken, error) {
 		if httpResponse, err = c.authClient.Call(context.Background(), &httpRequest); err == nil {
 			break
 		}
-
+		// Don't retry on 4xx errors
+		if httpResponse != nil && httpResponse.StatusCode >= 400 && httpResponse.StatusCode <= 499 {
+			return nil, fmt.Errorf("error %s returned by auth service: %s", httpResponse.Status, err.Error())
+		}
 		nextDuration := time.Duration(1000.0*(math.Pow(2.0, float64(retry)))) * time.Millisecond
 		time.Sleep(nextDuration)
 	}

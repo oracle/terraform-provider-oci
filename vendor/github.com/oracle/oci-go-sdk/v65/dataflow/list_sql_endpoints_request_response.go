@@ -136,6 +136,7 @@ const (
 	ListSqlEndpointsLifecycleStateFailed         ListSqlEndpointsLifecycleStateEnum = "FAILED"
 	ListSqlEndpointsLifecycleStateUpdating       ListSqlEndpointsLifecycleStateEnum = "UPDATING"
 	ListSqlEndpointsLifecycleStateNeedsAttention ListSqlEndpointsLifecycleStateEnum = "NEEDS_ATTENTION"
+	ListSqlEndpointsLifecycleStateInactive       ListSqlEndpointsLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingListSqlEndpointsLifecycleStateEnum = map[string]ListSqlEndpointsLifecycleStateEnum{
@@ -146,6 +147,7 @@ var mappingListSqlEndpointsLifecycleStateEnum = map[string]ListSqlEndpointsLifec
 	"FAILED":          ListSqlEndpointsLifecycleStateFailed,
 	"UPDATING":        ListSqlEndpointsLifecycleStateUpdating,
 	"NEEDS_ATTENTION": ListSqlEndpointsLifecycleStateNeedsAttention,
+	"INACTIVE":        ListSqlEndpointsLifecycleStateInactive,
 }
 
 var mappingListSqlEndpointsLifecycleStateEnumLowerCase = map[string]ListSqlEndpointsLifecycleStateEnum{
@@ -156,6 +158,7 @@ var mappingListSqlEndpointsLifecycleStateEnumLowerCase = map[string]ListSqlEndpo
 	"failed":          ListSqlEndpointsLifecycleStateFailed,
 	"updating":        ListSqlEndpointsLifecycleStateUpdating,
 	"needs_attention": ListSqlEndpointsLifecycleStateNeedsAttention,
+	"inactive":        ListSqlEndpointsLifecycleStateInactive,
 }
 
 // GetListSqlEndpointsLifecycleStateEnumValues Enumerates the set of values for ListSqlEndpointsLifecycleStateEnum
@@ -177,6 +180,7 @@ func GetListSqlEndpointsLifecycleStateEnumStringValues() []string {
 		"FAILED",
 		"UPDATING",
 		"NEEDS_ATTENTION",
+		"INACTIVE",
 	}
 }
 

@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// PolicyPolicyType PolicyType on which the policy is based
+// OciConsoleSignOnPolicyConsentPolicyResource Policy Resource
 // **SCIM++ Properties:**
 //   - idcsSearchable: true
 //   - multiValued: false
@@ -26,9 +26,9 @@ import (
 //   - returned: default
 //   - type: complex
 //   - uniqueness: none
-type PolicyPolicyType struct {
+type OciConsoleSignOnPolicyConsentPolicyResource struct {
 
-	// PolicyType identifier.
+	// Policy Resource Id
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
@@ -37,29 +37,28 @@ type PolicyPolicyType struct {
 	//  - required: true
 	//  - returned: default
 	//  - type: string
-	//  - uniqueness: none
 	Value *string `mandatory:"true" json:"value"`
 
-	// PolicyType URI
+	// Policy Resource Ocid
 	// **SCIM++ Properties:**
-	//  - idcsSearchable: false
+	//  - caseExact: true
+	//  - idcsSearchable: true
 	//  - multiValued: false
-	//  - mutability: readOnly
-	//  - required: false
+	//  - mutability: immutable
+	//  - required: true
 	//  - returned: default
-	//  - type: reference
-	//  - uniqueness: none
-	Ref *string `mandatory:"false" json:"$ref"`
+	//  - type: string
+	Ocid *string `mandatory:"true" json:"ocid"`
 }
 
-func (m PolicyPolicyType) String() string {
+func (m OciConsoleSignOnPolicyConsentPolicyResource) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m PolicyPolicyType) ValidateEnumValue() (bool, error) {
+func (m OciConsoleSignOnPolicyConsentPolicyResource) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
