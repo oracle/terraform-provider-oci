@@ -388,5 +388,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "me-riyadh-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "shj",
+        "realmKey": "oc29",
+        "regionIdentifier": "me-abudhabi-4",
+        "realmDomainComponent": "oraclecloud29.com"
     }
 ]

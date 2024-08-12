@@ -80,6 +80,10 @@ type IntegrationInstanceSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// Shape
 	Shape IntegrationInstanceSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
@@ -129,6 +133,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		NetworkEndpointDetails            networkendpointdetails                                `json:"networkEndpointDetails"`
 		FreeformTags                      map[string]string                                     `json:"freeformTags"`
 		DefinedTags                       map[string]map[string]interface{}                     `json:"definedTags"`
+		SystemTags                        map[string]map[string]interface{}                     `json:"systemTags"`
 		Shape                             IntegrationInstanceSummaryShapeEnum                   `json:"shape"`
 		PrivateEndpointOutboundConnection outboundconnection                                    `json:"privateEndpointOutboundConnection"`
 		Id                                *string                                               `json:"id"`
@@ -177,6 +182,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.DefinedTags = model.DefinedTags
 
+	m.SystemTags = model.SystemTags
+
 	m.Shape = model.Shape
 
 	nn, e = model.PrivateEndpointOutboundConnection.UnmarshalPolymorphicJSON(model.PrivateEndpointOutboundConnection.JsonData)
@@ -215,6 +222,7 @@ const (
 	IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise  IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "ENTERPRISE"
 	IntegrationInstanceSummaryIntegrationInstanceTypeStandardx   IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "STANDARDX"
 	IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "ENTERPRISEX"
+	IntegrationInstanceSummaryIntegrationInstanceTypeHealthcare  IntegrationInstanceSummaryIntegrationInstanceTypeEnum = "HEALTHCARE"
 )
 
 var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnum = map[string]IntegrationInstanceSummaryIntegrationInstanceTypeEnum{
@@ -222,6 +230,7 @@ var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnum = map[string]In
 	"ENTERPRISE":  IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
 	"STANDARDX":   IntegrationInstanceSummaryIntegrationInstanceTypeStandardx,
 	"ENTERPRISEX": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex,
+	"HEALTHCARE":  IntegrationInstanceSummaryIntegrationInstanceTypeHealthcare,
 }
 
 var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnumLowerCase = map[string]IntegrationInstanceSummaryIntegrationInstanceTypeEnum{
@@ -229,6 +238,7 @@ var mappingIntegrationInstanceSummaryIntegrationInstanceTypeEnumLowerCase = map[
 	"enterprise":  IntegrationInstanceSummaryIntegrationInstanceTypeEnterprise,
 	"standardx":   IntegrationInstanceSummaryIntegrationInstanceTypeStandardx,
 	"enterprisex": IntegrationInstanceSummaryIntegrationInstanceTypeEnterprisex,
+	"healthcare":  IntegrationInstanceSummaryIntegrationInstanceTypeHealthcare,
 }
 
 // GetIntegrationInstanceSummaryIntegrationInstanceTypeEnumValues Enumerates the set of values for IntegrationInstanceSummaryIntegrationInstanceTypeEnum
@@ -247,6 +257,7 @@ func GetIntegrationInstanceSummaryIntegrationInstanceTypeEnumStringValues() []st
 		"ENTERPRISE",
 		"STANDARDX",
 		"ENTERPRISEX",
+		"HEALTHCARE",
 	}
 }
 

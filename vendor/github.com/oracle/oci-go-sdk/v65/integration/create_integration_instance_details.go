@@ -182,6 +182,7 @@ const (
 	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
 	CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx   CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARDX"
 	CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISEX"
+	CreateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "HEALTHCARE"
 )
 
 var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
@@ -189,6 +190,7 @@ var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[str
 	"ENTERPRISE":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
 	"STANDARDX":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
 	"ENTERPRISEX": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
+	"HEALTHCARE":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare,
 }
 
 var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase = map[string]CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
@@ -196,6 +198,7 @@ var mappingCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase 
 	"enterprise":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
 	"standardx":   CreateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
 	"enterprisex": CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
+	"healthcare":  CreateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare,
 }
 
 // GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
@@ -214,6 +217,7 @@ func GetCreateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(
 		"ENTERPRISE",
 		"STANDARDX",
 		"ENTERPRISEX",
+		"HEALTHCARE",
 	}
 }
 
