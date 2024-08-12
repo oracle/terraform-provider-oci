@@ -17,8 +17,8 @@ import (
 	"strings"
 )
 
-// Condition Condition resource. A unit that captures a condition.
-type Condition struct {
+// OciConsoleSignOnPolicyConsent The "Security Policy for OCI Console" sign-on policy consent resource used to record consents. The schema to record the "Security Policy for OCI Console" sign-on policy consent.
+type OciConsoleSignOnPolicyConsent struct {
 
 	// REQUIRED. The schemas attribute is an array of Strings which allows introspection of the supported schema version for a SCIM representation as well any schema extensions supported by that representation. Each String value must be a unique URI. This specification defines URIs for User, Group, and a standard \"enterprise\" extension. All representations of SCIM schema MUST include a non-zero value array with value(s) of the URIs supported by that representation. Duplicate values MUST NOT be included. Value order is not specified and MUST not impact behavior.
 	// **SCIM++ Properties:**
@@ -32,53 +32,65 @@ type Condition struct {
 	//  - uniqueness: none
 	Schemas []string `mandatory:"true" json:"schemas"`
 
-	// Condition name
+	ConsentSignedBy *OciConsoleSignOnPolicyConsentConsentSignedBy `mandatory:"true" json:"consentSignedBy"`
+
+	ModifiedResource *OciConsoleSignOnPolicyConsentModifiedResource `mandatory:"true" json:"modifiedResource"`
+
+	PolicyResource *OciConsoleSignOnPolicyConsentPolicyResource `mandatory:"true" json:"policyResource"`
+
+	// Change Type - MODIFIED or RESTORED_TO_FACTORY_DEFAULT
 	// **SCIM++ Properties:**
-	//  - caseExact: true
 	//  - idcsSearchable: true
 	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: true
-	//  - returned: always
-	//  - type: string
-	//  - uniqueness: global
-	Name *string `mandatory:"true" json:"name"`
-
-	// AttributeName - RHS of condition
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - idcsSearchable: false
-	//  - multiValued: false
-	//  - mutability: readWrite
+	//  - mutability: immutable
 	//  - required: true
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
-	AttributeName *string `mandatory:"true" json:"attributeName"`
+	ChangeType OciConsoleSignOnPolicyConsentChangeTypeEnum `mandatory:"true" json:"changeType"`
 
+	// Client IP of the Consent Signer
 	// **SCIM++ Properties:**
-	// - caseExact: true
-	// - idcsSearchable: false
-	// - multiValued: false
-	// - mutability: readWrite
-	// - required: true
-	// - returned: default
-	// - type: string
-	// - uniqueness: none
-	// Operator in the condition. It support all SCIM operators like eq, gt, lt, le, sw etc
-	Operator ConditionOperatorEnum `mandatory:"true" json:"operator"`
-
-	// attributeValue - RHS of condition
-	// **SCIM++ Properties:**
-	//  - caseExact: true
 	//  - idcsSearchable: false
 	//  - multiValued: false
-	//  - mutability: readWrite
+	//  - mutability: immutable
 	//  - required: true
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
-	AttributeValue *string `mandatory:"true" json:"attributeValue"`
+	ClientIp *string `mandatory:"true" json:"clientIp"`
+
+	// The justification for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for OCI Console" sign-on policy shipped by Oracle.
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: immutable
+	//  - required: true
+	//  - returned: default
+	//  - type: string
+	//  - uniqueness: none
+	Justification *string `mandatory:"true" json:"justification"`
+
+	// Time when Consent was signed.
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: immutable
+	//  - required: true
+	//  - returned: default
+	//  - type: dateTime
+	//  - uniqueness: none
+	TimeConsentSigned *string `mandatory:"true" json:"timeConsentSigned"`
+
+	// The recipients of the email notification for the change in consent.
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: true
+	//  - mutability: immutable
+	//  - required: true
+	//  - returned: default
+	//  - type: string
+	NotificationRecipients []string `mandatory:"true" json:"notificationRecipients"`
 
 	// Unique identifier for the SCIM Resource as defined by the Service Provider. Each representation of the Resource MUST include a non-empty id value. This identifier MUST be unique across the Service Provider's entire set of Resources. It MUST be a stable, non-reassignable identifier that does not change when the same Resource is returned in subsequent requests. The value of the id attribute is always issued by the Service Provider and MUST never be specified by the Service Consumer. bulkId: is a reserved keyword and MUST NOT be used in the unique identifier.
 	// **SCIM++ Properties:**
@@ -194,56 +206,29 @@ type Condition struct {
 	//  - uniqueness: none
 	TenancyOcid *string `mandatory:"false" json:"tenancyOcid"`
 
-	// An identifier for the Resource as defined by the Service Consumer. The externalId may simplify identification of the Resource between Service Consumer and Service provider by allowing the Consumer to refer to the Resource with its own identifier, obviating the need to store a local mapping between the local identifier of the Resource and the identifier used by the Service Provider. Each Resource MAY include a non-empty externalId value.  The value of the externalId attribute is always issued be the Service Consumer and can never be specified by the Service Provider. The Service Provider MUST always interpret the externalId as scoped to the Service Consumer's tenant.
-	// **SCIM++ Properties:**
-	//  - caseExact: false
-	//  - idcsSearchable: true
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	ExternalId *string `mandatory:"false" json:"externalId"`
-
-	// Condition Description
+	// The detailed reason for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for OCI Console" sign-on policy shipped by Oracle.
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
-	//  - mutability: readWrite
+	//  - mutability: immutable
 	//  - required: false
 	//  - returned: default
 	//  - type: string
 	//  - uniqueness: none
-	Description *string `mandatory:"false" json:"description"`
-
-	// Evaluate the condition if this expression returns true, else skip condition evaluation
-	// **Added In:** 18.1.6
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - idcsSearchable: false
-	//  - multiValued: false
-	//  - mutability: readWrite
-	//  - required: false
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	EvaluateConditionIf *string `mandatory:"false" json:"evaluateConditionIf"`
-
-	UrnIetfParamsScimSchemasOracleIdcsExtensionOciconsolesignonpolicyconsentPolicy *ConditionExtensionOciconsolesignonpolicyconsentPolicy `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:ociconsolesignonpolicyconsent:Policy"`
+	Reason *string `mandatory:"false" json:"reason"`
 }
 
-func (m Condition) String() string {
+func (m OciConsoleSignOnPolicyConsent) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Condition) ValidateEnumValue() (bool, error) {
+func (m OciConsoleSignOnPolicyConsent) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-	if _, ok := GetMappingConditionOperatorEnum(string(m.Operator)); !ok && m.Operator != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Operator: %s. Supported values are: %s.", m.Operator, strings.Join(GetConditionOperatorEnumStringValues(), ",")))
+	if _, ok := GetMappingOciConsoleSignOnPolicyConsentChangeTypeEnum(string(m.ChangeType)); !ok && m.ChangeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ChangeType: %s. Supported values are: %s.", m.ChangeType, strings.Join(GetOciConsoleSignOnPolicyConsentChangeTypeEnumStringValues(), ",")))
 	}
 
 	for _, val := range m.IdcsPreventedOperations {
@@ -258,84 +243,44 @@ func (m Condition) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// ConditionOperatorEnum Enum with underlying type: string
-type ConditionOperatorEnum string
+// OciConsoleSignOnPolicyConsentChangeTypeEnum Enum with underlying type: string
+type OciConsoleSignOnPolicyConsentChangeTypeEnum string
 
-// Set of constants representing the allowable values for ConditionOperatorEnum
+// Set of constants representing the allowable values for OciConsoleSignOnPolicyConsentChangeTypeEnum
 const (
-	ConditionOperatorEq    ConditionOperatorEnum = "eq"
-	ConditionOperatorNe    ConditionOperatorEnum = "ne"
-	ConditionOperatorCo    ConditionOperatorEnum = "co"
-	ConditionOperatorCoany ConditionOperatorEnum = "coany"
-	ConditionOperatorSw    ConditionOperatorEnum = "sw"
-	ConditionOperatorEw    ConditionOperatorEnum = "ew"
-	ConditionOperatorGt    ConditionOperatorEnum = "gt"
-	ConditionOperatorGe    ConditionOperatorEnum = "ge"
-	ConditionOperatorLt    ConditionOperatorEnum = "lt"
-	ConditionOperatorLe    ConditionOperatorEnum = "le"
-	ConditionOperatorIn    ConditionOperatorEnum = "in"
-	ConditionOperatorNin   ConditionOperatorEnum = "nin"
+	OciConsoleSignOnPolicyConsentChangeTypeModified                 OciConsoleSignOnPolicyConsentChangeTypeEnum = "MODIFIED"
+	OciConsoleSignOnPolicyConsentChangeTypeRestoredToFactoryDefault OciConsoleSignOnPolicyConsentChangeTypeEnum = "RESTORED_TO_FACTORY_DEFAULT"
 )
 
-var mappingConditionOperatorEnum = map[string]ConditionOperatorEnum{
-	"eq":    ConditionOperatorEq,
-	"ne":    ConditionOperatorNe,
-	"co":    ConditionOperatorCo,
-	"coany": ConditionOperatorCoany,
-	"sw":    ConditionOperatorSw,
-	"ew":    ConditionOperatorEw,
-	"gt":    ConditionOperatorGt,
-	"ge":    ConditionOperatorGe,
-	"lt":    ConditionOperatorLt,
-	"le":    ConditionOperatorLe,
-	"in":    ConditionOperatorIn,
-	"nin":   ConditionOperatorNin,
+var mappingOciConsoleSignOnPolicyConsentChangeTypeEnum = map[string]OciConsoleSignOnPolicyConsentChangeTypeEnum{
+	"MODIFIED":                    OciConsoleSignOnPolicyConsentChangeTypeModified,
+	"RESTORED_TO_FACTORY_DEFAULT": OciConsoleSignOnPolicyConsentChangeTypeRestoredToFactoryDefault,
 }
 
-var mappingConditionOperatorEnumLowerCase = map[string]ConditionOperatorEnum{
-	"eq":    ConditionOperatorEq,
-	"ne":    ConditionOperatorNe,
-	"co":    ConditionOperatorCo,
-	"coany": ConditionOperatorCoany,
-	"sw":    ConditionOperatorSw,
-	"ew":    ConditionOperatorEw,
-	"gt":    ConditionOperatorGt,
-	"ge":    ConditionOperatorGe,
-	"lt":    ConditionOperatorLt,
-	"le":    ConditionOperatorLe,
-	"in":    ConditionOperatorIn,
-	"nin":   ConditionOperatorNin,
+var mappingOciConsoleSignOnPolicyConsentChangeTypeEnumLowerCase = map[string]OciConsoleSignOnPolicyConsentChangeTypeEnum{
+	"modified":                    OciConsoleSignOnPolicyConsentChangeTypeModified,
+	"restored_to_factory_default": OciConsoleSignOnPolicyConsentChangeTypeRestoredToFactoryDefault,
 }
 
-// GetConditionOperatorEnumValues Enumerates the set of values for ConditionOperatorEnum
-func GetConditionOperatorEnumValues() []ConditionOperatorEnum {
-	values := make([]ConditionOperatorEnum, 0)
-	for _, v := range mappingConditionOperatorEnum {
+// GetOciConsoleSignOnPolicyConsentChangeTypeEnumValues Enumerates the set of values for OciConsoleSignOnPolicyConsentChangeTypeEnum
+func GetOciConsoleSignOnPolicyConsentChangeTypeEnumValues() []OciConsoleSignOnPolicyConsentChangeTypeEnum {
+	values := make([]OciConsoleSignOnPolicyConsentChangeTypeEnum, 0)
+	for _, v := range mappingOciConsoleSignOnPolicyConsentChangeTypeEnum {
 		values = append(values, v)
 	}
 	return values
 }
 
-// GetConditionOperatorEnumStringValues Enumerates the set of values in String for ConditionOperatorEnum
-func GetConditionOperatorEnumStringValues() []string {
+// GetOciConsoleSignOnPolicyConsentChangeTypeEnumStringValues Enumerates the set of values in String for OciConsoleSignOnPolicyConsentChangeTypeEnum
+func GetOciConsoleSignOnPolicyConsentChangeTypeEnumStringValues() []string {
 	return []string{
-		"eq",
-		"ne",
-		"co",
-		"coany",
-		"sw",
-		"ew",
-		"gt",
-		"ge",
-		"lt",
-		"le",
-		"in",
-		"nin",
+		"MODIFIED",
+		"RESTORED_TO_FACTORY_DEFAULT",
 	}
 }
 
-// GetMappingConditionOperatorEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingConditionOperatorEnum(val string) (ConditionOperatorEnum, bool) {
-	enum, ok := mappingConditionOperatorEnumLowerCase[strings.ToLower(val)]
+// GetMappingOciConsoleSignOnPolicyConsentChangeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingOciConsoleSignOnPolicyConsentChangeTypeEnum(val string) (OciConsoleSignOnPolicyConsentChangeTypeEnum, bool) {
+	enum, ok := mappingOciConsoleSignOnPolicyConsentChangeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

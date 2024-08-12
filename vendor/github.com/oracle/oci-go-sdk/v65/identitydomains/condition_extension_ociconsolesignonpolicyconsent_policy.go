@@ -17,49 +17,51 @@ import (
 	"strings"
 )
 
-// PolicyPolicyType PolicyType on which the policy is based
-// **SCIM++ Properties:**
-//   - idcsSearchable: true
-//   - multiValued: false
-//   - mutability: immutable
-//   - required: true
-//   - returned: default
-//   - type: complex
-//   - uniqueness: none
-type PolicyPolicyType struct {
+// ConditionExtensionOciconsolesignonpolicyconsentPolicy This extension defines attributes used to record consent for modification of the "Security Policy for OCI Console" sign-on policy, Rule, Condition or ConditionGroup.
+type ConditionExtensionOciconsolesignonpolicyconsentPolicy struct {
 
-	// PolicyType identifier.
-	// **SCIM++ Properties:**
-	//  - caseExact: true
-	//  - idcsSearchable: true
-	//  - multiValued: false
-	//  - mutability: immutable
-	//  - required: true
-	//  - returned: default
-	//  - type: string
-	//  - uniqueness: none
-	Value *string `mandatory:"true" json:"value"`
-
-	// PolicyType URI
+	// Set to true when an identity domain administrator opts to change the Oracle security defaults for the "Security Policy for OCI Console" sign-on policy shipped by Oracle. Defaults to false.
+	// **Added In:** 2405220110
 	// **SCIM++ Properties:**
 	//  - idcsSearchable: false
 	//  - multiValued: false
-	//  - mutability: readOnly
+	//  - mutability: writeOnly
 	//  - required: false
-	//  - returned: default
-	//  - type: reference
-	//  - uniqueness: none
-	Ref *string `mandatory:"false" json:"$ref"`
+	//  - returned: never
+	//  - type: boolean
+	Consent *bool `mandatory:"false" json:"consent"`
+
+	// The justification for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for OCI Console" sign-on policy shipped by Oracle.
+	// **Added In:** 2405220110
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: writeOnly
+	//  - required: false
+	//  - returned: never
+	//  - type: string
+	Justification *string `mandatory:"false" json:"justification"`
+
+	// The detailed reason for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for OCI Console" sign-on policy shipped by Oracle.
+	// **Added In:** 2405220110
+	// **SCIM++ Properties:**
+	//  - idcsSearchable: false
+	//  - multiValued: false
+	//  - mutability: writeOnly
+	//  - required: false
+	//  - returned: never
+	//  - type: string
+	Reason *string `mandatory:"false" json:"reason"`
 }
 
-func (m PolicyPolicyType) String() string {
+func (m ConditionExtensionOciconsolesignonpolicyconsentPolicy) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m PolicyPolicyType) ValidateEnumValue() (bool, error) {
+func (m ConditionExtensionOciconsolesignonpolicyconsentPolicy) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
