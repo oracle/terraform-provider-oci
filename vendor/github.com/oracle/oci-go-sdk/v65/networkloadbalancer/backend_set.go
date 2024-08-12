@@ -17,7 +17,7 @@ import (
 
 // BackendSet The configuration of a network load balancer backend set.
 // For more information about backend set configuration, see
-// Managing Backend Sets (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendSets/backend-set-management.htm).
+// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
 // **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type BackendSet struct {
 
@@ -27,6 +27,7 @@ type BackendSet struct {
 	// Example: `example_backend_set`
 	Name *string `mandatory:"true" json:"name"`
 
+	// The health check policy configuration.
 	HealthChecker *HealthChecker `mandatory:"true" json:"healthChecker"`
 
 	// The network load balancer policy for the backend set.
@@ -48,7 +49,7 @@ type BackendSet struct {
 	// IP version associated with the backend set.
 	IpVersion IpVersionEnum `mandatory:"false" json:"ipVersion,omitempty"`
 
-	// Array of backends.
+	// An array of backends.
 	Backends []Backend `mandatory:"false" json:"backends"`
 }
 

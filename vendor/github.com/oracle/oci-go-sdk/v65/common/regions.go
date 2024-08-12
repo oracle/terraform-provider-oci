@@ -134,6 +134,8 @@ const (
 	RegionMEAbudhabi3 Region = "me-abudhabi-3"
 	//RegionMEAbudhabi2 region Abudhabi
 	RegionMEAbudhabi2 Region = "me-abudhabi-2"
+	//RegionMEAbudhabi4 region Abudhabi
+	RegionMEAbudhabi4 Region = "me-abudhabi-4"
 )
 
 var shortNameRegion = map[string]Region{
@@ -202,6 +204,7 @@ var shortNameRegion = map[string]Region{
 	"avz": RegionEUDccZurich1,
 	"ahu": RegionMEAbudhabi3,
 	"rkt": RegionMEAbudhabi2,
+	"shj": RegionMEAbudhabi4,
 }
 
 var realm = map[string]string{
@@ -302,4 +305,5 @@ var regionRealm = map[Region]string{
 	RegionMEAbudhabi3: "oc26",
 
 	RegionMEAbudhabi2: "oc29",
+	RegionMEAbudhabi4: "oc29",
 }
