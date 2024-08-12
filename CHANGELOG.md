@@ -1,3 +1,15 @@
+## 6.7.0 (Unreleased)
+
+### Added
+- Support for OIC Instance Creation for Healthcare Feature
+- support for New Developer Autonomous databases.
+support for subscription level limits
+- Support for NLB Idle Timeout Configuration
+- Support for Remove dr_plan_execution_type from DR Plan Execution data source
+- Support for CalculateAuditVolumeAvailable and CalculateAuditVolumeCollected resource in Data Safe
+### Bug Fix
+
+
 ## 6.6.0 (August 07, 2024)
 
 ### Added
