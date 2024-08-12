@@ -64,7 +64,6 @@ The following attributes are exported:
 * `id` - The provision identifier that is immutable on creation.
 * `jdbc_endpoint_url` - The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
 * `lake_id` - The OCID of Oracle Cloud Infrastructure Lake.
-* `last_accepted_request_token` - This token is used by Splat, and indicates that the service accepts the request, and that the request is currently being processed.
 * `max_executor_count` - The maximum number of executors.
 * `metastore_id` - The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `min_executor_count` - The minimum number of executors.
