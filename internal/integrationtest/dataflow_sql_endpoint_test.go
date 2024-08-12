@@ -44,18 +44,19 @@ var (
 
 	DataflowSqlEndpointRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `test_sql_endpoint_terraform`},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `test_sql_endpoint_terraform`, Update: `test_sql_endpoint_terraform_updated`},
 		"driver_shape":          acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
 		"executor_shape":        acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"max_executor_count":    acctest.Representation{RepType: acctest.Required, Create: `2`},
+		"max_executor_count":    acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `2`},
 		"metastore_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.metastore_id}`},
-		"min_executor_count":    acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"min_executor_count":    acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"network_configuration": acctest.RepresentationGroup{RepType: acctest.Required, Group: DataflowSqlEndpointNetworkConfigurationRepresentation},
 		"sql_endpoint_version":  acctest.Representation{RepType: acctest.Required, Create: `3.2.1`},
 		//"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`},
-		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSqlEndpointDefinedTagsRepresentation},
+		"description":                   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description updated`},
+		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreSqlEndpointDefinedTagsRepresentation},
+		"spark_advanced_configurations": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{}, Update: map[string]string{"testConfig": "testValue"}},
 	}
 
 	DataflowSqlEndpointNetworkConfigurationRepresentation = map[string]interface{}{
@@ -75,6 +76,10 @@ var (
 
 	ignoreSqlEndpointDefinedTagsRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `system_tags`}},
+	}
+
+	DataflowSqlEndpointSparkConfigurationRepresentation = map[string]interface{}{
+		"testConfig": acctest.Representation{RepType: acctest.Required, Create: `testValue`},
 	}
 
 	DataflowSqlEndpointResourceDependencies = DefinedTagsDependencies
@@ -166,32 +171,58 @@ func TestDataflowSqlEndpointResource_basic(t *testing.T) {
 				},
 			),
 		},
-
-		// verify Update to the compartment (the compartment will be switched back in the next step)
+		// Stop the sql endpoint
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceDependencies +
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+						"state": acctest.Representation{RepType: acctest.Required, Create: `INACTIVE`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "INACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// Start the SQL Endpoint again
+		{
+			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointRepresentation, map[string]interface{}{
+						"state": acctest.Representation{RepType: acctest.Required, Create: `ACTIVE`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify Update to the updateable parameters including compartment
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`, Update: `${var.compartment_id_for_update}`},
+					}),
+				),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "test_sql_endpoint_terraform"),
-				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
-				resource.TestCheckResourceAttr(resourceName, "executor_shape_config.#", "0"),
-				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description updated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_sql_endpoint_terraform_updated"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_executor_count", "2"),
-				resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
-				resource.TestCheckResourceAttr(resourceName, "min_executor_count", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "network_configuration.0.network_type", "SECURE_ACCESS"),
-				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.public_endpoint_ip"),
-				resource.TestCheckResourceAttr(resourceName, "spark_advanced_configurations.%", "0"),
-				resource.TestCheckResourceAttr(resourceName, "sql_endpoint_version", "3.2.1"),
+				resource.TestCheckResourceAttr(resourceName, "min_executor_count", "2"),
+				resource.TestCheckResourceAttr(resourceName, "spark_advanced_configurations.%", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -202,17 +233,18 @@ func TestDataflowSqlEndpointResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// Switch back to original compartment
+		// Switch back to the original compartment
 		{
 			Config: config + compartmentIdVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Create,
+				acctest.GenerateResourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update,
 					acctest.RepresentationCopyWithNewProperties(DataflowSqlEndpointRepresentation, map[string]interface{}{
-						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-					})),
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`, Update: `${var.compartment_id}`},
+					}),
+				),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "test_sql_endpoint_terraform"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description updated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "test_sql_endpoint_terraform_updated"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(resourceName, "driver_shape_config.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "executor_shape", "VM.Standard2.1"),
@@ -221,11 +253,11 @@ func TestDataflowSqlEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "max_executor_count", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "metastore_id"),
-				resource.TestCheckResourceAttr(resourceName, "min_executor_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "min_executor_count", "2"),
 				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_configuration.0.network_type", "SECURE_ACCESS"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.public_endpoint_ip"),
-				resource.TestCheckResourceAttr(resourceName, "spark_advanced_configurations.%", "0"),
+				resource.TestCheckResourceAttr(resourceName, "spark_advanced_configurations.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "sql_endpoint_version", "3.2.1"),
 
 				func(s *terraform.State) (err error) {
@@ -254,14 +286,14 @@ func TestDataflowSqlEndpointResource_basic(t *testing.T) {
 		// verify singular datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Required, acctest.Create, DataflowSqlEndpointSingularDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_dataflow_sql_endpoint", "test_sql_endpoint", acctest.Optional, acctest.Update, DataflowSqlEndpointSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + metastoreIdVariableStr + DataflowSqlEndpointResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "sql_endpoint_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_sql_endpoint_terraform"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "test_sql_endpoint_terraform_updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape", "VM.Standard2.1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "driver_shape_config.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "executor_shape", "VM.Standard2.1"),
@@ -270,11 +302,11 @@ func TestDataflowSqlEndpointResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "jdbc_endpoint_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_executor_count", "2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "min_executor_count", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "min_executor_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_configuration.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_configuration.0.network_type", "SECURE_ACCESS"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "network_configuration.0.public_endpoint_ip"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "spark_advanced_configurations.%", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "spark_advanced_configurations.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "sql_endpoint_version", "3.2.1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

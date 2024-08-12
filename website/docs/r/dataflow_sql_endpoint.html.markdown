@@ -75,8 +75,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The identifier of the compartment used with the SQL Endpoint.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
-* `description` - (Optional) The description of CreateSQLEndpointDetails.
-* `display_name` - (Required) The SQL Endpoint name, which can be changed.
+* `description` - (Optional) (Updatable) The description of CreateSQLEndpointDetails.
+* `display_name` - (Required) (Updatable) The SQL Endpoint name, which can be changed.
 * `driver_shape` - (Required) The shape of the SQL Endpoint driver instance.
 * `driver_shape_config` - (Optional) This is used to configure the shape of the driver or executor if a flexible shape is used. 
 	* `memory_in_gbs` - (Optional) The amount of memory used for the driver or executors. 
@@ -87,9 +87,9 @@ The following arguments are supported:
 	* `ocpus` - (Optional) The total number of OCPUs used for the driver or executors. See [here](https://docs.cloud.oracle.com/en-us/iaas/api/#/en/iaas/20160918/Shape/) for details. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `lake_id` - (Required) Oracle Cloud Infrastructure lake OCID
-* `max_executor_count` - (Required) The maximum number of executors.
+* `max_executor_count` - (Required) (Updatable) The maximum number of executors.
 * `metastore_id` - (Required) Metastore OCID
-* `min_executor_count` - (Required) The minimum number of executors.
+* `min_executor_count` - (Required) (Updatable) The minimum number of executors.
 * `network_configuration` - (Required) The network configuration of a SQL Endpoint.
 	* `access_control_rules` - (Applicable when network_type=SECURE_ACCESS) A list of SecureAccessControlRule's to which access is limited to
 		* `ip_notation` - (Required when network_type=SECURE_ACCESS) The type of IP notation.
@@ -102,9 +102,10 @@ The following arguments are supported:
 	* `public_endpoint_ip` - (Applicable when network_type=SECURE_ACCESS) Ip Address of public endpoint
 	* `subnet_id` - (Required when network_type=VCN) The VCN Subnet OCID.
 	* `vcn_id` - (Required when network_type=VCN) The VCN OCID.
-* `spark_advanced_configurations` - (Optional) The Spark configuration passed to the running process. See https://spark.apache.org/docs/latest/configuration.html#available-properties. Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned. 
+* `spark_advanced_configurations` - (Optional) (Updatable) The Spark configuration passed to the running process. See https://spark.apache.org/docs/latest/configuration.html#available-properties. Example: { "spark.app.name" : "My App Name", "spark.shuffle.io.maxRetries" : "4" } Note: Not all Spark properties are permitted to be set.  Attempting to set a property that is not allowed to be overwritten will cause a 400 status to be returned. 
 * `sql_endpoint_version` - (Required) The version of the SQL Endpoint.
 * `warehouse_bucket_uri` - (Required) The warehouse bucket URI. It is a Oracle Cloud Infrastructure Object Storage bucket URI as defined here https://docs.oracle.com/en/cloud/paas/atp-cloud/atpud/object-storage-uris.html
+* `state` - (Optional) (Updatable) The target state for the Sql Endpoint. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
 ** IMPORTANT **
@@ -130,7 +131,6 @@ The following attributes are exported:
 * `id` - The provision identifier that is immutable on creation.
 * `jdbc_endpoint_url` - The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
 * `lake_id` - The OCID of Oracle Cloud Infrastructure Lake.
-* `last_accepted_request_token` - This token is used by Splat, and indicates that the service accepts the request, and that the request is currently being processed.
 * `max_executor_count` - The maximum number of executors.
 * `metastore_id` - The OCID of Oracle Cloud Infrastructure Hive Metastore. 
 * `min_executor_count` - The minimum number of executors.

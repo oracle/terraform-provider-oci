@@ -112,10 +112,6 @@ func (s *DataflowSqlEndpointDataSourceCrud) SetData() error {
 		s.D.Set("lake_id", *s.Res.LakeId)
 	}
 
-	if s.Res.LastAcceptedRequestToken != nil {
-		s.D.Set("last_accepted_request_token", *s.Res.LastAcceptedRequestToken)
-	}
-
 	if s.Res.MaxExecutorCount != nil {
 		s.D.Set("max_executor_count", *s.Res.MaxExecutorCount)
 	}
