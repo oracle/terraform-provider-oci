@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -29,6 +29,9 @@ type LibraryUsage struct {
 
 	// The version of the library.
 	LibraryVersion *string `mandatory:"false" json:"libraryVersion"`
+
+	// The Common Vulnerabilities and Exposures (CVE) ID.
+	CveId *string `mandatory:"false" json:"cveId"`
 
 	// The Common Vulnerability Scoring System (CVSS) score.
 	CvssScore *float32 `mandatory:"false" json:"cvssScore"`
@@ -62,6 +65,9 @@ type LibraryUsage struct {
 	// For example, a resource can be last reported to JMS before the start of a specified time period,
 	// if it is also reported during the time period.
 	TimeLastSeen *common.SDKTime `mandatory:"false" json:"timeLastSeen"`
+
+	// The date and time of the last CVEs refresh was completed.
+	TimeLastCveRefreshed *common.SDKTime `mandatory:"false" json:"timeLastCveRefreshed"`
 }
 
 func (m LibraryUsage) String() string {

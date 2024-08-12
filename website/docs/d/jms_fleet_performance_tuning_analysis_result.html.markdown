@@ -18,7 +18,7 @@ Retrieve metadata of the Performance Tuning Analysis result.
 data "oci_jms_fleet_performance_tuning_analysis_result" "test_fleet_performance_tuning_analysis_result" {
 	#Required
 	fleet_id = oci_jms_fleet.test_fleet.id
-	performance_tuning_analysis_result_id = oci_apm_synthetics_result.test_result.id
+	performance_tuning_analysis_result_id = var.fleet_performance_tuning_analysis_result_id
 }
 ```
 
@@ -47,8 +47,8 @@ The following attributes are exported:
 * `object` - The Object Storage object name of this analysis result.
 * `result` - Result of the analysis based on whether warnings have been found or not.
 * `time_created` - The time the result is compiled.
-* `time_finished` - The time the JFR capture finished.
-* `time_started` - The time the JFR capture started.
+* `time_finished` - The time the JFR recording has finished.
+* `time_started` - The time the JFR recording has started.
 * `warning_count` - Total number of warnings reported by the analysis.
 * `work_request_id` - The OCID of the work request to start the analysis.
 

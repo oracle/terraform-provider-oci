@@ -197,6 +197,10 @@ func JmsJavaReleaseDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"release_date": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"support_type": {
 							Type:     schema.TypeString,
 							Computed: true,

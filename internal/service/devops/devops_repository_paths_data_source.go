@@ -78,6 +78,11 @@ func DevopsRepositoryPathsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"type": {
 										Type:     schema.TypeString,
 										Computed: true,

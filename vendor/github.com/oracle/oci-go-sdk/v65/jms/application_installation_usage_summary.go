@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Java Management Service API
+// Java Management Service Fleets API
 //
-// API for the Java Management Service. Use this API to view, create, and manage Fleets.
+// The APIs for the Fleet Management (https://docs.oracle.com/en-us/iaas/jms/doc/fleet-management.html) feature of Java Management Service to monitor and manage the usage of Java in your enterprise. Use these APIs to manage fleets, configure managed instances to report to fleets, and gain insights into the Java workloads running on these instances by carrying out basic and advanced features.
 //
 
 package jms
@@ -50,6 +50,12 @@ type ApplicationInstallationUsageSummary struct {
 
 	// The approximate count of managed instances reporting this application.
 	ApproximateManagedInstanceCount *int `mandatory:"false" json:"approximateManagedInstanceCount"`
+
+	// The approximate count of libraries in this application.
+	ApproximateLibraryCount *int `mandatory:"false" json:"approximateLibraryCount"`
+
+	// Comma separated list of user names that invoked application installations.
+	ApplicationInvokedBy *string `mandatory:"false" json:"applicationInvokedBy"`
 
 	// Lower bound of the specified time period filter. JMS provides a view of the data that is _per day_. The query uses only the date element of the parameter.
 	TimeStart *common.SDKTime `mandatory:"false" json:"timeStart"`

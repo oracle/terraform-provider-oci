@@ -57,13 +57,13 @@ The following arguments are supported:
 
 * `actions` - (Required) (Updatable) The list of actions that are to be performed for this trigger.
 	* `build_pipeline_id` - (Required) (Updatable) The OCID of the build pipeline to be triggered.
-	* `filter` - (Optional) (Updatable) The filters for the trigger.
-		* `events` - (Optional) (Updatable) The events, for example, PUSH, PULL_REQUEST_MERGE.
+	* `trigger_filter` - (Optional) (Updatable) The filters for the trigger.
+		* `events` - (Optional) (Updatable) The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.
 		* `exclude` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to filter GitLab self-hosted server events. File filter criteria - Changes only affecting excluded files will not invoke a build. if both include and exclude filter are used then exclusion filter will be applied on the result set of inclusion filter.
 			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
 				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 		* `include` - (Optional) (Updatable) Attributes to filter GitLab self-hosted server events.
-			* `base_ref` - (Applicable when trigger_source=BITBUCKET_CLOUD | BITBUCKET_SERVER | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The target branch for pull requests; not applicable for push requests.
+			* `base_ref` - (Optional) (Updatable) The target branch for pull requests; not applicable for push requests.
 			* `file_filter` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) Attributes to support include/exclude files for triggering build runs.
 				* `file_paths` - (Applicable when trigger_source=BITBUCKET_CLOUD | DEVOPS_CODE_REPOSITORY | GITHUB | GITLAB | GITLAB_SERVER | VBS) (Updatable) The file paths/glob pattern for files.
 			* `head_ref` - (Optional) (Updatable) Branch for push event; source branch for pull requests.
@@ -89,8 +89,11 @@ The following attributes are exported:
 
 * `actions` - The list of actions that are to be performed for this trigger.
 	* `build_pipeline_id` - The OCID of the build pipeline to be triggered.
-	* `filter` - The filters for the trigger.
-		* `events` - The events, for example, PUSH, PULL_REQUEST_MERGE.
+	* `trigger_filter` - The filters for the trigger.
+		* `events` - The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.
+		* `exclude` - Attributes to filter GitLab self-hosted server events. File filter criteria - Changes only affecting excluded files will not invoke a build. if both include and exclude filter are used then exclusion filter will be applied on the result set of inclusion filter.
+			* `file_filter` - Attributes to support include/exclude files for triggering build runs.
+				* `file_paths` - The file paths/glob pattern for files.
 		* `include` - Attributes to filter GitLab self-hosted server events.
 			* `base_ref` - The target branch for pull requests; not applicable for push requests.
 			* `head_ref` - Branch for push event; source branch for pull requests.

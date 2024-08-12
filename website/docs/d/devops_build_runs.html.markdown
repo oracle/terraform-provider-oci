@@ -147,8 +147,11 @@ The following attributes are exported:
 	* `trigger_info` - Trigger details that need to be used for the BuildRun
 		* `actions` - The list of actions that are to be performed for this Trigger
 			* `build_pipeline_id` - The OCID of the build pipeline to be triggered.
-			* `filter` - The filters for the trigger.
-				* `events` - The events, for example, PUSH, PULL_REQUEST_MERGE.
+			* `build_run_filter` - The filters for the trigger.
+				* `events` - The events, for example, PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED.
+				* `exclude` - Attributes to filter GitLab self-hosted server events. File filter criteria - Changes only affecting excluded files will not invoke a build. if both include and exclude filter are used then exclusion filter will be applied on the result set of inclusion filter.
+					* `file_filter` - Attributes to support include/exclude files for triggering build runs.
+						* `file_paths` - The file paths/glob pattern for files.
 				* `include` - Attributes to filter GitLab self-hosted server events.
 					* `base_ref` - The target branch for pull requests; not applicable for push requests.
 					* `head_ref` - Branch for push event; source branch for pull requests.

@@ -29,14 +29,15 @@ resource "oci_psql_configuration" "test_configuration" {
 	}
 	db_version = var.configuration_db_version
 	display_name = var.configuration_display_name
-	instance_memory_size_in_gbs = var.configuration_instance_memory_size_in_gbs
-	instance_ocpu_count = var.configuration_instance_ocpu_count
 	shape = var.configuration_shape
 
 	#Optional
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	description = var.configuration_description
 	freeform_tags = {"bar-key"= "value"}
+	instance_memory_size_in_gbs = var.configuration_instance_memory_size_in_gbs
+	instance_ocpu_count = var.configuration_instance_ocpu_count
+	is_flexible = var.configuration_is_flexible
 	system_tags = var.configuration_system_tags
 }
 ```
@@ -55,8 +56,13 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) Details about the configuration set.
 * `display_name` - (Required) (Updatable) A user-friendly display name for the configuration. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `instance_memory_size_in_gbs` - (Required) Memory size in gigabytes with 1GB increment. 
-* `instance_ocpu_count` - (Required) CPU core count. 
+* `instance_memory_size_in_gbs` - (Optional) Memory size in gigabytes with 1GB increment.
+
+	Skip or set it's value to 0 if configuration is for a flexible shape. 
+* `instance_ocpu_count` - (Optional) CPU core count.
+
+	Skip or set it's value to 0 if configuration is for a flexible shape. 
+* `is_flexible` - (Optional) Whether the configuration supports flexible shapes.
 * `shape` - (Required) The name of the shape for the configuration. Example: `VM.Standard.E4.Flex` 
 * `system_tags` - (Optional) System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
@@ -69,6 +75,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the configuration.
+* `config_type` - The type of configuration. Either user-created or a default configuration.
 * `configuration_details` - List of configuration details.
 	* `items` - List of ConfigParms object.
 		* `allowed_values` - Range or list of allowed values.
@@ -85,8 +92,13 @@ The following attributes are exported:
 * `display_name` - A user-friendly display name for the configuration. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - A unique identifier for the configuration. Immutable on creation.
-* `instance_memory_size_in_gbs` - Memory size in gigabytes with 1GB increment. 
-* `instance_ocpu_count` - CPU core count. 
+* `instance_memory_size_in_gbs` - Memory size in gigabytes with 1GB increment.
+
+	It's value is set to 0 if configuration is for a flexible shape. 
+* `instance_ocpu_count` - CPU core count.
+
+	It's value is set to 0 if configuration is for a flexible shape. 
+* `is_flexible` - Whether the configuration supports flexible shapes.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `shape` - The name of the shape for the configuration. Example: `VM.Standard.E4.Flex` 
 * `state` - The current state of the configuration.

@@ -18,7 +18,7 @@ Retrieve Java Migration Analysis result.
 data "oci_jms_fleet_java_migration_analysis_result" "test_fleet_java_migration_analysis_result" {
 	#Required
 	fleet_id = oci_jms_fleet.test_fleet.id
-	java_migration_analysis_result_id = oci_apm_synthetics_result.test_result.id
+	java_migration_analysis_result_id = var.fleet_java_migration_analysis_result_id
 }
 ```
 

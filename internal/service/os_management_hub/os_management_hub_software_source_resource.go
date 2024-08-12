@@ -200,6 +200,11 @@ func OsManagementHubSoftwareSourceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"is_latest_content_only": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"origin_software_source_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -618,6 +623,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
 		}
 
+		if v.IsLatestContentOnly != nil {
+			s.D.Set("is_latest_content_only", *v.IsLatestContentOnly)
+		}
+
 		s.D.Set("packages", v.Packages)
 
 		vendorSoftwareSources := []interface{}{}
@@ -794,6 +803,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) SetData() error {
 
 		if v.IsCreatedFromPackageList != nil {
 			s.D.Set("is_created_from_package_list", *v.IsCreatedFromPackageList)
+		}
+
+		if v.IsLatestContentOnly != nil {
+			s.D.Set("is_latest_content_only", *v.IsLatestContentOnly)
 		}
 
 		s.D.Set("packages", v.Packages)
@@ -1169,6 +1182,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 			tmp := isCreatedFromPackageList.(bool)
 			details.IsCreatedFromPackageList = &tmp
 		}
+		if isLatestContentOnly, ok := s.D.GetOkExists("is_latest_content_only"); ok {
+			tmp := isLatestContentOnly.(bool)
+			details.IsLatestContentOnly = &tmp
+		}
 		if packages, ok := s.D.GetOkExists("packages"); ok {
 			interfaces := packages.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1269,6 +1286,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicC
 			tmp := isCreatedFromPackageList.(bool)
 			details.IsCreatedFromPackageList = &tmp
 		}
+		if isLatestContentOnly, ok := s.D.GetOkExists("is_latest_content_only"); ok {
+			tmp := isLatestContentOnly.(bool)
+			details.IsLatestContentOnly = &tmp
+		}
 		if packages, ok := s.D.GetOkExists("packages"); ok {
 			interfaces := packages.([]interface{})
 			tmp := make([]string, len(interfaces))
@@ -1359,6 +1380,10 @@ func (s *OsManagementHubSoftwareSourceResourceCrud) populateTopLevelPolymorphicU
 		if isAutomaticallyUpdated, ok := s.D.GetOkExists("is_automatically_updated"); ok {
 			tmp := isAutomaticallyUpdated.(bool)
 			details.IsAutomaticallyUpdated = &tmp
+		}
+		if isLatestContentOnly, ok := s.D.GetOkExists("is_latest_content_only"); ok {
+			tmp := isLatestContentOnly.(bool)
+			details.IsLatestContentOnly = &tmp
 		}
 		if vendorSoftwareSources, ok := s.D.GetOkExists("vendor_software_sources"); ok {
 			interfaces := vendorSoftwareSources.([]interface{})

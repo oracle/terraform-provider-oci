@@ -122,10 +122,10 @@ type SummarizeDeployedApplicationUsageResponse struct {
 	DeployedApplicationUsageCollection `presentIn:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
-	// Oracle about a particular request, please provide the request ID.
+	// Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 
-	// For list pagination. When this header appears in the response, additional pages of results remain.
+	// For list pagination, when this header appears in the response, additional pages of results remain.
 	// Include this value as the `page` parameter for the subsequent GET request to get the next batch of items.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
@@ -187,30 +187,36 @@ type SummarizeDeployedApplicationUsageSortByEnum string
 
 // Set of constants representing the allowable values for SummarizeDeployedApplicationUsageSortByEnum
 const (
-	SummarizeDeployedApplicationUsageSortByApplicationname         SummarizeDeployedApplicationUsageSortByEnum = "applicationName"
-	SummarizeDeployedApplicationUsageSortByApplicationtype         SummarizeDeployedApplicationUsageSortByEnum = "applicationType"
-	SummarizeDeployedApplicationUsageSortByIsclustered             SummarizeDeployedApplicationUsageSortByEnum = "isClustered"
-	SummarizeDeployedApplicationUsageSortByJavaserverinstancecount SummarizeDeployedApplicationUsageSortByEnum = "javaServerInstanceCount"
-	SummarizeDeployedApplicationUsageSortByTimefirstseen           SummarizeDeployedApplicationUsageSortByEnum = "timeFirstSeen"
-	SummarizeDeployedApplicationUsageSortByTimelastseen            SummarizeDeployedApplicationUsageSortByEnum = "timeLastSeen"
+	SummarizeDeployedApplicationUsageSortByApplicationname                    SummarizeDeployedApplicationUsageSortByEnum = "applicationName"
+	SummarizeDeployedApplicationUsageSortByApplicationtype                    SummarizeDeployedApplicationUsageSortByEnum = "applicationType"
+	SummarizeDeployedApplicationUsageSortByIsclustered                        SummarizeDeployedApplicationUsageSortByEnum = "isClustered"
+	SummarizeDeployedApplicationUsageSortByJavaserverinstancecount            SummarizeDeployedApplicationUsageSortByEnum = "javaServerInstanceCount"
+	SummarizeDeployedApplicationUsageSortByApproximatejavaserverinstancecount SummarizeDeployedApplicationUsageSortByEnum = "approximateJavaServerInstanceCount"
+	SummarizeDeployedApplicationUsageSortByApproximatelibrarycount            SummarizeDeployedApplicationUsageSortByEnum = "approximateLibraryCount"
+	SummarizeDeployedApplicationUsageSortByTimefirstseen                      SummarizeDeployedApplicationUsageSortByEnum = "timeFirstSeen"
+	SummarizeDeployedApplicationUsageSortByTimelastseen                       SummarizeDeployedApplicationUsageSortByEnum = "timeLastSeen"
 )
 
 var mappingSummarizeDeployedApplicationUsageSortByEnum = map[string]SummarizeDeployedApplicationUsageSortByEnum{
-	"applicationName":         SummarizeDeployedApplicationUsageSortByApplicationname,
-	"applicationType":         SummarizeDeployedApplicationUsageSortByApplicationtype,
-	"isClustered":             SummarizeDeployedApplicationUsageSortByIsclustered,
-	"javaServerInstanceCount": SummarizeDeployedApplicationUsageSortByJavaserverinstancecount,
-	"timeFirstSeen":           SummarizeDeployedApplicationUsageSortByTimefirstseen,
-	"timeLastSeen":            SummarizeDeployedApplicationUsageSortByTimelastseen,
+	"applicationName":                    SummarizeDeployedApplicationUsageSortByApplicationname,
+	"applicationType":                    SummarizeDeployedApplicationUsageSortByApplicationtype,
+	"isClustered":                        SummarizeDeployedApplicationUsageSortByIsclustered,
+	"javaServerInstanceCount":            SummarizeDeployedApplicationUsageSortByJavaserverinstancecount,
+	"approximateJavaServerInstanceCount": SummarizeDeployedApplicationUsageSortByApproximatejavaserverinstancecount,
+	"approximateLibraryCount":            SummarizeDeployedApplicationUsageSortByApproximatelibrarycount,
+	"timeFirstSeen":                      SummarizeDeployedApplicationUsageSortByTimefirstseen,
+	"timeLastSeen":                       SummarizeDeployedApplicationUsageSortByTimelastseen,
 }
 
 var mappingSummarizeDeployedApplicationUsageSortByEnumLowerCase = map[string]SummarizeDeployedApplicationUsageSortByEnum{
-	"applicationname":         SummarizeDeployedApplicationUsageSortByApplicationname,
-	"applicationtype":         SummarizeDeployedApplicationUsageSortByApplicationtype,
-	"isclustered":             SummarizeDeployedApplicationUsageSortByIsclustered,
-	"javaserverinstancecount": SummarizeDeployedApplicationUsageSortByJavaserverinstancecount,
-	"timefirstseen":           SummarizeDeployedApplicationUsageSortByTimefirstseen,
-	"timelastseen":            SummarizeDeployedApplicationUsageSortByTimelastseen,
+	"applicationname":                    SummarizeDeployedApplicationUsageSortByApplicationname,
+	"applicationtype":                    SummarizeDeployedApplicationUsageSortByApplicationtype,
+	"isclustered":                        SummarizeDeployedApplicationUsageSortByIsclustered,
+	"javaserverinstancecount":            SummarizeDeployedApplicationUsageSortByJavaserverinstancecount,
+	"approximatejavaserverinstancecount": SummarizeDeployedApplicationUsageSortByApproximatejavaserverinstancecount,
+	"approximatelibrarycount":            SummarizeDeployedApplicationUsageSortByApproximatelibrarycount,
+	"timefirstseen":                      SummarizeDeployedApplicationUsageSortByTimefirstseen,
+	"timelastseen":                       SummarizeDeployedApplicationUsageSortByTimelastseen,
 }
 
 // GetSummarizeDeployedApplicationUsageSortByEnumValues Enumerates the set of values for SummarizeDeployedApplicationUsageSortByEnum
@@ -229,6 +235,8 @@ func GetSummarizeDeployedApplicationUsageSortByEnumStringValues() []string {
 		"applicationType",
 		"isClustered",
 		"javaServerInstanceCount",
+		"approximateJavaServerInstanceCount",
+		"approximateLibraryCount",
 		"timeFirstSeen",
 		"timeLastSeen",
 	}

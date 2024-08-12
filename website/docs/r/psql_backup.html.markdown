@@ -68,7 +68,7 @@ The following attributes are exported:
 * `source_type` - Specifies whether the backup was created manually, or by a management policy.
 * `state` - The current state of the backup.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `time_created` - The date and time the backup was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created` - The date and time the backup request was received, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the backup was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts

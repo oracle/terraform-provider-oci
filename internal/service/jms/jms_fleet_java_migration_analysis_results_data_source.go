@@ -20,9 +20,17 @@ func JmsFleetJavaMigrationAnalysisResultsDataSource() *schema.Resource {
 		Read: readJmsFleetJavaMigrationAnalysisResults,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"application_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"fleet_id": {
 				Type:     schema.TypeString,
 				Required: true,
+			},
+			"host_name": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"managed_instance_id": {
 				Type:     schema.TypeString,
@@ -153,9 +161,19 @@ func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) VoidState() {
 func (s *JmsFleetJavaMigrationAnalysisResultsDataSourceCrud) Get() error {
 	request := oci_jms.ListJavaMigrationAnalysisResultsRequest{}
 
+	if applicationName, ok := s.D.GetOkExists("application_name"); ok {
+		tmp := applicationName.(string)
+		request.ApplicationName = &tmp
+	}
+
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
 		tmp := fleetId.(string)
 		request.FleetId = &tmp
+	}
+
+	if hostName, ok := s.D.GetOkExists("host_name"); ok {
+		tmp := hostName.(string)
+		request.HostName = &tmp
 	}
 
 	if managedInstanceId, ok := s.D.GetOkExists("managed_instance_id"); ok {

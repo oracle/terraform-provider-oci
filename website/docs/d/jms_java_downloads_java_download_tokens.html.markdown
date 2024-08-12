@@ -38,7 +38,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
 * `family_version` - (Optional) Unique Java family version identifier.
 * `id` - (Optional) Unique JavaDownloadToken identifier.
-* `search_by_user` - (Optional) A filter to return only resources that match the user principal detail.  The search string can be any of the property values from the [Principal](https://docs.cloud.oracle.com/iaas/api/#/en/jms/latest/datatypes/Principal) object. This object is used as response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource. 
+* `search_by_user` - (Optional) A filter to return only resources that match the user principal detail.  The search string can be any of the property values from the [Principal](https://docs.cloud.oracle.com/iaas/api/#/en/jms/latest/datatypes/Principal) object. This object is used as a response datatype for the `createdBy` and `lastUpdatedBy` fields in applicable resource. 
 * `state` - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.
 * `value` - (Optional) Unique JavaDownloadToken value.
 

@@ -19,10 +19,10 @@ import (
 )
 
 var (
-	BdsAutoScalingConfigurationRequiredOnlyResource = BdsAutoScalingConfigurationResourceDependencies +
+	BdsautoScalingConfigurationRequiredOnlyResource = BdsautoScalingConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsautoScalingConfigurationRepresentation)
 
-	BdsAutoScalingConfigurationResourceConfig = BdsAutoScalingConfigurationResourceDependencies +
+	BdsautoScalingConfigurationResourceConfig = BdsautoScalingConfigurationResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation)
 
 	BdsBdsautoScalingConfigurationSingularDataSourceRepresentation = map[string]interface{}{
@@ -49,6 +49,7 @@ var (
 		"policy":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyRepresentation},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 	}
+
 	BdsautoScalingConfigurationPolicyRepresentation = map[string]interface{}{
 		"policy_type": acctest.Representation{RepType: acctest.Required, Create: `THRESHOLD_BASED`, Update: `THRESHOLD_BASED`},
 		"rules":       []acctest.RepresentationGroup{{RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleUpRulesRepresentation}, {RepType: acctest.Required, Group: BdsautoScalingConfigurationPolicyScaleDownRulesRepresentation}},
@@ -80,7 +81,7 @@ var (
 		"value":               acctest.Representation{RepType: acctest.Required, Create: `15`, Update: `20`},
 	}
 
-	BdsAutoScalingConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation) +
+	BdsautoScalingConfigurationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, BdsbdsInstanceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation)
 )
@@ -88,6 +89,7 @@ var (
 // issue-routing-tag: bds/default
 func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestBdsAutoScalingConfigurationResource_basic")
+	t.Skip("Run manual with an older cluster with patch available")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -101,13 +103,13 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsAutoScalingConfigurationResourceDependencies+
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+BdsautoScalingConfigurationResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, BdsautoScalingConfigurationRepresentation), "bds", "autoScalingConfiguration", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsautoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
@@ -147,11 +149,11 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies,
+			Config: config + compartmentIdVariableStr + BdsautoScalingConfigurationResourceDependencies,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsautoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Create, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
@@ -201,7 +203,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+			Config: config + compartmentIdVariableStr + BdsautoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
@@ -250,7 +252,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configurations", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsBdsautoScalingConfigurationDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceDependencies +
+				compartmentIdVariableStr + BdsautoScalingConfigurationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Optional, acctest.Update, BdsautoScalingConfigurationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -260,6 +262,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "auto_scaling_configurations.0.node_type", "WORKER"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "auto_scaling_configurations.0.time_updated"),
@@ -269,7 +272,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_auto_scaling_configuration", "test_auto_scaling_configuration", acctest.Required, acctest.Create, BdsBdsautoScalingConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsAutoScalingConfigurationResourceConfig,
+				compartmentIdVariableStr + BdsautoScalingConfigurationResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "auto_scaling_configuration_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
@@ -307,7 +310,7 @@ func TestBdsAutoScalingConfigurationResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
-			Config:            config + BdsAutoScalingConfigurationRequiredOnlyResource,
+			Config:            config + BdsautoScalingConfigurationRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateIdFunc: getBdsAutoScalingConfigurationCompositeId(resourceName),
 			ImportStateVerify: true,
