@@ -98,6 +98,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("current_placement", nil)
 	}
 
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, CustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
+
 	if s.Res.DataStorage != nil {
 		s.D.Set("data_storage", []interface{}{DataStorageToMap(s.Res.DataStorage)})
 	} else {
