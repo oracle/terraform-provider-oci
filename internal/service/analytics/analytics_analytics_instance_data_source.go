@@ -138,5 +138,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("update_channel", s.Res.UpdateChannel)
 
+	s.D.Set("vanity_url_details", s.Res.VanityUrlDetails)
+
 	return nil
 }
