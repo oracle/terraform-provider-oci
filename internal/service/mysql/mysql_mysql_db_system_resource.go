@@ -180,6 +180,24 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 					},
 				},
 			},
+			"customer_contacts": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"email": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -937,6 +955,27 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		}
 	}
 
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_mysql.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		// customer_contacts should only be set if:
+		//   1) some customer contacts are provided (not `nil`)
+		// and
+		//   2) the customer contacts have changed
+		if tmp != nil && s.D.HasChange("customer_contacts") {
+			request.CustomerContacts = tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1122,6 +1161,27 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if customerContacts, ok := s.D.GetOkExists("customer_contacts"); ok {
+		interfaces := customerContacts.([]interface{})
+		tmp := make([]oci_mysql.CustomerContact, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "customer_contacts", stateDataIndex)
+			converted, err := s.mapToCustomerContact(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		// customer_contacts should only be set if:
+		//   1) some customer contacts are provided (not `nil`)
+		// and
+		//   2) the customer contacts have changed
+		if tmp != nil && s.D.HasChange("customer_contacts") {
+			request.CustomerContacts = tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1256,6 +1316,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	} else {
 		s.D.Set("data_storage", nil)
 	}
+
+	customerContacts := []interface{}{}
+	for _, item := range s.Res.CustomerContacts {
+		customerContacts = append(customerContacts, CustomerContactToMap(item))
+	}
+	s.D.Set("customer_contacts", customerContacts)
 
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
@@ -1904,6 +1970,27 @@ func DataStorageToMap(obj *oci_mysql.DataStorage) map[string]interface{} {
 
 	if obj.MaxStorageSizeInGBs != nil {
 		result["max_storage_size_in_gbs"] = int(*obj.MaxStorageSizeInGBs)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCustomerContact(fieldKeyFormat string) (oci_mysql.CustomerContact, error) {
+	result := oci_mysql.CustomerContact{}
+
+	if email, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "email")); ok {
+		tmp := email.(string)
+		result.Email = &tmp
+	}
+
+	return result, nil
+}
+
+func CustomerContactToMap(obj oci_mysql.CustomerContact) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Email != nil {
+		result["email"] = string(*obj.Email)
 	}
 
 	return result
