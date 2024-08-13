@@ -907,7 +907,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 							flex, err := s.flexAvailableDbStorageInGBs(compartmentId.(string), flexShape)
 
 							if err == nil {
-								if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok {
+								if storageSizeInGBs, ok := s.D.GetOkExists("storage_size_in_gbs"); ok && s.D.HasChange("storage_size_in_gbs") {
 									tmp := flex**s.Infra.StorageCount - storageSizeInGBs.(int)
 									request.StorageSizeInGBs = &tmp
 								}
@@ -935,12 +935,12 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		}
 	}
 
-	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok {
+	if dataStorageSizeInTBs, ok := s.D.GetOkExists("data_storage_size_in_tbs"); ok && s.D.HasChange("data_storage_size_in_tbs") {
 		tmp := dataStorageSizeInTBs.(float64)
 		request.DataStorageSizeInTBs = &tmp
 	}
 
-	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok {
+	if dbNodeStorageSizeInGBs, ok := s.D.GetOkExists("db_node_storage_size_in_gbs"); ok && s.D.HasChange("db_node_storage_size_in_gbs") {
 		tmp := dbNodeStorageSizeInGBs.(int)
 		request.DbNodeStorageSizeInGBs = &tmp
 	}
@@ -953,7 +953,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	if displayName, ok := s.D.GetOkExists("display_name"); ok && s.D.HasChange("display_name") {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
 	}
@@ -983,7 +983,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.LicenseModel = oci_database.UpdateCloudVmClusterDetailsLicenseModelEnum(licenseModel.(string))
 	}
 
-	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok {
+	if memorySizeInGBs, ok := s.D.GetOkExists("memory_size_in_gbs"); ok && s.D.HasChange("memory_size_in_gbs") {
 		tmp := memorySizeInGBs.(int)
 		request.MemorySizeInGBs = &tmp
 	}
