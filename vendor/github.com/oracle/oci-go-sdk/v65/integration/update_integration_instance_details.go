@@ -86,6 +86,7 @@ const (
 	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISE"
 	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "STANDARDX"
 	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "ENTERPRISEX"
+	UpdateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = "HEALTHCARE"
 )
 
 var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
@@ -93,6 +94,7 @@ var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum = map[str
 	"ENTERPRISE":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
 	"STANDARDX":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
 	"ENTERPRISEX": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
+	"HEALTHCARE":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare,
 }
 
 var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase = map[string]UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum{
@@ -100,6 +102,7 @@ var mappingUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumLowerCase 
 	"enterprise":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprise,
 	"standardx":   UpdateIntegrationInstanceDetailsIntegrationInstanceTypeStandardx,
 	"enterprisex": UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnterprisex,
+	"healthcare":  UpdateIntegrationInstanceDetailsIntegrationInstanceTypeHealthcare,
 }
 
 // GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumValues Enumerates the set of values for UpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnum
@@ -118,6 +121,7 @@ func GetUpdateIntegrationInstanceDetailsIntegrationInstanceTypeEnumStringValues(
 		"ENTERPRISE",
 		"STANDARDX",
 		"ENTERPRISEX",
+		"HEALTHCARE",
 	}
 }
 

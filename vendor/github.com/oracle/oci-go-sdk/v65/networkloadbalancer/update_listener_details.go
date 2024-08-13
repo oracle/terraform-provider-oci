@@ -17,7 +17,7 @@ import (
 
 // UpdateListenerDetails The configuration of the listener.
 // For more information about backend set configuration, see
-// Managing Network Load Balancer Listeners (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/Listeners/listener-management.htm).
+// Managing Network Load Balancer Listeners (https://docs.cloud.oracle.com/Content/Balance/Tasks/managinglisteners.htm).
 type UpdateListenerDetails struct {
 
 	// The name of the associated backend set.
@@ -40,6 +40,14 @@ type UpdateListenerDetails struct {
 
 	// Property to enable/disable PPv2 feature for this listener.
 	IsPpv2Enabled *bool `mandatory:"false" json:"isPpv2Enabled"`
+
+	// The duration for TCP idle timeout in seconds.
+	// Example: `300`
+	TcpIdleTimeout *int `mandatory:"false" json:"tcpIdleTimeout"`
+
+	// The duration for UDP idle timeout in seconds.
+	// Example: `120`
+	UdpIdleTimeout *int `mandatory:"false" json:"udpIdleTimeout"`
 }
 
 func (m UpdateListenerDetails) String() string {

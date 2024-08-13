@@ -364,6 +364,11 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -1004,6 +1009,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 
 	if s.Res.StateMessage != nil {
 		s.D.Set("state_message", *s.Res.StateMessage)
+	}
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
 	if s.Res.TimeCreated != nil {

@@ -44,4 +44,6 @@ The following attributes are exported:
 * `name` - A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 * `port` - The communication port for the listener.  Example: `80` 
 * `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 
+* `tcp_idle_timeout` - The duration for TCP idle timeout in seconds. Example: `300` 
+* `udp_idle_timeout` - The duration for UDP idle timeout in seconds. Example: `120` 
 

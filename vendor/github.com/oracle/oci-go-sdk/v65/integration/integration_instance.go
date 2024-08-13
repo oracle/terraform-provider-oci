@@ -64,6 +64,10 @@ type IntegrationInstance struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
@@ -128,6 +132,7 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 		StateMessage                      *string                                        `json:"stateMessage"`
 		FreeformTags                      map[string]string                              `json:"freeformTags"`
 		DefinedTags                       map[string]map[string]interface{}              `json:"definedTags"`
+		SystemTags                        map[string]map[string]interface{}              `json:"systemTags"`
 		IsFileServerEnabled               *bool                                          `json:"isFileServerEnabled"`
 		IsVisualBuilderEnabled            *bool                                          `json:"isVisualBuilderEnabled"`
 		CustomEndpoint                    *CustomEndpointDetails                         `json:"customEndpoint"`
@@ -163,6 +168,8 @@ func (m *IntegrationInstance) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
 
 	m.IsFileServerEnabled = model.IsFileServerEnabled
 
@@ -226,6 +233,7 @@ const (
 	IntegrationInstanceIntegrationInstanceTypeEnterprise  IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISE"
 	IntegrationInstanceIntegrationInstanceTypeStandardx   IntegrationInstanceIntegrationInstanceTypeEnum = "STANDARDX"
 	IntegrationInstanceIntegrationInstanceTypeEnterprisex IntegrationInstanceIntegrationInstanceTypeEnum = "ENTERPRISEX"
+	IntegrationInstanceIntegrationInstanceTypeHealthcare  IntegrationInstanceIntegrationInstanceTypeEnum = "HEALTHCARE"
 )
 
 var mappingIntegrationInstanceIntegrationInstanceTypeEnum = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
@@ -233,6 +241,7 @@ var mappingIntegrationInstanceIntegrationInstanceTypeEnum = map[string]Integrati
 	"ENTERPRISE":  IntegrationInstanceIntegrationInstanceTypeEnterprise,
 	"STANDARDX":   IntegrationInstanceIntegrationInstanceTypeStandardx,
 	"ENTERPRISEX": IntegrationInstanceIntegrationInstanceTypeEnterprisex,
+	"HEALTHCARE":  IntegrationInstanceIntegrationInstanceTypeHealthcare,
 }
 
 var mappingIntegrationInstanceIntegrationInstanceTypeEnumLowerCase = map[string]IntegrationInstanceIntegrationInstanceTypeEnum{
@@ -240,6 +249,7 @@ var mappingIntegrationInstanceIntegrationInstanceTypeEnumLowerCase = map[string]
 	"enterprise":  IntegrationInstanceIntegrationInstanceTypeEnterprise,
 	"standardx":   IntegrationInstanceIntegrationInstanceTypeStandardx,
 	"enterprisex": IntegrationInstanceIntegrationInstanceTypeEnterprisex,
+	"healthcare":  IntegrationInstanceIntegrationInstanceTypeHealthcare,
 }
 
 // GetIntegrationInstanceIntegrationInstanceTypeEnumValues Enumerates the set of values for IntegrationInstanceIntegrationInstanceTypeEnum
@@ -258,6 +268,7 @@ func GetIntegrationInstanceIntegrationInstanceTypeEnumStringValues() []string {
 		"ENTERPRISE",
 		"STANDARDX",
 		"ENTERPRISEX",
+		"HEALTHCARE",
 	}
 }
 

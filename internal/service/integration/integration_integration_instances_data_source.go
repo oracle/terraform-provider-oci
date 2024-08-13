@@ -190,6 +190,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["state_message"] = *r.StateMessage
 		}
 
+		if r.SystemTags != nil {
+			integrationInstance["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			integrationInstance["time_created"] = r.TimeCreated.String()
 		}

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_limits_limit_values
 This data source provides the list of Limit Values in Oracle Cloud Infrastructure Limits service.
 
-Includes a full list of resource limits belonging to a given service.
+Includes a full list of resource limits belonging to a given service. If subscription Id is provided, limit value for subscription will be returned.
 
 
 ## Example Usage
@@ -25,6 +25,7 @@ data "oci_limits_limit_values" "test_limit_values" {
 	availability_domain = var.limit_value_availability_domain
 	name = var.limit_value_name
 	scope_type = var.limit_value_scope_type
+    subscription_id = var.subscription_ocid
 }
 ```
 
@@ -37,6 +38,7 @@ The following arguments are supported:
 * `name` - (Optional) Optional field, can be used to see a specific resource limit value.
 * `scope_type` - (Optional) Filter entries by scope type.
 * `service_name` - (Required) The target service name.
+* `subscription_id` - (Optional) The OCID of the subscription assigned to tenant 
 
 
 ## Attributes Reference
