@@ -126,6 +126,11 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   }
 
   #Optional
+  customer_contacts {
+    email = "email@discard.oracle.com"
+  }
+
+  #Optional
   data_storage {
     is_auto_expand_storage_enabled = "false"
     max_storage_size_in_gbs = "100"

@@ -41,6 +41,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	}
 	configuration_id = oci_audit_configuration.test_configuration.id
 	crash_recovery = var.mysql_db_system_crash_recovery
+	customer_contacts {
+		#Required
+		email = var.mysql_db_system_customer_contacts_email
+	}
 	data_storage {
 
 		#Optional
@@ -129,6 +133,8 @@ The following arguments are supported:
 		DB Systems with an initial storage size of 400 GB or less can be expanded up to 32 TB. DB Systems with an initial storage size between 401-800 GB can be expanded up to 64 TB. DB Systems with an initial storage size between 801-1200 GB can be expanded up to 96 TB. DB Systems with an initial storage size of 1201 GB or more can be expanded up to 128 TB.
 
 		It is not possible to decrease data storage size. You cannot set the maximum data storage size to less than either current DB System dataStorageSizeInGBs or allocatedStorageSizeInGBs. 
+* `customer_contacts` - (Optional) (Updatable) The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure DB System resource.  Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.  Up to 10 email addresses can be added to the customer contacts for a DB System. 
+	* `email` - (Required) (Updatable) The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - (Optional) (Updatable) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
 * `database_management` - (Optional) (Updatable) Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
@@ -276,6 +282,9 @@ The following attributes are exported:
 
 		It is not possible to decrease data storage size. You cannot set the maximum data storage size to less than either current DB System dataStorageSizeInGBs or allocatedStorageSizeInGBs. 
 * `data_storage_size_in_gb` - DEPRECATED: User specified size of the data volume. May be less than current allocatedStorageSizeInGBs. Replaced by dataStorage.dataStorageSizeInGBs. 
+* `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure DB System resource.  Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.  Up to 10 email addresses can be added to the customer contacts for a DB System. 
+	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
+* `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `database_management` - Whether to enable monitoring via the Database Management service. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
