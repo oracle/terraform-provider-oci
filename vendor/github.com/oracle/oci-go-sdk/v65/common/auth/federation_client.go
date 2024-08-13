@@ -236,6 +236,7 @@ func newAuthClient(region common.Region, provider common.KeyProvider) *common.Ba
 	if common.GlobalAuthClientCircuitBreakerSetting != nil {
 		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.GlobalAuthClientCircuitBreakerSetting)
 	} else if !common.IsEnvVarFalse("OCI_SDK_AUTH_CLIENT_CIRCUIT_BREAKER_ENABLED") {
+		common.Logf("Configuring DefaultAuthClientCircuitBreakerSetting for federation client")
 		client.Configuration.CircuitBreaker = common.NewCircuitBreaker(common.DefaultAuthClientCircuitBreakerSetting())
 	}
 	return &client
