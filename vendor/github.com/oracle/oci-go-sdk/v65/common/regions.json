@@ -508,5 +508,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "us-dallas-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "nbq",
+        "realmKey": "oc39",
+        "regionIdentifier": "us-tukwila-3",
+        "realmDomainComponent": "oraclecloud39.com"
     }
 ]
