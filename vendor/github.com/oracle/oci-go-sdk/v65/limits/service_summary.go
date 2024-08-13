@@ -23,6 +23,9 @@ type ServiceSummary struct {
 
 	// The friendly service name.
 	Description *string `mandatory:"false" json:"description"`
+
+	// An array of subscription types supported by the service. e,g The type of subscription, such as 'SAAS', 'ERP', 'CRM'.
+	SupportedSubscriptions []string `mandatory:"false" json:"supportedSubscriptions"`
 }
 
 func (m ServiceSummary) String() string {

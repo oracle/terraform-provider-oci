@@ -16,7 +16,7 @@ import (
 )
 
 // CreateNetworkLoadBalancerDetails The properties that define a network load balancer. For more information, see
-// Managing a network load balancer (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/NetworkLoadBalancers/network-load-balancer-management.htm).
+// Managing a network load balancer (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingloadbalancer.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you are not authorized, then
 // contact an administrator. If you are an administrator who writes policies to give users access, then see
 // Getting Started with Policies (https://docs.cloud.oracle.com/Content/Identity/Concepts/policygetstarted.htm).
@@ -51,7 +51,7 @@ type CreateNetworkLoadBalancerDetails struct {
 	// A public network load balancer is accessible from the internet, depending on the
 	// security list rules (https://docs.cloud.oracle.com/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and
 	// private network load balancers,
-	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/overview.htm).
+	// see How Network Load Balancing Works (https://docs.cloud.oracle.com/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works).
 	// This value is true by default.
 	// Example: `true`
 	IsPrivate *bool `mandatory:"false" json:"isPrivate"`

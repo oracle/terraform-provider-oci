@@ -528,14 +528,14 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 		request.IpVersion = oci_network_load_balancer.IpVersionEnum(ipVersion.(string))
 	}
 
-	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
-		tmp := isInstantFailoverEnabled.(bool)
-		request.IsInstantFailoverEnabled = &tmp
-	}
-
 	if isFailOpen, ok := s.D.GetOkExists("is_fail_open"); ok {
 		tmp := isFailOpen.(bool)
 		request.IsFailOpen = &tmp
+	}
+
+	if isInstantFailoverEnabled, ok := s.D.GetOkExists("is_instant_failover_enabled"); ok {
+		tmp := isInstantFailoverEnabled.(bool)
+		request.IsInstantFailoverEnabled = &tmp
 	}
 
 	if isPreserveSource, ok := s.D.GetOkExists("is_preserve_source"); ok {
@@ -615,12 +615,12 @@ func (s *NetworkLoadBalancerNetworkLoadBalancersBackendSetsUnifiedResourceCrud) 
 
 	s.D.Set("ip_version", s.Res.IpVersion)
 
-	if s.Res.IsInstantFailoverEnabled != nil {
-		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
-	}
-
 	if s.Res.IsFailOpen != nil {
 		s.D.Set("is_fail_open", *s.Res.IsFailOpen)
+	}
+
+	if s.Res.IsInstantFailoverEnabled != nil {
+		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
 	}
 
 	if s.Res.IsPreserveSource != nil {
@@ -756,12 +756,12 @@ func BackendSetSummaryToMap(obj oci_network_load_balancer.BackendSetSummary) map
 
 	result["ip_version"] = string(obj.IpVersion)
 
-	if obj.IsInstantFailoverEnabled != nil {
-		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
-	}
-
 	if obj.IsFailOpen != nil {
 		result["is_fail_open"] = bool(*obj.IsFailOpen)
+	}
+
+	if obj.IsInstantFailoverEnabled != nil {
+		result["is_instant_failover_enabled"] = bool(*obj.IsInstantFailoverEnabled)
 	}
 
 	if obj.IsPreserveSource != nil {

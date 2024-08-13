@@ -31,6 +31,10 @@ func LimitsLimitDefinitionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"limit_definitions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -77,6 +81,20 @@ func LimitsLimitDefinitionsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"supported_quota_families": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"supported_subscriptions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 					},
 				},
 			},
@@ -118,6 +136,11 @@ func (s *LimitsLimitDefinitionsDataSourceCrud) Get() error {
 	if serviceName, ok := s.D.GetOkExists("service_name"); ok {
 		tmp := serviceName.(string)
 		request.ServiceName = &tmp
+	}
+
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "limits")
@@ -187,6 +210,10 @@ func (s *LimitsLimitDefinitionsDataSourceCrud) SetData() error {
 		if r.ServiceName != nil {
 			limitDefinition["service_name"] = *r.ServiceName
 		}
+
+		limitDefinition["supported_quota_families"] = r.SupportedQuotaFamilies
+
+		limitDefinition["supported_subscriptions"] = r.SupportedSubscriptions
 
 		resources = append(resources, limitDefinition)
 	}

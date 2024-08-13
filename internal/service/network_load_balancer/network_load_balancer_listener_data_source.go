@@ -94,5 +94,13 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) SetData() error {
 
 	s.D.Set("protocol", s.Res.Protocol)
 
+	if s.Res.TcpIdleTimeout != nil {
+		s.D.Set("tcp_idle_timeout", *s.Res.TcpIdleTimeout)
+	}
+
+	if s.Res.UdpIdleTimeout != nil {
+		s.D.Set("udp_idle_timeout", *s.Res.UdpIdleTimeout)
+	}
+
 	return nil
 }

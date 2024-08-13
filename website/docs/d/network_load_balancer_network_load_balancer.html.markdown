@@ -141,7 +141,9 @@ The following attributes are exported:
 	* `ip_version` - IP version associated with the listener.
 	* `name` - A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 	* `port` - The communication port for the listener.  Example: `80` 
-	* `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP`
+	* `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 
+	* `tcp_idle_timeout` - The duration for TCP idle timeout in seconds. Example: `300` 
+	* `udp_idle_timeout` - The duration for UDP idle timeout in seconds. Example: `120` 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `network_security_group_ids` - An array of network security groups [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load balancer.
 

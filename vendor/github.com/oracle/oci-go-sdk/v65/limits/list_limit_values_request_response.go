@@ -24,6 +24,9 @@ type ListLimitValuesRequest struct {
 	// The target service name.
 	ServiceName *string `mandatory:"true" contributesTo:"query" name:"serviceName"`
 
+	// The OCID of the subscription assigned to tenant
+	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
+
 	// Filter entries by scope type.
 	ScopeType ListLimitValuesScopeTypeEnum `mandatory:"false" contributesTo:"query" name:"scopeType" omitEmpty:"true"`
 

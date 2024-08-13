@@ -23,6 +23,8 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	assigned_ipv6 = var.network_load_balancer_assigned_ipv6
+	assigned_private_ipv4 = var.network_load_balancer_assigned_private_ipv4
 	backend_sets {
 		#Required
 		health_checker {
@@ -107,6 +109,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 		}
 		ip_version = var.network_load_balancer_backend_sets_ip_version
 		is_fail_open = var.network_load_balancer_backend_sets_is_fail_open
+		is_instant_failover_enabled = var.network_load_balancer_backend_sets_is_instant_failover_enabled
 		is_preserve_source = var.network_load_balancer_backend_sets_is_preserve_source
 		policy = var.network_load_balancer_backend_sets_policy
 	}
@@ -118,6 +121,19 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 	is_preserve_source_destination = var.network_load_balancer_is_preserve_source_destination
 	is_private = var.network_load_balancer_is_private
 	is_symmetric_hash_enabled = var.network_load_balancer_is_symmetric_hash_enabled
+	listeners {
+		#Required
+		default_backend_set_name = oci_network_load_balancer_backend_set.test_backend_set.name
+		name = var.network_load_balancer_listeners_name
+		port = var.network_load_balancer_listeners_port
+		protocol = var.network_load_balancer_listeners_protocol
+
+		#Optional
+		ip_version = var.network_load_balancer_listeners_ip_version
+		is_ppv2enabled = var.network_load_balancer_listeners_is_ppv2enabled
+		tcp_idle_timeout = var.network_load_balancer_listeners_tcp_idle_timeout
+		udp_idle_timeout = var.network_load_balancer_listeners_udp_idle_timeout
+	}
 	network_security_group_ids = var.network_load_balancer_network_security_group_ids
 	nlb_ip_version = var.network_load_balancer_nlb_ip_version
 	reserved_ips {
@@ -132,6 +148,8 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 
 The following arguments are supported:
 
+* `assigned_ipv6` - (Optional) (Updatable) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789" 
+* `assigned_private_ipv4` - (Optional) Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1" 
 * `backend_sets` - (Optional) Backend sets associated with the network load balancer.
 	* `backends` - (Optional) An array of backends. 
 		* `ip_address` - (Optional) The IP address of the backend server. Example: `10.0.0.3` 
@@ -160,8 +178,8 @@ The following arguments are supported:
 		* `timeout_in_millis` - (Optional) The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
 		* `url_path` - (Optional) The path against which to run the health check.  Example: `/healthcheck` 
 	* `ip_version` - (Optional) IP version associated with the backend set.
+	* `is_fail_open` - (Optional) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
 	* `is_instant_failover_enabled` - (Optional) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
-    * `is_fail_open` - (Optional) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
 	* `is_preserve_source` - (Optional) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 	* `policy` - (Optional) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE`
 
@@ -178,7 +196,7 @@ The following arguments are supported:
 
     If "false", then the service assigns a public IP address to the network load balancer.
 
-	A public network load balancer is accessible from the internet, depending on the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and private network load balancers, see [How Network Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/overview.htm). This value is true by default.
+  	A public network load balancer is accessible from the internet, depending on the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and private network load balancers, see [How Network Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works). This value is true by default.
 
 	Example: `true` 
 * `is_symmetric_hash_enabled` - (Optional) (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT. 
@@ -190,7 +208,9 @@ The following arguments are supported:
 	* `ip_version` - (Optional) IP version associated with the listener.
 	* `name` - (Required) A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 	* `port` - (Required) The communication port for the listener.  Example: `80` 
-	* `protocol` - (Required) The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP`
+	* `protocol` - (Required) The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 
+	* `tcp_idle_timeout` - (Optional) The duration for TCP idle timeout in seconds. Example: `300` 
+	* `udp_idle_timeout` - (Optional) The duration for UDP idle timeout in seconds. Example: `120`
 * `network_security_group_ids` - (Optional) (Updatable) An array of network security groups [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load balancer.
 
     During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.
@@ -250,8 +270,8 @@ The following attributes are exported:
 		* `timeout_in_millis` - The maximum time, in milliseconds, to wait for a reply to a health check. A health check is successful only if a reply returns within this timeout period. The default value is 3000 (3 seconds).  Example: `3000` 
 		* `url_path` - The path against which to run the health check.  Example: `/healthcheck` 
 	* `ip_version` - IP version associated with the backend set.
-    * `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
-    * `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
+	* `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
+	* `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy. 
 	* `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 	* `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
 
@@ -301,7 +321,9 @@ The following attributes are exported:
 	* `ip_version` - IP version associated with the listener.
 	* `name` - A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 	* `port` - The communication port for the listener.  Example: `80` 
-	* `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP`
+	* `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 
+	* `tcp_idle_timeout` - The duration for TCP idle timeout in seconds. Example: `300` 
+	* `udp_idle_timeout` - The duration for UDP idle timeout in seconds. Example: `120`
 * `network_security_group_ids` - An array of network security groups [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the network load balancer.
 
     During the creation of the network load balancer, the service adds the new load balancer to the specified network security groups.

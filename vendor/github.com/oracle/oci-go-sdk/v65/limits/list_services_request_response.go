@@ -37,6 +37,9 @@ type ListServicesRequest struct {
 	// particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// The OCID of the subscription assigned to tenant
+	SubscriptionId *string `mandatory:"false" contributesTo:"query" name:"subscriptionId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
