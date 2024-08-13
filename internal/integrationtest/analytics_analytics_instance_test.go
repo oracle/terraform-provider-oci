@@ -67,6 +67,7 @@ var (
 		"email_notification":       acctest.Representation{RepType: acctest.Optional, Create: `emailNotification`, Update: `emailNotification2`},
 		"feature_bundle":           acctest.Representation{RepType: acctest.Required, Create: `EE_EMBEDDED`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"update_channel":           acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`, Update: `EARLY`},
 		"kms_key_id":               acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`, Update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"idcs_access_token":        acctest.Representation{RepType: acctest.Optional, Create: `${var.idcs_access_token}`},
 		"network_endpoint_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: analyticsInstanceNetworkEndpointDetailsRepresentation},
@@ -281,6 +282,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_channel", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -353,6 +355,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "network_endpoint_details.0.vcn_id"),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_channel", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -530,6 +533,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "name", analyticsinstanceOptionalName),
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "update_channel", "EARLY"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -602,6 +606,7 @@ func TestAnalyticsAnalyticsInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "update_channel", "EARLY"),
 			),
 		},
 		// verify resource import

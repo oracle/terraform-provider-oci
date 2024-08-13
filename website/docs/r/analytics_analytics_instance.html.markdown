@@ -56,6 +56,7 @@ resource "oci_analytics_analytics_instance" "test_analytics_instance" {
 			whitelisted_ips = var.analytics_instance_network_endpoint_details_whitelisted_vcns_whitelisted_ips
 		}
 	}
+	update_channel = var.analytics_instance_update_channel
 }
 ```
 
@@ -89,6 +90,7 @@ The following arguments are supported:
 	* `whitelisted_vcns` - (Applicable when network_endpoint_type=PUBLIC) Virtual Cloud Networks allowed to access this network endpoint. 
 		* `id` - (Required when network_endpoint_type=PUBLIC) The Virtual Cloud Network OCID. 
 		* `whitelisted_ips` - (Applicable when network_endpoint_type=PUBLIC) Source IP addresses or IP address ranges in ingress rules. 
+* `update_channel` - (Optional) (Updatable) Analytics instance update channel. 
 * `state` - (Optional) (Updatable) The target state for the Analytics Instance. Could be set to `ACTIVE` or `INACTIVE`. 
 
 
@@ -144,6 +146,7 @@ The following attributes are exported:
 * `system_tags` - System tags for this resource. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.key": "value"}` 
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the instance was last updated (in the format defined by RFC3339). This timestamp represents updates made through this API. External events do not influence it. 
+* `update_channel` - Analytics instance update channel. 
 * `vanity_url_details` - Map of VanityUrl unique identifier key as KEY and VanityUrl Object as VALUE. 
 	* `description` - Description of the vanity url. 
 	* `hosts` - List of fully qualified hostnames supported by this vanity URL definition (max of 3). 
