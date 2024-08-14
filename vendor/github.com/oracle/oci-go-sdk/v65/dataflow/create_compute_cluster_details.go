@@ -52,6 +52,9 @@ type CreateComputeClusterDetails struct {
 	// The OCID of OCI Lake.
 	LakeId *string `mandatory:"false" json:"lakeId"`
 
+	// The OCID of Hub.
+	HubId *string `mandatory:"false" json:"hubId"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

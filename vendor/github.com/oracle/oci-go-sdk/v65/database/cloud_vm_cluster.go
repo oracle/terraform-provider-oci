@@ -137,17 +137,29 @@ type CloudVmCluster struct {
 	// HIGH is 3-way redundancy.
 	DiskRedundancy CloudVmClusterDiskRedundancyEnum `mandatory:"false" json:"diskRedundancy,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the cloud VM cluster.
-	// SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the cloud VM cluster.
+	// SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface.
 	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	ScanIpIds []string `mandatory:"false" json:"scanIpIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the cloud VM cluster.
-	// The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) IPv4 addresses associated with the cloud VM cluster.
+	// The Cluster Ready Services (CRS) creates and maintains one VIP IPv4 address for each node in the Exadata Cloud Service instance to
 	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	VipIds []string `mandatory:"false" json:"vipIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv6 addresses associated with the cloud VM cluster.
+	// SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface.
+	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	ScanIpv6Ids []string `mandatory:"false" json:"scanIpv6Ids"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) IPv6 addresses associated with the cloud VM cluster.
+	// The Cluster Ready Services (CRS) creates and maintains one VIP IPv6 address for each node in the Exadata Cloud Service instance to
+	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	Vipv6Ids []string `mandatory:"false" json:"vipv6Ids"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the cloud VM cluster.
 	ScanDnsRecordId *string `mandatory:"false" json:"scanDnsRecordId"`
@@ -198,6 +210,9 @@ type CloudVmCluster struct {
 	// Specifies the type of storage management for the Cloud VM Cluster if its ASM or Exascale.
 	StorageManagementType CloudVmClusterStorageManagementTypeEnum `mandatory:"false" json:"storageManagementType,omitempty"`
 
+	// The vmcluster type for the VM cluster/Cloud VM cluster.
+	VmClusterType CloudVmClusterVmClusterTypeEnum `mandatory:"false" json:"vmClusterType,omitempty"`
+
 	IormConfigCache *ExadataIormConfig `mandatory:"false" json:"iormConfigCache"`
 }
 
@@ -222,6 +237,9 @@ func (m CloudVmCluster) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudVmClusterStorageManagementTypeEnum(string(m.StorageManagementType)); !ok && m.StorageManagementType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagementType: %s. Supported values are: %s.", m.StorageManagementType, strings.Join(GetCloudVmClusterStorageManagementTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudVmClusterVmClusterTypeEnum(string(m.VmClusterType)); !ok && m.VmClusterType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for VmClusterType: %s. Supported values are: %s.", m.VmClusterType, strings.Join(GetCloudVmClusterVmClusterTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -414,5 +432,47 @@ func GetCloudVmClusterStorageManagementTypeEnumStringValues() []string {
 // GetMappingCloudVmClusterStorageManagementTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudVmClusterStorageManagementTypeEnum(val string) (CloudVmClusterStorageManagementTypeEnum, bool) {
 	enum, ok := mappingCloudVmClusterStorageManagementTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudVmClusterVmClusterTypeEnum Enum with underlying type: string
+type CloudVmClusterVmClusterTypeEnum string
+
+// Set of constants representing the allowable values for CloudVmClusterVmClusterTypeEnum
+const (
+	CloudVmClusterVmClusterTypeRegular   CloudVmClusterVmClusterTypeEnum = "REGULAR"
+	CloudVmClusterVmClusterTypeDeveloper CloudVmClusterVmClusterTypeEnum = "DEVELOPER"
+)
+
+var mappingCloudVmClusterVmClusterTypeEnum = map[string]CloudVmClusterVmClusterTypeEnum{
+	"REGULAR":   CloudVmClusterVmClusterTypeRegular,
+	"DEVELOPER": CloudVmClusterVmClusterTypeDeveloper,
+}
+
+var mappingCloudVmClusterVmClusterTypeEnumLowerCase = map[string]CloudVmClusterVmClusterTypeEnum{
+	"regular":   CloudVmClusterVmClusterTypeRegular,
+	"developer": CloudVmClusterVmClusterTypeDeveloper,
+}
+
+// GetCloudVmClusterVmClusterTypeEnumValues Enumerates the set of values for CloudVmClusterVmClusterTypeEnum
+func GetCloudVmClusterVmClusterTypeEnumValues() []CloudVmClusterVmClusterTypeEnum {
+	values := make([]CloudVmClusterVmClusterTypeEnum, 0)
+	for _, v := range mappingCloudVmClusterVmClusterTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudVmClusterVmClusterTypeEnumStringValues Enumerates the set of values in String for CloudVmClusterVmClusterTypeEnum
+func GetCloudVmClusterVmClusterTypeEnumStringValues() []string {
+	return []string{
+		"REGULAR",
+		"DEVELOPER",
+	}
+}
+
+// GetMappingCloudVmClusterVmClusterTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudVmClusterVmClusterTypeEnum(val string) (CloudVmClusterVmClusterTypeEnum, bool) {
+	enum, ok := mappingCloudVmClusterVmClusterTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
