@@ -8,4 +8,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_integration_integration_instance", IntegrationIntegrationInstanceResource())
 	tfresource.RegisterResource("oci_integration_private_endpoint_outbound_connection", IntegrationPrivateEndpointOutboundConnectionResource())
+	tfresource.RegisterResource("oci_integration_oracle_managed_custom_endpoint", IntegrationCustomEndpointResource())
 }

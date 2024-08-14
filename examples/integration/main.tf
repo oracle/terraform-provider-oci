@@ -19,8 +19,12 @@ variable "region" {
 variable "compartment_id" {
 }
 
+variable "instance_type" {
+  default = "STANDARDX"
+}
+
 variable "integration_instance_idcs_access_token" {
-  default = ""
+  default = ""                  #
 }
 
 variable "integration_instance_consumption_model" {
@@ -56,18 +60,32 @@ provider "oci" {
   region           = var.region
 }
 
+resource "random_integer" "seq" {
+  min = 1000
+  max = 1100
+}
+
 resource "oci_integration_integration_instance" "test_integration_instance" {
   #Required
   compartment_id            = var.compartment_id
-  integration_instance_type = "HEALTHCARE"
+  integration_instance_type = var.instance_type
   shape                     = "DEVELOPMENT"
-  display_name              = "DataRetention"
+  display_name              = "instance-created-via-tf-${random_integer.seq.result}"
   is_byol                   = "false"
   message_packs             = "10"
   domain_id                 = var.domain_id
-  # idcs_at                 = var.integration_instance_idcs_access_token
 
+  lifecycle {
+    ignore_changes = [
+      system_tags,
+    ]
+  }
+  # idcs_at                 = var.integration_instance_idcs_access_token
   #Optional
+  # custom_endpoint {
+  #   hostname = "xyz.toronto.oicg3dev.ohaiarch.cloud"
+  #   dns_zone_name = "toronto.oicg3dev.ohaiarch.cloud"
+  # }
 # For stand / enterprise type only
 #  consumption_model = "${var.integration_instance_consumption_model}"
 #  custom_endpoint {
@@ -83,11 +101,44 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
 #  state                  = "ACTIVE"
 }
 
+# home region
+provider "oci" {
+  alias = "phx"
+  tenancy_ocid     = var.tenancy_ocid
+  user_ocid        = var.user_ocid
+  fingerprint      = var.fingerprint
+  private_key_path = var.private_key_path
+  region           = "us-phoenix-1"
+}
+
+resource "oci_identity_dynamic_group" "DG_managed_custom_endpoint" {
+  provider = oci.phx
+
+  compartment_id = var.tenancy_ocid
+  name = "DG_${oci_integration_integration_instance.test_integration_instance.display_name}"
+  description = "DG for Oracle Managed Custom Endpoint"
+  matching_rule = "any { resource.id = '${oci_integration_integration_instance.test_integration_instance.idcs_info[0].idcs_app_name}' }"
+}
+
+resource "oci_identity_policy" "policy_managed_custom_endpoint" {
+  provider = oci.phx
+
+  #Required
+  compartment_id = var.tenancy_ocid
+  description = "Policy for Oracle Managed Custom Endpoint"
+  name = "policy_${oci_integration_integration_instance.test_integration_instance.display_name}"
+  statements = [
+    "ENDORSE any-user TO MANAGE certificate-authority-family IN any-tenancy",
+    "Allow dynamic-group ${oci_identity_dynamic_group.DG_managed_custom_endpoint.name} to manage dns-zones in tenancy",
+    "Allow dynamic-group ${oci_identity_dynamic_group.DG_managed_custom_endpoint.name} to manage dns-records in tenancy",
+  ]
+}
+
 data "oci_integration_integration_instances" "test_integration_instances" {
   #Required
   compartment_id = var.compartment_id
 
-  display_name = "displayName"
+  display_name = "instance-created-via-tf"
   state        = "Active"
 }
 
@@ -108,8 +159,25 @@ data "oci_integration_integration_instance" "test_integration_instance" {
 #   idcs_at                   = var.integration_instance_idcs_access_token
 # }
 
+resource "time_sleep" "wait" {
+  depends_on = [oci_identity_policy.policy_managed_custom_endpoint]
+
+  create_duration = "180s"
+}
+
+resource "oci_integration_oracle_managed_custom_endpoint" "integretion_custom_endpoint" {
+  integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
+  hostname = "${replace(oci_integration_integration_instance.test_integration_instance.display_name, "-", "")}.toronto.oicg3dev.ohaiarch.cloud"
+  dns_zone_name = "toronto.oicg3dev.ohaiarch.cloud"
+  depends_on = [time_sleep.wait]
+}
+
 resource "oci_integration_private_endpoint_outbound_connection" "integration_private_endpoint" {
   integration_instance_id = oci_integration_integration_instance.test_integration_instance.id
   nsg_ids = [var.nsg_id]
   subnet_id = var.subnet_id
+
+  depends_on = [
+    oci_integration_oracle_managed_custom_endpoint.integretion_custom_endpoint
+  ]
 }

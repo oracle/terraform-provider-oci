@@ -140,6 +140,10 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["id"] = *r.Id
 		}
 
+		if r.InstanceDesignTimeUrl != nil {
+			integrationInstance["instance_design_time_url"] = *r.InstanceDesignTimeUrl
+		}
+
 		if r.InstanceUrl != nil {
 			integrationInstance["instance_url"] = *r.InstanceUrl
 		}

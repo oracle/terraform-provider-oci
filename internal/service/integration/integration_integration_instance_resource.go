@@ -91,6 +91,18 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"dns_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"dns_zone_name": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"managed_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -128,6 +140,18 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						},
 						"certificate_secret_version": {
 							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"dns_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
+						"dns_zone_name": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"managed_type": {
+							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
@@ -246,6 +270,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			// "add_oracle_managed_custom_endpoint_trigger": {
+			// 	Type:     schema.TypeInt,
+			// 	Optional: true,
+			// },
 			"enable_process_automation_trigger": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -254,6 +282,11 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+
+			// "remove_oracle_managed_custom_endpoint_trigger": {
+			// 	Type:     schema.TypeInt,
+			// 	Optional: true,
+			// },
 
 			// Computed
 			"attachments": {
@@ -325,6 +358,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"instance_design_time_url": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"instance_url": {
 				Type:     schema.TypeString,
@@ -782,7 +819,7 @@ func integrationInstanceWaitForWorkRequest(wId *string, entityType string, actio
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_integration.WorkRequestStatusFailed || response.Status == oci_integration.WorkRequestStatusCanceled {
-		return nil, getErrorFromIntegrationIntegrationInstanceWorkRequest(client, wId, response.CompartmentId, retryPolicy, entityType, action)
+		return nil, getErrorFromIntegrationIntegrationInstanceWorkRequest(client, response.CompartmentId, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
@@ -862,11 +899,17 @@ func (s *IntegrationIntegrationInstanceResourceCrud) Update() error {
 	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
 		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
-			tmp, err := s.mapToUpdateCustomEndpointDetails(fieldKeyFormat)
+			tmp, err := s.mapToCustomEndpointDetails(fieldKeyFormat)
+
 			if err != nil {
 				return err
 			}
-			request.CustomEndpoint = &tmp
+
+			if tmp.ManagedType == oci_integration.CustomEndpointDetailsManagedTypeCustomerManaged {
+				request.CustomEndpoint = &oci_integration.UpdateCustomEndpointDetails{}
+				request.CustomEndpoint.Hostname = tmp.Hostname
+				request.CustomEndpoint.CertificateSecretId = tmp.CertificateSecretId
+			}
 		}
 	}
 
@@ -994,6 +1037,10 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("idcs_info", nil)
 	}
 
+	if s.Res.InstanceDesignTimeUrl != nil {
+		s.D.Set("instance_design_time_url", *s.Res.InstanceDesignTimeUrl)
+	}
+
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
 	}
@@ -1059,6 +1106,47 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 	return nil
 }
 
+/*
+func (s *IntegrationIntegrationInstanceResourceCrud) AddOracleManagedCustomEndpoint() error {
+	request := oci_integration.AddOracleManagedCustomEndpointRequest{}
+
+	if customEndpoint, ok := s.D.GetOkExists("custom_endpoint"); ok {
+
+		if tmpList := customEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "custom_endpoint", 0)
+			tmp, err := s.mapToAddOracleManagedCustomEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DnsType = tmp.DnsType
+			request.DnsZoneName = tmp.DnsZoneName
+			request.Hostname = tmp.Hostname
+		}
+	}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	response, err := s.Client.AddOracleManagedCustomEndpoint(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+
+	if waitErr := s.getIntegrationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("add_oracle_managed_custom_endpoint_trigger")
+	s.D.Set("add_oracle_managed_custom_endpoint_trigger", val)
+
+	return nil
+}
+*/
+
 func (s *IntegrationIntegrationInstanceResourceCrud) EnableProcessAutomation() error {
 	request := oci_integration.EnableProcessAutomationRequest{}
 
@@ -1105,6 +1193,31 @@ func (s *IntegrationIntegrationInstanceResourceCrud) ExtendDataRetention() error
 
 	val := s.D.Get("extend_data_retention_trigger")
 	s.D.Set("extend_data_retention_trigger", val)
+
+	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) RemoveOracleManagedCustomEndpoint() error {
+	request := oci_integration.RemoveOracleManagedCustomEndpointRequest{}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	response, err := s.Client.RemoveOracleManagedCustomEndpoint(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+
+	if waitErr := s.getIntegrationInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration"), oci_integration.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate)); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("remove_oracle_managed_custom_endpoint_trigger")
+	s.D.Set("remove_oracle_managed_custom_endpoint_trigger", val)
 
 	return nil
 }
@@ -1165,6 +1278,30 @@ func (s *IntegrationIntegrationInstanceResourceCrud) mapToUpdateCustomEndpointDe
 	return result, nil
 }
 
+func (s *IntegrationIntegrationInstanceResourceCrud) mapToCustomEndpointDetails(fieldKeyFormat string) (oci_integration.CustomEndpointDetails, error) {
+	result := oci_integration.CustomEndpointDetails{}
+
+	if hostname, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hostname")); ok {
+		tmp := hostname.(string)
+		result.Hostname = &tmp
+	}
+
+	if dnsType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_type")); ok {
+		result.DnsType = oci_integration.CustomEndpointDetailsDnsTypeEnum(dnsType.(string))
+	}
+
+	if dnsZoneName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "dns_zone_name")); ok {
+		tmp := dnsZoneName.(string)
+		result.DnsZoneName = &tmp
+	}
+
+	if managed_type, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "managed_type")); ok {
+		result.ManagedType = oci_integration.CustomEndpointDetailsManagedTypeEnum(managed_type.(string))
+	}
+
+	return result, nil
+}
+
 func CustomEndpointDetailsToMap(obj *oci_integration.CustomEndpointDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1180,9 +1317,17 @@ func CustomEndpointDetailsToMap(obj *oci_integration.CustomEndpointDetails) map[
 		result["certificate_secret_version"] = int(*obj.CertificateSecretVersion)
 	}
 
+	result["dns_type"] = string(obj.DnsType)
+
+	if obj.DnsZoneName != nil {
+		result["dns_zone_name"] = string(*obj.DnsZoneName)
+	}
+
 	if obj.Hostname != nil {
 		result["hostname"] = string(*obj.Hostname)
 	}
+
+	result["managed_type"] = string(obj.ManagedType)
 
 	return result
 }
