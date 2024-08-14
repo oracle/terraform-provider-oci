@@ -24,8 +24,13 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	compartment_id = var.compartment_id
 	source_details {
 		#Required
-		id = var.boot_volume_source_details_id
 		type = var.boot_volume_source_details_type
+
+		#Optional
+		change_block_size_in_bytes = var.boot_volume_source_details_change_block_size_in_bytes
+		first_backup_id = oci_database_backup.test_backup.id
+		id = var.boot_volume_source_details_id
+		second_backup_id = oci_database_backup.test_backup.id
 	}
 
 	#Optional
@@ -78,8 +83,11 @@ The following arguments are supported:
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) 
-	* `id` - (Required) The OCID of the boot volume replica.
-	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeReplica`
+	* `change_block_size_in_bytes` - (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the first boot volume backup.
+	* `id` - (Required when type=bootVolume | bootVolumeBackup | bootVolumeReplica) The OCID of the boot volume replica.
+	* `second_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the second boot volume backup.
+	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
@@ -119,8 +127,11 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 
+	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - The OCID of the first boot volume backup.
 	* `id` - The OCID of the boot volume replica.
-	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeReplica`
+	* `second_backup_id` - The OCID of the second boot volume backup.
+	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
 * `state` - The current state of a boot volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
