@@ -50,11 +50,6 @@ func CoreBootVolumeResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -63,11 +58,38 @@ func CoreBootVolumeResource() *schema.Resource {
 							ValidateFunc: validation.StringInSlice([]string{
 								"bootVolume",
 								"bootVolumeBackup",
+								"bootVolumeBackupDelta",
 								"bootVolumeReplica",
 							}, true),
 						},
 
 						// Optional
+						"change_block_size_in_bytes": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         false,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"first_backup_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
+						"second_backup_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -798,6 +820,25 @@ func (s *CoreBootVolumeResourceCrud) mapToBootVolumeSourceDetails(fieldKeyFormat
 			details.Id = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("bootVolumeBackupDelta"):
+		details := oci_core.BootVolumeSourceFromBootVolumeBackupDeltaDetails{}
+		if changeBlockSizeInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "change_block_size_in_bytes")); ok {
+			tmp := changeBlockSizeInBytes.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert changeBlockSizeInBytes string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.ChangeBlockSizeInBytes = &tmpInt64
+		}
+		if firstBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "first_backup_id")); ok {
+			tmp := firstBackupId.(string)
+			details.FirstBackupId = &tmp
+		}
+		if secondBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "second_backup_id")); ok {
+			tmp := secondBackupId.(string)
+			details.SecondBackupId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("bootVolumeReplica"):
 		details := oci_core.BootVolumeSourceFromBootVolumeReplicaDetails{}
 		if id, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "id")); ok {
@@ -825,6 +866,20 @@ func BootVolumeSourceDetailsToMap(obj *oci_core.BootVolumeSourceDetails) map[str
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
+		}
+	case oci_core.BootVolumeSourceFromBootVolumeBackupDeltaDetails:
+		result["type"] = "bootVolumeBackupDelta"
+
+		if v.ChangeBlockSizeInBytes != nil {
+			result["change_block_size_in_bytes"] = strconv.FormatInt(*v.ChangeBlockSizeInBytes, 10)
+		}
+
+		if v.FirstBackupId != nil {
+			result["first_backup_id"] = string(*v.FirstBackupId)
+		}
+
+		if v.SecondBackupId != nil {
+			result["second_backup_id"] = string(*v.SecondBackupId)
 		}
 	case oci_core.BootVolumeSourceFromBootVolumeReplicaDetails:
 		result["type"] = "bootVolumeReplica"
