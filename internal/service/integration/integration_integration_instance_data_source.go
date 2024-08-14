@@ -108,6 +108,10 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("idcs_info", nil)
 	}
 
+	if s.Res.InstanceDesignTimeUrl != nil {
+		s.D.Set("instance_design_time_url", *s.Res.InstanceDesignTimeUrl)
+	}
+
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
 	}

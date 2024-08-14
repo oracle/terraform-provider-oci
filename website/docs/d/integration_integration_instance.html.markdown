@@ -36,7 +36,10 @@ The following attributes are exported:
 	* `alias` - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
 	* `certificate_secret_id` - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.
 	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
+	* `dns_type` - Type of DNS.
+	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
+	* `managed_type` - Indicates if custom endpoint is managed by oracle or customer.
 * `attachments` - A list of associated attachments to other services
 	* `is_implicit` -
 		* If role == `PARENT`, the attached instance was created by this service instance
@@ -53,7 +56,10 @@ The following attributes are exported:
 	* `alias` - When creating the DNS CNAME record for the custom hostname, this value must be specified in the rdata.
 	* `certificate_secret_id` - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname.
 	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified).
+	* `dns_type` - Type of DNS.
+	* `dns_zone_name` - DNS Zone name
 	* `hostname` - A custom hostname to be used for the integration instance URL, in FQDN format.
+	* `managed_type` - Indicates if custom endpoint is managed by oracle or customer.
 * `data_retention_period` - Data retention period set for given integration instance
 * `defined_tags` - Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}`
 * `display_name` - Integration Instance Identifier, can be renamed.
@@ -65,6 +71,7 @@ The following attributes are exported:
 	* `idcs_app_location_url` - URL for the location of the IDCS Application (used by IDCS APIs)
 	* `idcs_app_name` - The IDCS application name associated with the instance
 	* `instance_primary_audience_url` - The URL used as the primary audience for integration flows in this instance type: string
+* `instance_design_time_url` - The Integration Instance Design Time URL
 * `instance_url` - The Integration Instance URL.
 * `integration_instance_type` - Standard or Enterprise type, Oracle Integration Generation 2 uses ENTERPRISE and STANDARD, Oracle Integration 3 uses ENTERPRISEX and STANDARDX
 * `is_byol` - Bring your own license.
