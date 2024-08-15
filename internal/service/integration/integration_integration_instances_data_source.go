@@ -124,6 +124,8 @@ func (s *IntegrationIntegrationInstancesDataSourceCrud) SetData() error {
 			integrationInstance["custom_endpoint"] = nil
 		}
 
+		integrationInstance["data_retention_period"] = r.DataRetentionPeriod
+
 		if r.DefinedTags != nil {
 			integrationInstance["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}

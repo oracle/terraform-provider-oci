@@ -90,6 +90,8 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("custom_endpoint", nil)
 	}
 
+	s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
