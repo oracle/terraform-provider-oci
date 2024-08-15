@@ -72,7 +72,7 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 			"idcs_access_token": {
 				Type:      schema.TypeString,
-				Required:  true,
+				Optional:  true,
 				Sensitive: true,
 				StateFunc: tfresource.GetMd5Hash,
 			},
@@ -87,6 +87,12 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			},
 
 			// Optional
+			"admin_user": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -99,10 +105,22 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"domain_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"email_notification": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"feature_bundle": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
@@ -218,6 +236,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 			"service_url": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -378,6 +401,11 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) DeletedTarget() []string {
 func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 	request := oci_analytics.CreateAnalyticsInstanceRequest{}
 
+	if adminUser, ok := s.D.GetOkExists("admin_user"); ok {
+		tmp := adminUser.(string)
+		request.AdminUser = &tmp
+	}
+
 	if capacity, ok := s.D.GetOkExists("capacity"); ok {
 		if tmpList := capacity.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "capacity", 0)
@@ -407,9 +435,18 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 		request.Description = &tmp
 	}
 
+	if domainId, ok := s.D.GetOkExists("domain_id"); ok {
+		tmp := domainId.(string)
+		request.DomainId = &tmp
+	}
+
 	if emailNotification, ok := s.D.GetOkExists("email_notification"); ok {
 		tmp := emailNotification.(string)
 		request.EmailNotification = &tmp
+	}
+
+	if featureBundle, ok := s.D.GetOkExists("feature_bundle"); ok {
+		request.FeatureBundle = oci_analytics.FeatureBundleEnum(featureBundle.(string))
 	}
 
 	if featureSet, ok := s.D.GetOkExists("feature_set"); ok {
@@ -760,9 +797,15 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.DomainId != nil {
+		s.D.Set("domain_id", *s.Res.DomainId)
+	}
+
 	if s.Res.EmailNotification != nil {
 		s.D.Set("email_notification", *s.Res.EmailNotification)
 	}
+
+	s.D.Set("feature_bundle", s.Res.FeatureBundle)
 
 	s.D.Set("feature_set", s.Res.FeatureSet)
 
@@ -793,6 +836,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
