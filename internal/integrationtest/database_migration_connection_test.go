@@ -23,7 +23,8 @@ import (
 )
 
 var (
-	DatabaseMigrationConnectionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, DatabaseMigrationConnectionRepresentation)
+	DatabaseMigrationConnectionRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, DatabaseMigrationConnectionRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Required, acctest.Create, DatabaseMigrationConnectionOracleRepresentation)
 
 	DatabaseMigrationConnectionResourceConfig = acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation)
 
@@ -39,9 +40,22 @@ var (
 		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationConnectionDataSourceFilterRepresentation},
 	}
 
+	DatabaseMigrationConnectionDataSourceOracleRepresentation = map[string]interface{}{
+		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type": acctest.Representation{RepType: acctest.Optional, Create: []string{`ORACLE`}},
+		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"technology_type": acctest.Representation{RepType: acctest.Optional, Create: []string{`AMAZON_RDS_ORACLE`}},
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseMigrationConnectionDataSourceFilterOracleRepresentation},
+	}
+
 	DatabaseMigrationConnectionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_migration_connection.test_connection.id}`}},
+	}
+
+	DatabaseMigrationConnectionDataSourceFilterOracleRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_migration_connection.test_connection_rds.id}`}},
 	}
 
 	DatabaseMigrationConnectionRepresentation = map[string]interface{}{
@@ -69,6 +83,24 @@ var (
 		"ssh_user":              acctest.Representation{RepType: acctest.Optional, Create: `sshUser`, Update: `sshUser2`},
 		"subnet_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_mysql_id}`},
 		"wallet":                acctest.Representation{RepType: acctest.Optional, Create: `wallet`, Update: `wallet2`},
+	}
+
+	DatabaseMigrationConnectionOracleRepresentation = map[string]interface{}{
+		"compartment_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connection_type":       acctest.Representation{RepType: acctest.Required, Create: `ORACLE`},
+		"display_name":          acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
+		"key_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.kms_key_id}`},
+		"password":              acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"technology_type":       acctest.Representation{RepType: acctest.Required, Create: `AMAZON_RDS_ORACLE`},
+		"username":              acctest.Representation{RepType: acctest.Required, Create: `ggfe`},
+		"vault_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.kms_vault_id}`},
+		"additional_attributes": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseMigrationConnectionAdditionalAttributesRepresentation},
+		"connection_string":     acctest.Representation{RepType: acctest.Required, Create: `10.10.10.10:10/test`},
+		"description":           acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"nsg_ids":               acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.nsg_mysql_id}`, `${var.nsg_mysql_id2}`}, Update: []string{`${var.nsg_mysql_id}`, `${var.nsg_mysql_id2}`}},
+		"replication_password":  acctest.Representation{RepType: acctest.Optional, Create: `replicationPassword`, Update: `replicationPassword2`},
+		"replication_username":  acctest.Representation{RepType: acctest.Optional, Create: `replicationUsername`},
+		"wallet":                acctest.Representation{RepType: acctest.Required, Create: `wallet`, Update: `wallet2`},
 	}
 
 	connectionRepresentationTarget = map[string]interface{}{
@@ -114,23 +146,30 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 	nsgId := utils.GetEnvSettingWithBlankDefault("nsg_mysql_id")
 	nsgIdVariableStr := fmt.Sprintf("variable \"nsg_mysql_id\" { default = \"%s\" }\n", nsgId)
 
+	nsgId2 := utils.GetEnvSettingWithBlankDefault("nsg_mysql_id2")
+	nsgIdVariableStr2 := fmt.Sprintf("variable \"nsg_mysql_id2\" { default = \"%s\" }\n", nsgId2)
+
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_mysql_id")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_mysql_id\" { default = \"%s\" }\n", subnetId)
 
 	resourceName := "oci_database_migration_connection.test_connection"
 	datasourceName := "data.oci_database_migration_connections.test_connections"
 	singularDatasourceName := "data.oci_database_migration_connection.test_connection"
+	resourceNameRDS := "oci_database_migration_connection.test_connection_rds"
+	datasourceRDSName := "data.oci_database_migration_connections.test_connections_rds"
 
-	var resId, resId2 string
+	var resId, resId2, resId3 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+kmsVaultIdVariableStr+compartmentIdUVariableStr+sourceDBIdVariableStr+nsgIdVariableStr+subnetIdVariableStr+
-		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation), "databasemigration", "connection", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+kmsVaultIdVariableStr+compartmentIdUVariableStr+sourceDBIdVariableStr+nsgIdVariableStr+subnetIdVariableStr+nsgIdVariableStr2+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create, DatabaseMigrationConnectionOracleRepresentation), "databasemigration", "connection", t)
 
 	acctest.ResourceTest(t, testAccCheckDatabaseMigrationConnectionDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, DatabaseMigrationConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Required, acctest.Create, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Required, acctest.Create, DatabaseMigrationConnectionOracleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "connection_type", "MYSQL"),
@@ -143,8 +182,19 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "username", "ggfe"),
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connection_type", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "connection_string"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "key_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "technology_type", "AMAZON_RDS_ORACLE"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "username", "ggfe"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_id"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
 					return err
 				},
 			),
@@ -152,12 +202,13 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr,
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + compartmentIdUVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + compartmentIdUVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create, DatabaseMigrationConnectionOracleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_attributes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "additional_attributes.0.name", "name"),
@@ -189,8 +240,28 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
 
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connection_type", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "connection_string"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "description", "description"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "key_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_password", "replicationPassword"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_username", "replicationUsername"),
+
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "state"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "technology_type", "AMAZON_RDS_ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_updated"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "username", "ggfe"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "wallet", "wallet"),
+
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId2, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
 					time.Sleep(1 * time.Minute)
 					return err
 				},
@@ -199,9 +270,13 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 		// verify Update to the compartment (the compartment will be switched back in the next step)
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr +
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2 +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationConnectionRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DatabaseMigrationConnectionOracleRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -212,7 +287,6 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "connection_type", "MYSQL"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_name"),
-				//resource.TestCheckResourceAttrSet(resourceName, "db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "host", "254.249.0.0"),
@@ -237,10 +311,33 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet"),
 
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connection_type", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "connection_string"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "description", "description"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "displayName"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "key_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_password", "replicationPassword"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_username", "replicationUsername"),
+
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "state"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "technology_type", "AMAZON_RDS_ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_updated"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "username", "ggfe"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "wallet", "wallet"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId3 {
+						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceName)
+					}
+					resId3, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
+					if resId2 != resId3 {
+						return fmt.Errorf("update to the compartment: resource %s recreated when it was supposed to be updated", resourceNameRDS)
 					}
 					return err
 				},
@@ -249,8 +346,9 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation),
+			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Update, DatabaseMigrationConnectionOracleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "additional_attributes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "additional_attributes.0.name", "name2"),
@@ -282,10 +380,33 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
 				resource.TestCheckResourceAttr(resourceName, "wallet", "wallet2"),
 
+				resource.TestCheckResourceAttr(resourceNameRDS, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceNameRDS, "connection_type", "ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "connection_string"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "display_name", "displayName2"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "id"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "key_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "password", "BEstrO0ng_#12"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_password", "replicationPassword2"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "replication_username", "replicationUsername"),
+
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "state"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "technology_type", "AMAZON_RDS_ORACLE"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "time_updated"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "username", "ggfe"),
+				resource.TestCheckResourceAttrSet(resourceNameRDS, "vault_id"),
+				resource.TestCheckResourceAttr(resourceNameRDS, "wallet", "wallet2"),
+
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					resId3, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId3 {
+						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceName)
+					}
+					resId3, err = acctest.FromInstanceState(s, resourceNameRDS, "id")
+					if resId2 != resId3 {
+						return fmt.Errorf("updates to updatable parameters: resource %s recreated when it was supposed to be updated", resourceNameRDS)
 					}
 					return err
 				},
@@ -295,8 +416,10 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections", acctest.Optional, acctest.Update, DatabaseMigrationConnectionDataSourceRepresentation) +
-				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation),
+				compartmentIdVariableStr + kmsKeyIdVariableStr + kmsVaultIdVariableStr + sourceDBIdVariableStr + nsgIdVariableStr + subnetIdVariableStr + nsgIdVariableStr2 +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection", acctest.Optional, acctest.Update, DatabaseMigrationConnectionRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_migration_connections", "test_connections_rds", acctest.Optional, acctest.Update, DatabaseMigrationConnectionDataSourceOracleRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_migration_connection", "test_connection_rds", acctest.Optional, acctest.Update, DatabaseMigrationConnectionOracleRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "connection_type.#", "1"),
@@ -304,6 +427,13 @@ func TestDatabaseMigrationConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "technology_type.#", "1"),
 
 				resource.TestCheckResourceAttr(datasourceName, "connection_collection.#", "1"),
+
+				resource.TestCheckResourceAttr(datasourceRDSName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceRDSName, "connection_type.#", "1"),
+				resource.TestCheckResourceAttr(datasourceRDSName, "state", "ACTIVE"),
+				resource.TestCheckResourceAttr(datasourceRDSName, "technology_type.#", "1"),
+
+				resource.TestCheckResourceAttr(datasourceRDSName, "connection_collection.#", "1"),
 			),
 		},
 		// verify singular datasource
