@@ -76,12 +76,12 @@ var (
 		"backup_config":                acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousContainerDatabaseBackupConfigRepresentation},
 		"key_store_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_key_store.test_key_store.id}`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName},
+		"db_unique_name":               acctest.Representation{RepType: acctest.Optional, Create: acbDBName2},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"maintenance_window_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation},
 		"service_level_agreement_type": acctest.Representation{RepType: acctest.Optional, Create: `STANDARD`},
-		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
+		"db_name":                      acctest.Representation{RepType: acctest.Optional, Create: `DBNAME2`},
 		"db_version":                   acctest.Representation{RepType: acctest.Required, Create: `19.22.0.1.0`},
 		"is_dst_file_update_enabled":   acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
@@ -92,11 +92,22 @@ var (
 	ExaccDatabaseMaintenanceRunRepresentation = map[string]interface{}{
 		"patch_type":                 acctest.Representation{RepType: acctest.Required, Create: `QUARTERLY`},
 		"target_resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database.id}`},
-		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
 		"is_dst_file_update_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"patching_mode":              acctest.Representation{RepType: acctest.Optional, Create: `ROLLING`, Update: `NONROLLING`},
 		"time_scheduled":             acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano)},
 	}
+
+	ExaccDatabaseMaintenanceRunFromAdsiRepresentation = map[string]interface{}{
+		"patch_type":                 acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_DATABASE_SOFTWARE_IMAGE`},
+		"target_resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_container_database.test_autonomous_container_database_2.id}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"database_software_image_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database_software_image.test_autonomous_database_software_image.id}`},
+		"patching_mode":              acctest.Representation{RepType: acctest.Optional, Create: `NONROLLING`},
+		"time_scheduled":             acctest.Representation{RepType: acctest.Required, Create: mrTimeScheduledCreate.Format(time.RFC3339Nano)},
+	}
+
+	AdbdDatabaseMaintenanceRunFromAdsiRepresentation = ExaccDatabaseMaintenanceRunFromAdsiRepresentation
 
 	ExaccDatabaseMaintenanceRunResourceDependencies = ExaccMRACDResourceConfig
 
@@ -119,7 +130,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: `19.19.0.1.0`},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("mr_acd_db_version", "19.21.0.1.0")},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -133,6 +144,19 @@ var (
 		"db_name":                        acctest.Representation{RepType: acctest.Optional, Create: `DBNAME`},
 		"is_dst_file_update_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+
+	AdbdMRACDatabaseRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseMRAutonomousContainerDatabaseRepresentation, map[string]interface{}{
+		"db_name": acctest.Representation{RepType: acctest.Optional, Create: `DBNAME2`},
+	})
+
+	ExaccDatabaseMaintenanceRunResourceFromAdsiDependencies = ExaccDatabaseAutonomousDatabaseSoftwareImageResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_2", acctest.Optional, acctest.Update, ExaccMRACDatabaseRepresentation)
+
+	ExaccDatabaseMaintenanceRunFromAdsiResourceConfig = ExaccDatabaseMaintenanceRunResourceFromAdsiDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Optional, acctest.Update, ExaccDatabaseMaintenanceRunFromAdsiRepresentation)
+
+	AdbdDatabaseMaintenanceRunResourceFromAdsiDependencies = DatabaseAutonomousDatabaseSoftwareImageResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database_2", acctest.Optional, acctest.Update, AdbdMRACDatabaseRepresentation)
 )
 
 // issue-routing-tag: database/dbaas-atp-d
@@ -365,6 +389,87 @@ func TestDatabaseMaintenanceRunResource_basic(t *testing.T) {
 				"maintenance_run_id",
 			},
 			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestExaccDatabaseMaintenanceRunFromAdsiResource(t *testing.T) {
+	httpreplay.SetScenario("TestExaccDatabaseMaintenanceRunFromAdsiResource")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_database_maintenance_run.test_maintenance_run"
+	singularDatasourceName := "data.oci_database_maintenance_run.test_maintenance_run"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// create maintenance run
+		{
+			Config: config + compartmentIdVariableStr + ExaccDatabaseMaintenanceRunResourceFromAdsiDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Optional, acctest.Create, ExaccDatabaseMaintenanceRunFromAdsiRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "maintenance_subtype", "CUSTOM_DATABASE_SOFTWARE_IMAGE"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `NONROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run", acctest.Required, acctest.Create, ExaccDatabaseMaintenanceRunSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ExaccDatabaseMaintenanceRunFromAdsiResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "maintenance_run_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "maintenance_subtype", "CUSTOM_DATABASE_SOFTWARE_IMAGE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_resource_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "patching_mode", "NONROLLING"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_scheduled"),
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + ExaccDatabaseAutonomousDatabaseSoftwareImageResourceConfig,
+		},
+	})
+}
+
+func TestAdbdDatabaseMaintenanceRunFromAdsiResource(t *testing.T) {
+	httpreplay.SetScenario("TestAdbdDatabaseMaintenanceRunFromAdsiResource")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+	resourceName := "oci_database_maintenance_run.test_maintenance_run"
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// create maintenance run
+		{
+			Config: config + compartmentIdVariableStr + AdbdDatabaseMaintenanceRunResourceFromAdsiDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_maintenance_run", "test_maintenance_run",
+					acctest.Optional, acctest.Create, AdbdDatabaseMaintenanceRunFromAdsiRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "maintenance_subtype", "CUSTOM_DATABASE_SOFTWARE_IMAGE"),
+				resource.TestCheckResourceAttrSet(resourceName, "target_resource_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
+				resource.TestCheckResourceAttr(resourceName, "time_scheduled", mrTimeScheduledCreate.Format(time.RFC3339Nano)),
+				resource.TestCheckResourceAttr(resourceName, "patching_mode", `NONROLLING`),
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseSoftwareImageResourceConfig,
 		},
 	})
 }
