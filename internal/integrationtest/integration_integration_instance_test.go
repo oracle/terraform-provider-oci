@@ -78,6 +78,7 @@ var (
 		// "network_endpoint_details":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: integrationInstanceNetworkEndpointDetailsRepresentation},
 		"shape":                             acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPMENT`},
 		"enable_process_automation_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
+		"extend_data_retention_trigger":     acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
 	integrationInstanceRepresentation = map[string]interface{}{
@@ -203,7 +204,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckIntegrationIntegrationInstanceDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + domainIdVariableStr + subnetIdStr + nsgIdStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
+			Config: config + instanceTypeVariableStr + compartmentIdVariableStr + subnetIdStr + domainIdVariableStr + nsgIdStr + idcsAccessTokenVariableStr() + IntegrationIntegrationInstanceResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_integration_instance", "test_integration_instance", acctest.Required, acctest.Create, integrationInstanceRepresentation) +
 				acctest.GenerateResourceFromRepresentationMap("oci_integration_private_endpoint_outbound_connection", "integration_private_endpoint", acctest.Required, acctest.Create, integrationPrivateEndpointRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -211,6 +212,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_retention_period"),
 				resource.TestCheckResourceAttr(resourceName, "message_packs", "1"),
 
 				func(s *terraform.State) (err error) {
@@ -275,6 +277,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_retention_period"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(resourceName, "is_byol", "false"),
@@ -339,6 +342,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "domain_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "data_retention_period"),
 				// resource.TestCheckResourceAttrSet(resourceName, "idcs_at"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_url"),
 				resource.TestCheckResourceAttr(resourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
@@ -438,6 +442,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.consumption_model", "UCM"),
+				resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.data_retention_period"),
 				resource.TestCheckResourceAttr(datasourceName, "integration_instances.0.custom_endpoint.#", "0"),
 				// resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.alias"),
 				// resource.TestCheckResourceAttrSet(datasourceName, "integration_instances.0.custom_endpoint.0.certificate_secret_id"),
@@ -485,6 +490,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				// 	}),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "consumption_model", "UCM"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_retention_period"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "custom_endpoint.#", "0"),
 				// resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.alias"),
 				// resource.TestCheckResourceAttrSet(singularDatasourceName, "custom_endpoint.0.certificate_secret_version"),
@@ -492,7 +498,7 @@ func TestIntegrationIntegrationInstanceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "idcs_info.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_url"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "integration_instance_type", utils.GetEnvSettingWithBlankDefault("instance_type")),
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_byol", "true"),

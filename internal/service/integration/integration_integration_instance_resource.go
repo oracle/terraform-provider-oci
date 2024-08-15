@@ -250,6 +250,11 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Optional: true,
 			},
+			"extend_data_retention_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+
 			// Computed
 			"attachments": {
 				Type:     schema.TypeList,
@@ -283,6 +288,10 @@ func IntegrationIntegrationInstanceResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"data_retention_period": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"idcs_info": {
 				Type:     schema.TypeList,
@@ -393,6 +402,12 @@ func createIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		}
 	}
 
+	if _, ok := sync.D.GetOkExists("extend_data_retention_trigger"); ok {
+		err := sync.ExtendDataRetention()
+		if err != nil {
+			return err
+		}
+	}
 	var powerOff = false
 	if configState, ok := sync.D.GetOkExists("state"); ok {
 		wantedState := oci_integration.IntegrationInstanceLifecycleStateEnum(strings.ToUpper(configState.(string)))
@@ -467,6 +482,22 @@ func updateIntegrationIntegrationInstance(d *schema.ResourceData, m interface{})
 		}
 		if err := sync.D.Set("state", oci_integration.IntegrationInstanceLifecycleStateActive); err != nil {
 			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("extend_data_retention_trigger"); ok && sync.D.HasChange("extend_data_retention_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("extend_data_retention_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ExtendDataRetention()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("extend_data_retention_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
 		}
 	}
 
@@ -945,6 +976,8 @@ func (s *IntegrationIntegrationInstanceResourceCrud) SetData() error {
 		s.D.Set("custom_endpoint", nil)
 	}
 
+	s.D.Set("data_retention_period", s.Res.DataRetentionPeriod)
+
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
@@ -1045,6 +1078,33 @@ func (s *IntegrationIntegrationInstanceResourceCrud) EnableProcessAutomation() e
 
 	val := s.D.Get("enable_process_automation_trigger")
 	s.D.Set("enable_process_automation_trigger", val)
+
+	return nil
+}
+
+func (s *IntegrationIntegrationInstanceResourceCrud) ExtendDataRetention() error {
+	request := oci_integration.ExtendDataRetentionRequest{}
+
+	if dataRetentionPeriod, ok := s.D.GetOkExists("data_retention_period"); ok {
+		request.DataRetentionPeriod = oci_integration.ExtendDataRetentionDetailsDataRetentionPeriodEnum(dataRetentionPeriod.(string))
+	}
+
+	idTmp := s.D.Id()
+	request.IntegrationInstanceId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "integration")
+
+	_, err := s.Client.ExtendDataRetention(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("extend_data_retention_trigger")
+	s.D.Set("extend_data_retention_trigger", val)
 
 	return nil
 }

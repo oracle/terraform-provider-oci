@@ -20,7 +20,7 @@ variable "compartment_id" {
 }
 
 variable "integration_instance_idcs_access_token" {
-
+  default = ""
 }
 
 variable "integration_instance_consumption_model" {
@@ -61,7 +61,7 @@ resource "oci_integration_integration_instance" "test_integration_instance" {
   compartment_id            = var.compartment_id
   integration_instance_type = "HEALTHCARE"
   shape                     = "DEVELOPMENT"
-  display_name              = "displayName"
+  display_name              = "DataRetention"
   is_byol                   = "false"
   message_packs             = "10"
   domain_id                 = var.domain_id
