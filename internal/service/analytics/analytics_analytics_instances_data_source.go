@@ -132,6 +132,10 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 			analyticsInstance["capacity"] = nil
 		}
 
+		if r.DefinedTags != nil {
+			analyticsInstance["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
+		}
+
 		if r.Description != nil {
 			analyticsInstance["description"] = *r.Description
 		}
@@ -141,6 +145,8 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 		}
 
 		analyticsInstance["feature_set"] = r.FeatureSet
+
+		analyticsInstance["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {
 			analyticsInstance["id"] = *r.Id
@@ -167,6 +173,10 @@ func (s *AnalyticsAnalyticsInstancesDataSourceCrud) SetData() error {
 		}
 
 		analyticsInstance["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			analyticsInstance["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			analyticsInstance["time_created"] = r.TimeCreated.String()
