@@ -54,6 +54,7 @@ The following attributes are exported:
 		* `block_volume_id` - The OCID of the block volume.  Example: `ocid1.volume.oc1..uniqueID` 
 		* `mount_details` - The details for mounting or unmounting the file system on a block volume. 
 			* `mount_point` - The physical mount point used for mounting and unmounting the file system on a block volume.  Example: `/mnt/yourmountpoint` 
+	* `bucket` - The bucket name inside the object storage namespace.  Example: `bucket_name` 
 	* `destination_availability_domain` - The availability domain of the destination mount target. Example: `BBTh:region-AD` 
 	* `destination_capacity_reservation_id` - The OCID of a capacity reservation in the destination region which will be used to launch the compute instance.  Example: `ocid1.capacityreservation.oc1..uniqueID` 
 	* `destination_compartment_id` - The OCID of a compartment in the destination region in which the compute instance should be launched.  Example: `ocid1.compartment.oc1..uniqueID` 
@@ -76,6 +77,7 @@ The following attributes are exported:
 	* `is_start_stop_enabled` - A flag indicating whether the non-movable compute instance needs to be started and stopped during DR operations. 
 	* `member_id` - The OCID of the member.  Example: `ocid1.instance.oc1..uniqueID` 
 	* `member_type` - The type of the member. 
+	* `namespace` - The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
 	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is used for performing database DR operations.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `vnic_mapping` - A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID1, ocid1.networksecuritygroup.oc1..uniqueID2 ]` 

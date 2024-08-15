@@ -140,6 +140,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								"FILE_SYSTEM",
 								"LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER",
+								"OBJECT_STORAGE_BUCKET",
 								"VOLUME_GROUP",
 							}, true),
 						},
@@ -234,6 +235,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"destination_availability_domain": {
 							Type:     schema.TypeString,
@@ -372,6 +378,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 						},
 						"is_start_stop_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -1648,6 +1659,21 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			details.MemberId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE_BUCKET"):
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.CreateDrProtectionGroupMemberVolumeGroupDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
@@ -1938,6 +1964,27 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			}
 		}
 		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE_BUCKET"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			if tmp != "" {
+				details.BucketName = &tmp
+			}
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			if tmp != "" {
+				details.NamespaceName = &tmp
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
@@ -2095,6 +2142,20 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 
 		if v.DestinationNetworkLoadBalancerId != nil {
 			result["destination_network_load_balancer_id"] = string(*v.DestinationNetworkLoadBalancerId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberObjectStorageBucket:
+		result["member_type"] = "OBJECT_STORAGE_BUCKET"
+
+		if v.BucketName != nil {
+			result["bucket"] = string(*v.BucketName)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
 		}
 
 		if v.MemberId != nil {
