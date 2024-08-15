@@ -47,6 +47,7 @@ import (
 	tf_dataintegration "github.com/oracle/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
 	tf_demand_signal "github.com/oracle/terraform-provider-oci/internal/service/demand_signal"
+	tf_desktops "github.com/oracle/terraform-provider-oci/internal/service/desktops"
 	tf_devops "github.com/oracle/terraform-provider-oci/internal/service/devops"
 	tf_disaster_recovery "github.com/oracle/terraform-provider-oci/internal/service/disaster_recovery"
 	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
@@ -253,6 +254,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("demandsignal") {
 		tf_demand_signal.RegisterResource()
+	}
+	if common.CheckForEnabledServices("desktops") {
+		tf_desktops.RegisterResource()
 	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterResource()

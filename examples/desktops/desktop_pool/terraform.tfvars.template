@@ -1,0 +1,63 @@
+# GETTING STARTED
+#
+# 1. Download and install TerraForm (https://www.terraform.io/downloads.html)
+# 2. Download and install the OCI TerraForm provider (https://github.com/oracle/terraform-provider-oci/)
+# 3. Make sure that you have an OCI API key setup
+#       See https://docs.us-phoenix-1.oraclecloud.com/Content/API/Concepts/apisigningkey.htm for directions on creating an API signing key
+#       See https://docs.us-phoenix-1.oraclecloud.com/Content/Identity/Tasks/managingcredentials.htm on how to manage API keys in the OCI UI or API
+# 4. Copy your tenancy OCID below (bottom part of OCI screen, after Tenancy OCID: heading)
+# 5. Copy your OCI user account OCID (login to OCI > Identity > Users)
+# 6. Copy the required API key fingerprint and private key path (below)
+# 7. Fill-in the full path to the SSH public and private keys (this can be used when creating new instances)
+#       See https://docs.us-phoenix-1.oraclecloud.com/Content/GSG/Tasks/creatingkeys.htm for directions on how to create this key pair
+#
+# HELPFUL URLs
+# * https://github.com/oracle/terraform-provider-oci/blob/master/docs/Table%20of%20Contents.md
+#
+
+# RUNNING TerraForm
+#
+# Once you've gone through the steps mentioned above, you need to populate your environment variables, by sourcing this file... steps are below:
+# 1. Modify this file (so it reflects your OCIDs, etc.)
+# 2. $ terraform init
+#       You only have to do this once after installing or upgrading your TerraForm plugins
+# 3. $ terraform plan
+#       This will show you what TerraForm might do if you applied it
+# 4. $ terraform apply
+
+# Get this from the bottom of the OCI screen (after logging in, after Tenancy ID: heading)
+#tenancy_ocid="<tenancy OCID"
+# Get this from OCI > Identity > Users (for your user account)
+#user_ocid="<user OCID>"
+
+# the fingerprint can be gathered from your user account (OCI > Identity > Users > click your username > API Keys fingerprint (select it, copy it and paste it below))
+#fingerprint="<PEM key fingerprint>"
+# this is the full path on your local system to the private key used for the API key pair
+private_key_path="<path to the private key that matches the fingerprint above>"
+
+# OCI config profile
+config_file_profile="terraform-federation-test"
+
+# region (us-phoenix-1, ca-toronto-1, etc)
+region="<your region>"
+
+# To be able to use OCI Secure Desktops it requires to have some customer OCI resources ready in the customer tenancy like a VCN, Subnet and a custom Image.
+# Additionally a Dynamic Group, service policies and user policies are required.
+# See setting up the Tenancy: https://docs.oracle.com/en-us/iaas/secure-desktops/setup-tenancy.htm for guidance.
+# Oracle recommends using the OCI Secure Desktops Resource Manager (ORM) Stack to simplify the process of setting up the tenancy.
+# The ORM stack <volume_backup_policy_ocid>assists with several process tasks to help ensure the tenancy is set up according to best practices.
+# See https://support.oracle.com/epmos/faces/DocumentDisplay?_afrLoop=228601342054219&id=2948207.1&_afrWindowMode=0&_adf.ctrl-state=5q6cqoqnz_4 on "How To Configure Tenancy Using ORM Stack"
+
+
+# Secure Desktops Example Configuration
+#
+
+compartment_id                 = "<compartment_ocid>"
+
+desktop_pool_vcn_id            = "<vcn_ocid>"
+desktop_pool_subnet_id         = "<subnet_ocid>"
+desktop_pool_image_id          = "<image_ocid>"
+desktop_pool_image_name        = "<image_name>"
+desktop_pool_backup_policy_id  = "<volume_backup_policy_ocid>"
+desktop_pool_contact_details   = "<admin_contact_details>"
+
