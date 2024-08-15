@@ -27,6 +27,7 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 
 	#Optional
 	compartment_id = var.compartment_id
+	database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 	is_dst_file_update_enabled = var.maintenance_run_is_dst_file_update_enabled
 	patching_mode = var.maintenance_run_patching_mode
 }
@@ -37,8 +38,9 @@ resource "oci_database_maintenance_run" "test_maintenance_run" {
 The following arguments are supported:
 
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Maintenance Run.
+* `database_software_image_id` - (Optional) The Autonomous Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `is_dst_file_update_enabled` - (Optional) Indicates if an automatic DST Time Zone file update is enabled for the Autonomous Container Database. If enabled along with Release Update, patching will be done in a Non-Rolling manner.
-* `patch_type` - (Required) Patch type, either "QUARTERLY" or "TIMEZONE". 
+* `patch_type` - (Required) Patch type, either "QUARTERLY", "TIMEZONE" or "CUSTOM_DATABASE_SOFTWARE_IMAGE". 
 * `patching_mode` - (Optional) (Updatable) Cloud Exadata infrastructure node patching method, either "ROLLING" or "NONROLLING". Default value is ROLLING.
 
 	*IMPORTANT*: Non-rolling infrastructure patching involves system down time. See [Oracle-Managed Infrastructure Maintenance Updates](https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/examaintenance.htm#Oracle) for more information. 
@@ -57,6 +59,7 @@ The following attributes are exported:
 * `current_custom_action_timeout_in_mins` - Extend current custom action timeout between the current database servers during waiting state, from 0 (zero) to 30 minutes.
 * `current_patching_component` - The name of the current infrastruture component that is getting patched.
 * `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Specify a number of minutes, from 15 to 120. 
+* `database_software_image_id` - The Autonomous Database Software Image [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 * `description` - Description of the maintenance run.
 * `display_name` - The user-friendly name for the maintenance run.
 * `estimated_component_patching_start_time` - The estimated start time of the next infrastruture component patching operation.

@@ -83,6 +83,10 @@ func (s *DatabaseMaintenanceRunDataSourceCrud) SetData() error {
 		s.D.Set("custom_action_timeout_in_mins", *s.Res.CustomActionTimeoutInMins)
 	}
 
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
+	}
+
 	if s.Res.Description != nil {
 		s.D.Set("description", *s.Res.Description)
 	}

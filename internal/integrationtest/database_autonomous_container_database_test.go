@@ -59,7 +59,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: `19.22.0.1.0`},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.22.0.1.0")},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},

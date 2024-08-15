@@ -7,7 +7,6 @@ provider "oci" {
   fingerprint      = var.fingerprint
   private_key_path = var.private_key_path
   region           = var.region
-  version          = "5.25.0"
 }
 
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database" {
@@ -15,7 +14,7 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
   cloud_autonomous_vm_cluster_id       = oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id
   display_name                         = "example-container-database"
   patch_model                          = "RELEASE_UPDATES"
-  db_version                           = "19.22.0.1.0"
+  db_version                           = "19.23.0.1.0"
   db_name                              = "ACDNAME"
 
   #Optional
@@ -89,7 +88,6 @@ resource "oci_database_autonomous_container_database" "autonomous_container_data
     recovery_window_in_days = "7"
   }
   compartment_id = var.compartment_ocid
-  db_unique_name = random_string.db_unique_name_adsi_acd.result
   display_name = "ACD-TFTest"
   freeform_tags = {
     "Department" = "Finance"

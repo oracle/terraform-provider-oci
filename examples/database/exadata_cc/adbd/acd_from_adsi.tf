@@ -1,7 +1,7 @@
 resource "random_string" "db_unique_name_adsi_acd" {
   length = 8
   special = false
-  number = false
+  numeric = false
 }
 
 resource "oci_database_autonomous_container_database" "autonomous_container_database_from_adsi" {
