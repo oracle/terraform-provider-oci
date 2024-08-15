@@ -158,6 +158,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
+    * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
@@ -679,6 +680,10 @@ datascience
 demand_signal
     
 * oci\_demand\_signal\_occ\_demand\_signal
+
+desktops
+    
+* oci\_desktops\_desktop\_pool
 
 devops
     

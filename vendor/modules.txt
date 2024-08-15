@@ -272,6 +272,7 @@ github.com/oracle/oci-go-sdk/v65/datalabelingservice
 github.com/oracle/oci-go-sdk/v65/datasafe
 github.com/oracle/oci-go-sdk/v65/datascience
 github.com/oracle/oci-go-sdk/v65/demandsignal
+github.com/oracle/oci-go-sdk/v65/desktops
 github.com/oracle/oci-go-sdk/v65/devops
 github.com/oracle/oci-go-sdk/v65/disasterrecovery
 github.com/oracle/oci-go-sdk/v65/dns
