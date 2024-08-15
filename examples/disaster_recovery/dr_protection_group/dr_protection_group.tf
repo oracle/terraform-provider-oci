@@ -49,6 +49,10 @@ variable "dr_protection_group_members_member_type" {
   default = "VOLUME_GROUP"
 }
 
+variable "dr_protection_group_members_member_type_object_storage" {
+  default = "OBJECT_STORAGE_BUCKET"
+}
+
 variable "dr_protection_group_state" {
   default = "ACTIVE"
 }
@@ -79,6 +83,14 @@ resource "oci_disaster_recovery_dr_protection_group" "test_peer" {
 
     #Optional
     is_movable                       = var.dr_protection_group_members_is_movable
+  }
+
+  members {
+    #Required
+    member_id   = data.oci_objectstorage_bucket.test_member_bucket.bucket_id
+    member_type = var.dr_protection_group_members_member_type_object_storage
+    bucket = data.oci_objectstorage_bucket.test_member_bucket.name
+    namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   }
 }
 

@@ -22,7 +22,6 @@ data "oci_disaster_recovery_dr_plan_executions" "test_dr_plan_executions" {
 	#Optional
 	display_name = var.dr_plan_execution_display_name
 	dr_plan_execution_id = oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id
-	dr_plan_execution_type = var.dr_plan_execution_dr_plan_execution_type
 	state = var.dr_plan_execution_state
 }
 ```
@@ -33,7 +32,6 @@ The following arguments are supported:
 
 * `display_name` - (Optional) A filter to return only resources that match the given display name.  Example: `MyResourceDisplayName` 
 * `dr_plan_execution_id` - (Optional) The OCID of the DR plan execution.  Example: `ocid1.drplanexecution.oc1..uniqueID` 
-* `dr_plan_execution_type` - (Optional) The DR plan execution type.
 * `dr_protection_group_id` - (Required) The OCID of the DR protection group. Mandatory query param.  Example: `ocid1.drprotectiongroup.oc1..uniqueID` 
 * `state` - (Optional) A filter to return only DR plan executions that match the given lifecycle state. 
 

@@ -79,8 +79,10 @@ var (
 	}
 
 	DisasterRecoveryDrProtectionGroupMembersRepresentation = map[string]interface{}{
-		"member_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_core_volume_groups.test_volume_groups.volume_groups.0.id}`},
-		"member_type": acctest.Representation{RepType: acctest.Required, Create: `VOLUME_GROUP`},
+		"member_id":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_bucket.test_member_bucket.bucket_id}`},
+		"member_type": acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE_BUCKET`},
+		"bucket":      acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_bucket.test_member_bucket.name}`},
+		"namespace":   acctest.Representation{RepType: acctest.Required, Create: `${data.oci_objectstorage_namespace.test_namespace.namespace}`},
 	}
 
 	DisasterRecoveryDrProtectionGroupWithComputeMemberConfig = `
@@ -112,6 +114,10 @@ var (
 	data "oci_objectstorage_bucket" "test_bucket2" {
   		namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   		name      = "testBucketName_1"
+	}
+	data "oci_objectstorage_bucket" "test_member_bucket" {
+	  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+	  name      = "example-bucket-source"
 	}
 	`
 
@@ -205,7 +211,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "VOLUME_GROUP"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -277,7 +283,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "VOLUME_GROUP"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -316,7 +322,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "VOLUME_GROUP"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -350,7 +356,7 @@ func TestDisasterRecoveryDrProtectionGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "log_location.0.namespace"),
 				resource.TestCheckResourceAttr(resourceName, "members.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "members.0.member_id"),
-				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "VOLUME_GROUP"),
+				resource.TestCheckResourceAttr(resourceName, "members.0.member_type", "OBJECT_STORAGE_BUCKET"),
 				resource.TestCheckResourceAttrSet(resourceName, "role"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),

@@ -35,6 +35,7 @@ var (
 		"dr_plan_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_plan.test_dr_plan.id}`},
 	}
 
+	//Dr Plan Data source
 	DisasterRecoveryDisasterRecoveryDrPlanDataSourceRepresentation = map[string]interface{}{
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_peer.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Switchover from PHX to IAD`, Update: `displayName2`},
@@ -124,7 +125,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -155,7 +156,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "5"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -204,7 +205,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "life_cycle_details"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "peer_region"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "plan_groups.#", "5"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "plan_groups.#", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

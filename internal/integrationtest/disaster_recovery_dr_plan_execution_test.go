@@ -35,6 +35,7 @@ var (
 		"dr_plan_execution_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_plan_execution.test_dr_plan_execution.id}`},
 	}
 
+	//Dr Plan Data source
 	DisasterRecoveryDisasterRecoveryDrPlanExecutionDataSourceRepresentation = map[string]interface{}{
 		"dr_protection_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_disaster_recovery_dr_protection_group.test_peer.id}`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `Precheck Switchover from PHX to IAD`, Update: `displayName2`},
