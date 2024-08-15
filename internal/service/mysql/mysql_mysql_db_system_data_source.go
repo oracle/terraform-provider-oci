@@ -98,6 +98,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("current_placement", nil)
 	}
 
+	if s.Res.DataStorage != nil {
+		s.D.Set("data_storage", []interface{}{DataStorageToMap(s.Res.DataStorage)})
+	} else {
+		s.D.Set("data_storage", nil)
+	}
+
 	if s.Res.DataStorageSizeInGBs != nil {
 		s.D.Set("data_storage_size_in_gb", *s.Res.DataStorageSizeInGBs)
 	}

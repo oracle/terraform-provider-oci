@@ -124,6 +124,12 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
     final_backup = "SKIP_FINAL_BACKUP"
     is_delete_protected = "false"
   }
+
+  #Optional
+  data_storage {
+    is_auto_expand_storage_enabled = "false"
+    max_storage_size_in_gbs = "100"
+  }
 }
 
 data "oci_mysql_mysql_configurations" "test_mysql_configurations" {
