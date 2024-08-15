@@ -60,6 +60,12 @@ func RedisRedisClusterResource() *schema.Resource {
 			},
 
 			// Optional
+			"cluster_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -81,6 +87,11 @@ func RedisRedisClusterResource() *schema.Resource {
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
+			},
+			"shard_count": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
 			},
 
 			// Computed
@@ -234,6 +245,10 @@ func (s *RedisRedisClusterResourceCrud) DeletedTarget() []string {
 func (s *RedisRedisClusterResourceCrud) Create() error {
 	request := oci_redis.CreateRedisClusterRequest{}
 
+	if clusterMode, ok := s.D.GetOkExists("cluster_mode"); ok {
+		request.ClusterMode = oci_redis.RedisClusterClusterModeEnum(clusterMode.(string))
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -281,6 +296,11 @@ func (s *RedisRedisClusterResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if shardCount, ok := s.D.GetOkExists("shard_count"); ok {
+		tmp := shardCount.(int)
+		request.ShardCount = &tmp
 	}
 
 	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok {
@@ -510,19 +530,6 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 		}
 	}
 
-	if nodeMemoryInGBs, ok := s.D.GetOkExists("node_memory_in_gbs"); ok && s.D.HasChange("node_memory_in_gbs") {
-		request := oci_redis.UpdateRedisClusterRequest{}
-		tmp, ok := nodeMemoryInGBs.(float32)
-		if !ok {
-			tmp = float32(nodeMemoryInGBs.(float64))
-		}
-		request.NodeMemoryInGBs = &tmp
-		err := s.updateRedisCluster(request)
-		if err != nil {
-			return err
-		}
-	}
-
 	if nsgIds, ok := s.D.GetOkExists("nsg_ids"); ok {
 		request := oci_redis.UpdateRedisClusterRequest{}
 		set := nsgIds.(*schema.Set)
@@ -542,6 +549,19 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 		}
 	}
 
+	if nodeMemoryInGBs, ok := s.D.GetOkExists("node_memory_in_gbs"); ok && s.D.HasChange("node_memory_in_gbs") {
+		request := oci_redis.UpdateRedisClusterRequest{}
+		tmp, ok := nodeMemoryInGBs.(float32)
+		if !ok {
+			tmp = float32(nodeMemoryInGBs.(float64))
+		}
+		request.NodeMemoryInGBs = &tmp
+		err := s.updateRedisCluster(request)
+		if err != nil {
+			return err
+		}
+	}
+
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok && s.D.HasChange("node_count") {
 		request := oci_redis.UpdateRedisClusterRequest{}
 		tmp := nodeCount.(int)
@@ -552,6 +572,15 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 		}
 	}
 
+	if shardCount, ok := s.D.GetOkExists("shard_count"); ok && s.D.HasChange("shard_count") {
+		request := oci_redis.UpdateRedisClusterRequest{}
+		tmp := shardCount.(int)
+		request.ShardCount = &tmp
+		err := s.updateRedisCluster(request)
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 }
 
@@ -576,6 +605,8 @@ func (s *RedisRedisClusterResourceCrud) Delete() error {
 }
 
 func (s *RedisRedisClusterResourceCrud) SetData() error {
+	s.D.Set("cluster_mode", s.Res.ClusterMode)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -628,6 +659,10 @@ func (s *RedisRedisClusterResourceCrud) SetData() error {
 
 	if s.Res.ReplicasFqdn != nil {
 		s.D.Set("replicas_fqdn", *s.Res.ReplicasFqdn)
+	}
+
+	if s.Res.ShardCount != nil {
+		s.D.Set("shard_count", *s.Res.ShardCount)
 	}
 
 	s.D.Set("software_version", s.Res.SoftwareVersion)
@@ -686,6 +721,8 @@ func NodeCollectionToMap(obj *oci_redis.NodeCollection) map[string]interface{} {
 func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	result["cluster_mode"] = string(obj.ClusterMode)
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
 	}
@@ -740,6 +777,10 @@ func RedisClusterSummaryToMap(obj oci_redis.RedisClusterSummary, datasource bool
 
 	if obj.ReplicasFqdn != nil {
 		result["replicas_fqdn"] = string(*obj.ReplicasFqdn)
+	}
+
+	if obj.ShardCount != nil {
+		result["shard_count"] = int(*obj.ShardCount)
 	}
 
 	result["software_version"] = string(obj.SoftwareVersion)
