@@ -94,9 +94,9 @@ var (
 
 	ContainerengineAddonResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(ContainerengineClusterRepresentation, map[string]interface{}{
-			"type": acctest.Representation{RepType: acctest.Required, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
-			//"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterClusterPodNetworkOptionsRepresentation},
-			"endpoint_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterEndpointConfigRepresentation},
+			"type":                        acctest.Representation{RepType: acctest.Required, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
+			"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterClusterPodNetworkOptionsRepresentation},
+			"endpoint_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterEndpointConfigRepresentation},
 		})) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
