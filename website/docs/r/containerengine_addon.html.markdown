@@ -19,7 +19,7 @@ resource "oci_containerengine_addon" "test_addon" {
 	#Required
 	addon_name = oci_containerengine_addon.test_addon.name
 	cluster_id = oci_containerengine_cluster.test_cluster.id
-	remove_addon_resources_on_delete = true 
+	remove_addon_resources_on_delete = true
 
 	#Optional
 	configurations {
@@ -28,6 +28,7 @@ resource "oci_containerengine_addon" "test_addon" {
 		key = var.addon_configurations_key
 		value = var.addon_configurations_value
 	}
+	override_existing = false
 	version = var.addon_version
 }
 ```
@@ -39,9 +40,10 @@ The following arguments are supported:
 * `addon_name` - (Required) The name of the addon.
 * `cluster_id` - (Required) The OCID of the cluster.
 * `remove_addon_resources_on_delete` - (Required) Whether to remove addon resource in deletion.
-* `configurations` - (Optional) (Updatable) Addon configuration details.
-    * `key` - (Optional) (Updatable) configuration key name
-    * `value` - (Optional) (Updatable) configuration value name
+* `configurations` - (Optional) (Updatable) Addon configuration details
+	* `key` - (Optional) (Updatable) configuration key name
+	* `value` - (Optional) (Updatable) configuration value name
+* `override_existing` - (Optional) Whether or not to override an existing addon installation. Defaults to false. If set to true, any existing addon installation would be overridden as per new installation details.
 * `version` - (Optional) (Updatable) The version of addon to be installed.
 
 
