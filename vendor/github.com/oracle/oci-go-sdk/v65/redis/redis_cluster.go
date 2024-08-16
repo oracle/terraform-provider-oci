@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Redis Service API
+// OCI Cache API
 //
-// Use the Redis Service API to create and manage Redis clusters. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -15,59 +15,65 @@ import (
 	"strings"
 )
 
-// RedisCluster A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// RedisCluster An OCI Cache cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 type RedisCluster struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster.
 	Id *string `mandatory:"true" json:"id"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the Redis cluster.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the compartment that contains the cluster.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The number of nodes in the Redis cluster.
+	// The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 	NodeCount *int `mandatory:"true" json:"nodeCount"`
 
-	// The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+	// The amount of memory allocated to the cluster's nodes, in gigabytes.
 	NodeMemoryInGBs *float32 `mandatory:"true" json:"nodeMemoryInGBs"`
 
-	// The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's primary node.
+	// The fully qualified domain name (FQDN) of the API endpoint for the cluster's primary node.
 	PrimaryFqdn *string `mandatory:"true" json:"primaryFqdn"`
 
-	// The private IP address of the API endpoint for the Redis cluster's primary node.
+	// The private IP address of the API endpoint for the cluster's primary node.
 	PrimaryEndpointIpAddress *string `mandatory:"true" json:"primaryEndpointIpAddress"`
 
-	// The fully qualified domain name (FQDN) of the API endpoint for the Redis cluster's replica nodes.
+	// The fully qualified domain name (FQDN) of the API endpoint for the cluster's replica nodes.
 	ReplicasFqdn *string `mandatory:"true" json:"replicasFqdn"`
 
-	// The private IP address of the API endpoint for the Redis cluster's replica nodes.
+	// The private IP address of the API endpoint for the cluster's replica nodes.
 	ReplicasEndpointIpAddress *string `mandatory:"true" json:"replicasEndpointIpAddress"`
 
-	// The Redis version that the cluster is running.
+	// The OCI Cache engine version that the cluster is running.
 	SoftwareVersion RedisClusterSoftwareVersionEnum `mandatory:"true" json:"softwareVersion"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the Redis cluster's subnet.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 
 	NodeCollection *NodeCollection `mandatory:"true" json:"nodeCollection"`
 
-	// The current state of the Redis cluster.
+	// The current state of the cluster.
 	LifecycleState RedisClusterLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
 	// A message describing the current state in more detail. For example, the message might provide actionable information for a resource in `FAILED` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// The date and time the Redis cluster was created. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+	// The date and time the cluster was created. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
-	// The date and time the Redis cluster was updated. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
+	// The date and time the cluster was updated. An RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339) formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
+	// Specifies whether the cluster is sharded or non-sharded.
+	ClusterMode RedisClusterClusterModeEnum `mandatory:"false" json:"clusterMode,omitempty"`
+
+	// The number of shards in a sharded cluster. Only applicable when clusterMode is SHARDED.
+	ShardCount *int `mandatory:"false" json:"shardCount"`
 
 	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
-	// see Using an NSG for Redis Clusters (https://docs.cloud.oracle.com/iaas/Content/redis/connecttorediscluster.htm#connecttorediscluster__networksecuritygroup).
+	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
@@ -98,6 +104,9 @@ func (m RedisCluster) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingRedisClusterLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetRedisClusterLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRedisClusterClusterModeEnum(string(m.ClusterMode)); !ok && m.ClusterMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ClusterMode: %s. Supported values are: %s.", m.ClusterMode, strings.Join(GetRedisClusterClusterModeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -202,5 +211,47 @@ func GetRedisClusterSoftwareVersionEnumStringValues() []string {
 // GetMappingRedisClusterSoftwareVersionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingRedisClusterSoftwareVersionEnum(val string) (RedisClusterSoftwareVersionEnum, bool) {
 	enum, ok := mappingRedisClusterSoftwareVersionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// RedisClusterClusterModeEnum Enum with underlying type: string
+type RedisClusterClusterModeEnum string
+
+// Set of constants representing the allowable values for RedisClusterClusterModeEnum
+const (
+	RedisClusterClusterModeSharded    RedisClusterClusterModeEnum = "SHARDED"
+	RedisClusterClusterModeNonsharded RedisClusterClusterModeEnum = "NONSHARDED"
+)
+
+var mappingRedisClusterClusterModeEnum = map[string]RedisClusterClusterModeEnum{
+	"SHARDED":    RedisClusterClusterModeSharded,
+	"NONSHARDED": RedisClusterClusterModeNonsharded,
+}
+
+var mappingRedisClusterClusterModeEnumLowerCase = map[string]RedisClusterClusterModeEnum{
+	"sharded":    RedisClusterClusterModeSharded,
+	"nonsharded": RedisClusterClusterModeNonsharded,
+}
+
+// GetRedisClusterClusterModeEnumValues Enumerates the set of values for RedisClusterClusterModeEnum
+func GetRedisClusterClusterModeEnumValues() []RedisClusterClusterModeEnum {
+	values := make([]RedisClusterClusterModeEnum, 0)
+	for _, v := range mappingRedisClusterClusterModeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetRedisClusterClusterModeEnumStringValues Enumerates the set of values in String for RedisClusterClusterModeEnum
+func GetRedisClusterClusterModeEnumStringValues() []string {
+	return []string{
+		"SHARDED",
+		"NONSHARDED",
+	}
+}
+
+// GetMappingRedisClusterClusterModeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingRedisClusterClusterModeEnum(val string) (RedisClusterClusterModeEnum, bool) {
+	enum, ok := mappingRedisClusterClusterModeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

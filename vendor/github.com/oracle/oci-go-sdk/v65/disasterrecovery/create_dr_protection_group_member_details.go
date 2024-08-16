@@ -63,6 +63,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberComputeInstanceMovableDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AUTONOMOUS_CONTAINER_DATABASE":
+		mm := CreateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "COMPUTE_INSTANCE_NON_MOVABLE":
 		mm := CreateDrProtectionGroupMemberComputeInstanceNonMovableDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -89,6 +93,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		return mm, err
 	case "FILE_SYSTEM":
 		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "OBJECT_STORAGE_BUCKET":
+		mm := CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "LOAD_BALANCER":

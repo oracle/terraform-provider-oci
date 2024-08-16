@@ -88,6 +88,9 @@ type IntegrationInstanceSummary struct {
 	Shape IntegrationInstanceSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	PrivateEndpointOutboundConnection OutboundConnection `mandatory:"false" json:"privateEndpointOutboundConnection"`
+
+	// Data retention period set for given integration instance
+	DataRetentionPeriod IntegrationInstanceSummaryDataRetentionPeriodEnum `mandatory:"false" json:"dataRetentionPeriod,omitempty"`
 }
 
 func (m IntegrationInstanceSummary) String() string {
@@ -111,6 +114,9 @@ func (m IntegrationInstanceSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingIntegrationInstanceSummaryShapeEnum(string(m.Shape)); !ok && m.Shape != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Shape: %s. Supported values are: %s.", m.Shape, strings.Join(GetIntegrationInstanceSummaryShapeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingIntegrationInstanceSummaryDataRetentionPeriodEnum(string(m.DataRetentionPeriod)); !ok && m.DataRetentionPeriod != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DataRetentionPeriod: %s. Supported values are: %s.", m.DataRetentionPeriod, strings.Join(GetIntegrationInstanceSummaryDataRetentionPeriodEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -136,6 +142,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		SystemTags                        map[string]map[string]interface{}                     `json:"systemTags"`
 		Shape                             IntegrationInstanceSummaryShapeEnum                   `json:"shape"`
 		PrivateEndpointOutboundConnection outboundconnection                                    `json:"privateEndpointOutboundConnection"`
+		DataRetentionPeriod               IntegrationInstanceSummaryDataRetentionPeriodEnum     `json:"dataRetentionPeriod"`
 		Id                                *string                                               `json:"id"`
 		DisplayName                       *string                                               `json:"displayName"`
 		CompartmentId                     *string                                               `json:"compartmentId"`
@@ -195,6 +202,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PrivateEndpointOutboundConnection = nil
 	}
+
+	m.DataRetentionPeriod = model.DataRetentionPeriod
 
 	m.Id = model.Id
 
@@ -279,6 +288,7 @@ const (
 	IntegrationInstanceSummaryLifecycleStateDeleting IntegrationInstanceSummaryLifecycleStateEnum = "DELETING"
 	IntegrationInstanceSummaryLifecycleStateDeleted  IntegrationInstanceSummaryLifecycleStateEnum = "DELETED"
 	IntegrationInstanceSummaryLifecycleStateFailed   IntegrationInstanceSummaryLifecycleStateEnum = "FAILED"
+	IntegrationInstanceSummaryLifecycleStateStandby  IntegrationInstanceSummaryLifecycleStateEnum = "STANDBY"
 )
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -289,6 +299,7 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnum = map[string]Integration
 	"DELETING": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"DELETED":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"FAILED":   IntegrationInstanceSummaryLifecycleStateFailed,
+	"STANDBY":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]IntegrationInstanceSummaryLifecycleStateEnum{
@@ -299,6 +310,7 @@ var mappingIntegrationInstanceSummaryLifecycleStateEnumLowerCase = map[string]In
 	"deleting": IntegrationInstanceSummaryLifecycleStateDeleting,
 	"deleted":  IntegrationInstanceSummaryLifecycleStateDeleted,
 	"failed":   IntegrationInstanceSummaryLifecycleStateFailed,
+	"standby":  IntegrationInstanceSummaryLifecycleStateStandby,
 }
 
 // GetIntegrationInstanceSummaryLifecycleStateEnumValues Enumerates the set of values for IntegrationInstanceSummaryLifecycleStateEnum
@@ -320,6 +332,7 @@ func GetIntegrationInstanceSummaryLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"STANDBY",
 	}
 }
 
@@ -414,5 +427,51 @@ func GetIntegrationInstanceSummaryShapeEnumStringValues() []string {
 // GetMappingIntegrationInstanceSummaryShapeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingIntegrationInstanceSummaryShapeEnum(val string) (IntegrationInstanceSummaryShapeEnum, bool) {
 	enum, ok := mappingIntegrationInstanceSummaryShapeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// IntegrationInstanceSummaryDataRetentionPeriodEnum Enum with underlying type: string
+type IntegrationInstanceSummaryDataRetentionPeriodEnum string
+
+// Set of constants representing the allowable values for IntegrationInstanceSummaryDataRetentionPeriodEnum
+const (
+	IntegrationInstanceSummaryDataRetentionPeriod1 IntegrationInstanceSummaryDataRetentionPeriodEnum = "MONTHS_1"
+	IntegrationInstanceSummaryDataRetentionPeriod3 IntegrationInstanceSummaryDataRetentionPeriodEnum = "MONTHS_3"
+	IntegrationInstanceSummaryDataRetentionPeriod6 IntegrationInstanceSummaryDataRetentionPeriodEnum = "MONTHS_6"
+)
+
+var mappingIntegrationInstanceSummaryDataRetentionPeriodEnum = map[string]IntegrationInstanceSummaryDataRetentionPeriodEnum{
+	"MONTHS_1": IntegrationInstanceSummaryDataRetentionPeriod1,
+	"MONTHS_3": IntegrationInstanceSummaryDataRetentionPeriod3,
+	"MONTHS_6": IntegrationInstanceSummaryDataRetentionPeriod6,
+}
+
+var mappingIntegrationInstanceSummaryDataRetentionPeriodEnumLowerCase = map[string]IntegrationInstanceSummaryDataRetentionPeriodEnum{
+	"months_1": IntegrationInstanceSummaryDataRetentionPeriod1,
+	"months_3": IntegrationInstanceSummaryDataRetentionPeriod3,
+	"months_6": IntegrationInstanceSummaryDataRetentionPeriod6,
+}
+
+// GetIntegrationInstanceSummaryDataRetentionPeriodEnumValues Enumerates the set of values for IntegrationInstanceSummaryDataRetentionPeriodEnum
+func GetIntegrationInstanceSummaryDataRetentionPeriodEnumValues() []IntegrationInstanceSummaryDataRetentionPeriodEnum {
+	values := make([]IntegrationInstanceSummaryDataRetentionPeriodEnum, 0)
+	for _, v := range mappingIntegrationInstanceSummaryDataRetentionPeriodEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetIntegrationInstanceSummaryDataRetentionPeriodEnumStringValues Enumerates the set of values in String for IntegrationInstanceSummaryDataRetentionPeriodEnum
+func GetIntegrationInstanceSummaryDataRetentionPeriodEnumStringValues() []string {
+	return []string{
+		"MONTHS_1",
+		"MONTHS_3",
+		"MONTHS_6",
+	}
+}
+
+// GetMappingIntegrationInstanceSummaryDataRetentionPeriodEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingIntegrationInstanceSummaryDataRetentionPeriodEnum(val string) (IntegrationInstanceSummaryDataRetentionPeriodEnum, bool) {
+	enum, ok := mappingIntegrationInstanceSummaryDataRetentionPeriodEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -89,6 +89,7 @@ const (
 	WorkRequestOperationTypeDeleteIntegrationInstance               WorkRequestOperationTypeEnum = "DELETE_INTEGRATION_INSTANCE"
 	WorkRequestOperationTypeChangePrivateEndpointOutboundConnection WorkRequestOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestOperationTypeEnableProcessAutomation                 WorkRequestOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
+	WorkRequestOperationTypeExtendDataRetention                     WorkRequestOperationTypeEnum = "EXTEND_DATA_RETENTION"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -99,6 +100,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"DELETE_INTEGRATION_INSTANCE":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestOperationTypeEnableProcessAutomation,
+	"EXTEND_DATA_RETENTION":                       WorkRequestOperationTypeExtendDataRetention,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -109,6 +111,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"delete_integration_instance":                 WorkRequestOperationTypeDeleteIntegrationInstance,
 	"change_private_endpoint_outbound_connection": WorkRequestOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestOperationTypeEnableProcessAutomation,
+	"extend_data_retention":                       WorkRequestOperationTypeExtendDataRetention,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -130,6 +133,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"DELETE_INTEGRATION_INSTANCE",
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
+		"EXTEND_DATA_RETENTION",
 	}
 }
 
