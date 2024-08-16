@@ -101,7 +101,7 @@ The following attributes are exported:
 * `node_source_details` - Source running on the nodes in the node pool.
 	* `boot_volume_size_in_gbs` - The size of the boot volume in GBs. Minimum value is 50 GB. See [here](https://docs.cloud.oracle.com/en-us/iaas/Content/Block/Concepts/bootvolumes.htm) for max custom boot volume sizing and OS-specific requirements.
 	* `image_id` - The OCID of the image used to boot the node.
-	* `source_type` - The source type for the node. Use `IMAGE` when specifying an OCID of an image. 
+	* `source_type` - The source type for the node. Use `IMAGE` when specifying an OCID of an image.
 * `quantity_per_subnet` - The number of nodes in each subnet.
 * `ssh_public_key` - The SSH public key on each node in the node pool on launch.
 * `state` - The state of the nodepool.

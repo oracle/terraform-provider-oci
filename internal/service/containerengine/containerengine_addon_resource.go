@@ -75,6 +75,11 @@ func ContainerengineAddonResource() *schema.Resource {
 					},
 				},
 			},
+			"override_existing": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 			"version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -222,6 +227,11 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 		}
 	}
 
+	if isOverrideExisting, ok := s.D.GetOkExists("override_existing"); ok {
+		tmp := isOverrideExisting.(bool)
+		request.IsOverrideExisting = &tmp
+	}
+
 	if version, ok := s.D.GetOkExists("version"); ok {
 		tmp := version.(string)
 		request.Version = &tmp
@@ -239,24 +249,36 @@ func (s *ContainerengineAddonResourceCrud) Create() error {
 	err = s.getAddonFromWorkRequest(workId, s.D.Timeout(schema.TimeoutCreate))
 
 	if err != nil {
-		// Try to delete the addon
-		log.Printf("[DEBUG] creation failed, attempting to delete the addon: %v\n", request.AddonName)
-		disableAddonRequest := oci_containerengine.DisableAddonRequest{
-			AddonName: request.AddonName,
-			ClusterId: request.ClusterId,
-			RequestMetadata: oci_common.RequestMetadata{
-				RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"),
-			},
+		log.Printf("[DEBUG] creation failed for addon %v\n", request.AddonName)
+
+		workRequestType, wrTypeErr := s.getAddonWorkRequestType(workId)
+		if wrTypeErr != nil {
+			return fmt.Errorf("can't check if addon was creating or updating: %w\n", wrTypeErr)
 		}
 
-		if isRemoveExistingAddon, ok := s.D.GetOkExists("remove_addon_resources_on_delete"); ok {
-			tmp := isRemoveExistingAddon.(bool)
-			disableAddonRequest.IsRemoveExistingAddOn = &tmp
-		}
+		// Don't disable the addon if Addon already existed before, signified by UpdateAddon type WR
+		if workRequestType == oci_containerengine.WorkRequestOperationTypeUpdateAddon {
+			return err
+		} else {
+			// Try to delete the addon
+			log.Printf("[DEBUG] attempting to delete the addon: %v\n", request.AddonName)
+			disableAddonRequest := oci_containerengine.DisableAddonRequest{
+				AddonName: request.AddonName,
+				ClusterId: request.ClusterId,
+				RequestMetadata: oci_common.RequestMetadata{
+					RetryPolicy: tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine"),
+				},
+			}
 
-		_, deleteErr := s.Client.DisableAddon(context.Background(), disableAddonRequest)
-		if deleteErr != nil {
-			return deleteErr
+			if isRemoveExistingAddon, ok := s.D.GetOkExists("remove_addon_resources_on_delete"); ok {
+				tmp := isRemoveExistingAddon.(bool)
+				disableAddonRequest.IsRemoveExistingAddOn = &tmp
+			}
+
+			_, deleteErr := s.Client.DisableAddon(context.Background(), disableAddonRequest)
+			if deleteErr != nil {
+				return deleteErr
+			}
 		}
 	}
 
@@ -363,6 +385,24 @@ func getErrorFromContainerengineAddonWorkRequest(client *oci_containerengine.Con
 	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s. Message: %s", *workId, entityType, errorMessage)
 
 	return workRequestErr
+}
+
+func (s *ContainerengineAddonResourceCrud) getAddonWorkRequestType(workId *string) (oci_containerengine.WorkRequestOperationTypeEnum, error) {
+	retryPolicy := tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "containerengine")
+	response, err := s.Client.GetWorkRequest(context.Background(),
+		oci_containerengine.GetWorkRequestRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		},
+	)
+
+	if err != nil {
+		return "", err
+	}
+
+	return response.OperationType, nil
 }
 
 func (s *ContainerengineAddonResourceCrud) Get() error {
