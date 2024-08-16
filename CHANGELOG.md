@@ -1,4 +1,4 @@
-## 6.7.0 (Unreleased)
+## 6.7.0 (August 13, 2024)
 
 ### Added
 - Support for OIC Instance Creation for Healthcare Feature
