@@ -29,9 +29,6 @@ type ListDrPlanExecutionsRequest struct {
 	// Example: `ocid1.drplanexecution.oc1..uniqueID`
 	DrPlanExecutionId *string `mandatory:"false" contributesTo:"query" name:"drPlanExecutionId"`
 
-	// The DR plan execution type.
-	DrPlanExecutionType ListDrPlanExecutionsDrPlanExecutionTypeEnum `mandatory:"false" contributesTo:"query" name:"drPlanExecutionType" omitEmpty:"true"`
-
 	// A filter to return only resources that match the given display name.
 	// Example: `MyResourceDisplayName`
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
@@ -99,9 +96,6 @@ func (request ListDrPlanExecutionsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListDrPlanExecutionsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListDrPlanExecutionsLifecycleStateEnumStringValues(), ",")))
-	}
-	if _, ok := GetMappingListDrPlanExecutionsDrPlanExecutionTypeEnum(string(request.DrPlanExecutionType)); !ok && request.DrPlanExecutionType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DrPlanExecutionType: %s. Supported values are: %s.", request.DrPlanExecutionType, strings.Join(GetListDrPlanExecutionsDrPlanExecutionTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListDrPlanExecutionsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListDrPlanExecutionsSortOrderEnumStringValues(), ",")))
@@ -222,72 +216,6 @@ func GetListDrPlanExecutionsLifecycleStateEnumStringValues() []string {
 // GetMappingListDrPlanExecutionsLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDrPlanExecutionsLifecycleStateEnum(val string) (ListDrPlanExecutionsLifecycleStateEnum, bool) {
 	enum, ok := mappingListDrPlanExecutionsLifecycleStateEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
-}
-
-// ListDrPlanExecutionsDrPlanExecutionTypeEnum Enum with underlying type: string
-type ListDrPlanExecutionsDrPlanExecutionTypeEnum string
-
-// Set of constants representing the allowable values for ListDrPlanExecutionsDrPlanExecutionTypeEnum
-const (
-	ListDrPlanExecutionsDrPlanExecutionTypeSwitchover         ListDrPlanExecutionsDrPlanExecutionTypeEnum = "SWITCHOVER"
-	ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck ListDrPlanExecutionsDrPlanExecutionTypeEnum = "SWITCHOVER_PRECHECK"
-	ListDrPlanExecutionsDrPlanExecutionTypeFailover           ListDrPlanExecutionsDrPlanExecutionTypeEnum = "FAILOVER"
-	ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck   ListDrPlanExecutionsDrPlanExecutionTypeEnum = "FAILOVER_PRECHECK"
-	ListDrPlanExecutionsDrPlanExecutionTypeStartDrill         ListDrPlanExecutionsDrPlanExecutionTypeEnum = "START_DRILL"
-	ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck ListDrPlanExecutionsDrPlanExecutionTypeEnum = "START_DRILL_PRECHECK"
-	ListDrPlanExecutionsDrPlanExecutionTypeStopDrill          ListDrPlanExecutionsDrPlanExecutionTypeEnum = "STOP_DRILL"
-	ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck  ListDrPlanExecutionsDrPlanExecutionTypeEnum = "STOP_DRILL_PRECHECK"
-)
-
-var mappingListDrPlanExecutionsDrPlanExecutionTypeEnum = map[string]ListDrPlanExecutionsDrPlanExecutionTypeEnum{
-	"SWITCHOVER":           ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
-	"SWITCHOVER_PRECHECK":  ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
-	"FAILOVER":             ListDrPlanExecutionsDrPlanExecutionTypeFailover,
-	"FAILOVER_PRECHECK":    ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
-	"START_DRILL":          ListDrPlanExecutionsDrPlanExecutionTypeStartDrill,
-	"START_DRILL_PRECHECK": ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck,
-	"STOP_DRILL":           ListDrPlanExecutionsDrPlanExecutionTypeStopDrill,
-	"STOP_DRILL_PRECHECK":  ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck,
-}
-
-var mappingListDrPlanExecutionsDrPlanExecutionTypeEnumLowerCase = map[string]ListDrPlanExecutionsDrPlanExecutionTypeEnum{
-	"switchover":           ListDrPlanExecutionsDrPlanExecutionTypeSwitchover,
-	"switchover_precheck":  ListDrPlanExecutionsDrPlanExecutionTypeSwitchoverPrecheck,
-	"failover":             ListDrPlanExecutionsDrPlanExecutionTypeFailover,
-	"failover_precheck":    ListDrPlanExecutionsDrPlanExecutionTypeFailoverPrecheck,
-	"start_drill":          ListDrPlanExecutionsDrPlanExecutionTypeStartDrill,
-	"start_drill_precheck": ListDrPlanExecutionsDrPlanExecutionTypeStartDrillPrecheck,
-	"stop_drill":           ListDrPlanExecutionsDrPlanExecutionTypeStopDrill,
-	"stop_drill_precheck":  ListDrPlanExecutionsDrPlanExecutionTypeStopDrillPrecheck,
-}
-
-// GetListDrPlanExecutionsDrPlanExecutionTypeEnumValues Enumerates the set of values for ListDrPlanExecutionsDrPlanExecutionTypeEnum
-func GetListDrPlanExecutionsDrPlanExecutionTypeEnumValues() []ListDrPlanExecutionsDrPlanExecutionTypeEnum {
-	values := make([]ListDrPlanExecutionsDrPlanExecutionTypeEnum, 0)
-	for _, v := range mappingListDrPlanExecutionsDrPlanExecutionTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetListDrPlanExecutionsDrPlanExecutionTypeEnumStringValues Enumerates the set of values in String for ListDrPlanExecutionsDrPlanExecutionTypeEnum
-func GetListDrPlanExecutionsDrPlanExecutionTypeEnumStringValues() []string {
-	return []string{
-		"SWITCHOVER",
-		"SWITCHOVER_PRECHECK",
-		"FAILOVER",
-		"FAILOVER_PRECHECK",
-		"START_DRILL",
-		"START_DRILL_PRECHECK",
-		"STOP_DRILL",
-		"STOP_DRILL_PRECHECK",
-	}
-}
-
-// GetMappingListDrPlanExecutionsDrPlanExecutionTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingListDrPlanExecutionsDrPlanExecutionTypeEnum(val string) (ListDrPlanExecutionsDrPlanExecutionTypeEnum, bool) {
-	enum, ok := mappingListDrPlanExecutionsDrPlanExecutionTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -54,8 +54,17 @@ type CreateAnalyticsInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
+	// OCID of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	// domain id for which the user is authorized.
+	DomainId *string `mandatory:"false" json:"domainId"`
+
+	// user name of the authorized user.
+	AdminUser *string `mandatory:"false" json:"adminUser"`
+
+	// The feature set of an Analytics instance.
+	FeatureBundle FeatureBundleEnum `mandatory:"false" json:"featureBundle,omitempty"`
 }
 
 func (m CreateAnalyticsInstanceDetails) String() string {
@@ -74,6 +83,9 @@ func (m CreateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingFeatureBundleEnum(string(m.FeatureBundle)); !ok && m.FeatureBundle != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureBundle: %s. Supported values are: %s.", m.FeatureBundle, strings.Join(GetFeatureBundleEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -90,6 +102,9 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		KmsKeyId               *string                           `json:"kmsKeyId"`
+		DomainId               *string                           `json:"domainId"`
+		AdminUser              *string                           `json:"adminUser"`
+		FeatureBundle          FeatureBundleEnum                 `json:"featureBundle"`
 		Name                   *string                           `json:"name"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		FeatureSet             FeatureSetEnum                    `json:"featureSet"`
@@ -123,6 +138,12 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.FreeformTags = model.FreeformTags
 
 	m.KmsKeyId = model.KmsKeyId
+
+	m.DomainId = model.DomainId
+
+	m.AdminUser = model.AdminUser
+
+	m.FeatureBundle = model.FeatureBundle
 
 	m.Name = model.Name
 
