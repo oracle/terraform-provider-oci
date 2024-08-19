@@ -671,6 +671,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				ForceNew:      true,
 				ConflictsWith: []string{"is_shrink_only"},
 			},
+			"is_disconnect_peer": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 
 			// Computed
 			"actual_used_data_storage_size_in_tbs": {
@@ -1146,6 +1150,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed:         true,
 				Optional:         true,
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+			},
+			"peer_db_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+				Optional: true,
 			},
 			"peer_db_ids": {
 				Type:     schema.TypeList,
@@ -1980,6 +1989,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsDevTier = &tmp
 	}
 
+	if isDisconnectPeer, ok := s.D.GetOkExists("is_disconnect_peer"); ok && s.D.HasChange("is_disconnect_peer") {
+		tmp := isDisconnectPeer.(bool)
+		request.IsDisconnectPeer = &tmp
+	}
+
 	if isFreeTier, ok := s.D.GetOkExists("is_free_tier"); ok && s.D.HasChange("is_free_tier") {
 		tmp := isFreeTier.(bool)
 		request.IsFreeTier = &tmp
@@ -2050,7 +2064,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.OcpuCount = &tmp
 	}
 
-	if peerDbId, ok := s.D.GetOkExists("peer_db_id"); ok {
+	if peerDbId, ok := s.D.GetOkExists("peer_db_id"); ok && s.D.HasChange("peer_db_id") {
 		tmp := peerDbId.(string)
 		request.PeerDbId = &tmp
 	}
