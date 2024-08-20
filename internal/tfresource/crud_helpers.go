@@ -322,16 +322,20 @@ func UpdateResource(d schemaResourceData, sync ResourceUpdater) error {
 // statefully (not immediately), poll State to ensure:
 // () -> Pending -> Deleted.
 // Finally, sets the ResourceData state to empty.
-func DeleteResource(d schemaResourceData, sync ResourceDeleter) error {
+func DeleteResource(d schemaResourceData, sync ResourceDeleter, readResource ...error) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
 			mutex.Lock()
 			defer mutex.Unlock()
 		}
 	}
-
 	if e := sync.Delete(); e != nil {
-		handleMissingResourceError(sync, &e)
+		if len(readResource) > 0 {
+			var readResp = readResource[0]
+			handleMissingResourceError(sync, &e, readResp)
+		} else {
+			handleMissingResourceError(sync, &e)
+		}
 		return HandleError(sync, e)
 	}
 
@@ -438,6 +442,7 @@ func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 
 func FilterMissingResourceError(sync ResourceVoider, err *error) {
 	if err != nil && strings.Contains((*err).Error(), "does not exist") {
+		//log.Println("[DEBUG] Filter Missing Resource Error")
 		log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
 		sync.VoidState()
 		*err = nil

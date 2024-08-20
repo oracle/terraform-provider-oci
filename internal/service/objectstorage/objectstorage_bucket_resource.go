@@ -229,8 +229,8 @@ func deleteObjectStorageBucket(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ObjectStorageClient()
 	sync.DisableNotFoundRetries = true
-
-	return tfresource.DeleteResource(d, sync)
+	readResponse := tfresource.ReadResource(sync)
+	return tfresource.DeleteResource(d, sync, readResponse)
 }
 
 type ObjectStorageBucketResourceCrud struct {
@@ -508,7 +508,6 @@ func (s *ObjectStorageBucketResourceCrud) Delete() error {
 }
 
 func (s *ObjectStorageBucketResourceCrud) SetData() error {
-
 	s.D.Set("bucket_id", *s.Res.Id)
 
 	_, namespace, err := parseBucketCompositeId(s.D.Id())

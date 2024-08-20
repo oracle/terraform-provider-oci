@@ -14,6 +14,7 @@
 - Database Migration changed WF Retry logic
 - Resource documentation for OS_PATCH
 - Autonomous Database change DbTools from list to set.
+- Handling 404 while Deleting Storage Bucket Resource
 
 ## 6.9.0 (Unreleased)
 
