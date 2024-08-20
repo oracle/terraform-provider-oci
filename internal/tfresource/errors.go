@@ -182,7 +182,7 @@ func (tfE customError) Error() error {
 
 }
 
-func handleMissingResourceError(sync ResourceVoider, err *error) {
+func handleMissingResourceError(sync ResourceVoider, err *error, readResource ...error) {
 
 	if isCircuitBreakerOpen(*err) {
 		log.Printf("[DEBUG] the circuit breaker is in the open state, error triggering the circuit breaker is \n %s\n", *err)
@@ -200,13 +200,24 @@ func handleMissingResourceError(sync ResourceVoider, err *error) {
 			strings.Contains((*err).Error(), "not found") ||
 			(strings.Contains((*err).Error(), "Load balancer") && strings.Contains((*err).Error(), " has no ")) ||
 			strings.Contains(strings.ToLower((*err).Error()), "status code: 404") { // status code: 404 is not enough because the load balancer error responses don't include it for some reason
-			log.Println("[DEBUG] Object does not exist, voiding resource and nullifying error")
+			log.Printf("[DEBUG] Object does not exist. The error is\n %s\n", *err)
 			if sync != nil {
-				sync.VoidState()
-				log.Println("[DEBUG] the response contains an error, but ignoring it and voiding state")
+				if len(readResource) > 0 {
+					var readResp = readResource[0]
+					log.Printf("[DEBUG] Read object response obtained is %s\n", readResp)
+					if readResp != nil {
+						log.Println("[DEBUG] Failed to read object. Possibility of missing object does not exist. Proceeding with voiding state and ignoring error")
+						sync.VoidState()
+						*err = nil
+					} else {
+						log.Println("[DEBUG] Read object success and the missing object exist. Possibility of unauthorized operation. Skipping voiding state and returning error")
+					}
+				} else {
+					log.Println("[DEBUG] the response contains an error, but ignoring it and voiding state")
+					sync.VoidState()
+					*err = nil
+				}
 			}
-			log.Printf("[DEBUG] the ignored error is\n %s\n", *err)
-			*err = nil
 		}
 	}
 }
