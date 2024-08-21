@@ -34,16 +34,18 @@ The following arguments are supported:
 The following attributes are exported:
 
 * `capacity` - Service instance capacity metadata (e.g.: OLPU count, number of users, ...etc...). 
-	* `capacity_type` - The capacity model to use. 
-	* `capacity_value` - The capacity value selected (OLPU count, number of users, ...etc...). This parameter affects the number of CPUs, amount of memory or other resources allocated to the instance. 
+	* `capacity_type` - The capacity model to use. Accepted values are: OLPU_COUNT, USER_COUNT 
+	* `capacity_value` - The capacity value selected, either the number of OCPUs (OLPU_COUNT) or the number of users (USER_COUNT). This parameter affects the number of OCPUs, amount of memory, and other resources allocated to the instance. 
 * `compartment_id` - The OCID of the compartment. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `description` - Optional description. 
+* `domain_id` - Identity domain OCID. 
 * `email_notification` - Email address receiving notifications. 
+* `feature_bundle` - The feature set of an Analytics instance. 
 * `feature_set` - Analytics feature set. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The resource OCID. 
-* `kms_key_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption. 
+* `kms_key_id` - OCID of the Oracle Cloud Infrastructure Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption. 
 * `license_type` - The license used for the service. 
 * `name` - The name of the Analytics instance. This name must be unique in the tenancy and cannot be changed. 
 * `network_endpoint_details` - Base representation of a network endpoint. 
@@ -73,6 +75,7 @@ The following attributes are exported:
 	* `vcn_id` - OCID of the customer VCN peered with private access channel. 
 * `service_url` - URL of the Analytics service. 
 * `state` - The current state of an instance. 
+* `system_tags` - System tags for this resource. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.key": "value"}` 
 * `time_created` - The date and time the instance was created, in the format defined by RFC3339.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the instance was last updated (in the format defined by RFC3339). This timestamp represents updates made through this API. External events do not influence it. 
 * `vanity_url_details` - Map of VanityUrl unique identifier key as KEY and VanityUrl Object as VALUE. 

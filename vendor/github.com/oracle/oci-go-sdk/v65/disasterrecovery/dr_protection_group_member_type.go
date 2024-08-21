@@ -21,39 +21,45 @@ type DrProtectionGroupMemberTypeEnum string
 
 // Set of constants representing the allowable values for DrProtectionGroupMemberTypeEnum
 const (
-	DrProtectionGroupMemberTypeComputeInstance           DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE"
-	DrProtectionGroupMemberTypeComputeInstanceMovable    DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_MOVABLE"
-	DrProtectionGroupMemberTypeComputeInstanceNonMovable DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_NON_MOVABLE"
-	DrProtectionGroupMemberTypeVolumeGroup               DrProtectionGroupMemberTypeEnum = "VOLUME_GROUP"
-	DrProtectionGroupMemberTypeDatabase                  DrProtectionGroupMemberTypeEnum = "DATABASE"
-	DrProtectionGroupMemberTypeAutonomousDatabase        DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_DATABASE"
-	DrProtectionGroupMemberTypeLoadBalancer              DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
-	DrProtectionGroupMemberTypeNetworkLoadBalancer       DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
-	DrProtectionGroupMemberTypeFileSystem                DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
+	DrProtectionGroupMemberTypeComputeInstance             DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE"
+	DrProtectionGroupMemberTypeComputeInstanceMovable      DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_MOVABLE"
+	DrProtectionGroupMemberTypeComputeInstanceNonMovable   DrProtectionGroupMemberTypeEnum = "COMPUTE_INSTANCE_NON_MOVABLE"
+	DrProtectionGroupMemberTypeVolumeGroup                 DrProtectionGroupMemberTypeEnum = "VOLUME_GROUP"
+	DrProtectionGroupMemberTypeDatabase                    DrProtectionGroupMemberTypeEnum = "DATABASE"
+	DrProtectionGroupMemberTypeAutonomousDatabase          DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_DATABASE"
+	DrProtectionGroupMemberTypeAutonomousContainerDatabase DrProtectionGroupMemberTypeEnum = "AUTONOMOUS_CONTAINER_DATABASE"
+	DrProtectionGroupMemberTypeLoadBalancer                DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
+	DrProtectionGroupMemberTypeNetworkLoadBalancer         DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
+	DrProtectionGroupMemberTypeFileSystem                  DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
+	DrProtectionGroupMemberTypeObjectStorageBucket         DrProtectionGroupMemberTypeEnum = "OBJECT_STORAGE_BUCKET"
 )
 
 var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberTypeEnum{
-	"COMPUTE_INSTANCE":             DrProtectionGroupMemberTypeComputeInstance,
-	"COMPUTE_INSTANCE_MOVABLE":     DrProtectionGroupMemberTypeComputeInstanceMovable,
-	"COMPUTE_INSTANCE_NON_MOVABLE": DrProtectionGroupMemberTypeComputeInstanceNonMovable,
-	"VOLUME_GROUP":                 DrProtectionGroupMemberTypeVolumeGroup,
-	"DATABASE":                     DrProtectionGroupMemberTypeDatabase,
-	"AUTONOMOUS_DATABASE":          DrProtectionGroupMemberTypeAutonomousDatabase,
-	"LOAD_BALANCER":                DrProtectionGroupMemberTypeLoadBalancer,
-	"NETWORK_LOAD_BALANCER":        DrProtectionGroupMemberTypeNetworkLoadBalancer,
-	"FILE_SYSTEM":                  DrProtectionGroupMemberTypeFileSystem,
+	"COMPUTE_INSTANCE":              DrProtectionGroupMemberTypeComputeInstance,
+	"COMPUTE_INSTANCE_MOVABLE":      DrProtectionGroupMemberTypeComputeInstanceMovable,
+	"COMPUTE_INSTANCE_NON_MOVABLE":  DrProtectionGroupMemberTypeComputeInstanceNonMovable,
+	"VOLUME_GROUP":                  DrProtectionGroupMemberTypeVolumeGroup,
+	"DATABASE":                      DrProtectionGroupMemberTypeDatabase,
+	"AUTONOMOUS_DATABASE":           DrProtectionGroupMemberTypeAutonomousDatabase,
+	"AUTONOMOUS_CONTAINER_DATABASE": DrProtectionGroupMemberTypeAutonomousContainerDatabase,
+	"LOAD_BALANCER":                 DrProtectionGroupMemberTypeLoadBalancer,
+	"NETWORK_LOAD_BALANCER":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
+	"FILE_SYSTEM":                   DrProtectionGroupMemberTypeFileSystem,
+	"OBJECT_STORAGE_BUCKET":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
 var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGroupMemberTypeEnum{
-	"compute_instance":             DrProtectionGroupMemberTypeComputeInstance,
-	"compute_instance_movable":     DrProtectionGroupMemberTypeComputeInstanceMovable,
-	"compute_instance_non_movable": DrProtectionGroupMemberTypeComputeInstanceNonMovable,
-	"volume_group":                 DrProtectionGroupMemberTypeVolumeGroup,
-	"database":                     DrProtectionGroupMemberTypeDatabase,
-	"autonomous_database":          DrProtectionGroupMemberTypeAutonomousDatabase,
-	"load_balancer":                DrProtectionGroupMemberTypeLoadBalancer,
-	"network_load_balancer":        DrProtectionGroupMemberTypeNetworkLoadBalancer,
-	"file_system":                  DrProtectionGroupMemberTypeFileSystem,
+	"compute_instance":              DrProtectionGroupMemberTypeComputeInstance,
+	"compute_instance_movable":      DrProtectionGroupMemberTypeComputeInstanceMovable,
+	"compute_instance_non_movable":  DrProtectionGroupMemberTypeComputeInstanceNonMovable,
+	"volume_group":                  DrProtectionGroupMemberTypeVolumeGroup,
+	"database":                      DrProtectionGroupMemberTypeDatabase,
+	"autonomous_database":           DrProtectionGroupMemberTypeAutonomousDatabase,
+	"autonomous_container_database": DrProtectionGroupMemberTypeAutonomousContainerDatabase,
+	"load_balancer":                 DrProtectionGroupMemberTypeLoadBalancer,
+	"network_load_balancer":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
+	"file_system":                   DrProtectionGroupMemberTypeFileSystem,
+	"object_storage_bucket":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
 // GetDrProtectionGroupMemberTypeEnumValues Enumerates the set of values for DrProtectionGroupMemberTypeEnum
@@ -74,9 +80,11 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"VOLUME_GROUP",
 		"DATABASE",
 		"AUTONOMOUS_DATABASE",
+		"AUTONOMOUS_CONTAINER_DATABASE",
 		"LOAD_BALANCER",
 		"NETWORK_LOAD_BALANCER",
 		"FILE_SYSTEM",
+		"OBJECT_STORAGE_BUCKET",
 	}
 }
 

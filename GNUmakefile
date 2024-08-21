@@ -111,6 +111,7 @@ update-version:
 ifdef version
 	sed -i -e 's/ReleaseDate = ".*"/ReleaseDate = "$(release_date)"/g' internal/globalvar/version.go
 	sed -i -e 's/Version = ".*"/Version = "$(version)"/g' internal/globalvar/version.go && rm -f internal/globalvar/version.go-e
+	sed -i -e 's/version: ".*"/version: "$(version)"/g' ocibuild.conf && rm -f ocibuild.conf-e
 else
 	@echo Err! `make update-version` requires a version argument
 endif

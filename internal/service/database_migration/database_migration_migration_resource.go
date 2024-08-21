@@ -3802,7 +3802,8 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDirectoryObject(fiel
 		result.Name = &tmp
 	}
 
-	if path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path")); ok {
+	path, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "path"))
+	if ok && path.(string) != "" {
 		tmp := path.(string)
 		result.Path = &tmp
 	}
@@ -4267,10 +4268,13 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateOracleDataTransferMe
 				details.ObjectStorageBucket = &tmp
 			}
 		}
-		if sharedStorageMountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shared_storage_mount_target_id")); ok {
+
+		sharedStorageMountTargetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shared_storage_mount_target_id"))
+		if ok && sharedStorageMountTargetId.(string) != "" {
 			tmp := sharedStorageMountTargetId.(string)
 			details.SharedStorageMountTargetId = &tmp
 		}
+
 		if source, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source")); ok {
 			if tmpList := source.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source"), 0)
@@ -4628,7 +4632,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateTargetTypeTablespace
 	case strings.ToLower("ADB_D_REMAP"):
 		details := oci_database_migration.UpdateAdbDedicatedRemapTargetTablespaceDetails{}
 		remapTarget, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remap_target"))
-		if ok && s.D.HasChange("remap_target") {
+		if ok && remapTarget.(string) != "" {
 			tmp := remapTarget.(string)
 			details.RemapTarget = &tmp
 		}
@@ -4657,7 +4661,7 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateTargetTypeTablespace
 	case strings.ToLower("NON_ADB_REMAP"):
 		details := oci_database_migration.UpdateNonAdbRemapTablespaceDetails{}
 		remapTarget, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "remap_target"))
-		if ok && s.D.HasChange("remap_target") {
+		if ok && remapTarget.(string) != "" {
 			tmp := remapTarget.(string)
 			details.RemapTarget = &tmp
 		}

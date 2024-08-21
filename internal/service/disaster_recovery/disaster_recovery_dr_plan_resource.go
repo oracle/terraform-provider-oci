@@ -671,10 +671,11 @@ func (s *DisasterRecoveryDrPlanResourceCrud) mapToUpdateDrPlanGroupDetails(field
 		result.Id = &tmp
 	}
 
-	if isPauseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pause_enabled")); ok {
-		tmp := isPauseEnabled.(bool)
-		result.IsPauseEnabled = &tmp
-	}
+	/*
+		if isPauseEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pause_enabled")); ok {
+			tmp := isPauseEnabled.(bool)
+			result.IsPauseEnabled = &tmp
+		}*/
 
 	if steps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "steps")); ok {
 		interfaces := steps.([]interface{})

@@ -51,6 +51,12 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"database_software_image_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"is_dst_file_update_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -264,6 +270,11 @@ func (s *DatabaseMaintenanceRunResourceCrud) Create() error {
 		request.CompartmentId = &tmp
 	}
 
+	if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+		tmp := databaseSoftwareImageId.(string)
+		request.DatabaseSoftwareImageId = &tmp
+	}
+
 	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
 		tmp := isDstFileUpdateEnabled.(bool)
 		request.IsDstFileUpdateEnabled = &tmp
@@ -418,6 +429,10 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 
 	if s.Res.CustomActionTimeoutInMins != nil {
 		s.D.Set("custom_action_timeout_in_mins", *s.Res.CustomActionTimeoutInMins)
+	}
+
+	if s.Res.DatabaseSoftwareImageId != nil {
+		s.D.Set("database_software_image_id", *s.Res.DatabaseSoftwareImageId)
 	}
 
 	if s.Res.Description != nil {

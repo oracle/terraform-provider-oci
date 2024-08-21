@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Redis Service API
+// OCI Cache API
 //
-// Use the Redis Service API to create and manage Redis clusters. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -140,7 +140,7 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "RedisCluster", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -149,7 +149,7 @@ func (client RedisClusterClient) cancelWorkRequest(ctx context.Context, request 
 	return response, err
 }
 
-// ChangeRedisClusterCompartment Moves a Redis cluster into a different compartment within the same tenancy. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// ChangeRedisClusterCompartment Moves an OCI Cache cluster into a different compartment within the same tenancy. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -203,7 +203,7 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/ChangeRedisClusterCompartment"
 		err = common.PostProcessServiceError(err, "RedisCluster", "ChangeRedisClusterCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -212,7 +212,7 @@ func (client RedisClusterClient) changeRedisClusterCompartment(ctx context.Conte
 	return response, err
 }
 
-// CreateRedisCluster Creates a new Redis cluster. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// CreateRedisCluster Creates a new OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -266,7 +266,7 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/CreateRedisCluster"
 		err = common.PostProcessServiceError(err, "RedisCluster", "CreateRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -275,7 +275,7 @@ func (client RedisClusterClient) createRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// DeleteRedisCluster Deletes the specified Redis cluster. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// DeleteRedisCluster Deletes the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -324,7 +324,7 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/DeleteRedisCluster"
 		err = common.PostProcessServiceError(err, "RedisCluster", "DeleteRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -333,7 +333,7 @@ func (client RedisClusterClient) deleteRedisCluster(ctx context.Context, request
 	return response, err
 }
 
-// GetRedisCluster Retrieves the specified Redis cluster. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// GetRedisCluster Retrieves the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -382,7 +382,7 @@ func (client RedisClusterClient) getRedisCluster(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/GetRedisCluster"
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetRedisCluster", apiReferenceLink)
 		return response, err
 	}
@@ -440,7 +440,7 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "RedisCluster", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -449,7 +449,65 @@ func (client RedisClusterClient) getWorkRequest(ctx context.Context, request com
 	return response, err
 }
 
-// ListRedisClusters Lists the Redis clusters in the specified compartment. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// ListRedisClusterNodes Gets the list of all nodes in a cluster.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/redis/ListRedisClusterNodes.go.html to see an example of how to use ListRedisClusterNodes API.
+// A default retry strategy applies to this operation ListRedisClusterNodes()
+func (client RedisClusterClient) ListRedisClusterNodes(ctx context.Context, request ListRedisClusterNodesRequest) (response ListRedisClusterNodesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRedisClusterNodes, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRedisClusterNodesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRedisClusterNodesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRedisClusterNodesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRedisClusterNodesResponse")
+	}
+	return
+}
+
+// listRedisClusterNodes implements the OCIOperation interface (enables retrying operations)
+func (client RedisClusterClient) listRedisClusterNodes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/redisClusters/{redisClusterId}/nodes", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRedisClusterNodesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/NodeSummary/ListRedisClusterNodes"
+		err = common.PostProcessServiceError(err, "RedisCluster", "ListRedisClusterNodes", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRedisClusters Lists the OCI Cache clusters in the specified compartment. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -498,7 +556,7 @@ func (client RedisClusterClient) listRedisClusters(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisClusterSummary/ListRedisClusters"
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListRedisClusters", apiReferenceLink)
 		return response, err
 	}
@@ -556,7 +614,7 @@ func (client RedisClusterClient) listWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -614,7 +672,7 @@ func (client RedisClusterClient) listWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -672,7 +730,7 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "RedisCluster", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -681,7 +739,7 @@ func (client RedisClusterClient) listWorkRequests(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateRedisCluster Updates the specified Redis cluster. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// UpdateRedisCluster Updates the specified OCI Cache cluster. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 // # See also
 //
@@ -730,7 +788,7 @@ func (client RedisClusterClient) updateRedisCluster(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/ocicache/20220315/RedisCluster/UpdateRedisCluster"
 		err = common.PostProcessServiceError(err, "RedisCluster", "UpdateRedisCluster", apiReferenceLink)
 		return response, err
 	}

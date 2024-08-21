@@ -145,7 +145,7 @@ func (client JavaManagementServiceClient) addFleetInstallationSites(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationSiteSummary/AddFleetInstallationSites"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "AddFleetInstallationSites", apiReferenceLink)
 		return response, err
 	}
@@ -203,7 +203,7 @@ func (client JavaManagementServiceClient) cancelWorkRequest(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkRequest/CancelWorkRequest"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "CancelWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -266,7 +266,7 @@ func (client JavaManagementServiceClient) changeFleetCompartment(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/ChangeFleetCompartment"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ChangeFleetCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -329,7 +329,7 @@ func (client JavaManagementServiceClient) createBlocklist(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Blocklist/CreateBlocklist"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "CreateBlocklist", apiReferenceLink)
 		return response, err
 	}
@@ -392,7 +392,7 @@ func (client JavaManagementServiceClient) createDrsFile(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/CreateDrsFile"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "CreateDrsFile", apiReferenceLink)
 		return response, err
 	}
@@ -460,7 +460,7 @@ func (client JavaManagementServiceClient) createFleet(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/CreateFleet"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "CreateFleet", apiReferenceLink)
 		return response, err
 	}
@@ -525,7 +525,7 @@ func (client JavaManagementServiceClient) createJmsPlugin(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/CreateJmsPlugin"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "CreateJmsPlugin", apiReferenceLink)
 		return response, err
 	}
@@ -583,7 +583,7 @@ func (client JavaManagementServiceClient) deleteBlocklist(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Blocklist/DeleteBlocklist"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteBlocklist", apiReferenceLink)
 		return response, err
 	}
@@ -641,7 +641,7 @@ func (client JavaManagementServiceClient) deleteCryptoAnalysisResult(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/CryptoAnalysisResult/DeleteCryptoAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteCryptoAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -699,7 +699,7 @@ func (client JavaManagementServiceClient) deleteDrsFile(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DrsFile/DeleteDrsFile"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteDrsFile", apiReferenceLink)
 		return response, err
 	}
@@ -757,7 +757,7 @@ func (client JavaManagementServiceClient) deleteFleet(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/DeleteFleet"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteFleet", apiReferenceLink)
 		return response, err
 	}
@@ -815,7 +815,7 @@ func (client JavaManagementServiceClient) deleteJavaMigrationAnalysisResult(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/DeleteJavaMigrationAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteJavaMigrationAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -874,7 +874,7 @@ func (client JavaManagementServiceClient) deleteJmsPlugin(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/DeleteJmsPlugin"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeleteJmsPlugin", apiReferenceLink)
 		return response, err
 	}
@@ -932,7 +932,7 @@ func (client JavaManagementServiceClient) deletePerformanceTuningAnalysisResult(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/DeletePerformanceTuningAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DeletePerformanceTuningAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -995,7 +995,7 @@ func (client JavaManagementServiceClient) disableDrs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/DisableDrs"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "DisableDrs", apiReferenceLink)
 		return response, err
 	}
@@ -1058,7 +1058,7 @@ func (client JavaManagementServiceClient) enableDrs(ctx context.Context, request
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/EnableDrs"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "EnableDrs", apiReferenceLink)
 		return response, err
 	}
@@ -1115,7 +1115,7 @@ func (client JavaManagementServiceClient) generateAgentDeployScript(ctx context.
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateAgentDeployScript"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GenerateAgentDeployScript", apiReferenceLink)
 		return response, err
 	}
@@ -1172,7 +1172,7 @@ func (client JavaManagementServiceClient) generateAgentInstallerConfiguration(ct
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AgentInstallerSummary/GenerateAgentInstallerConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GenerateAgentInstallerConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1229,7 +1229,7 @@ func (client JavaManagementServiceClient) generateLoadPipelineScript(ctx context
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GenerateLoadPipelineScript"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GenerateLoadPipelineScript", apiReferenceLink)
 		return response, err
 	}
@@ -1287,7 +1287,7 @@ func (client JavaManagementServiceClient) getCryptoAnalysisResult(ctx context.Co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/CryptoAnalysisResult/GetCryptoAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetCryptoAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -1345,7 +1345,7 @@ func (client JavaManagementServiceClient) getDrsFile(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DrsFile/GetDrsFile"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetDrsFile", apiReferenceLink)
 		return response, err
 	}
@@ -1403,7 +1403,7 @@ func (client JavaManagementServiceClient) getExportSetting(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ExportSetting/GetExportSetting"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetExportSetting", apiReferenceLink)
 		return response, err
 	}
@@ -1461,7 +1461,7 @@ func (client JavaManagementServiceClient) getExportStatus(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ExportStatus/GetExportStatus"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetExportStatus", apiReferenceLink)
 		return response, err
 	}
@@ -1519,7 +1519,7 @@ func (client JavaManagementServiceClient) getFleet(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/GetFleet"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetFleet", apiReferenceLink)
 		return response, err
 	}
@@ -1577,7 +1577,7 @@ func (client JavaManagementServiceClient) getFleetAdvancedFeatureConfiguration(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetAdvancedFeatureConfiguration/GetFleetAdvancedFeatureConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetFleetAdvancedFeatureConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1635,7 +1635,7 @@ func (client JavaManagementServiceClient) getFleetAgentConfiguration(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetAgentConfiguration/GetFleetAgentConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetFleetAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -1693,7 +1693,7 @@ func (client JavaManagementServiceClient) getJavaFamily(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaFamily/GetJavaFamily"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaFamily", apiReferenceLink)
 		return response, err
 	}
@@ -1751,7 +1751,7 @@ func (client JavaManagementServiceClient) getJavaMigrationAnalysisResult(ctx con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/GetJavaMigrationAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaMigrationAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -1809,7 +1809,7 @@ func (client JavaManagementServiceClient) getJavaRelease(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaRelease/GetJavaRelease"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJavaRelease", apiReferenceLink)
 		return response, err
 	}
@@ -1867,7 +1867,7 @@ func (client JavaManagementServiceClient) getJmsPlugin(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/GetJmsPlugin"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetJmsPlugin", apiReferenceLink)
 		return response, err
 	}
@@ -1925,7 +1925,7 @@ func (client JavaManagementServiceClient) getPerformanceTuningAnalysisResult(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/GetPerformanceTuningAnalysisResult"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetPerformanceTuningAnalysisResult", apiReferenceLink)
 		return response, err
 	}
@@ -1983,7 +1983,7 @@ func (client JavaManagementServiceClient) getWorkRequest(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkRequest/GetWorkRequest"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "GetWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -2041,7 +2041,7 @@ func (client JavaManagementServiceClient) listAgentInstallers(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AgentInstallerSummary/ListAgentInstallers"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListAgentInstallers", apiReferenceLink)
 		return response, err
 	}
@@ -2099,7 +2099,7 @@ func (client JavaManagementServiceClient) listAnnouncements(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/AnnouncementCollection/ListAnnouncements"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListAnnouncements", apiReferenceLink)
 		return response, err
 	}
@@ -2157,7 +2157,7 @@ func (client JavaManagementServiceClient) listBlocklists(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Blocklist/ListBlocklists"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListBlocklists", apiReferenceLink)
 		return response, err
 	}
@@ -2215,7 +2215,7 @@ func (client JavaManagementServiceClient) listCryptoAnalysisResults(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/CryptoAnalysisResult/ListCryptoAnalysisResults"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListCryptoAnalysisResults", apiReferenceLink)
 		return response, err
 	}
@@ -2273,7 +2273,7 @@ func (client JavaManagementServiceClient) listDrsFiles(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DrsFileCollection/ListDrsFiles"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListDrsFiles", apiReferenceLink)
 		return response, err
 	}
@@ -2331,7 +2331,7 @@ func (client JavaManagementServiceClient) listFleetDiagnoses(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetDiagnosisSummary/ListFleetDiagnoses"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListFleetDiagnoses", apiReferenceLink)
 		return response, err
 	}
@@ -2390,7 +2390,7 @@ func (client JavaManagementServiceClient) listFleets(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/ListFleets"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListFleets", apiReferenceLink)
 		return response, err
 	}
@@ -2448,7 +2448,7 @@ func (client JavaManagementServiceClient) listInstallationSites(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationSiteSummary/ListInstallationSites"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListInstallationSites", apiReferenceLink)
 		return response, err
 	}
@@ -2507,7 +2507,7 @@ func (client JavaManagementServiceClient) listJavaFamilies(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaFamily/ListJavaFamilies"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaFamilies", apiReferenceLink)
 		return response, err
 	}
@@ -2565,7 +2565,7 @@ func (client JavaManagementServiceClient) listJavaMigrationAnalysisResults(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaMigrationAnalysisResult/ListJavaMigrationAnalysisResults"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaMigrationAnalysisResults", apiReferenceLink)
 		return response, err
 	}
@@ -2623,7 +2623,7 @@ func (client JavaManagementServiceClient) listJavaReleases(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaRelease/ListJavaReleases"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJavaReleases", apiReferenceLink)
 		return response, err
 	}
@@ -2681,7 +2681,7 @@ func (client JavaManagementServiceClient) listJmsPlugins(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/ListJmsPlugins"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJmsPlugins", apiReferenceLink)
 		return response, err
 	}
@@ -2739,7 +2739,7 @@ func (client JavaManagementServiceClient) listJreUsage(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JreUsage/ListJreUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListJreUsage", apiReferenceLink)
 		return response, err
 	}
@@ -2797,7 +2797,7 @@ func (client JavaManagementServiceClient) listPerformanceTuningAnalysisResults(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/PerformanceTuningAnalysisResult/ListPerformanceTuningAnalysisResults"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListPerformanceTuningAnalysisResults", apiReferenceLink)
 		return response, err
 	}
@@ -2855,7 +2855,7 @@ func (client JavaManagementServiceClient) listWorkItems(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkItemSummary/ListWorkItems"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListWorkItems", apiReferenceLink)
 		return response, err
 	}
@@ -2913,7 +2913,7 @@ func (client JavaManagementServiceClient) listWorkRequestErrors(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkRequestError/ListWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -2971,7 +2971,7 @@ func (client JavaManagementServiceClient) listWorkRequestLogs(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkRequestLogEntry/ListWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -3029,7 +3029,7 @@ func (client JavaManagementServiceClient) listWorkRequests(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ListWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -3092,7 +3092,7 @@ func (client JavaManagementServiceClient) removeFleetInstallationSites(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationSiteSummary/RemoveFleetInstallationSites"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RemoveFleetInstallationSites", apiReferenceLink)
 		return response, err
 	}
@@ -3150,7 +3150,7 @@ func (client JavaManagementServiceClient) requestCryptoAnalyses(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestCryptoAnalyses"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestCryptoAnalyses", apiReferenceLink)
 		return response, err
 	}
@@ -3209,7 +3209,7 @@ func (client JavaManagementServiceClient) requestDeployedApplicationMigrationAna
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestDeployedApplicationMigrationAnalyses"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestDeployedApplicationMigrationAnalyses", apiReferenceLink)
 		return response, err
 	}
@@ -3268,7 +3268,7 @@ func (client JavaManagementServiceClient) requestJavaMigrationAnalyses(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestJavaMigrationAnalyses"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestJavaMigrationAnalyses", apiReferenceLink)
 		return response, err
 	}
@@ -3326,7 +3326,7 @@ func (client JavaManagementServiceClient) requestJfrRecordings(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestJfrRecordings"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestJfrRecordings", apiReferenceLink)
 		return response, err
 	}
@@ -3385,7 +3385,7 @@ func (client JavaManagementServiceClient) requestPerformanceTuningAnalyses(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/RequestPerformanceTuningAnalyses"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "RequestPerformanceTuningAnalyses", apiReferenceLink)
 		return response, err
 	}
@@ -3448,7 +3448,7 @@ func (client JavaManagementServiceClient) scanJavaServerUsage(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaServerUsage/ScanJavaServerUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ScanJavaServerUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3511,7 +3511,7 @@ func (client JavaManagementServiceClient) scanLibraryUsage(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/LibraryUsage/ScanLibraryUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "ScanLibraryUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3569,7 +3569,7 @@ func (client JavaManagementServiceClient) summarizeApplicationInstallationUsage(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ApplicationInstallationUsageSummary/SummarizeApplicationInstallationUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeApplicationInstallationUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3627,7 +3627,7 @@ func (client JavaManagementServiceClient) summarizeApplicationUsage(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ApplicationUsage/SummarizeApplicationUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeApplicationUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3685,7 +3685,7 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationInstallati
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DeployedApplicationInstallationUsageSummary/SummarizeDeployedApplicationInstallationUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeDeployedApplicationInstallationUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3743,7 +3743,7 @@ func (client JavaManagementServiceClient) summarizeDeployedApplicationUsage(ctx 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/DeployedApplicationUsage/SummarizeDeployedApplicationUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeDeployedApplicationUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3801,7 +3801,7 @@ func (client JavaManagementServiceClient) summarizeInstallationUsage(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/InstallationUsage/SummarizeInstallationUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeInstallationUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3859,7 +3859,7 @@ func (client JavaManagementServiceClient) summarizeJavaServerInstanceUsage(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaServerInstanceUsage/SummarizeJavaServerInstanceUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeJavaServerInstanceUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3917,7 +3917,7 @@ func (client JavaManagementServiceClient) summarizeJavaServerUsage(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JavaServerUsage/SummarizeJavaServerUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeJavaServerUsage", apiReferenceLink)
 		return response, err
 	}
@@ -3975,7 +3975,7 @@ func (client JavaManagementServiceClient) summarizeJreUsage(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JreUsage/SummarizeJreUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeJreUsage", apiReferenceLink)
 		return response, err
 	}
@@ -4033,7 +4033,7 @@ func (client JavaManagementServiceClient) summarizeLibraryUsage(ctx context.Cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/LibraryUsage/SummarizeLibraryUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeLibraryUsage", apiReferenceLink)
 		return response, err
 	}
@@ -4091,7 +4091,7 @@ func (client JavaManagementServiceClient) summarizeManagedInstanceUsage(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ManagedInstanceUsage/SummarizeManagedInstanceUsage"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeManagedInstanceUsage", apiReferenceLink)
 		return response, err
 	}
@@ -4149,7 +4149,7 @@ func (client JavaManagementServiceClient) summarizeResourceInventory(ctx context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/SummarizeResourceInventory"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "SummarizeResourceInventory", apiReferenceLink)
 		return response, err
 	}
@@ -4212,7 +4212,7 @@ func (client JavaManagementServiceClient) updateDrsFile(ctx context.Context, req
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/UpdateDrsFile"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateDrsFile", apiReferenceLink)
 		return response, err
 	}
@@ -4270,7 +4270,7 @@ func (client JavaManagementServiceClient) updateExportSetting(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/ExportSetting/UpdateExportSetting"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateExportSetting", apiReferenceLink)
 		return response, err
 	}
@@ -4328,7 +4328,7 @@ func (client JavaManagementServiceClient) updateFleet(ctx context.Context, reque
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/Fleet/UpdateFleet"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateFleet", apiReferenceLink)
 		return response, err
 	}
@@ -4392,7 +4392,7 @@ func (client JavaManagementServiceClient) updateFleetAdvancedFeatureConfiguratio
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetAdvancedFeatureConfiguration/UpdateFleetAdvancedFeatureConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateFleetAdvancedFeatureConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -4450,7 +4450,7 @@ func (client JavaManagementServiceClient) updateFleetAgentConfiguration(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/FleetAgentConfiguration/UpdateFleetAgentConfiguration"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateFleetAgentConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -4508,7 +4508,7 @@ func (client JavaManagementServiceClient) updateJmsPlugin(ctx context.Context, r
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/jms/20210610/JmsPlugin/UpdateJmsPlugin"
 		err = common.PostProcessServiceError(err, "JavaManagementService", "UpdateJmsPlugin", apiReferenceLink)
 		return response, err
 	}

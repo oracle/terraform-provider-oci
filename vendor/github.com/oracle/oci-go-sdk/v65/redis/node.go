@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Redis Service API
+// OCI Cache API
 //
-// Use the Redis Service API to create and manage Redis clusters. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// Node The details of each node in the Redis cluster.
+// Node The details of each node in the cluster.
 type Node struct {
 
 	// The fully qualified domain name (FQDN) of the API endpoint to access a specific node.
@@ -24,7 +24,7 @@ type Node struct {
 	// The private IP address of the API endpoint to access a specific node.
 	PrivateEndpointIpAddress *string `mandatory:"true" json:"privateEndpointIpAddress"`
 
-	// A user-friendly name of a Redis cluster node.
+	// A user-friendly name of a cluster node.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 }
 

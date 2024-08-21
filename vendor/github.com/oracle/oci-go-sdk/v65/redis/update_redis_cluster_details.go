@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Redis Service API
+// OCI Cache API
 //
-// Use the Redis Service API to create and manage Redis clusters. A Redis cluster is a memory-based storage solution. For more information, see OCI Caching Service with Redis (https://docs.cloud.oracle.com/iaas/Content/redis/home.htm).
+// Use the OCI Cache API to create and manage clusters. A cluster is a memory-based storage solution. For more information, see OCI Cache (https://docs.cloud.oracle.com/iaas/Content/ocicache/home.htm).
 //
 
 package redis
@@ -15,21 +15,24 @@ import (
 	"strings"
 )
 
-// UpdateRedisClusterDetails The configuration to update for an existing Redis cluster.
+// UpdateRedisClusterDetails The configuration to update for an existing cluster.
 type UpdateRedisClusterDetails struct {
+
+	// The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
+	ShardCount *int `mandatory:"false" json:"shardCount"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The number of nodes in the Redis cluster.
+	// The number of nodes per shard in the cluster when clusterMode is SHARDED. This is the total number of nodes when clusterMode is NONSHARDED.
 	NodeCount *int `mandatory:"false" json:"nodeCount"`
 
-	// The amount of memory allocated to the Redis cluster's nodes, in gigabytes.
+	// The amount of memory allocated to the cluster's nodes, in gigabytes.
 	NodeMemoryInGBs *float32 `mandatory:"false" json:"nodeMemoryInGBs"`
 
 	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
-	// see Using an NSG for Redis Clusters (https://docs.cloud.oracle.com/iaas/Content/redis/connecttorediscluster.htm#connecttorediscluster__networksecuritygroup).
+	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

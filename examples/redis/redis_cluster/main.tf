@@ -14,6 +14,11 @@ variable "redis_cluster_display_name" {
   default = "test-tf-redis-example"
 }
 
+variable "redis_sharded_cluster_display_name" {
+  type = string
+  default = "test-tf-redis-sharded_example"
+}
+
 variable "redis_cluster_freeform_tags" {
   default = { "bar-key" = "value" }
 }
@@ -88,6 +93,22 @@ resource "oci_redis_redis_cluster" "test_redis_cluster" {
   freeform_tags = var.redis_cluster_freeform_tags
 }
 
+// create a 3 shard 2 node per shard
+resource "oci_redis_redis_cluster" "test_redis_sharded_cluster" {
+  #Required
+  compartment_id     = var.compartment_id
+  display_name       = var.redis_sharded_cluster_display_name
+  node_count         = 2
+  node_memory_in_gbs = var.redis_cluster_node_memory_in_gbs
+  software_version   = var.redis_cluster_software_version
+  subnet_id          = oci_core_subnet.test_subnet.id
+
+  #Optional
+  cluster_mode       = "SHARDED"
+  shard_count        = 3
+  freeform_tags = var.redis_cluster_freeform_tags
+}
+
 data "oci_redis_redis_clusters" "test_redis_clusters" {
 
   #Optional
@@ -95,4 +116,13 @@ data "oci_redis_redis_clusters" "test_redis_clusters" {
   display_name   = var.redis_cluster_display_name
   id             = oci_redis_redis_cluster.test_redis_cluster.id
   state          = var.redis_cluster_state
+}
+
+data "oci_redis_redis_cluster" "test_redis_cluster_data" {
+  redis_cluster_id = oci_redis_redis_cluster.test_redis_sharded_cluster.id
+}
+
+
+data "oci_redis_redis_cluster_nodes" "test_redis_cluster_nodes" {
+  redis_cluster_id = oci_redis_redis_cluster.test_redis_sharded_cluster.id
 }

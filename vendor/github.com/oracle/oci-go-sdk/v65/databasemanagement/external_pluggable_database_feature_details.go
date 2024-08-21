@@ -59,6 +59,14 @@ func (m *externalpluggabledatabasefeaturedetails) UnmarshalPolymorphicJSON(data 
 		mm := ExternalPluggableDatabaseDiagnosticsAndManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_LIFECYCLE_MANAGEMENT":
+		mm := ExternalPluggableDatabaseLifecycleManagementFeatureDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SQLWATCH":
+		mm := ExternalPluggableDatabaseSqlWatchFeatureDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for ExternalPluggableDatabaseFeatureDetails: %s.", m.Feature)
 		return *m, nil

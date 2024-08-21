@@ -66,6 +66,8 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("cluster_mode", s.Res.ClusterMode)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -114,6 +116,10 @@ func (s *RedisRedisClusterDataSourceCrud) SetData() error {
 
 	if s.Res.ReplicasFqdn != nil {
 		s.D.Set("replicas_fqdn", *s.Res.ReplicasFqdn)
+	}
+
+	if s.Res.ShardCount != nil {
+		s.D.Set("shard_count", *s.Res.ShardCount)
 	}
 
 	s.D.Set("software_version", s.Res.SoftwareVersion)

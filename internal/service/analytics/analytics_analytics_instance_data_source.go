@@ -84,9 +84,15 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
+	if s.Res.DomainId != nil {
+		s.D.Set("domain_id", *s.Res.DomainId)
+	}
+
 	if s.Res.EmailNotification != nil {
 		s.D.Set("email_notification", *s.Res.EmailNotification)
 	}
+
+	s.D.Set("feature_bundle", s.Res.FeatureBundle)
 
 	s.D.Set("feature_set", s.Res.FeatureSet)
 
@@ -117,6 +123,10 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
