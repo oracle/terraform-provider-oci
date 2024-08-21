@@ -16,6 +16,8 @@ import (
 )
 
 // DeploymentTypeSummary The meta-data specific on particular deployment type represented by deploymentType field.
+// Deprecated properties: `sourceTechnologies` and `targetTechnologies` are not populated. They will be removed after September 15 2025.
+// The list of supported source and target technologies can be accessed using the url provided in `supportedTechnologiesUrl` property.
 type DeploymentTypeSummary struct {
 
 	// The deployment category defines the broad separation of the deployment type into three categories.
@@ -32,6 +34,16 @@ type DeploymentTypeSummary struct {
 
 	// An array of connectionTypes.
 	ConnectionTypes []ConnectionTypeEnum `mandatory:"false" json:"connectionTypes,omitempty"`
+
+	// List of the supported technologies generally.  The value is a freeform text string generally consisting
+	// of a description of the technology and optionally the speific version(s) support.  For example,
+	// [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ]
+	SourceTechnologies []string `mandatory:"false" json:"sourceTechnologies"`
+
+	// List of the supported technologies generally.  The value is a freeform text string generally consisting
+	// of a description of the technology and optionally the speific version(s) support.  For example,
+	// [ "Oracle Database 19c", "Oracle Exadata", "OCI Streaming" ]
+	TargetTechnologies []string `mandatory:"false" json:"targetTechnologies"`
 
 	// Version of OGG
 	OggVersion *string `mandatory:"false" json:"oggVersion"`

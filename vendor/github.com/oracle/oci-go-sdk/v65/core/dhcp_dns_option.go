@@ -53,6 +53,7 @@ type DhcpDnsOption struct {
 	// on the instance and does not forward any DNS resolution request through the listener.
 	// * **EnableForInternetOnly:** Reserved for backward compatibility. Not configurable
 	// for new DhcpOption.
+	// * **EnableForVcnOnly:** Internal Only for OCI-On-OCI / Butterfly SS-VCNs.
 	VcnResolverConfiguration DhcpDnsOptionVcnResolverConfigurationEnum `mandatory:"false" json:"vcnResolverConfiguration,omitempty"`
 }
 
@@ -146,18 +147,21 @@ const (
 	DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet DhcpDnsOptionVcnResolverConfigurationEnum = "EnableForVcnAndInternet"
 	DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver      DhcpDnsOptionVcnResolverConfigurationEnum = "DisableVcnResolver"
 	DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly   DhcpDnsOptionVcnResolverConfigurationEnum = "EnableForInternetOnly"
+	DhcpDnsOptionVcnResolverConfigurationEnableforvcnonly        DhcpDnsOptionVcnResolverConfigurationEnum = "EnableForVcnOnly"
 )
 
 var mappingDhcpDnsOptionVcnResolverConfigurationEnum = map[string]DhcpDnsOptionVcnResolverConfigurationEnum{
 	"EnableForVcnAndInternet": DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet,
 	"DisableVcnResolver":      DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver,
 	"EnableForInternetOnly":   DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly,
+	"EnableForVcnOnly":        DhcpDnsOptionVcnResolverConfigurationEnableforvcnonly,
 }
 
 var mappingDhcpDnsOptionVcnResolverConfigurationEnumLowerCase = map[string]DhcpDnsOptionVcnResolverConfigurationEnum{
 	"enableforvcnandinternet": DhcpDnsOptionVcnResolverConfigurationEnableforvcnandinternet,
 	"disablevcnresolver":      DhcpDnsOptionVcnResolverConfigurationDisablevcnresolver,
 	"enableforinternetonly":   DhcpDnsOptionVcnResolverConfigurationEnableforinternetonly,
+	"enableforvcnonly":        DhcpDnsOptionVcnResolverConfigurationEnableforvcnonly,
 }
 
 // GetDhcpDnsOptionVcnResolverConfigurationEnumValues Enumerates the set of values for DhcpDnsOptionVcnResolverConfigurationEnum
@@ -175,6 +179,7 @@ func GetDhcpDnsOptionVcnResolverConfigurationEnumStringValues() []string {
 		"EnableForVcnAndInternet",
 		"DisableVcnResolver",
 		"EnableForInternetOnly",
+		"EnableForVcnOnly",
 	}
 }
 
