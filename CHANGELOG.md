@@ -1,4 +1,4 @@
-## 6.8.0 (Unreleased)
+## 6.8.0 (August 21, 2024)
 
 ### Added
 - Support for autonomous database-dedicated
