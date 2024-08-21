@@ -741,7 +741,7 @@ func (s *DatabaseMigrationConnectionResourceCrud) SetData() error {
 			nsgIds = append(nsgIds, item)
 		}
 		//s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
-		s.D.Set("nsg_ids", v.NsgIds)
+		s.D.Set("nsg_ids", nsgIds)
 
 		if v.Password != nil {
 			s.D.Set("password", *v.Password)

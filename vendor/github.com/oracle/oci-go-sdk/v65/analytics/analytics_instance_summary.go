@@ -54,6 +54,20 @@ type AnalyticsInstanceSummary struct {
 	// URL of the Analytics service.
 	ServiceUrl *string `mandatory:"false" json:"serviceUrl"`
 
+	// Defined tags for this resource. Each key is predefined and scoped to a
+	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Operations": {"CostCenter": "42"}}`
+	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Free-form tags for this resource. Each tag is a simple key-value pair with no
+	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Department": "Finance"}`
+	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// System tags for this resource. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"key": "value"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	// The date and time the instance was last updated (in the format defined by RFC3339).
 	// This timestamp represents updates made through this API. External events do not
 	// influence it.
@@ -92,6 +106,9 @@ func (m *AnalyticsInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		LicenseType            LicenseTypeEnum                     `json:"licenseType"`
 		EmailNotification      *string                             `json:"emailNotification"`
 		ServiceUrl             *string                             `json:"serviceUrl"`
+		DefinedTags            map[string]map[string]interface{}   `json:"definedTags"`
+		FreeformTags           map[string]string                   `json:"freeformTags"`
+		SystemTags             map[string]map[string]interface{}   `json:"systemTags"`
 		TimeUpdated            *common.SDKTime                     `json:"timeUpdated"`
 		Id                     *string                             `json:"id"`
 		Name                   *string                             `json:"name"`
@@ -115,6 +132,12 @@ func (m *AnalyticsInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.EmailNotification = model.EmailNotification
 
 	m.ServiceUrl = model.ServiceUrl
+
+	m.DefinedTags = model.DefinedTags
+
+	m.FreeformTags = model.FreeformTags
+
+	m.SystemTags = model.SystemTags
 
 	m.TimeUpdated = model.TimeUpdated
 

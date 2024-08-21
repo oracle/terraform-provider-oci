@@ -142,6 +142,44 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"data_storage": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"is_auto_expand_storage_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"max_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"allocated_storage_size_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"data_storage_size_in_gb": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"data_storage_size_limit_in_gbs": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"data_storage_size_in_gb": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -888,6 +926,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.CrashRecovery = oci_mysql.CrashRecoveryStatusEnum(crashRecovery.(string))
 	}
 
+	if dataStorage, ok := s.D.GetOkExists("data_storage"); ok {
+		if tmpList := dataStorage.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_storage", 0)
+			tmp, err := s.mapToDataStorageDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataStorage = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1062,6 +1111,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		request.ConfigurationId = &tmp
 	}
 
+	if dataStorage, ok := s.D.GetOkExists("data_storage"); ok && s.D.HasChange("data_storage") {
+		if tmpList := dataStorage.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_storage", 0)
+			tmp, err := s.mapToDataStorageDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.DataStorage = &tmp
+		}
+	}
+
 	if dataStorageSizeInGB, ok := s.D.GetOkExists("data_storage_size_in_gb"); ok && s.D.HasChange("data_storage_size_in_gb") {
 		tmp := dataStorageSizeInGB.(int)
 		request.DataStorageSizeInGBs = &tmp
@@ -1189,6 +1249,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("current_placement", []interface{}{DbSystemPlacementToMap(s.Res.CurrentPlacement)})
 	} else {
 		s.D.Set("current_placement", nil)
+	}
+
+	if s.Res.DataStorage != nil {
+		s.D.Set("data_storage", []interface{}{DataStorageToMap(s.Res.DataStorage)})
+	} else {
+		s.D.Set("data_storage", nil)
 	}
 
 	if s.Res.DataStorageSizeInGBs != nil {
@@ -1799,6 +1865,48 @@ func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateMaintenanceDetails(fieldKeyF
 	}
 
 	return result, nil
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToDataStorageDetails(fieldKeyFormat string) (oci_mysql.DataStorageDetails, error) {
+	result := oci_mysql.DataStorageDetails{}
+
+	if isAutoExpandStorageEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_expand_storage_enabled")); ok {
+		tmp := isAutoExpandStorageEnabled.(bool)
+		result.IsAutoExpandStorageEnabled = &tmp
+	}
+
+	if maxStorageSizeInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_storage_size_in_gbs")); ok {
+		tmp := maxStorageSizeInGBs.(int)
+		result.MaxStorageSizeInGBs = &tmp
+	}
+
+	return result, nil
+}
+
+func DataStorageToMap(obj *oci_mysql.DataStorage) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AllocatedStorageSizeInGBs != nil {
+		result["allocated_storage_size_in_gbs"] = int(*obj.AllocatedStorageSizeInGBs)
+	}
+
+	if obj.DataStorageSizeInGBs != nil {
+		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)
+	}
+
+	if obj.DataStorageSizeLimitInGBs != nil {
+		result["data_storage_size_limit_in_gbs"] = int(*obj.DataStorageSizeLimitInGBs)
+	}
+
+	if obj.IsAutoExpandStorageEnabled != nil {
+		result["is_auto_expand_storage_enabled"] = bool(*obj.IsAutoExpandStorageEnabled)
+	}
+
+	if obj.MaxStorageSizeInGBs != nil {
+		result["max_storage_size_in_gbs"] = int(*obj.MaxStorageSizeInGBs)
+	}
+
+	return result
 }
 
 func DbSystemPlacementToMap(obj *oci_mysql.DbSystemPlacement) map[string]interface{} {

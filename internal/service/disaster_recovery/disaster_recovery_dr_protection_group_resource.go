@@ -132,6 +132,7 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"AUTONOMOUS_CONTAINER_DATABASE",
 								"AUTONOMOUS_DATABASE",
 								"COMPUTE_INSTANCE",
 								"COMPUTE_INSTANCE_MOVABLE",
@@ -140,11 +141,17 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 								"FILE_SYSTEM",
 								"LOAD_BALANCER",
 								"NETWORK_LOAD_BALANCER",
+								"OBJECT_STORAGE_BUCKET",
 								"VOLUME_GROUP",
 							}, true),
 						},
 
 						// Optional
+						"autonomous_database_standby_type_for_dr_drills": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"backend_set_mappings": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -234,6 +241,16 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"connection_string_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"bucket": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"destination_availability_domain": {
 							Type:     schema.TypeString,
@@ -372,6 +389,11 @@ func DisasterRecoveryDrProtectionGroupResource() *schema.Resource {
 						},
 						"is_start_stop_enabled": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"namespace": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 						},
@@ -1416,8 +1438,26 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 		memberType = "" // default value
 	}
 	switch strings.ToLower(memberType) {
+	case strings.ToLower("AUTONOMOUS_CONTAINER_DATABASE"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
+		if connectionStringType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_string_type")); ok {
+			details.ConnectionStringType = oci_disaster_recovery.AutonomousContainerDatabaseSnapshotStandbyConnectionStringTypeEnum(connectionStringType.(string))
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("AUTONOMOUS_DATABASE"):
-		details := oci_disaster_recovery.CreateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		if autonomousDatabaseStandbyTypeForDrDrills, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autonomous_database_standby_type_for_dr_drills")); ok {
+			details.AutonomousDatabaseStandbyTypeForDrDrills = oci_disaster_recovery.AutonomousDatabaseStandbyTypeForDrDrillsEnum(autonomousDatabaseStandbyTypeForDrDrills.(string))
+		}
+		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+			tmp := passwordVaultSecretId.(string)
+			details.PasswordVaultSecretId = &tmp
+		}
+		details = oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
 			details.MemberId = &tmp
@@ -1648,6 +1688,21 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToCreateDrProtectionG
 			details.MemberId = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE_BUCKET"):
+		details := oci_disaster_recovery.CreateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			details.BucketName = &tmp
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			details.NamespaceName = &tmp
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			details.MemberId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.CreateDrProtectionGroupMemberVolumeGroupDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
@@ -1672,8 +1727,35 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 		memberType = "" // default value
 	}
 	switch strings.ToLower(memberType) {
+	case strings.ToLower("AUTONOMOUS_CONTAINER_DATABASE"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails{}
+		if connectionStringType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_string_type")); ok {
+			tmp := connectionStringType.(string)
+			if tmp != "" {
+				details.ConnectionStringType = oci_disaster_recovery.AutonomousContainerDatabaseSnapshotStandbyConnectionStringTypeEnum(tmp)
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("AUTONOMOUS_DATABASE"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
+		if autonomousDatabaseStandbyTypeForDrDrills, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autonomous_database_standby_type_for_dr_drills")); ok {
+			tmp := autonomousDatabaseStandbyTypeForDrDrills.(string)
+			if tmp != "" {
+				details.AutonomousDatabaseStandbyTypeForDrDrills = oci_disaster_recovery.AutonomousDatabaseStandbyTypeForDrDrillsEnum(tmp)
+			}
+		}
+		if passwordVaultSecretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_vault_secret_id")); ok {
+			tmp := passwordVaultSecretId.(string)
+			if tmp != "" {
+				details.PasswordVaultSecretId = &tmp
+			}
+		}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
 			tmp := memberId.(string)
 			if tmp != "" {
@@ -1938,6 +2020,27 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 			}
 		}
 		baseObject = details
+	case strings.ToLower("OBJECT_STORAGE_BUCKET"):
+		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberObjectStorageBucketDetails{}
+		if bucket, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bucket")); ok {
+			tmp := bucket.(string)
+			if tmp != "" {
+				details.BucketName = &tmp
+			}
+		}
+		if namespace, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "namespace")); ok {
+			tmp := namespace.(string)
+			if tmp != "" {
+				details.NamespaceName = &tmp
+			}
+		}
+		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
+			tmp := memberId.(string)
+			if tmp != "" {
+				details.MemberId = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("VOLUME_GROUP"):
 		details := oci_disaster_recovery.UpdateDrProtectionGroupMemberVolumeGroupDetails{}
 		if memberId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_id")); ok {
@@ -1956,8 +2059,23 @@ func (s *DisasterRecoveryDrProtectionGroupResourceCrud) mapToUpdateDrProtectionG
 func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMember) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (obj).(type) {
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousContainerDatabaseDetails:
+		result["member_type"] = "AUTONOMOUS_CONTAINER_DATABASE"
+
+		result["connection_string_type"] = string(v.ConnectionStringType)
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.UpdateDrProtectionGroupMemberAutonomousDatabaseDetails:
 	case oci_disaster_recovery.DrProtectionGroupMemberAutonomousDatabase:
 		result["member_type"] = "AUTONOMOUS_DATABASE"
+
+		result["autonomous_database_standby_type_for_dr_drills"] = string(v.AutonomousDatabaseStandbyTypeForDrDrills)
+
+		if v.PasswordVaultSecretId != nil {
+			result["password_vault_secret_id"] = string(*v.PasswordVaultSecretId)
+		}
 
 		if v.MemberId != nil {
 			result["member_id"] = string(*v.MemberId)
@@ -2095,6 +2213,20 @@ func DrProtectionGroupMemberToMap(obj oci_disaster_recovery.DrProtectionGroupMem
 
 		if v.DestinationNetworkLoadBalancerId != nil {
 			result["destination_network_load_balancer_id"] = string(*v.DestinationNetworkLoadBalancerId)
+		}
+
+		if v.MemberId != nil {
+			result["member_id"] = string(*v.MemberId)
+		}
+	case oci_disaster_recovery.DrProtectionGroupMemberObjectStorageBucket:
+		result["member_type"] = "OBJECT_STORAGE_BUCKET"
+
+		if v.BucketName != nil {
+			result["bucket"] = string(*v.BucketName)
+		}
+
+		if v.NamespaceName != nil {
+			result["namespace"] = string(*v.NamespaceName)
 		}
 
 		if v.MemberId != nil {

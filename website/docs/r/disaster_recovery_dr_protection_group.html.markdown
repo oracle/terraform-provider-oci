@@ -46,6 +46,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 		member_type = var.dr_protection_group_members_member_type
 
 		#Optional
+		autonomous_database_standby_type_for_dr_drills = var.dr_protection_group_members_autonomous_database_standby_type_for_dr_drills
 		backend_set_mappings {
 
 			#Optional
@@ -68,6 +69,8 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 				mount_point = var.dr_protection_group_members_block_volume_operations_mount_details_mount_point
 			}
 		}
+		connection_string_type = var.dr_protection_group_members_connection_string_type
+		bucket = var.dr_protection_group_members_bucket
 		destination_availability_domain = var.dr_protection_group_members_destination_availability_domain
 		destination_capacity_reservation_id = var.destination_capacity_reservation_id
 		destination_compartment_id = oci_identity_compartment.test_compartment.id
@@ -100,6 +103,7 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 		is_movable = var.dr_protection_group_members_is_movable
 		is_retain_fault_domain = var.dr_protection_group_members_is_retain_fault_domain
 		is_start_stop_enabled = var.dr_protection_group_members_is_start_stop_enabled
+		namespace = var.dr_protection_group_members_namespace
 		password_vault_secret_id = var.password_vault_secret_id
 		vnic_mapping {
 
@@ -139,6 +143,7 @@ The following arguments are supported:
 	* `bucket` - (Required) (Updatable) The bucket name inside the object storage namespace.  Example: `operation_logs` 
 	* `namespace` - (Required) (Updatable) The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
 * `members` - (Optional) (Updatable) A list of DR protection group members. 
+	* `autonomous_database_standby_type_for_dr_drills` - (Applicable when member_type=AUTONOMOUS_DATABASE) (Updatable) This specifies the mechanism used to create a temporary Autonomous Database instance for DR Drills. See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-clone-about.html for information about these clone types. See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-data-guard-snapshot-standby.html for information about snapshot standby. 
 	* `backend_set_mappings` - (Applicable when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) A list of backend set mappings that are used to transfer or update backends during DR. 
 		* `destination_backend_set_name` - (Required when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) The name of the destination backend set.  Example: `Destination-BackendSet-1` 
 		* `is_backend_set_for_non_movable` - (Required when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) This flag specifies if this backend set is used for traffic for non-movable compute instances. Backend sets that point to non-movable instances are only enabled or disabled during DR, their contents are not altered. For non-movable instances this flag should be set to 'true'. Backend sets that point to movable instances are emptied and their contents are transferred to the  destination region load balancer.  For movable instances this flag should be set to 'false'.   Example: `true` 
@@ -149,6 +154,8 @@ The following arguments are supported:
 		* `block_volume_id` - (Required when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The OCID of the block volume.  Example: `ocid1.volume.oc1..uniqueID` 
 		* `mount_details` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The details for creating a mount for a file system on a block volume. 
 			* `mount_point` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The physical mount point used for mounting the file system on the block volume.  Example: `/mnt/yourmountpoint` 
+	* `connection_string_type` - (Applicable when member_type=AUTONOMOUS_CONTAINER_DATABASE) (Updatable) The type of connection strings used to connect to an Autonomous Container Database snapshot standby created during a DR Drill operation. See https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html for information about these service types. 
+	* `bucket` - (Required when member_type=OBJECT_STORAGE_BUCKET) (Updatable) The bucket name inside the object storage namespace.  Example: `bucket_name` 
 	* `destination_availability_domain` - (Applicable when member_type=FILE_SYSTEM) (Updatable) The availability domain of the destination mount target.  Example: `BBTh:region-AD` 
 	* `destination_capacity_reservation_id` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of a capacity reservation in the destination region which will be used to launch the compute instance.  Example: `ocid1.capacityreservation.oc1..uniqueID` 
 	* `destination_compartment_id` - (Applicable when member_type=COMPUTE_INSTANCE | COMPUTE_INSTANCE_MOVABLE) (Updatable) The OCID of a compartment in the destination region in which the compute instance should be launched.  Example: `ocid1.compartment.oc1..uniqueID` 
@@ -171,7 +178,8 @@ The following arguments are supported:
 	* `is_start_stop_enabled` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) A flag indicating whether the non-movable compute instance should be started and stopped during DR operations. *Prechecks cannot be executed on stopped instances that are configured to be started.* 
 	* `member_id` - (Required) (Updatable) The OCID of the member.  Example: `ocid1.instance.oc1..uniqueID` 
 	* `member_type` - (Required) (Updatable) The type of the member. 
-	* `password_vault_secret_id` - (Applicable when member_type=DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+	* `namespace` - (Required when member_type=OBJECT_STORAGE_BUCKET) (Updatable) The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
+	* `password_vault_secret_id` - (Applicable when member_type=AUTONOMOUS_DATABASE | DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `vnic_mapping` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
 		* `destination_primary_private_ip_address` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) The primary private IP address to be assigned to the VNIC in the destination region.  This address must belong to the destination subnet.  Example: `10.0.3.3` 
@@ -206,6 +214,7 @@ The following attributes are exported:
 	* `namespace` - The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
 	* `object` - The object name inside the object storage bucket.  Example: `switchover_plan_executions` 
 * `members` - A list of DR protection group members. 
+	* `autonomous_database_standby_type_for_dr_drills` - This specifies the mechanism used to create a temporary Autonomous Database instance for DR Drills. See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-clone-about.html for information about these clone types. See https://docs.oracle.com/en/cloud/paas/autonomous-database/serverless/adbsb/autonomous-data-guard-snapshot-standby.html for information about snapshot standby. 
 	* `backend_set_mappings` - A list of backend set mappings that are used to transfer or update backends during DR. 
 		* `destination_backend_set_name` - The name of the destination backend set.  Example: `My_Destination_Backend_Set` 
 		* `is_backend_set_for_non_movable` - This flag specifies if this backend set is used for traffic for non-movable compute instances. Backend sets that point to non-movable instances are only enabled or disabled during DR. For non-movable instances this flag should be set to 'true'. Backend sets that point to movable instances are emptied and their contents are transferred to the destination region network load balancer.  For movable instances this flag should be set to 'false'.   Example: `true` 
@@ -216,6 +225,8 @@ The following attributes are exported:
 		* `block_volume_id` - The OCID of the block volume.  Example: `ocid1.volume.oc1..uniqueID` 
 		* `mount_details` - The details for mounting or unmounting the file system on a block volume. 
 			* `mount_point` - The physical mount point used for mounting and unmounting the file system on a block volume.  Example: `/mnt/yourmountpoint` 
+	* `bucket` - The bucket name inside the object storage namespace.  Example: `bucket_name` 
+	* `connection_string_type` - The type of connection strings used to connect to an Autonomous Container Database snapshot standby created during a DR Drill operation. See https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html for information about these service types. 
 	* `destination_availability_domain` - The availability domain of the destination mount target. Example: `BBTh:region-AD` 
 	* `destination_capacity_reservation_id` - The OCID of a capacity reservation in the destination region which will be used to launch the compute instance.  Example: `ocid1.capacityreservation.oc1..uniqueID` 
 	* `destination_compartment_id` - The OCID of a compartment in the destination region in which the compute instance should be launched.  Example: `ocid1.compartment.oc1..uniqueID` 
@@ -238,7 +249,8 @@ The following attributes are exported:
 	* `is_start_stop_enabled` - A flag indicating whether the non-movable compute instance needs to be started and stopped during DR operations. 
 	* `member_id` - The OCID of the member.  Example: `ocid1.instance.oc1..uniqueID` 
 	* `member_type` - The type of the member. 
-	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is used for performing database DR operations.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+	* `namespace` - The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
+	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
 	* `vnic_mapping` - A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID1, ocid1.networksecuritygroup.oc1..uniqueID2 ]` 
 		* `destination_subnet_id` - The OCID of the destination subnet to which the source VNIC should connect.  Example: `ocid1.subnet.oc1..uniqueID` 

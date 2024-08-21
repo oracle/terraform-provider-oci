@@ -200,6 +200,39 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"data_storage": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"allocated_storage_size_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"data_storage_size_in_gb": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"data_storage_size_limit_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"is_auto_expand_storage_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"max_storage_size_in_gbs": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"data_storage_size_in_gb": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -922,6 +955,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 	}
 
 	result["crash_recovery"] = string(obj.CrashRecovery)
+
+	if obj.DataStorage != nil {
+		result["data_storage"] = []interface{}{DataStorageToMap(obj.DataStorage)}
+	}
 
 	if obj.DataStorageSizeInGBs != nil {
 		result["data_storage_size_in_gb"] = int(*obj.DataStorageSizeInGBs)

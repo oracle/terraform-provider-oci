@@ -63,6 +63,14 @@ func (m *databasefeaturedetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := DatabaseDiagnosticsAndManagementFeatureDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DB_LIFECYCLE_MANAGEMENT":
+		mm := DatabaseLifecycleManagementFeatureDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "SQLWATCH":
+		mm := DatabaseSqlWatchFeatureDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DatabaseFeatureDetails: %s.", m.Feature)
 		return *m, nil

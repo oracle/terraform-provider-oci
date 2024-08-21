@@ -21,3 +21,8 @@ data "oci_objectstorage_bucket" "test_bucket" {
   namespace = data.oci_objectstorage_namespace.test_namespace.namespace
   name      = var.bucket_name
 }
+
+data "oci_objectstorage_bucket" "test_member_bucket" {
+  namespace = data.oci_objectstorage_namespace.test_namespace.namespace
+  name      = "example-bucket-source"
+}

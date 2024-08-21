@@ -132,6 +132,10 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeInt,
 										Computed: true,
 									},
+									"database_software_image_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"description": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -456,6 +460,10 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 
 	if obj.CustomActionTimeoutInMins != nil {
 		result["custom_action_timeout_in_mins"] = int(*obj.CustomActionTimeoutInMins)
+	}
+
+	if obj.DatabaseSoftwareImageId != nil {
+		result["database_software_image_id"] = string(*obj.DatabaseSoftwareImageId)
 	}
 
 	if obj.Description != nil {

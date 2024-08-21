@@ -1,3 +1,15 @@
+## 6.8.0 (August 21, 2024)
+
+### Added
+- Support for autonomous database-dedicated
+- Support for [DMS] RDS migrations
+- Support for Oracle Home Version Control - Phase 3 (Patch ACD using GoldImage) | ADB-D & ADB-C@C
+- Support for OAC Embedding options for internal services and Identity Domains first-class support in Analytics APIs
+- Support for MySQL HeatWave Service: Storage Auto Scaling
+- Support for OCI Cache with Redis
+- Support for Support for running OCI OSS operation
+- Support for Extend Data Retention Period for OIC Instance
+
 ## 6.7.0 (August 13, 2024)
 
 ### Added
