@@ -10,7 +10,7 @@ variable "compartment_ocid" {}
 //variable "object_storage_bucket_name" {}
 
 // If using the log analytics target
-variable "log_analytics_log_group_id" {}
+variable "logAn_log_group_ocid" {}
 
 // If using the notification target
 //variable "notification_topic_id" {}
@@ -182,7 +182,7 @@ resource "oci_sch_service_connector" "test_service_connector" {
   // If using the log analytics target
   target {
     kind            = "loggingAnalytics"
-    log_group_id    = var.log_analytics_log_group_id
+    log_group_id    = var.logAn_log_group_ocid
     log_source_identifier = var.service_connector_target_log_source_identifier
   }
 
@@ -225,6 +225,34 @@ data "oci_sch_service_connector" "test_service_connector" {
 
 output "oci_sch_service_connector_id" {
   value = [data.oci_sch_service_connector.test_service_connector.id]
+}
+
+data "oci_sch_service_connectors" "connectors_tenancy" {
+  compartment_id = var.tenancy_ocid
+  display_name   = "displayName"
+  state          = "ACTIVE"
+}
+
+data "oci_sch_service_connectors" "active_connectors_tenancy" {
+  compartment_id = var.tenancy_ocid
+  state          = "ACTIVE"
+}
+
+data "oci_sch_service_connectors" "all_connectors_tenancy" {
+  compartment_id = var.tenancy_ocid
+  state          = "ACTIVE"
+}
+
+output "connectors_tenancy_output" {
+  value = data.oci_sch_service_connectors.connectors_tenancy
+}
+
+output "active_connectors_tenancy_output" {
+  value = data.oci_sch_service_connectors.active_connectors_tenancy
+}
+
+output "all_connectors_tenancy_output" {
+  value = data.oci_sch_service_connectors.all_connectors_tenancy
 }
 
 resource "oci_sch_service_connector" "test_connector_plugins" {
