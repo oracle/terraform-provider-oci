@@ -502,18 +502,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
-						"odh_version": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"os_version": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"ssh_fingerprint": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 
 						"shape": {
 							Type:     schema.TypeString,
@@ -622,20 +610,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 					string(oci_bds.BdsInstanceLifecycleStateActive),
 				}, true),
 			},
-
-			"add_kafka_trigger": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-			"execute_bootstrap_script_trigger": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-			"remove_kafka_trigger": {
-				Type:     schema.TypeInt,
-				Optional: true,
-			},
-
 			"is_force_stop_jobs": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -900,15 +874,8 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		}
 	}
 
-	if _, ok := sync.D.GetOkExists("remove_kafka_trigger"); ok {
-		err := sync.RemoveKafka()
-		if err != nil {
-			return err
-		}
-
-		if err := tfresource.CreateResource(d, sync); err != nil {
-			return err
-		}
+	if err := tfresource.CreateResource(d, sync); err != nil {
+		return err
 	}
 
 	if cloudSql {
@@ -962,54 +929,6 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 			return err
 		}
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
-	}
-
-	if _, ok := sync.D.GetOkExists("add_kafka_trigger"); ok && sync.D.HasChange("add_kafka_trigger") {
-		oldRaw, newRaw := sync.D.GetChange("add_kafka_trigger")
-		oldValue := oldRaw.(int)
-		newValue := newRaw.(int)
-		if oldValue < newValue {
-			err := sync.AddKafka()
-
-			if err != nil {
-				return err
-			}
-		} else {
-			sync.D.Set("add_kafka_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
-		}
-	}
-
-	if _, ok := sync.D.GetOkExists("execute_bootstrap_script_trigger"); ok && sync.D.HasChange("execute_bootstrap_script_trigger") {
-		oldRaw, newRaw := sync.D.GetChange("execute_bootstrap_script_trigger")
-		oldValue := oldRaw.(int)
-		newValue := newRaw.(int)
-		if oldValue < newValue {
-			err := sync.ExecuteBootstrapScript()
-
-			if err != nil {
-				return err
-			}
-		} else {
-			sync.D.Set("execute_bootstrap_script_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
-		}
-	}
-
-	if _, ok := sync.D.GetOkExists("remove_kafka_trigger"); ok && sync.D.HasChange("remove_kafka_trigger") {
-		oldRaw, newRaw := sync.D.GetChange("remove_kafka_trigger")
-		oldValue := oldRaw.(int)
-		newValue := newRaw.(int)
-		if oldValue < newValue {
-			err := sync.RemoveKafka()
-
-			if err != nil {
-				return err
-			}
-		} else {
-			sync.D.Set("remove_kafka_trigger", oldRaw)
-			return fmt.Errorf("new value of trigger should be greater than the old value")
-		}
 	}
 
 	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
