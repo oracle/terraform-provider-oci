@@ -12,4 +12,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_objectstorage_preauthrequest", ObjectStoragePreauthenticatedRequestResource())
 	tfresource.RegisterResource("oci_objectstorage_replication_policy", ObjectStorageReplicationPolicyResource())
 	tfresource.RegisterResource("oci_objectstorage_namespace_metadata", ObjectStorageNamespaceMetadataResource())
+	tfresource.RegisterResource("oci_objectstorage_private_endpoint", ObjectStoragePrivateEndpointResource())
 }
