@@ -44,12 +44,12 @@ The following arguments are supported:
 
 * `bucket` - (Required) The name of the bucket. Avoid entering confidential information. Example: `my-new-bucket1` 
 * `delimiter` - (Optional) When this parameter is set, only objects whose names do not contain the delimiter character (after an optionally specified prefix) are returned in the objects key of the response body. Scanned objects whose names contain the delimiter have the part of their name up to the first occurrence of the delimiter (including the optional prefix) returned as a set of prefixes. Note that only '/' is a supported delimiter character at this time. 
-* `end` - (Optional) Object names returned by a list query must be strictly less than this parameter.
+* `end` - (Optional) Returns object names which are lexicographically strictly less than this parameter.
 * `fields` - (Optional) Object summary by default includes only the 'name' field. Use this parameter to also include 'size' (object size in bytes), 'etag', 'md5', 'timeCreated' (object creation date and time), 'timeModified' (object modification date and time), 'storageTier' and 'archivalState' fields. Specify the value of this parameter as a comma-separated, case-insensitive list of those field names.  For example 'name,etag,timeCreated,md5,timeModified,storageTier,archivalState'. 
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `prefix` - (Optional) The string to use for matching against the start of object names in a list query.
-* `start` - (Optional) Object names returned by a list query must be greater or equal to this parameter.
-* `start_after` - (Optional) Object names returned by a list query must be greater than this parameter.
+* `start` - (Optional) Returns object names which are lexicographically greater than or equal to this parameter.
+* `start_after` - (Optional) Returns object names which are lexicographically strictly greater than this parameter.
 
 
 ## Attributes Reference

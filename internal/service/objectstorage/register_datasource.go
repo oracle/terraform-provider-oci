@@ -20,4 +20,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_objectstorage_replication_sources", ObjectStorageReplicationSourcesDataSource())
 	tfresource.RegisterDatasource("oci_objectstorage_namespace_metadata", ObjectStorageNamespaceMetadataDataSource())
 	tfresource.RegisterDatasource("oci_objectstorage_object_head", ObjectStorageObjectHeadDataSource())
+	tfresource.RegisterDatasource("oci_objectstorage_private_endpoint", ObjectStoragePrivateEndpointDataSource())
+	tfresource.RegisterDatasource("oci_objectstorage_private_endpoint_summaries", ObjectStoragePrivateEndpointsDataSource())
 }

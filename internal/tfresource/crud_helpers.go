@@ -214,6 +214,56 @@ func ResourceRefreshForHybridPolling(workRequestClient workReqClient, workReques
 	return nil
 }
 
+func ResourceRefreshForHybridPollingPreserveStateOnFailures(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, d schemaResourceData, sync ResourceCreator) error {
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	if stateful, ok := sync.(StatefullyCreatedResource); ok {
+		if e := waitForStateRefreshForHybridPollingVar(workRequestClient, workRequestIds, entityType, action, disableFoundRetries, stateful, d.Timeout(schema.TimeoutCreate), "creation", stateful.CreatedPending(), stateful.CreatedTarget()); e != nil {
+			//We need to SetData() here because if there is an error or timeout in the wait for state after the Create() was successful we want to store the resource in the statefile to avoid dangling resources
+			if setDataErr := sync.SetData(); setDataErr != nil {
+				log.Printf("[ERROR] error setting data after WaitForStateRefresh() error: %v", setDataErr)
+			}
+
+			return e
+		}
+	}
+
+	d.SetId(sync.ID())
+	if e := sync.SetData(); e != nil {
+		return e
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	return nil
+}
+
+func ResourceRefreshForHybridPollingOnDeletePreserveStateOnFailures(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
+	disableFoundRetries bool, d schemaResourceData, sync ResourceDeleter) error {
+
+	// ID is required for state refresh
+	d.SetId(sync.ID())
+
+	if stateful, ok := sync.(StatefullyDeletedResource); ok {
+		if e := waitForStateRefreshForHybridPollingVar(workRequestClient, workRequestIds, entityType, action, disableFoundRetries, stateful, d.Timeout(schema.TimeoutDelete), "creation", stateful.DeletedPending(), stateful.DeletedTarget()); e != nil {
+			return e
+		}
+	}
+
+	if ew, waitOK := sync.(ExtraWaitPostCreateDelete); waitOK {
+		time.Sleep(ew.ExtraWaitPostCreateDelete())
+	}
+
+	sync.VoidState()
+
+	return nil
+}
+
 func CreateResourceUsingHybridPolling(sync ResourceCreator) error {
 	if e := sync.Create(); e != nil {
 		return HandleErrorVar(sync, e)
@@ -289,6 +339,14 @@ func ReadResource(sync ResourceReader) error {
 	return nil
 }
 
+func UpdateResourceUsingHybridPolling(d schemaResourceData, sync ResourceUpdater) error {
+	if e := sync.Update(); e != nil {
+		return HandleErrorVar(sync, e)
+	}
+
+	return nil
+}
+
 func UpdateResource(d schemaResourceData, sync ResourceUpdater) error {
 	if synchronizedResource, ok := sync.(SynchronizedResource); ok {
 		if mutex := synchronizedResource.GetMutex(); mutex != nil {
@@ -313,6 +371,14 @@ func UpdateResource(d schemaResourceData, sync ResourceUpdater) error {
 
 	if e := sync.SetData(); e != nil {
 		return e
+	}
+
+	return nil
+}
+
+func DeleteResourceUsingHybridPolling(d schemaResourceData, sync ResourceDeleter) error {
+	if e := sync.Delete(); e != nil {
+		return HandleErrorVar(sync, e)
 	}
 
 	return nil
