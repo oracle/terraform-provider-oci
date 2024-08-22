@@ -7,6 +7,7 @@ import (
 	"os"
 
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
+	"os"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
