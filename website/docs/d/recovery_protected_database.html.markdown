@@ -72,6 +72,7 @@ The following attributes are exported:
 	* `recovery_service_subnet_id` - Recovery Service Subnet Identifier.
 	* `state` - The current state of the Recovery Service Subnet.
 * `state` - The current state of the Protected Database.
+* `subscription_id` - The OCID of the cloud service subscription to which the protected database is linked.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `time_created` - An RFC3339 formatted datetime string that indicates the created time for a protected database. For example: '2020-05-22T21:10:29.600Z' 
 * `time_updated` - An RFC3339 formatted datetime string that indicates the last updated time for a protected database. For example: '2020-05-22T21:10:29.600Z' 

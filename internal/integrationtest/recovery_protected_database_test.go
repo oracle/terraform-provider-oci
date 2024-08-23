@@ -61,12 +61,9 @@ var (
 		"deletion_schedule":        acctest.Representation{RepType: acctest.Optional, Create: `DELETE_AFTER_72_HOURS`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_redo_logs_shipped":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"subscription_id":          acctest.Representation{RepType: acctest.Optional, Create: `ocid1.organizationssubscription.oc1..amaaaaaa6jqx4paaa2rxk42owtrtvwkhauvoqb2equbymlvdrlv5tclvvvta`, Update: `ocid1.organizationssubscription.oc1..amaaaaaa6jqx4paaa2rxk42owtrtvwkhauvoqb2equbymlvdrlv5tclvvita`},
 		"lifecycle":                acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
 	}
-	recoveryIgnoreDefinedTagsRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
-
 	RecoveryProtectedDatabaseRecoveryServiceSubnetsRepresentation = map[string]interface{}{
 		"recovery_service_subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_recovery_recovery_service_subnet.test_recovery_service_subnet.id}`},
 	}
@@ -96,6 +93,10 @@ var (
 		recoveryProtectionPolicyDependency +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies
+
+	recoveryIgnoreDefinedTagsRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
+	}
 )
 
 // issue-routing-tag: recovery/default
@@ -163,6 +164,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -198,6 +200,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
@@ -228,6 +231,7 @@ func TestRecoveryProtectedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "protection_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "recovery_service_subnets.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "recovery_service_subnets.0.recovery_service_subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vpc_user_name"),
 
 				func(s *terraform.State) (err error) {
