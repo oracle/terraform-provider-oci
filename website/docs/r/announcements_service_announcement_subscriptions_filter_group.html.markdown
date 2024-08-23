@@ -36,7 +36,7 @@ The following arguments are supported:
 
 * `announcement_subscription_id` - (Required) The OCID of the announcement subscription.
 * `filters` - (Required) (Updatable) A list of filters against which the Announcements service will match announcements. You cannot have more than one of any given filter type within a filter group.
-	* `type` - (Required) (Updatable) The type of filter.
+	* `type` - (Required) (Updatable) The type of filter. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
 	* `value` - (Required) (Updatable) The value of the filter.
 * `name` - (Required) The name of the filter group. The name must be unique and it cannot be changed. Avoid entering confidential information.
 
@@ -48,8 +48,8 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `filters` - A list of filters against which the Announcements service matches announcements. You cannot have more than one of any given filter type within a filter group. You also cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group.
-	* `type` - The type of filter.
+* `filters` - A list of filters against which the Announcements service matches announcements. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
+	* `type` - The type of filter. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
 	* `value` - The value of the filter.
 * `name` - The name of the group. The name must be unique and it cannot be changed. Avoid entering confidential information.
 
