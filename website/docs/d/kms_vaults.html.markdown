@@ -58,6 +58,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the vault.
 * `is_primary` - A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
+* `is_vault_replicable` - A Boolean value that indicates whether the Vault has cross region replication capability. Always true for Virtual Private Vaults.
 * `management_endpoint` - The service endpoint to perform management operations against. Management operations include "Create," "Update," "List," "Get," and "Delete" operations. 
 * `replica_details` - Vault replica details 
 	* `replication_id` - ReplicationId associated with a vault operation 

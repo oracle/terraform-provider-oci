@@ -62,12 +62,12 @@ resource "oci_kms_key" "test_key" {
 The following arguments are supported:
 
 * `auto_key_rotation_details` - (Optional) (Updatable) The details of auto rotation schedule for the Key being create updated or imported.
-	* `last_rotation_message` - (Optional) (Updatable) The last execution status message. 
+	* `last_rotation_message` - (Optional) (Updatable) The last execution status message of auto key rotation. 
 	* `last_rotation_status` - (Optional) (Updatable) The status of last execution of auto key rotation.
-	* `rotation_interval_in_days` - (Optional) (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 30 day and 365 days (1 year)
-	* `time_of_last_rotation` - (Optional) (Updatable) A  property indicating Last rotation Date Example: `2023-04-04T00:00:00Z`.
-	* `time_of_next_rotation` - (Optional) (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z` .
-	* `time_of_schedule_start` - (Optional) (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z` .
+	* `rotation_interval_in_days` - (Optional) (Updatable) The interval of auto key rotation. For auto key rotation the interval should between 60 day and 365 days (1 year). Note: User must specify this parameter when creating a new schedule.
+	* `time_of_last_rotation` - (Optional) (Updatable) A property indicating Last rotation Date. Example: `2023-04-04T00:00:00Z`.
+	* `time_of_next_rotation` - (Optional) (Updatable) A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z`. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z. 
+	* `time_of_schedule_start` - (Optional) (Updatable) A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z . Note : Today’s date will be used if not specified by customer.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where you want to create the master encryption key.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `desired_state` - (Optional) (Updatable) Desired state of the key. Possible values : `ENABLED` or `DISABLED`
@@ -106,12 +106,12 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `auto_key_rotation_details` - The details of auto rotation schedule for the Key being create updated or imported.
-	* `last_rotation_message` - The last execution status message. 
+	* `last_rotation_message` - The last execution status message of auto key rotation. 
 	* `last_rotation_status` - The status of last execution of auto key rotation.
-	* `rotation_interval_in_days` - The interval of auto key rotation. For auto key rotation the interval should between 30 day and 365 days (1 year)
-	* `time_of_last_rotation` - A  property indicating Last rotation Date Example: `2023-04-04T00:00:00Z`.
-	* `time_of_next_rotation` - A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z` .
-	* `time_of_schedule_start` - A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z` .
+	* `rotation_interval_in_days` - The interval of auto key rotation. For auto key rotation the interval should between 60 day and 365 days (1 year). Note: User must specify this parameter when creating a new schedule.
+	* `time_of_last_rotation` - A property indicating Last rotation Date. Example: `2023-04-04T00:00:00Z`.
+	* `time_of_next_rotation` - A property indicating Next estimated scheduled Time, as per the interval, expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z`. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z. 
+	* `time_of_schedule_start` - A property indicating  scheduled start date expressed as date YYYY-MM-DD String. Example: `2023-04-04T00:00:00Z. The time has no significance when scheduling an auto key rotation as this can be done anytime approximately the scheduled day, KMS ignores the time and replaces it with 00:00, for example 2023-04-04T15:14:13Z will be used as 2023-04-04T00:00:00Z . Note : Today’s date will be used if not specified by customer.
 * `compartment_id` - The OCID of the compartment that contains this master encryption key.
 * `current_key_version` - The OCID of the key version used in cryptographic operations. During key rotation, the service might be in a transitional state where this or a newer key version are used intermittently. The `currentKeyVersion` property is updated when the service is guaranteed to use the new key version for all subsequent encryption operations. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 

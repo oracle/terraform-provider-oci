@@ -369,6 +369,7 @@ func TestKmsVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_vault_replicable"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "management_endpoint"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
