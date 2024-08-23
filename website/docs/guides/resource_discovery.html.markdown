@@ -157,7 +157,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `dataflow` - Discovers dataflow resources within the specified compartment
     * `dataintegration` - Discovers dataintegration resources within the specified compartment
     * `datascience` - Discovers datascience resources within the specified compartment
-    * `delegate_access_control` - Discovers delegate_access_control resources within the specified compartment
     * `demand_signal` - Discovers demand_signal resources within the specified compartment
     * `desktops` - Discovers desktop pool resources within the specified compartment
     * `devops` - Discovers devops resources within the specified compartment
@@ -166,11 +165,10 @@ Make sure the `output_path` is empty before running resource discovery
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
-    * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
+    * `fleet_software_update` - Discovers fleet_software_update resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
-    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
     * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
@@ -214,7 +212,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
-    * `security_attribute` - Discovers security attribute resources in the tenancy
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
@@ -227,7 +224,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `waa` - Discovers waa resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
     * `waf` - Discovers waf resources within the specified compartment
-    * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
     * 0.12
@@ -415,7 +411,7 @@ bds
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
 * oci\_bds\_bds\_instance\_metastore\_config
-* oci\_bds\_bds\_instance\_resource\_principal\_configuration
+* oci\_bds\_bds\_instance\_identity\_configuration
 
 blockchain
     
@@ -430,10 +426,8 @@ budget
 
 capacity_management
     
-* oci\_capacity\_management\_occ\_customer\_group
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
-* oci\_capacity\_management\_occ\_customer\_group\_occ\_customer
 
 certificates_management
     
@@ -549,6 +543,7 @@ core
 * oci\_core\_vtap
 * oci\_core\_compute\_cluster
 * oci\_core\_compute\_capacity\_report
+* oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
 
 data_labeling_service
@@ -586,15 +581,14 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
-* oci\_data\_safe\_calculate\_audit\_volume\_available
-* oci\_data\_safe\_calculate\_audit\_volume\_collected
-* oci\_data\_safe\_generate\_on\_prem\_connector\_configuration
 * oci\_data\_safe\_security\_policy\_deployment
 * oci\_data\_safe\_security\_policy
 * oci\_data\_safe\_database\_security\_config
 * oci\_data\_safe\_sql\_firewall\_policy
 * oci\_data\_safe\_sql\_collection
 * oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_calculate\_audit\_volume\_available
+* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
     
@@ -628,7 +622,6 @@ database
 * oci\_database\_application\_vip
 * oci\_database\_oneoff\_patch
 * oci\_database\_db\_node\_console\_history
-* oci\_database\_autonomous\_database\_software\_image
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 
@@ -685,11 +678,6 @@ datascience
 * oci\_datascience\_pipeline
 * oci\_datascience\_data\_science\_private\_endpoint
 
-delegate_access_control
-    
-* oci\_delegate\_access\_control\_delegation\_subscription
-* oci\_delegate\_access\_control\_delegation\_control
-
 demand_signal
     
 * oci\_demand\_signal\_occ\_demand\_signal
@@ -730,6 +718,9 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
 
 email
     
@@ -752,17 +743,10 @@ file_storage
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
 
-fleet_apps_management
+fleet_software_update
     
-* oci\_fleet\_apps\_management\_task\_record
-* oci\_fleet\_apps\_management\_maintenance\_window
-* oci\_fleet\_apps\_management\_fleet
-* oci\_fleet\_apps\_management\_scheduler\_definition
-* oci\_fleet\_apps\_management\_property
-* oci\_fleet\_apps\_management\_runbook
-* oci\_fleet\_apps\_management\_platform\_configuration
-* oci\_fleet\_apps\_management\_compliance\_policy\_rule
-* oci\_fleet\_apps\_management\_patch
+* oci\_fleet\_software\_update\_fsu\_cycle
+* oci\_fleet\_software\_update\_fsu\_collection
 
 functions
     
@@ -784,14 +768,6 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
-
-generative_ai_agent
-    
-* oci\_generative\_ai\_agent\_data\_source
-* oci\_generative\_ai\_agent\_agent
-* oci\_generative\_ai\_agent\_data\_ingestion\_job
-* oci\_generative\_ai\_agent\_knowledge\_base
-* oci\_generative\_ai\_agent\_agent\_endpoint
 
 globally_distributed_database
     
@@ -1156,11 +1132,6 @@ sch
     
 * oci\_sch\_service\_connector
 
-security_attribute
-    
-* oci\_security\_attribute\_security\_attribute\_namespace
-* oci\_security\_attribute\_security\_attribute
-
 service_mesh
     
 * oci\_service\_mesh\_virtual\_service
@@ -1185,9 +1156,6 @@ stack_monitoring
 * oci\_stack\_monitoring\_metric\_extension
 * oci\_stack\_monitoring\_baselineable\_metric
 * oci\_stack\_monitoring\_process\_set
-* oci\_stack\_monitoring\_maintenance\_window
-* oci\_stack\_monitoring\_maintenance\_windows\_retry\_failed\_operation
-* oci\_stack\_monitoring\_maintenance\_windows\_stop
 
 streaming
     
@@ -1240,8 +1208,3 @@ waf
 * oci\_waf\_web\_app\_firewall\_policy
 * oci\_waf\_web\_app\_firewall
 * oci\_waf\_network\_address\_list
-
-zpr
-    
-* oci\_zpr\_configuration
-* oci\_zpr\_zpr\_policy

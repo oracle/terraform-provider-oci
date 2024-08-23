@@ -9,6 +9,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_bds_auto_scaling_configuration", BdsAutoScalingConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance", BdsBdsInstanceResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyResource())
+	tfresource.RegisterResource("oci_bds_bds_instance_identity_configuration", BdsBdsInstanceIdentityConfigurationResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_metastore_config", BdsBdsInstanceMetastoreConfigResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_operation_certificate_managements_management", BdsBdsInstanceOperationCertificateManagementsManagementResource())
 	tfresource.RegisterResource("oci_bds_bds_instance_patch_action", BdsBdsInstancePatchActionResource())

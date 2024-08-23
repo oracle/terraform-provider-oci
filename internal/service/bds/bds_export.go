@@ -10,9 +10,11 @@ import (
 
 func init() {
 	exportBdsBdsInstanceApiKeyHints.GetIdFn = getBdsBdsInstanceApiKeyId
-	exportBdsBdsInstanceResourcePrincipalConfigurationHints.GetIdFn = getBdsBdsInstanceResourcePrincipalConfigurationId
+	exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
+	exportBdsBdsInstanceIdentityConfigurationHints.GetIdFn = getBdsBdsInstanceIdentityConfigurationId
 	exportBdsBdsInstanceApiKeyHints.ProcessDiscoveredResourcesFn = processBdsInstanceApiKeys
 	exportBdsBdsInstanceMetastoreConfigHints.ProcessDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
+	exportBdsBdsInstanceIdentityConfigurationHints.ProcessDiscoveredResourcesFn = processBdsInstanceIdentityConfigurations
 	tf_export.RegisterCompartmentGraphs("bds", bdsResourceGraph)
 }
 
@@ -37,6 +39,14 @@ func processBdsInstanceApiKeys(ctx *tf_export.ResourceDiscoveryContext, resource
 	}
 	return resources, nil
 }
+func processBdsInstanceIdentityConfigurations(ctx *tf_export.ResourceDiscoveryContext, resources []*tf_export.OCIResource) ([]*tf_export.OCIResource, error) {
+	for _, resource := range resources {
+		identityConfigurationId := resource.Id
+		bdsInstanceId := resource.SourceAttributes["bds_instance_id"].(string)
+		resource.ImportId = GetBdsInstanceIdentityConfigurationCompositeId(bdsInstanceId, identityConfigurationId)
+	}
+	return resources, nil
+}
 
 func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) {
 
@@ -48,14 +58,24 @@ func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) 
 	return GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
 
-func getBdsBdsInstanceResourcePrincipalConfigurationId(resource *tf_export.OCIResource) (string, error) {
+func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string, error) {
 
 	bdsInstanceId := resource.Parent.Id
-	resourcePrincipalConfigurationId, ok := resource.SourceAttributes["resource_principal_configuration_id"].(string)
+	metastoreConfigId, ok := resource.SourceAttributes["metastore_config_id"].(string)
 	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find resourcePrincipalConfigurationId for Bds BdsInstanceResourcePrincipalConfiguration")
+		return "", fmt.Errorf("[ERROR] unable to find metastoreConfigId for Bds BdsInstanceMetastoreConfig")
 	}
-	return GetBdsInstanceResourcePrincipalConfigurationCompositeId(bdsInstanceId, resourcePrincipalConfigurationId), nil
+	return GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId), nil
+}
+
+func getBdsBdsInstanceIdentityConfigurationId(resource *tf_export.OCIResource) (string, error) {
+
+	bdsInstanceId := resource.Parent.Id
+	identityConfigurationId, ok := resource.SourceAttributes["id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find identityConfigurationId for Bds BdsInstanceIdentityConfiguration")
+	}
+	return GetBdsInstanceIdentityConfigurationCompositeId(bdsInstanceId, identityConfigurationId), nil
 }
 
 // Hints for discovering and exporting this resource to configuration and state files
@@ -91,14 +111,14 @@ var exportBdsBdsInstanceMetastoreConfigHints = &tf_export.TerraformResourceHints
 	},
 }
 
-var exportBdsBdsInstanceResourcePrincipalConfigurationHints = &tf_export.TerraformResourceHints{
-	ResourceClass:          "oci_bds_bds_instance_resource_principal_configuration",
-	DatasourceClass:        "oci_bds_bds_instance_resource_principal_configurations",
-	DatasourceItemsAttr:    "resource_principal_configurations",
-	ResourceAbbreviation:   "bds_instance_resource_principal_configuration",
+var exportBdsBdsInstanceIdentityConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_bds_bds_instance_identity_configuration",
+	DatasourceClass:        "oci_bds_bds_instance_identity_configurations",
+	DatasourceItemsAttr:    "identity_configurations",
+	ResourceAbbreviation:   "bds_instance_identity_configuration",
 	RequireResourceRefresh: true,
 	DiscoverableLifecycleStates: []string{
-		string(oci_bds.ResourcePrincipalConfigurationLifecycleStateActive),
+		string(oci_bds.IdentityConfigurationLifecycleStateActive),
 	},
 }
 
@@ -114,13 +134,13 @@ var bdsResourceGraph = tf_export.TerraformResourceGraph{
 			},
 		},
 		{
-			TerraformResourceHints: exportBdsBdsInstanceMetastoreConfigHints,
+			TerraformResourceHints: exportBdsBdsInstanceIdentityConfigurationHints,
 			DatasourceQueryParams: map[string]string{
 				"bds_instance_id": "id",
 			},
 		},
 		{
-			TerraformResourceHints: exportBdsBdsInstanceResourcePrincipalConfigurationHints,
+			TerraformResourceHints: exportBdsBdsInstanceMetastoreConfigHints,
 			DatasourceQueryParams: map[string]string{
 				"bds_instance_id": "id",
 			},
