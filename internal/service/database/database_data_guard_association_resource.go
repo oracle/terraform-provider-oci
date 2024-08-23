@@ -166,6 +166,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"domain": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"fault_domains": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -697,6 +703,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if displayName, ok := s.D.GetOkExists("display_name"); ok {
 			tmp := displayName.(string)
 			details.DisplayName = &tmp
+		}
+		if domain, ok := s.D.GetOkExists("domain"); ok {
+			tmp := domain.(string)
+			details.Domain = &tmp
 		}
 		if faultDomains, ok := s.D.GetOkExists("fault_domains"); ok {
 			interfaces := faultDomains.([]interface{})
