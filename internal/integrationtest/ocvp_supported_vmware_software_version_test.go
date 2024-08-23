@@ -16,9 +16,10 @@ import (
 
 var (
 	OcvpSupportedVmwareSoftwareVersionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"host_shape_name": acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
-		"version":         acctest.Representation{RepType: acctest.Optional, Create: `7.0 update 3`},
+		"compartment_id":     acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"host_shape_name":    acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO2.52`},
+		"version":            acctest.Representation{RepType: acctest.Optional, Create: `7.0 update 3`},
+		"version_to_upgrade": acctest.Representation{RepType: acctest.Optional, Create: `7.0 update 2`},
 	}
 
 	OcvpSupportedVmwareSoftwareVersionResourceConfig = ""
@@ -59,6 +60,7 @@ func TestOcvpSupportedVmwareSoftwareVersionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "host_shape_name"),
+				resource.TestCheckResourceAttr(datasourceName, "version_to_upgrade", "7.0 update 2"),
 				resource.TestCheckResourceAttr(datasourceName, "version", `7.0 update 3`),
 
 				resource.TestCheckResourceAttr(datasourceName, "items.0.description", "7.0 update 3"),

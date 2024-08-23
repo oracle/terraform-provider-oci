@@ -30,6 +30,10 @@ func OcvpSupportedVmwareSoftwareVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"version_to_upgrade": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"items": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -117,6 +121,11 @@ func (s *OcvpSupportedVmwareSoftwareVersionsDataSourceCrud) Get() error {
 	if version, ok := s.D.GetOkExists("version"); ok {
 		tmp := version.(string)
 		request.Version = &tmp
+	}
+
+	if versionToUpgrade, ok := s.D.GetOkExists("version_to_upgrade"); ok {
+		tmp := versionToUpgrade.(string)
+		request.VersionToUpgrade = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "ocvp")
