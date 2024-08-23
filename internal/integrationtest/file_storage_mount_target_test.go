@@ -43,6 +43,7 @@ var (
 	}
 
 	FileStorageMountTargetRepresentation = map[string]interface{}{
+
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -56,6 +57,17 @@ var (
 		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+	FileStorageHPMTMountTargetRepresentation = map[string]interface{}{
+		"availability_domain":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `mount-target-6`},
+		"hostname_label":       acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"ip_address":           acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"requested_throughput": acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 	FileStorageMountTargetKerberosRepresentation = map[string]interface{}{
 		"kerberos_realm":                 acctest.Representation{RepType: acctest.Required, Create: `kerberosRealm`, Update: `kerberosRealm2`},
@@ -193,6 +205,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -241,6 +254,8 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.negative_cache_lifetime_seconds", "300"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.user_search_base", "userSearchBase"),
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -286,6 +301,7 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector1id"),
 				resource.TestCheckResourceAttrSet(resourceName, "ldap_idmap.0.outbound_connector2id"),
 				resource.TestCheckResourceAttr(resourceName, "ldap_idmap.0.schema_type", "RFC2307"),
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -311,6 +327,9 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.export_set_id"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.observed_throughput"),
+				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.requested_throughput", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.reserved_storage_capacity"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.nsg_ids.#", "0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "mount_targets.0.private_ip_ids.#"),
 				resource.TestCheckResourceAttr(datasourceName, "mount_targets.0.state", string(oci_file_storage.MountTargetLifecycleStateActive)),
@@ -380,6 +399,103 @@ func TestFileStorageMountTargetResource_failedWorkRequest(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
 			),
 			ExpectError: regexp.MustCompile("Resource creation failed"),
+		},
+	})
+}
+
+func TestFileStorageMountTargetResource_hpmtTest(t *testing.T) {
+	httpreplay.SetScenario("TestFileStorageMountTargetResource_hpmtTest")
+	defer httpreplay.SaveScenario()
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_file_storage_mount_target.test_mount_target3"
+
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+FileStorageMountTargetResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target",
+			"test_mount_target3", acctest.Optional, acctest.Create, FileStorageHPMTMountTargetRepresentation), "filestorage", "mountTarget", t)
+
+	var resId, resId2 string
+
+	acctest.ResourceTest(t, testAccCheckFileStorageMountTargetDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target3", acctest.Optional, acctest.Create, FileStorageHPMTMountTargetRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "observed_throughput"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_storage_capacity", "0"),
+				resource.TestCheckNoResourceAttr(resourceName, "time_billing_cycle_end"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify Upgrade
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target3", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(FileStorageHPMTMountTargetRepresentation, map[string]interface{}{
+						"requested_throughput": acctest.Representation{RepType: acctest.Optional, Update: `20`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "20"),
+				resource.TestCheckResourceAttr(resourceName, "observed_throughput", "20"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_storage_capacity", "20000"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_billing_cycle_end"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		// verify downgrade hpmt related parameters
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target3", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(FileStorageHPMTMountTargetRepresentation, map[string]interface{}{
+						"requested_throughput": acctest.Representation{RepType: acctest.Optional, Update: `1`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				func(s *terraform.State) (err error) {
+					time.Sleep(3 * time.Minute)
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target3", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(FileStorageHPMTMountTargetRepresentation, map[string]interface{}{
+						"display_name": acctest.Representation{RepType: acctest.Optional, Update: `hpmt_mt`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "requested_throughput", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "observed_throughput"),
+				resource.TestCheckResourceAttr(resourceName, "reserved_storage_capacity", "0"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
 		},
 	})
 }

@@ -5,6 +5,7 @@ package file_storage
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -158,12 +159,28 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 
 		mountTarget["nsg_ids"] = r.NsgIds
 
+		if r.ObservedThroughput != nil {
+			mountTarget["observed_throughput"] = strconv.FormatInt(*r.ObservedThroughput, 10)
+		}
+
 		mountTarget["private_ip_ids"] = r.PrivateIpIds
+
+		if r.RequestedThroughput != nil {
+			mountTarget["requested_throughput"] = strconv.FormatInt(*r.RequestedThroughput, 10)
+		}
+
+		if r.ReservedStorageCapacity != nil {
+			mountTarget["reserved_storage_capacity"] = strconv.FormatInt(*r.ReservedStorageCapacity, 10)
+		}
 
 		mountTarget["state"] = r.LifecycleState
 
 		if r.SubnetId != nil {
 			mountTarget["subnet_id"] = *r.SubnetId
+		}
+
+		if r.TimeBillingCycleEnd != nil {
+			mountTarget["time_billing_cycle_end"] = r.TimeBillingCycleEnd.String()
 		}
 
 		if r.TimeCreated != nil {
