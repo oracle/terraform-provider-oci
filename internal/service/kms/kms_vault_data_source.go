@@ -94,6 +94,10 @@ func (s *KmsVaultDataSourceCrud) SetData() error {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
 
+	if s.Res.IsVaultReplicable != nil {
+		s.D.Set("is_vault_replicable", *s.Res.IsVaultReplicable)
+	}
+
 	if s.Res.ManagementEndpoint != nil {
 		s.D.Set("management_endpoint", *s.Res.ManagementEndpoint)
 	}
