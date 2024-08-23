@@ -380,6 +380,10 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																			Type:     schema.TypeString,
 																			Computed: true,
 																		},
+																		"named_credential_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
 																		"password_secret_id": {
 																			Type:     schema.TypeString,
 																			Computed: true,
@@ -572,6 +576,10 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																Computed: true,
 															},
 															"credential_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"named_credential_id": {
 																Type:     schema.TypeString,
 																Computed: true,
 															},
@@ -923,6 +931,10 @@ func DatabaseManagementExternalDbSystemDiscoveryResource() *schema.Resource {
 																			Computed: true,
 																		},
 																		"credential_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"named_credential_id": {
 																			Type:     schema.TypeString,
 																			Computed: true,
 																		},
@@ -1673,6 +1685,13 @@ func (s *DatabaseManagementExternalDbSystemDiscoveryResourceCrud) mapToDatabaseC
 		if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 			tmp := userName.(string)
 			details.UserName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialConnectionDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("NAME_REFERENCE"):
