@@ -210,6 +210,10 @@ func IdentityDomainsUserResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"force_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"ims": {
 				Type:     schema.TypeList,
 				Optional: true,
