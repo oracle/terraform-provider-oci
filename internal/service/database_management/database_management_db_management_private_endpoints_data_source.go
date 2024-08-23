@@ -26,6 +26,10 @@ func DatabaseManagementDbManagementPrivateEndpointsDataSource() *schema.Resource
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"is_dns_resolution_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -85,6 +89,11 @@ func (s *DatabaseManagementDbManagementPrivateEndpointsDataSourceCrud) Get() err
 	if isCluster, ok := s.D.GetOkExists("is_cluster"); ok {
 		tmp := isCluster.(bool)
 		request.IsCluster = &tmp
+	}
+
+	if isDnsResolutionEnabled, ok := s.D.GetOkExists("is_dns_resolution_enabled"); ok {
+		tmp := isDnsResolutionEnabled.(bool)
+		request.IsDnsResolutionEnabled = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

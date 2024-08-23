@@ -302,7 +302,7 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
   }
   database_id = var.cloud_cdb_id
   enable_database_dbm_feature = "true"
-  
+
 }
 
 # Modify DIAGNOSTICS_AND_MANAGEMENT
@@ -419,7 +419,7 @@ resource "oci_database_management_pluggabledatabase_pluggable_database_dbm_featu
 }
 
 
-# Disable DIAGNOSTICS_AND_MANAGEMENT for Cloud CDB 
+# Disable DIAGNOSTICS_AND_MANAGEMENT for Cloud CDB
 resource "oci_database_management_database_dbm_features_management" "test_database_dbm_features_management_diag_disable" {
   feature_details {
     feature = "DIAGNOSTICS_AND_MANAGEMENT"
@@ -431,4 +431,58 @@ resource "oci_database_management_database_dbm_features_management" "test_databa
   depends_on = [
     oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management.test_pluggabledatabase_pluggable_database_dbm_features_management_disable_diag
   ]
+}
+
+variable "adb_id" {
+  default = "ocid1.autonomousdatabase<>"
+}
+
+variable "adb_service_name" {
+  default = "<>"
+}
+
+variable "adb_username" {
+  default = "ADMIN"
+}
+
+variable "adb_port" {
+  default = "1521"
+}
+
+variable "adb_pe_id" {
+  default = "ocid1.dbmgmtprivateendpoint<>"
+}
+
+variable "adb_secret_id" {
+  default = "ocid1.vaultsecret<>"
+}
+
+variable "adb_protocol" {
+  default = "TCPS"
+}
+
+resource "oci_database_management_autonomous_database_autonomous_database_dbm_features_management" "test_adb_dbm_features_management" {
+  feature_details {
+    connector_details {
+      connector_type = "PE"
+      private_end_point_id = var.adb_pe_id
+    }
+    database_connection_details {
+      connection_credentials {
+        credential_type = "DETAILS"
+        password_secret_id = var.adb_secret_id
+        role = "NORMAL"
+        user_name = var.adb_username
+      }
+      connection_string {
+        connection_type = "BASIC"
+        port = var.adb_port
+        protocol = var.adb_protocol
+        service = var.adb_service_name
+      }
+    }
+    feature = "DIAGNOSTICS_AND_MANAGEMENT"
+  }
+  autonomous_database_id = var.adb_id
+  enable_autonomous_database_dbm_feature = "true"
 }
