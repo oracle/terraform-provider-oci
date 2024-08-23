@@ -84,6 +84,10 @@ func (s *DatabaseManagementDbManagementPrivateEndpointDataSourceCrud) SetData() 
 		s.D.Set("is_cluster", *s.Res.IsCluster)
 	}
 
+	if s.Res.IsDnsResolutionEnabled != nil {
+		s.D.Set("is_dns_resolution_enabled", *s.Res.IsDnsResolutionEnabled)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}

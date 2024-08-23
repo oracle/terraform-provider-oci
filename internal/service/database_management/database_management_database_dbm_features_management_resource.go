@@ -80,6 +80,7 @@ func DatabaseManagementDatabaseDbmFeaturesManagementResource() *schema.Resource 
 										Optional:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -452,6 +453,9 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToConne
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
