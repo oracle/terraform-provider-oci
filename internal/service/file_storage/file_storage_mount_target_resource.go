@@ -6,6 +6,8 @@ package file_storage
 import (
 	"context"
 	"fmt"
+	"strconv"
+	"strings"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -181,6 +183,13 @@ func FileStorageMountTargetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"requested_throughput": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ValidateFunc:     tfresource.ValidateInt64TypeString,
+				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
 
 			// Computed
 			"export_set_id": {
@@ -191,6 +200,10 @@ func FileStorageMountTargetResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"observed_throughput": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"private_ip_ids": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -198,7 +211,15 @@ func FileStorageMountTargetResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"reserved_storage_capacity": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_billing_cycle_end": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -365,6 +386,15 @@ func (s *FileStorageMountTargetResourceCrud) Create() error {
 		}
 	}
 
+	if requestedThroughput, ok := s.D.GetOkExists("requested_throughput"); ok {
+		tmp := requestedThroughput.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert requestedThroughput string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.RequestedThroughput = &tmpInt64
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -403,6 +433,41 @@ func (s *FileStorageMountTargetResourceCrud) Get() error {
 }
 
 func (s *FileStorageMountTargetResourceCrud) Update() error {
+	if _, ok := s.D.GetOkExists("state"); ok &&
+		s.D.Get("state") == string(oci_file_storage.MountTargetLifecycleStateUpdating) &&
+		!s.D.HasChange("requested_throughput") && !s.D.HasChange("compartment_id") &&
+		!s.D.HasChange("display_name") && !s.D.HasChange("freeform_tags") &&
+		!s.D.HasChange("idmap_type") && !s.D.HasChange("kerberos") &&
+		!s.D.HasChange("nsg_ids") && !s.D.HasChange("ldap_idmap") {
+		/* Since there is no trigger handle for CancelDowngradeShapeMountTarget,
+		so we will check if the UPDATE operation is triggered by other fields changes
+		IMPORTANT: Need to update the condition here if there is a new field in Update operation.
+		Otherwise, it will trigger CancelDowngrade in HPMT MT test case */
+		err := s.CancelDowngradeShapeMountTarget()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := s.D.GetOkExists("requested_throughput"); ok && s.D.HasChange("requested_throughput") {
+		oldRaw, newRaw := s.D.GetChange("requested_throughput")
+		if oldRaw != "" && newRaw != "" {
+			oldV := oldRaw.(string)
+			newV := newRaw.(string)
+			if strings.Compare(oldV, newV) < 0 {
+				err := s.UpgradeShapeMountTarget()
+				if err != nil {
+					return err
+				}
+			} else {
+				err := s.ScheduleDowngradeShapeMountTarget()
+				if err != nil {
+					return err
+				}
+			}
+		}
+	}
+
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
 		if newRaw != "" && oldRaw != "" {
@@ -544,7 +609,19 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 	}
 	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
+	if s.Res.ObservedThroughput != nil {
+		s.D.Set("observed_throughput", strconv.FormatInt(*s.Res.ObservedThroughput, 10))
+	}
+
 	s.D.Set("private_ip_ids", s.Res.PrivateIpIds)
+
+	if s.Res.RequestedThroughput != nil {
+		s.D.Set("requested_throughput", strconv.FormatInt(*s.Res.RequestedThroughput, 10))
+	}
+
+	if s.Res.ReservedStorageCapacity != nil {
+		s.D.Set("reserved_storage_capacity", strconv.FormatInt(*s.Res.ReservedStorageCapacity, 10))
+	}
 
 	// Service returns only 1 item in this field
 	if len(s.Res.PrivateIpIds) > 0 {
@@ -560,8 +637,90 @@ func (s *FileStorageMountTargetResourceCrud) SetData() error {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
+	if s.Res.TimeBillingCycleEnd != nil {
+		s.D.Set("time_billing_cycle_end", s.Res.TimeBillingCycleEnd.String())
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	return nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) CancelDowngradeShapeMountTarget() error {
+	request := oci_file_storage.CancelDowngradeShapeMountTargetRequest{}
+
+	idTmp := s.D.Id()
+	request.MountTargetId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.CancelDowngradeShapeMountTarget(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) ScheduleDowngradeShapeMountTarget() error {
+	request := oci_file_storage.ScheduleDowngradeShapeMountTargetRequest{}
+
+	idTmp := s.D.Id()
+	request.MountTargetId = &idTmp
+
+	if requestedThroughput, ok := s.D.GetOkExists("requested_throughput"); ok {
+		tmp := requestedThroughput.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert requestedThroughput string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.RequestedThroughput = &tmpInt64
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.ScheduleDowngradeShapeMountTarget(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
+func (s *FileStorageMountTargetResourceCrud) UpgradeShapeMountTarget() error {
+	request := oci_file_storage.UpgradeShapeMountTargetRequest{}
+
+	idTmp := s.D.Id()
+	request.MountTargetId = &idTmp
+
+	if requestedThroughput, ok := s.D.GetOkExists("requested_throughput"); ok {
+		tmp := requestedThroughput.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return fmt.Errorf("unable to convert requestedThroughput string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		request.RequestedThroughput = &tmpInt64
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
+
+	_, err := s.Client.UpgradeShapeMountTarget(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
 	}
 
 	return nil
