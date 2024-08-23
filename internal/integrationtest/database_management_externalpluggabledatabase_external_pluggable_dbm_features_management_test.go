@@ -33,6 +33,16 @@ var (
 		"private_end_point_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_management_private_end_point.test_private_end_point.id}`},
 	}
 
+	DatabaseManagementExternalPluggableDbmSQLWatchFeaturesManagementRepresentation = map[string]interface{}{
+		"external_pluggable_database_id":        acctest.Representation{RepType: acctest.Required, Create: `${var.external_pdb_id}`},
+		"feature_details":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalPluggableDbmFeaturesManagementFeatureDetailsRepresentation},
+		"enable_external_pluggable_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+	}
+	DatabaseManagementExternalPluggableDbmSQLWatchFeaturesManagementFeatureDetailsRepresentation = map[string]interface{}{
+		"connector_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementExternalPluggableDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
+		"feature":           acctest.Representation{RepType: acctest.Required, Create: `SQLWATCH`},
+	}
+
 	ExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceDependencies = ""
 )
 
@@ -83,6 +93,28 @@ func TestDatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
+			),
+		},
+		// Enable SQL watch
+		{
+			Config: config + externalVariableStr + ExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_externalpluggabledatabase_external_pluggable_dbm_features_management", "test_externalpluggabledatabase_external_pluggable_dbm_features_management", acctest.Required, acctest.Create, DatabaseManagementExternalPluggableDbmSQLWatchFeaturesManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.connector_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.connector_details.0.connector_type", "EXTERNAL"),
+				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.connector_details.0.database_connector_id"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "SQLWATCH"),
+			),
+		},
+		// Disable SQL watch
+		{
+			Config: config + externalVariableStr + ExternalpluggabledatabaseExternalPluggableDbmFeaturesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_externalpluggabledatabase_external_pluggable_dbm_features_management", "test_externalpluggabledatabase_external_pluggable_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementExternalPluggableDbmSQLWatchFeaturesManagementRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "external_pluggable_database_id"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "SQLWATCH"),
 			),
 		},
 	})

@@ -76,11 +76,15 @@ func TestDatabaseManagementManagedDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "managed_database_id"),
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
+				//Optional
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "database_platform_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_status"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_sub_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "database_version"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+				// Optional
+				//resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "dbmgmt_feature_configs.#", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "deployment_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_cluster"),

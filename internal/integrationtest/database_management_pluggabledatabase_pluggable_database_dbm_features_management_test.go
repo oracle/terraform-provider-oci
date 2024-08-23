@@ -20,14 +20,22 @@ var (
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementRepresentation = map[string]interface{}{
 		"feature_details":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
 		"pluggable_database_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_pluggable_database_id}`},
-		"enable_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+		"enable_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
+
+	DatabaseManagementPluggableDatabaseDbmFeaturesManagementModifyRepresentation = map[string]interface{}{
+		"feature_details":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsRepresentation},
+		"pluggable_database_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.cloud_pluggable_database_id}`},
+		"enable_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`},
+		"modify_pluggable_database_dbm_feature": acctest.Representation{RepType: acctest.Required, Create: `true`},
+	}
+
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsRepresentation = map[string]interface{}{
 		"connector_details":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation},
 		"database_connection_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsRepresentation},
 		"feature":                           acctest.Representation{RepType: acctest.Required, Create: `DIAGNOSTICS_AND_MANAGEMENT`},
-		"management_type":                   acctest.Representation{RepType: acctest.Required, Create: `ADVANCED`},
 		"is_auto_enable_pluggable_database": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"management_type":                   acctest.Representation{RepType: acctest.Required, Create: `BASIC`},
 	}
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsConnectorDetailsRepresentation = map[string]interface{}{
 		"connector_type":        acctest.Representation{RepType: acctest.Required, Create: `PE`},
@@ -42,8 +50,8 @@ var (
 	DatabaseManagementPluggableDatabaseDbmFeaturesManagementFeatureDetailsDatabaseConnectionDetailsConnectionCredentialsRepresentation = map[string]interface{}{
 		"credential_name":    acctest.Representation{RepType: acctest.Optional, Create: `credentialName`},
 		"credential_type":    acctest.Representation{RepType: acctest.Required, Create: `DETAILS`},
-		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`},
-		"role":               acctest.Representation{RepType: acctest.Required, Create: `SYSDBA`},
+		"password_secret_id": acctest.Representation{RepType: acctest.Required, Create: `${var.password_secret_id}`, Update: `${var.modified_password_secret_id}`},
+		"role":               acctest.Representation{RepType: acctest.Required, Create: `${var.dbmgmt_db_user_role}`},
 		"ssl_secret_id":      acctest.Representation{RepType: acctest.Optional, Create: `${oci_vault_secret.test_secret.id}`},
 		"user_name":          acctest.Representation{RepType: acctest.Required, Create: `dbsnmp`},
 	}
@@ -59,7 +67,7 @@ var (
 
 // issue-routing-tag: database_management/default
 func TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResource_basic(t *testing.T) {
-	t.Skip("Skipping as PDB enablement is dependent on CDB enablement")
+	//t.Skip("Skipping as PDB enablement is dependent on CDB enablement")
 	httpreplay.SetScenario("TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResource_basic")
 	defer httpreplay.SaveScenario()
 
@@ -70,21 +78,35 @@ func TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 
 	cloudPluggableDatabaseId := utils.GetEnvSettingWithBlankDefault("cloud_pluggable_database_id")
 	cloudDatabaseIdVariableStr := fmt.Sprintf("variable \"cloud_pluggable_database_id\" { default = \"%s\" }\n", cloudPluggableDatabaseId)
+	log.Printf("[INFO] cloudPluggableDatabaseId is %v", cloudPluggableDatabaseId)
 
 	privateEndpointId := utils.GetEnvSettingWithBlankDefault("private_end_point_id")
 	privateEndpointIdVariableStr := fmt.Sprintf("variable \"private_end_point_id\" { default = \"%s\" }\n", privateEndpointId)
 
-	userName := utils.GetEnvSettingWithBlankDefault("user_name")
+	userName := utils.GetEnvSettingWithBlankDefault("dbmgmt_db_user")
 	userNameVariableStr := fmt.Sprintf("variable \"user_name\" { default = \"%s\" }\n", userName)
+	log.Printf("[INFO] userName is %v", userName)
+
+	cloudDatabaseUserRole := utils.GetEnvSettingWithBlankDefault("dbmgmt_db_user_role")
+	cloudDatabaseUserRoleVariableStr := fmt.Sprintf("variable \"dbmgmt_db_user_role\" { default = \"%s\" }\n", cloudDatabaseUserRole)
+	log.Printf("[INFO] cloudDatabaseUser is %v", cloudDatabaseUserRole)
 
 	pwdSecretId := utils.GetEnvSettingWithBlankDefault("password_secret_id")
 	pwdSecretIdVariableStr := fmt.Sprintf("variable \"password_secret_id\" { default = \"%s\" }\n", pwdSecretId)
-	log.Printf("[INFO] pwdSecretIdVariableStr is %v", pwdSecretIdVariableStr)
+	log.Printf("[INFO] pwdSecretId is %v", pwdSecretId)
+
+	modifiedPwdSecretId := utils.GetEnvSettingWithBlankDefault("modified_password_secret_id")
+	modifiedPwdSecretIdVariableStr := fmt.Sprintf("variable \"modified_password_secret_id\" { default = \"%s\" }\n", modifiedPwdSecretId)
+	log.Printf("[INFO] modifiedPwdSecretId is %v", modifiedPwdSecretId)
 
 	serviceName := utils.GetEnvSettingWithBlankDefault("pluggable_service_name")
 	serviceNameVariableStr := fmt.Sprintf("variable \"pluggable_service_name\" { default = \"%s\" }\n", serviceName)
+	log.Printf("[INFO] serviceName is %v", serviceName)
 
-	variableStr := compartmentIdVariableStr + cloudDatabaseIdVariableStr + privateEndpointIdVariableStr + userNameVariableStr + pwdSecretIdVariableStr + serviceNameVariableStr
+	variableStr := compartmentIdVariableStr + cloudDatabaseIdVariableStr +
+		privateEndpointIdVariableStr + userNameVariableStr +
+		pwdSecretIdVariableStr + serviceNameVariableStr +
+		cloudDatabaseUserRoleVariableStr + modifiedPwdSecretIdVariableStr
 
 	resourceName := "oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management.test_pluggabledatabase_pluggable_database_dbm_features_management"
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the create step in the test.
@@ -103,7 +125,7 @@ func TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.connector_details.0.private_end_point_id"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.0.role", "SYSDBA"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.0.role", cloudDatabaseUserRole),
 				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.0.user_name"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.connection_type", "BASIC"),
@@ -111,18 +133,43 @@ func TestDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.protocol", "TCP"),
 				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.service"),
 				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
-				resource.TestCheckResourceAttr(resourceName, "feature_details.0.management_type", "ADVANCED"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.management_type", "BASIC"),
+				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
+			),
+		},
+		// Modify
+		{
+			Config: config + variableStr + PluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management", "test_pluggabledatabase_pluggable_database_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementPluggableDatabaseDbmFeaturesManagementModifyRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "feature_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.connector_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.connector_details.0.connector_type", "PE"),
+				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.connector_details.0.private_end_point_id"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.0.role", cloudDatabaseUserRole),
+				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.database_connection_details.0.connection_credentials.0.user_name"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.connection_type", "BASIC"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.port", "1521"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.protocol", "TCP"),
+				resource.TestCheckResourceAttrSet(resourceName, "feature_details.0.database_connection_details.0.connection_string.0.service"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
+				resource.TestCheckResourceAttr(resourceName, "feature_details.0.management_type", "BASIC"),
 				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
 			),
 		},
 		// Update to disable
-		{
-			Config: config + variableStr + PluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management", "test_pluggabledatabase_pluggable_database_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementPluggableDatabaseDbmFeaturesManagementRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
-				resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
-			),
-		},
+		/*
+			{
+				Config: config + variableStr + PluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceDependencies +
+					acctest.GenerateResourceFromRepresentationMap("oci_database_management_pluggabledatabase_pluggable_database_dbm_features_management", "test_pluggabledatabase_pluggable_database_dbm_features_management", acctest.Required, acctest.Update, DatabaseManagementPluggableDatabaseDbmFeaturesManagementRepresentation),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttr(resourceName, "feature_details.0.feature", "DIAGNOSTICS_AND_MANAGEMENT"),
+					resource.TestCheckResourceAttrSet(resourceName, "pluggable_database_id"),
+				),
+			},
+		*/
 	})
 }

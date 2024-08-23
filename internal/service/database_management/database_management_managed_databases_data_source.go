@@ -101,6 +101,11 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Computed: true,
 										Elem:     schema.TypeString,
 									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
 									"id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -142,6 +147,10 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"database_platform_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"parent_container_id": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -157,6 +166,143 @@ func DatabaseManagementManagedDatabasesDataSource() *schema.Resource {
 									"workload_type": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"dbmgmt_feature_configs": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"connector_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"connector_type": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"database_connector_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"management_agent_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+															"private_end_point_id": {
+																Type:     schema.TypeString,
+																Computed: true,
+															},
+														},
+													},
+												},
+												"database_connection_details": {
+													Type:     schema.TypeList,
+													Computed: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+
+															// Computed
+															"connection_credentials": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"credential_name": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"credential_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"named_credential_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"password_secret_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"role": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"ssl_secret_id": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"user_name": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+															"connection_string": {
+																Type:     schema.TypeList,
+																Computed: true,
+																Elem: &schema.Resource{
+																	Schema: map[string]*schema.Schema{
+																		// Required
+
+																		// Optional
+
+																		// Computed
+																		"connection_type": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"port": {
+																			Type:     schema.TypeInt,
+																			Computed: true,
+																		},
+																		"protocol": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																		"service": {
+																			Type:     schema.TypeString,
+																			Computed: true,
+																		},
+																	},
+																},
+															},
+														},
+													},
+												},
+												"feature": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"feature_status": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"license_model": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 								},
 							},
