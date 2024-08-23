@@ -58,6 +58,12 @@ func RecoveryProtectionPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"must_enforce_cloud_locality": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"policy_locked_date_time": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -190,6 +196,11 @@ func (s *RecoveryProtectionPolicyResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if mustEnforceCloudLocality, ok := s.D.GetOkExists("must_enforce_cloud_locality"); ok {
+		tmp := mustEnforceCloudLocality.(bool)
+		request.MustEnforceCloudLocality = &tmp
 	}
 
 	if policyLockedDateTime, ok := s.D.GetOkExists("policy_locked_date_time"); ok {
@@ -445,6 +456,10 @@ func (s *RecoveryProtectionPolicyResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.MustEnforceCloudLocality != nil {
+		s.D.Set("must_enforce_cloud_locality", *s.Res.MustEnforceCloudLocality)
+	}
+
 	if s.Res.PolicyLockedDateTime != nil {
 		s.D.Set("policy_locked_date_time", *s.Res.PolicyLockedDateTime)
 	}
@@ -497,6 +512,10 @@ func ProtectionPolicySummaryToMap(obj oci_recovery.ProtectionPolicySummary) map[
 
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
+	}
+
+	if obj.MustEnforceCloudLocality != nil {
+		result["must_enforce_cloud_locality"] = bool(*obj.MustEnforceCloudLocality)
 	}
 
 	if obj.PolicyLockedDateTime != nil {

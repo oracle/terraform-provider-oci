@@ -63,6 +63,10 @@ variable "protection_policy_id" {
   default = "ocid1.recoveryservicepolicy.region1..aaaaaaaam22xkw32t524xvst7dbxz4qsxtwetmfnnxfsgslbq664vya5jbkq"
 }
 
+variable "subscription_id" {
+  default =  null
+}
+
 resource "oci_recovery_protected_database" "test_protected_database" {
   #Required
   compartment_id       = var.compartment_id
@@ -79,8 +83,9 @@ resource "oci_recovery_protected_database" "test_protected_database" {
   database_id          = var.database_id
   deletion_schedule    = "DELETE_AFTER_72_HOURS"
   database_size        = var.protected_database_database_size
-  freeform_tags        = var.protected_database_freeform_tags
   is_redo_logs_shipped = var.protected_database_is_redo_logs_shipped
+  subscription_id      = var.subscription_id
+  freeform_tags        = var.protected_database_freeform_tags
 }
 
 data "oci_recovery_protected_databases" "test_protected_databases" {

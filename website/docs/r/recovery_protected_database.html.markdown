@@ -35,6 +35,7 @@ resource "oci_recovery_protected_database" "test_protected_database" {
 	deletion_schedule = "DELETE_AFTER_72_HOURS"
 	freeform_tags = {"bar-key"= "value"}
 	is_redo_logs_shipped = var.protected_database_is_redo_logs_shipped
+	subscription_id = oci_onesubscription_subscription.test_subscription.id
 }
 ```
 
@@ -57,6 +58,7 @@ The following arguments are supported:
 * `protection_policy_id` - (Required) (Updatable) The OCID of the protection policy associated with the protected database.
 * `recovery_service_subnets` - (Required) (Updatable) List of recovery service subnet resources associated with the protected database.
 	* `recovery_service_subnet_id` - (Required) (Updatable) The recovery service subnet OCID.
+* `subscription_id` - (Optional) (Updatable) The OCID of the cloud service subscription to which you want to link the protected database.  For example, specify the Microsoft Azure subscription ID if you want to provision the protected database in Azure. 
 
 
 ** IMPORTANT **
@@ -106,6 +108,7 @@ The following attributes are exported:
 	* `recovery_service_subnet_id` - Recovery Service Subnet Identifier.
 	* `state` - The current state of the Recovery Service Subnet.
 * `state` - The current state of the Protected Database.
+* `subscription_id` - The OCID of the cloud service subscription to which the protected database is linked.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`. For more information, see [Resource Tags](https://docs.oracle.com/en-us/iaas/Content/General/Concepts/resourcetags.htm) 
 * `time_created` - An RFC3339 formatted datetime string that indicates the created time for a protected database. For example: '2020-05-22T21:10:29.600Z' 
 * `time_updated` - An RFC3339 formatted datetime string that indicates the last updated time for a protected database. For example: '2020-05-22T21:10:29.600Z' 

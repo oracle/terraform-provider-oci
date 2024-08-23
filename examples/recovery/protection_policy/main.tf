@@ -40,6 +40,9 @@ variable "protection_policy_policy_locked_date_time" {
   default = "2025-01-01T00:00:00.000Z"
 }
 
+variable "must_enforce_cloud_locality" {
+  default = false
+}
 
 resource "oci_recovery_protection_policy" "test_protection_policy" {
   #Required
@@ -49,6 +52,7 @@ resource "oci_recovery_protection_policy" "test_protection_policy" {
 
   #Optional
   policy_locked_date_time         = var.protection_policy_policy_locked_date_time
+  must_enforce_cloud_locality     = var.must_enforce_cloud_locality
   freeform_tags = var.protection_policy_freeform_tags
 }
 
