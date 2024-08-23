@@ -99,6 +99,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 
 	s.D.Set("autonomous_maintenance_schedule_type", s.Res.AutonomousMaintenanceScheduleType)
 
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
 	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
 	if s.Res.BackupConfig != nil {

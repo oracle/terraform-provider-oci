@@ -98,6 +98,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"available_upgrade_versions": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -533,6 +537,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"availability_domain": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"lag_time_in_seconds": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -817,6 +825,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
+									"availability_domain": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"lag_time_in_seconds": {
 										Type:     schema.TypeInt,
 										Computed: true,
@@ -1076,6 +1088,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 		}
 
 		autonomousDatabasesClone["autonomous_maintenance_schedule_type"] = r.AutonomousMaintenanceScheduleType
+
+		if r.AvailabilityDomain != nil {
+			autonomousDatabasesClone["availability_domain"] = *r.AvailabilityDomain
+		}
 
 		autonomousDatabasesClone["available_upgrade_versions"] = r.AvailableUpgradeVersions
 
