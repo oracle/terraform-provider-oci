@@ -52,7 +52,6 @@ import (
 	tf_devops "github.com/oracle/terraform-provider-oci/internal/service/devops"
 	tf_disaster_recovery "github.com/oracle/terraform-provider-oci/internal/service/disaster_recovery"
 	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
-	tf_em_warehouse "github.com/oracle/terraform-provider-oci/internal/service/em_warehouse"
 	tf_email "github.com/oracle/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
@@ -273,9 +272,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("dns") {
 		tf_dns.RegisterResource()
-	}
-	if common.CheckForEnabledServices("emwarehouse") {
-		tf_em_warehouse.RegisterResource()
 	}
 	if common.CheckForEnabledServices("email") {
 		tf_email.RegisterResource()
