@@ -105,6 +105,10 @@ func DatabaseManagementExternalDbSystemConnectorResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"named_credential_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"password_secret_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -738,6 +742,13 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseC
 			details.UserName = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialConnectionDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("NAME_REFERENCE"):
 		details := oci_database_management.DatabaseConnectionCredentailsByName{}
 		if credentialName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_name")); ok {
@@ -771,59 +782,6 @@ func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseC
 		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
 	}
 	return baseObject, nil
-}
-
-func DatabaseConnectionCredentialsToMap(obj *oci_database_management.DatabaseConnectionCredentials) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_database_management.DatabaseConnectionCredentialsByDetails:
-		result["credential_type"] = "DETAILS"
-
-		if v.CredentialName != nil {
-			result["credential_name"] = string(*v.CredentialName)
-		}
-
-		if v.PasswordSecretId != nil {
-			result["password_secret_id"] = string(*v.PasswordSecretId)
-		}
-
-		result["role"] = string(v.Role)
-
-		if v.UserName != nil {
-			result["user_name"] = string(*v.UserName)
-		}
-	case oci_database_management.DatabaseConnectionCredentailsByName:
-		result["credential_type"] = "NAME_REFERENCE"
-
-		if v.CredentialName != nil {
-			result["credential_name"] = string(*v.CredentialName)
-		}
-	case oci_database_management.DatabaseSslConnectionCredentials:
-		result["credential_type"] = "SSL_DETAILS"
-
-		if v.CredentialName != nil {
-			result["credential_name"] = string(*v.CredentialName)
-		}
-
-		if v.PasswordSecretId != nil {
-			result["password_secret_id"] = string(*v.PasswordSecretId)
-		}
-
-		result["role"] = string(v.Role)
-
-		if v.SslSecretId != nil {
-			result["ssl_secret_id"] = string(*v.SslSecretId)
-		}
-
-		if v.UserName != nil {
-			result["user_name"] = string(*v.UserName)
-		}
-	default:
-		log.Printf("[WARN] Received 'credential_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
 }
 
 func (s *DatabaseManagementExternalDbSystemConnectorResourceCrud) mapToDatabaseConnectionString(fieldKeyFormat string) (oci_database_management.DatabaseConnectionString, error) {
