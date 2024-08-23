@@ -38,6 +38,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 * `is_cluster` - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
+* `is_dns_resolution_enabled` - Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
 * `name` - The display name of the Database Management private endpoint.
 * `nsg_ids` - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
 * `private_ip` - The IP addresses assigned to the Database Management private endpoint. 
