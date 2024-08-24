@@ -18,11 +18,10 @@ import (
 // DesktopNetworkConfiguration Provides information about the network configuration of the desktop pool.
 type DesktopNetworkConfiguration struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the customer VCN.
+	// The OCID of the VCN used by the desktop pool.
 	VcnId *string `mandatory:"true" json:"vcnId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the
-	// connectivity will be established.
+	// The OCID of the subnet to use for the desktop pool.
 	SubnetId *string `mandatory:"true" json:"subnetId"`
 }
 

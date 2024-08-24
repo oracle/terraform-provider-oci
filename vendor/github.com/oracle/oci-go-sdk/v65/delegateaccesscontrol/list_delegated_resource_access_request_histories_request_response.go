@@ -12,6 +12,10 @@ import (
 )
 
 // ListDelegatedResourceAccessRequestHistoriesRequest wrapper for the ListDelegatedResourceAccessRequestHistories operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegatedResourceAccessRequestHistories.go.html to see an example of how to use ListDelegatedResourceAccessRequestHistoriesRequest.
 type ListDelegatedResourceAccessRequestHistoriesRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

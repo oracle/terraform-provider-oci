@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDesktopRequest wrapper for the UpdateDesktop operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/UpdateDesktop.go.html to see an example of how to use UpdateDesktopRequest.
 type UpdateDesktopRequest struct {
 
 	// The OCID of the desktop.

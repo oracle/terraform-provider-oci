@@ -106,6 +106,12 @@ type MaintenanceRunSummary struct {
 	// The estimated start time of the next infrastruture component patching operation.
 	EstimatedComponentPatchingStartTime *common.SDKTime `mandatory:"false" json:"estimatedComponentPatchingStartTime"`
 
+	// If `FALSE`, the maintenance run doesn't support granular maintenance.
+	IsMaintenanceRunGranular *bool `mandatory:"false" json:"isMaintenanceRunGranular"`
+
+	// The total time taken by corresponding resource activity in minutes.
+	TotalTimeTakenInMins *int `mandatory:"false" json:"totalTimeTakenInMins"`
+
 	// The Autonomous Database Software Image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 }

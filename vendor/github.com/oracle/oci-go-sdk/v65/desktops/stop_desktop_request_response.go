@@ -12,6 +12,10 @@ import (
 )
 
 // StopDesktopRequest wrapper for the StopDesktop operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktop.go.html to see an example of how to use StopDesktopRequest.
 type StopDesktopRequest struct {
 
 	// The OCID of the desktop.

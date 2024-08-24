@@ -24,7 +24,7 @@ type HsmCluster struct {
 	// The OCID of the compartment that contains this HSMCluster resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A user-friendly name for the HSMCluster resource. It does not have to be unique, and it is changeable.
+	// A user-friendly display name for the HSMCluster resource. It does not have to be unique, and it is changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
@@ -40,7 +40,7 @@ type HsmCluster struct {
 	// Example: `ACTIVE`
 	LifecycleState HsmClusterLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// DNS name for the Hsm Cluster.
+	// DNS name for the HSM Cluster -- this will contain information about the region as well.
 	DnsName *string `mandatory:"true" json:"dnsName"`
 
 	// An optional property indicating when to delete the key, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.

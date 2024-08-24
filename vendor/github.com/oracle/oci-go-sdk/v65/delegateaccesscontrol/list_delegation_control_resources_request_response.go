@@ -12,6 +12,10 @@ import (
 )
 
 // ListDelegationControlResourcesRequest wrapper for the ListDelegationControlResources operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControlResources.go.html to see an example of how to use ListDelegationControlResourcesRequest.
 type ListDelegationControlResourcesRequest struct {
 
 	// unique Delegation Control identifier

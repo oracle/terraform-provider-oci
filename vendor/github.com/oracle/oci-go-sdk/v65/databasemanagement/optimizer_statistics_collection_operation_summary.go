@@ -89,6 +89,7 @@ const (
 	OptimizerStatisticsCollectionOperationSummaryStatusCompleted  OptimizerStatisticsCollectionOperationSummaryStatusEnum = "COMPLETED"
 	OptimizerStatisticsCollectionOperationSummaryStatusFailed     OptimizerStatisticsCollectionOperationSummaryStatusEnum = "FAILED"
 	OptimizerStatisticsCollectionOperationSummaryStatusTimedOut   OptimizerStatisticsCollectionOperationSummaryStatusEnum = "TIMED_OUT"
+	OptimizerStatisticsCollectionOperationSummaryStatusUnknown    OptimizerStatisticsCollectionOperationSummaryStatusEnum = "UNKNOWN"
 )
 
 var mappingOptimizerStatisticsCollectionOperationSummaryStatusEnum = map[string]OptimizerStatisticsCollectionOperationSummaryStatusEnum{
@@ -96,6 +97,7 @@ var mappingOptimizerStatisticsCollectionOperationSummaryStatusEnum = map[string]
 	"COMPLETED":   OptimizerStatisticsCollectionOperationSummaryStatusCompleted,
 	"FAILED":      OptimizerStatisticsCollectionOperationSummaryStatusFailed,
 	"TIMED_OUT":   OptimizerStatisticsCollectionOperationSummaryStatusTimedOut,
+	"UNKNOWN":     OptimizerStatisticsCollectionOperationSummaryStatusUnknown,
 }
 
 var mappingOptimizerStatisticsCollectionOperationSummaryStatusEnumLowerCase = map[string]OptimizerStatisticsCollectionOperationSummaryStatusEnum{
@@ -103,6 +105,7 @@ var mappingOptimizerStatisticsCollectionOperationSummaryStatusEnumLowerCase = ma
 	"completed":   OptimizerStatisticsCollectionOperationSummaryStatusCompleted,
 	"failed":      OptimizerStatisticsCollectionOperationSummaryStatusFailed,
 	"timed_out":   OptimizerStatisticsCollectionOperationSummaryStatusTimedOut,
+	"unknown":     OptimizerStatisticsCollectionOperationSummaryStatusUnknown,
 }
 
 // GetOptimizerStatisticsCollectionOperationSummaryStatusEnumValues Enumerates the set of values for OptimizerStatisticsCollectionOperationSummaryStatusEnum
@@ -121,6 +124,7 @@ func GetOptimizerStatisticsCollectionOperationSummaryStatusEnumStringValues() []
 		"COMPLETED",
 		"FAILED",
 		"TIMED_OUT",
+		"UNKNOWN",
 	}
 }
 

@@ -75,6 +75,9 @@ type Vault struct {
 	// A Boolean value that indicates whether the Vault is primary Vault or replica Vault.
 	IsPrimary *bool `mandatory:"false" json:"isPrimary"`
 
+	// A Boolean value that indicates whether the Vault has cross region replication capability. Always true for Virtual Private Vaults.
+	IsVaultReplicable *bool `mandatory:"false" json:"isVaultReplicable"`
+
 	ExternalKeyManagerMetadataSummary *ExternalKeyManagerMetadataSummary `mandatory:"false" json:"externalKeyManagerMetadataSummary"`
 }
 

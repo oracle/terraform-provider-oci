@@ -12,6 +12,10 @@ import (
 )
 
 // GetDesktopRequest wrapper for the GetDesktop operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/GetDesktop.go.html to see an example of how to use GetDesktopRequest.
 type GetDesktopRequest struct {
 
 	// The OCID of the desktop.

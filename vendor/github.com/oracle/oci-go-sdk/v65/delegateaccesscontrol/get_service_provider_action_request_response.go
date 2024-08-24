@@ -12,6 +12,10 @@ import (
 )
 
 // GetServiceProviderActionRequest wrapper for the GetServiceProviderAction operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetServiceProviderAction.go.html to see an example of how to use GetServiceProviderActionRequest.
 type GetServiceProviderActionRequest struct {
 
 	// Unique Oracle supplied identifier associated with the Service Provider Action.

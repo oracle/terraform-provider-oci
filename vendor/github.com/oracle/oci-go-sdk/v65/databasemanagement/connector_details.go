@@ -56,6 +56,10 @@ func (m *connectordetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		mm := ExternalConnectorDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DIRECT":
+		mm := DirectConnectorDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MACS":
 		mm := MacsConnectorDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -94,18 +98,21 @@ const (
 	ConnectorDetailsConnectorTypePe       ConnectorDetailsConnectorTypeEnum = "PE"
 	ConnectorDetailsConnectorTypeMacs     ConnectorDetailsConnectorTypeEnum = "MACS"
 	ConnectorDetailsConnectorTypeExternal ConnectorDetailsConnectorTypeEnum = "EXTERNAL"
+	ConnectorDetailsConnectorTypeDirect   ConnectorDetailsConnectorTypeEnum = "DIRECT"
 )
 
 var mappingConnectorDetailsConnectorTypeEnum = map[string]ConnectorDetailsConnectorTypeEnum{
 	"PE":       ConnectorDetailsConnectorTypePe,
 	"MACS":     ConnectorDetailsConnectorTypeMacs,
 	"EXTERNAL": ConnectorDetailsConnectorTypeExternal,
+	"DIRECT":   ConnectorDetailsConnectorTypeDirect,
 }
 
 var mappingConnectorDetailsConnectorTypeEnumLowerCase = map[string]ConnectorDetailsConnectorTypeEnum{
 	"pe":       ConnectorDetailsConnectorTypePe,
 	"macs":     ConnectorDetailsConnectorTypeMacs,
 	"external": ConnectorDetailsConnectorTypeExternal,
+	"direct":   ConnectorDetailsConnectorTypeDirect,
 }
 
 // GetConnectorDetailsConnectorTypeEnumValues Enumerates the set of values for ConnectorDetailsConnectorTypeEnum
@@ -123,6 +130,7 @@ func GetConnectorDetailsConnectorTypeEnumStringValues() []string {
 		"PE",
 		"MACS",
 		"EXTERNAL",
+		"DIRECT",
 	}
 }
 

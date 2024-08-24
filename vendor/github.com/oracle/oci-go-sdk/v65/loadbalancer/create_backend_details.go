@@ -38,6 +38,8 @@ type CreateBackendDetails struct {
 	Weight *int `mandatory:"false" json:"weight"`
 
 	// The maximum number of simultaneous connections the load balancer can make to the backend.
+	// If this is not set then number of simultaneous connections the load balancer can make to
+	// the backend is unlimited.
 	// Example: `300`
 	MaxConnections *int `mandatory:"false" json:"maxConnections"`
 

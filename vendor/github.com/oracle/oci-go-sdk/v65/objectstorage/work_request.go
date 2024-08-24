@@ -81,18 +81,27 @@ type WorkRequestOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestOperationTypeEnum
 const (
-	WorkRequestOperationTypeCopyObject WorkRequestOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestOperationTypeReencrypt  WorkRequestOperationTypeEnum = "REENCRYPT"
+	WorkRequestOperationTypeCopyObject            WorkRequestOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestOperationTypeReencrypt             WorkRequestOperationTypeEnum = "REENCRYPT"
+	WorkRequestOperationTypePrivateEndpointCreate WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	WorkRequestOperationTypePrivateEndpointUpdate WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
+	WorkRequestOperationTypePrivateEndpointDelete WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
-	"COPY_OBJECT": WorkRequestOperationTypeCopyObject,
-	"REENCRYPT":   WorkRequestOperationTypeReencrypt,
+	"COPY_OBJECT":             WorkRequestOperationTypeCopyObject,
+	"REENCRYPT":               WorkRequestOperationTypeReencrypt,
+	"PRIVATE_ENDPOINT_CREATE": WorkRequestOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_UPDATE": WorkRequestOperationTypePrivateEndpointUpdate,
+	"PRIVATE_ENDPOINT_DELETE": WorkRequestOperationTypePrivateEndpointDelete,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
-	"copy_object": WorkRequestOperationTypeCopyObject,
-	"reencrypt":   WorkRequestOperationTypeReencrypt,
+	"copy_object":             WorkRequestOperationTypeCopyObject,
+	"reencrypt":               WorkRequestOperationTypeReencrypt,
+	"private_endpoint_create": WorkRequestOperationTypePrivateEndpointCreate,
+	"private_endpoint_update": WorkRequestOperationTypePrivateEndpointUpdate,
+	"private_endpoint_delete": WorkRequestOperationTypePrivateEndpointDelete,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -109,6 +118,9 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 	return []string{
 		"COPY_OBJECT",
 		"REENCRYPT",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_UPDATE",
+		"PRIVATE_ENDPOINT_DELETE",
 	}
 }
 

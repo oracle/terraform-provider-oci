@@ -12,6 +12,10 @@ import (
 )
 
 // StopDesktopPoolRequest wrapper for the StopDesktopPool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StopDesktopPool.go.html to see an example of how to use StopDesktopPoolRequest.
 type StopDesktopPoolRequest struct {
 
 	// The OCID of the desktop pool.

@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDelegationSubscriptionCompartmentRequest wrapper for the ChangeDelegationSubscriptionCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ChangeDelegationSubscriptionCompartment.go.html to see an example of how to use ChangeDelegationSubscriptionCompartmentRequest.
 type ChangeDelegationSubscriptionCompartmentRequest struct {
 
 	// unique Delegation Subscription identifier

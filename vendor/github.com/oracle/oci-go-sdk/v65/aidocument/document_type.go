@@ -18,45 +18,45 @@ type DocumentTypeEnum string
 
 // Set of constants representing the allowable values for DocumentTypeEnum
 const (
-	DocumentTypeInvoice        DocumentTypeEnum = "INVOICE"
-	DocumentTypeReceipt        DocumentTypeEnum = "RECEIPT"
-	DocumentTypeResume         DocumentTypeEnum = "RESUME"
-	DocumentTypeTaxForm        DocumentTypeEnum = "TAX_FORM"
-	DocumentTypeDriverLicense  DocumentTypeEnum = "DRIVER_LICENSE"
-	DocumentTypePassport       DocumentTypeEnum = "PASSPORT"
-	DocumentTypeBankStatement  DocumentTypeEnum = "BANK_STATEMENT"
-	DocumentTypeCheck          DocumentTypeEnum = "CHECK"
-	DocumentTypePayslip        DocumentTypeEnum = "PAYSLIP"
-	DocumentTypeOthers         DocumentTypeEnum = "OTHERS"
-	DocumentTypeInsuranceClaim DocumentTypeEnum = "INSURANCE_CLAIM"
+	DocumentTypeInvoice           DocumentTypeEnum = "INVOICE"
+	DocumentTypeReceipt           DocumentTypeEnum = "RECEIPT"
+	DocumentTypeResume            DocumentTypeEnum = "RESUME"
+	DocumentTypeTaxForm           DocumentTypeEnum = "TAX_FORM"
+	DocumentTypeDriverLicense     DocumentTypeEnum = "DRIVER_LICENSE"
+	DocumentTypePassport          DocumentTypeEnum = "PASSPORT"
+	DocumentTypeBankStatement     DocumentTypeEnum = "BANK_STATEMENT"
+	DocumentTypeCheck             DocumentTypeEnum = "CHECK"
+	DocumentTypePayslip           DocumentTypeEnum = "PAYSLIP"
+	DocumentTypeOthers            DocumentTypeEnum = "OTHERS"
+	DocumentTypeHealthInsuranceId DocumentTypeEnum = "HEALTH_INSURANCE_ID"
 )
 
 var mappingDocumentTypeEnum = map[string]DocumentTypeEnum{
-	"INVOICE":         DocumentTypeInvoice,
-	"RECEIPT":         DocumentTypeReceipt,
-	"RESUME":          DocumentTypeResume,
-	"TAX_FORM":        DocumentTypeTaxForm,
-	"DRIVER_LICENSE":  DocumentTypeDriverLicense,
-	"PASSPORT":        DocumentTypePassport,
-	"BANK_STATEMENT":  DocumentTypeBankStatement,
-	"CHECK":           DocumentTypeCheck,
-	"PAYSLIP":         DocumentTypePayslip,
-	"OTHERS":          DocumentTypeOthers,
-	"INSURANCE_CLAIM": DocumentTypeInsuranceClaim,
+	"INVOICE":             DocumentTypeInvoice,
+	"RECEIPT":             DocumentTypeReceipt,
+	"RESUME":              DocumentTypeResume,
+	"TAX_FORM":            DocumentTypeTaxForm,
+	"DRIVER_LICENSE":      DocumentTypeDriverLicense,
+	"PASSPORT":            DocumentTypePassport,
+	"BANK_STATEMENT":      DocumentTypeBankStatement,
+	"CHECK":               DocumentTypeCheck,
+	"PAYSLIP":             DocumentTypePayslip,
+	"OTHERS":              DocumentTypeOthers,
+	"HEALTH_INSURANCE_ID": DocumentTypeHealthInsuranceId,
 }
 
 var mappingDocumentTypeEnumLowerCase = map[string]DocumentTypeEnum{
-	"invoice":         DocumentTypeInvoice,
-	"receipt":         DocumentTypeReceipt,
-	"resume":          DocumentTypeResume,
-	"tax_form":        DocumentTypeTaxForm,
-	"driver_license":  DocumentTypeDriverLicense,
-	"passport":        DocumentTypePassport,
-	"bank_statement":  DocumentTypeBankStatement,
-	"check":           DocumentTypeCheck,
-	"payslip":         DocumentTypePayslip,
-	"others":          DocumentTypeOthers,
-	"insurance_claim": DocumentTypeInsuranceClaim,
+	"invoice":             DocumentTypeInvoice,
+	"receipt":             DocumentTypeReceipt,
+	"resume":              DocumentTypeResume,
+	"tax_form":            DocumentTypeTaxForm,
+	"driver_license":      DocumentTypeDriverLicense,
+	"passport":            DocumentTypePassport,
+	"bank_statement":      DocumentTypeBankStatement,
+	"check":               DocumentTypeCheck,
+	"payslip":             DocumentTypePayslip,
+	"others":              DocumentTypeOthers,
+	"health_insurance_id": DocumentTypeHealthInsuranceId,
 }
 
 // GetDocumentTypeEnumValues Enumerates the set of values for DocumentTypeEnum
@@ -81,7 +81,7 @@ func GetDocumentTypeEnumStringValues() []string {
 		"CHECK",
 		"PAYSLIP",
 		"OTHERS",
-		"INSURANCE_CLAIM",
+		"HEALTH_INSURANCE_ID",
 	}
 }
 

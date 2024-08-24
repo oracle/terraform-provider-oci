@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDelegationSubscriptionRequest wrapper for the DeleteDelegationSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationSubscription.go.html to see an example of how to use DeleteDelegationSubscriptionRequest.
 type DeleteDelegationSubscriptionRequest struct {
 
 	// unique Delegation Subscription identifier

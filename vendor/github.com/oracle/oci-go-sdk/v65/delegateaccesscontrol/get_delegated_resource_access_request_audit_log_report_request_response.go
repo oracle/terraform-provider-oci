@@ -12,6 +12,10 @@ import (
 )
 
 // GetDelegatedResourceAccessRequestAuditLogReportRequest wrapper for the GetDelegatedResourceAccessRequestAuditLogReport operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegatedResourceAccessRequestAuditLogReport.go.html to see an example of how to use GetDelegatedResourceAccessRequestAuditLogReportRequest.
 type GetDelegatedResourceAccessRequestAuditLogReportRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

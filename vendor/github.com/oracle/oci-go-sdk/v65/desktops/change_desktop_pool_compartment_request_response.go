@@ -12,6 +12,10 @@ import (
 )
 
 // ChangeDesktopPoolCompartmentRequest wrapper for the ChangeDesktopPoolCompartment operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ChangeDesktopPoolCompartment.go.html to see an example of how to use ChangeDesktopPoolCompartmentRequest.
 type ChangeDesktopPoolCompartmentRequest struct {
 
 	// The OCID of the desktop pool.

@@ -12,6 +12,10 @@ import (
 )
 
 // ListServiceProviderInteractionsRequest wrapper for the ListServiceProviderInteractions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListServiceProviderInteractions.go.html to see an example of how to use ListServiceProviderInteractionsRequest.
 type ListServiceProviderInteractionsRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

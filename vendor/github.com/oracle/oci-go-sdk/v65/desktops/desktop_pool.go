@@ -88,10 +88,8 @@ type DesktopPool struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// A list of network security groups for the network.
+	// A list of network security groups for the desktop pool.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
-
-	PrivateAccessDetails *DesktopPoolPrivateAccessDetails `mandatory:"false" json:"privateAccessDetails"`
 }
 
 func (m DesktopPool) String() string {

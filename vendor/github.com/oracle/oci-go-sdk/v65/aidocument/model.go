@@ -95,6 +95,9 @@ type Model struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// For example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
 
 func (m Model) String() string {
@@ -141,6 +144,7 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
+		Locks                  []ResourceLock                    `json:"locks"`
 		Id                     *string                           `json:"id"`
 		CompartmentId          *string                           `json:"compartmentId"`
 		ModelType              ModelModelTypeEnum                `json:"modelType"`
@@ -225,6 +229,8 @@ func (m *Model) UnmarshalJSON(data []byte) (e error) {
 
 	m.SystemTags = model.SystemTags
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.Id = model.Id
 
 	m.CompartmentId = model.CompartmentId
