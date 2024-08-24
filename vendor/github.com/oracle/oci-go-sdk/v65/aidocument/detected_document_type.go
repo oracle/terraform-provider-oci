@@ -23,9 +23,6 @@ type DetectedDocumentType struct {
 
 	// The confidence score between 0 and 1.
 	Confidence *float32 `mandatory:"true" json:"confidence"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Key-Value Extraction model that was used to extract the key-value pairs.
-	DocumentId *string `mandatory:"false" json:"documentId"`
 }
 
 func (m DetectedDocumentType) String() string {

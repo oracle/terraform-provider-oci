@@ -44,6 +44,8 @@ type UpdateBackendDetails struct {
 	Offline *bool `mandatory:"true" json:"offline"`
 
 	// The maximum number of simultaneous connections the load balancer can make to the backend.
+	// If this is not set then the maximum number of simultaneous connections the load balancer
+	// can make to the backend is unlimited.
 	// Example: `300`
 	MaxConnections *int `mandatory:"false" json:"maxConnections"`
 }

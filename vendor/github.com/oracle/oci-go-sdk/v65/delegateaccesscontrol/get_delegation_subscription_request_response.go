@@ -12,6 +12,10 @@ import (
 )
 
 // GetDelegationSubscriptionRequest wrapper for the GetDelegationSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/GetDelegationSubscription.go.html to see an example of how to use GetDelegationSubscriptionRequest.
 type GetDelegationSubscriptionRequest struct {
 
 	// unique Delegation Subscription identifier

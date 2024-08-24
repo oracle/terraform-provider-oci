@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// UploadPartitionCertificatesDetails The details of the partition certificates.
+// UploadPartitionCertificatesDetails An object that encapsulates the necessary partition certificates.
 type UploadPartitionCertificatesDetails struct {
 
-	// Base64 encoded (StandardCharsets.UTF_8) Partition Certificate.
+	// Base64 encoded (StandardCharsets.UTF_8) Partition Certificate, which gets created when the CSR is signed.
 	PartitionCertificate *string `mandatory:"true" json:"partitionCertificate"`
 
-	// Base64 encoded (StandardCharsets.UTF_8) Partition Owner Certificate.
+	// Base64 encoded (StandardCharsets.UTF_8) Partition Owner Certificate, which is used to help sign the CSR.
 	PartitionOwnerCertificate *string `mandatory:"true" json:"partitionOwnerCertificate"`
 }
 

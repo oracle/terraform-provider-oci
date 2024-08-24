@@ -12,6 +12,10 @@ import (
 )
 
 // ListDesktopPoolDesktopsRequest wrapper for the ListDesktopPoolDesktops operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/ListDesktopPoolDesktops.go.html to see an example of how to use ListDesktopPoolDesktopsRequest.
 type ListDesktopPoolDesktopsRequest struct {
 
 	// The OCID of the compartment of the desktop pool.

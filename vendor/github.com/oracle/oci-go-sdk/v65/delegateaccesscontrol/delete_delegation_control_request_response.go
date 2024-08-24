@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDelegationControlRequest wrapper for the DeleteDelegationControl operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/DeleteDelegationControl.go.html to see an example of how to use DeleteDelegationControlRequest.
 type DeleteDelegationControlRequest struct {
 
 	// unique Delegation Control identifier

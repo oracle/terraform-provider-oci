@@ -15,10 +15,10 @@ import (
 	"strings"
 )
 
-// ChangeHsmClusterCompartmentDetails The details of the compartment you wish to move the Hsm.
+// ChangeHsmClusterCompartmentDetails The details of the compartment you wish to move the hsm cluster to.
 type ChangeHsmClusterCompartmentDetails struct {
 
-	// The [OCID] of the compartment to move the hsm to.
+	// The [OCID] of the compartment to move the hsm cluster to.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

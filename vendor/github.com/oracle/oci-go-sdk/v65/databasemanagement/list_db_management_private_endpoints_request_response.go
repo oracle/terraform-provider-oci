@@ -30,6 +30,10 @@ type ListDbManagementPrivateEndpointsRequest struct {
 	// The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter.
 	IsCluster *bool `mandatory:"false" contributesTo:"query" name:"isCluster"`
 
+	// The option to filter Database Management private endpoints which are endbled with DNS proxy server. This should be used along with the vcnId query parameter.
+	// Only one of this parameter and IsClusterDbManagementPrivateEndpointQueryParam should be set to true at one time.
+	IsDnsResolutionEnabled *bool `mandatory:"false" contributesTo:"query" name:"isDnsResolutionEnabled"`
+
 	// The lifecycle state of a resource.
 	LifecycleState ListDbManagementPrivateEndpointsLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

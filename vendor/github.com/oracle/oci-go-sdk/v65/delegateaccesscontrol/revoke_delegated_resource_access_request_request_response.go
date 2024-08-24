@@ -12,6 +12,10 @@ import (
 )
 
 // RevokeDelegatedResourceAccessRequestRequest wrapper for the RevokeDelegatedResourceAccessRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/RevokeDelegatedResourceAccessRequest.go.html to see an example of how to use RevokeDelegatedResourceAccessRequestRequest.
 type RevokeDelegatedResourceAccessRequestRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

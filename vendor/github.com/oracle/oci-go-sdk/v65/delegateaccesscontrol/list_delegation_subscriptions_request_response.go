@@ -12,6 +12,10 @@ import (
 )
 
 // ListDelegationSubscriptionsRequest wrapper for the ListDelegationSubscriptions operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationSubscriptions.go.html to see an example of how to use ListDelegationSubscriptionsRequest.
 type ListDelegationSubscriptionsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

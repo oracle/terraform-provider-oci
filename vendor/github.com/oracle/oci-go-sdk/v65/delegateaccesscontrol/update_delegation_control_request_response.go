@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDelegationControlRequest wrapper for the UpdateDelegationControl operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationControl.go.html to see an example of how to use UpdateDelegationControlRequest.
 type UpdateDelegationControlRequest struct {
 
 	// unique Delegation Control identifier

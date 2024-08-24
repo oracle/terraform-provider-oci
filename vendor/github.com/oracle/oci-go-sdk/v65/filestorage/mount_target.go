@@ -72,6 +72,22 @@ type MountTarget struct {
 
 	Kerberos *Kerberos `mandatory:"false" json:"kerberos"`
 
+	// The date and time the mount target current billing cycle will end and next one starts, expressed
+	//   in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
+	//   Example: `2016-08-25T21:10:29.600Z`
+	TimeBillingCycleEnd *common.SDKTime `mandatory:"false" json:"timeBillingCycleEnd"`
+
+	// Current billed throughput for mount target in Gbps. This corresponds to shape of mount target.
+	// Available shapes and corresponding throughput are listed at Mount Target Performance (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
+	ObservedThroughput *int64 `mandatory:"false" json:"observedThroughput"`
+
+	// - New throughput for mount target at the end of billing cycle in Gbps.
+	RequestedThroughput *int64 `mandatory:"false" json:"requestedThroughput"`
+
+	// - Reserved capacity (GB) associated with this mount target. Reserved capacity depends on observedThroughput value
+	// of mount target. Value is listed at Mount Target Performance (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
+	ReservedStorageCapacity *int64 `mandatory:"false" json:"reservedStorageCapacity"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -116,6 +132,7 @@ const (
 	MountTargetLifecycleStateDeleting MountTargetLifecycleStateEnum = "DELETING"
 	MountTargetLifecycleStateDeleted  MountTargetLifecycleStateEnum = "DELETED"
 	MountTargetLifecycleStateFailed   MountTargetLifecycleStateEnum = "FAILED"
+	MountTargetLifecycleStateUpdating MountTargetLifecycleStateEnum = "UPDATING"
 )
 
 var mappingMountTargetLifecycleStateEnum = map[string]MountTargetLifecycleStateEnum{
@@ -124,6 +141,7 @@ var mappingMountTargetLifecycleStateEnum = map[string]MountTargetLifecycleStateE
 	"DELETING": MountTargetLifecycleStateDeleting,
 	"DELETED":  MountTargetLifecycleStateDeleted,
 	"FAILED":   MountTargetLifecycleStateFailed,
+	"UPDATING": MountTargetLifecycleStateUpdating,
 }
 
 var mappingMountTargetLifecycleStateEnumLowerCase = map[string]MountTargetLifecycleStateEnum{
@@ -132,6 +150,7 @@ var mappingMountTargetLifecycleStateEnumLowerCase = map[string]MountTargetLifecy
 	"deleting": MountTargetLifecycleStateDeleting,
 	"deleted":  MountTargetLifecycleStateDeleted,
 	"failed":   MountTargetLifecycleStateFailed,
+	"updating": MountTargetLifecycleStateUpdating,
 }
 
 // GetMountTargetLifecycleStateEnumValues Enumerates the set of values for MountTargetLifecycleStateEnum
@@ -151,6 +170,7 @@ func GetMountTargetLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"UPDATING",
 	}
 }
 

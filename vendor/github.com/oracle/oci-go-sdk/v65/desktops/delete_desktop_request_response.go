@@ -12,6 +12,10 @@ import (
 )
 
 // DeleteDesktopRequest wrapper for the DeleteDesktop operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/DeleteDesktop.go.html to see an example of how to use DeleteDesktopRequest.
 type DeleteDesktopRequest struct {
 
 	// The OCID of the desktop.

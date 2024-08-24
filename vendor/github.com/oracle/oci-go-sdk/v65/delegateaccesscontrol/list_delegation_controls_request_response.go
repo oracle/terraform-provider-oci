@@ -12,6 +12,10 @@ import (
 )
 
 // ListDelegationControlsRequest wrapper for the ListDelegationControls operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ListDelegationControls.go.html to see an example of how to use ListDelegationControlsRequest.
 type ListDelegationControlsRequest struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.

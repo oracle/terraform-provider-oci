@@ -23,7 +23,10 @@ type IpMaxConnections struct {
 	// Example: '["129.213.176.0/24", "150.136.187.0/24", "2002::1234:abcd:ffff:c0a8:101/64"]'
 	IpAddresses []string `mandatory:"true" json:"ipAddresses"`
 
-	// The max number of connections that the specified IPs can make to the Listener.
+	// The maximum number of simultaneous connections that the specified IPs can make to the
+	// Listener. IPs without a maxConnections setting can make either defaultMaxConnections
+	// simultaneous connections to a listener or, if no defaultMaxConnections is specified, an
+	// unlimited number of simultaneous connections to a listener.
 	MaxConnections *int `mandatory:"true" json:"maxConnections"`
 }
 

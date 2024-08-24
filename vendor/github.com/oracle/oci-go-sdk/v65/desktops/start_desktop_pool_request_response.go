@@ -12,6 +12,10 @@ import (
 )
 
 // StartDesktopPoolRequest wrapper for the StartDesktopPool operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/desktops/StartDesktopPool.go.html to see an example of how to use StartDesktopPoolRequest.
 type StartDesktopPoolRequest struct {
 
 	// The OCID of the desktop pool.

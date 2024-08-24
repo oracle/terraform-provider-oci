@@ -12,6 +12,10 @@ import (
 )
 
 // ApproveDelegatedResourceAccessRequestRequest wrapper for the ApproveDelegatedResourceAccessRequest operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/ApproveDelegatedResourceAccessRequest.go.html to see an example of how to use ApproveDelegatedResourceAccessRequestRequest.
 type ApproveDelegatedResourceAccessRequestRequest struct {
 
 	// Unique Delegated Resource Access Request identifier

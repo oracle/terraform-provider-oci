@@ -12,6 +12,10 @@ import (
 )
 
 // UpdateDelegationSubscriptionRequest wrapper for the UpdateDelegationSubscription operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/UpdateDelegationSubscription.go.html to see an example of how to use UpdateDelegationSubscriptionRequest.
 type UpdateDelegationSubscriptionRequest struct {
 
 	// unique Delegation Subscription identifier

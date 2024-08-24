@@ -38,6 +38,9 @@ type DbManagementPrivateEndpoint struct {
 	// Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
 	IsCluster *bool `mandatory:"false" json:"isCluster"`
 
+	// Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
+	IsDnsResolutionEnabled *bool `mandatory:"false" json:"isDnsResolutionEnabled"`
+
 	// The IP addresses assigned to the Database Management private endpoint.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 

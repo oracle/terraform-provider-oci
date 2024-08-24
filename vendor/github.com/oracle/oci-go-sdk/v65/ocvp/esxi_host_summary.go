@@ -123,6 +123,10 @@ type EsxiHostSummary struct {
 
 	// Indicates whether this host is in the progress of swapping billing.
 	IsBillingSwappingInProgress *bool `mandatory:"false" json:"isBillingSwappingInProgress"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m EsxiHostSummary) String() string {

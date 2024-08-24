@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/GetPreCoUserCredentials.go.html to see an example of how to use GetPreCoUserCredentialsRequest.
 type GetPreCoUserCredentialsRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// Unique identifier for the request. If provided, the returned request ID

@@ -21,6 +21,9 @@ type ListWorkRequestsRequest struct {
 	// The ID of the compartment in which to list buckets.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The name of the privateEndpoint for which to list work requests.
+	PrivateEndpointName *string `mandatory:"false" contributesTo:"query" name:"privateEndpointName"`
+
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 

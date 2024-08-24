@@ -12,6 +12,10 @@ import (
 )
 
 // CreateDelegationControlRequest wrapper for the CreateDelegationControl operation
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/delegateaccesscontrol/CreateDelegationControl.go.html to see an example of how to use CreateDelegationControlRequest.
 type CreateDelegationControlRequest struct {
 
 	// Details for the new Delegation Control.
