@@ -67,6 +67,7 @@ The following attributes are exported:
 * `volume_group_replicas` - The list of volume group replicas of this volume group.
 	* `availability_domain` - The availability domain of the boot volume replica replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 	* `volume_group_replica_id` - The volume group replica's Oracle ID (OCID).
 * `volume_ids` - OCIDs for the volumes in this volume group.
 

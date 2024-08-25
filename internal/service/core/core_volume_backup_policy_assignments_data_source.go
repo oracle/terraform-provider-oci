@@ -105,6 +105,10 @@ func (s *CoreVolumeBackupPolicyAssignmentsDataSourceCrud) SetData() error {
 			volumeBackupPolicyAssignment["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.XrcKmsKeyId != nil {
+			volumeBackupPolicyAssignment["xrc_kms_key_id"] = *r.XrcKmsKeyId
+		}
+
 		resources = append(resources, volumeBackupPolicyAssignment)
 	}
 

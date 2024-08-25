@@ -38,7 +38,7 @@ var (
 
 	//hardcode availability_domain here to meet the cross region replicas requirement
 	CoreBlockDependenceVolumeBlockVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `pjBI:US-ASHBURN-AD-1`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 
