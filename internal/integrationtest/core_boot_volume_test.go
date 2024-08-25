@@ -61,6 +61,10 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_boot_volume.test_boot_volume.id}`}},
 	}
 
+	IgnoreSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`, `xrc_kms_key_id`}},
+	}
+
 	CoreBootVolumeRepresentation = map[string]interface{}{
 		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
@@ -75,7 +79,8 @@ var (
 		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
 		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreBootVolumeAutotunePoliciesRepresentation},
 		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
-		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIgnoreSystemTagsChangesRepresentation},
+		"xrc_kms_key_id":             acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreSystemTagsChangesRep},
 	}
 
 	CoreDeltaRestoreBootVolumeRepresentation = map[string]interface{}{
@@ -111,6 +116,7 @@ var (
 	CoreBootVolumeBootVolumeReplicasRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `availabilityDomain2`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"xrr_kms_key_id":      acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
 	CoreBootVolumeResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -366,6 +372,7 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 			ImportStateVerifyIgnore: []string{
 				"backup_policy_id",
 				"cluster_placement_group_id",
+				"xrc_kms_key_id",
 			},
 			ResourceName: resourceName,
 		},
