@@ -77,6 +77,7 @@ The following attributes are exported:
 				* `30`-`120`: Represents the Ultra High Performance option.
 
 				For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+			* `xrc_kms_key_id` - The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute 
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -309,6 +310,7 @@ The following attributes are exported:
 					* `30`-`120`: Represents the Ultra High Performance option.
 
 					For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+				* `xrc_kms_key_id` - The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 			* `volume_id` - The OCID of the volume.
 		* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
 

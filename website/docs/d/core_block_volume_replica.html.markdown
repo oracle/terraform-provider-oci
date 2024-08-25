@@ -39,6 +39,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The block volume replica's Oracle ID (OCID).
+* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `size_in_gbs` - The size of the source block volume, in GBs. 
 * `state` - The current state of a block volume replica.
 * `time_created` - The date and time the block volume replica was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
