@@ -22,6 +22,9 @@ resource "oci_core_volume_backup_policy_assignment" "test_volume_backup_policy_a
 	#Required
 	asset_id = oci_core_volume.test_volume.id
 	policy_id = oci_core_volume_backup_policy.test_volume_backup_policy.id
+
+	#Optional
+	xrc_kms_key_id = oci_kms_key.test_key.id
 }
 ```
 
@@ -31,6 +34,7 @@ The following arguments are supported:
 
 * `asset_id` - (Required) The OCID of the volume or volume group to assign the policy to.
 * `policy_id` - (Required) The OCID of the volume backup policy to assign to the volume.
+* `xrc_kms_key_id` - (Optional) The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 
 
 ** IMPORTANT **
@@ -44,6 +48,7 @@ The following attributes are exported:
 * `id` - The OCID of the volume backup policy assignment.
 * `policy_id` - The OCID of the volume backup policy that has been assigned to the volume or volume group. For a volume group, only the **user defined** policy is allowed to use. For more information, see [Policy-Based Backups](https://docs.oracle.com/en-us/iaas/Content/Block/Tasks/schedulingvolumebackups.htm).
 * `time_created` - The date and time the volume backup policy was assigned to the volume. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 
+* `xrc_kms_key_id` - The OCID of the Vault service key which is the master encryption key for the block / boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 
 ## Timeouts
 

@@ -83,6 +83,10 @@ func CoreBootVolumeReplicasDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"size_in_gbs": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -217,6 +221,10 @@ func (s *CoreBootVolumeReplicasDataSourceCrud) SetData() error {
 
 		if r.ImageId != nil {
 			bootVolumeReplica["image_id"] = *r.ImageId
+		}
+
+		if r.KmsKeyId != nil {
+			bootVolumeReplica["kms_key_id"] = *r.KmsKeyId
 		}
 
 		if r.SizeInGBs != nil {

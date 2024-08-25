@@ -154,14 +154,23 @@ func CoreVolumeGroupResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
+						"xrr_kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"volume_group_replica_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
 					},
 				},
+			},
+			"xrc_kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -340,6 +349,11 @@ func (s *CoreVolumeGroupResourceCrud) Create() error {
 		if len(tmp) != 0 || s.D.HasChange("volume_group_replicas") {
 			request.VolumeGroupReplicas = tmp
 		}
+	}
+
+	if xrcKmsKeyId, ok := s.D.GetOkExists("xrc_kms_key_id"); ok {
+		tmp := xrcKmsKeyId.(string)
+		request.XrcKmsKeyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -543,6 +557,11 @@ func (s *CoreVolumeGroupResourceCrud) mapToVolumeGroupReplicaDetails(fieldKeyFor
 	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
 		tmp := displayName.(string)
 		result.DisplayName = &tmp
+	}
+
+	if xrrKmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "xrr_kms_key_id")); ok {
+		tmp := xrrKmsKeyId.(string)
+		result.XrrKmsKeyId = &tmp
 	}
 
 	return result, nil

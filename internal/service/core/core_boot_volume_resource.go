@@ -153,9 +153,18 @@ func CoreBootVolumeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"xrr_kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"boot_volume_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -212,6 +221,12 @@ func CoreBootVolumeResource() *schema.Resource {
 				Computed:         true,
 				ValidateFunc:     tfresource.ValidateInt64TypeString,
 				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
+			"xrc_kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -444,6 +459,11 @@ func (s *CoreBootVolumeResourceCrud) Create() error {
 			return fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.VpusPerGB = &tmpInt64
+	}
+
+	if xrcKmsKeyId, ok := s.D.GetOkExists("xrc_kms_key_id"); ok {
+		tmp := xrcKmsKeyId.(string)
+		request.XrcKmsKeyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -774,6 +794,11 @@ func (s *CoreBootVolumeResourceCrud) mapToBootVolumeReplicaDetails(fieldKeyForma
 		result.DisplayName = &tmp
 	}
 
+	if xrrKmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "xrr_kms_key_id")); ok {
+		tmp := xrrKmsKeyId.(string)
+		result.XrrKmsKeyId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -790,6 +815,10 @@ func BootVolumeReplicaInfoToMap(obj oci_core.BootVolumeReplicaInfo) map[string]i
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
 	}
 
 	return result

@@ -45,8 +45,10 @@ resource "oci_core_volume_group" "test_volume_group" {
 
 		#Optional
 		display_name = var.volume_group_volume_group_replicas_display_name
+		xrr_kms_key_id = oci_kms_key.test_key.id
 	}
 	volume_ids = [var.volume_group_source_id]
+	xrc_kms_key_id = oci_kms_key.test_key.id
 }
 ```
 
@@ -70,6 +72,9 @@ The following arguments are supported:
 * `volume_group_replicas` - (Optional) (Updatable) The list of volume group replicas that this volume group will be enabled to have in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the volume group replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `xrr_kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region volume group's replicas, which will be used in the destination region to encrypt the volume group's replicas encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
+* `xrc_kms_key_id` - (Optional) The OCID of the Vault service key which is the master encryption key for the volume's cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
+
 * `volume_ids` - (Optional) (Updatable) Use this for update operation only. This field is not supported during creation. For create use `volume_ids` under `source_details`.
 
 ** IMPORTANT **
@@ -99,6 +104,7 @@ The following attributes are exported:
 * `volume_group_replicas` - The list of volume group replicas of this volume group.
 	* `availability_domain` - The availability domain of the boot volume replica replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 	* `volume_group_replica_id` - The volume group replica's Oracle ID (OCID).
 * `volume_ids` - OCIDs for the current volumes in this volume group.
 
