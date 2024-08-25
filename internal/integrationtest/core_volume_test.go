@@ -50,10 +50,6 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.test_volume.id}`}},
 	}
 
-	IgnoreSystemTagsChangesRep = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`}},
-	}
-
 	CoreVolumeRepresentation = map[string]interface{}{
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeAutotunePoliciesRepresentation},
@@ -68,6 +64,7 @@ var (
 		"size_in_gbs":                acctest.Representation{RepType: acctest.Optional, Create: `51`, Update: `52`},
 		"source_details":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVolumeSourceDetailsRepresentation},
 		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
+		"xrc_kms_key_id":             acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreSystemTagsChangesRep},
 	}
 
@@ -92,6 +89,7 @@ var (
 		"max_vpus_per_gb": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `30`},
 	}
 	CoreVolumeBlockVolumeReplicasRepresentation = map[string]interface{}{
+		"xrr_kms_key_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_ocid_cross_region}`},
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
@@ -343,6 +341,7 @@ func TestCoreVolumeResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"volume_backup_id",
+				"xrc_kms_key_id",
 				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,
@@ -718,7 +717,7 @@ resource "oci_core_volume" "test_volume2" {
 }
 
 // This test is separated from the basic test due to weird behavior from Terraform test framework.
-// An test step that results in an error will result in the state being voided. Isolate such test steps to
+// A test step that results in an error will result in the state being voided. Isolate such test steps to
 // avoid interfering with regular tests that Create/Update resources.
 // issue-routing-tag: core/blockStorage
 func TestCoreVolumeResource_validations(t *testing.T) {
@@ -742,9 +741,7 @@ func TestCoreVolumeResource_validations(t *testing.T) {
 			// verify baseline Create
 			{
 				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = 50 }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
@@ -762,12 +759,11 @@ variable "volume_state" { default = "AVAILABLE" }
 			// ensure that changing datatype of size_in_gbs is a no-op
 			{
 				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
 variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = "50" }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
+variable "volume_ignore_changes" { default = ["system_tags", "defined_tags", "freeform_tags"] }
 
                 ` + compartmentIdVariableStr + CoreVolumeResourceConfig,
 				PlanOnly:           true,
@@ -776,9 +772,8 @@ variable "volume_state" { default = "AVAILABLE" }
 			// ensure that adding leading zeroes to size_in_gbs is a no-op
 			{
 				Config: config + `
-variable "volume_defined_tags_value" { default = "updatedValue" }
+
 variable "volume_display_name" { default = "displayName2" }
-variable "volume_freeform_tags" { default = {"Department"= "Accounting"} }
 variable "volume_size_in_gbs" { default = "0050" }
 variable "volume_source_details_type" { default = "volume" }
 variable "volume_state" { default = "AVAILABLE" }
