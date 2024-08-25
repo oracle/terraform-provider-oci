@@ -79,6 +79,10 @@ func CoreBlockVolumeReplicasDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"kms_key_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"size_in_gbs": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -209,6 +213,10 @@ func (s *CoreBlockVolumeReplicasDataSourceCrud) SetData() error {
 
 		if r.Id != nil {
 			blockVolumeReplica["id"] = *r.Id
+		}
+
+		if r.KmsKeyId != nil {
+			blockVolumeReplica["kms_key_id"] = *r.KmsKeyId
 		}
 
 		if r.SizeInGBs != nil {

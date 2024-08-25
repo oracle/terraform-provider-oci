@@ -39,7 +39,7 @@ var (
 		"boot_volume_replicas_deletion": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	CoreCoreBootVolumeDependenceBootVolumeReplicasRepresentation = map[string]interface{}{
-		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `KvuH:US-ASHBURN-AD-1`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `pjBI:US-ASHBURN-AD-1`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
 	}
 	CoreBootVolumeReplicaResourceConfig = CoreBootVolumeResourceDependencies
@@ -56,7 +56,6 @@ func TestCoreBootVolumeReplicaResource_basic(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_core_boot_volume.test_boot_volume"
-
 	acctest.SaveConfigContent("", "", "", t)
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{

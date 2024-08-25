@@ -49,6 +49,7 @@ resource "oci_core_volume" "test_volume" {
 
 		#Optional
 		display_name = var.volume_block_volume_replicas_display_name
+		xrr_kms_key_id = oci_kms_key.test_key.id
 	}
 	cluster_placement_group_id = oci_identity_group.test_group.id
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -69,7 +70,9 @@ resource "oci_core_volume" "test_volume" {
 		second_backup_id = oci_database_backup.test_backup.id
 	}
 	vpus_per_gb = var.volume_vpus_per_gb
-    block_volume_replicas_deletion = true
+	xrc_kms_key_id = oci_kms_key.test_key.id
+  block_volume_replicas_deletion = true
+
 }
 ```
 
@@ -86,6 +89,7 @@ The following arguments are supported:
 	* `availability_domain` - (Required) (Updatable) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `cluster_placement_group_id` - (Optional) The clusterPlacementGroup Id of the volume for volume placement.
+	* `xrr_kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region block volume replicas, which will be used in the destination region to encrypt the block volume replica's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -110,6 +114,7 @@ The following arguments are supported:
 	* `30`-`120`: Represents the Ultra High Performance option.
 
 	For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+* `xrc_kms_key_id` - (Optional) The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 
 
 ** IMPORTANT **
@@ -128,6 +133,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 

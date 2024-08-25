@@ -37,6 +37,12 @@ func CoreVolumeBackupPolicyAssignmentResource() *schema.Resource {
 			},
 
 			// Optional
+			"xrc_kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"time_created": {
@@ -96,6 +102,11 @@ func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) Create() error {
 		request.PolicyId = &tmp
 	}
 
+	if xrcKmsKeyId, ok := s.D.GetOkExists("xrc_kms_key_id"); ok {
+		tmp := xrcKmsKeyId.(string)
+		request.XrcKmsKeyId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVolumeBackupPolicyAssignment(context.Background(), request)
@@ -147,6 +158,10 @@ func (s *CoreVolumeBackupPolicyAssignmentResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.XrcKmsKeyId != nil {
+		s.D.Set("xrc_kms_key_id", *s.Res.XrcKmsKeyId)
 	}
 
 	return nil

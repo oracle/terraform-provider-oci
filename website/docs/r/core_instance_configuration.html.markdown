@@ -80,6 +80,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					id = var.instance_configuration_instance_details_block_volumes_create_details_source_details_id
 				}
 				vpus_per_gb = var.instance_configuration_instance_details_block_volumes_create_details_vpus_per_gb
+				xrc_kms_key_id = oci_kms_key.test_key.id
 			}
 			volume_id = oci_core_volume.test_volume.id
 		}
@@ -261,6 +262,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 						id = var.instance_configuration_instance_details_options_block_volumes_create_details_source_details_id
 					}
 					vpus_per_gb = var.instance_configuration_instance_details_options_block_volumes_create_details_vpus_per_gb
+					xrc_kms_key_id = oci_kms_key.test_key.id
 				}
 				volume_id = oci_core_volume.test_volume.id
 			}
@@ -477,7 +479,6 @@ The following arguments are supported:
 			* `block_volume_replicas` - (Applicable when instance_type=compute) The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
 				* `availability_domain` - (Required when instance_type=compute) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 				* `display_name` - (Applicable when instance_type=compute) The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
-			* `cluster_placement_group_id` - (Applicable when instance_type=compute) The clusterPlacementGroup Id of the volume for volume placement.
 			* `compartment_id` - (Applicable when instance_type=compute) The OCID of the compartment that contains the volume.
 			* `defined_tags` - (Applicable when instance_type=compute) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -497,6 +498,7 @@ The following arguments are supported:
 				* `30`-`120`: Represents the Ultra High Performance option.
 
 				For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+			* `xrc_kms_key_id` - (Applicable when instance_type=compute) The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 		* `volume_id` - (Applicable when instance_type=compute) The OCID of the volume.
 	* `instance_type` - (Required) The type of instance details. Supported instanceType is compute
 	* `launch_details` - (Applicable when instance_type=compute) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -732,8 +734,8 @@ The following arguments are supported:
 					* `10`: Represents Balanced option.
 					* `20`: Represents Higher Performance option.
 					* `30`-`120`: Represents the Ultra High Performance option.
-
-				  For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+					For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+				* `xrc_kms_key_id` - (Applicable when instance_type=instance_options) The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 			* `volume_id` - (Applicable when instance_type=instance_options) The OCID of the volume.
 		* `launch_details` - (Applicable when instance_type=instance_options) Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
 
@@ -1008,7 +1010,6 @@ The following attributes are exported:
 			* `block_volume_replicas` - The list of block volume replicas to be enabled for this volume in the specified destination availability domains. 
 				* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 				* `display_name` - The display name of the block volume replica. You may optionally specify a *display name* for the block volume replica, otherwise a default is provided. 
-			* `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 			* `compartment_id` - The OCID of the compartment that contains the volume.
 			* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 			* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -1028,7 +1029,7 @@ The following attributes are exported:
 				* `30`-`120`: Represents the Ultra High Performance option.
 
 				For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
-				
+			* `xrc_kms_key_id` - The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 		* `volume_id` - The OCID of the volume.
 	* `instance_type` - The type of instance details. Supported instanceType is compute
 	* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
@@ -1256,8 +1257,8 @@ The following attributes are exported:
 					* `10`: Represents Balanced option.
 					* `20`: Represents Higher Performance option.
 					* `30`-`120`: Represents the Ultra High Performance option.
-
-				  For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB.
+					For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+				* `xrc_kms_key_id` - The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 			* `volume_id` - The OCID of the volume.
 		* `launch_details` - Instance launch details for creating an instance from an instance configuration. Use the `sourceDetails` parameter to specify whether a boot volume or an image should be used to launch a new instance.
 
