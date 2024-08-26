@@ -20,6 +20,7 @@ resource "oci_opsi_host_insight" "test_host_insight" {
 	#Required
 	compartment_id = var.compartment_id
 	entity_source = var.host_insight_entity_source
+	management_agent_id = oci_management_agent_management_agent.test_management_agent.id
 
 	#Optional
 	compute_id = oci_opsi_compute.test_compute.id

@@ -143,6 +143,65 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MacsManagedCloudExadataInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_CLOUD_EXADATA")
+
+		if v.ExadataInfraId != nil {
+			s.D.Set("exadata_infra_id", *v.ExadataInfraId)
+		}
+
+		s.D.Set("exadata_infra_resource_type", v.ExadataInfraResourceType)
+
+		if v.ExadataShape != nil {
+			s.D.Set("exadata_shape", *v.ExadataShape)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.ExadataDisplayName != nil {
+			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
+		}
+
+		if v.ExadataName != nil {
+			s.D.Set("exadata_name", *v.ExadataName)
+		}
+
+		s.D.Set("exadata_rack_type", v.ExadataRackType)
+
+		s.D.Set("exadata_type", v.ExadataType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsVirtualizedExadata != nil {
+			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.PeComanagedExadataInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_EXADATA")
 
@@ -176,7 +235,6 @@ func (s *OpsiExadataInsightDataSourceCrud) SetData() error {
 
 		s.D.Set("exadata_type", v.ExadataType)
 
-		s.D.Set("freeform_tags", v.FreeformTags)
 		s.D.Set("freeform_tags", v.FreeformTags)
 
 		if v.IsVirtualizedExadata != nil {
