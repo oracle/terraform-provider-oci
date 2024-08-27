@@ -200,6 +200,15 @@ The following attributes are exported:
 	* `time_latest_recovery_point` - Latest recovery time point for the DB System, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `port` - The port for primary endpoint of the DB System to listen on.
 * `port_x` - The network port on which X Plugin listens for TCP/IP connections. This is the X Plugin equivalent of port. 
+* `read_endpoint` - The read endpoint of a DB System. 
+	* `exclude_ips` - A list of IP addresses of read replicas that are excluded from serving read requests. 
+	* `is_enabled` - Specifies if the DB System read endpoint is enabled or not. 
+	* `read_endpoint_hostname_label` - The hostname for the read endpoint of the DB System. Used for DNS.
+
+		The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)  (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").
+
+		Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123. 
+	* `read_endpoint_ip_address` - The IP address the DB System read endpoint is configured to listen on. A private IP address of your choice to assign to the read endpoint of the DB System. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet. This should be a "dotted-quad" style IPv4 address. 
 * `secure_connections` - Secure connection configuration details. 
 	* `certificate_generation_type` - Select whether to use MySQL Database Service-managed certificate (SYSTEM) or your own certificate (BYOC). 
 	* `certificate_id` - The OCID of the certificate to use.

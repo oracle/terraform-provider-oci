@@ -196,6 +196,12 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 		s.D.Set("port_x", *s.Res.PortX)
 	}
 
+	if s.Res.ReadEndpoint != nil {
+		s.D.Set("read_endpoint", []interface{}{ReadEndpointDetailsToMap(s.Res.ReadEndpoint)})
+	} else {
+		s.D.Set("read_endpoint", nil)
+	}
+
 	if s.Res.SecureConnections != nil {
 		s.D.Set("secure_connections", []interface{}{SecureConnectionDetailsToMap(s.Res.SecureConnections)})
 	} else {

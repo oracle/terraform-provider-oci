@@ -238,6 +238,12 @@ func (s *MysqlMysqlDbSystemsDataSourceCrud) SetData() error {
 			mysqlDbSystem["mysql_version"] = *r.MysqlVersion
 		}
 
+		if r.ReadEndpoint != nil {
+			mysqlDbSystem["read_endpoint"] = []interface{}{ReadEndpointDetailsToMap(r.ReadEndpoint)}
+		} else {
+			mysqlDbSystem["read_endpoint"] = nil
+		}
+
 		if r.ShapeName != nil {
 			mysqlDbSystem["shape_name"] = *r.ShapeName
 		}

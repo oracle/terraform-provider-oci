@@ -76,6 +76,7 @@ var (
 		"port_x":                  acctest.Representation{RepType: acctest.Optional, Create: `33306`},
 		"secure_connections":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemSecureConnectionsRepresentation},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesForMysqlRepBasic},
+		"read_endpoint":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlMysqlDbSystemReadEndpointRepresentation},
 	}
 
 	ignoreDefinedTagsChangesForMysqlRepBasic = map[string]interface{}{
@@ -119,6 +120,10 @@ var (
 
 	MysqlMysqlDbSystemMaintenanceRepresentation = map[string]interface{}{
 		"window_start_time": acctest.Representation{RepType: acctest.Required, Create: `sun 01:00`},
+	}
+
+	MysqlMysqlDbSystemReadEndpointRepresentation = map[string]interface{}{
+		"is_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	MysqlMysqlDbSystemSecureConnectionsRepresentation = map[string]interface{}{
@@ -214,6 +219,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "maintenance.0.window_start_time", "sun 01:00"),
 				resource.TestCheckResourceAttr(resourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(resourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(resourceName, "read_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "read_endpoint.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
@@ -387,6 +394,8 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "mysql_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port", "3306"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "port_x", "33306"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "read_endpoint.0.is_enabled", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "secure_connections.0.certificate_generation_type", "SYSTEM"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
