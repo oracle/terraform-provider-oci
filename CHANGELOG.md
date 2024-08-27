@@ -1,4 +1,4 @@
-## 6.9.0 (Unreleased)
+## 6.9.0 (August 27, 2024)
 
 ### Added
 - Support for Delegated Access Control for Exadata Cloud Services
