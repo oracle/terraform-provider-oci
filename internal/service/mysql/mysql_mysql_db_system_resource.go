@@ -321,6 +321,45 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"read_endpoint": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"exclude_ips": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
+						"read_endpoint_hostname_label": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"read_endpoint_ip_address": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"secure_connections": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -1063,6 +1102,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 		request.PortX = &tmp
 	}
 
+	if readEndpoint, ok := s.D.GetOkExists("read_endpoint"); ok {
+		if tmpList := readEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "read_endpoint", 0)
+			tmp, err := s.mapToCreateReadEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReadEndpoint = &tmp
+		}
+	}
+
 	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok {
 		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
@@ -1244,6 +1294,17 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 		}
 	}
 
+	if readEndpoint, ok := s.D.GetOkExists("read_endpoint"); ok && s.D.HasChange("read_endpoint") {
+		if tmpList := readEndpoint.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "read_endpoint", 0)
+			tmp, err := s.mapToUpdateReadEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.ReadEndpoint = &tmp
+		}
+	}
+
 	if secureConnections, ok := s.D.GetOkExists("secure_connections"); ok && s.D.HasChange("secure_connections") {
 		if tmpList := secureConnections.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "secure_connections", 0)
@@ -1411,6 +1472,12 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 
 	if s.Res.PortX != nil {
 		s.D.Set("port_x", *s.Res.PortX)
+	}
+
+	if s.Res.ReadEndpoint != nil {
+		s.D.Set("read_endpoint", []interface{}{ReadEndpointDetailsToMap(s.Res.ReadEndpoint)})
+	} else {
+		s.D.Set("read_endpoint", nil)
 	}
 
 	if s.Res.SecureConnections != nil {
@@ -1974,6 +2041,94 @@ func DataStorageToMap(obj *oci_mysql.DataStorage) map[string]interface{} {
 
 	if obj.MaxStorageSizeInGBs != nil {
 		result["max_storage_size_in_gbs"] = int(*obj.MaxStorageSizeInGBs)
+	}
+
+	return result
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToCreateReadEndpointDetails(fieldKeyFormat string) (oci_mysql.CreateReadEndpointDetails, error) {
+	result := oci_mysql.CreateReadEndpointDetails{}
+
+	if excludeIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_ips")); ok {
+		interfaces := excludeIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_ips")) {
+			result.ExcludeIps = tmp
+		}
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if readEndpointHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_hostname_label")); ok {
+		tmp := readEndpointHostnameLabel.(string)
+		result.ReadEndpointHostnameLabel = &tmp
+	}
+
+	if readEndpointIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_ip_address")); ok {
+		tmp := readEndpointIpAddress.(string)
+		result.ReadEndpointIpAddress = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *MysqlMysqlDbSystemResourceCrud) mapToUpdateReadEndpointDetails(fieldKeyFormat string) (oci_mysql.UpdateReadEndpointDetails, error) {
+	result := oci_mysql.UpdateReadEndpointDetails{}
+
+	if excludeIps, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_ips")); ok {
+		interfaces := excludeIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_ips")) {
+			result.ExcludeIps = tmp
+		}
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if readEndpointHostnameLabel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_hostname_label")); ok {
+		tmp := readEndpointHostnameLabel.(string)
+		result.ReadEndpointHostnameLabel = &tmp
+	}
+
+	if readEndpointIpAddress, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "read_endpoint_ip_address")); ok {
+		tmp := readEndpointIpAddress.(string)
+		result.ReadEndpointIpAddress = &tmp
+	}
+
+	return result, nil
+}
+
+func ReadEndpointDetailsToMap(obj *oci_mysql.ReadEndpointDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["exclude_ips"] = obj.ExcludeIps
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.ReadEndpointHostnameLabel != nil {
+		result["read_endpoint_hostname_label"] = string(*obj.ReadEndpointHostnameLabel)
+	}
+
+	if obj.ReadEndpointIpAddress != nil {
+		result["read_endpoint_ip_address"] = string(*obj.ReadEndpointIpAddress)
 	}
 
 	return result
