@@ -53,28 +53,6 @@ var (
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance.test_bds_instance.id}`}},
 	}
 
-	BdsBdsInstanceRepresentation = map[string]interface{}{
-		"cluster_admin_password":           acctest.Representation{RepType: acctest.Required, Create: `clusterAdminPassword`},
-		"cluster_public_key":               acctest.Representation{RepType: acctest.Required, Create: `clusterPublicKey`},
-		"cluster_version":                  acctest.Representation{RepType: acctest.Required, Create: `ODH2_0`},
-		"compartment_id":                   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":                     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
-		"is_high_availability":             acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"is_secure":                        acctest.Representation{RepType: acctest.Required, Create: `false`},
-		"nodes":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsBdsInstanceNodesRepresentation},
-		"bootstrap_script_url":             acctest.Representation{RepType: acctest.Optional, Create: `bootstrapScriptUrl`, Update: `bootstrapScriptUrl2`},
-		"cluster_profile":                  acctest.Representation{RepType: acctest.Optional, Create: `HADOOP_EXTENDED`},
-		"defined_tags":                     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"freeform_tags":                    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
-		"kerberos_realm_name":              acctest.Representation{RepType: acctest.Optional, Create: `kerberosRealmName`},
-		"kms_key_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"network_config":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: BdsBdsInstanceNetworkConfigRepresentation},
-		"add_kafka_trigger":                acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
-		"execute_bootstrap_script_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
-		"remove_kafka_trigger":             acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
-		"state":                            acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
-	}
-
 	BdsBdsInstanceNodesRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`, Update: `VM.Standard2.4`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -724,17 +702,13 @@ func TestResourceBdsOdhInstance(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.image_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.instance_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ip_address"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.is_reboot_required"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.local_disks_total_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.memory_in_gbs"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.0.node_type", "MASTER"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.nvmes"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ocpus"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.os_version"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "nodes.0.shape", "VM.Standard.E4.Flex"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.ssh_fingerprint"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.node_type"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.shape"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "nodes.0.state"),

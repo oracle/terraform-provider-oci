@@ -8,4 +8,5 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_announcements_service_announcement_subscription", AnnouncementsServiceAnnouncementSubscriptionDataSource())
 	tfresource.RegisterDatasource("oci_announcements_service_announcement_subscriptions", AnnouncementsServiceAnnouncementSubscriptionsDataSource())
+	tfresource.RegisterDatasource("oci_announcements_service_services", AnnouncementsServiceServicesDataSource())
 }

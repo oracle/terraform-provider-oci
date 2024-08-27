@@ -39,6 +39,10 @@ func DatabaseManagementDatabaseDbmFeaturesManagementResource() *schema.Resource 
 				Type:     schema.TypeBool,
 				Required: true,
 			},
+			"modify_database_dbm_feature": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 
 			// Optional
 			"feature_details": {
@@ -55,7 +59,9 @@ func DatabaseManagementDatabaseDbmFeaturesManagementResource() *schema.Resource 
 							//ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DB_LIFECYCLE_MANAGEMENT",
 								"DIAGNOSTICS_AND_MANAGEMENT",
+								"SQLWATCH",
 							}, true),
 						},
 
@@ -74,6 +80,7 @@ func DatabaseManagementDatabaseDbmFeaturesManagementResource() *schema.Resource 
 										Optional:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -124,9 +131,16 @@ func DatabaseManagementDatabaseDbmFeaturesManagementResource() *schema.Resource 
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
 														"DETAILS",
+														"NAMED_CREDENTIAL",
 														"NAME_REFERENCE",
 														"SSL_DETAILS",
 													}, true),
+												},
+												"named_credential_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"password_secret_id": {
 													Type:      schema.TypeString,
@@ -262,65 +276,19 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) Create() e
 	if enableOperation, ok := s.D.GetOkExists("enable_database_dbm_feature"); ok {
 		operation = enableOperation.(bool)
 	}
+
+	var modifyOperation bool
+	if op, ok := s.D.GetOkExists("modify_database_dbm_feature"); ok {
+		modifyOperation = op.(bool)
+	}
+
 	if operation {
-		request := oci_database_management.EnableDatabaseManagementFeatureRequest{}
-
-		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-			tmp := databaseId.(string)
-			request.DatabaseId = &tmp
+		if modifyOperation {
+			return modifyCloudDBFeature(s)
 		}
-
-		if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-			if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-				tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.FeatureDetails = tmp
-			}
-		}
-
-		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-		response, err := s.Client.EnableDatabaseManagementFeature(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		workId := response.OpcWorkRequestId
-		err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
-		if err != nil {
-			return err
-		}
-		s.Res.enableResponse = &response
-		return nil
+		return enableCloudDBFeature(s)
 	}
-	request := oci_database_management.DisableDatabaseManagementFeatureRequest{}
-
-	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-		tmp := databaseId.(string)
-		request.DatabaseId = &tmp
-	}
-
-	if feature, ok := s.D.GetOkExists("feature"); ok {
-		request.Feature = oci_database_management.DbManagementFeatureEnum(feature.(string))
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	s.Res.disableResponse = &response
-	return nil
+	return disableCloudDBFeature(s)
 }
 
 func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) getDatabaseDbmFeaturesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -442,73 +410,19 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) Update() e
 	if enableOperation, ok := s.D.GetOkExists("enable_database_dbm_feature"); ok {
 		operation = enableOperation.(bool)
 	}
+
+	var modifyOperation bool
+	if op, ok := s.D.GetOkExists("modify_database_dbm_feature"); ok {
+		modifyOperation = op.(bool)
+	}
+
 	if operation {
-		request := oci_database_management.ModifyDatabaseManagementFeatureRequest{}
-
-		if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-			tmp := databaseId.(string)
-			request.DatabaseId = &tmp
+		if modifyOperation {
+			return modifyCloudDBFeature(s)
 		}
-
-		if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-			if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-				tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.FeatureDetails = tmp
-			}
-		}
-
-		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-		response, err := s.Client.ModifyDatabaseManagementFeature(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		workId := response.OpcWorkRequestId
-		err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-		if err != nil {
-			return err
-		}
-		s.Res.modifyResponse = &response
-		return nil
+		return enableCloudDBFeature(s)
 	}
-	request := oci_database_management.DisableDatabaseManagementFeatureRequest{}
-
-	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-		tmp := databaseId.(string)
-		request.DatabaseId = &tmp
-	}
-
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	s.Res.disableResponse = &response
-	return nil
+	return disableCloudDBFeature(s)
 }
 
 func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) Delete() error {
@@ -520,39 +434,8 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) Delete() e
 		return nil
 	}
 
-	request := oci_database_management.DisableDatabaseManagementFeatureRequest{}
-
-	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
-		tmp := databaseId.(string)
-		request.DatabaseId = &tmp
-	}
-
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-
-	s.Res.disableResponse = &response
-	return nil
+	// default value
+	return disableCloudDBFeature(s)
 }
 
 func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) SetData() error {
@@ -570,6 +453,9 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToConne
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
@@ -624,6 +510,13 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 		if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 			tmp := userName.(string)
 			details.UserName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialConnectionDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("NAME_REFERENCE"):
@@ -689,28 +582,6 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 	return result, nil
 }
 
-func DatabaseConnectionDetailsToMap(obj *oci_database_management.DatabaseConnectionDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.ConnectionCredentials != nil {
-		connectionCredentialsArray := []interface{}{}
-		if connectionCredentialsMap := DatabaseConnectionCredentialsToMap(&obj.ConnectionCredentials); connectionCredentialsMap != nil {
-			connectionCredentialsArray = append(connectionCredentialsArray, connectionCredentialsMap)
-		}
-		result["connection_credentials"] = connectionCredentialsArray
-	}
-
-	if obj.ConnectionString != nil {
-		connectionStringArray := []interface{}{}
-		if connectionStringMap := DatabaseConnectionStringDetailsToMap(&obj.ConnectionString); connectionStringMap != nil {
-			connectionStringArray = append(connectionStringArray, connectionStringMap)
-		}
-		result["connection_string"] = connectionStringArray
-	}
-
-	return result
-}
-
 func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatabaseConnectionStringDetails(fieldKeyFormat string) (oci_database_management.DatabaseConnectionStringDetails, error) {
 	var baseObject oci_database_management.DatabaseConnectionStringDetails
 	//discriminator
@@ -742,29 +613,6 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 	return baseObject, nil
 }
 
-func DatabaseConnectionStringDetailsToMap(obj *oci_database_management.DatabaseConnectionStringDetails) map[string]interface{} {
-	result := map[string]interface{}{}
-	switch v := (*obj).(type) {
-	case oci_database_management.BasicDatabaseConnectionStringDetails:
-		result["connection_type"] = "BASIC"
-
-		if v.Port != nil {
-			result["port"] = int(*v.Port)
-		}
-
-		result["protocol"] = string(v.Protocol)
-
-		if v.Service != nil {
-			result["service"] = string(*v.Service)
-		}
-	default:
-		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *obj)
-		return nil
-	}
-
-	return result
-}
-
 func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatabaseFeatureDetails(fieldKeyFormat string) (oci_database_management.DatabaseFeatureDetails, error) {
 	var baseObject oci_database_management.DatabaseFeatureDetails
 	//discriminator
@@ -776,6 +624,29 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 		feature = "" // default value
 	}
 	switch strings.ToLower(feature) {
+	case strings.ToLower("DB_LIFECYCLE_MANAGEMENT"):
+		details := oci_database_management.DatabaseLifecycleManagementFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		if databaseConnectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connection_details")); ok {
+			if tmpList := databaseConnectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_connection_details"), 0)
+				tmp, err := s.mapToDatabaseConnectionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_connection_details, encountered error: %v", err)
+				}
+				details.DatabaseConnectionDetails = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.DatabaseDiagnosticsAndManagementFeatureDetails{}
 		if isAutoEnablePluggableDatabase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_enable_pluggable_database")); ok {
@@ -806,6 +677,29 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 			}
 		}
 		baseObject = details
+	case strings.ToLower("SQLWATCH"):
+		details := oci_database_management.DatabaseSqlWatchFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		if databaseConnectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connection_details")); ok {
+			if tmpList := databaseConnectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_connection_details"), 0)
+				tmp, err := s.mapToDatabaseConnectionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_connection_details, encountered error: %v", err)
+				}
+				details.DatabaseConnectionDetails = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown feature '%v' was specified", feature)
 	}
@@ -815,6 +709,8 @@ func (s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) mapToDatab
 func DatabaseFeatureDetailsToMap(obj *oci_database_management.DatabaseFeatureDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_database_management.DatabaseLifecycleManagementFeatureDetails:
+		result["feature"] = "DB_LIFECYCLE_MANAGEMENT"
 	case oci_database_management.DatabaseDiagnosticsAndManagementFeatureDetails:
 		result["feature"] = "DIAGNOSTICS_AND_MANAGEMENT"
 
@@ -823,10 +719,118 @@ func DatabaseFeatureDetailsToMap(obj *oci_database_management.DatabaseFeatureDet
 		}
 
 		result["management_type"] = string(v.ManagementType)
+	case oci_database_management.DatabaseSqlWatchFeatureDetails:
+		result["feature"] = "SQLWATCH"
 	default:
 		log.Printf("[WARN] Received 'feature' of unknown type %v", *obj)
 		return nil
 	}
 
 	return result
+}
+
+func enableCloudDBFeature(s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.EnableDatabaseManagementFeatureRequest{}
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FeatureDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.EnableDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	s.Res.enableResponse = &response
+	return nil
+}
+
+func disableCloudDBFeature(s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.DisableDatabaseManagementFeatureRequest{}
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
+			if ok {
+				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
+			} else {
+				request.Feature = ""
+			}
+		}
+	}
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.DisableDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+
+	s.Res.disableResponse = &response
+	return nil
+}
+
+func modifyCloudDBFeature(s *DatabaseManagementDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.ModifyDatabaseManagementFeatureRequest{}
+
+	if databaseId, ok := s.D.GetOkExists("database_id"); ok {
+		tmp := databaseId.(string)
+		request.DatabaseId = &tmp
+	}
+
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FeatureDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.ModifyDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	s.Res.modifyResponse = &response
+	return nil
 }

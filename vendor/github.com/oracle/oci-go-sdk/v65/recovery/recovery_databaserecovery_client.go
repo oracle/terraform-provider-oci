@@ -207,6 +207,64 @@ func (client DatabaseRecoveryClient) changeProtectedDatabaseCompartment(ctx cont
 	return response, err
 }
 
+// ChangeProtectedDatabaseSubscription Associates the protected database with a new cloud service environment, such as Microsoft Azure.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/recovery/ChangeProtectedDatabaseSubscription.go.html to see an example of how to use ChangeProtectedDatabaseSubscription API.
+// A default retry strategy applies to this operation ChangeProtectedDatabaseSubscription()
+func (client DatabaseRecoveryClient) ChangeProtectedDatabaseSubscription(ctx context.Context, request ChangeProtectedDatabaseSubscriptionRequest) (response ChangeProtectedDatabaseSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.changeProtectedDatabaseSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeProtectedDatabaseSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeProtectedDatabaseSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeProtectedDatabaseSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeProtectedDatabaseSubscriptionResponse")
+	}
+	return
+}
+
+// changeProtectedDatabaseSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseRecoveryClient) changeProtectedDatabaseSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/protectedDatabases/{protectedDatabaseId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeProtectedDatabaseSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/recovery-service/20210216/ProtectedDatabase/ChangeProtectedDatabaseSubscription"
+		err = common.PostProcessServiceError(err, "DatabaseRecovery", "ChangeProtectedDatabaseSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeProtectionPolicyCompartment Moves a protection policy resource from the existing compartment to the specified compartment. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also

@@ -38,6 +38,10 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 				Type:     schema.TypeBool,
 				Required: true,
 			},
+			"modify_pluggable_database_dbm_feature": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 
 			// Optional
 			"feature_details": {
@@ -53,7 +57,9 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DB_LIFECYCLE_MANAGEMENT",
 								"DIAGNOSTICS_AND_MANAGEMENT",
+								"SQLWATCH",
 							}, true),
 						},
 
@@ -72,6 +78,7 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 										Optional:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -122,9 +129,16 @@ func DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementRe
 													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 													ValidateFunc: validation.StringInSlice([]string{
 														"DETAILS",
+														"NAMED_CREDENTIAL",
 														"NAME_REFERENCE",
 														"SSL_DETAILS",
 													}, true),
+												},
+												"named_credential_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"password_secret_id": {
 													Type:      schema.TypeString,
@@ -241,6 +255,7 @@ func deleteDatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManage
 type DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResponse struct {
 	enableResponse  *oci_database_management.EnablePluggableDatabaseManagementFeatureResponse
 	disableResponse *oci_database_management.DisablePluggableDatabaseManagementFeatureResponse
+	modifyResponse  *oci_database_management.ModifyPluggableDatabaseManagementFeatureResponse
 }
 
 type DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud struct {
@@ -260,66 +275,18 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		operation = enableOperation.(bool)
 	}
 
+	var modifyOperation bool
+	if op, ok := s.D.GetOkExists("modify_pluggable_database_dbm_feature"); ok {
+		modifyOperation = op.(bool)
+	}
+
 	if operation {
-		request := oci_database_management.EnablePluggableDatabaseManagementFeatureRequest{}
-
-		if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-			if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-				tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.FeatureDetails = tmp
-			}
+		if modifyOperation {
+			return modifyCloudPDBFeature(s)
 		}
-
-		if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
-			tmp := pluggableDatabaseId.(string)
-			request.PluggableDatabaseId = &tmp
-		}
-
-		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-		response, err := s.Client.EnablePluggableDatabaseManagementFeature(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		workId := response.OpcWorkRequestId
-		err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
-		if err != nil {
-			return err
-		}
-		s.Res.enableResponse = &response
-		return nil
+		return enableCloudPDBFeature(s)
 	}
-
-	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
-
-	if feature, ok := s.D.GetOkExists("feature"); ok {
-		request.Feature = oci_database_management.DbManagementFeatureEnum(feature.(string))
-	}
-
-	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
-		tmp := pluggableDatabaseId.(string)
-		request.PluggableDatabaseId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisablePluggableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	s.Res.disableResponse = &response
-	return nil
+	return disableCloudPDBFeature(s)
 }
 
 func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
@@ -442,74 +409,18 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		operation = enableOperation.(bool)
 	}
 
+	var modifyOperation bool
+	if op, ok := s.D.GetOkExists("modify_pluggable_database_dbm_feature"); ok {
+		modifyOperation = op.(bool)
+	}
+
 	if operation {
-		request := oci_database_management.EnablePluggableDatabaseManagementFeatureRequest{}
-
-		if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-			if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-				tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
-				if err != nil {
-					return err
-				}
-				request.FeatureDetails = tmp
-			}
+		if modifyOperation {
+			return modifyCloudPDBFeature(s)
 		}
-
-		if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
-			tmp := pluggableDatabaseId.(string)
-			request.PluggableDatabaseId = &tmp
-		}
-
-		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-		response, err := s.Client.EnablePluggableDatabaseManagementFeature(context.Background(), request)
-		if err != nil {
-			return err
-		}
-
-		workId := response.OpcWorkRequestId
-		err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
-		if err != nil {
-			return err
-		}
-		s.Res.enableResponse = &response
-		return nil
+		return enableCloudPDBFeature(s)
 	}
-
-	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
-
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
-
-	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
-		tmp := pluggableDatabaseId.(string)
-		request.PluggableDatabaseId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisablePluggableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-	s.Res.disableResponse = &response
-	return nil
+	return disableCloudPDBFeature(s)
 }
 
 func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) Delete() error {
@@ -522,40 +433,8 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		return nil
 	}
 
-	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
-
-	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
-		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
-			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
-			if ok {
-				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
-			} else {
-				request.Feature = "" // default value
-			}
-		}
-	}
-
-	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
-		tmp := pluggableDatabaseId.(string)
-		request.PluggableDatabaseId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
-
-	response, err := s.Client.DisablePluggableDatabaseManagementFeature(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	workId := response.OpcWorkRequestId
-	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
-	if err != nil {
-		return err
-	}
-
-	s.Res.disableResponse = &response
-	return nil
+	// default value
+	return disableCloudPDBFeature(s)
 }
 
 func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) SetData() error {
@@ -573,6 +452,9 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
@@ -627,6 +509,13 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		if userName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_name")); ok {
 			tmp := userName.(string)
 			details.UserName = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("NAMED_CREDENTIAL"):
+		details := oci_database_management.DatabaseNamedCredentialConnectionDetails{}
+		if namedCredentialId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "named_credential_id")); ok {
+			tmp := namedCredentialId.(string)
+			details.NamedCredentialId = &tmp
 		}
 		baseObject = details
 	case strings.ToLower("NAME_REFERENCE"):
@@ -734,6 +623,29 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 		feature = "" // default value
 	}
 	switch strings.ToLower(feature) {
+	case strings.ToLower("DB_LIFECYCLE_MANAGEMENT"):
+		details := oci_database_management.DatabaseLifecycleManagementFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		if databaseConnectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connection_details")); ok {
+			if tmpList := databaseConnectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_connection_details"), 0)
+				tmp, err := s.mapToDatabaseConnectionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_connection_details, encountered error: %v", err)
+				}
+				details.DatabaseConnectionDetails = &tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.DatabaseDiagnosticsAndManagementFeatureDetails{}
 		if isAutoEnablePluggableDatabase, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_auto_enable_pluggable_database")); ok {
@@ -764,8 +676,137 @@ func (s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManageme
 			}
 		}
 		baseObject = details
+	case strings.ToLower("SQLWATCH"):
+		details := oci_database_management.DatabaseSqlWatchFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		if databaseConnectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connection_details")); ok {
+			if tmpList := databaseConnectionDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "database_connection_details"), 0)
+				tmp, err := s.mapToDatabaseConnectionDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert database_connection_details, encountered error: %v", err)
+				}
+				details.DatabaseConnectionDetails = &tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown feature '%v' was specified", feature)
 	}
 	return baseObject, nil
+}
+
+func enableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.EnablePluggableDatabaseManagementFeatureRequest{}
+
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FeatureDetails = tmp
+		}
+	}
+
+	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
+		tmp := pluggableDatabaseId.(string)
+		request.PluggableDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.EnablePluggableDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	s.Res.enableResponse = &response
+	return nil
+}
+
+func disableCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.DisablePluggableDatabaseManagementFeatureRequest{}
+
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			featureRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "feature"))
+			if ok {
+				request.Feature = oci_database_management.DbManagementFeatureEnum(featureRaw.(string))
+			} else {
+				request.Feature = ""
+			}
+		}
+	}
+
+	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
+		tmp := pluggableDatabaseId.(string)
+		request.PluggableDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.DisablePluggableDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+
+	s.Res.disableResponse = &response
+	return nil
+}
+
+func modifyCloudPDBFeature(s *DatabaseManagementPluggabledatabasePluggableDatabaseDbmFeaturesManagementResourceCrud) error {
+	request := oci_database_management.ModifyPluggableDatabaseManagementFeatureRequest{}
+	if featureDetails, ok := s.D.GetOkExists("feature_details"); ok {
+		if tmpList := featureDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "feature_details", 0)
+			tmp, err := s.mapToDatabaseFeatureDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.FeatureDetails = tmp
+		}
+	}
+
+	if pluggableDatabaseId, ok := s.D.GetOkExists("pluggable_database_id"); ok {
+		tmp := pluggableDatabaseId.(string)
+		request.PluggableDatabaseId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management")
+
+	response, err := s.Client.ModifyPluggableDatabaseManagementFeature(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	err = s.getPluggabledatabasePluggableDatabaseDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	if err != nil {
+		return err
+	}
+	s.Res.modifyResponse = &response
+	return nil
 }

@@ -60,6 +60,7 @@ The following attributes are exported:
 
 						For example: inventorydb.abc112233445566778899 
 					* `credential_type` - The type of credential used to connect to the ASM instance.
+					* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Named Credential where the database password metadata is stored. 
 					* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 					* `role` - The role of the user connecting to the ASM instance.
 					* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the SSL keystore and truststore details.
@@ -98,6 +99,7 @@ The following attributes are exported:
 
 					For example: inventorydb.abc112233445566778899 
 				* `credential_type` - The type of credential used to connect to the ASM instance.
+				* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Named Credential where the database password metadata is stored. 
 				* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 				* `role` - The role of the user connecting to the ASM instance.
 				* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the SSL keystore and truststore details.
@@ -169,6 +171,7 @@ The following attributes are exported:
 
 						For example: inventorydb.abc112233445566778899 
 					* `credential_type` - The type of credential used to connect to the ASM instance.
+					* `named_credential_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Named Credential where the database password metadata is stored. 
 					* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the user password.
 					* `role` - The role of the user connecting to the ASM instance.
 					* `ssl_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret containing the SSL keystore and truststore details.

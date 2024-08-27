@@ -26,10 +26,6 @@ import (
 )
 
 var (
-	ignoreDbManagementPrivateEndpointDefinedTagsChangesRepresentation = map[string]interface{}{
-		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
-	}
-
 	DatabaseManagementDbManagementPrivateEndpointRequiredOnlyResource = DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation)
 
@@ -40,34 +36,32 @@ var (
 		"db_management_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`},
 	}
 
-	DatabaseManagementDatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"is_cluster":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"vcn_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.id}`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDbManagementPrivateEndpointDataSourceFilterRepresentation}}
+	DatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"is_cluster":                acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_dns_resolution_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"name":                      acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"vcn_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${var.test_vcn_id}`},
+		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseManagementDbManagementPrivateEndpointDataSourceFilterRepresentation}}
+
 	DatabaseManagementDbManagementPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id}`}},
 	}
 
 	DatabaseManagementDbManagementPrivateEndpointRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":    acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"is_cluster":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDbManagementPrivateEndpointDefinedTagsChangesRepresentation},
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"name":                      acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
+		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_cluster":                acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"is_dns_resolution_enabled": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}, Update: []string{}},
 	}
 
-	DatabaseManagementDbManagementPrivateEndpointResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		DefinedTagsDependencies
+	DatabaseManagementDbManagementPrivateEndpointResourceDependencies = ""
 )
 
 // issue-routing-tag: database_management/default
@@ -81,8 +75,17 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 	compartmentId := utils.GetEnvSettingWithBlankDefault("dbmgmt_compartment_id")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
+	subnetId := utils.GetEnvSettingWithBlankDefault("dbmgmt_subnet_id")
+	subnetIdVariableStr := fmt.Sprintf("variable \"test_subnet_id\" { default = \"%s\" }\n", subnetId)
+
+	vcnId := utils.GetEnvSettingWithBlankDefault("dbmgmt_vcn_id")
+	vcnIdVariableStr := fmt.Sprintf("variable \"test_vcn_id\" { default = \"%s\" }\n", vcnId)
+
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	nsgId := utils.GetEnvSettingWithBlankDefault("dbmgmt_nsg_id")
+	nsgIdVariableStr := fmt.Sprintf("variable \"test_nsg_id\" { default = \"%s\" }\n", nsgId)
 
 	resourceName := "oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint"
 	datasourceName := "data.oci_database_management_db_management_private_endpoints.test_db_management_private_endpoints"
@@ -98,18 +101,22 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		Providers: map[string]*schema.Provider{
 			"oci": provider,
 		},
-
 		CheckDestroy: testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy,
 		Steps: []resource.TestStep{
+			// delete before next Create
+			{
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies,
+			},
 			// verify Create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -117,26 +124,25 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					},
 				),
 			},
-
 			// delete before next Create
 			{
-				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies,
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies,
 			},
 			// verify Create with optionals
 			{
-				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
-					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -152,7 +158,7 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 			// verify Update to the compartment (the compartment will be switched back in the next step)
 			{
-				Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + compartmentIdUVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Create,
 						acctest.RepresentationCopyWithNewProperties(DatabaseManagementDbManagementPrivateEndpointRepresentation, map[string]interface{}{
 							"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
@@ -162,11 +168,11 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 					resource.TestCheckResourceAttr(resourceName, "description", "description"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
-					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -180,19 +186,19 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 
 			// verify updates to updatable parameters
 			{
-				Config: config + compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr + compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(resourceName, "id"),
+					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(resourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(resourceName, "name", "name2"),
-					resource.TestCheckResourceAttrSet(resourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 					resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "0"),
-					resource.TestCheckResourceAttr(resourceName, "is_cluster", "false"),
 
 					func(s *terraform.State) (err error) {
 						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -205,36 +211,40 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 			},
 			// verify datasource
 			{
-				Config: config +
-					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", acctest.Optional, acctest.Update, DatabaseManagementDatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoints", "test_db_management_private_endpoints", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointDataSourceRepresentation) +
+					compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceDependencies +
 					acctest.GenerateResourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Optional, acctest.Update, DatabaseManagementDbManagementPrivateEndpointRepresentation),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(datasourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(datasourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(datasourceName, "name", "name2"),
 					resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 					resource.TestCheckResourceAttrSet(datasourceName, "vcn_id"),
+
 					resource.TestCheckResourceAttr(datasourceName, "db_management_private_endpoint_collection.#", "1"),
 					resource.TestCheckResourceAttr(datasourceName, "db_management_private_endpoint_collection.0.items.#", "1"),
-					resource.TestCheckResourceAttr(datasourceName, "is_cluster", "false"),
 				),
 			},
 			// verify singular datasource
 			{
-				Config: config +
+				Config: config + subnetIdVariableStr + vcnIdVariableStr +
 					acctest.GenerateDataSourceFromRepresentationMap("oci_database_management_db_management_private_endpoint", "test_db_management_private_endpoint", acctest.Required, acctest.Create, DatabaseManagementDatabaseManagementDbManagementPrivateEndpointSingularDataSourceRepresentation) +
-					compartmentIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceConfig,
+					compartmentIdVariableStr + nsgIdVariableStr + DatabaseManagementDbManagementPrivateEndpointResourceConfig,
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_management_private_endpoint_id"),
+
 					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_cluster", "false"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "is_dns_resolution_enabled", "false"),
 					resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-					resource.TestCheckResourceAttr(singularDatasourceName, "is_cluster", "false"),
 				),
 			},
 			// verify resource import
@@ -248,7 +258,6 @@ func TestDatabaseManagementDbManagementPrivateEndpointResource_basic(t *testing.
 		},
 	})
 }
-
 func testAccCheckDatabaseManagementDbManagementPrivateEndpointDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).DbManagementClient()

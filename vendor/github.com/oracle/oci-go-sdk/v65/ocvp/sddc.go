@@ -168,6 +168,10 @@ type Sddc struct {
 
 	// The current state of the SDDC.
 	LifecycleState LifecycleStatesEnum `mandatory:"false" json:"lifecycleState,omitempty"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Sddc) String() string {

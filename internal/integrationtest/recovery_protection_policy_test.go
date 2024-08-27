@@ -57,6 +57,7 @@ var (
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"defined_tags":                    acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
+		"must_enforce_cloud_locality":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"policy_locked_date_time":         acctest.Representation{RepType: acctest.Optional, Create: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate, Update: recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: recoveryIgnoreDefinedTagsRepresentation},
 	}
@@ -118,6 +119,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "must_enforce_cloud_locality", "false"),
 				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate),
 
 				func(s *terraform.State) (err error) {
@@ -146,6 +148,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "must_enforce_cloud_locality", "false"),
 				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeCreate),
 
 				func(s *terraform.State) (err error) {
@@ -169,6 +172,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(resourceName, "must_enforce_cloud_locality", "false"),
 				resource.TestCheckResourceAttr(resourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate),
 
 				func(s *terraform.State) (err error) {
@@ -211,6 +215,7 @@ func TestRecoveryProtectionPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_predefined_policy"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "must_enforce_cloud_locality", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "policy_locked_date_time", recoveryProtectionPolicyRepresentationPolicyLockedDateTimeUpdate),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),

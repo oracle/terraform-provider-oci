@@ -222,6 +222,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		autonomousDatabase["autonomous_maintenance_schedule_type"] = r.AutonomousMaintenanceScheduleType
 
+		if r.AvailabilityDomain != nil {
+			autonomousDatabase["availability_domain"] = *r.AvailabilityDomain
+		}
+
 		autonomousDatabase["available_upgrade_versions"] = r.AvailableUpgradeVersions
 
 		if r.BackupConfig != nil {

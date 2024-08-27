@@ -115,6 +115,11 @@ func RecoveryProtectedDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"subscription_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"health": {
@@ -347,6 +352,11 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Create() error {
 		}
 	}
 
+	if subscriptionId, ok := s.D.GetOkExists("subscription_id"); ok {
+		tmp := subscriptionId.(string)
+		request.SubscriptionId = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
 	response, err := s.Client.CreateProtectedDatabase(context.Background(), request)
@@ -505,6 +515,14 @@ func (s *RecoveryProtectedDatabaseResourceCrud) Update() error {
 			}
 		}
 	}
+
+	if subscription, ok := s.D.GetOkExists("subscription_id"); ok && s.D.HasChange("subscription_id") {
+		err := s.updateSubscription(subscription.(string))
+		if err != nil {
+			return err
+		}
+	}
+
 	request := oci_recovery.UpdateProtectedDatabaseRequest{}
 
 	if databaseSize, ok := s.D.GetOkExists("database_size"); ok {
@@ -654,6 +672,12 @@ func (s *RecoveryProtectedDatabaseResourceCrud) SetData() error {
 	s.D.Set("recovery_service_subnets", recoveryServiceSubnets)
 
 	s.D.Set("state", s.Res.LifecycleState)
+
+	if s.Res.SubscriptionId != nil {
+		s.D.Set("subscription_id", *s.Res.SubscriptionId)
+	} else {
+		s.D.Set("subscription_id", nil)
+	}
 
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
@@ -815,6 +839,10 @@ func ProtectedDatabaseSummaryToMap(obj oci_recovery.ProtectedDatabaseSummary) ma
 
 	result["state"] = string(obj.LifecycleState)
 
+	if obj.SubscriptionId != nil {
+		result["subscription_id"] = string(*obj.SubscriptionId)
+	}
+
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
 	}
@@ -869,6 +897,29 @@ func (s *RecoveryProtectedDatabaseResourceCrud) updateCompartment(compartment in
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
 
 	response, err := s.Client.ChangeProtectedDatabaseCompartment(context.Background(), changeCompartmentRequest)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getProtectedDatabaseFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery"), oci_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *RecoveryProtectedDatabaseResourceCrud) updateSubscription(subscriptionId string) error {
+	changeSubscriptionRequest := oci_recovery.ChangeProtectedDatabaseSubscriptionRequest{}
+
+	idTmp := s.D.Id()
+	changeSubscriptionRequest.ProtectedDatabaseId = &idTmp
+
+	subscriptionIdTmp := subscriptionId
+	changeSubscriptionRequest.SubscriptionId = &subscriptionIdTmp
+
+	isDefaultTmp := false
+	changeSubscriptionRequest.IsDefault = &isDefaultTmp
+
+	changeSubscriptionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "recovery")
+
+	response, err := s.Client.ChangeProtectedDatabaseSubscription(context.Background(), changeSubscriptionRequest)
 	if err != nil {
 		return err
 	}

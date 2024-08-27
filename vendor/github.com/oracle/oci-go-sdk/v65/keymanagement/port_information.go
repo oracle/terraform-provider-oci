@@ -15,13 +15,13 @@ import (
 	"strings"
 )
 
-// PortInformation The details of the port.
+// PortInformation Details of a single portInformation item include the PortNumber (an integer used as an identifier) and the PortType (this refers to either an enum value of Management Utility, Client Utility, or null)
 type PortInformation struct {
 
-	// The port number of the cavium server.
+	// The port number is a unique identifier which is typically used as the loadbalancer listener.
 	PortNumber *int `mandatory:"true" json:"portNumber"`
 
-	// Port type associated for the port number.
+	// Port type associated for the port number. The two port type enums are `CLIENTUTILITY` and `MANAGEMENTUTILITY`. The CLIENTUTILITY enum corresponds to a port which is used by the client daemon. The MANAGEMENTUTILITY enum corresponds to a port used by user management utility.
 	PortType PortInformationPortTypeEnum `mandatory:"true" json:"portType"`
 }
 

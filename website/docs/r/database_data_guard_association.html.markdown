@@ -49,6 +49,7 @@ resource "oci_database_data_guard_association" "test_data_guard_association" {
 	db_system_defined_tags = var.data_guard_association_db_system_defined_tags
 	db_system_freeform_tags = var.data_guard_association_db_system_freeform_tags
 	display_name = var.data_guard_association_display_name
+	domain = var.data_guard_association_domain
 	fault_domains = var.data_guard_association_fault_domains
 	hostname = var.data_guard_association_hostname
 	is_active_data_guard_enabled = var.data_guard_association_is_active_data_guard_enabled
@@ -97,6 +98,7 @@ The following arguments are supported:
 * `db_system_freeform_tags` - (Applicable when creation_type=NewDbSystem) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `delete_standby_db_home_on_delete` - (Required) (Updatable) if set to true the destroy operation will destroy the standby dbHome/dbSystem that is referenced in the Data Guard Association. The Data Guard Association gets destroyed when standby dbHome/dbSystem is terminated. Only `true` is supported at this time. If you change an argument that is used during the delete operation you must run `terraform apply` first so that that the change in the value is registered in the statefile before running `terraform destroy`. `terraform destroy` only looks at what is currently on the statefile and ignores the terraform configuration files. 
 * `display_name` - (Applicable when creation_type=NewDbSystem) The user-friendly name of the DB system that will contain the the standby database. The display name does not have to be unique.
+* `domain` - (Applicable when creation_type=NewDbSystem) A domain name used for the DB system. If the Oracle-provided Internet and VCN Resolver is enabled for the specified subnet, the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted. 
 * `fault_domains` - (Applicable when creation_type=NewDbSystem) A Fault Domain is a grouping of hardware and infrastructure within an availability domain. Fault Domains let you distribute your instances so that they are not on the same physical hardware within a single availability domain. A hardware failure or maintenance that affects one Fault Domain does not affect DB systems in other Fault Domains.
 
 	If you do not specify the Fault Domain, the system selects one for you. To change the Fault Domain for a DB system, terminate it and launch a new DB system in the preferred Fault Domain.

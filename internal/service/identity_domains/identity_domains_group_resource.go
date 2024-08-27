@@ -4,12 +4,15 @@
 package identity_domains
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
 	"net/url"
 	"regexp"
 	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -69,10 +72,15 @@ func IdentityDomainsGroupResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"force_delete": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
 			"members": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
 				Optional: true,
 				Computed: true,
+				Set:      membersHashCodeForSets,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
@@ -820,10 +828,11 @@ func (s *IdentityDomainsGroupResourceCrud) Create() error {
 	}
 
 	if members, ok := s.D.GetOkExists("members"); ok {
-		interfaces := members.([]interface{})
+		set := members.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.GroupMembers, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := membersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "members", stateDataIndex)
 			converted, err := s.mapToGroupMembers(fieldKeyFormat)
 			if err != nil {
@@ -1042,10 +1051,11 @@ func (s *IdentityDomainsGroupResourceCrud) Update() error {
 	request.Id = &tmp
 
 	if members, ok := s.D.GetOkExists("members"); ok {
-		interfaces := members.([]interface{})
+		set := members.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_identity_domains.GroupMembers, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := membersHashCodeForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "members", stateDataIndex)
 			converted, err := s.mapToGroupMembers(fieldKeyFormat)
 			if err != nil {
@@ -1247,7 +1257,7 @@ func (s *IdentityDomainsGroupResourceCrud) SetData() error {
 	for _, item := range s.Res.Members {
 		members = append(members, GroupMembersToMap(item))
 	}
-	s.D.Set("members", members)
+	s.D.Set("members", schema.NewSet(membersHashCodeForSets, members))
 
 	if s.Res.Meta != nil {
 		s.D.Set("meta", []interface{}{metaToMap(s.Res.Meta)})
@@ -2156,4 +2166,19 @@ func (s *IdentityDomainsGroupResourceCrud) mapTotags(fieldKeyFormat string) (oci
 	}
 
 	return result, nil
+}
+
+func membersHashCodeForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if ocid, ok := m["ocid"]; ok && ocid != "" {
+		buf.WriteString(fmt.Sprintf("%v-", ocid))
+	}
+	if type_, ok := m["type"]; ok && type_ != "" {
+		buf.WriteString(fmt.Sprintf("%v-", type_))
+	}
+	if value, ok := m["value"]; ok && value != "" {
+		buf.WriteString(fmt.Sprintf("%v-", value))
+	}
+	return utils.GetStringHashcode(buf.String())
 }

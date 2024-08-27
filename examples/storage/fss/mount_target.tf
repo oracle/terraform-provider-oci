@@ -16,6 +16,7 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
   freeform_tags = {
     "Department" = "Finance"
   }
+  requested_throughput = "1"
 
   nsg_ids = [oci_core_network_security_group.test_network_security_group.id]
 }
@@ -31,6 +32,7 @@ resource "oci_file_storage_mount_target" "my_mount_target_2" {
   # defined_tags = {
   #   "example-tag-namespace-all.example-tag" = "value"
   # }
+  requested_throughput = "1"
 
   freeform_tags = {
     "Department" = "Accounting"

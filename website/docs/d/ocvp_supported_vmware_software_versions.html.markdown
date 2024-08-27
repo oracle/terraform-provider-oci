@@ -24,6 +24,7 @@ data "oci_ocvp_supported_vmware_software_versions" "test_supported_vmware_softwa
 	#Optional
 	host_shape_name = oci_core_shape.test_shape.name
 	version = var.supported_vmware_software_version_version
+	version_to_upgrade = var.supported_vmware_software_version_version_to_upgrade
 }
 ```
 
@@ -34,6 +35,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `host_shape_name` - (Optional) A filter to return only resources that match or support the given ESXi host shape.
 * `version` - (Optional) A filter to return only resources that match the given VMware software version exactly.
+* `version_to_upgrade` - (Optional) A filter to return only VMware software versions that the given VMware software version can be upgraded to.
 
 
 ## Attributes Reference

@@ -124,6 +124,11 @@ type CreateDbSystemDetails struct {
 	DatabaseManagement DatabaseManagementStatusEnum `mandatory:"false" json:"databaseManagement,omitempty"`
 
 	SecureConnections *SecureConnectionDetails `mandatory:"false" json:"secureConnections"`
+
+	// The list of customer email addresses that receive information from Oracle about the specified OCI DB System resource.
+	// Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators.
+	// Up to 10 email addresses can be added to the customer contacts for a DB System.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
 }
 
 func (m CreateDbSystemDetails) String() string {
@@ -175,6 +180,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		CrashRecovery        CrashRecoveryStatusEnum           `json:"crashRecovery"`
 		DatabaseManagement   DatabaseManagementStatusEnum      `json:"databaseManagement"`
 		SecureConnections    *SecureConnectionDetails          `json:"secureConnections"`
+		CustomerContacts     []CustomerContact                 `json:"customerContacts"`
 		CompartmentId        *string                           `json:"compartmentId"`
 		ShapeName            *string                           `json:"shapeName"`
 		SubnetId             *string                           `json:"subnetId"`
@@ -241,6 +247,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.SecureConnections = model.SecureConnections
 
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
 	m.CompartmentId = model.CompartmentId
 
 	m.ShapeName = model.ShapeName

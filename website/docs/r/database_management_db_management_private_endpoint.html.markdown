@@ -27,6 +27,7 @@ resource "oci_database_management_db_management_private_endpoint" "test_db_manag
 	description = var.db_management_private_endpoint_description
 	freeform_tags = {"Department"= "Finance"}
 	is_cluster = var.db_management_private_endpoint_is_cluster
+	is_dns_resolution_enabled = var.db_management_private_endpoint_is_dns_resolution_enabled
 	nsg_ids = var.db_management_private_endpoint_nsg_ids
 }
 ```
@@ -40,6 +41,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) The description of the private endpoint.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `is_cluster` - (Optional) Specifies whether the Database Management private endpoint will be used for Oracle Databases in a cluster.
+* `is_dns_resolution_enabled` - (Optional) Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
 * `name` - (Required) (Updatable) The display name of the Database Management private endpoint.
 * `nsg_ids` - (Optional) (Updatable) The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet.
@@ -58,6 +60,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 * `is_cluster` - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
+* `is_dns_resolution_enabled` - Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
 * `name` - The display name of the Database Management private endpoint.
 * `nsg_ids` - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
 * `private_ip` - The IP addresses assigned to the Database Management private endpoint. 

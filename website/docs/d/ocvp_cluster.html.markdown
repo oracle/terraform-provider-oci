@@ -25,7 +25,7 @@ data "oci_ocvp_cluster" "test_cluster" {
 
 The following arguments are supported:
 
-* `cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Cluster. 
+* `cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the SDDC Cluster. 
 
 
 ## Attributes Reference

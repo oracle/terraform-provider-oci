@@ -598,6 +598,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"available_upgrade_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -864,6 +868,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"lag_time_in_seconds": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -1068,6 +1076,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"availability_domain": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"lag_time_in_seconds": {
 							Type:     schema.TypeInt,
 							Computed: true,
@@ -2021,6 +2033,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	s.D.Set("autonomous_maintenance_schedule_type", s.Res.AutonomousMaintenanceScheduleType)
 
+	if s.Res.AvailabilityDomain != nil {
+		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
+	}
+
 	s.D.Set("available_upgrade_versions", s.Res.AvailableUpgradeVersions)
 
 	if s.Res.BackupConfig != nil {
@@ -2569,6 +2585,10 @@ func AutonomousDatabaseKeyHistoryEntryToMap(obj oci_database.AutonomousDatabaseK
 }
 func AutonomousDatabaseStandbySummaryToMap(obj *oci_database.AutonomousDatabaseStandbySummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
+	}
 
 	if obj.LagTimeInSeconds != nil {
 		result["lag_time_in_seconds"] = int(*obj.LagTimeInSeconds)

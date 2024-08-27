@@ -6,6 +6,7 @@ package database_management
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_database_management_autonomous_database_autonomous_database_dbm_features_management", DatabaseManagementAutonomousDatabaseAutonomousDatabaseDbmFeaturesManagementResource())
 	tfresource.RegisterResource("oci_database_management_database_dbm_features_management", DatabaseManagementDatabaseDbmFeaturesManagementResource())
 	tfresource.RegisterResource("oci_database_management_db_management_private_endpoint", DatabaseManagementDbManagementPrivateEndpointResource())
 	tfresource.RegisterResource("oci_database_management_external_asm", DatabaseManagementExternalAsmResource())

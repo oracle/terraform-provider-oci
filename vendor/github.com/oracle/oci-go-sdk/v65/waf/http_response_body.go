@@ -51,6 +51,10 @@ func (m *httpresponsebody) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 
 	var err error
 	switch m.Type {
+	case "DYNAMIC":
+		mm := DynamicHttpResponseBody{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STATIC_TEXT":
 		mm := StaticTextHttpResponseBody{}
 		err = json.Unmarshal(data, &mm)
@@ -83,14 +87,17 @@ type HttpResponseBodyTypeEnum string
 // Set of constants representing the allowable values for HttpResponseBodyTypeEnum
 const (
 	HttpResponseBodyTypeStaticText HttpResponseBodyTypeEnum = "STATIC_TEXT"
+	HttpResponseBodyTypeDynamic    HttpResponseBodyTypeEnum = "DYNAMIC"
 )
 
 var mappingHttpResponseBodyTypeEnum = map[string]HttpResponseBodyTypeEnum{
 	"STATIC_TEXT": HttpResponseBodyTypeStaticText,
+	"DYNAMIC":     HttpResponseBodyTypeDynamic,
 }
 
 var mappingHttpResponseBodyTypeEnumLowerCase = map[string]HttpResponseBodyTypeEnum{
 	"static_text": HttpResponseBodyTypeStaticText,
+	"dynamic":     HttpResponseBodyTypeDynamic,
 }
 
 // GetHttpResponseBodyTypeEnumValues Enumerates the set of values for HttpResponseBodyTypeEnum
@@ -106,6 +113,7 @@ func GetHttpResponseBodyTypeEnumValues() []HttpResponseBodyTypeEnum {
 func GetHttpResponseBodyTypeEnumStringValues() []string {
 	return []string{
 		"STATIC_TEXT",
+		"DYNAMIC",
 	}
 }
 

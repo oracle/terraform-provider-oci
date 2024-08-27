@@ -54,6 +54,8 @@ var (
 
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_request_id_enabled":        acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+		"request_id_header":            acctest.Representation{RepType: acctest.Optional, Create: ``, Update: `X-MyRequestB-Id`},
 		"is_delete_protection_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"reserved_ips":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: loadBalancerReservedIpsRepresentation},
 		"network_security_group_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group1.id}`}, Update: []string{}},
@@ -193,12 +195,13 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Optional, acctest.Create, loadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "network_security_group_ids.#", "1"),
@@ -228,12 +231,13 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 				resource.TestCheckResourceAttr(resourceName, "display_name", "example_load_balancer"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-Request-Id"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "100Mbps"),
@@ -257,12 +261,13 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Optional, acctest.Update, loadBalancerRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_delete_protection_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "is_private", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_request_id_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "request_id_header", "X-MyRequestB-Id"),
 				resource.TestCheckResourceAttr(resourceName, "reserved_ips.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "400Mbps"),
 				resource.TestCheckResourceAttrSet(resourceName, "reserved_ips.0.id"),
@@ -294,7 +299,6 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.compartment_id", compartmentId),
-				//Commenting this out as we are ignoring the changes to the tags in the resource representation.
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.id"),
@@ -302,6 +306,8 @@ func TestLoadBalancerLoadBalancerResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_delete_protection_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_private", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.network_security_group_ids.#", "0"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.is_request_id_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.request_id_header", "X-MyRequestB-Id"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.shape", "400Mbps"),
 				resource.TestCheckResourceAttrSet(datasourceName, "load_balancers.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "load_balancers.0.subnet_ids.#", "2"),

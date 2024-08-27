@@ -99,6 +99,9 @@ type ProtectedDatabase struct {
 
 	Metrics *Metrics `mandatory:"false" json:"metrics"`
 
+	// The OCID of the cloud service subscription to which the protected database is linked.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

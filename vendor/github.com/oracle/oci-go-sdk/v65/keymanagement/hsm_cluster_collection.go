@@ -18,7 +18,7 @@ import (
 // HsmClusterCollection HsmClusterCollection object with page of HsmClusterSummary objects.
 type HsmClusterCollection struct {
 
-	// List of Hsm Clusters.
+	// List of HSM Cluster Summary Objects.
 	Items []HsmClusterSummary `mandatory:"true" json:"items"`
 }
 

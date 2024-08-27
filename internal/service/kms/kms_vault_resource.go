@@ -258,6 +258,10 @@ func KmsVaultResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Computed: true,
 			},
+			"is_vault_replicable": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"management_endpoint": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -553,6 +557,10 @@ func (s *KmsVaultResourceCrud) SetData() error {
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
+	if s.Res.IsVaultReplicable != nil {
+		s.D.Set("is_vault_replicable", *s.Res.IsVaultReplicable)
 	}
 
 	if s.Res.ManagementEndpoint != nil {

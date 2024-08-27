@@ -46,7 +46,9 @@ import (
 	tf_dataflow "github.com/oracle/terraform-provider-oci/internal/service/dataflow"
 	tf_dataintegration "github.com/oracle/terraform-provider-oci/internal/service/dataintegration"
 	tf_datascience "github.com/oracle/terraform-provider-oci/internal/service/datascience"
+	tf_delegate_access_control "github.com/oracle/terraform-provider-oci/internal/service/delegate_access_control"
 	tf_demand_signal "github.com/oracle/terraform-provider-oci/internal/service/demand_signal"
+	tf_desktops "github.com/oracle/terraform-provider-oci/internal/service/desktops"
 	tf_devops "github.com/oracle/terraform-provider-oci/internal/service/devops"
 	tf_disaster_recovery "github.com/oracle/terraform-provider-oci/internal/service/disaster_recovery"
 	tf_dns "github.com/oracle/terraform-provider-oci/internal/service/dns"
@@ -54,12 +56,10 @@ import (
 	tf_email "github.com/oracle/terraform-provider-oci/internal/service/email"
 	tf_events "github.com/oracle/terraform-provider-oci/internal/service/events"
 	tf_file_storage "github.com/oracle/terraform-provider-oci/internal/service/file_storage"
-	tf_fleet_software_update "github.com/oracle/terraform-provider-oci/internal/service/fleet_software_update"
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
-	tf_globally_distributed_database "github.com/oracle/terraform-provider-oci/internal/service/globally_distributed_database"
 	tf_golden_gate "github.com/oracle/terraform-provider-oci/internal/service/golden_gate"
 	tf_health_checks "github.com/oracle/terraform-provider-oci/internal/service/health_checks"
 	tf_identity "github.com/oracle/terraform-provider-oci/internal/service/identity"
@@ -251,8 +251,14 @@ func init() {
 	if common.CheckForEnabledServices("datascience") {
 		tf_datascience.RegisterResource()
 	}
+	if common.CheckForEnabledServices("delegateaccesscontrol") {
+		tf_delegate_access_control.RegisterResource()
+	}
 	if common.CheckForEnabledServices("demandsignal") {
 		tf_demand_signal.RegisterResource()
+	}
+	if common.CheckForEnabledServices("desktops") {
+		tf_desktops.RegisterResource()
 	}
 	if common.CheckForEnabledServices("devops") {
 		tf_devops.RegisterResource()
@@ -275,9 +281,6 @@ func init() {
 	if common.CheckForEnabledServices("filestorage") {
 		tf_file_storage.RegisterResource()
 	}
-	if common.CheckForEnabledServices("fleetsoftwareupdate") {
-		tf_fleet_software_update.RegisterResource()
-	}
 	if common.CheckForEnabledServices("functions") {
 		tf_functions.RegisterResource()
 	}
@@ -289,9 +292,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("genericartifactscontent") {
 		tf_generic_artifacts_content.RegisterResource()
-	}
-	if common.CheckForEnabledServices("globallydistributeddatabase") {
-		tf_globally_distributed_database.RegisterResource()
 	}
 	if common.CheckForEnabledServices("goldengate") {
 		tf_golden_gate.RegisterResource()
