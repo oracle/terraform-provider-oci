@@ -384,6 +384,38 @@ func MysqlMysqlBackupResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Computed: true,
 						},
+						"read_endpoint": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"exclude_ips": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"is_enabled": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"read_endpoint_hostname_label": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"read_endpoint_ip_address": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
 						"region": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1017,6 +1049,10 @@ func DbSystemSnapshotToMap(obj *oci_mysql.DbSystemSnapshot) map[string]interface
 
 	if obj.PortX != nil {
 		result["port_x"] = int(*obj.PortX)
+	}
+
+	if obj.ReadEndpoint != nil {
+		result["read_endpoint"] = []interface{}{ReadEndpointDetailsToMap(obj.ReadEndpoint)}
 	}
 
 	if obj.Region != nil {
