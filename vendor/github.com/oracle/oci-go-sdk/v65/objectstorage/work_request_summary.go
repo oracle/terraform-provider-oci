@@ -81,18 +81,27 @@ type WorkRequestSummaryOperationTypeEnum string
 
 // Set of constants representing the allowable values for WorkRequestSummaryOperationTypeEnum
 const (
-	WorkRequestSummaryOperationTypeCopyObject WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
-	WorkRequestSummaryOperationTypeReencrypt  WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
+	WorkRequestSummaryOperationTypeCopyObject            WorkRequestSummaryOperationTypeEnum = "COPY_OBJECT"
+	WorkRequestSummaryOperationTypeReencrypt             WorkRequestSummaryOperationTypeEnum = "REENCRYPT"
+	WorkRequestSummaryOperationTypePrivateEndpointCreate WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
+	WorkRequestSummaryOperationTypePrivateEndpointUpdate WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
+	WorkRequestSummaryOperationTypePrivateEndpointDelete WorkRequestSummaryOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
-	"COPY_OBJECT": WorkRequestSummaryOperationTypeCopyObject,
-	"REENCRYPT":   WorkRequestSummaryOperationTypeReencrypt,
+	"COPY_OBJECT":             WorkRequestSummaryOperationTypeCopyObject,
+	"REENCRYPT":               WorkRequestSummaryOperationTypeReencrypt,
+	"PRIVATE_ENDPOINT_CREATE": WorkRequestSummaryOperationTypePrivateEndpointCreate,
+	"PRIVATE_ENDPOINT_UPDATE": WorkRequestSummaryOperationTypePrivateEndpointUpdate,
+	"PRIVATE_ENDPOINT_DELETE": WorkRequestSummaryOperationTypePrivateEndpointDelete,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
-	"copy_object": WorkRequestSummaryOperationTypeCopyObject,
-	"reencrypt":   WorkRequestSummaryOperationTypeReencrypt,
+	"copy_object":             WorkRequestSummaryOperationTypeCopyObject,
+	"reencrypt":               WorkRequestSummaryOperationTypeReencrypt,
+	"private_endpoint_create": WorkRequestSummaryOperationTypePrivateEndpointCreate,
+	"private_endpoint_update": WorkRequestSummaryOperationTypePrivateEndpointUpdate,
+	"private_endpoint_delete": WorkRequestSummaryOperationTypePrivateEndpointDelete,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -109,6 +118,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 	return []string{
 		"COPY_OBJECT",
 		"REENCRYPT",
+		"PRIVATE_ENDPOINT_CREATE",
+		"PRIVATE_ENDPOINT_UPDATE",
+		"PRIVATE_ENDPOINT_DELETE",
 	}
 }
 

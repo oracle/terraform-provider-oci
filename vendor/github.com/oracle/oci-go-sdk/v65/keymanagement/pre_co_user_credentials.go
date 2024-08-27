@@ -18,7 +18,7 @@ import (
 // PreCoUserCredentials Pre Crypto officer user credentials.
 type PreCoUserCredentials struct {
 
-	// The pre crypto officer username..
+	// The pre crypto officer username, which should be chosen as a non confidential string.
 	Username *string `mandatory:"true" json:"username"`
 
 	// The base 64 encoded pre crypto officer password.

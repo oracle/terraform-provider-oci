@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -75,6 +76,7 @@ func DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeaturesMana
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -481,6 +483,9 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
@@ -519,8 +524,34 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 		feature = "" // default value
 	}
 	switch strings.ToLower(feature) {
+	case strings.ToLower("DB_LIFECYCLE_MANAGEMENT"):
+		details := oci_database_management.ExternalPluggableDatabaseLifecycleManagementFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.ExternalPluggableDatabaseDiagnosticsAndManagementFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("SQLWATCH"):
+		details := oci_database_management.ExternalPluggableDatabaseSqlWatchFeatureDetails{}
 		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
 			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
@@ -536,4 +567,21 @@ func (s *DatabaseManagementExternalpluggabledatabaseExternalPluggableDbmFeatures
 		return nil, fmt.Errorf("unknown feature '%v' was specified", feature)
 	}
 	return baseObject, nil
+}
+
+func ExternalPluggableDatabaseFeatureDetailsToMap(obj *oci_database_management.ExternalPluggableDatabaseFeatureDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch (*obj).(type) {
+	case oci_database_management.ExternalPluggableDatabaseLifecycleManagementFeatureDetails:
+		result["feature"] = "DB_LIFECYCLE_MANAGEMENT"
+	case oci_database_management.ExternalPluggableDatabaseDiagnosticsAndManagementFeatureDetails:
+		result["feature"] = "DIAGNOSTICS_AND_MANAGEMENT"
+	case oci_database_management.ExternalPluggableDatabaseSqlWatchFeatureDetails:
+		result["feature"] = "SQLWATCH"
+	default:
+		log.Printf("[WARN] Received 'feature' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }

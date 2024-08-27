@@ -140,6 +140,10 @@ type Cluster struct {
 
 	// Datastores used for the Cluster.
 	Datastores []DatastoreDetails `mandatory:"false" json:"datastores"`
+
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{orcl-cloud: {free-tier-retain: true}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m Cluster) String() string {

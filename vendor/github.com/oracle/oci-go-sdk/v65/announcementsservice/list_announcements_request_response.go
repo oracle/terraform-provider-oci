@@ -305,16 +305,19 @@ type ListAnnouncementsPlatformTypeEnum string
 const (
 	ListAnnouncementsPlatformTypeIaas ListAnnouncementsPlatformTypeEnum = "IAAS"
 	ListAnnouncementsPlatformTypeSaas ListAnnouncementsPlatformTypeEnum = "SAAS"
+	ListAnnouncementsPlatformTypePaas ListAnnouncementsPlatformTypeEnum = "PAAS"
 )
 
 var mappingListAnnouncementsPlatformTypeEnum = map[string]ListAnnouncementsPlatformTypeEnum{
 	"IAAS": ListAnnouncementsPlatformTypeIaas,
 	"SAAS": ListAnnouncementsPlatformTypeSaas,
+	"PAAS": ListAnnouncementsPlatformTypePaas,
 }
 
 var mappingListAnnouncementsPlatformTypeEnumLowerCase = map[string]ListAnnouncementsPlatformTypeEnum{
 	"iaas": ListAnnouncementsPlatformTypeIaas,
 	"saas": ListAnnouncementsPlatformTypeSaas,
+	"paas": ListAnnouncementsPlatformTypePaas,
 }
 
 // GetListAnnouncementsPlatformTypeEnumValues Enumerates the set of values for ListAnnouncementsPlatformTypeEnum
@@ -331,6 +334,7 @@ func GetListAnnouncementsPlatformTypeEnumStringValues() []string {
 	return []string{
 		"IAAS",
 		"SAAS",
+		"PAAS",
 	}
 }
 

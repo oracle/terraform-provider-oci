@@ -5,6 +5,7 @@ package database_management
 
 import (
 	"context"
+	"log"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
@@ -57,6 +58,10 @@ func DatabaseManagementManagedDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"database_platform_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"database_status": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -76,6 +81,143 @@ func DatabaseManagementManagedDatabaseResource() *schema.Resource {
 			"db_system_id": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"dbmgmt_feature_configs": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"connector_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"connector_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"database_connector_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"management_agent_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"private_end_point_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"database_connection_details": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"connection_credentials": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"credential_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"credential_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"named_credential_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"password_secret_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"role": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"ssl_secret_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"user_name": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"connection_string": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"connection_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"port": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"protocol": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"service": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+								},
+							},
+						},
+						"feature": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"feature_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"license_model": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
 			},
 			"deployment_type": {
 				Type:     schema.TypeString,
@@ -266,6 +408,10 @@ func (s *DatabaseManagementManagedDatabaseResourceCrud) SetData() error {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
 
+	if s.Res.DatabasePlatformName != nil {
+		s.D.Set("database_platform_name", *s.Res.DatabasePlatformName)
+	}
+
 	s.D.Set("database_status", s.Res.DatabaseStatus)
 
 	s.D.Set("database_sub_type", s.Res.DatabaseSubType)
@@ -279,6 +425,12 @@ func (s *DatabaseManagementManagedDatabaseResourceCrud) SetData() error {
 	if s.Res.DbSystemId != nil {
 		s.D.Set("db_system_id", *s.Res.DbSystemId)
 	}
+
+	dbmgmtFeatureConfigs := []interface{}{}
+	for _, item := range s.Res.DbmgmtFeatureConfigs {
+		dbmgmtFeatureConfigs = append(dbmgmtFeatureConfigs, DatabaseFeatureConfigurationToMap(item))
+	}
+	s.D.Set("dbmgmt_feature_configs", dbmgmtFeatureConfigs)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
@@ -325,11 +477,211 @@ func (s *DatabaseManagementManagedDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
+func ConnectorDetailsToMap(obj *oci_database_management.ConnectorDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.ExternalConnectorDetails:
+		result["connector_type"] = "EXTERNAL"
+
+		if v.DatabaseConnectorId != nil {
+			result["database_connector_id"] = string(*v.DatabaseConnectorId)
+		}
+	case oci_database_management.MacsConnectorDetails:
+		result["connector_type"] = "MACS"
+
+		if v.ManagementAgentId != nil {
+			result["management_agent_id"] = string(*v.ManagementAgentId)
+		}
+	case oci_database_management.PrivateEndPointConnectorDetails:
+		result["connector_type"] = "PE"
+
+		if v.PrivateEndPointId != nil {
+			result["private_end_point_id"] = string(*v.PrivateEndPointId)
+		}
+	default:
+		log.Printf("[WARN] Received 'connector_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func DatabaseConnectionCredentialsToMap(obj *oci_database_management.DatabaseConnectionCredentials) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.DatabaseConnectionCredentialsByDetails:
+		result["credential_type"] = "DETAILS"
+
+		if v.CredentialName != nil {
+			result["credential_name"] = string(*v.CredentialName)
+		}
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		result["role"] = string(v.Role)
+
+		if v.UserName != nil {
+			result["user_name"] = string(*v.UserName)
+		}
+	case oci_database_management.DatabaseNamedCredentialConnectionDetails:
+		result["credential_type"] = "NAMED_CREDENTIAL"
+
+		if v.NamedCredentialId != nil {
+			result["named_credential_id"] = string(*v.NamedCredentialId)
+		}
+	case oci_database_management.DatabaseConnectionCredentailsByName:
+		result["credential_type"] = "NAME_REFERENCE"
+
+		if v.CredentialName != nil {
+			result["credential_name"] = string(*v.CredentialName)
+		}
+	case oci_database_management.DatabaseSslConnectionCredentials:
+		result["credential_type"] = "SSL_DETAILS"
+
+		if v.CredentialName != nil {
+			result["credential_name"] = string(*v.CredentialName)
+		}
+
+		if v.PasswordSecretId != nil {
+			result["password_secret_id"] = string(*v.PasswordSecretId)
+		}
+
+		result["role"] = string(v.Role)
+
+		if v.SslSecretId != nil {
+			result["ssl_secret_id"] = string(*v.SslSecretId)
+		}
+
+		if v.UserName != nil {
+			result["user_name"] = string(*v.UserName)
+		}
+	default:
+		log.Printf("[WARN] Received 'credential_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func DatabaseConnectionDetailsToMap(obj *oci_database_management.DatabaseConnectionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ConnectionCredentials != nil {
+		connectionCredentialsArray := []interface{}{}
+		if connectionCredentialsMap := DatabaseConnectionCredentialsToMap(&obj.ConnectionCredentials); connectionCredentialsMap != nil {
+			connectionCredentialsArray = append(connectionCredentialsArray, connectionCredentialsMap)
+		}
+		result["connection_credentials"] = connectionCredentialsArray
+	}
+
+	if obj.ConnectionString != nil {
+		connectionStringArray := []interface{}{}
+		if connectionStringMap := DatabaseConnectionStringDetailsToMap(&obj.ConnectionString); connectionStringMap != nil {
+			connectionStringArray = append(connectionStringArray, connectionStringMap)
+		}
+		result["connection_string"] = connectionStringArray
+	}
+
+	return result
+}
+
+func DatabaseConnectionStringDetailsToMap(obj *oci_database_management.DatabaseConnectionStringDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.BasicDatabaseConnectionStringDetails:
+		result["connection_type"] = "BASIC"
+
+		if v.Port != nil {
+			result["port"] = int(*v.Port)
+		}
+
+		result["protocol"] = string(v.Protocol)
+
+		if v.Service != nil {
+			result["service"] = string(*v.Service)
+		}
+	default:
+		log.Printf("[WARN] Received 'connection_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
+}
+
+func DatabaseFeatureConfigurationToMap(obj oci_database_management.DatabaseFeatureConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (obj).(type) {
+	case oci_database_management.DatabaseLifecycleFeatureConfiguration:
+		result["feature"] = "DB_LIFECYCLE_MANAGEMENT"
+
+		result["license_model"] = string(v.LicenseModel)
+
+		if v.ConnectorDetails != nil {
+			connectorDetailsArray := []interface{}{}
+			if connectorDetailsMap := ConnectorDetailsToMap(&v.ConnectorDetails); connectorDetailsMap != nil {
+				connectorDetailsArray = append(connectorDetailsArray, connectorDetailsMap)
+			}
+			result["connector_details"] = connectorDetailsArray
+		}
+
+		if v.DatabaseConnectionDetails != nil {
+			result["database_connection_details"] = []interface{}{DatabaseConnectionDetailsToMap(v.DatabaseConnectionDetails)}
+		}
+
+		result["feature_status"] = string(v.FeatureStatus)
+	case oci_database_management.DatabaseDiagnosticsAndManagementFeatureConfiguration:
+		result["feature"] = "DIAGNOSTICS_AND_MANAGEMENT"
+
+		result["license_model"] = string(v.LicenseModel)
+
+		if v.ConnectorDetails != nil {
+			connectorDetailsArray := []interface{}{}
+			if connectorDetailsMap := ConnectorDetailsToMap(&v.ConnectorDetails); connectorDetailsMap != nil {
+				connectorDetailsArray = append(connectorDetailsArray, connectorDetailsMap)
+			}
+			result["connector_details"] = connectorDetailsArray
+		}
+
+		if v.DatabaseConnectionDetails != nil {
+			result["database_connection_details"] = []interface{}{DatabaseConnectionDetailsToMap(v.DatabaseConnectionDetails)}
+		}
+
+		result["feature_status"] = string(v.FeatureStatus)
+	case oci_database_management.DatabaseSqlWatchFeatureConfiguration:
+		result["feature"] = "SQLWATCH"
+
+		if v.ConnectorDetails != nil {
+			connectorDetailsArray := []interface{}{}
+			if connectorDetailsMap := ConnectorDetailsToMap(&v.ConnectorDetails); connectorDetailsMap != nil {
+				connectorDetailsArray = append(connectorDetailsArray, connectorDetailsMap)
+			}
+			result["connector_details"] = connectorDetailsArray
+		}
+
+		if v.DatabaseConnectionDetails != nil {
+			result["database_connection_details"] = []interface{}{DatabaseConnectionDetailsToMap(v.DatabaseConnectionDetails)}
+		}
+
+		result["feature_status"] = string(v.FeatureStatus)
+	default:
+		log.Printf("[WARN] Received 'feature' of unknown type %v", obj)
+		return nil
+	}
+
+	return result
+}
+
 func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DatabasePlatformName != nil {
+		result["database_platform_name"] = string(*obj.DatabasePlatformName)
 	}
 
 	result["database_sub_type"] = string(obj.DatabaseSubType)
@@ -343,6 +695,12 @@ func ManagedDatabaseSummaryToMap(obj oci_database_management.ManagedDatabaseSumm
 	if obj.DbSystemId != nil {
 		result["db_system_id"] = string(*obj.DbSystemId)
 	}
+
+	dbmgmtFeatureConfigs := []interface{}{}
+	for _, item := range obj.DbmgmtFeatureConfigs {
+		dbmgmtFeatureConfigs = append(dbmgmtFeatureConfigs, DatabaseFeatureConfigurationToMap(item))
+	}
+	result["dbmgmt_feature_configs"] = dbmgmtFeatureConfigs
 
 	if obj.DefinedTags != nil {
 		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)

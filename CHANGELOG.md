@@ -1,3 +1,29 @@
+## 6.9.0 (August 27, 2024)
+
+### Added
+- Support for Delegated Access Control for Exadata Cloud Services
+- Support for MySQL HeatWave Service: Customer email notification
+- Support for ADB-S: NewDev - Developer Databases
+- Support for Database Management: Support advanced DBM features for ADB
+- 08/06 Support for Sqlwatch integration Added:- 08/06 Support for Sqlwatch integration
+- Load Balancer and Waf support for Request Ids (WAF Incident ID support)
+- Support for Create Terraform provider for Secure Desktops Desktop as a Service
+- Support for Replacing hard-coded list of items on dropdowns on the Console with response from an internal API call
+- Support for ADB-S: Provide Availability Domain Details in CP
+- Support for KMS Cross Region Replication for Virtual Vaults
+- Support subscriptionId attribute for Autonomous Recovery Service (ZRCV)
+- Support for High Performance Mount Targets (HPMT)
+- Support for VMware Major and Minor Version Upgrade
+- Support for Adding domain parameter in DG API
+force_delete for ID Users and Groups, groups.members has type of TypeSet
+- Support for Use custom diff Suppress for List of Maps in Vm Cluster Resource
+- Create _management resource for Unset baseline for Security Assessment and User Assessment in Data Safe
+- artifact publish changes for releash_gh branch
+trigger for dev branches
+### Bug Fix
+- Reverted back the changes in Preview SDK
+- BDS instance create
+
 ## 6.8.0 (August 21, 2024)
 
 ### Added

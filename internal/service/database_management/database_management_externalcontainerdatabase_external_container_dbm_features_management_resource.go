@@ -6,6 +6,7 @@ package database_management
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -32,7 +33,6 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 			"external_container_database_id": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"enable_external_container_dbm_feature": {
 				Type:     schema.TypeBool,
@@ -56,7 +56,9 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DB_LIFECYCLE_MANAGEMENT",
 								"DIAGNOSTICS_AND_MANAGEMENT",
+								"SQLWATCH",
 							}, true),
 						},
 
@@ -79,6 +81,7 @@ func DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesMana
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -232,7 +235,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 	}
 
 	workId := response.OpcWorkRequestId
-	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+	err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeDisabled, s.D.Timeout(schema.TimeoutUpdate))
 	if err != nil {
 		return err
 	}
@@ -355,6 +358,7 @@ func getErrorFromDatabaseManagementExternalcontainerdatabaseExternalContainerDbm
 }
 
 func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Update() error {
+	log.Printf("[INFO] Executing update for DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource")
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_container_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -387,7 +391,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 		}
 
 		workId := response.OpcWorkRequestId
-		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+		err = s.getExternalcontainerdatabaseExternalContainerDbmFeaturesManagementFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database_management"), oci_database_management.WorkRequestResourceActionTypeEnabled, s.D.Timeout(schema.TimeoutUpdate))
 		if err != nil {
 			return err
 		}
@@ -431,6 +435,7 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 }
 
 func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResourceCrud) Delete() error {
+	log.Printf("[INFO] Executing delete for DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeaturesManagementResource")
 	var operation bool
 	if enableOperation, ok := s.D.GetOkExists("enable_external_container_dbm_feature"); ok {
 		operation = enableOperation.(bool)
@@ -491,6 +496,9 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
@@ -529,6 +537,22 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 		feature = "" // default value
 	}
 	switch strings.ToLower(feature) {
+	case strings.ToLower("DB_LIFECYCLE_MANAGEMENT"):
+		details := oci_database_management.ExternalDatabaseLifecycleManagementFeatureDetails{}
+		if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
+			details.LicenseModel = oci_database_management.ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetails{}
 		if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
@@ -545,8 +569,42 @@ func (s *DatabaseManagementExternalcontainerdatabaseExternalContainerDbmFeatures
 			}
 		}
 		baseObject = details
+	case strings.ToLower("SQLWATCH"):
+		details := oci_database_management.ExternalDatabaseSqlWatchFeatureDetails{}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown feature '%v' was specified", feature)
 	}
 	return baseObject, nil
+}
+
+func ExternalDatabaseFeatureDetailsToMap(obj *oci_database_management.ExternalDatabaseFeatureDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch v := (*obj).(type) {
+	case oci_database_management.ExternalDatabaseLifecycleManagementFeatureDetails:
+		result["feature"] = "DB_LIFECYCLE_MANAGEMENT"
+
+		result["license_model"] = string(v.LicenseModel)
+	case oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetails:
+		result["feature"] = "DIAGNOSTICS_AND_MANAGEMENT"
+
+		result["license_model"] = string(v.LicenseModel)
+	case oci_database_management.ExternalDatabaseSqlWatchFeatureDetails:
+		result["feature"] = "SQLWATCH"
+	default:
+		log.Printf("[WARN] Received 'feature' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }

@@ -94,6 +94,7 @@ const (
 	OptimizerStatisticsCollectionOperationStatusCompleted  OptimizerStatisticsCollectionOperationStatusEnum = "COMPLETED"
 	OptimizerStatisticsCollectionOperationStatusFailed     OptimizerStatisticsCollectionOperationStatusEnum = "FAILED"
 	OptimizerStatisticsCollectionOperationStatusTimedOut   OptimizerStatisticsCollectionOperationStatusEnum = "TIMED_OUT"
+	OptimizerStatisticsCollectionOperationStatusUnknown    OptimizerStatisticsCollectionOperationStatusEnum = "UNKNOWN"
 )
 
 var mappingOptimizerStatisticsCollectionOperationStatusEnum = map[string]OptimizerStatisticsCollectionOperationStatusEnum{
@@ -101,6 +102,7 @@ var mappingOptimizerStatisticsCollectionOperationStatusEnum = map[string]Optimiz
 	"COMPLETED":   OptimizerStatisticsCollectionOperationStatusCompleted,
 	"FAILED":      OptimizerStatisticsCollectionOperationStatusFailed,
 	"TIMED_OUT":   OptimizerStatisticsCollectionOperationStatusTimedOut,
+	"UNKNOWN":     OptimizerStatisticsCollectionOperationStatusUnknown,
 }
 
 var mappingOptimizerStatisticsCollectionOperationStatusEnumLowerCase = map[string]OptimizerStatisticsCollectionOperationStatusEnum{
@@ -108,6 +110,7 @@ var mappingOptimizerStatisticsCollectionOperationStatusEnumLowerCase = map[strin
 	"completed":   OptimizerStatisticsCollectionOperationStatusCompleted,
 	"failed":      OptimizerStatisticsCollectionOperationStatusFailed,
 	"timed_out":   OptimizerStatisticsCollectionOperationStatusTimedOut,
+	"unknown":     OptimizerStatisticsCollectionOperationStatusUnknown,
 }
 
 // GetOptimizerStatisticsCollectionOperationStatusEnumValues Enumerates the set of values for OptimizerStatisticsCollectionOperationStatusEnum
@@ -126,6 +129,7 @@ func GetOptimizerStatisticsCollectionOperationStatusEnumStringValues() []string 
 		"COMPLETED",
 		"FAILED",
 		"TIMED_OUT",
+		"UNKNOWN",
 	}
 }
 

@@ -18,13 +18,13 @@ import (
 // HsmPartition Dedicated KMS-HSM Partition Management
 type HsmPartition struct {
 
-	// The OCID of the HSM resource.
+	// The OCID of the HSM resource. Each HSM resource has a unique OCID as an identifier.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The OCID of the compartment that contains a particular HSM resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Details of PortNumber and PortType.
+	// Details of a single portInformation item include the PortNumber (an integer used as an identifier) and the PortType (refers to either an enum value of Managementutility,Clientutility, or null)
 	PortInformation []PortInformation `mandatory:"true" json:"portInformation"`
 
 	// The date and time a HSMPartition was created, expressed in RFC 3339 (https://tools.ietf.org/html/rfc3339) timestamp format.
@@ -35,7 +35,8 @@ type HsmPartition struct {
 	// Example: `2018-04-03T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
 
-	// The HSMPartition's current lifecycle state.
+	// A HSMCluster resource's current lifecycle state.
+	// Example: `ACTIVE`
 	LifecycleState HsmPartitionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 }
 
@@ -67,6 +68,10 @@ const (
 	HsmPartitionLifecycleStateInactive           HsmPartitionLifecycleStateEnum = "INACTIVE"
 	HsmPartitionLifecycleStateActivating         HsmPartitionLifecycleStateEnum = "ACTIVATING"
 	HsmPartitionLifecycleStateActivationRequired HsmPartitionLifecycleStateEnum = "ACTIVATION_REQUIRED"
+	HsmPartitionLifecycleStateSchedulingDeletion HsmPartitionLifecycleStateEnum = "SCHEDULING_DELETION"
+	HsmPartitionLifecycleStatePendingDeletion    HsmPartitionLifecycleStateEnum = "PENDING_DELETION"
+	HsmPartitionLifecycleStateDeleting           HsmPartitionLifecycleStateEnum = "DELETING"
+	HsmPartitionLifecycleStateDeleted            HsmPartitionLifecycleStateEnum = "DELETED"
 )
 
 var mappingHsmPartitionLifecycleStateEnum = map[string]HsmPartitionLifecycleStateEnum{
@@ -74,6 +79,10 @@ var mappingHsmPartitionLifecycleStateEnum = map[string]HsmPartitionLifecycleStat
 	"INACTIVE":            HsmPartitionLifecycleStateInactive,
 	"ACTIVATING":          HsmPartitionLifecycleStateActivating,
 	"ACTIVATION_REQUIRED": HsmPartitionLifecycleStateActivationRequired,
+	"SCHEDULING_DELETION": HsmPartitionLifecycleStateSchedulingDeletion,
+	"PENDING_DELETION":    HsmPartitionLifecycleStatePendingDeletion,
+	"DELETING":            HsmPartitionLifecycleStateDeleting,
+	"DELETED":             HsmPartitionLifecycleStateDeleted,
 }
 
 var mappingHsmPartitionLifecycleStateEnumLowerCase = map[string]HsmPartitionLifecycleStateEnum{
@@ -81,6 +90,10 @@ var mappingHsmPartitionLifecycleStateEnumLowerCase = map[string]HsmPartitionLife
 	"inactive":            HsmPartitionLifecycleStateInactive,
 	"activating":          HsmPartitionLifecycleStateActivating,
 	"activation_required": HsmPartitionLifecycleStateActivationRequired,
+	"scheduling_deletion": HsmPartitionLifecycleStateSchedulingDeletion,
+	"pending_deletion":    HsmPartitionLifecycleStatePendingDeletion,
+	"deleting":            HsmPartitionLifecycleStateDeleting,
+	"deleted":             HsmPartitionLifecycleStateDeleted,
 }
 
 // GetHsmPartitionLifecycleStateEnumValues Enumerates the set of values for HsmPartitionLifecycleStateEnum
@@ -99,6 +112,10 @@ func GetHsmPartitionLifecycleStateEnumStringValues() []string {
 		"INACTIVE",
 		"ACTIVATING",
 		"ACTIVATION_REQUIRED",
+		"SCHEDULING_DELETION",
+		"PENDING_DELETION",
+		"DELETING",
+		"DELETED",
 	}
 }
 

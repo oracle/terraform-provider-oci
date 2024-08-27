@@ -60,7 +60,6 @@ func TestAnnouncementsServiceAnnouncementSubscriptionsFilterGroupResource_basic(
 				resource.TestCheckResourceAttr(resourceName, "filters.0.type", "COMPARTMENT_ID"),
 				resource.TestCheckResourceAttr(resourceName, "filters.0.value", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "name", "fg-name"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
@@ -83,7 +82,6 @@ func TestAnnouncementsServiceAnnouncementSubscriptionsFilterGroupResource_basic(
 				resource.TestCheckResourceAttr(resourceName, "filters.0.type", "PLATFORM_TYPE"),
 				resource.TestCheckResourceAttr(resourceName, "filters.0.value", "IAAS"),
 				resource.TestCheckResourceAttr(resourceName, "name", "fg-name"),
-
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {

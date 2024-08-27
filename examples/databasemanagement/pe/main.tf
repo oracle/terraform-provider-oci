@@ -35,6 +35,10 @@ variable "db_management_private_endpoint_is_cluster" {
   default = false
 }
 
+variable "db_management_private_endpoint_is_dns_resolution_enabled" {
+  default = false
+}
+
 variable "pe_defined_tags_value" {
   default = "pe_tag_value"
 }
@@ -84,7 +88,7 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 }
 
 # Create a new DB Management Private Endpoint.
-resource "oci_database_management_db_management_private_endpoint" "test_db_management_private_endpoint" {
+resource "oci_database_management_db_management_private_endpoint" "test_db_management_private_endpoint_create" {
   #Required
   compartment_id = var.compartment_id
   name = var.db_management_private_endpoint_name
@@ -98,17 +102,18 @@ resource "oci_database_management_db_management_private_endpoint" "test_db_manag
     "${oci_identity_tag_namespace.tag_namespace1.name}.${oci_identity_tag.tag1.name}" = var.pe_defined_tags_value
   }
   freeform_tags = var.pe_freeform_tags
+  is_dns_resolution_enabled = var.db_management_private_endpoint_is_dns_resolution_enabled
 }
 
 # Get DB Management Private Endpoint.
 data "oci_database_management_db_management_private_endpoint" "test_db_management_private_endpoint" {
-  db_management_private_endpoint_id = oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint.id
+  db_management_private_endpoint_id = oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint_create.id
 }
 
 # List DB Management Private Endpoints.
 data "oci_database_management_db_management_private_endpoints" "test_db_management_private_endpoints" {
   #Required
-  compartment_id = var.compartment_id
+  compartment_id = oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint_create.compartment_id
 }
 
 # List DB Management Private Endpoints matching the given filter criteria.
@@ -120,5 +125,5 @@ data "oci_database_management_db_management_private_endpoints" "test_db_manageme
   name = var.db_management_private_endpoint_name
   vcn_id = oci_core_vcn.test_vcn.id
   state = var.db_management_private_endpoint_state
-  is_cluster = var.db_management_private_endpoint_is_cluster
+  is_cluster = oci_database_management_db_management_private_endpoint.test_db_management_private_endpoint_create.is_cluster
 }

@@ -57,6 +57,10 @@ type CreateProtectedDatabaseDetails struct {
 	// Real-time data protection substantially reduces the window of potential data loss that exists between successive archived redo log backups.
 	IsRedoLogsShipped *bool `mandatory:"false" json:"isRedoLogsShipped"`
 
+	// The OCID of the cloud service subscription to which you want to link the protected database.
+	// For example, specify the Microsoft Azure subscription ID if you want to provision the protected database in Azure.
+	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

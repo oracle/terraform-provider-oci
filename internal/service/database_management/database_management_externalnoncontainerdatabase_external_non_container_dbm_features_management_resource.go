@@ -56,7 +56,9 @@ func DatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFeatur
 							ForceNew:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"DB_LIFECYCLE_MANAGEMENT",
 								"DIAGNOSTICS_AND_MANAGEMENT",
+								"SQLWATCH",
 							}, true),
 						},
 
@@ -79,6 +81,7 @@ func DatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFeatur
 										ForceNew:         true,
 										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 										ValidateFunc: validation.StringInSlice([]string{
+											"DIRECT",
 											"EXTERNAL",
 											"MACS",
 											"PE",
@@ -491,6 +494,9 @@ func (s *DatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFe
 		connectorType = "" // default value
 	}
 	switch strings.ToLower(connectorType) {
+	case strings.ToLower("DIRECT"):
+		details := oci_database_management.DirectConnectorDetails{}
+		baseObject = details
 	case strings.ToLower("EXTERNAL"):
 		details := oci_database_management.ExternalConnectorDetails{}
 		if databaseConnectorId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_connector_id")); ok {
@@ -529,11 +535,40 @@ func (s *DatabaseManagementExternalnoncontainerdatabaseExternalNonContainerDbmFe
 		feature = "" // default value
 	}
 	switch strings.ToLower(feature) {
+	case strings.ToLower("DB_LIFECYCLE_MANAGEMENT"):
+		details := oci_database_management.ExternalDatabaseLifecycleManagementFeatureDetails{}
+		if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
+			details.LicenseModel = oci_database_management.ExternalDatabaseLifecycleManagementFeatureDetailsLicenseModelEnum(licenseModel.(string))
+		}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
 	case strings.ToLower("DIAGNOSTICS_AND_MANAGEMENT"):
 		details := oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetails{}
 		if licenseModel, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_model")); ok {
 			details.LicenseModel = oci_database_management.ExternalDatabaseDiagnosticsAndManagementFeatureDetailsLicenseModelEnum(licenseModel.(string))
 		}
+		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
+			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)
+				tmp, err := s.mapToConnectorDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert connector_details, encountered error: %v", err)
+				}
+				details.ConnectorDetails = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("SQLWATCH"):
+		details := oci_database_management.ExternalDatabaseSqlWatchFeatureDetails{}
 		if connectorDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connector_details")); ok {
 			if tmpList := connectorDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connector_details"), 0)

@@ -50,13 +50,13 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) A description of the announcement subscription. Avoid entering confidential information.
 * `display_name` - (Required) (Updatable) A user-friendly name for the announcement subscription. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `filter_groups` - (Optional) A list of filter groups for the announcement subscription. A filter group combines one or more filters that the Announcements service applies to announcements for matching purposes. 
-	* `filters` - (Required) A list of filters against which the Announcements service matches announcements. You cannot have more than one of any given filter type within a filter group.
-		* `type` - (Required) The type of filter.
+	* `filters` - (Required) A list of filters against which the Announcements service matches announcements. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
+		* `type` - (Required) The type of filter. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
 		* `value` - (Required) The value of the filter.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `ons_topic_id` - (Required) (Updatable) The OCID of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. The caller of the operation needs the ONS_TOPIC_PUBLISH permission for the targeted Notifications service topic. For more information about Notifications permissions, see [Details for Notifications](https://docs.cloud.oracle.com/iaas/Content/Identity/policyreference/notificationpolicyreference.htm). 
-* `preferred_language` - (Optional) (Updatable) (For announcement subscriptions with Oracle Fusion Applications configured as the service only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the language tag format (x-obmcs-human-language). For example fr-FR.
-* `preferred_time_zone` - (Optional) (Updatable) The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+* `preferred_language` - (Optional) (Updatable) (For announcement subscriptions with SaaS configured as the platform type or Oracle Fusion Applications as the service, or both, only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the x-obmcs-human-language format. For example fr-FR.
+* `preferred_time_zone` - (Optional) (Updatable) The time zone in which the user prefers to receive announcements. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example - America/Los_Angeles
 
 
 ** IMPORTANT **
@@ -71,16 +71,16 @@ The following attributes are exported:
 * `description` - A description of the announcement subscription. Avoid entering confidential information.
 * `display_name` - A user-friendly name for the announcement subscription. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `filter_groups` - A list of filter groups for the announcement subscription. A filter group is a combination of multiple filters applied to announcements for matching purposes. 
-	* `filters` - A list of filters against which the Announcements service matches announcements. You cannot have more than one of any given filter type within a filter group. You also cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group.
-		* `type` - The type of filter.
+	* `filters` - A list of filters against which the Announcements service matches announcements. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
+		* `type` - The type of filter. You cannot combine the RESOURCE_ID filter with any other type of filter within a given filter group. For filter types that support multiple values, specify the values individually.
 		* `value` - The value of the filter.
 	* `name` - The name of the group. The name must be unique and it cannot be changed. Avoid entering confidential information.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the announcement subscription.
 * `lifecycle_details` - A message describing the current lifecycle state in more detail. For example, details might provide required or recommended actions for a resource in a Failed state. 
 * `ons_topic_id` - The OCID of the Notifications service topic that is the target for publishing announcements that match the configured announcement subscription. 
-* `preferred_language` - (For announcement subscriptions with Oracle Fusion Applications configured as the service only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the language tag format (x-obmcs-human-language). For example fr-FR.
-* `preferred_time_zone` - The time zone that the user prefers for announcement time stamps. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example America/Los_Angeles.
+* `preferred_language` - (For announcement subscriptions with SaaS configured as the platform type or Oracle Fusion Applications as the service, or both, only) The language in which the user prefers to receive emailed announcements. Specify the preference with a value that uses the x-obmcs-human-language format. For example fr-FR.
+* `preferred_time_zone` - The time zone in which the user prefers to receive announcements. Specify the preference with a value that uses the IANA Time Zone Database format (x-obmcs-time-zone). For example - America/Los_Angeles
 * `state` - The current lifecycle state of the announcement subscription.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time that the announcement subscription was created, expressed in [RFC 3339](https://tools.ietf.org/html/rfc3339) timestamp format. 

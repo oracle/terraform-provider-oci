@@ -466,10 +466,10 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 			tmp := modelId.(string)
 			details.ModelId = &tmp
 		}
-		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
-			tmp := tenancyId.(string)
-			details.TenancyId = &tmp
-		}
+		//if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+		//	tmp := tenancyId.(string)
+		//	details.TenancyId = &tmp
+		//}
 		baseObject = details
 	case strings.ToLower("KEY_VALUE_EXTRACTION"):
 		details := oci_ai_document.DocumentKeyValueExtractionFeature{}
@@ -477,10 +477,10 @@ func (s *AiDocumentProcessorJobResourceCrud) mapToDocumentFeature(fieldKeyFormat
 			tmp := modelId.(string)
 			details.ModelId = &tmp
 		}
-		if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
-			tmp := tenancyId.(string)
-			details.TenancyId = &tmp
-		}
+		//if tenancyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "tenancy_id")); ok {
+		//	tmp := tenancyId.(string)
+		//	details.TenancyId = &tmp
+		//}
 		baseObject = details
 	case strings.ToLower("LANGUAGE_CLASSIFICATION"):
 		details := oci_ai_document.DocumentLanguageClassificationFeature{}
@@ -519,9 +519,9 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 			result["model_id"] = string(*v.ModelId)
 		}
 
-		if v.TenancyId != nil {
-			result["tenancy_id"] = string(*v.TenancyId)
-		}
+		//if v.TenancyId != nil {
+		//	result["tenancy_id"] = string(*v.TenancyId)
+		//}
 	case oci_ai_document.DocumentKeyValueExtractionFeature:
 		result["feature_type"] = "KEY_VALUE_EXTRACTION"
 
@@ -529,9 +529,9 @@ func DocumentFeatureToMap(obj oci_ai_document.DocumentFeature) map[string]interf
 			result["model_id"] = string(*v.ModelId)
 		}
 
-		if v.TenancyId != nil {
-			result["tenancy_id"] = string(*v.TenancyId)
-		}
+		//if v.TenancyId != nil {
+		//	result["tenancy_id"] = string(*v.TenancyId)
+		//}
 	case oci_ai_document.DocumentLanguageClassificationFeature:
 		result["feature_type"] = "LANGUAGE_CLASSIFICATION"
 

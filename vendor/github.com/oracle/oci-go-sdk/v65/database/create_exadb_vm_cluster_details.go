@@ -60,7 +60,11 @@ type CreateExadbVmClusterDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 	ExascaleDbStorageVaultId *string `mandatory:"true" json:"exascaleDbStorageVaultId"`
 
-	// Grid Setup will be done using this grid image id
+	// Grid Setup will be done using this grid image id.
+	// The grid image id can be extracted from
+	// 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name>
+	// 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using
+	// API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name>
 	GridImageId *string `mandatory:"true" json:"gridImageId"`
 
 	// The cluster name for Exadata VM cluster on Exascale Infrastructure. The cluster name must begin with an alphabetic character, and may contain hyphens (-). Underscores (_) are not permitted. The cluster name can be no longer than 11 characters and is not case sensitive.

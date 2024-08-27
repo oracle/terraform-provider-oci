@@ -51,12 +51,13 @@ The following arguments are supported:
 		* `connector_type` - (Optional) The list of supported connection types:
 			* PE: Private endpoint
 			* MACS: Management agent
-			* EXTERNAL: External database connector 
+			* EXTERNAL: External database connector
+			* DIRECT: Direct connection 
 		* `database_connector_id` - (Applicable when connector_type=EXTERNAL) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the external database connector.
 		* `management_agent_id` - (Applicable when connector_type=MACS) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management agent.
 		* `private_end_point_id` - (Applicable when connector_type=PE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private endpoint.
 	* `feature` - (Required) The name of the Database Management feature.
-	* `license_model` - (Optional) The Oracle license model that applies to the external database. 
+	* `license_model` - (Applicable when feature=DB_LIFECYCLE_MANAGEMENT | DIAGNOSTICS_AND_MANAGEMENT) The Oracle license model that applies to the external database. 
 * `enable_external_container_dbm_feature` - (Required) (Updatable) A required field when set to `true` calls enable action and when set to `false` calls disable action.
 
 

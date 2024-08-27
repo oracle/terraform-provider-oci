@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/keymanagement/UpdateHsmCluster.go.html to see an example of how to use UpdateHsmClusterRequest.
 type UpdateHsmClusterRequest struct {
 
-	// The OCID of the HSM Cluster.
+	// The OCID of the HSM Cluster. This is a unique identifier assigned to each hsmCluster.
 	HsmClusterId *string `mandatory:"true" contributesTo:"path" name:"hsmClusterId"`
 
 	// Details of the HsmCluster Resource

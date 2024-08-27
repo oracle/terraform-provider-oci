@@ -28,10 +28,10 @@ type ListObjectVersionsRequest struct {
 	// The string to use for matching against the start of object names in a list query.
 	Prefix *string `mandatory:"false" contributesTo:"query" name:"prefix"`
 
-	// Object names returned by a list query must be greater or equal to this parameter.
+	// Returns object names which are lexicographically greater than or equal to this parameter.
 	Start *string `mandatory:"false" contributesTo:"query" name:"start"`
 
-	// Object names returned by a list query must be strictly less than this parameter.
+	// Returns object names which are lexicographically strictly less than this parameter.
 	End *string `mandatory:"false" contributesTo:"query" name:"end"`
 
 	// For list pagination. The maximum number of results per page, or items to return in a paginated
@@ -56,7 +56,7 @@ type ListObjectVersionsRequest struct {
 	// The client request ID for tracing.
 	OpcClientRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-client-request-id"`
 
-	// Object names returned by a list query must be greater than this parameter.
+	// Returns object names which are lexicographically strictly greater than this parameter.
 	StartAfter *string `mandatory:"false" contributesTo:"query" name:"startAfter"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List" call. For important

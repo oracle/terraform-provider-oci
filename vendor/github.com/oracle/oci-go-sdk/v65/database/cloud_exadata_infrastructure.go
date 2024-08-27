@@ -134,6 +134,9 @@ type CloudExadataInfrastructure struct {
 
 	// Details of the file system configuration of the Exadata infrastructure.
 	DefinedFileSystemConfigurations []DefinedFileSystemConfiguration `mandatory:"false" json:"definedFileSystemConfigurations"`
+
+	// If true, the infrastructure is using granular maintenance scheduling preference.
+	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
 }
 
 func (m CloudExadataInfrastructure) String() string {

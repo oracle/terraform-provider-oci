@@ -25,7 +25,7 @@ type RestoreObjectsRequest struct {
 	// Example: `my-new-bucket1`
 	BucketName *string `mandatory:"true" contributesTo:"path" name:"bucketName"`
 
-	// Request to restore objects.
+	// Request to restore object.
 	RestoreObjectsDetails `contributesTo:"body"`
 
 	// The client request ID for tracing.

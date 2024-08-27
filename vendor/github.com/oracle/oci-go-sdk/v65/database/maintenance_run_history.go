@@ -25,6 +25,12 @@ type MaintenanceRunHistory struct {
 
 	// List of database server history details.
 	DbServersHistoryDetails []DbServerHistorySummary `mandatory:"false" json:"dbServersHistoryDetails"`
+
+	// The OCID of the current execution window.
+	CurrentExecutionWindow *string `mandatory:"false" json:"currentExecutionWindow"`
+
+	// The list of granular maintenance history details.
+	GranularMaintenanceHistory []GranularMaintenanceHistoryDetails `mandatory:"false" json:"granularMaintenanceHistory"`
 }
 
 func (m MaintenanceRunHistory) String() string {

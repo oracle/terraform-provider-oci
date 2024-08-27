@@ -21,6 +21,7 @@ import (
 
 func DatabaseCloudVmClusterResource() *schema.Resource {
 	return &schema.Resource{
+		CustomizeDiff: fileSystemConfigDiffFunc,
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},

@@ -22,6 +22,7 @@ data "oci_database_management_db_management_private_endpoints" "test_db_manageme
 
 	#Optional
 	is_cluster = var.db_management_private_endpoint_is_cluster
+	is_dns_resolution_enabled = var.db_management_private_endpoint_is_dns_resolution_enabled
 	name = var.db_management_private_endpoint_name
 	state = var.db_management_private_endpoint_state
 	vcn_id = oci_core_vcn.test_vcn.id
@@ -34,6 +35,7 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `is_cluster` - (Optional) The option to filter Database Management private endpoints that can used for Oracle Databases in a cluster. This should be used along with the vcnId query parameter. 
+* `is_dns_resolution_enabled` - (Optional) The option to filter Database Management private endpoints which are endbled with DNS proxy server. This should be used along with the vcnId query parameter. Only one of this parameter and IsClusterDbManagementPrivateEndpointQueryParam should be set to true at one time. 
 * `name` - (Optional) A filter to return only resources that match the entire name.
 * `state` - (Optional) The lifecycle state of a resource.
 * `vcn_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VCN.
@@ -55,6 +57,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint.
 * `is_cluster` - Specifies whether the Database Management private endpoint can be used for Oracle Databases in a cluster.
+* `is_dns_resolution_enabled` - Specifies whether the Database Management private endpoint has DNS proxy server enabled to resolve private host name.
 * `name` - The display name of the Database Management private endpoint.
 * `nsg_ids` - The OCIDs of the Network Security Groups to which the Database Management private endpoint belongs. 
 * `private_ip` - The IP addresses assigned to the Database Management private endpoint. 
