@@ -218,12 +218,6 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["launch_options"] = nil
 		}
 
-		licensingConfigs := []interface{}{}
-		for _, item := range r.LicensingConfigs {
-			licensingConfigs = append(licensingConfigs, LicensingConfigToMap(item))
-		}
-		instance["licensing_configs"] = licensingConfigs
-
 		if r.Metadata != nil {
 			instance["metadata"] = r.Metadata
 		}
@@ -248,9 +242,7 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["region"] = *r.Region
 		}
 
-		if r.SecurityAttributes != nil {
-			instance["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
-		}
+		instance["security_attributes"] = r.SecurityAttributes
 
 		instance["security_attributes_state"] = r.SecurityAttributesState
 

@@ -152,12 +152,6 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("launch_options", nil)
 	}
 
-	licensingConfigs := []interface{}{}
-	for _, item := range s.Res.LicensingConfigs {
-		licensingConfigs = append(licensingConfigs, LicensingConfigToMap(item))
-	}
-	s.D.Set("licensing_configs", licensingConfigs)
-
 	if s.Res.Metadata != nil {
 		err := s.D.Set("metadata", s.Res.Metadata)
 		if err != nil {
@@ -185,9 +179,7 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
-	if s.Res.SecurityAttributes != nil {
-		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
-	}
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
 

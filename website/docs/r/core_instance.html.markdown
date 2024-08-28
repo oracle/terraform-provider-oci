@@ -146,7 +146,6 @@ resource "oci_core_instance" "test_instance" {
 		display_name = var.instance_launch_volume_attachments_display_name
 		encryption_in_transit_type = var.instance_launch_volume_attachments_encryption_in_transit_type
 		is_agent_auto_iscsi_login_enabled = var.instance_launch_volume_attachments_is_agent_auto_iscsi_login_enabled
-		is_pv_encryption_in_transit_enabled = var.instance_launch_volume_attachments_is_pv_encryption_in_transit_enabled
 		is_read_only = var.instance_launch_volume_attachments_is_read_only
 		is_shareable = var.instance_launch_volume_attachments_is_shareable
 		launch_create_volume_details {
@@ -162,13 +161,6 @@ resource "oci_core_instance" "test_instance" {
 		}
 		use_chap = var.instance_launch_volume_attachments_use_chap
 		volume_id = oci_core_volume.test_volume.id
-	}
-	licensing_configs {
-		#Required
-		type = var.instance_licensing_configs_type
-
-		#Optional
-		license_type = var.instance_licensing_configs_license_type
 	}
 	metadata = var.instance_metadata
 	platform_config {
@@ -309,7 +301,7 @@ The following arguments are supported:
 		 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Example: `10.0.3.3` 
-	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}` 
+	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
@@ -386,9 +378,8 @@ The following arguments are supported:
 	
     * `device` - (Optional) The device name. To retrieve a list of devices for a given instance, see [ListInstanceDevices](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Device/ListInstanceDevices).
 	* `display_name` - (Optional) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-	* `encryption_in_transit_type` - (Applicable when type=iscsi) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
-	* `is_agent_auto_iscsi_login_enabled` - (Applicable when type=iscsi) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
-	* `is_pv_encryption_in_transit_enabled` - (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
+	* `encryption_in_transit_type` - (Optional) Refer the top-level definition of encryptionInTransitType. The default value is NONE. 
+	* `is_agent_auto_iscsi_login_enabled` - (Optional) Whether to enable Oracle Cloud Agent to perform the iSCSI login and logout commands after the volume attach or detach operations for non multipath-enabled iSCSI attachments. 
 	* `is_read_only` - (Optional) Whether the attachment was created in read-only mode.
 	* `is_shareable` - (Optional) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
 	* `launch_create_volume_details` - (Optional) Define a volume that will be created and attached or attached to an instance on creation.
@@ -405,13 +396,8 @@ The following arguments are supported:
 			* `20`: Represents Higher Performance option.
 			* `30`-`120`: Represents the Ultra High Performance option. 
 	* `type` - (Required) The type of volume. Currently, the only supported value is "iscsi".
-	* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
+	* `use_chap` - (Optional) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 	* `volume_id` - (Optional) The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request. 
-* `licensing_configs` - (Optional) (Updatable) List of licensing configurations associated with target launch values.
-	* `license_type` - (Optional) (Updatable) License Type for the OS license.
-		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
-		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
-	* `type` - (Required) (Updatable) Operating System type of the Configuration.
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -476,7 +462,7 @@ The following arguments are supported:
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
 		* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
-* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
@@ -511,7 +497,7 @@ The following arguments are supported:
 		* `operating_system` - (Applicable when source_type=image) The image's operating system.  Example: `Oracle Linux` 
 		* `operating_system_version` - (Applicable when source_type=image) The image's operating system version.  Example: `7.2`
 	* `kms_key_id` - (Applicable when source_type=image) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume.
-	* `source_id` - (Required) (Updatable) The OCID of the boot volume used to boot the instance. Updates are supported only for linux Images. The user will need to manually destroy and re-create the resource for other image types.
+	* `source_id` - (Required) (Updatable) The OCID of the boot volume used to boot the instance.
 	* `source_type` - (Required) (Updatable) The source type for the instance. Use `image` when specifying the image OCID. Use `bootVolume` when specifying the boot volume OCID.
     * `is_preserve_boot_volume_enabled` - (Optional) (Updatable) Whether to preserve the boot volume that was previously attached to the instance after a successful replacement of that boot volume.
 * `subnet_id` - (Optional) Deprecated. Instead use `subnetId` in [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/). At least one of them is required; if you provide both, the values must match. 
@@ -617,12 +603,6 @@ The following attributes are exported:
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
-* `licensing_configs` - List of licensing configurations associated with the instance.
-	* `license_type` - License Type for the OS license.
-		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
-		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
-	* `os_version` - The Operating System version of the license config.
-	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
 
 * `platform_config` - The platform configuration for the instance. 
@@ -660,7 +640,7 @@ The following attributes are exported:
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
 
 	Examples: `phx`, `eu-frankfurt-1` 
-* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}` 
+* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
 * `security_attributes_state` - The lifecycle state of the `securityAttributes`
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 

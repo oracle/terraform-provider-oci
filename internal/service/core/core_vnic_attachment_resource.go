@@ -150,10 +150,6 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
-						"route_table_id": {
-							Type:     schema.TypeString,
-							Optional: true,
-						},
 
 						// Computed
 					},
@@ -547,7 +543,7 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -611,15 +607,6 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-	}
-
-	if routeTableId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_table_id")); ok {
-		tmp := routeTableId.(string)
-		result.RouteTableId = &tmp
-	}
-
 	return result, nil
 }
 
@@ -680,9 +667,7 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
 
-	if obj.SecurityAttributes != nil {
-		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
-	}
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -694,10 +679,6 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 	if obj.VlanId != nil {
 		result["vlan_id"] = string(*obj.VlanId)
-	}
-
-	if obj.RouteTableId != nil {
-		result["route_table_id"] = string(*obj.RouteTableId)
 	}
 
 	return result

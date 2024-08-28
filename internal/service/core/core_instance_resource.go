@@ -439,7 +439,6 @@ func CoreInstanceResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"iscsi",
-								"paravirtualized",
 							}, true),
 						},
 
@@ -460,11 +459,6 @@ func CoreInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						"is_agent_auto_iscsi_login_enabled": {
-							Type:     schema.TypeBool,
-							Optional: true,
-							Computed: true,
-						},
-						"is_pv_encryption_in_transit_enabled": {
 							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
@@ -541,35 +535,6 @@ func CoreInstanceResource() *schema.Resource {
 							Computed: true,
 						},
 						// Computed
-					},
-				},
-			},
-			"licensing_configs": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"type": {
-							Type:     schema.TypeString,
-							Required: true,
-						},
-
-						// Optional
-						"license_type": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-						},
-
-						// Computed
-						"os_version": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
 					},
 				},
 			},
@@ -1317,23 +1282,6 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
-	if licensingConfigs, ok := s.D.GetOkExists("licensing_configs"); ok {
-		interfaces := licensingConfigs.([]interface{})
-		tmp := make([]oci_core.LaunchInstanceLicensingConfig, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "licensing_configs", stateDataIndex)
-			converted, err := s.mapToLaunchInstanceLicensingConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("licensing_configs") {
-			request.LicensingConfigs = tmp
-		}
-	}
-
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1361,7 +1309,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -1548,23 +1496,6 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	if licensingConfigs, ok := s.D.GetOkExists("licensing_configs"); ok {
-		interfaces := licensingConfigs.([]interface{})
-		tmp := make([]oci_core.UpdateInstanceLicensingConfig, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "licensing_configs", stateDataIndex)
-			converted, err := s.mapToUpdateInstanceLicensingConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			tmp[i] = converted
-		}
-		if len(tmp) != 0 || s.D.HasChange("licensing_configs") {
-			request.LicensingConfigs = tmp
-		}
-	}
-
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1577,7 +1508,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	s.Res = &response.Instance
@@ -1753,13 +1684,12 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("launch_options", nil)
 	}
 
-	licensingConfigs := []interface{}{}
-	for _, item := range s.Res.LicensingConfigs {
-		licensingConfigs = append(licensingConfigs, LicensingConfigToMap(item))
+	if s.Res.Metadata != nil {
+		err := s.D.Set("metadata", s.Res.Metadata)
+		if err != nil {
+			log.Printf("error setting metadata %q", err)
+		}
 	}
-	s.D.Set("licensing_configs", licensingConfigs)
-
-	s.D.Set("metadata", s.Res.Metadata)
 
 	if s.Res.PlatformConfig != nil {
 		platformConfigArray := []interface{}{}
@@ -1781,9 +1711,7 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
-	if s.Res.SecurityAttributes != nil {
-		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
-	}
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
 
 	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
 
@@ -1956,7 +1884,7 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -2034,9 +1962,7 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
 
-	if obj.SecurityAttributes != nil {
-		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
-	}
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -2512,43 +2438,6 @@ func (s *CoreInstanceResourceCrud) mapToLaunchAttachVolumeDetails(fieldKeyFormat
 			details.VolumeId = &tmp
 		}
 		baseObject = details
-	case strings.ToLower("paravirtualized"):
-		details := oci_core.LaunchAttachParavirtualizedVolumeDetails{}
-		if isPvEncryptionInTransitEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_pv_encryption_in_transit_enabled")); ok {
-			tmp := isPvEncryptionInTransitEnabled.(bool)
-			details.IsPvEncryptionInTransitEnabled = &tmp
-		}
-		if device, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "device")); ok {
-			tmp := device.(string)
-			details.Device = &tmp
-		}
-		if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
-			tmp := displayName.(string)
-			details.DisplayName = &tmp
-		}
-		if isReadOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_read_only")); ok {
-			tmp := isReadOnly.(bool)
-			details.IsReadOnly = &tmp
-		}
-		if isShareable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_shareable")); ok {
-			tmp := isShareable.(bool)
-			details.IsShareable = &tmp
-		}
-		if launchCreateVolumeDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details")); ok {
-			if tmpList := launchCreateVolumeDetails.([]interface{}); len(tmpList) > 0 {
-				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "launch_create_volume_details"), 0)
-				tmp, err := s.mapToLaunchCreateVolumeDetails(fieldKeyFormatNextLevel)
-				if err != nil {
-					return details, fmt.Errorf("unable to convert launch_create_volume_details, encountered error: %v", err)
-				}
-				details.LaunchCreateVolumeDetails = tmp
-			}
-		}
-		if volumeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "volume_id")); ok {
-			tmp := volumeId.(string)
-			details.VolumeId = &tmp
-		}
-		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -2569,12 +2458,6 @@ func LaunchAttachVolumeDetailsToMap(obj oci_core.LaunchAttachVolumeDetails) map[
 
 		if v.UseChap != nil {
 			result["use_chap"] = bool(*v.UseChap)
-		}
-	case oci_core.LaunchAttachParavirtualizedVolumeDetails:
-		result["type"] = "paravirtualized"
-
-		if v.IsPvEncryptionInTransitEnabled != nil {
-			result["is_pv_encryption_in_transit_enabled"] = bool(*v.IsPvEncryptionInTransitEnabled)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
@@ -2789,71 +2672,6 @@ func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) m
 
 	result["recovery_action"] = string(obj.RecoveryAction)
 
-	return result
-}
-
-func (s *CoreInstanceResourceCrud) mapToLaunchInstanceLicensingConfig(fieldKeyFormat string) (oci_core.LaunchInstanceLicensingConfig, error) {
-	var baseObject oci_core.LaunchInstanceLicensingConfig
-	//discriminator
-	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
-	var type_ string
-	if ok {
-		type_ = typeRaw.(string)
-	} else {
-		type_ = "" // default value
-	}
-	switch strings.ToLower(type_) {
-	case strings.ToLower("WINDOWS"):
-		details := oci_core.LaunchInstanceWindowsLicensingConfig{}
-		if licenseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_type")); ok {
-			tmp := licenseType.(string)
-			details.LicenseType = oci_core.LaunchInstanceLicensingConfigLicenseTypeEnum(tmp)
-		}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
-	}
-	return baseObject, nil
-}
-
-func (s *CoreInstanceResourceCrud) mapToUpdateInstanceLicensingConfig(fieldKeyFormat string) (oci_core.UpdateInstanceLicensingConfig, error) {
-	var baseObject oci_core.UpdateInstanceLicensingConfig
-	//discriminator
-	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
-	var type_ string
-	if ok {
-		type_ = typeRaw.(string)
-	} else {
-		type_ = "" // default value
-	}
-	switch strings.ToLower(type_) {
-	case strings.ToLower("WINDOWS"):
-		details := oci_core.UpdateInstanceWindowsLicensingConfig{}
-		if licenseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_type")); ok {
-			tmp := licenseType.(string)
-			details.LicenseType = oci_core.UpdateInstanceLicensingConfigLicenseTypeEnum(tmp)
-		}
-		baseObject = details
-	default:
-		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
-	}
-	return baseObject, nil
-}
-
-func LicensingConfigToMap(obj oci_core.LicensingConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	var v interface{} = oci_core.UpdateInstanceWindowsLicensingConfig{}
-	if _, ok := v.(oci_core.UpdateInstanceWindowsLicensingConfig); ok {
-		result["type"] = "WINDOWS"
-		result["license_type"] = string(obj.LicenseType)
-		if obj.OsVersion != nil {
-			result["os_version"] = *obj.OsVersion
-		}
-	} else {
-		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
-		return nil
-	}
 	return result
 }
 
