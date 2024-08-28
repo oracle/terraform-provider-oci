@@ -59,6 +59,7 @@ var (
 		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `attachvnictestinstance`},
 		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"private_ip":                acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}, Update: map[string]any{"MaxEgressCount": map[string]string{"value": "43", "mode": "audit"}}},
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
@@ -80,6 +81,7 @@ var (
 		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreVnicAttachmentIpv6AddressIpv6SubnetCidrPairRepresentation},
 		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"security_attributes":    acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}, Update: map[string]any{"MaxEgressCount": map[string]string{"value": "43", "mode": "audit"}}},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 	CoreVnicAttachmentIpv6AddressIpv6SubnetCidrPairRepresentation = map[string]interface{}{
@@ -166,6 +168,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.hostname_label", "attachvnictestinstance"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.private_ip", "10.0.0.5"),
+				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),

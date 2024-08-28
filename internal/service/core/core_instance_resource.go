@@ -258,6 +258,13 @@ func CoreInstanceResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem:     schema.TypeString,
+						},
 						"skip_source_dest_check": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -682,6 +689,12 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -890,6 +903,10 @@ func CoreInstanceResource() *schema.Resource {
 				Computed: true,
 			},
 			"region": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"security_attributes_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -1291,6 +1308,10 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -1484,6 +1505,10 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	response, err := s.Client.UpdateInstance(context.Background(), request)
 	if err != nil {
 		return err
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
 	}
 
 	s.Res = &response.Instance
@@ -1686,6 +1711,10 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
+	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -1854,6 +1883,10 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 		result.PrivateIp = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+	}
+
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
@@ -1928,6 +1961,8 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
+
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
