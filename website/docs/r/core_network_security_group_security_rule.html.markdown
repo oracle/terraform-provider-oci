@@ -10,7 +10,7 @@ description: |-
 # oci_core_network_security_group_security_rule
 This resource provides the Network Security Group Security Rule resource in Oracle Cloud Infrastructure Core service.
 
-Adds a security rule to the specified network security group.
+Adds up to 25 security rules to the specified network security group. Adding more than 25 rules requires multiple operations.
 
 
 ## Example Usage
@@ -72,7 +72,7 @@ resource "oci_core_network_security_group_security_rule" "test_network_security_
 The following arguments are supported:
 
 * `network_security_group_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network security group.
-* `security_rules` - (Optional) The NSG security rules to add.
+* `security_rules` - (Optional) An array of security rules to add to the NSG. You can add up to 25 rules in a single `AddNetworkSecurityGroupSecurityRules` operation. Adding more than 25 rules requires multiple operations. 
 	* `description` - (Optional) An optional description of your choice for the rule. Avoid entering confidential information. 
 	* `destination` - (Optional) Conceptually, this is the range of IP addresses that a packet originating from the instance can go to.
 
@@ -196,4 +196,3 @@ NetworkSecurityGroupSecurityRule can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_network_security_group_security_rule.test_network_security_group_security_rule "networkSecurityGroups/{networkSecurityGroupId}/securityRules/{securityRuleId}"
 ```
-
