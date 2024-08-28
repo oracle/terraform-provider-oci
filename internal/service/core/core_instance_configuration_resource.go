@@ -573,6 +573,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"security_attributes": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
+												},
 												"skip_source_dest_check": {
 													Type:     schema.TypeBool,
 													Optional: true,
@@ -887,6 +894,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 										ForceNew: true,
+									},
+									"security_attributes": {
+										Type:     schema.TypeMap,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem:     schema.TypeString,
 									},
 									"shape": {
 										Type:     schema.TypeString,
@@ -1554,6 +1568,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"security_attributes": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
+															},
 															"skip_source_dest_check": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -1860,6 +1881,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Computed: true,
 													ForceNew: true,
 												},
+												"security_attributes": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
+												},
 												"shape": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -2131,6 +2159,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																Computed: true,
 																ForceNew: true,
 															},
+															"security_attributes": {
+																Type:     schema.TypeMap,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem:     schema.TypeString,
+															},
 															"skip_source_dest_check": {
 																Type:     schema.TypeBool,
 																Optional: true,
@@ -2278,6 +2313,13 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													Optional: true,
 													Computed: true,
 													ForceNew: true,
+												},
+												"security_attributes": {
+													Type:     schema.TypeMap,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem:     schema.TypeString,
 												},
 												"skip_source_dest_check": {
 													Type:     schema.TypeBool,
@@ -3021,6 +3063,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.PrivateIp = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+	}
+
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
@@ -3084,6 +3130,8 @@ func InstanceConfigurationCreateVnicDetailsToMap(obj *oci_core.InstanceConfigura
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
+
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
@@ -3824,6 +3872,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationLaunch
 		result.PreferredMaintenanceAction = oci_core.InstanceConfigurationLaunchInstanceDetailsPreferredMaintenanceActionEnum(preferredMaintenanceAction.(string))
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+	}
+
 	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
 		tmp := shape.(string)
 		result.Shape = &tmp
@@ -3938,6 +3990,8 @@ func InstanceConfigurationLaunchInstanceDetailsToMap(obj *oci_core.InstanceConfi
 	}
 
 	result["preferred_maintenance_action"] = string(obj.PreferredMaintenanceAction)
+
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.Shape != nil {
 		result["shape"] = string(*obj.Shape)

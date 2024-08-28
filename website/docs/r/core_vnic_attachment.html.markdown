@@ -33,6 +33,7 @@ resource "oci_core_vnic_attachment" "test_vnic_attachment" {
 		ipv6address_ipv6subnet_cidr_pair_details = var.vnic_attachment_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details
 		nsg_ids = var.vnic_attachment_create_vnic_details_nsg_ids
 		private_ip = var.vnic_attachment_create_vnic_details_private_ip
+		security_attributes = var.vnic_attachment_create_vnic_details_security_attributes
 		skip_source_dest_check = var.vnic_attachment_create_vnic_details_skip_source_dest_check
 		subnet_id = oci_core_subnet.test_subnet.id
 		vlan_id = oci_core_vlan.test_vlan.id
@@ -85,6 +86,7 @@ The following arguments are supported:
 		 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Example: `10.0.3.3` 
+	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).

@@ -93,7 +93,7 @@ The following arguments are supported:
 
 * `cluster_configuration` - (Optional) The HPC cluster configuration requested when launching instances of a cluster network.
 
-	If the parameter is provided, instances will only be placed within the HPC island and list of network blocks  that you specify. If a list of network blocks are missing or not provided, the instances will be placed in any  HPC blocks in the HPC island that you specify. If the values of HPC island or network block that you provide are  not valid, an error is returned. 
+	If the parameter is provided, instances will only be placed within the HPC island and list of network blocks that you specify. If a list of network blocks are missing or not provided, the instances will be placed in any HPC blocks in the HPC island that you specify. If the values of HPC island or network block that you provide are not valid, an error is returned. 
 	* `hpc_island_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the HPC island. 
 	* `network_block_ids` - (Optional) The list of network block OCIDs.
 * `compartment_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the cluster network. 
