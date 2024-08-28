@@ -14,6 +14,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_job", StackMonitoringDiscoveryJobDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_job_logs", StackMonitoringDiscoveryJobLogsDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_jobs", StackMonitoringDiscoveryJobsDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_maintenance_window", StackMonitoringMaintenanceWindowDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_maintenance_windows", StackMonitoringMaintenanceWindowsDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_metric_extension", StackMonitoringMetricExtensionDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_metric_extensions", StackMonitoringMetricExtensionsDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource", StackMonitoringMonitoredResourceDataSource())

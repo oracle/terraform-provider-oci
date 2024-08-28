@@ -130,6 +130,29 @@ var exportStackMonitoringProcessSetHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportStackMonitoringMaintenanceWindowHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_maintenance_window",
+	DatasourceClass:        "oci_stack_monitoring_maintenance_windows",
+	DatasourceItemsAttr:    "maintenance_window_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "maintenance_window",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.MaintenanceWindowLifecycleStateActive),
+		string(oci_stack_monitoring.MaintenanceWindowLifecycleStateNeedsAttention),
+	},
+}
+
+var exportStackMonitoringMaintenanceWindowsRetryFailedOperationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_stack_monitoring_maintenance_windows_retry_failed_operation",
+	ResourceAbbreviation: "maintenance_windows_retry_failed_operation",
+}
+
+var exportStackMonitoringMaintenanceWindowsStopHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_stack_monitoring_maintenance_windows_stop",
+	ResourceAbbreviation: "maintenance_windows_stop",
+}
+
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
@@ -137,6 +160,7 @@ var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportStackMonitoringMetricExtensionHints},
 		{TerraformResourceHints: exportStackMonitoringBaselineableMetricHints},
 		{TerraformResourceHints: exportStackMonitoringProcessSetHints},
+		{TerraformResourceHints: exportStackMonitoringMaintenanceWindowHints},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{
