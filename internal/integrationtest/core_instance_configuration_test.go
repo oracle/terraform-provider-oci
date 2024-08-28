@@ -175,6 +175,7 @@ var (
 		"dedicated_vm_host_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_dedicated_vm_host.test_dedicated_vm_host.id}`},
 		"launch_mode":                         acctest.Representation{RepType: acctest.Optional, Create: `NATIVE`},
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
+		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters = map[string]interface{}{
@@ -277,6 +278,7 @@ var (
 		"hostname_label":            acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`},
 		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":                acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
@@ -324,6 +326,7 @@ var (
 		"ipv6address_ipv6subnet_cidr_pair_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationIpv6AddressIpv6SubnetCidrPairRepresentation},
 		"nsg_ids":                acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
 		"private_ip":             acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
+		"security_attributes":    acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"skip_source_dest_check": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
@@ -993,6 +996,7 @@ func TestCoreInstanceConfigurationResourceOptions_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
@@ -1032,6 +1036,7 @@ func TestCoreInstanceConfigurationResourceOptions_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
@@ -1107,6 +1112,7 @@ func TestCoreInstanceConfigurationResourceOptions_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.hostname_label", "hostnameLabel"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.options.0.launch_details.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.options.0.launch_details.0.display_name", "backend-servers"),
@@ -1169,6 +1175,7 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "2607:f590:0000:1600:0000:0000:0000:0000/64"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
@@ -1215,6 +1222,7 @@ func TestCoreInstanceConfigurationResourceIpv6_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.ipv6address_ipv6subnet_cidr_pair_details.0.ipv6subnet_cidr", "2607:f590:0000:1600:0000:0000:0000:0000/64"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.private_ip", "privateIp"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.security_attributes.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.nic_index", "0"),

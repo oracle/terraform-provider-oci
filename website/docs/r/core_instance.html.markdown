@@ -50,6 +50,12 @@ Then, call [CreateAppCatalogSubscription](https://docs.cloud.oracle.com/iaas/api
 with the signature. To get the image ID for the LaunchInstance operation, call
 [GetAppCatalogListingResourceVersion](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/AppCatalogListingResourceVersion/GetAppCatalogListingResourceVersion).
 
+When launching an instance, you may provide the `securityAttributes` parameter in
+[LaunchInstanceDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/LaunchInstanceDetails) to manage security attributes via the instance, 
+or in the embedded [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) to manage security attributes
+via the VNIC directly, but not both.  Providing `securityAttributes` in both locations will return a
+400 Bad Request response.
+
 To determine whether capacity is available for a specific shape before you create an instance,
 use the [CreateComputeCapacityReport](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/ComputeCapacityReport/CreateComputeCapacityReport)
 operation.
@@ -98,6 +104,7 @@ resource "oci_core_instance" "test_instance" {
 		ipv6address_ipv6subnet_cidr_pair_details = var.instance_create_vnic_details_ipv6address_ipv6subnet_cidr_pair_details
 		nsg_ids = var.instance_create_vnic_details_nsg_ids
 		private_ip = var.instance_create_vnic_details_private_ip
+		security_attributes = var.instance_create_vnic_details_security_attributes
 		skip_source_dest_check = var.instance_create_vnic_details_skip_source_dest_check
 		subnet_id = oci_core_subnet.test_subnet.id
 		vlan_id = oci_core_vlan.test_vlan.id
@@ -183,6 +190,7 @@ resource "oci_core_instance" "test_instance" {
 			preserve_boot_volume = var.instance_preemptible_instance_config_preemption_action_preserve_boot_volume
 		}
 	}
+	security_attributes = var.instance_security_attributes
 	shape = var.instance_shape
 	shape_config {
 
@@ -293,6 +301,7 @@ The following arguments are supported:
 		 If you specify a `vlanId`, the `privateIp` cannot be specified. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
 
 		Example: `10.0.3.3` 
+	* `security_attributes` - (Optional) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
 	* `skip_source_dest_check` - (Optional) (Updatable) Whether the source/destination check is disabled on the VNIC. Defaults to `false`, which means the check is performed. For information about why you would skip the source/destination check, see [Using a Private IP as a Route Target](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#privateip).
 
 		 If you specify a `vlanId`, the `skipSourceDestCheck` cannot be specified because the source/destination check is always disabled for VNICs in a VLAN. See [Vlan](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Vlan).
@@ -453,7 +462,7 @@ The following arguments are supported:
 	* `preemption_action` - (Required) The action to run when the preemptible instance is interrupted for eviction. 
 		* `preserve_boot_volume` - (Optional) Whether to preserve the boot volume that was used to launch the preemptible instance when the instance is terminated. Defaults to false if not specified. 
 		* `type` - (Required) The type of action to run when the instance is interrupted for eviction.
-
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 * `shape` - (Required) (Updatable) The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 	You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
@@ -631,6 +640,8 @@ The following attributes are exported:
 	For the us-phoenix-1 and us-ashburn-1 regions, `phx` and `iad` are returned, respectively. For all other regions, the full region name is returned.
 
 	Examples: `phx`, `eu-frankfurt-1` 
+* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
+* `security_attributes_state` - The lifecycle state of the `securityAttributes`
 * `shape` - The shape of the instance. The shape determines the number of CPUs and the amount of memory allocated to the instance. You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes). 
 * `shape_config` - The shape configuration for an instance. The shape configuration determines the resources allocated to an instance. 
 	* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`.
@@ -694,4 +705,3 @@ Instances can be imported using the `id`, e.g.
 ```
 $ terraform import oci_core_instance.test_instance "id"
 ```
-
