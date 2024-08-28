@@ -126,6 +126,13 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem:     schema.TypeString,
+						},
 						"skip_source_dest_check": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -535,6 +542,10 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 		result.PrivateIp = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+	}
+
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
 		tmp := skipSourceDestCheck.(bool)
 		result.SkipSourceDestCheck = &tmp
@@ -655,6 +666,8 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 	if obj.PrivateIp != nil {
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
+
+	result["security_attributes"] = obj.SecurityAttributes
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
