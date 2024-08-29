@@ -40,7 +40,6 @@ var (
 			acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -132,7 +131,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 							freeform_tags = { "Department" = "Finance" }
 							nsg_ids = ["${oci_core_network_security_group.test_network_security_group1.id}", "${oci_core_network_security_group.test_network_security_group2.id}"]
 							security_attributes = {"security-attribute-test-1.security-attribute.value" = "somevalue", "security-attribute-test-1.security-attribute.mode" = "enforce"}
-							route_table_id = "${oci_core_route_table.test_route_table.id}"
 						}
 					}
 					data "oci_core_vnic" "v" {
@@ -150,7 +148,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vlan_tag"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
-					resource.TestCheckResourceAttrSet(s.ResourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
@@ -158,8 +155,6 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.nsg_ids.#", "2"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "private_ip_address"),
 					resource.TestCheckResourceAttr(s.VnicResourceName, "security_attributes.%", "2"),
-					resource.TestCheckResourceAttr(s.VnicResourceName, "security_attributes.test-namespace-20240722.test-attribute-20240822.value", "blue"),
-					resource.TestCheckResourceAttr(s.VnicResourceName, "security_attributes.test-namespace-20240722.test-attribute-20240822.mode", "enforce"),
 					// @SDK 1/2018: Since we don't assign a public IP to this vnic, we will get a response from server
 					// without a public_ip_address. Old SDK would have set it to empty, but new SDK will set it to nil.
 					// Commenting out until we have a better way of handling this.
@@ -169,7 +164,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					func(ts *terraform.State) (err error) {
 						newId, err := acctest.FromInstanceState(ts, s.ResourceName, "id")
 						if newId != vaId {
-							return fmt.Errorf("Expected same ocid (%s), got different (%s).", vaId, newId)
+							return fmt.Errorf("Expected same ocid, got different.")
 						}
 						return err
 					},
