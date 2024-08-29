@@ -411,6 +411,7 @@ bds
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
 * oci\_bds\_bds\_instance\_metastore\_config
+* oci\_bds\_bds\_instance\_resource\_principal\_configuration
 
 blockchain
     
