@@ -154,6 +154,10 @@ func (s *CoreVcnsDataSourceCrud) SetData() error {
 
 		vcn["ipv6private_cidr_blocks"] = r.Ipv6PrivateCidrBlocks
 
+		if r.SecurityAttributes != nil {
+			vcn["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+		}
+
 		vcn["state"] = r.LifecycleState
 
 		if r.TimeCreated != nil {
