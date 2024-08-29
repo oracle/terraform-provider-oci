@@ -82,6 +82,10 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityDataSourceCrud) SetData() err
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.IsDataMaskingOpted != nil {
+		s.D.Set("is_data_masking_opted", *s.Res.IsDataMaskingOpted)
+	}
+
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
 	refreshIssueDetailsList := []interface{}{}
