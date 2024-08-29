@@ -181,7 +181,8 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 			},
 			"db_tools_details": {
-				Type:     schema.TypeList,
+				Type:     schema.TypeSet,
+				Set:      dbToolsForSets,
 				Optional: true,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -1874,10 +1875,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 	}
 
 	if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok && s.D.HasChange("db_tools_details") {
-		interfaces := dbToolsDetails.([]interface{})
+		set := dbToolsDetails.(*schema.Set)
+		interfaces := set.List()
 		tmp := make([]oci_database.DatabaseTool, len(interfaces))
 		for i := range interfaces {
-			stateDataIndex := i
+			stateDataIndex := dbToolsForSets(interfaces[i])
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 			converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 			if err != nil {
@@ -2113,7 +2115,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 	for _, item := range s.Res.DbToolsDetails {
 		dbToolsDetails = append(dbToolsDetails, DatabaseToolToMap(item))
 	}
-	s.D.Set("db_tools_details", dbToolsDetails)
+	s.D.Set("db_tools_details", schema.NewSet(dbToolsForSets, dbToolsDetails))
 
 	if s.Res.DbVersion != nil {
 		s.D.Set("db_version", *s.Res.DbVersion)
@@ -2946,10 +2948,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -3233,10 +3236,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -3515,10 +3519,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -3789,10 +3794,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -4051,10 +4057,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -4562,10 +4569,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -4831,10 +4839,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			details.DbName = &tmp
 		}
 		if dbToolsDetails, ok := s.D.GetOkExists("db_tools_details"); ok {
-			interfaces := dbToolsDetails.([]interface{})
+			set := dbToolsDetails.(*schema.Set)
+			interfaces := set.List()
 			tmp := make([]oci_database.DatabaseTool, len(interfaces))
 			for i := range interfaces {
-				stateDataIndex := i
+				stateDataIndex := dbToolsForSets(interfaces[i])
 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "db_tools_details", stateDataIndex)
 				converted, err := s.mapToDatabaseTool(fieldKeyFormat)
 				if err != nil {
@@ -5576,6 +5585,24 @@ func scheduledOperationsForSets(v interface{}) int {
 	}
 	if stopTime, ok := m["scheduled_stop_time"]; ok && stopTime != "" {
 		buf.WriteString(fmt.Sprintf("%v-", strings.ToLower(stopTime.(string))))
+	}
+	return utils.GetStringHashcode(buf.String())
+}
+
+func dbToolsForSets(v interface{}) int {
+	var buf bytes.Buffer
+	m := v.(map[string]interface{})
+	if name, ok := m["name"]; ok && name != "" {
+		buf.WriteString(fmt.Sprintf("%v-", name))
+	}
+	if computeCount, ok := m["compute_count"]; ok && computeCount != "" {
+		buf.WriteString(fmt.Sprintf("%v-", computeCount))
+	}
+	if isEnabled, ok := m["is_enabled"]; ok && isEnabled != "" {
+		buf.WriteString(fmt.Sprintf("%v-", isEnabled))
+	}
+	if maxIdleTimeInMinutes, ok := m["max_idle_time_in_minutes"]; ok && maxIdleTimeInMinutes != "" {
+		buf.WriteString(fmt.Sprintf("%v-", maxIdleTimeInMinutes))
 	}
 	return utils.GetStringHashcode(buf.String())
 }
