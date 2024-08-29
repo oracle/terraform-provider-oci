@@ -45,13 +45,14 @@ var (
 	}
 
 	CoreVcnRepresentation = map[string]interface{}{
-		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		"cidr_block":          acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"dns_label":           acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value": "somevalue", "vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode": "enforce"}, Update: map[string]string{"vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value": "updatedValue", "vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode": "enforce"}},
 	}
 
 	CoreVcnRequiredOnlyResourceDependencies = ``
@@ -106,8 +107,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create,
 					acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(CoreVcnRepresentation, []string{"cidr_blocks"}), map[string]interface{}{
-						"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-					})),
+						"is_ipv6enabled":                   acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						"is_oracle_gua_allocation_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`}})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -115,6 +116,9 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value", "somevalue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "is_oracle_gua_allocation_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -132,7 +136,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
-					"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Required, Create: []string{`2000:1000::/52`}},
+					"ipv6private_cidr_blocks": acctest.Representation{RepType: acctest.Required, Update: []string{`2000:1000::/52`}},
 				})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
@@ -141,6 +145,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value", "updatedValue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "is_oracle_gua_allocation_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "ipv6private_cidr_blocks.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -170,6 +178,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "is_oracle_gua_allocation_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -186,9 +196,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
-				})),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, CoreVcnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "cidr_block", "10.0.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -196,6 +204,10 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value", "updatedValue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode", "enforce"),
+				resource.TestCheckResourceAttr(resourceName, "is_oracle_gua_allocation_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_ipv6enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 
@@ -213,9 +225,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcns", "test_vcns", acctest.Optional, acctest.Update, CoreCoreVcnDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
-				})),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, CoreVcnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
@@ -231,6 +241,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_networks.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_networks.0.time_created"),
@@ -242,9 +253,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreCoreVcnSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + VcnResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
-					"is_ipv6enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
-				})),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Update, CoreVcnRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "vcn_id"),
 
@@ -257,6 +266,8 @@ func TestCoreVcnResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "dns_label", "dnslabel"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ipv6cidr_blocks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.value", "updatedValue"),
+				resource.TestCheckResourceAttr(resourceName, "security_attributes.vcncp-canary-test-security-attribute-namespace-56.vcncp-canary-test-security-attribute-57.mode", "enforce"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
@@ -270,6 +281,7 @@ func TestCoreVcnResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"is_ipv6enabled",
+				"is_oracle_gua_allocation_enabled",
 			},
 			ResourceName: resourceName,
 		},
