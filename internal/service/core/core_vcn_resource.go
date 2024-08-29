@@ -117,6 +117,12 @@ func CoreVcnResource() *schema.Resource {
 				Computed: true,
 				// ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 
 			// Computed
 			"byoipv6cidr_blocks": {
@@ -317,6 +323,11 @@ func (s *CoreVcnResourceCrud) Create() error {
 		request.IsOracleGuaAllocationEnabled = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
 
 	response, err := s.Client.CreateVcn(context.Background(), request)
@@ -437,6 +448,11 @@ func (s *CoreVcnResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+		request.SecurityAttributes = convertedAttributes
 	}
 
 	tmp := s.D.Id()
@@ -578,6 +594,8 @@ func (s *CoreVcnResourceCrud) SetData() error {
 	s.D.Set("ipv6cidr_blocks", s.Res.Ipv6CidrBlocks)
 
 	s.D.Set("ipv6private_cidr_blocks", s.Res.Ipv6PrivateCidrBlocks)
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.Ipv6CidrBlocks != nil && len(s.Res.Ipv6CidrBlocks) > 0 {
 		s.D.Set("is_ipv6enabled", true)

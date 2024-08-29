@@ -1194,6 +1194,60 @@ func ObjectMapToStringMap(rm map[string]interface{}) map[string]string {
 	return result
 }
 
+// unflatten
+func MapToSecurityAttributes(rawMap map[string]interface{}) map[string]map[string]interface{} {
+	result := make(map[string]map[string]interface{})
+	for fullKey, value := range rawMap {
+		keys := strings.Split(fullKey, ".")
+		if len(keys) < 2 {
+			continue
+		}
+		outerKey := keys[0]
+		innerKey := strings.Join(keys[1:], ".")
+		if result[outerKey] == nil {
+			result[outerKey] = make(map[string]interface{})
+		}
+		unflattenHelper(result[outerKey], innerKey, value)
+	}
+
+	return result
+}
+
+func unflattenHelper(currentMap map[string]interface{}, key string, value interface{}) {
+	keys := strings.Split(key, ".")
+	for i, k := range keys {
+		if i == len(keys)-1 {
+			currentMap[k] = value
+		} else {
+			if _, ok := currentMap[k]; !ok {
+				currentMap[k] = make(map[string]interface{})
+			}
+			currentMap = currentMap[k].(map[string]interface{})
+		}
+	}
+}
+
+// flatten
+func SecurityAttributesToMap(rm map[string]map[string]interface{}) map[string]interface{} {
+	result := make(map[string]interface{})
+	for outerKey, innerMap := range rm {
+		flattenHelper(result, outerKey, innerMap)
+	}
+
+	return result
+}
+
+func flattenHelper(flat map[string]interface{}, prefix string, nested map[string]interface{}) {
+	for key, value := range nested {
+		fullKey := prefix + "." + key
+		if reflect.TypeOf(value).Kind() == reflect.Map {
+			flattenHelper(flat, fullKey, value.(map[string]interface{}))
+		} else {
+			flat[fullKey] = value
+		}
+	}
+}
+
 func StringMapToObjectMap(sm map[string]string) map[string]interface{} {
 	var result = make(map[string]interface{})
 	if len(sm) > 0 {
