@@ -148,6 +148,10 @@ type LaunchDbSystemFromDatabaseDetails struct {
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// A private IPv6 address of your choice. Must be an available IP address within the subnet's CIDR.
+	// If you don't specify a value and the subnet is dual stack, Oracle automatically assigns a private IPv6 address from the subnet.
+	PrivateIpV6 *string `mandatory:"false" json:"privateIpV6"`
+
 	DataCollectionOptions *DataCollectionOptions `mandatory:"false" json:"dataCollectionOptions"`
 
 	// The Oracle Database Edition that applies to all the databases on the DB system.
@@ -299,6 +303,11 @@ func (m LaunchDbSystemFromDatabaseDetails) GetSecurityAttributes() map[string]ma
 // GetPrivateIp returns PrivateIp
 func (m LaunchDbSystemFromDatabaseDetails) GetPrivateIp() *string {
 	return m.PrivateIp
+}
+
+// GetPrivateIpV6 returns PrivateIpV6
+func (m LaunchDbSystemFromDatabaseDetails) GetPrivateIpV6() *string {
+	return m.PrivateIpV6
 }
 
 // GetDataCollectionOptions returns DataCollectionOptions

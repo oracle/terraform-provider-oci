@@ -23,6 +23,9 @@ type ProjectRepositorySettings struct {
 	ApprovalRules *ApprovalRuleCollection `mandatory:"true" json:"approvalRules"`
 
 	RepositoryAccessMode RepositoryAccessMode `mandatory:"false" json:"repositoryAccessMode"`
+
+	// Default type of Access Mode for the Project Repositories.
+	DisasterRecoveryAccessMode RepositoryDisasterRecoveryAccessModeEnum `mandatory:"false" json:"disasterRecoveryAccessMode,omitempty"`
 }
 
 func (m ProjectRepositorySettings) String() string {
@@ -35,6 +38,9 @@ func (m ProjectRepositorySettings) String() string {
 func (m ProjectRepositorySettings) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRepositoryDisasterRecoveryAccessModeEnum(string(m.DisasterRecoveryAccessMode)); !ok && m.DisasterRecoveryAccessMode != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DisasterRecoveryAccessMode: %s. Supported values are: %s.", m.DisasterRecoveryAccessMode, strings.Join(GetRepositoryDisasterRecoveryAccessModeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -44,9 +50,10 @@ func (m ProjectRepositorySettings) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *ProjectRepositorySettings) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		RepositoryAccessMode repositoryaccessmode    `json:"repositoryAccessMode"`
-		MergeSettings        *MergeSettings          `json:"mergeSettings"`
-		ApprovalRules        *ApprovalRuleCollection `json:"approvalRules"`
+		RepositoryAccessMode       repositoryaccessmode                     `json:"repositoryAccessMode"`
+		DisasterRecoveryAccessMode RepositoryDisasterRecoveryAccessModeEnum `json:"disasterRecoveryAccessMode"`
+		MergeSettings              *MergeSettings                           `json:"mergeSettings"`
+		ApprovalRules              *ApprovalRuleCollection                  `json:"approvalRules"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -63,6 +70,8 @@ func (m *ProjectRepositorySettings) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.RepositoryAccessMode = nil
 	}
+
+	m.DisasterRecoveryAccessMode = model.DisasterRecoveryAccessMode
 
 	m.MergeSettings = model.MergeSettings
 

@@ -26,13 +26,13 @@ type CreateReadEndpointDetails struct {
 	// Must be an available IP address within the subnet's CIDR. If you don't specify a value,
 	// Oracle automatically assigns a private IP address from the subnet. This should be a
 	// "dotted-quad" style IPv4 address.
-	IpAddress *string `mandatory:"false" json:"ipAddress"`
+	ReadEndpointIpAddress *string `mandatory:"false" json:"readEndpointIpAddress"`
 
 	// The hostname for the read endpoint of the DB System. Used for DNS.
 	// The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN)
 	// (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").
 	// Must be unique across all VNICs in the subnet and comply with RFC 952 and RFC 1123.
-	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
+	ReadEndpointHostnameLabel *string `mandatory:"false" json:"readEndpointHostnameLabel"`
 
 	// A list of IP addresses of read replicas that are excluded from serving read requests.
 	ExcludeIps []string `mandatory:"false" json:"excludeIps"`

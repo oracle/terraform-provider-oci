@@ -18,165 +18,171 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateProject                           OperationTypeEnum = "CREATE_PROJECT"
-	OperationTypeUpdateProject                           OperationTypeEnum = "UPDATE_PROJECT"
-	OperationTypeDeleteProject                           OperationTypeEnum = "DELETE_PROJECT"
-	OperationTypeMoveProject                             OperationTypeEnum = "MOVE_PROJECT"
-	OperationTypeCreateDeployPipeline                    OperationTypeEnum = "CREATE_DEPLOY_PIPELINE"
-	OperationTypeUpdateDeployPipeline                    OperationTypeEnum = "UPDATE_DEPLOY_PIPELINE"
-	OperationTypeDeleteDeployPipeline                    OperationTypeEnum = "DELETE_DEPLOY_PIPELINE"
-	OperationTypeCreateDeployStage                       OperationTypeEnum = "CREATE_DEPLOY_STAGE"
-	OperationTypeUpdateDeployStage                       OperationTypeEnum = "UPDATE_DEPLOY_STAGE"
-	OperationTypeDeleteDeployStage                       OperationTypeEnum = "DELETE_DEPLOY_STAGE"
-	OperationTypeCreateDeployArtifact                    OperationTypeEnum = "CREATE_DEPLOY_ARTIFACT"
-	OperationTypeUpdateDeployArtifact                    OperationTypeEnum = "UPDATE_DEPLOY_ARTIFACT"
-	OperationTypeDeleteDeployArtifact                    OperationTypeEnum = "DELETE_DEPLOY_ARTIFACT"
-	OperationTypeCreateDeployEnvironment                 OperationTypeEnum = "CREATE_DEPLOY_ENVIRONMENT"
-	OperationTypeUpdateDeployEnvironment                 OperationTypeEnum = "UPDATE_DEPLOY_ENVIRONMENT"
-	OperationTypeDeleteDeployEnvironment                 OperationTypeEnum = "DELETE_DEPLOY_ENVIRONMENT"
-	OperationTypeCreateDeployment                        OperationTypeEnum = "CREATE_DEPLOYMENT"
-	OperationTypeUpdateDeployment                        OperationTypeEnum = "UPDATE_DEPLOYMENT"
-	OperationTypeDeleteDeployment                        OperationTypeEnum = "DELETE_DEPLOYMENT"
-	OperationTypeCreateBuildPipeline                     OperationTypeEnum = "CREATE_BUILD_PIPELINE"
-	OperationTypeUpdateBuildPipeline                     OperationTypeEnum = "UPDATE_BUILD_PIPELINE"
-	OperationTypeDeleteBuildPipeline                     OperationTypeEnum = "DELETE_BUILD_PIPELINE"
-	OperationTypeCreateBuildPipelineStage                OperationTypeEnum = "CREATE_BUILD_PIPELINE_STAGE"
-	OperationTypeUpdateBuildPipelineStage                OperationTypeEnum = "UPDATE_BUILD_PIPELINE_STAGE"
-	OperationTypeDeleteBuildPipelineStage                OperationTypeEnum = "DELETE_BUILD_PIPELINE_STAGE"
-	OperationTypeCreateConnection                        OperationTypeEnum = "CREATE_CONNECTION"
-	OperationTypeUpdateConnection                        OperationTypeEnum = "UPDATE_CONNECTION"
-	OperationTypeDeleteConnection                        OperationTypeEnum = "DELETE_CONNECTION"
-	OperationTypeCreateTrigger                           OperationTypeEnum = "CREATE_TRIGGER"
-	OperationTypeUpdateTrigger                           OperationTypeEnum = "UPDATE_TRIGGER"
-	OperationTypeDeleteTrigger                           OperationTypeEnum = "DELETE_TRIGGER"
-	OperationTypeExecuteTrigger                          OperationTypeEnum = "EXECUTE_TRIGGER"
-	OperationTypeCreateRepository                        OperationTypeEnum = "CREATE_REPOSITORY"
-	OperationTypeUpdateRepository                        OperationTypeEnum = "UPDATE_REPOSITORY"
-	OperationTypeDeleteRepository                        OperationTypeEnum = "DELETE_REPOSITORY"
-	OperationTypeMirrorRepository                        OperationTypeEnum = "MIRROR_REPOSITORY"
-	OperationTypeForkRepository                          OperationTypeEnum = "FORK_REPOSITORY"
-	OperationTypeSyncForkRepository                      OperationTypeEnum = "SYNC_FORK_REPOSITORY"
-	OperationTypeScheduleCascadingProjectDeletion        OperationTypeEnum = "SCHEDULE_CASCADING_PROJECT_DELETION"
-	OperationTypeCancelScheduledCascadingProjectDeletion OperationTypeEnum = "CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION"
-	OperationTypeCreatePullRequest                       OperationTypeEnum = "CREATE_PULL_REQUEST"
-	OperationTypeUpdatePullRequest                       OperationTypeEnum = "UPDATE_PULL_REQUEST"
-	OperationTypeDeletePullRequest                       OperationTypeEnum = "DELETE_PULL_REQUEST"
-	OperationTypeMovePullRequest                         OperationTypeEnum = "MOVE_PULL_REQUEST"
-	OperationTypeMergePullRequest                        OperationTypeEnum = "MERGE_PULL_REQUEST"
-	OperationTypeCreateRepositoryPrivateAccess           OperationTypeEnum = "CREATE_REPOSITORY_PRIVATE_ACCESS"
-	OperationTypeUpdateRepositoryPrivateAccess           OperationTypeEnum = "UPDATE_REPOSITORY_PRIVATE_ACCESS"
-	OperationTypeDeleteRepositoryPrivateAccess           OperationTypeEnum = "DELETE_REPOSITORY_PRIVATE_ACCESS"
-	OperationTypeMoveRepositoryPrivateAccess             OperationTypeEnum = "MOVE_REPOSITORY_PRIVATE_ACCESS"
-	OperationTypeRestoreRepositoryBackup                 OperationTypeEnum = "RESTORE_REPOSITORY_BACKUP"
-	OperationTypeDeleteRepositoryBackup                  OperationTypeEnum = "DELETE_REPOSITORY_BACKUP"
+	OperationTypeCreateProject                            OperationTypeEnum = "CREATE_PROJECT"
+	OperationTypeUpdateProject                            OperationTypeEnum = "UPDATE_PROJECT"
+	OperationTypeDeleteProject                            OperationTypeEnum = "DELETE_PROJECT"
+	OperationTypeMoveProject                              OperationTypeEnum = "MOVE_PROJECT"
+	OperationTypeCreateDeployPipeline                     OperationTypeEnum = "CREATE_DEPLOY_PIPELINE"
+	OperationTypeUpdateDeployPipeline                     OperationTypeEnum = "UPDATE_DEPLOY_PIPELINE"
+	OperationTypeDeleteDeployPipeline                     OperationTypeEnum = "DELETE_DEPLOY_PIPELINE"
+	OperationTypeCreateDeployStage                        OperationTypeEnum = "CREATE_DEPLOY_STAGE"
+	OperationTypeUpdateDeployStage                        OperationTypeEnum = "UPDATE_DEPLOY_STAGE"
+	OperationTypeDeleteDeployStage                        OperationTypeEnum = "DELETE_DEPLOY_STAGE"
+	OperationTypeCreateDeployArtifact                     OperationTypeEnum = "CREATE_DEPLOY_ARTIFACT"
+	OperationTypeUpdateDeployArtifact                     OperationTypeEnum = "UPDATE_DEPLOY_ARTIFACT"
+	OperationTypeDeleteDeployArtifact                     OperationTypeEnum = "DELETE_DEPLOY_ARTIFACT"
+	OperationTypeCreateDeployEnvironment                  OperationTypeEnum = "CREATE_DEPLOY_ENVIRONMENT"
+	OperationTypeUpdateDeployEnvironment                  OperationTypeEnum = "UPDATE_DEPLOY_ENVIRONMENT"
+	OperationTypeDeleteDeployEnvironment                  OperationTypeEnum = "DELETE_DEPLOY_ENVIRONMENT"
+	OperationTypeCreateDeployment                         OperationTypeEnum = "CREATE_DEPLOYMENT"
+	OperationTypeUpdateDeployment                         OperationTypeEnum = "UPDATE_DEPLOYMENT"
+	OperationTypeDeleteDeployment                         OperationTypeEnum = "DELETE_DEPLOYMENT"
+	OperationTypeCreateBuildPipeline                      OperationTypeEnum = "CREATE_BUILD_PIPELINE"
+	OperationTypeUpdateBuildPipeline                      OperationTypeEnum = "UPDATE_BUILD_PIPELINE"
+	OperationTypeDeleteBuildPipeline                      OperationTypeEnum = "DELETE_BUILD_PIPELINE"
+	OperationTypeCreateBuildPipelineStage                 OperationTypeEnum = "CREATE_BUILD_PIPELINE_STAGE"
+	OperationTypeUpdateBuildPipelineStage                 OperationTypeEnum = "UPDATE_BUILD_PIPELINE_STAGE"
+	OperationTypeDeleteBuildPipelineStage                 OperationTypeEnum = "DELETE_BUILD_PIPELINE_STAGE"
+	OperationTypeCreateConnection                         OperationTypeEnum = "CREATE_CONNECTION"
+	OperationTypeUpdateConnection                         OperationTypeEnum = "UPDATE_CONNECTION"
+	OperationTypeDeleteConnection                         OperationTypeEnum = "DELETE_CONNECTION"
+	OperationTypeCreateTrigger                            OperationTypeEnum = "CREATE_TRIGGER"
+	OperationTypeUpdateTrigger                            OperationTypeEnum = "UPDATE_TRIGGER"
+	OperationTypeDeleteTrigger                            OperationTypeEnum = "DELETE_TRIGGER"
+	OperationTypeExecuteTrigger                           OperationTypeEnum = "EXECUTE_TRIGGER"
+	OperationTypeCreateRepository                         OperationTypeEnum = "CREATE_REPOSITORY"
+	OperationTypeUpdateRepository                         OperationTypeEnum = "UPDATE_REPOSITORY"
+	OperationTypeDeleteRepository                         OperationTypeEnum = "DELETE_REPOSITORY"
+	OperationTypeMirrorRepository                         OperationTypeEnum = "MIRROR_REPOSITORY"
+	OperationTypeForkRepository                           OperationTypeEnum = "FORK_REPOSITORY"
+	OperationTypeSyncForkRepository                       OperationTypeEnum = "SYNC_FORK_REPOSITORY"
+	OperationTypeScheduleCascadingProjectDeletion         OperationTypeEnum = "SCHEDULE_CASCADING_PROJECT_DELETION"
+	OperationTypeCancelScheduledCascadingProjectDeletion  OperationTypeEnum = "CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION"
+	OperationTypeCreatePullRequest                        OperationTypeEnum = "CREATE_PULL_REQUEST"
+	OperationTypeUpdatePullRequest                        OperationTypeEnum = "UPDATE_PULL_REQUEST"
+	OperationTypeDeletePullRequest                        OperationTypeEnum = "DELETE_PULL_REQUEST"
+	OperationTypeMovePullRequest                          OperationTypeEnum = "MOVE_PULL_REQUEST"
+	OperationTypeMergePullRequest                         OperationTypeEnum = "MERGE_PULL_REQUEST"
+	OperationTypeCreateRepositoryPrivateAccess            OperationTypeEnum = "CREATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeUpdateRepositoryPrivateAccess            OperationTypeEnum = "UPDATE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeDeleteRepositoryPrivateAccess            OperationTypeEnum = "DELETE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeMoveRepositoryPrivateAccess              OperationTypeEnum = "MOVE_REPOSITORY_PRIVATE_ACCESS"
+	OperationTypeCreateRepositoryDisasterRecoverySettings OperationTypeEnum = "CREATE_REPOSITORY_DISASTER_RECOVERY_SETTINGS"
+	OperationTypeDeleteRepositoryDisasterRecoverySettings OperationTypeEnum = "DELETE_REPOSITORY_DISASTER_RECOVERY_SETTINGS"
+	OperationTypeRestoreRepositoryBackup                  OperationTypeEnum = "RESTORE_REPOSITORY_BACKUP"
+	OperationTypeDeleteRepositoryBackup                   OperationTypeEnum = "DELETE_REPOSITORY_BACKUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_PROJECT":                              OperationTypeCreateProject,
-	"UPDATE_PROJECT":                              OperationTypeUpdateProject,
-	"DELETE_PROJECT":                              OperationTypeDeleteProject,
-	"MOVE_PROJECT":                                OperationTypeMoveProject,
-	"CREATE_DEPLOY_PIPELINE":                      OperationTypeCreateDeployPipeline,
-	"UPDATE_DEPLOY_PIPELINE":                      OperationTypeUpdateDeployPipeline,
-	"DELETE_DEPLOY_PIPELINE":                      OperationTypeDeleteDeployPipeline,
-	"CREATE_DEPLOY_STAGE":                         OperationTypeCreateDeployStage,
-	"UPDATE_DEPLOY_STAGE":                         OperationTypeUpdateDeployStage,
-	"DELETE_DEPLOY_STAGE":                         OperationTypeDeleteDeployStage,
-	"CREATE_DEPLOY_ARTIFACT":                      OperationTypeCreateDeployArtifact,
-	"UPDATE_DEPLOY_ARTIFACT":                      OperationTypeUpdateDeployArtifact,
-	"DELETE_DEPLOY_ARTIFACT":                      OperationTypeDeleteDeployArtifact,
-	"CREATE_DEPLOY_ENVIRONMENT":                   OperationTypeCreateDeployEnvironment,
-	"UPDATE_DEPLOY_ENVIRONMENT":                   OperationTypeUpdateDeployEnvironment,
-	"DELETE_DEPLOY_ENVIRONMENT":                   OperationTypeDeleteDeployEnvironment,
-	"CREATE_DEPLOYMENT":                           OperationTypeCreateDeployment,
-	"UPDATE_DEPLOYMENT":                           OperationTypeUpdateDeployment,
-	"DELETE_DEPLOYMENT":                           OperationTypeDeleteDeployment,
-	"CREATE_BUILD_PIPELINE":                       OperationTypeCreateBuildPipeline,
-	"UPDATE_BUILD_PIPELINE":                       OperationTypeUpdateBuildPipeline,
-	"DELETE_BUILD_PIPELINE":                       OperationTypeDeleteBuildPipeline,
-	"CREATE_BUILD_PIPELINE_STAGE":                 OperationTypeCreateBuildPipelineStage,
-	"UPDATE_BUILD_PIPELINE_STAGE":                 OperationTypeUpdateBuildPipelineStage,
-	"DELETE_BUILD_PIPELINE_STAGE":                 OperationTypeDeleteBuildPipelineStage,
-	"CREATE_CONNECTION":                           OperationTypeCreateConnection,
-	"UPDATE_CONNECTION":                           OperationTypeUpdateConnection,
-	"DELETE_CONNECTION":                           OperationTypeDeleteConnection,
-	"CREATE_TRIGGER":                              OperationTypeCreateTrigger,
-	"UPDATE_TRIGGER":                              OperationTypeUpdateTrigger,
-	"DELETE_TRIGGER":                              OperationTypeDeleteTrigger,
-	"EXECUTE_TRIGGER":                             OperationTypeExecuteTrigger,
-	"CREATE_REPOSITORY":                           OperationTypeCreateRepository,
-	"UPDATE_REPOSITORY":                           OperationTypeUpdateRepository,
-	"DELETE_REPOSITORY":                           OperationTypeDeleteRepository,
-	"MIRROR_REPOSITORY":                           OperationTypeMirrorRepository,
-	"FORK_REPOSITORY":                             OperationTypeForkRepository,
-	"SYNC_FORK_REPOSITORY":                        OperationTypeSyncForkRepository,
-	"SCHEDULE_CASCADING_PROJECT_DELETION":         OperationTypeScheduleCascadingProjectDeletion,
-	"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION": OperationTypeCancelScheduledCascadingProjectDeletion,
-	"CREATE_PULL_REQUEST":                         OperationTypeCreatePullRequest,
-	"UPDATE_PULL_REQUEST":                         OperationTypeUpdatePullRequest,
-	"DELETE_PULL_REQUEST":                         OperationTypeDeletePullRequest,
-	"MOVE_PULL_REQUEST":                           OperationTypeMovePullRequest,
-	"MERGE_PULL_REQUEST":                          OperationTypeMergePullRequest,
-	"CREATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeCreateRepositoryPrivateAccess,
-	"UPDATE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeUpdateRepositoryPrivateAccess,
-	"DELETE_REPOSITORY_PRIVATE_ACCESS":            OperationTypeDeleteRepositoryPrivateAccess,
-	"MOVE_REPOSITORY_PRIVATE_ACCESS":              OperationTypeMoveRepositoryPrivateAccess,
-	"RESTORE_REPOSITORY_BACKUP":                   OperationTypeRestoreRepositoryBackup,
-	"DELETE_REPOSITORY_BACKUP":                    OperationTypeDeleteRepositoryBackup,
+	"CREATE_PROJECT":                               OperationTypeCreateProject,
+	"UPDATE_PROJECT":                               OperationTypeUpdateProject,
+	"DELETE_PROJECT":                               OperationTypeDeleteProject,
+	"MOVE_PROJECT":                                 OperationTypeMoveProject,
+	"CREATE_DEPLOY_PIPELINE":                       OperationTypeCreateDeployPipeline,
+	"UPDATE_DEPLOY_PIPELINE":                       OperationTypeUpdateDeployPipeline,
+	"DELETE_DEPLOY_PIPELINE":                       OperationTypeDeleteDeployPipeline,
+	"CREATE_DEPLOY_STAGE":                          OperationTypeCreateDeployStage,
+	"UPDATE_DEPLOY_STAGE":                          OperationTypeUpdateDeployStage,
+	"DELETE_DEPLOY_STAGE":                          OperationTypeDeleteDeployStage,
+	"CREATE_DEPLOY_ARTIFACT":                       OperationTypeCreateDeployArtifact,
+	"UPDATE_DEPLOY_ARTIFACT":                       OperationTypeUpdateDeployArtifact,
+	"DELETE_DEPLOY_ARTIFACT":                       OperationTypeDeleteDeployArtifact,
+	"CREATE_DEPLOY_ENVIRONMENT":                    OperationTypeCreateDeployEnvironment,
+	"UPDATE_DEPLOY_ENVIRONMENT":                    OperationTypeUpdateDeployEnvironment,
+	"DELETE_DEPLOY_ENVIRONMENT":                    OperationTypeDeleteDeployEnvironment,
+	"CREATE_DEPLOYMENT":                            OperationTypeCreateDeployment,
+	"UPDATE_DEPLOYMENT":                            OperationTypeUpdateDeployment,
+	"DELETE_DEPLOYMENT":                            OperationTypeDeleteDeployment,
+	"CREATE_BUILD_PIPELINE":                        OperationTypeCreateBuildPipeline,
+	"UPDATE_BUILD_PIPELINE":                        OperationTypeUpdateBuildPipeline,
+	"DELETE_BUILD_PIPELINE":                        OperationTypeDeleteBuildPipeline,
+	"CREATE_BUILD_PIPELINE_STAGE":                  OperationTypeCreateBuildPipelineStage,
+	"UPDATE_BUILD_PIPELINE_STAGE":                  OperationTypeUpdateBuildPipelineStage,
+	"DELETE_BUILD_PIPELINE_STAGE":                  OperationTypeDeleteBuildPipelineStage,
+	"CREATE_CONNECTION":                            OperationTypeCreateConnection,
+	"UPDATE_CONNECTION":                            OperationTypeUpdateConnection,
+	"DELETE_CONNECTION":                            OperationTypeDeleteConnection,
+	"CREATE_TRIGGER":                               OperationTypeCreateTrigger,
+	"UPDATE_TRIGGER":                               OperationTypeUpdateTrigger,
+	"DELETE_TRIGGER":                               OperationTypeDeleteTrigger,
+	"EXECUTE_TRIGGER":                              OperationTypeExecuteTrigger,
+	"CREATE_REPOSITORY":                            OperationTypeCreateRepository,
+	"UPDATE_REPOSITORY":                            OperationTypeUpdateRepository,
+	"DELETE_REPOSITORY":                            OperationTypeDeleteRepository,
+	"MIRROR_REPOSITORY":                            OperationTypeMirrorRepository,
+	"FORK_REPOSITORY":                              OperationTypeForkRepository,
+	"SYNC_FORK_REPOSITORY":                         OperationTypeSyncForkRepository,
+	"SCHEDULE_CASCADING_PROJECT_DELETION":          OperationTypeScheduleCascadingProjectDeletion,
+	"CANCEL_SCHEDULED_CASCADING_PROJECT_DELETION":  OperationTypeCancelScheduledCascadingProjectDeletion,
+	"CREATE_PULL_REQUEST":                          OperationTypeCreatePullRequest,
+	"UPDATE_PULL_REQUEST":                          OperationTypeUpdatePullRequest,
+	"DELETE_PULL_REQUEST":                          OperationTypeDeletePullRequest,
+	"MOVE_PULL_REQUEST":                            OperationTypeMovePullRequest,
+	"MERGE_PULL_REQUEST":                           OperationTypeMergePullRequest,
+	"CREATE_REPOSITORY_PRIVATE_ACCESS":             OperationTypeCreateRepositoryPrivateAccess,
+	"UPDATE_REPOSITORY_PRIVATE_ACCESS":             OperationTypeUpdateRepositoryPrivateAccess,
+	"DELETE_REPOSITORY_PRIVATE_ACCESS":             OperationTypeDeleteRepositoryPrivateAccess,
+	"MOVE_REPOSITORY_PRIVATE_ACCESS":               OperationTypeMoveRepositoryPrivateAccess,
+	"CREATE_REPOSITORY_DISASTER_RECOVERY_SETTINGS": OperationTypeCreateRepositoryDisasterRecoverySettings,
+	"DELETE_REPOSITORY_DISASTER_RECOVERY_SETTINGS": OperationTypeDeleteRepositoryDisasterRecoverySettings,
+	"RESTORE_REPOSITORY_BACKUP":                    OperationTypeRestoreRepositoryBackup,
+	"DELETE_REPOSITORY_BACKUP":                     OperationTypeDeleteRepositoryBackup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_project":                              OperationTypeCreateProject,
-	"update_project":                              OperationTypeUpdateProject,
-	"delete_project":                              OperationTypeDeleteProject,
-	"move_project":                                OperationTypeMoveProject,
-	"create_deploy_pipeline":                      OperationTypeCreateDeployPipeline,
-	"update_deploy_pipeline":                      OperationTypeUpdateDeployPipeline,
-	"delete_deploy_pipeline":                      OperationTypeDeleteDeployPipeline,
-	"create_deploy_stage":                         OperationTypeCreateDeployStage,
-	"update_deploy_stage":                         OperationTypeUpdateDeployStage,
-	"delete_deploy_stage":                         OperationTypeDeleteDeployStage,
-	"create_deploy_artifact":                      OperationTypeCreateDeployArtifact,
-	"update_deploy_artifact":                      OperationTypeUpdateDeployArtifact,
-	"delete_deploy_artifact":                      OperationTypeDeleteDeployArtifact,
-	"create_deploy_environment":                   OperationTypeCreateDeployEnvironment,
-	"update_deploy_environment":                   OperationTypeUpdateDeployEnvironment,
-	"delete_deploy_environment":                   OperationTypeDeleteDeployEnvironment,
-	"create_deployment":                           OperationTypeCreateDeployment,
-	"update_deployment":                           OperationTypeUpdateDeployment,
-	"delete_deployment":                           OperationTypeDeleteDeployment,
-	"create_build_pipeline":                       OperationTypeCreateBuildPipeline,
-	"update_build_pipeline":                       OperationTypeUpdateBuildPipeline,
-	"delete_build_pipeline":                       OperationTypeDeleteBuildPipeline,
-	"create_build_pipeline_stage":                 OperationTypeCreateBuildPipelineStage,
-	"update_build_pipeline_stage":                 OperationTypeUpdateBuildPipelineStage,
-	"delete_build_pipeline_stage":                 OperationTypeDeleteBuildPipelineStage,
-	"create_connection":                           OperationTypeCreateConnection,
-	"update_connection":                           OperationTypeUpdateConnection,
-	"delete_connection":                           OperationTypeDeleteConnection,
-	"create_trigger":                              OperationTypeCreateTrigger,
-	"update_trigger":                              OperationTypeUpdateTrigger,
-	"delete_trigger":                              OperationTypeDeleteTrigger,
-	"execute_trigger":                             OperationTypeExecuteTrigger,
-	"create_repository":                           OperationTypeCreateRepository,
-	"update_repository":                           OperationTypeUpdateRepository,
-	"delete_repository":                           OperationTypeDeleteRepository,
-	"mirror_repository":                           OperationTypeMirrorRepository,
-	"fork_repository":                             OperationTypeForkRepository,
-	"sync_fork_repository":                        OperationTypeSyncForkRepository,
-	"schedule_cascading_project_deletion":         OperationTypeScheduleCascadingProjectDeletion,
-	"cancel_scheduled_cascading_project_deletion": OperationTypeCancelScheduledCascadingProjectDeletion,
-	"create_pull_request":                         OperationTypeCreatePullRequest,
-	"update_pull_request":                         OperationTypeUpdatePullRequest,
-	"delete_pull_request":                         OperationTypeDeletePullRequest,
-	"move_pull_request":                           OperationTypeMovePullRequest,
-	"merge_pull_request":                          OperationTypeMergePullRequest,
-	"create_repository_private_access":            OperationTypeCreateRepositoryPrivateAccess,
-	"update_repository_private_access":            OperationTypeUpdateRepositoryPrivateAccess,
-	"delete_repository_private_access":            OperationTypeDeleteRepositoryPrivateAccess,
-	"move_repository_private_access":              OperationTypeMoveRepositoryPrivateAccess,
-	"restore_repository_backup":                   OperationTypeRestoreRepositoryBackup,
-	"delete_repository_backup":                    OperationTypeDeleteRepositoryBackup,
+	"create_project":                               OperationTypeCreateProject,
+	"update_project":                               OperationTypeUpdateProject,
+	"delete_project":                               OperationTypeDeleteProject,
+	"move_project":                                 OperationTypeMoveProject,
+	"create_deploy_pipeline":                       OperationTypeCreateDeployPipeline,
+	"update_deploy_pipeline":                       OperationTypeUpdateDeployPipeline,
+	"delete_deploy_pipeline":                       OperationTypeDeleteDeployPipeline,
+	"create_deploy_stage":                          OperationTypeCreateDeployStage,
+	"update_deploy_stage":                          OperationTypeUpdateDeployStage,
+	"delete_deploy_stage":                          OperationTypeDeleteDeployStage,
+	"create_deploy_artifact":                       OperationTypeCreateDeployArtifact,
+	"update_deploy_artifact":                       OperationTypeUpdateDeployArtifact,
+	"delete_deploy_artifact":                       OperationTypeDeleteDeployArtifact,
+	"create_deploy_environment":                    OperationTypeCreateDeployEnvironment,
+	"update_deploy_environment":                    OperationTypeUpdateDeployEnvironment,
+	"delete_deploy_environment":                    OperationTypeDeleteDeployEnvironment,
+	"create_deployment":                            OperationTypeCreateDeployment,
+	"update_deployment":                            OperationTypeUpdateDeployment,
+	"delete_deployment":                            OperationTypeDeleteDeployment,
+	"create_build_pipeline":                        OperationTypeCreateBuildPipeline,
+	"update_build_pipeline":                        OperationTypeUpdateBuildPipeline,
+	"delete_build_pipeline":                        OperationTypeDeleteBuildPipeline,
+	"create_build_pipeline_stage":                  OperationTypeCreateBuildPipelineStage,
+	"update_build_pipeline_stage":                  OperationTypeUpdateBuildPipelineStage,
+	"delete_build_pipeline_stage":                  OperationTypeDeleteBuildPipelineStage,
+	"create_connection":                            OperationTypeCreateConnection,
+	"update_connection":                            OperationTypeUpdateConnection,
+	"delete_connection":                            OperationTypeDeleteConnection,
+	"create_trigger":                               OperationTypeCreateTrigger,
+	"update_trigger":                               OperationTypeUpdateTrigger,
+	"delete_trigger":                               OperationTypeDeleteTrigger,
+	"execute_trigger":                              OperationTypeExecuteTrigger,
+	"create_repository":                            OperationTypeCreateRepository,
+	"update_repository":                            OperationTypeUpdateRepository,
+	"delete_repository":                            OperationTypeDeleteRepository,
+	"mirror_repository":                            OperationTypeMirrorRepository,
+	"fork_repository":                              OperationTypeForkRepository,
+	"sync_fork_repository":                         OperationTypeSyncForkRepository,
+	"schedule_cascading_project_deletion":          OperationTypeScheduleCascadingProjectDeletion,
+	"cancel_scheduled_cascading_project_deletion":  OperationTypeCancelScheduledCascadingProjectDeletion,
+	"create_pull_request":                          OperationTypeCreatePullRequest,
+	"update_pull_request":                          OperationTypeUpdatePullRequest,
+	"delete_pull_request":                          OperationTypeDeletePullRequest,
+	"move_pull_request":                            OperationTypeMovePullRequest,
+	"merge_pull_request":                           OperationTypeMergePullRequest,
+	"create_repository_private_access":             OperationTypeCreateRepositoryPrivateAccess,
+	"update_repository_private_access":             OperationTypeUpdateRepositoryPrivateAccess,
+	"delete_repository_private_access":             OperationTypeDeleteRepositoryPrivateAccess,
+	"move_repository_private_access":               OperationTypeMoveRepositoryPrivateAccess,
+	"create_repository_disaster_recovery_settings": OperationTypeCreateRepositoryDisasterRecoverySettings,
+	"delete_repository_disaster_recovery_settings": OperationTypeDeleteRepositoryDisasterRecoverySettings,
+	"restore_repository_backup":                    OperationTypeRestoreRepositoryBackup,
+	"delete_repository_backup":                     OperationTypeDeleteRepositoryBackup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -240,6 +246,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_REPOSITORY_PRIVATE_ACCESS",
 		"DELETE_REPOSITORY_PRIVATE_ACCESS",
 		"MOVE_REPOSITORY_PRIVATE_ACCESS",
+		"CREATE_REPOSITORY_DISASTER_RECOVERY_SETTINGS",
+		"DELETE_REPOSITORY_DISASTER_RECOVERY_SETTINGS",
 		"RESTORE_REPOSITORY_BACKUP",
 		"DELETE_REPOSITORY_BACKUP",
 	}

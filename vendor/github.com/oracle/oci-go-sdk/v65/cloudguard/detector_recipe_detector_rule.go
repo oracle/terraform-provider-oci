@@ -77,6 +77,9 @@ type DetectorRecipeDetectorRule struct {
 
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
+	// jmes path expression for detector rule
+	JmesExpression *string `mandatory:"false" json:"jmesExpression"`
 }
 
 func (m DetectorRecipeDetectorRule) String() string {

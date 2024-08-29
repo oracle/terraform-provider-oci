@@ -57,6 +57,9 @@ type CreateDetectorRuleDetails struct {
 
 	// Resource type name for Threat Detector rule
 	DetectorRuleResourceTypeName *string `mandatory:"false" json:"detectorRuleResourceTypeName"`
+
+	// jmes path expression for detector rule
+	JmesExpression *string `mandatory:"false" json:"jmesExpression"`
 }
 
 func (m CreateDetectorRuleDetails) String() string {
@@ -96,6 +99,7 @@ func (m *CreateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 		EntitiesMappings             []EntitiesMapping            `json:"entitiesMappings"`
 		DetectorRuleResourceType     DetectorRuleResourceTypeEnum `json:"detectorRuleResourceType"`
 		DetectorRuleResourceTypeName *string                      `json:"detectorRuleResourceTypeName"`
+		JmesExpression               *string                      `json:"jmesExpression"`
 		Name                         *string                      `json:"name"`
 	}{}
 
@@ -135,6 +139,8 @@ func (m *CreateDetectorRuleDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DetectorRuleResourceType = model.DetectorRuleResourceType
 
 	m.DetectorRuleResourceTypeName = model.DetectorRuleResourceTypeName
+
+	m.JmesExpression = model.JmesExpression
 
 	m.Name = model.Name
 

@@ -127,17 +127,29 @@ type DbSystem struct {
 	// True, if Sparse Diskgroup is configured for Exadata dbsystem, False, if Sparse diskgroup was not configured.
 	SparseDiskgroup *bool `mandatory:"false" json:"sparseDiskgroup"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the DB system.
-	// SCAN IP addresses are typically used for load balancing and are not assigned to any interface.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv4 addresses associated with the DB system.
+	// SCAN IPv4 addresses are typically used for load balancing and are not assigned to any interface.
 	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	ScanIpIds []string `mandatory:"false" json:"scanIpIds"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the DB system.
-	// The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the DB system to
-	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IPv4 (VIP) addresses associated with the DB system.
+	// The Cluster Ready Services (CRS) creates and maintains one VIPv4 address for each node in the DB system to
+	// enable failover. If one node fails, the VIPv4 is reassigned to another active node in the cluster.
 	// **Note:** For a single-node DB system, this list is empty.
 	VipIds []string `mandatory:"false" json:"vipIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IPv6 addresses associated with the DB system.
+	// SCAN IPv6 addresses are typically used for load balancing and are not assigned to any interface.
+	// Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	ScanIpv6Ids []string `mandatory:"false" json:"scanIpv6Ids"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the virtual IPv6 (VIP) addresses associated with the DB system.
+	// The Cluster Ready Services (CRS) creates and maintains one VIP IpV6 address for each node in the DB system to
+	// enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
+	// **Note:** For a single-node DB system, this list is empty.
+	Vipv6Ids []string `mandatory:"false" json:"vipv6Ids"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DNS record for the SCAN IP addresses that are associated with the DB system.
 	ScanDnsRecordId *string `mandatory:"false" json:"scanDnsRecordId"`

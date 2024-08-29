@@ -59,6 +59,8 @@ type Repository struct {
 
 	MirrorRepositoryConfig *MirrorRepositoryConfig `mandatory:"false" json:"mirrorRepositoryConfig"`
 
+	DisasterRecoveryDetails *DisasterRecoveryDetails `mandatory:"false" json:"disasterRecoveryDetails"`
+
 	// The time the repository was created. Format defined by RFC3339 (https://datatracker.ietf.org/doc/html/rfc3339).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

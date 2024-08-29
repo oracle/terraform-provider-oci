@@ -26,11 +26,19 @@ type GenericArtifacts struct {
 	Name *string `mandatory:"true" json:"name"`
 
 	LocationDetails GenericArtifactLocationDetails `mandatory:"true" json:"locationDetails"`
+
+	// Error message if the creation of stage output fails.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 
 // GetStepName returns StepName
 func (m GenericArtifacts) GetStepName() *string {
 	return m.StepName
+}
+
+// GetErrorMessage returns ErrorMessage
+func (m GenericArtifacts) GetErrorMessage() *string {
+	return m.ErrorMessage
 }
 
 func (m GenericArtifacts) String() string {
@@ -66,6 +74,7 @@ func (m GenericArtifacts) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *GenericArtifacts) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		ErrorMessage    *string                        `json:"errorMessage"`
 		StepName        *string                        `json:"stepName"`
 		Name            *string                        `json:"name"`
 		LocationDetails genericartifactlocationdetails `json:"locationDetails"`
@@ -76,6 +85,8 @@ func (m *GenericArtifacts) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
+	m.ErrorMessage = model.ErrorMessage
+
 	m.StepName = model.StepName
 
 	m.Name = model.Name

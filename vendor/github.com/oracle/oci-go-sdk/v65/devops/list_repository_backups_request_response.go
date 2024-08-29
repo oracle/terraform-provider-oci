@@ -26,6 +26,9 @@ type ListRepositoryBackupsRequest struct {
 	// Unique identifier or OCID for listing a single resource by ID.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
+	// A filter to return only resources whose lifecycle state matches the given lifecycle state.
+	LifecycleState RepositoryBackupLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
+
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
@@ -38,7 +41,7 @@ type ListRepositoryBackupsRequest struct {
 	// The sort order to use. Use either ascending or descending.
 	SortOrder ListRepositoryBackupsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort by. Only one sort order may be provided. Default order for time created is descending. Default order for display name is ascending. If no value is specified, then the default time created value is considered.
+	// The field to sort by. Only one sort order may be provided. Default order for timeCreated is descending.  If no value is specified timeCreated is default.
 	SortBy ListRepositoryBackupsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a particular request, provide the request ID.
@@ -80,6 +83,9 @@ func (request ListRepositoryBackupsRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request ListRepositoryBackupsRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingRepositoryBackupLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetRepositoryBackupLifecycleStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingListRepositoryBackupsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListRepositoryBackupsSortOrderEnumStringValues(), ",")))
 	}

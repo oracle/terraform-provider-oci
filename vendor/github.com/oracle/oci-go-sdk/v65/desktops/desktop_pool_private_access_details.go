@@ -34,7 +34,7 @@ type DesktopPoolPrivateAccessDetails struct {
 
 	// The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are
 	// updated with this FQDN. This enables the customer to use the FQDN instead of the private endpoint's
-	// private IP address to access the service (for example, xyz.oraclecloud.com).
+	// private IP address to access the service (for example, xyz.oraclecloud.com).
 	EndpointFqdn *string `mandatory:"false" json:"endpointFqdn"`
 }
 

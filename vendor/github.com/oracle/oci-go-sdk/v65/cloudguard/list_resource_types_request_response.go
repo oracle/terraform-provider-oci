@@ -129,6 +129,7 @@ const (
 	ListResourceTypesDetectorIdIaasConfigurationDetector     ListResourceTypesDetectorIdEnum = "IAAS_CONFIGURATION_DETECTOR"
 	ListResourceTypesDetectorIdIaasThreatDetector            ListResourceTypesDetectorIdEnum = "IAAS_THREAT_DETECTOR"
 	ListResourceTypesDetectorIdIaasLoggingDetector           ListResourceTypesDetectorIdEnum = "IAAS_LOGGING_DETECTOR"
+	ListResourceTypesDetectorIdIaasInsightDetector           ListResourceTypesDetectorIdEnum = "IAAS_INSIGHT_DETECTOR"
 	ListResourceTypesDetectorIdIaasLogInsightDetector        ListResourceTypesDetectorIdEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 	ListResourceTypesDetectorIdSaasFaActivityDetector        ListResourceTypesDetectorIdEnum = "SAAS_FA_ACTIVITY_DETECTOR"
 	ListResourceTypesDetectorIdIaasInstanceSecurityDetector  ListResourceTypesDetectorIdEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
@@ -140,6 +141,7 @@ var mappingListResourceTypesDetectorIdEnum = map[string]ListResourceTypesDetecto
 	"IAAS_CONFIGURATION_DETECTOR":      ListResourceTypesDetectorIdIaasConfigurationDetector,
 	"IAAS_THREAT_DETECTOR":             ListResourceTypesDetectorIdIaasThreatDetector,
 	"IAAS_LOGGING_DETECTOR":            ListResourceTypesDetectorIdIaasLoggingDetector,
+	"IAAS_INSIGHT_DETECTOR":            ListResourceTypesDetectorIdIaasInsightDetector,
 	"IAAS_LOG_INSIGHT_DETECTOR":        ListResourceTypesDetectorIdIaasLogInsightDetector,
 	"SAAS_FA_ACTIVITY_DETECTOR":        ListResourceTypesDetectorIdSaasFaActivityDetector,
 	"IAAS_INSTANCE_SECURITY_DETECTOR":  ListResourceTypesDetectorIdIaasInstanceSecurityDetector,
@@ -151,6 +153,7 @@ var mappingListResourceTypesDetectorIdEnumLowerCase = map[string]ListResourceTyp
 	"iaas_configuration_detector":      ListResourceTypesDetectorIdIaasConfigurationDetector,
 	"iaas_threat_detector":             ListResourceTypesDetectorIdIaasThreatDetector,
 	"iaas_logging_detector":            ListResourceTypesDetectorIdIaasLoggingDetector,
+	"iaas_insight_detector":            ListResourceTypesDetectorIdIaasInsightDetector,
 	"iaas_log_insight_detector":        ListResourceTypesDetectorIdIaasLogInsightDetector,
 	"saas_fa_activity_detector":        ListResourceTypesDetectorIdSaasFaActivityDetector,
 	"iaas_instance_security_detector":  ListResourceTypesDetectorIdIaasInstanceSecurityDetector,
@@ -173,6 +176,7 @@ func GetListResourceTypesDetectorIdEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOGGING_DETECTOR",
+		"IAAS_INSIGHT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"SAAS_FA_ACTIVITY_DETECTOR",
 		"IAAS_INSTANCE_SECURITY_DETECTOR",

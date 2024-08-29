@@ -1448,6 +1448,65 @@ func (client DevopsClient) createRepositoryBackupSettings(ctx context.Context, r
 	return response, err
 }
 
+// CreateRepositoryDisasterRecoverySettings Creates a new Repository Disaster Recovery settings in the Standby region.
+// A default retry strategy applies to this operation CreateRepositoryDisasterRecoverySettings()
+func (client DevopsClient) CreateRepositoryDisasterRecoverySettings(ctx context.Context, request CreateRepositoryDisasterRecoverySettingsRequest) (response CreateRepositoryDisasterRecoverySettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRepositoryDisasterRecoverySettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRepositoryDisasterRecoverySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRepositoryDisasterRecoverySettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRepositoryDisasterRecoverySettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRepositoryDisasterRecoverySettingsResponse")
+	}
+	return
+}
+
+// createRepositoryDisasterRecoverySettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) createRepositoryDisasterRecoverySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositoryDisasterRecoverySettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRepositoryDisasterRecoverySettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryDisasterRecoverySettings/CreateRepositoryDisasterRecoverySettings"
+		err = common.PostProcessServiceError(err, "Devops", "CreateRepositoryDisasterRecoverySettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateRepositoryPrivateAccess Creates a new RepositoryPrivateAccess.
 // A default retry strategy applies to this operation CreateRepositoryPrivateAccess()
 func (client DevopsClient) CreateRepositoryPrivateAccess(ctx context.Context, request CreateRepositoryPrivateAccessRequest) (response CreateRepositoryPrivateAccessResponse, err error) {
@@ -2605,6 +2664,60 @@ func (client DevopsClient) deleteRepositoryBackupSettings(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/DeleteRepositoryBackupSettings"
 		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryBackupSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteRepositoryDisasterRecoverySettings Removes the disaster recovery settings
+// A default retry strategy applies to this operation DeleteRepositoryDisasterRecoverySettings()
+func (client DevopsClient) DeleteRepositoryDisasterRecoverySettings(ctx context.Context, request DeleteRepositoryDisasterRecoverySettingsRequest) (response DeleteRepositoryDisasterRecoverySettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRepositoryDisasterRecoverySettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRepositoryDisasterRecoverySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRepositoryDisasterRecoverySettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRepositoryDisasterRecoverySettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRepositoryDisasterRecoverySettingsResponse")
+	}
+	return
+}
+
+// deleteRepositoryDisasterRecoverySettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) deleteRepositoryDisasterRecoverySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/repositoryDisasterRecoverySettings/{repositoryDisasterRecoverySettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRepositoryDisasterRecoverySettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryDisasterRecoverySettings/DeleteRepositoryDisasterRecoverySettings"
+		err = common.PostProcessServiceError(err, "Devops", "DeleteRepositoryDisasterRecoverySettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -4450,6 +4563,60 @@ func (client DevopsClient) getRepositoryBackupSettings(ctx context.Context, requ
 	return response, err
 }
 
+// GetRepositoryDisasterRecoverySettings Retrieves a Repository Disaster Recovery Settings.
+// A default retry strategy applies to this operation GetRepositoryDisasterRecoverySettings()
+func (client DevopsClient) GetRepositoryDisasterRecoverySettings(ctx context.Context, request GetRepositoryDisasterRecoverySettingsRequest) (response GetRepositoryDisasterRecoverySettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRepositoryDisasterRecoverySettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRepositoryDisasterRecoverySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRepositoryDisasterRecoverySettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRepositoryDisasterRecoverySettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRepositoryDisasterRecoverySettingsResponse")
+	}
+	return
+}
+
+// getRepositoryDisasterRecoverySettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) getRepositoryDisasterRecoverySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryDisasterRecoverySettings/{repositoryDisasterRecoverySettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRepositoryDisasterRecoverySettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryDisasterRecoverySettings/GetRepositoryDisasterRecoverySettings"
+		err = common.PostProcessServiceError(err, "Devops", "GetRepositoryDisasterRecoverySettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetRepositoryFileLines Retrieve lines of a specified file. Supports starting line number and limit. This API will be deprecated on Wed, 29 Mar 2023 01:00:00 GMT as it does not get recognized when filePath has '/'. This will be replaced by "/repositories/{repositoryId}/file/lines"
 // A default retry strategy applies to this operation GetRepositoryFileLines()
 func (client DevopsClient) GetRepositoryFileLines(ctx context.Context, request GetRepositoryFileLinesRequest) (response GetRepositoryFileLinesResponse, err error) {
@@ -5584,6 +5751,65 @@ func (client DevopsClient) listDeployments(ctx context.Context, request common.O
 	return response, err
 }
 
+// ListDisasterRecoveryRepositorySyncStatuses List the repository sync statuses.
+// A default retry strategy applies to this operation ListDisasterRecoveryRepositorySyncStatuses()
+func (client DevopsClient) ListDisasterRecoveryRepositorySyncStatuses(ctx context.Context, request ListDisasterRecoveryRepositorySyncStatusesRequest) (response ListDisasterRecoveryRepositorySyncStatusesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listDisasterRecoveryRepositorySyncStatuses, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDisasterRecoveryRepositorySyncStatusesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDisasterRecoveryRepositorySyncStatusesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDisasterRecoveryRepositorySyncStatusesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDisasterRecoveryRepositorySyncStatusesResponse")
+	}
+	return
+}
+
+// listDisasterRecoveryRepositorySyncStatuses implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listDisasterRecoveryRepositorySyncStatuses(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositories/{repositoryId}/disasterRecoveryRepositorySyncStatuses", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDisasterRecoveryRepositorySyncStatusesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListDisasterRecoveryRepositorySyncStatuses"
+		err = common.PostProcessServiceError(err, "Devops", "ListDisasterRecoveryRepositorySyncStatuses", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListForkSyncStatuses LIST operation that returns a collection of fork sync status objects.
 // A default retry strategy applies to this operation ListForkSyncStatuses()
 func (client DevopsClient) ListForkSyncStatuses(ctx context.Context, request ListForkSyncStatusesRequest) (response ListForkSyncStatusesResponse, err error) {
@@ -6448,6 +6674,114 @@ func (client DevopsClient) listRepositories(ctx context.Context, request common.
 	return response, err
 }
 
+// ListRepositoryBackupProjects Returns a list of projects with backups for the compartment and project name .
+// A default retry strategy applies to this operation ListRepositoryBackupProjects()
+func (client DevopsClient) ListRepositoryBackupProjects(ctx context.Context, request ListRepositoryBackupProjectsRequest) (response ListRepositoryBackupProjectsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBackupProjects, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryBackupProjectsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryBackupProjectsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryBackupProjectsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBackupProjectsResponse")
+	}
+	return
+}
+
+// listRepositoryBackupProjects implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryBackupProjects(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackupProjects", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryBackupProjectsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BackupProjectCollection/ListRepositoryBackupProjects"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBackupProjects", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRepositoryBackupRepositories Returns a list of repositories with backups for the compartmentId or projectId .
+// A default retry strategy applies to this operation ListRepositoryBackupRepositories()
+func (client DevopsClient) ListRepositoryBackupRepositories(ctx context.Context, request ListRepositoryBackupRepositoriesRequest) (response ListRepositoryBackupRepositoriesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryBackupRepositories, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryBackupRepositoriesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryBackupRepositoriesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryBackupRepositoriesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryBackupRepositoriesResponse")
+	}
+	return
+}
+
+// listRepositoryBackupRepositories implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryBackupRepositories(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryBackupRepositories", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryBackupRepositoriesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/BackupRepositoryCollection/ListRepositoryBackupRepositories"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryBackupRepositories", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListRepositoryBackupSettings List Repository backup Settings in a compartment.
 // A default retry strategy applies to this operation ListRepositoryBackupSettings()
 func (client DevopsClient) ListRepositoryBackupSettings(ctx context.Context, request ListRepositoryBackupSettingsRequest) (response ListRepositoryBackupSettingsResponse, err error) {
@@ -6657,6 +6991,60 @@ func (client DevopsClient) listRepositoryCommitAnalyticsAuthors(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ListRepositoryCommitAnalyticsAuthors"
 		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryCommitAnalyticsAuthors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListRepositoryDisasterRecoverySettings Returns a list of Repository Disaster Recovery.
+// A default retry strategy applies to this operation ListRepositoryDisasterRecoverySettings()
+func (client DevopsClient) ListRepositoryDisasterRecoverySettings(ctx context.Context, request ListRepositoryDisasterRecoverySettingsRequest) (response ListRepositoryDisasterRecoverySettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRepositoryDisasterRecoverySettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRepositoryDisasterRecoverySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRepositoryDisasterRecoverySettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRepositoryDisasterRecoverySettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRepositoryDisasterRecoverySettingsResponse")
+	}
+	return
+}
+
+// listRepositoryDisasterRecoverySettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) listRepositoryDisasterRecoverySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/repositoryDisasterRecoverySettings", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRepositoryDisasterRecoverySettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryDisasterRecoverySettingsSummary/ListRepositoryDisasterRecoverySettings"
+		err = common.PostProcessServiceError(err, "Devops", "ListRepositoryDisasterRecoverySettings", apiReferenceLink)
 		return response, err
 	}
 
@@ -7325,6 +7713,65 @@ func (client DevopsClient) restoreRepositoryBackup(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackup/RestoreRepositoryBackup"
 		err = common.PostProcessServiceError(err, "Devops", "RestoreRepositoryBackup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ResumeDisasterRecoveryRepositorySync Updates the repository sync status.
+// A default retry strategy applies to this operation ResumeDisasterRecoveryRepositorySync()
+func (client DevopsClient) ResumeDisasterRecoveryRepositorySync(ctx context.Context, request ResumeDisasterRecoveryRepositorySyncRequest) (response ResumeDisasterRecoveryRepositorySyncResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.resumeDisasterRecoveryRepositorySync, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ResumeDisasterRecoveryRepositorySyncResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ResumeDisasterRecoveryRepositorySyncResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ResumeDisasterRecoveryRepositorySyncResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ResumeDisasterRecoveryRepositorySyncResponse")
+	}
+	return
+}
+
+// resumeDisasterRecoveryRepositorySync implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) resumeDisasterRecoveryRepositorySync(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/repositories/{repositoryId}/actions/resumeDisasterRecoveryRepositorySync", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ResumeDisasterRecoveryRepositorySyncResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/Repository/ResumeDisasterRecoveryRepositorySync"
+		err = common.PostProcessServiceError(err, "Devops", "ResumeDisasterRecoveryRepositorySync", apiReferenceLink)
 		return response, err
 	}
 
@@ -8694,6 +9141,60 @@ func (client DevopsClient) updateRepositoryBackupSettings(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryBackupSettings/UpdateRepositoryBackupSettings"
 		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryBackupSettings", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRepositoryDisasterRecoverySettings Updates the Disaster Recovery Settings.
+// A default retry strategy applies to this operation UpdateRepositoryDisasterRecoverySettings()
+func (client DevopsClient) UpdateRepositoryDisasterRecoverySettings(ctx context.Context, request UpdateRepositoryDisasterRecoverySettingsRequest) (response UpdateRepositoryDisasterRecoverySettingsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRepositoryDisasterRecoverySettings, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRepositoryDisasterRecoverySettingsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRepositoryDisasterRecoverySettingsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRepositoryDisasterRecoverySettingsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRepositoryDisasterRecoverySettingsResponse")
+	}
+	return
+}
+
+// updateRepositoryDisasterRecoverySettings implements the OCIOperation interface (enables retrying operations)
+func (client DevopsClient) updateRepositoryDisasterRecoverySettings(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/repositoryDisasterRecoverySettings/{repositoryDisasterRecoverySettingsId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRepositoryDisasterRecoverySettingsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/devops/20210630/RepositoryDisasterRecoverySettings/UpdateRepositoryDisasterRecoverySettings"
+		err = common.PostProcessServiceError(err, "Devops", "UpdateRepositoryDisasterRecoverySettings", apiReferenceLink)
 		return response, err
 	}
 

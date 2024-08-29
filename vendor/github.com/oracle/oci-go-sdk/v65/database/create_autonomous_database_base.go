@@ -49,7 +49,7 @@ type CreateAutonomousDatabaseBase interface {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	GetCpuCoreCount() *int
 
-	// Retention period, in days, for long-term backups
+	// Retention period, in days, for automatic backups
 	GetBackupRetentionPeriodInDays() *int
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
@@ -192,7 +192,7 @@ type CreateAutonomousDatabaseBase interface {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	GetNsgIds() []string
 
-	// The resource's private endpoint label.
+	// The resource's host name prefix when using private endpoint. Also referred to as private endpoint label.
 	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
 	// - Resetting the endpoint label to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
 	// - Setting the endpoint label to a non-empty string value, updates to a new private endpoint database, when the database is disabled and re-enabled.

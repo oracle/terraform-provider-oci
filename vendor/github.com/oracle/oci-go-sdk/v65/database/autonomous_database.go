@@ -65,7 +65,7 @@ type AutonomousDatabase struct {
 	// The percentage of the System Global Area(SGA) assigned to In-Memory tables in Autonomous Database. This property is applicable only to Autonomous Databases on the Exadata Cloud@Customer platform.
 	InMemoryPercentage *int `mandatory:"false" json:"inMemoryPercentage"`
 
-	// The area assigned to In-Memory tables in Autonomous Database.
+	// The area assigned to In-Memory tables in Autonomous Database. This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	InMemoryAreaInGBs *int `mandatory:"false" json:"inMemoryAreaInGBs"`
 
 	// The date and time when the next long-term backup would be created.
@@ -81,10 +81,10 @@ type AutonomousDatabase struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state.
+	// The date and time the Always Free database will be stopped because of inactivity. If this time is reached without any database activity, the database will automatically be put into the STOPPED state. This property is applicable only to free tier Autonomous Database.
 	TimeReclamationOfFreeAutonomousDatabase *common.SDKTime `mandatory:"false" json:"timeReclamationOfFreeAutonomousDatabase"`
 
-	// The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted.
+	// The date and time the Always Free database will be automatically deleted because of inactivity. If the database is in the STOPPED state and without activity until this time, it will be deleted. This property is applicable only to free tier Autonomous Database.
 	TimeDeletionOfFreeAutonomousDatabase *common.SDKTime `mandatory:"false" json:"timeDeletionOfFreeAutonomousDatabase"`
 
 	BackupConfig *AutonomousDatabaseBackupConfig `mandatory:"false" json:"backupConfig"`
@@ -109,7 +109,7 @@ type AutonomousDatabase struct {
 	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
-	// Retention period, in days, for long-term backups
+	// Retention period, in days, for automatic backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The backup storage to the database.
@@ -124,7 +124,7 @@ type AutonomousDatabase struct {
 	// **Note:** This parameter cannot be used with the `cpuCoreCount` parameter.
 	OcpuCount *float32 `mandatory:"false" json:"ocpuCount"`
 
-	// An array of CPU values that an Autonomous Database can be scaled to.
+	// An array of CPU values that an Autonomous Database can be scaled to. This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	ProvisionableCpus []float32 `mandatory:"false" json:"provisionableCpus"`
 
 	// The quantity of data in the database, in terabytes.
@@ -134,6 +134,7 @@ type AutonomousDatabase struct {
 	DataStorageSizeInTBs *int `mandatory:"false" json:"dataStorageSizeInTBs"`
 
 	// The amount of memory (in GBs) enabled per ECPU or OCPU.
+	// This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	MemoryPerOracleComputeUnitInGBs *int `mandatory:"false" json:"memoryPerOracleComputeUnitInGBs"`
 
 	// The quantity of data in the database, in gigabytes.
@@ -144,6 +145,7 @@ type AutonomousDatabase struct {
 	UsedDataStorageSizeInGBs *int `mandatory:"false" json:"usedDataStorageSizeInGBs"`
 
 	// The infrastructure type this resource belongs to.
+	// This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	InfrastructureType AutonomousDatabaseInfrastructureTypeEnum `mandatory:"false" json:"infrastructureType,omitempty"`
 
 	// True if the database uses dedicated Exadata infrastructure (https://docs.oracle.com/en/cloud/paas/autonomous-database/index.html).
@@ -223,7 +225,7 @@ type AutonomousDatabase struct {
 	// The public endpoint for the private endpoint enabled resource.
 	PublicEndpoint *string `mandatory:"false" json:"publicEndpoint"`
 
-	// The resource's private endpoint label.
+	// The resource's host name prefix when using private endpoint. Also referred to as private endpoint label.
 	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
 	// - Resetting the endpoint label to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
 	// - Setting the endpoint label to a non-empty string value, updates to a new private endpoint database, when the database is disabled and re-enabled.
@@ -479,6 +481,7 @@ type AutonomousDatabase struct {
 	AccessTypes []string `mandatory:"false" json:"accessTypes"`
 
 	// Enabling SHARED server architecture enables a database server to allow many client processes to share very few server processes, thereby increasing the number of supported users.
+	// This property is applicable only to Autonomous Database on Dedicated Exadata infrastructure.
 	NetServicesArchitecture AutonomousDatabaseNetServicesArchitectureEnum `mandatory:"false" json:"netServicesArchitecture,omitempty"`
 
 	// The availability domain where the Autonomous Database Serverless instance is located.

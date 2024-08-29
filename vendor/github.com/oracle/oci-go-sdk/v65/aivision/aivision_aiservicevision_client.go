@@ -91,6 +91,64 @@ func (client *AIServiceVisionClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AddDevices Registration of new device
+func (client AIServiceVisionClient) AddDevices(ctx context.Context, request AddDevicesRequest) (response AddDevicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addDevices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDevicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDevicesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDevicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDevicesResponse")
+	}
+	return
+}
+
+// addDevices implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) addDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/devices", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDevicesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/DeviceResult/AddDevices"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "AddDevices", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AnalyzeDocument Perform different types of image analysis.
 // A default retry strategy applies to this operation AnalyzeDocument()
 func (client AIServiceVisionClient) AnalyzeDocument(ctx context.Context, request AnalyzeDocumentRequest) (response AnalyzeDocumentResponse, err error) {
@@ -749,6 +807,64 @@ func (client AIServiceVisionClient) createProject(ctx context.Context, request c
 	return response, err
 }
 
+// CreateStreamJob Create a stream analysis job with given inputs and features.
+func (client AIServiceVisionClient) CreateStreamJob(ctx context.Context, request CreateStreamJobRequest) (response CreateStreamJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createStreamJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateStreamJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateStreamJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateStreamJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateStreamJobResponse")
+	}
+	return
+}
+
+// createStreamJob implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) createStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/streams", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateStreamJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamJob/CreateStreamJob"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateStreamJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateVideoJob Create a video analysis job with given inputs and features.
 func (client AIServiceVisionClient) CreateVideoJob(ctx context.Context, request CreateVideoJobRequest) (response CreateVideoJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -800,6 +916,59 @@ func (client AIServiceVisionClient) createVideoJob(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/VideoJob/CreateVideoJob"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "CreateVideoJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDevices Delete a  device
+func (client AIServiceVisionClient) DeleteDevices(ctx context.Context, request DeleteDevicesRequest) (response DeleteDevicesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDevices, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDevicesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDevicesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDevicesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDevicesResponse")
+	}
+	return
+}
+
+// deleteDevices implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) deleteDevices(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/devices/{deviceId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDevicesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/DeviceResult/DeleteDevices"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteDevices", apiReferenceLink)
 		return response, err
 	}
 
@@ -906,6 +1075,112 @@ func (client AIServiceVisionClient) deleteProject(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/DeleteProject"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteProject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteStreamJob Get details of a stream analysis job.
+func (client AIServiceVisionClient) DeleteStreamJob(ctx context.Context, request DeleteStreamJobRequest) (response DeleteStreamJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteStreamJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteStreamJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteStreamJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteStreamJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteStreamJobResponse")
+	}
+	return
+}
+
+// deleteStreamJob implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) deleteStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/streams/{streamJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteStreamJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamJob/DeleteStreamJob"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "DeleteStreamJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// EndStreamJob End a stream analysis Run.
+func (client AIServiceVisionClient) EndStreamJob(ctx context.Context, request EndStreamJobRequest) (response EndStreamJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.endStreamJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EndStreamJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EndStreamJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EndStreamJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EndStreamJobResponse")
+	}
+	return
+}
+
+// endStreamJob implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) endStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{streamRunId}/actions/end", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EndStreamJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamRun/EndStreamJob"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "EndStreamJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1118,6 +1393,59 @@ func (client AIServiceVisionClient) getProject(ctx context.Context, request comm
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/Project/GetProject"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "GetProject", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetStreamJob Get details of a stream analysis job.
+func (client AIServiceVisionClient) GetStreamJob(ctx context.Context, request GetStreamJobRequest) (response GetStreamJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getStreamJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetStreamJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetStreamJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetStreamJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetStreamJobResponse")
+	}
+	return
+}
+
+// getStreamJob implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) getStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/streams/{streamJobId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetStreamJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamJob/GetStreamJob"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "GetStreamJob", apiReferenceLink)
 		return response, err
 	}
 
@@ -1489,6 +1817,64 @@ func (client AIServiceVisionClient) listWorkRequests(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/WorkRequest/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "AIServiceVision", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StartStreamJob End a stream analysis Run.
+func (client AIServiceVisionClient) StartStreamJob(ctx context.Context, request StartStreamJobRequest) (response StartStreamJobResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.startStreamJob, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StartStreamJobResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StartStreamJobResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StartStreamJobResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StartStreamJobResponse")
+	}
+	return
+}
+
+// startStreamJob implements the OCIOperation interface (enables retrying operations)
+func (client AIServiceVisionClient) startStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{streamJobId}/actions/start", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StartStreamJobResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/vision/20220125/StreamRun/StartStreamJob"
+		err = common.PostProcessServiceError(err, "AIServiceVision", "StartStreamJob", apiReferenceLink)
 		return response, err
 	}
 

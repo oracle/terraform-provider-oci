@@ -104,6 +104,10 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// be auto-assigned with an available IPv4 address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 
+	// The IPv6 address from the provided OCI subnet which needs to be assigned to the VNIC. If not provided, it will
+	// be auto-assigned with an available IPv6 address from the subnet.
+	PrivateIpV6 *string `mandatory:"false" json:"privateIpV6"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

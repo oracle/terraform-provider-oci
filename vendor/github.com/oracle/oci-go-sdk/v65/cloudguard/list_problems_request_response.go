@@ -291,6 +291,7 @@ const (
 	ListProblemsDetectorTypeIaasConfigurationDetector     ListProblemsDetectorTypeEnum = "IAAS_CONFIGURATION_DETECTOR"
 	ListProblemsDetectorTypeIaasThreatDetector            ListProblemsDetectorTypeEnum = "IAAS_THREAT_DETECTOR"
 	ListProblemsDetectorTypeIaasLoggingDetector           ListProblemsDetectorTypeEnum = "IAAS_LOGGING_DETECTOR"
+	ListProblemsDetectorTypeIaasInsightDetector           ListProblemsDetectorTypeEnum = "IAAS_INSIGHT_DETECTOR"
 	ListProblemsDetectorTypeIaasLogInsightDetector        ListProblemsDetectorTypeEnum = "IAAS_LOG_INSIGHT_DETECTOR"
 	ListProblemsDetectorTypeSaasFaActivityDetector        ListProblemsDetectorTypeEnum = "SAAS_FA_ACTIVITY_DETECTOR"
 	ListProblemsDetectorTypeIaasInstanceSecurityDetector  ListProblemsDetectorTypeEnum = "IAAS_INSTANCE_SECURITY_DETECTOR"
@@ -302,6 +303,7 @@ var mappingListProblemsDetectorTypeEnum = map[string]ListProblemsDetectorTypeEnu
 	"IAAS_CONFIGURATION_DETECTOR":      ListProblemsDetectorTypeIaasConfigurationDetector,
 	"IAAS_THREAT_DETECTOR":             ListProblemsDetectorTypeIaasThreatDetector,
 	"IAAS_LOGGING_DETECTOR":            ListProblemsDetectorTypeIaasLoggingDetector,
+	"IAAS_INSIGHT_DETECTOR":            ListProblemsDetectorTypeIaasInsightDetector,
 	"IAAS_LOG_INSIGHT_DETECTOR":        ListProblemsDetectorTypeIaasLogInsightDetector,
 	"SAAS_FA_ACTIVITY_DETECTOR":        ListProblemsDetectorTypeSaasFaActivityDetector,
 	"IAAS_INSTANCE_SECURITY_DETECTOR":  ListProblemsDetectorTypeIaasInstanceSecurityDetector,
@@ -313,6 +315,7 @@ var mappingListProblemsDetectorTypeEnumLowerCase = map[string]ListProblemsDetect
 	"iaas_configuration_detector":      ListProblemsDetectorTypeIaasConfigurationDetector,
 	"iaas_threat_detector":             ListProblemsDetectorTypeIaasThreatDetector,
 	"iaas_logging_detector":            ListProblemsDetectorTypeIaasLoggingDetector,
+	"iaas_insight_detector":            ListProblemsDetectorTypeIaasInsightDetector,
 	"iaas_log_insight_detector":        ListProblemsDetectorTypeIaasLogInsightDetector,
 	"saas_fa_activity_detector":        ListProblemsDetectorTypeSaasFaActivityDetector,
 	"iaas_instance_security_detector":  ListProblemsDetectorTypeIaasInstanceSecurityDetector,
@@ -335,6 +338,7 @@ func GetListProblemsDetectorTypeEnumStringValues() []string {
 		"IAAS_CONFIGURATION_DETECTOR",
 		"IAAS_THREAT_DETECTOR",
 		"IAAS_LOGGING_DETECTOR",
+		"IAAS_INSIGHT_DETECTOR",
 		"IAAS_LOG_INSIGHT_DETECTOR",
 		"SAAS_FA_ACTIVITY_DETECTOR",
 		"IAAS_INSTANCE_SECURITY_DETECTOR",

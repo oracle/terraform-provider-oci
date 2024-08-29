@@ -24,11 +24,19 @@ type TestReportOutput struct {
 
 	// The OCID of the test report.
 	Id *string `mandatory:"true" json:"id"`
+
+	// Error message if the creation of stage output fails.
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
 }
 
 // GetStepName returns StepName
 func (m TestReportOutput) GetStepName() *string {
 	return m.StepName
+}
+
+// GetErrorMessage returns ErrorMessage
+func (m TestReportOutput) GetErrorMessage() *string {
+	return m.ErrorMessage
 }
 
 func (m TestReportOutput) String() string {

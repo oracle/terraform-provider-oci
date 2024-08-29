@@ -74,6 +74,9 @@ type DetectorRecipeDetectorRuleSummary struct {
 
 	// Data source entities mapping for the detector rule
 	EntitiesMappings []EntitiesMapping `mandatory:"false" json:"entitiesMappings"`
+
+	// jmes path expression for detector rule
+	JmesExpression *string `mandatory:"false" json:"jmesExpression"`
 }
 
 func (m DetectorRecipeDetectorRuleSummary) String() string {

@@ -21,12 +21,16 @@ type StageOutput interface {
 
 	// Name of stage step at which this output is generated.
 	GetStepName() *string
+
+	// Error message if the creation of stage output fails.
+	GetErrorMessage() *string
 }
 
 type stageoutput struct {
-	JsonData   []byte
-	StepName   *string `mandatory:"true" json:"stepName"`
-	OutputType string  `json:"outputType"`
+	JsonData     []byte
+	ErrorMessage *string `mandatory:"false" json:"errorMessage"`
+	StepName     *string `mandatory:"true" json:"stepName"`
+	OutputType   string  `json:"outputType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -41,6 +45,7 @@ func (m *stageoutput) UnmarshalJSON(data []byte) error {
 		return err
 	}
 	m.StepName = s.Model.StepName
+	m.ErrorMessage = s.Model.ErrorMessage
 	m.OutputType = s.Model.OutputType
 
 	return err
@@ -67,6 +72,11 @@ func (m *stageoutput) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		common.Logf("Received unsupported enum value for StageOutput: %s.", m.OutputType)
 		return *m, nil
 	}
+}
+
+// GetErrorMessage returns ErrorMessage
+func (m stageoutput) GetErrorMessage() *string {
+	return m.ErrorMessage
 }
 
 // GetStepName returns StepName

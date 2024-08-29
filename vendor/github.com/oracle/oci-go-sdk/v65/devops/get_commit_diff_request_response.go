@@ -29,6 +29,9 @@ type GetCommitDiffRequest struct {
 	// Boolean value to indicate whether to use merge base or most recent revision.
 	IsComparisonFromMergeBase *bool `mandatory:"false" contributesTo:"query" name:"isComparisonFromMergeBase"`
 
+	// Region identifier of the primary repository region. Region identifiers are listed at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+	PrimaryRegion *string `mandatory:"false" contributesTo:"query" name:"primaryRegion"`
+
 	// Unique Oracle-assigned identifier for the request.  If you need to contact Oracle about a particular request, provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 

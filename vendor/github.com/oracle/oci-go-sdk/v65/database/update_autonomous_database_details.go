@@ -24,7 +24,7 @@ import (
 // **Warning:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type UpdateAutonomousDatabaseDetails struct {
 
-	// Retention period, in days, for long-term backups
+	// Retention period, in days, for automatic backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
@@ -208,7 +208,7 @@ type UpdateAutonomousDatabaseDetails struct {
 	// This restriction applies to both the client subnet and the backup subnet.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The resource's private endpoint label.
+	// The resource's host name prefix when using private endpoint. Also referred to as private endpoint label.
 	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
 	// - Resetting the endpoint label to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
 	// - Setting the endpoint label to a non-empty string value, updates to a new private endpoint database, when the database is disabled and re-enabled.

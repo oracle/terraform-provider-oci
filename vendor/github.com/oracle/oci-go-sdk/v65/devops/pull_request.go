@@ -83,6 +83,9 @@ type PullRequest struct {
 
 	// The OCID of the forked repository that will act as the source of the changes to be included in the pull request against the parent repository.
 	SourceRepositoryId *string `mandatory:"false" json:"sourceRepositoryId"`
+
+	// Region identifier from the Source Region (Primary or Standby) Region identifiers are listed at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+	SourceRegion *string `mandatory:"false" json:"sourceRegion"`
 }
 
 func (m PullRequest) String() string {

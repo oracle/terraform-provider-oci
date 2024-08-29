@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// RemoveDatasetLabelsDetails Removes a subset of Labels from the Dataset's LabelSet.  This LabelSet will be subtracted from the current Dataset's LabelSet. Requests with non-existent Labels will be rejected.
+// RemoveDatasetLabelsDetails Removes a subset of Labels from the Dataset's LabelSet.  This LabelSet will be subtracted from the current Dataset's LabelSet. Requests with non-existent Labels will be rejected.
 type RemoveDatasetLabelsDetails struct {
 	LabelSet *LabelSet `mandatory:"false" json:"labelSet"`
 }

@@ -38,6 +38,7 @@ import (
 //   - licenseModel
 //   - whitelistedIps
 //   - isMtlsConnectionRequired
+//   - isReplicateAutomaticBackups
 type CreateCrossRegionDisasterRecoveryDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment of the Autonomous Database.
@@ -66,7 +67,7 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// **Note:** This parameter cannot be used with the `ocpuCount` parameter.
 	CpuCoreCount *int `mandatory:"false" json:"cpuCoreCount"`
 
-	// Retention period, in days, for long-term backups
+	// Retention period, in days, for automatic backups
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
@@ -191,7 +192,7 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// - A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
-	// The resource's private endpoint label.
+	// The resource's host name prefix when using private endpoint. Also referred to as private endpoint label.
 	// - Setting the endpoint label to a non-empty string creates a private endpoint database.
 	// - Resetting the endpoint label to an empty string, after the creation of the private endpoint database, changes the private endpoint database to a public endpoint database.
 	// - Setting the endpoint label to a non-empty string value, updates to a new private endpoint database, when the database is disabled and re-enabled.
@@ -261,7 +262,7 @@ type CreateCrossRegionDisasterRecoveryDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
-	// If true, 7 days worth of backups are replicated across regions for Cross-Region ADB or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
+	// If true, up to 7 days worth of backups are replicated across regions for Cross-Region ADG or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 
 	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.

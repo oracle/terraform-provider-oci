@@ -44,6 +44,9 @@ type CreatePullRequestDetails struct {
 
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// Region identifier referred by the deployment environment. Region identifiers are listed at https://docs.oracle.com/en-us/iaas/Content/General/Concepts/regions.htm
+	SourceRegion *string `mandatory:"false" json:"sourceRegion"`
 }
 
 func (m CreatePullRequestDetails) String() string {

@@ -26,6 +26,9 @@ type ScheduledQueryDataSourceSummaryObjDetails struct {
 	// Target information in which scheduled query will be run
 	ScheduledQueryScopeDetails []ScheduledQueryScopeDetail `mandatory:"false" json:"scheduledQueryScopeDetails"`
 
+	// Data source mapping with detector recipe and detector rule
+	DataSourceDetectorMappingInfo []DataSourceMappingInfo `mandatory:"false" json:"dataSourceDetectorMappingInfo"`
+
 	// Interval in minutes in which the query is run periodically.
 	IntervalInSeconds *int `mandatory:"false" json:"intervalInSeconds"`
 
