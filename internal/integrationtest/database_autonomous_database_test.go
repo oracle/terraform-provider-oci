@@ -299,6 +299,26 @@ var (
 		"db_workload":             acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
 		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 	}
+
+	DatabaseAutonomousDatabaseRepresentationDbTools = map[string]interface{}{
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `4`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Required, Create: `20`},
+		"compute_model":           acctest.Representation{RepType: acctest.Required, Create: `ECPU`},
+		"db_name":                 acctest.Representation{RepType: acctest.Required, Create: adbName},
+		"admin_password":          acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_version":              acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_autonomous_db_versions.test_autonomous_db_versions.autonomous_db_versions.0.version}`},
+		"db_workload":             acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"db_tools_details": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationApex},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuDataTransform},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationDatabaseActions},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuGraphStudio},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationMongodbApi},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationEcpuOml},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentationOrds}},
+	}
 	autonomousDatabaseRepresentationForDevTier = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentationDeveloper, map[string]interface{}{
 		"is_dev_tier": acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 	})
