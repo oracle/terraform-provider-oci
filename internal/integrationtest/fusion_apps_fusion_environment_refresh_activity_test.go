@@ -32,6 +32,7 @@ var (
 	FusionAppsFusionEnvironmentRefreshActivityRepresentation = map[string]interface{}{
 		"fusion_environment_id":        acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
 		"source_fusion_environment_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_fusion_apps_fusion_environment.test_fusion_environment.id}`},
+		"is_data_masking_opted":        acctest.Representation{RepType: acctest.Optional, Create: `false`},
 	}
 
 	FusionAppsFusionEnvironmentRefreshActivityResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_fusion_apps_fusion_environment_family", "test_fusion_environment_family", acctest.Required, acctest.Create, FusionAppsFusionEnvironmentFamilyRepresentation) +
@@ -102,6 +103,7 @@ func TestFusionAppsFusionEnvironmentRefreshActivityResource_basic(t *testing.T) 
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "is_data_masking_opted", "false"),
 				// if there's no refresh issue, this field will be null, so commented out this line
 				// resource.TestCheckResourceAttr(singularDatasourceName, "refresh_issue_details_list.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "service_availability"),
