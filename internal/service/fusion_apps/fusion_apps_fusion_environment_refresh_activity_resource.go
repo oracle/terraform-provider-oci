@@ -45,7 +45,13 @@ func FusionAppsFusionEnvironmentRefreshActivityResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-
+			// Optional
+			"is_data_masking_opted": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			// Computed
 			"refresh_activity_id": {
 				Type:     schema.TypeString,
@@ -147,8 +153,7 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreatedPending(
 
 func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) CreatedTarget() []string {
 	return []string{
-		string(oci_fusion_apps.RefreshActivityLifecycleStateNeedsAttention),
-		string(oci_fusion_apps.RefreshActivityLifecycleStateSucceeded),
+		string(oci_fusion_apps.RefreshActivityLifecycleStateAccepted),
 	}
 }
 
@@ -166,6 +171,11 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) Create() error 
 	if fusionEnvironmentId, ok := s.D.GetOkExists("fusion_environment_id"); ok {
 		tmp := fusionEnvironmentId.(string)
 		request.FusionEnvironmentId = &tmp
+	}
+
+	if isDataMaskingOpted, ok := s.D.GetOkExists("is_data_masking_opted"); ok {
+		tmp := isDataMaskingOpted.(bool)
+		request.IsDataMaskingOpted = &tmp
 	}
 
 	if sourceFusionEnvironmentId, ok := s.D.GetOkExists("source_fusion_environment_id"); ok {
@@ -377,6 +387,10 @@ func (s *FusionAppsFusionEnvironmentRefreshActivityResourceCrud) SetData() error
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.IsDataMaskingOpted != nil {
+		s.D.Set("is_data_masking_opted", *s.Res.IsDataMaskingOpted)
+	}
+
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
 
 	refreshIssueDetailsList := []interface{}{}
@@ -445,6 +459,10 @@ func RefreshActivitySummaryToMap(obj oci_fusion_apps.RefreshActivitySummary) map
 
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsDataMaskingOpted != nil {
+		result["is_data_masking_opted"] = bool(*obj.IsDataMaskingOpted)
 	}
 
 	result["lifecycle_details"] = string(obj.LifecycleDetails)
