@@ -90,8 +90,8 @@ var (
 		"value":     acctest.Representation{RepType: acctest.Required, Create: `True`, Update: `5000`},
 	}
 	DatabaseMigrationMigrationAdvisorSettingsRepresentation = map[string]interface{}{
-		"is_ignore_errors": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"is_skip_advisor":  acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_ignore_errors": acctest.Representation{RepType: acctest.Optional, Update: `true`},
+		"is_skip_advisor":  acctest.Representation{RepType: acctest.Optional, Update: `true`},
 	}
 	DatabaseMigrationMigrationDataTransferMediumDetailsRepresentation = map[string]interface{}{
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`, Update: `OBJECT_STORAGE`},

@@ -1001,10 +1001,10 @@ func migrationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oc
 			return true
 		}
 
-		// Only stop if the time Finished is set
-		/*	if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
-		}*/
+		// Only stop if status of work request response is succeeded
+		if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
+			return workRequestResponse.Status != oci_database_migration.OperationStatusSucceeded
+		}
 
 		return false
 	}
@@ -2829,10 +2829,13 @@ func MySqlAdvisorSettingsToMap(obj *oci_database_migration.MySqlAdvisorSettings)
 
 	if obj.IsIgnoreErrors != nil {
 		result["is_ignore_errors"] = bool(*obj.IsIgnoreErrors)
+	} else {
+		result["is_ignore_errors"] = false
 	}
-
 	if obj.IsSkipAdvisor != nil {
 		result["is_skip_advisor"] = bool(*obj.IsSkipAdvisor)
+	} else {
+		result["is_skip_advisor"] = false
 	}
 
 	return result
@@ -3098,10 +3101,14 @@ func OracleAdvisorSettingsToMap(obj *oci_database_migration.OracleAdvisorSetting
 
 	if obj.IsIgnoreErrors != nil {
 		result["is_ignore_errors"] = bool(*obj.IsIgnoreErrors)
+	} else {
+		result["is_ignore_errors"] = false
 	}
 
 	if obj.IsSkipAdvisor != nil {
 		result["is_skip_advisor"] = bool(*obj.IsSkipAdvisor)
+	} else {
+		result["is_skip_advisor"] = false
 	}
 
 	return result

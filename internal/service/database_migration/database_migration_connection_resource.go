@@ -399,10 +399,10 @@ func connectionWorkRequestShouldRetryFunc(timeout time.Duration) func(response o
 			return true
 		}
 
-		// Only stop if the time Finished is set
-		/*if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
-			return workRequestResponse.TimeFinished == nil
-		}*/
+		// Only stop if status of work request response is succeeded
+		if workRequestResponse, ok := response.Response.(oci_database_migration.GetWorkRequestResponse); ok {
+			return workRequestResponse.Status != oci_database_migration.OperationStatusSucceeded
+		}
 		return false
 	}
 }

@@ -111,7 +111,6 @@ provider "oci" {
   private_key_path = var.private_key_path
   auth             = "SecurityToken"
   region           = var.region
-
 }
 
 
@@ -150,6 +149,7 @@ resource "oci_database_migration_connection" "test_connection_autonomous_target"
   username = "ggfe"
   replication_password="replicationPassword"
   replication_username="replicationUsername"
+  subnet_id = var.subnet_id
 }
 
 resource "oci_database_migration_connection" "test_connection_pdb_source" {
