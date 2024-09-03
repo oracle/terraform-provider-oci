@@ -43,6 +43,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		IDENTITY_DOMAIN_ID      = "identity_domain_id"
 		PASSWORD_SECRET_ID      = "password_secret_id"
 		PASSWORD_SECRET_ID_2    = "password_secret_id_2"
+		GROUP_ID                = "group_id"
 	)
 
 	var (
@@ -73,6 +74,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		passwordSecretId2    = utils.GetEnvSettingWithBlankDefault(PASSWORD_SECRET_ID_2)
 		baseOggVersion       = utils.GetEnvSettingWithBlankDefault(BASE_OGG_VERSION)
 		upgradedOggVersion   = utils.GetEnvSettingWithBlankDefault(UPGRADED_OGG_VERSION)
+		groupId              = utils.GetEnvSettingWithBlankDefault(GROUP_ID)
 
 		resId  string
 		resId2 string
@@ -91,6 +93,20 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			"deployment_name": acctest.Representation{RepType: acctest.Required, Create: `depl_test_ggs_deployment_name`},
 			"certificate":     acctest.Representation{RepType: acctest.Optional, Update: `${var.certificate}`},
 			"key":             acctest.Representation{RepType: acctest.Optional, Update: `${var.key}`},
+		}
+
+		groupToRolesMappingRepresentation = map[string]interface{}{
+			"security_group_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.group_id}`},
+			"administrator_group_id": acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
+			"operator_group_id":      acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
+			"user_group_id":          acctest.Representation{RepType: acctest.Optional, Update: `${var.group_id}`},
+		}
+
+		goldenGateDeploymentOggDataWithGroupRoleMappingRepresentation = map[string]interface{}{
+			"admin_password":         acctest.Representation{RepType: acctest.Required, Create: `${var.password}`},
+			"admin_username":         acctest.Representation{RepType: acctest.Required, Create: `adminUsername`},
+			"deployment_name":        acctest.Representation{RepType: acctest.Required, Create: `depl_test_ggs_deployment_name`},
+			"group_to_roles_mapping": acctest.RepresentationGroup{RepType: acctest.Required, Group: groupToRolesMappingRepresentation},
 		}
 
 		deploymentMaintenanceConfigurationRepresentation = map[string]interface{}{
@@ -182,6 +198,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		makeVariableStr(NEW_PASSWORD, t) +
 		makeVariableStr(PASSWORD_SECRET_ID, t) +
 		makeVariableStr(PASSWORD_SECRET_ID_2, t) +
+		makeVariableStr(GROUP_ID, t) +
 		GoldenGateDeploymentResourceDependencies
 
 	if identityDomainId != "" {
@@ -192,7 +209,7 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 	acctest.SaveConfigContent(config+testDeploymentIdVariableStr+
 		acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Optional, acctest.Create, goldenGateDeploymentRepresentation), "goldengate", "deployment", t)
 
-	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, []resource.TestStep{
+	var steps = []resource.TestStep{
 		//		verify Create
 		{
 			Config: config + testDeploymentIdVariableStr +
@@ -220,6 +237,39 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 			),
 		},
 
+		// delete before next Create
+		{
+			Config: config,
+		},
+		// check groupToRolesMapping attribute set
+		{
+			Config: config + testDeploymentIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_golden_gate_deployment", "depl_test_ggs_deployment", acctest.Required, acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(goldenGateDeploymentRepresentation, map[string]interface{}{
+					"deployment_type": acctest.Representation{RepType: acctest.Required, Create: `OGG`},
+					"ogg_data":        acctest.RepresentationGroup{RepType: acctest.Required, Group: goldenGateDeploymentOggDataWithGroupRoleMappingRepresentation},
+				})),
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "deployment_type", "OGG"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Terraform_integration_test"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.admin_username", "adminUsername"),
+				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.deployment_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "ogg_data.0.ogg_version"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.group_to_roles_mapping.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "ogg_data.0.group_to_roles_mapping.0.security_group_id", groupId),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 		// delete before next Create
 		{
 			Config: config,
@@ -685,7 +735,8 @@ func TestGoldenGateDeploymentResource_basic(t *testing.T) {
 		{
 			Config: config,
 		},
-	})
+	}
+	acctest.ResourceTest(t, testAccCheckGoldenGateDeploymentDestroy, steps)
 }
 
 func testAccCheckGoldenGateDeploymentDestroy(s *terraform.State) error {

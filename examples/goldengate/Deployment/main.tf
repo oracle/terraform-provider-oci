@@ -9,6 +9,7 @@ variable "objectstorage_bucket_name" {}
 variable "objectstorage_namespace" {}
 variable password_secret_id {}
 variable identity_domain_id {}
+variable group_id {}
 
 variable "deployment_cpu_core_count" {
   	default = 1
@@ -106,6 +107,9 @@ resource "oci_golden_gate_deployment" "test_deployment" {
     	admin_password  = var.deployment_ogg_data_admin_password
     	admin_username  = var.deployment_ogg_data_admin_username
     	deployment_name = var.deployment_ogg_data_deployment_name
+		group_to_roles_mapping {
+			security_group_id = var.group_id
+		}
   	}
 	locks {}
 }

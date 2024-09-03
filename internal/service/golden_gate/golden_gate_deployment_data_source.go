@@ -67,6 +67,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -102,6 +104,8 @@ func (s *GoldenGateDeploymentDataSourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("environment_type", s.Res.EnvironmentType)
 
 	if s.Res.Fqdn != nil {
 		s.D.Set("fqdn", *s.Res.Fqdn)
