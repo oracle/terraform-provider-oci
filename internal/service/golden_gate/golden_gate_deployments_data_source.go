@@ -160,7 +160,7 @@ func (s *GoldenGateDeploymentsDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, GoldenGateDeploymentSummaryToMap(item))
+		items = append(items, DeploymentSummaryToMap(item))
 	}
 	deployment["items"] = items
 
