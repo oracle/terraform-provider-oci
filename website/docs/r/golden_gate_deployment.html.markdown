@@ -30,6 +30,7 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_backup_id = oci_golden_gate_deployment_backup.test_deployment_backup.id
 	description = var.deployment_description
+	environment_type = var.deployment_environment_type
 	fqdn = var.deployment_fqdn
 	freeform_tags = {"bar-key"= "value"}
 	is_public = var.deployment_is_public
@@ -65,6 +66,15 @@ resource "oci_golden_gate_deployment" "test_deployment" {
 		admin_username = var.deployment_ogg_data_admin_username
 		certificate = var.deployment_ogg_data_certificate
 		credential_store = var.deployment_ogg_data_credential_store
+		group_to_roles_mapping {
+			#Required
+			security_group_id = oci_identity_group.test_group.id
+
+			#Optional
+			administrator_group_id = oci_identity_group.test_group.id
+			operator_group_id = oci_identity_group.test_group.id
+			user_group_id = oci_identity_group.test_group.id
+		}
 		identity_domain_id = oci_identity_domain.test_domain.id
 		key = var.deployment_ogg_data_key
 		ogg_version = var.deployment_ogg_data_ogg_version
@@ -85,6 +95,7 @@ The following arguments are supported:
 * `deployment_type` - (Required) The type of deployment, which can be any one of the Allowed values.  NOTE: Use of the value 'OGG' is maintained for backward compatibility purposes.  Its use is discouraged in favor of 'DATABASE_ORACLE'. 
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
 * `display_name` - (Required) (Updatable) An object's Display Name. 
+* `environment_type` - (Optional) (Updatable) Specifies whether the deployment is used in a production or development/testing environment. 
 * `fqdn` - (Optional) (Updatable) A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `is_auto_scaling_enabled` - (Required) (Updatable) Indicates if auto scaling is enabled for the Deployment's CPU core count. 
@@ -110,6 +121,11 @@ The following arguments are supported:
 	* `certificate` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - (Optional) (Updatable) The type of credential store for OGG. 
 	* `deployment_name` - (Required) The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `group_to_roles_mapping` - (Optional) (Updatable) Defines the IDP Groups to GoldenGate roles mapping. This field is used only for IAM deployment and does not have any impact on non-IAM deployments. For IAM deployment, when user does not specify this mapping, then it has null value and default mapping is used. User belonging to each group can only perform the actions according to the role the respective group is mapped to. 
+		* `administrator_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role administratorGroup. It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server. 
+		* `operator_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role operatorGroup. It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server. 
+		* `security_group_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role securityGroup. It grants administration of security related objects and invoke security related service requests. This role has full privileges. 
+		* `user_group_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information 
 	* `identity_domain_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `key` - (Optional) (Updatable) The base64 encoded content of the PEM file containing the private key. 
 	* `ogg_version` - (Optional) Version of OGG 
@@ -125,6 +141,7 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `category` - The deployment category defines the broad separation of the deployment type into three categories. Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'. 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment being referenced. 
 * `cpu_core_count` - The Minimum number of OCPUs to be made available for this Deployment. 
 * `defined_tags` - Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
@@ -140,6 +157,7 @@ The following attributes are exported:
 * `deployment_url` - The URL of a resource. 
 * `description` - Metadata about this specific object. 
 * `display_name` - An object's Display Name. 
+* `environment_type` - Specifies whether the deployment is used in a production or development/testing environment. 
 * `fqdn` - A three-label Fully Qualified Domain Name (FQDN) for a resource. 
 * `freeform_tags` - A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
@@ -149,7 +167,7 @@ The following attributes are exported:
 * `is_healthy` - True if all of the aggregate resources are working correctly. 
 * `is_latest_version` - Indicates if the resource is the the latest available version. 
 * `is_public` - True if this object is publicly available. 
-* `is_storage_utilization_limit_exceeded` - Indicator will be true if the amount of storage being utilized exceeds the allowable storage utilization limit.  Exceeding the limit may be an indication of a misconfiguration of the deployment's GoldenGate service. 
+* `is_storage_utilization_limit_exceeded` - Deprecated: This field is not updated and will be removed in future versions. If storage utilization exceeds the limit, the respective warning message will appear in deployment messages, which can be accessed through /messages?deploymentId=. Indicator will be true if the amount of storage being utilized exceeds the allowable storage utilization limit.  Exceeding the limit may be an indication of a misconfiguration of the deployment's GoldenGate service. 
 * `license_model` - The Oracle license model that applies to a Deployment. 
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state. 
 * `lifecycle_sub_state` - Possible GGS lifecycle sub-states. 
@@ -177,6 +195,11 @@ The following attributes are exported:
 	* `certificate` - The base64 encoded content of the PEM file containing the SSL certificate. 
 	* `credential_store` - The type of credential store for OGG. 
 	* `deployment_name` - The name given to the GoldenGate service deployment. The name must be 1 to 32 characters long, must contain only alphanumeric characters and must start with a letter. 
+	* `group_to_roles_mapping` - Defines the IDP Groups to GoldenGate roles mapping. This field is used only for IAM deployment and does not have any impact on non-IAM deployments. For IAM deployment, when user does not specify this mapping, then it has null value and default mapping is used. User belonging to each group can only perform the actions according to the role the respective group is mapped to. 
+		* `administrator_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role administratorGroup. It grants full access to the user, including the ability to alter general, non-security related operational parameters and profiles of the server. 
+		* `operator_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role operatorGroup. It allows users to perform only operational actions, like starting and stopping resources. Operators cannot alter the operational parameters or profiles of the MA server. 
+		* `security_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role securityGroup. It grants administration of security related objects and invoke security related service requests. This role has full privileges. 
+		* `user_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IDP group which will be mapped to goldengate role userGroup. It allows information-only service requests, which do not alter or affect the operation of either the MA. Examples of query and read-only information include performance metric information and resource status and monitoring information 
 	* `identity_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Identity Domain when IAM credential store is used. 
 	* `ogg_version` - Version of OGG 
 	* `password_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored. 
