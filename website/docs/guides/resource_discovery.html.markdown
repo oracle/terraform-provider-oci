@@ -212,6 +212,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
+    * `security_attribute` - Discovers security attribute resources in the tenancy
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
@@ -1132,6 +1133,11 @@ resourcemanager
 sch
     
 * oci\_sch\_service\_connector
+
+security_attribute
+    
+* oci\_security\_attribute\_security\_attribute\_namespace
+* oci\_security\_attribute\_security\_attribute
 
 service_mesh
     
