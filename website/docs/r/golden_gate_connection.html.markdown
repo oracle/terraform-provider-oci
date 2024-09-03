@@ -122,17 +122,18 @@ The following arguments are supported:
 
 * `access_key_id` - (Required when connection_type=AMAZON_KINESIS | AMAZON_S3) (Updatable) Access key ID to access the Amazon S3 bucket. e.g.: "this-is-not-the-secret" 
 * `account_key` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'. e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ== 
-* `account_name` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name.
-* `additional_attributes` - (Applicable when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) An array of name-value pair attribute entries. Used as additional parameters in connection string.
-	* `name` - (Required when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name of the property entry.
-	* `value` - (Required when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The value of the property entry.
-* `authentication_mode` - (Applicable when connection_type=ORACLE) (Updatable) Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections, when a databaseId is provided. The default value is MTLS.
-* `authentication_type` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | ELASTICSEARCH | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | REDIS | SNOWFLAKE) (Updatable) Authentication type for Java Message Service.  If not provided, default is NONE. Optional until 2024-06-27, in the release after it will be made required.
-* `azure_tenant_id` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: 14593954-d337-4a61-a364-9f758c64f97f
+* `account_name` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Sets the Azure storage account name. 
+* `additional_attributes` - (Applicable when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) An array of name-value pair attribute entries. Used as additional parameters in connection string. 
+	* `name` - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The name of the property entry. 
+	* `value` - (Required when connection_type=DB2 | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The value of the property entry. 
+* `authentication_mode` - (Applicable when connection_type=ORACLE) (Updatable) Authentication mode. It can be provided at creation of Oracle Autonomous Database Serverless connections, when a databaseId is provided. The default value is MTLS. 
+* `authentication_type` - (Required when connection_type=AZURE_DATA_LAKE_STORAGE | ELASTICSEARCH | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | REDIS | SNOWFLAKE) (Updatable) Authentication type for Java Message Service.  If not provided, default is NONE. Optional until 2024-06-27, in the release after it will be made required. 
+* `azure_tenant_id` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: 14593954-d337-4a61-a364-9f758c64f97f 
 * `bootstrap_servers` - (Applicable when connection_type=KAFKA) (Updatable) Kafka bootstrap. Equivalent of bootstrap.servers configuration property in Kafka: list of KafkaBootstrapServer objects specified by host/port. Used for establishing the initial connection to the Kafka cluster. Example: `"server1.example.com:9092,server2.example.com:9092"` 
 	* `host` - (Required when connection_type=KAFKA) (Updatable) The name or address of a host. 
-	* `port` - (Applicable when connection_type=KAFKA) (Updatable) The port of an endpoint usually specified for a connection.
+	* `port` - (Applicable when connection_type=KAFKA) (Updatable) The port of an endpoint usually specified for a connection. 
 	* `private_ip` - (Applicable when connection_type=KAFKA) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
+
 		The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
 * `client_id` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure client ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: 06ecaabf-8b80-4ec8-a0ec-20cbf463703d 
 * `client_secret` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure client secret (aka application password) for authentication. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'. e.g.: dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1 
@@ -149,7 +150,7 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Tags defined for this resource. Each key is predefined and scoped to a namespace.  Example: `{"foo-namespace.bar-key": "value"}` 
 * `deployment_id` - (Applicable when connection_type=GOLDENGATE) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the deployment being referenced. 
 * `description` - (Optional) (Updatable) Metadata about this specific object. 
-* `display_name` - (Required) (Updatable) An object's Display Name.
+* `display_name` - (Required) (Updatable) An object's Display Name. 
 * `endpoint` - (Applicable when connection_type=AZURE_DATA_LAKE_STORAGE) (Updatable) Azure Storage service endpoint. e.g: https://test.blob.core.windows.net 
 * `fingerprint` - (Applicable when connection_type=ELASTICSEARCH) (Updatable) Fingerprint required by TLS security protocol. Eg.: '6152b2dfbff200f973c5074a5b91d06ab3b472c07c09a1ea57bb7fd406cdce9c' 
 * `freeform_tags` - (Optional) (Updatable) A simple key-value pair that is applied without any predefined name, type, or scope. Exists for cross-compatibility only.  Example: `{"bar-key": "value"}` 
@@ -170,6 +171,7 @@ The following arguments are supported:
 * `password` - (Required when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The password Oracle GoldenGate uses to connect the associated system of the given technology. It must conform to the specific security requirements including length, case sensitivity, and so on. 
 * `port` - (Required when connection_type=DB2 | GOLDENGATE | MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The port of an endpoint usually specified for a connection. 
 * `private_ip` - (Applicable when connection_type=GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MYSQL | ORACLE | POSTGRESQL) (Updatable) Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
+
 	The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
 * `private_key_file` - (Required when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) The base64 encoded content of the private key file (PEM file) corresponding to the API key of the fingerprint. See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm 
 * `private_key_passphrase` - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL | SNOWFLAKE) (Updatable) Password if the private key file is encrypted. 
@@ -186,12 +188,12 @@ The following arguments are supported:
 * `session_mode` - (Applicable when connection_type=ORACLE) (Updatable) The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT. 
 * `should_use_jndi` - (Required when connection_type=JAVA_MESSAGE_SERVICE) (Updatable) If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. 
 * `should_validate_server_certificate` - (Applicable when connection_type=MICROSOFT_SQLSERVER) (Updatable) If set to true, the driver validates the certificate that is sent by the database server. 
-* `ssl_ca` - (Applicable when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) Database Certificate - The base64 encoded content of pem file containing the server public key (for 1-way SSL). 
-* `ssl_cert` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Certificate - The base64 encoded content of client-cert.pem file  containing the client public key (for 2-way SSL). 
-* `ssl_client_keystash` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystash file which contains the encrypted password to the key database file.
-* `ssl_client_keystoredb` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystore file created at the client containing the server certificate / CA root certificate.
-* `ssl_crl` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Certificates revoked by certificate authorities (CA). Server certificate must not be on this list (for 1 and 2-way SSL). Note: This is an optional and that too only applicable if TLS/MTLS option is selected. 
-* `ssl_key` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Key - The client-key.pem containing the client private key (for 2-way SSL). 
+* `ssl_ca` - (Applicable when connection_type=MICROSOFT_SQLSERVER | MYSQL | POSTGRESQL) (Updatable) The base64 encoded certificate of the trusted certificate authorities (Trusted CA) for PostgreSQL.  The supported file formats are .pem and .crt. 
+* `ssl_cert` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Certificate - The base64 encoded content of a .pem or .crt file. containing the client public key (for 2-way SSL). 
+* `ssl_client_keystash` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystash file which contains the encrypted password to the key database file. 
+* `ssl_client_keystoredb` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded keystore file created at the client containing the server certificate / CA root certificate. 
+* `ssl_crl` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) The base64 encoded list of certificates revoked by the trusted certificate authorities (Trusted CA). Note: This is an optional property and only applicable if TLS/MTLS option is selected. 
+* `ssl_key` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) Client Key – The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL). 
 * `ssl_key_password` - (Applicable when connection_type=JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY) (Updatable) The password for the cert inside of the KeyStore. In case it differs from the KeyStore password, it should be provided. 
 * `ssl_mode` - (Applicable when connection_type=MYSQL | POSTGRESQL) (Updatable) SSL modes for PostgreSQL.
 * `ssl_server_certificate` - (Applicable when connection_type=DB2) (Updatable) The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate. 
@@ -205,7 +207,8 @@ The following arguments are supported:
 * `user_id` - (Applicable when connection_type=OCI_OBJECT_STORAGE | ORACLE_NOSQL) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database. The user must have write access to the table they want to connect to. 
 * `username` - (Required when connection_type=AMAZON_REDSHIFT | AZURE_SYNAPSE_ANALYTICS | DB2 | ELASTICSEARCH | GOLDENGATE | JAVA_MESSAGE_SERVICE | KAFKA | KAFKA_SCHEMA_REGISTRY | MICROSOFT_SQLSERVER | MONGODB | MYSQL | ORACLE | POSTGRESQL | REDIS | SNOWFLAKE) (Updatable) The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it. 
 * `vault_id` - (Optional) (Updatable) Refers to the customer's vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault. 
-* `wallet` - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents Oracle GoldenGate uses to make connections to a database.  This attribute is expected to be base64 encoded. 
+* `wallet` - (Applicable when connection_type=ORACLE) (Updatable) The wallet contents Oracle GoldenGate uses to make connections to a database. This attribute is expected to be base64 encoded. 
+
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -263,39 +266,40 @@ The following attributes are exported:
 * `key_id` - Refers to the customer's master key OCID.  If provided, it references a key to manage secrets. Customers must add policies to permit GoldenGate to use this key.
 * `lifecycle_details` - Describes the object's current state in detail. For example, it can be used to provide actionable information for a resource in a Failed state.
 * `locks` - Locks associated with this resource.
-	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked.
-	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The id of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
 	* `time_created` - When the lock was created.
 	* `type` - Type of the lock.
-* `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
-* `port` - The port of an endpoint usually specified for a connection.
+* `nsg_ids` - An array of Network Security Group OCIDs used to define network access for either Deployments or Connections. 
+* `port` - The port of an endpoint usually specified for a connection. 
 * `private_ip` - Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host  field, or make sure the host name is resolvable in the target VCN.
-  The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
-* `redis_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Redis cluster.
-* `region` - The name of the region. e.g.: us-ashburn-1
-* `routing_method` - Controls the network traffic direction to the target: SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.  SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet. DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected.
+
+	The private IP address of the connection's endpoint in the customer's VCN, typically a database endpoint or a big data endpoint (e.g. Kafka bootstrap server). In case the privateIp is provided, the subnetId must also be provided. In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible. In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection. 
+* `redis_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Redis cluster. 
+* `region` - The name of the region. e.g.: us-ashburn-1 
+* `routing_method` - Controls the network traffic direction to the target: SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.  SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet. DEDICATED_ENDPOINT: A dedicated private endpoint is created in the target VCN subnet for the connection. The subnetId is required when DEDICATED_ENDPOINT networking is selected. 
 * `security_protocol` - Security Protocol to be provided for the following connection types:
   ELASTICSEARCH, JAVA_MESSAGE_SERVICE, KAFKA, MICROSOFT_SQLSERVER, MYSQL, POSTGRESQL, REDIS
 	* JAVA_MESSAGE_SERVICE - If not provided, default is NONE. Optional until 2024-06-27, in the release after it will be made required.
 * `servers` - Comma separated list of server addresses, specified as host:port entries, where :port is optional. Example: `"server1.example.com:4000,server2.example.com:4000"`
   If port is not specified, a default value is set, in case of ELASTICSEARCH: 9200, for REDIS 6379.
-* `session_mode` - The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT.
-* `should_use_jndi` - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided.
-* `should_validate_server_certificate` - If set to true, the driver validates the certificate that is sent by the database server.
-* `ssl_ca` - Database Certificate - The base64 encoded content of pem file containing the server public key (for 1-way SSL).
+* `session_mode` - The mode of the database connection session to be established by the data client. 'REDIRECT' - for a RAC database, 'DIRECT' - for a non-RAC database. Connection to a RAC database involves a redirection received from the SCAN listeners to the database node to connect to. By default the mode would be DIRECT. 
+* `should_use_jndi` - If set to true, Java Naming and Directory Interface (JNDI) properties should be provided. 
+* `should_validate_server_certificate` - If set to true, the driver validates the certificate that is sent by the database server. 
+* `ssl_ca` - Database Certificate - The base64 encoded content of a .pem or .crt file. containing the server public key (for 1-way SSL). 
 * `ssl_mode` - SSL mode to be provided for the following connection types: MYSQL, POSTGRESQL.
-* `state` - Possible lifecycle states for connection.
-* `stream_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced.
-* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
-* `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}`
+* `state` - Possible lifecycle states for connection. 
+* `stream_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream pool being referenced. 
+* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection. 
+* `system_tags` - The system tags associated with this resource, if any. The system tags are set by Oracle Cloud Infrastructure services. Each key is predefined and scoped to namespaces.  For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{orcl-cloud: {free-tier-retain: true}}` 
 * `technology_type` - The technology type.
-* `tenancy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Oracle Cloud Infrastructure tenancy.
-* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
-* `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`.
-* `url` - Kafka Schema Registry URL. e.g.: 'https://server1.us.oracle.com:8081'
-* `user_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database/Object Storage. The user must have write access.
-* `username` - The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivity requirements defined in it.
-* `vault_id` - Refers to the customer's vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault.
+* `tenancy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the related Oracle Cloud Infrastructure tenancy. 
+* `time_created` - The time the resource was created. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `time_updated` - The time the resource was last updated. The format is defined by [RFC3339](https://tools.ietf.org/html/rfc3339), such as `2016-08-25T21:10:29.600Z`. 
+* `url` - Kafka Schema Registry URL. e.g.: 'https://server1.us.oracle.com:8081' 
+* `user_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure user who will access the Oracle NoSQL database. The user must have write access to the table they want to connect to. 
+* `username` - The username Oracle GoldenGate uses to connect the associated system of the given technology. This username must already exist and be available by the system/application to be connected to and must conform to the case sensitivty requirments defined in it. 
+* `vault_id` - Refers to the customer's vault OCID.  If provided, it references a vault where GoldenGate can manage secrets. Customers must add policies to permit GoldenGate to manage secrets contained within this vault. 
 
 ## Timeouts
 
