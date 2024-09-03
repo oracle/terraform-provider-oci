@@ -73,6 +73,7 @@ The following attributes are exported:
 * `time_created` - The date and time that the model was created in the format of an RFC3339 datetime string.
 * `time_deprecated` - Corresponds to the time when the custom model and its associated foundation model will be deprecated.
 * `time_updated` - The date and time that the model was updated in the format of an RFC3339 datetime string.
+* `type` - The model type indicating whether this is a pretrained/base model or a custom/fine-tuned model.
 * `vendor` - The provider of the base model.
 * `version` - The version of the model.
 
