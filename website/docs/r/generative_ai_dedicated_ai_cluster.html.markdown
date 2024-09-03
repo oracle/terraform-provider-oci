@@ -55,7 +55,8 @@ The following arguments are supported:
 	* EMBED_COHERE
 	* LLAMA2_70
 	* LARGE_GENERIC
-	* LARGE_COHERE_V2_2 
+	* LARGE_COHERE_V2_2
+	* LARGE_GENERIC_4 
 
 
 ** IMPORTANT **
