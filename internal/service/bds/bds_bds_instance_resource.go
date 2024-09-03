@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 	"fmt"
+	"log"
 	"reflect"
 	"strconv"
 	"strings"
@@ -71,37 +72,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Required: true,
 				ForceNew: true,
-			},
-			"is_force_remove_enabled": {
-				Type:     schema.TypeBool,
-				Optional: true,
-			},
-			"start_cluster_shape_configs": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: false,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						"node_type_shape_configs": {
-							Type:     schema.TypeList,
-							Optional: true,
-							Computed: false,
-							MinItems: 1,
-							Elem: &schema.Resource{
-								Schema: map[string]*schema.Schema{
-									"node_type": {
-										Type:     schema.TypeString,
-										Optional: true,
-									},
-									"shape": {
-										Type:     schema.TypeString,
-										Optional: true,
-									},
-								},
-							},
-						},
-					},
-				},
 			},
 			"master_node": {
 				Type:     schema.TypeList,
@@ -317,11 +287,13 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
+							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -389,11 +361,13 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
+							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -453,6 +427,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
+							ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {
@@ -463,8 +438,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"number_of_kafka_nodes": {
-							Type:     schema.TypeInt,
-							Required: true,
+							Type:         schema.TypeInt,
+							Required:     true,
+							ValidateFunc: validation.IntAtLeast(3),
 						},
 
 						"shape_config": {
@@ -568,36 +544,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
-
-			// Optional
-			"bds_cluster_version_summary": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-						"bds_version": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-
-						// Optional
-						"odh_version": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"cluster_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -632,6 +578,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
+				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -666,10 +613,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 			},
 			"is_force_stop_jobs": {
 				Type:     schema.TypeBool,
-				Optional: true,
-			},
-			"remove_node": {
-				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"os_patch_version": {
@@ -766,10 +709,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Computed
 						"node_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"odh_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -953,6 +892,13 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		return tfresource.ReadResource(sync)
 	}
 
+	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+	//	err := sync.InstallOsPatch()
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
+
 	if powerOff {
 		if err := sync.StopBdsInstance(); err != nil {
 			return err
@@ -993,15 +939,12 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
 	}
 
-	if removeNode, ok := sync.D.GetOkExists("remove_node"); ok {
-		if removeNode != "" {
-			err := sync.RemoveNode()
-			if err != nil {
-				return err
-			}
-		}
-
-	}
+	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+	//	err := sync.InstallOsPatch()
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
@@ -1076,29 +1019,6 @@ func (s *BdsBdsInstanceResourceCrud) DeletedTarget() []string {
 
 func (s *BdsBdsInstanceResourceCrud) Create() error {
 	request := oci_bds.CreateBdsInstanceRequest{}
-
-	if _, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
-		return fmt.Errorf("[ERROR] start_cluster_shape_configs is not permitted during create bds instance")
-	}
-
-	if _, ok := s.D.GetOkExists("is_force_remove_enabled"); ok {
-		return fmt.Errorf("[ERROR] is_force_remove_enabled is not permitted during create bds instance")
-	}
-
-	if _, ok := s.D.GetOkExists("remove_node"); ok {
-		return fmt.Errorf("[ERROR] remove_node is not permitted during create bds instance")
-	}
-
-	if bdsClusterVersionSummary, ok := s.D.GetOkExists("bds_cluster_version_summary"); ok {
-		if tmpList := bdsClusterVersionSummary.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bds_cluster_version_summary", 0)
-			tmp, err := s.mapToBdsClusterVersionSummary(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.BdsClusterVersionSummary = &tmp
-		}
-	}
 
 	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
 		tmp := bootstrapScriptUrl.(string)
@@ -1490,7 +1410,6 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) Update() error {
-	isKafkaBrokerAdded := false
 	if cloudSqlConfigured, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok && s.D.HasChange("is_cloud_sql_configured") {
 		oldRaw, newRaw := s.D.GetChange("is_cloud_sql_configured")
 		if newRaw != "" && oldRaw != "" {
@@ -1563,7 +1482,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 						return fmt.Errorf("kafka broker node definition is missing")
 					}
 					err := s.AddKafka()
-					isKafkaBrokerAdded = true
 					if err != nil {
 						return err
 					}
@@ -1582,26 +1500,18 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					}
 				}
 				err := s.RemoveKafka()
-				isKafkaBrokerAdded = true
 				if err != nil {
 					return err
 				}
 			}
 		}
-	} else {
-		isKafkaBrokerAdded1, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
-		if kafkaBrokerErr != nil {
-			return kafkaBrokerErr
-		}
-		isKafkaBrokerAdded = isKafkaBrokerAdded1
 	}
 
-	if _, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
-		err := s.ExecuteBootstrapScript()
-		if err != nil {
-			return err
-		}
+	err := s.ExecuteBootstrapScript()
+	if err != nil {
+		return err
 	}
+	log.Printf("****************Line 1514***************\n")
 
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
@@ -1658,11 +1568,13 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if tmpNew > tmpOld {
 			var blockVolumeSizeInGBInt64 int64
 			var workerNodeShapeStr string
-			var err error
 			blockVolumeSizeInGBs := s.D.Get("worker_node.0.block_volume_size_in_gbs")
+			log.Printf("***********Line 1572***************%v\n", blockVolumeSizeInGBs)
 			if blockVolumeSizeInGBs != "" {
 				tmp := blockVolumeSizeInGBs.(string)
+				log.Printf("***********Line 1575***************%v\n", tmp)
 				blockVolumeSizeInGBInt64, err = strconv.ParseInt(tmp, 10, 64)
+				log.Printf("***********Line 1577***************%v\n", blockVolumeSizeInGBInt64)
 				if err != nil {
 					return err
 				}
@@ -1675,16 +1587,10 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
-				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, nil, &workerNodeShapeStr, &workerShapeConfig)
-				}
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
 				if err != nil {
 					return err
 				}
-			} else {
-				return fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
@@ -1700,7 +1606,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if tmpNew > tmpOld {
 			var blockVolumeSizeInGBInt64 int64
 			var masterNodeShapeStr string
-			var err error
 			blockVolumeSizeInGBs := s.D.Get("master_node.0.block_volume_size_in_gbs")
 			if blockVolumeSizeInGBs != "" {
 				tmp := blockVolumeSizeInGBs.(string)
@@ -1717,16 +1622,10 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
-				} else {
-					err = s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, &masterNodeShapeStr, &masterShapeConfig)
-				}
+				err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
 				if err != nil {
 					return err
 				}
-			} else {
-				return fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
@@ -1740,7 +1639,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		if tmpNew > tmpOld {
 			var blockVolumeSizeInGBInt64 int64
 			var utilNodeShapeStr string
-			var err error
 			blockVolumeSizeInGBs := s.D.Get("util_node.0.block_volume_size_in_gbs")
 			if blockVolumeSizeInGBs != "" {
 				tmp := blockVolumeSizeInGBs.(string)
@@ -1757,16 +1655,10 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 			}
 			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if blockVolumeSizeInGBInt64 != 0 {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
-				} else {
-					err = s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, nil, &utilNodeShapeStr, &utilShapeConfig)
-				}
+				err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
 				if err != nil {
 					return err
 				}
-			} else {
-				return fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
@@ -1781,6 +1673,12 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	isEdgeAdded, edgeErr := s.updateEdgeIfRequired()
 	if edgeErr != nil {
 		return edgeErr
+	}
+
+	// kafka
+	isKafkaBrokerAdded, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
+	if kafkaBrokerErr != nil {
+		return kafkaBrokerErr
 	}
 
 	result := oci_bds.ChangeShapeNodes{}
@@ -1947,17 +1845,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		request.KmsKeyId = &tmp
 	}
 
-	if networkConfig, ok := s.D.GetOkExists("network_config"); ok && s.D.HasChange("network_config") {
-		if tmpList := networkConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_config", 0)
-			tmp, err := s.mapToNetworkConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.NetworkConfig = &tmp
-		}
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateBdsInstance(context.Background(), request)
@@ -1972,11 +1859,10 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, error) {
 	areWorkersAdded := false
 	computeOnlyWorkerNodeFieldKeyFormat := "compute_only_worker_node.0.%s"
-	var computeWorkerBlockVolumeSizeGBInt64 int64
-	var computeWorkerBlockVolumeConversionError, err error
-	computeWorkerBlockVolumeSizeInGBs := s.D.Get("edge_node.0.block_volume_size_in_gbs")
-	if computeWorkerBlockVolumeSizeInGBs != "" {
-		computeWorkerBlockVolumeSizeGBInt64, computeWorkerBlockVolumeConversionError = strconv.ParseInt(computeWorkerBlockVolumeSizeInGBs.(string), 10, 64)
+	var computeWorkerBlockVolumeSizeGBInt int64
+	var computeWorkerBlockVolumeConversionError error
+	if computeOnlyWorkerBlockVolumeSizeInGBs, computeOnlyWorkerBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(computeOnlyWorkerNodeFieldKeyFormat, "block_volume_size_in_gbs")); computeOnlyWorkerBlockVolumeSizeInGbsPresent {
+		computeWorkerBlockVolumeSizeGBInt, computeWorkerBlockVolumeConversionError = strconv.ParseInt(computeOnlyWorkerBlockVolumeSizeInGBs.(string), 10, 64)
 		if computeWorkerBlockVolumeConversionError != nil {
 			return false, computeWorkerBlockVolumeConversionError
 		}
@@ -1994,17 +1880,11 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if computeWorkerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt64, &compute_worker_shape_string, &compute_worker_shape_config)
-				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, nil, &compute_worker_shape_string, &compute_worker_shape_config)
-				}
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeComputeOnlyWorker, &computeWorkerBlockVolumeSizeGBInt, &compute_worker_shape_string, &compute_worker_shape_config)
 				if err != nil {
 					return false, err
 				}
 				areWorkersAdded = true
-			} else {
-				return false, fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return false, fmt.Errorf("the new number of compute only worker node should be larger than previous one")
@@ -2016,11 +1896,10 @@ func (s *BdsBdsInstanceResourceCrud) updateComputeWorkersIfRequired() (bool, err
 func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 	areEdgeAdded := false
 	edgeNodeFieldKeyFormat := "edge_node.0.%s"
-	var edgeBlockVolumeSizeInGBInt64 int64
-	var edgeBlockVolumeConversionError, err error
-	edgeBlockVolumeSizeInGBs := s.D.Get("edge_node.0.block_volume_size_in_gbs")
-	if edgeBlockVolumeSizeInGBs != "" {
-		edgeBlockVolumeSizeInGBInt64, edgeBlockVolumeConversionError = strconv.ParseInt(edgeBlockVolumeSizeInGBs.(string), 10, 64)
+	var edgeBlockVolumeSizeGBInt int64
+	var edgeBlockVolumeConversionError error
+	if edgeBlockVolumeSizeInGBs, edgeBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(edgeNodeFieldKeyFormat, "block_volume_size_in_gbs")); edgeBlockVolumeSizeInGbsPresent {
+		edgeBlockVolumeSizeGBInt, edgeBlockVolumeConversionError = strconv.ParseInt(edgeBlockVolumeSizeInGBs.(string), 10, 64)
 		if edgeBlockVolumeConversionError != nil {
 			return false, edgeBlockVolumeConversionError
 		}
@@ -2038,18 +1917,11 @@ func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if edgeBlockVolumeSizeInGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeInGBInt64, &edge_shape_string, &edge_shape_config)
-				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, nil, &edge_shape_string, &edge_shape_config)
-				}
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeEdge, &edgeBlockVolumeSizeGBInt, &edge_shape_string, &edge_shape_config)
 				if err != nil {
 					return false, err
 				}
-
 				areEdgeAdded = true
-			} else {
-				return false, fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return false, fmt.Errorf("the new number of edge node should be larger than previous one")
@@ -2061,11 +1933,10 @@ func (s *BdsBdsInstanceResourceCrud) updateEdgeIfRequired() (bool, error) {
 func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error) {
 	areKafkaBrokerAdded := false
 	kafkaBrokerNodeFieldKeyFormat := "kafka_broker_node.0.%s"
-	var kafkaBrokerBlockVolumeSizeGBInt64 int64
-	var kafkaBrokerBlockVolumeConversionError, err error
-	kafkaBrokerBlockVolumeSizeInGBs := s.D.Get("kafka_broker_node.0.block_volume_size_in_gbs")
-	if kafkaBrokerBlockVolumeSizeInGBs != "" {
-		kafkaBrokerBlockVolumeSizeGBInt64, kafkaBrokerBlockVolumeConversionError = strconv.ParseInt(kafkaBrokerBlockVolumeSizeInGBs.(string), 10, 64)
+	var kafkaBrokerBlockVolumeSizeGBInt int64
+	var kafkaBrokerBlockVolumeConversionError error
+	if kafkaBrokerBlockVolumeSizeInGBs, kafkaBrokerBlockVolumeSizeInGbsPresent := s.D.GetOkExists(fmt.Sprintf(kafkaBrokerNodeFieldKeyFormat, "block_volume_size_in_gbs")); kafkaBrokerBlockVolumeSizeInGbsPresent {
+		kafkaBrokerBlockVolumeSizeGBInt, kafkaBrokerBlockVolumeConversionError = strconv.ParseInt(kafkaBrokerBlockVolumeSizeInGBs.(string), 10, 64)
 		if kafkaBrokerBlockVolumeConversionError != nil {
 			return false, kafkaBrokerBlockVolumeConversionError
 		}
@@ -2083,17 +1954,11 @@ func (s *BdsBdsInstanceResourceCrud) updateKafkaBrokerIfRequired() (bool, error)
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
 			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-				if kafkaBrokerBlockVolumeSizeGBInt64 != 0 {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt64, &kafka_broker_shape_string, &kafka_broker_shape_config)
-				} else {
-					err = s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, nil, &kafka_broker_shape_string, &kafka_broker_shape_config)
-				}
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeKafkaBroker, &kafkaBrokerBlockVolumeSizeGBInt, &kafka_broker_shape_string, &kafka_broker_shape_config)
 				if err != nil {
 					return false, err
 				}
 				areKafkaBrokerAdded = true
-			} else {
-				return false, fmt.Errorf("cluster admin password not provided")
 			}
 		} else {
 			return false, fmt.Errorf("the new number of kafka broker node should be larger than previous one")
@@ -2123,12 +1988,6 @@ func (s *BdsBdsInstanceResourceCrud) Delete() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) SetData() error {
-	if s.Res.BdsClusterVersionSummary != nil {
-		s.D.Set("bds_cluster_version_summary", []interface{}{BdsClusterVersionSummaryToMap(s.Res.BdsClusterVersionSummary)})
-	} else {
-		s.D.Set("bds_cluster_version_summary", nil)
-	}
-
 	if s.Res.BootstrapScriptUrl != nil {
 		s.D.Set("bootstrap_script_url", *s.Res.BootstrapScriptUrl)
 	}
@@ -2262,17 +2121,6 @@ func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
 		request.ClusterAdminPassword = &tmp
 	}
 
-	if startClusterShapeConfigs, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
-		if tmpList := startClusterShapeConfigs.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "start_cluster_shape_configs", 0)
-			tmp, err := s.mapToStartClusterShapeConfigs(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.StartClusterShapeConfigs = &tmp
-		}
-	}
-
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	_, err := s.Client.StartBdsInstance(context.Background(), request)
@@ -2349,7 +2197,7 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 				}
 			}
 
-			if numberOfKafkaNodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "number_of_kafka_nodes")); ok {
+			if numberOfKafkaNodes, ok := s.D.GetOkExists("number_of_kafka_nodes"); ok {
 				tmp := numberOfKafkaNodes.(int)
 				request.NumberOfKafkaNodes = &tmp
 			}
@@ -2414,6 +2262,7 @@ func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type
 		}
 	}
 }
+
 func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 	request := oci_bds.RemoveKafkaRequest{}
 
@@ -2438,112 +2287,6 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
-}
-
-func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
-	request := oci_bds.RemoveNodeRequest{}
-
-	idTmp := s.D.Id()
-	request.BdsInstanceId = &idTmp
-
-	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-		tmp := clusterAdminPassword.(string)
-		request.ClusterAdminPassword = &tmp
-	}
-
-	if isForceRemoveEnabled, ok := s.D.GetOkExists("is_force_remove_enabled"); ok {
-		tmp := isForceRemoveEnabled.(bool)
-		request.IsForceRemoveEnabled = &tmp
-	}
-
-	if nodeId, ok := s.D.GetOkExists("remove_node"); ok {
-		tmp := nodeId.(string)
-		request.NodeId = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
-
-	response, err := s.Client.RemoveNode(context.Background(), request)
-	if err != nil {
-		return err
-	}
-
-	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
-		return waitErr
-	}
-
-	if err != nil {
-		return err
-	}
-	workId := response.OpcWorkRequestId
-	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
-}
-
-func (s *BdsBdsInstanceResourceCrud) mapToBdsClusterVersionSummary(fieldKeyFormat string) (oci_bds.BdsClusterVersionSummary, error) {
-	result := oci_bds.BdsClusterVersionSummary{}
-
-	if bdsVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bds_version")); ok {
-		tmp := bdsVersion.(string)
-		result.BdsVersion = &tmp
-	}
-
-	if odhVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "odh_version")); ok {
-		tmp := odhVersion.(string)
-		result.OdhVersion = &tmp
-	}
-
-	return result, nil
-}
-
-func (s *BdsBdsInstanceResourceCrud) mapToStartClusterShapeConfigs(fieldKeyFormat string) (oci_bds.StartClusterShapeConfigs, error) {
-	request := oci_bds.StartClusterShapeConfigs{}
-
-	if nodeTypeShapeConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_type_shape_configs")); ok {
-		interfaces := nodeTypeShapeConfigs.([]interface{})
-		tmp := make([]oci_bds.NodeTypeShapeConfig, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%s.%d.%%s", "start_cluster_shape_configs.0", "node_type_shape_configs", stateDataIndex)
-			converted, err := s.mapToNodeTypeShapeConfig(fieldKeyFormatNextLevel)
-			if err != nil {
-				return request, err
-			}
-			tmp[i] = converted
-
-			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "node_type_shape_configs")) {
-				request.NodeTypeShapeConfigs = tmp
-			}
-		}
-	}
-	return request, nil
-}
-func (s *BdsBdsInstanceResourceCrud) mapToNodeTypeShapeConfig(fieldKeyFormat string) (oci_bds.NodeTypeShapeConfig, error) {
-	request := oci_bds.NodeTypeShapeConfig{}
-
-	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
-		tmp := shape.(string)
-		request.Shape = &tmp
-	}
-	if nodeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_type")); ok {
-		tmp := oci_bds.NodeNodeTypeEnum(nodeType.(string))
-		request.NodeType = tmp
-	}
-
-	return request, nil
-}
-
-func BdsClusterVersionSummaryToMap(obj *oci_bds.BdsClusterVersionSummary) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	if obj.BdsVersion != nil {
-		result["bds_version"] = string(*obj.BdsVersion)
-	}
-
-	if obj.OdhVersion != nil {
-		result["odh_version"] = string(*obj.OdhVersion)
-	}
-
-	return result
 }
 
 func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {
@@ -3071,7 +2814,8 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 		shapeConfigMap := map[string]interface{}{}
 		shapeConfigMap["ocpus"] = int(*obj.Ocpus)
 		shapeConfigMap["memory_in_gbs"] = int(*obj.MemoryInGBs)
-		if result["shape"] == "VM.DenseIO.E4.Flex" || result["shape"] == "VM.DenseIO.E5.Flex" || result["shape"] == "VM.DenseIO.Generic" {
+		// Add support for VM.DenseIO.E5.Flex when the shape is available
+		if result["shape"] == "VM.DenseIO.E4.Flex" || result["shape"] == "VM.DenseIO.E5.Flex" {
 			shapeConfigMap["nvmes"] = int(*obj.Nvmes)
 		}
 
@@ -3123,7 +2867,7 @@ func ShapeChangeDiffSuppressFunction(nodeType string, d *schema.ResourceData) bo
 	} else if nodeType == "edge" && ignoreEdgeShape == true {
 		addNode = d.HasChange("edge_node.0.number_of_nodes")
 	} else if nodeType == "kafka_broker" && ignoreKafkaBrokerShape == true {
-		addNode = d.HasChange("kafka_broker_node.0.number_of_kafka_nodes")
+		addNode = d.HasChange("kafka_broker_node.0.number_of_nodes")
 	} else {
 		addNode = true
 	}
