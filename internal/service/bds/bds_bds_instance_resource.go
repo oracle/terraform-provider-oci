@@ -6,6 +6,7 @@ package bds
 import (
 	"context"
 	"fmt"
+	"log"
 	"reflect"
 	"strconv"
 	"strings"
@@ -891,6 +892,13 @@ func createBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		return tfresource.ReadResource(sync)
 	}
 
+	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
+	//	err := sync.InstallOsPatch()
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
+
 	if powerOff {
 		if err := sync.StopBdsInstance(); err != nil {
 			return err
@@ -1503,6 +1511,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	if err != nil {
 		return err
 	}
+	log.Printf("****************Line 1514***************\n")
 
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
 		oldRaw, newRaw := s.D.GetChange("compartment_id")
@@ -1557,28 +1566,37 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		tmpOld := oldRaw.(int)
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			workerNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape"))
-			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "block_volume_size_in_gbs"))
-			if ok1 && ok2 {
-				tmp := workerNodeShape.(string)
-				tmpRaw := blockVolumeSizeInGbs.(string)
-				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
+			var blockVolumeSizeInGBInt64 int64
+			var workerNodeShapeStr string
+			blockVolumeSizeInGBs := s.D.Get("worker_node.0.block_volume_size_in_gbs")
+			log.Printf("***********Line 1572***************%v\n", blockVolumeSizeInGBs)
+			if blockVolumeSizeInGBs != "" {
+				tmp := blockVolumeSizeInGBs.(string)
+				log.Printf("***********Line 1575***************%v\n", tmp)
+				blockVolumeSizeInGBInt64, err = strconv.ParseInt(tmp, 10, 64)
+				log.Printf("***********Line 1577***************%v\n", blockVolumeSizeInGBInt64)
 				if err != nil {
 					return err
 				}
-
-				workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-					err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &tmpInt64, &tmp, &workerShapeConfig)
-					if err != nil {
-						return err
-					}
+			}
+			if workerNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(workerNodeFieldKeyFormat, "shape")); ok {
+				workerNodeShapeStr = workerNodeShape.(string)
+				if err != nil {
+					return err
+				}
+			}
+			workerShapeConfig, _ := s.mapToShapeConfigDetails("worker_node.0.shape_config.0.%s")
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateWorkerNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, oci_bds.AddWorkerNodesDetailsNodeTypeWorker, &blockVolumeSizeInGBInt64, &workerNodeShapeStr, &workerShapeConfig)
+				if err != nil {
+					return err
 				}
 			}
 		} else {
 			return fmt.Errorf("the new value should be larger than previous one")
 		}
 	}
+
 	//	 ADD MASTER AND UTILITY NODES
 	_, numOfMastersPresent := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes"))
 	if numOfMastersPresent && s.D.HasChange(fmt.Sprintf(masterNodeFieldKeyFormat, "number_of_nodes")) {
@@ -1586,21 +1604,27 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		tmpOld := oldRaw.(int)
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			masterNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape"))
-			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "block_volume_size_in_gbs"))
-			if ok1 && ok2 {
-				tmp := masterNodeShape.(string)
-				tmpRaw := blockVolumeSizeInGbs.(string)
-				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
+			var blockVolumeSizeInGBInt64 int64
+			var masterNodeShapeStr string
+			blockVolumeSizeInGBs := s.D.Get("master_node.0.block_volume_size_in_gbs")
+			if blockVolumeSizeInGBs != "" {
+				tmp := blockVolumeSizeInGBs.(string)
+				blockVolumeSizeInGBInt64, err = strconv.ParseInt(tmp, 10, 64)
 				if err != nil {
 					return err
 				}
-				masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-					err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &tmpInt64, &tmp, &masterShapeConfig)
-					if err != nil {
-						return err
-					}
+			}
+			if masterNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(masterNodeFieldKeyFormat, "shape")); ok {
+				masterNodeShapeStr = masterNodeShape.(string)
+				if err != nil {
+					return err
+				}
+			}
+			masterShapeConfig, _ := s.mapToShapeConfigDetails("master_node.0.shape_config.0.%s")
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateMasterNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &masterNodeShapeStr, &masterShapeConfig)
+				if err != nil {
+					return err
 				}
 			}
 		} else {
@@ -1613,21 +1637,27 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		tmpOld := oldRaw.(int)
 		tmpNew := newRaw.(int)
 		if tmpNew > tmpOld {
-			utilNodeShape, ok1 := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape"))
-			blockVolumeSizeInGbs, ok2 := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "block_volume_size_in_gbs"))
-			if ok1 && ok2 {
-				tmp := utilNodeShape.(string)
-				tmpRaw := blockVolumeSizeInGbs.(string)
-				tmpInt64, err := strconv.ParseInt(tmpRaw, 10, 64)
+			var blockVolumeSizeInGBInt64 int64
+			var utilNodeShapeStr string
+			blockVolumeSizeInGBs := s.D.Get("util_node.0.block_volume_size_in_gbs")
+			if blockVolumeSizeInGBs != "" {
+				tmp := blockVolumeSizeInGBs.(string)
+				blockVolumeSizeInGBInt64, err = strconv.ParseInt(tmp, 10, 64)
 				if err != nil {
 					return err
 				}
-				utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
-				if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
-					err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &tmpInt64, &tmp, &utilShapeConfig)
-					if err != nil {
-						return err
-					}
+			}
+			if utilNodeShape, ok := s.D.GetOkExists(fmt.Sprintf(utilNodeFieldKeyFormat, "shape")); ok {
+				utilNodeShapeStr = utilNodeShape.(string)
+				if err != nil {
+					return err
+				}
+			}
+			utilShapeConfig, _ := s.mapToShapeConfigDetails("util_node.0.shape_config.0.%s")
+			if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+				err := s.updateUtilityNode(s.D.Id(), clusterAdminPassword, tmpNew-tmpOld, &blockVolumeSizeInGBInt64, &utilNodeShapeStr, &utilShapeConfig)
+				if err != nil {
+					return err
 				}
 			}
 		} else {
@@ -2785,7 +2815,7 @@ func BdsNodeToTemplateMap(obj oci_bds.Node) map[string]interface{} {
 		shapeConfigMap["ocpus"] = int(*obj.Ocpus)
 		shapeConfigMap["memory_in_gbs"] = int(*obj.MemoryInGBs)
 		// Add support for VM.DenseIO.E5.Flex when the shape is available
-		if result["shape"] == "VM.DenseIO.E4.Flex" {
+		if result["shape"] == "VM.DenseIO.E4.Flex" || result["shape"] == "VM.DenseIO.E5.Flex" {
 			shapeConfigMap["nvmes"] = int(*obj.Nvmes)
 		}
 
