@@ -94,6 +94,7 @@ func TestCoreIpSecConnectionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "cpe_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "drg_id"),
 				resource.TestCheckResourceAttr(resourceName, "static_routes.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "tunnel_configuration.#", "0"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
