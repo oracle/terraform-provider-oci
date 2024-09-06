@@ -38,7 +38,6 @@ resource "oci_database_migration_connection" "test_connection_mysql_rds_source" 
   password = "BEstrO0ng_#11"
   technology_type = "AMAZON_RDS_MYSQL"
   username = "ggfe"
-  database_id = var.database_mysql_id
   database_name = "ggfe"
   host = "254.249.0.0"
   port = "3306"
