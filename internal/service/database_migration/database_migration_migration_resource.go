@@ -187,9 +187,10 @@ func DatabaseMigrationMigrationResource() *schema.Resource {
 							Computed: true,
 						},
 						"secret_access_key": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
+							Type:      schema.TypeString,
+							Optional:  true,
+							Computed:  true,
+							Sensitive: true,
 						},
 						"shared_storage_mount_target_id": {
 							Type:     schema.TypeString,
@@ -1447,14 +1448,20 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateDataPumpParameters(f
 		}
 	}
 
-	if exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree")); ok {
+	exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree"))
+	if ok && exportParallelismDegree.(int) != 0 {
 		tmp := exportParallelismDegree.(int)
 		result.ExportParallelismDegree = &tmp
+	} else {
+		result.ExportParallelismDegree = nil
 	}
 
-	if importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree")); ok {
+	importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree"))
+	if ok && importParallelismDegree.(int) != 0 {
 		tmp := importParallelismDegree.(int)
 		result.ImportParallelismDegree = &tmp
+	} else {
+		result.ImportParallelismDegree = nil
 	}
 
 	if isCluster, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_cluster")); ok {
@@ -1476,12 +1483,16 @@ func CreateDataPumpParametersToMap(obj *oci_database_migration.CreateDataPumpPar
 
 	result["exclude_parameters"] = obj.ExcludeParameters
 
-	if obj.ExportParallelismDegree != nil {
+	if obj.ExportParallelismDegree != nil && int(*obj.ExportParallelismDegree) != 0 {
 		result["export_parallelism_degree"] = int(*obj.ExportParallelismDegree)
+	} else {
+		result["export_parallelism_degree"] = nil
 	}
 
-	if obj.ImportParallelismDegree != nil {
+	if obj.ImportParallelismDegree != nil && int(*obj.ImportParallelismDegree) != 0 {
 		result["import_parallelism_degree"] = int(*obj.ImportParallelismDegree)
+	} else {
+		result["import_parallelism_degree"] = nil
 	}
 
 	if obj.IsCluster != nil {
@@ -1526,9 +1537,12 @@ func CreateDirectoryObjectToMap(obj *oci_database_migration.CreateDirectoryObjec
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateExtract(fieldKeyFormat string) (oci_database_migration.CreateExtract, error) {
 	result := oci_database_migration.CreateExtract{}
 
-	if longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration")); ok {
+	longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration"))
+	if ok && longTransDuration.(int) != 0 {
 		tmp := longTransDuration.(int)
 		result.LongTransDuration = &tmp
+	} else {
+		result.LongTransDuration = nil
 	}
 
 	if performanceProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "performance_profile")); ok {
@@ -1541,8 +1555,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateExtract(fieldKeyForm
 func CreateExtractToMap(obj *oci_database_migration.CreateExtract) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.LongTransDuration != nil {
+	if obj.LongTransDuration != nil && int(*obj.LongTransDuration) != 0 {
 		result["long_trans_duration"] = int(*obj.LongTransDuration)
+	} else {
+		result["long_trans_duration"] = nil
 	}
 
 	result["performance_profile"] = string(obj.PerformanceProfile)
@@ -1553,9 +1569,12 @@ func CreateExtractToMap(obj *oci_database_migration.CreateExtract) map[string]in
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateGoldenGateHubDetails(fieldKeyFormat string) (oci_database_migration.CreateGoldenGateHubDetails, error) {
 	result := oci_database_migration.CreateGoldenGateHubDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if computeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_id")); ok {
@@ -1619,6 +1638,8 @@ func CreateGoldenGateHubDetailsToMap(obj *oci_database_migration.CreateGoldenGat
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.ComputeId != nil {
@@ -1732,9 +1753,12 @@ func CreateMySqlDataTransferMediumDetailsToMap(obj *oci_database_migration.Creat
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateMySqlGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.CreateMySqlGgsDeploymentDetails, error) {
 	result := oci_database_migration.CreateMySqlGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if replicat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replicat")); ok {
@@ -1756,6 +1780,8 @@ func CreateMySqlGgsDeploymentDetailsToMap(obj *oci_database_migration.CreateMySq
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.Replicat != nil {
@@ -2124,9 +2150,12 @@ func CreateOracleDataTransferMediumDetailsToMap(obj *oci_database_migration.Crea
 func (s *DatabaseMigrationMigrationResourceCrud) mapToCreateOracleGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.CreateOracleGgsDeploymentDetails, error) {
 	result := oci_database_migration.CreateOracleGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if extract, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "extract")); ok {
@@ -2159,6 +2188,8 @@ func CreateOracleGgsDeploymentDetailsToMap(obj *oci_database_migration.CreateOra
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.Extract != nil {
@@ -2438,14 +2469,20 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToDataPumpParameters(fieldKe
 		}
 	}
 
-	if exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree")); ok {
+	exportParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "export_parallelism_degree"))
+	if ok && exportParallelismDegree.(int) != 0 {
 		tmp := exportParallelismDegree.(int)
 		result.ExportParallelismDegree = &tmp
+	} else {
+		result.ExportParallelismDegree = nil
 	}
 
-	if importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree")); ok {
+	importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree"))
+	if ok && importParallelismDegree.(int) != 0 {
 		tmp := importParallelismDegree.(int)
 		result.ImportParallelismDegree = &tmp
+	} else {
+		result.ImportParallelismDegree = nil
 	}
 
 	if isCluster, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_cluster")); ok {
@@ -2467,12 +2504,16 @@ func DataPumpParametersToMap(obj *oci_database_migration.DataPumpParameters) map
 
 	result["exclude_parameters"] = obj.ExcludeParameters
 
-	if obj.ExportParallelismDegree != nil {
+	if obj.ExportParallelismDegree != nil && int(*obj.ExportParallelismDegree) != 0 {
 		result["export_parallelism_degree"] = int(*obj.ExportParallelismDegree)
+	} else {
+		result["export_parallelism_degree"] = nil
 	}
 
-	if obj.ImportParallelismDegree != nil {
+	if obj.ImportParallelismDegree != nil && int(*obj.ImportParallelismDegree) != 0 {
 		result["import_parallelism_degree"] = int(*obj.ImportParallelismDegree)
+	} else {
+		result["import_parallelism_degree"] = nil
 	}
 
 	if obj.IsCluster != nil {
@@ -2517,9 +2558,12 @@ func DirectoryObjectToMap(obj *oci_database_migration.DirectoryObject) map[strin
 func (s *DatabaseMigrationMigrationResourceCrud) mapToExtract(fieldKeyFormat string) (oci_database_migration.Extract, error) {
 	result := oci_database_migration.Extract{}
 
-	if longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration")); ok {
+	longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration"))
+	if ok && longTransDuration.(int) != 0 {
 		tmp := longTransDuration.(int)
 		result.LongTransDuration = &tmp
+	} else {
+		result.LongTransDuration = nil
 	}
 
 	if performanceProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "performance_profile")); ok {
@@ -2532,8 +2576,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToExtract(fieldKeyFormat str
 func ExtractToMap(obj *oci_database_migration.Extract) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.LongTransDuration != nil {
+	if obj.LongTransDuration != nil && int(*obj.LongTransDuration) != 0 {
 		result["long_trans_duration"] = int(*obj.LongTransDuration)
+	} else {
+		result["long_trans_duration"] = nil
 	}
 
 	result["performance_profile"] = string(obj.PerformanceProfile)
@@ -2574,9 +2620,12 @@ func GgsDeploymentToMap(obj *oci_database_migration.GgsDeployment) map[string]in
 func (s *DatabaseMigrationMigrationResourceCrud) mapToGoldenGateHubDetails(fieldKeyFormat string) (oci_database_migration.GoldenGateHubDetails, error) {
 	result := oci_database_migration.GoldenGateHubDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if computeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_id")); ok {
@@ -2640,6 +2689,8 @@ func GoldenGateHubDetailsToMap(obj *oci_database_migration.GoldenGateHubDetails)
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.ComputeId != nil {
@@ -2930,9 +2981,12 @@ func MySqlDatabaseObjectToMap(obj oci_database_migration.MySqlDatabaseObject) ma
 func (s *DatabaseMigrationMigrationResourceCrud) mapToMySqlGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.MySqlGgsDeploymentDetails, error) {
 	result := oci_database_migration.MySqlGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if ggsDeployment, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ggs_deployment")); ok {
@@ -2965,6 +3019,8 @@ func MySqlGgsDeploymentDetailsToMap(obj *oci_database_migration.MySqlGgsDeployme
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.GgsDeployment != nil {
@@ -3389,9 +3445,12 @@ func OracleDatabaseObjectToMap(obj oci_database_migration.OracleDatabaseObject) 
 func (s *DatabaseMigrationMigrationResourceCrud) mapToOracleGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.OracleGgsDeploymentDetails, error) {
 	result := oci_database_migration.OracleGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if extract, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "extract")); ok {
@@ -3435,6 +3494,8 @@ func OracleGgsDeploymentDetailsToMap(obj *oci_database_migration.OracleGgsDeploy
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.Extract != nil {
@@ -3757,12 +3818,16 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateDataPumpParameters(f
 	if ok && exportParallelismDegree.(int) != 0 {
 		tmp := exportParallelismDegree.(int)
 		result.ExportParallelismDegree = &tmp
+	} else {
+		result.ExportParallelismDegree = nil
 	}
 
 	importParallelismDegree, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "import_parallelism_degree"))
 	if ok && importParallelismDegree.(int) != 0 {
 		tmp := importParallelismDegree.(int)
 		result.ImportParallelismDegree = &tmp
+	} else {
+		result.ImportParallelismDegree = nil
 	}
 
 	if isCluster, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_cluster")); ok {
@@ -3784,12 +3849,16 @@ func UpdateDataPumpParametersToMap(obj *oci_database_migration.UpdateDataPumpPar
 
 	result["exclude_parameters"] = obj.ExcludeParameters
 
-	if obj.ExportParallelismDegree != nil {
+	if obj.ExportParallelismDegree != nil && int(*obj.ExportParallelismDegree) != 0 {
 		result["export_parallelism_degree"] = int(*obj.ExportParallelismDegree)
+	} else {
+		result["export_parallelism_degree"] = nil
 	}
 
-	if obj.ImportParallelismDegree != nil {
+	if obj.ImportParallelismDegree != nil && int(*obj.ImportParallelismDegree) != 0 {
 		result["import_parallelism_degree"] = int(*obj.ImportParallelismDegree)
+	} else {
+		result["import_parallelism_degree"] = nil
 	}
 
 	if obj.IsCluster != nil {
@@ -3835,9 +3904,12 @@ func UpdateDirectoryObjectToMap(obj *oci_database_migration.UpdateDirectoryObjec
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateExtract(fieldKeyFormat string) (oci_database_migration.UpdateExtract, error) {
 	result := oci_database_migration.UpdateExtract{}
 
-	if longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration")); ok {
+	longTransDuration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_trans_duration"))
+	if ok && longTransDuration.(int) != 0 {
 		tmp := longTransDuration.(int)
 		result.LongTransDuration = &tmp
+	} else {
+		result.LongTransDuration = nil
 	}
 
 	if performanceProfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "performance_profile")); ok {
@@ -3850,8 +3922,10 @@ func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateExtract(fieldKeyForm
 func UpdateExtractToMap(obj *oci_database_migration.UpdateExtract) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.LongTransDuration != nil {
+	if obj.LongTransDuration != nil && int(*obj.LongTransDuration) != 0 {
 		result["long_trans_duration"] = int(*obj.LongTransDuration)
+	} else {
+		result["long_trans_duration"] = nil
 	}
 
 	result["performance_profile"] = string(obj.PerformanceProfile)
@@ -3862,9 +3936,12 @@ func UpdateExtractToMap(obj *oci_database_migration.UpdateExtract) map[string]in
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateGoldenGateHubDetails(fieldKeyFormat string) (oci_database_migration.UpdateGoldenGateHubDetails, error) {
 	result := oci_database_migration.UpdateGoldenGateHubDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if computeId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compute_id")); ok {
@@ -3928,6 +4005,8 @@ func UpdateGoldenGateHubDetailsToMap(obj *oci_database_migration.UpdateGoldenGat
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.ComputeId != nil {
@@ -4041,9 +4120,12 @@ func UpdateMySqlDataTransferMediumDetailsToMap(obj *oci_database_migration.Updat
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateMySqlGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.UpdateMySqlGgsDeploymentDetails, error) {
 	result := oci_database_migration.UpdateMySqlGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if replicat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replicat")); ok {
@@ -4065,6 +4147,8 @@ func UpdateMySqlGgsDeploymentDetailsToMap(obj *oci_database_migration.UpdateMySq
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.Replicat != nil {
@@ -4436,9 +4520,12 @@ func UpdateOracleDataTransferMediumDetailsToMap(obj *oci_database_migration.Upda
 func (s *DatabaseMigrationMigrationResourceCrud) mapToUpdateOracleGgsDeploymentDetails(fieldKeyFormat string) (oci_database_migration.UpdateOracleGgsDeploymentDetails, error) {
 	result := oci_database_migration.UpdateOracleGgsDeploymentDetails{}
 
-	if acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag")); ok {
+	acceptableLag, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "acceptable_lag"))
+	if ok && acceptableLag.(int) != 0 {
 		tmp := acceptableLag.(int)
 		result.AcceptableLag = &tmp
+	} else {
+		result.AcceptableLag = nil
 	}
 
 	if extract, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "extract")); ok {
@@ -4471,6 +4558,8 @@ func UpdateOracleGgsDeploymentDetailsToMap(obj *oci_database_migration.UpdateOra
 
 	if obj.AcceptableLag != nil {
 		result["acceptable_lag"] = int(*obj.AcceptableLag)
+	} else {
+		result["acceptable_lag"] = nil
 	}
 
 	if obj.Extract != nil {
