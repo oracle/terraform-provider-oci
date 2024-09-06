@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_data_safe_alert_policy_rule"
 sidebar_current: "docs-oci-resource-data_safe-alert_policy_rule"
 description: |-
-	Provides the Alert Policy Rule resource in Oracle Cloud Infrastructure Data Safe service
+  Provides the Alert Policy Rule resource in Oracle Cloud Infrastructure Data Safe service
 ---
 
 # oci_data_safe_alert_policy_rule

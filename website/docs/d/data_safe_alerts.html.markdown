@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_data_safe_alerts"
 sidebar_current: "docs-oci-datasource-data_safe-alerts"
 description: |-
-	Provides the list of Alerts in Oracle Cloud Infrastructure Data Safe service
+  Provides the list of Alerts in Oracle Cloud Infrastructure Data Safe service
 ---
 
 # Data Source: oci_data_safe_alerts
