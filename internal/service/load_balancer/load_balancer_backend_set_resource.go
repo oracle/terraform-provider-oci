@@ -817,6 +817,11 @@ func (s *LoadBalancerBackendSetResourceCrud) mapToBackendDetails(fieldKeyFormat 
 		result.Weight = &tmp
 	}
 
+	if maxConnections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_connections")); ok {
+		tmp := maxConnections.(int)
+		result.MaxConnections = &tmp
+	}
+
 	return result, nil
 }
 
@@ -837,6 +842,8 @@ func BackendToMap(obj oci_load_balancer.Backend) map[string]interface{} {
 
 	if obj.MaxConnections != nil {
 		result["max_connections"] = int(*obj.MaxConnections)
+	} else {
+		result["max_connections"] = 0
 	}
 
 	if obj.Name != nil {

@@ -65,7 +65,7 @@ variable "availability_domain" {
 }
 
 provider "oci" {
-  #version          = "6.0.0"
+  // version          = "6.9.0" // published on August 27, 2024.
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint

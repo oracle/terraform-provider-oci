@@ -49,8 +49,8 @@ var (
 		"subnet_ids":     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.lb_test_subnet_1.id}`, `${oci_core_subnet.lb_test_subnet_2.id}`}},
 
 		// For laptop testing, comment this defined_tags out along with the DefinedTagsDependencies + line below
-		// Failure to do so results in test failures:  Error: Reference to undeclared resource
-		"defined_tags": acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		// Failure to do so results in test failures:  Error: Reference to undeclared resource.
+		// "defined_tags": acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"is_private":                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
@@ -136,14 +136,14 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group",
 			"test_network_security_group1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreNetworkSecurityGroupRepresentation, map[string]interface{}{
 				"vcn_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_lb_vcn.id}`},
-			})) +
+			})) // +
 		// For laptop testing comment out this line
 		// Failure to do so results in
 		//     test_helpers.go:535: Step 1/7 error: Error running apply: exit status 1
 		//       [DEBUG] Using modified User-Agent: Terraform/0.12.31 HashiCorp-terraform-exec/0.14.0
 		//       Error: 404-NotAuthorizedOrNotFound, Authorization failed or requested resource not found.
 		//       Suggestion: Either the resource has been deleted or service Identity Tag Namespace need policy to access this resource.
-		DefinedTagsDependencies
+		// DefinedTagsDependencies
 )
 
 // issue-routing-tag: load_balancer/default
