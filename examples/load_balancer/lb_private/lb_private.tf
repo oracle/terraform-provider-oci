@@ -24,6 +24,7 @@ variable "region" {
 }
 
 provider "oci" {
+  // version          = "6.9.0" // published on August 27, 2024.
   tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
   fingerprint      = var.fingerprint
@@ -31,8 +32,8 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_identity_availability_domain" "ad" {
-  compartment_id = var.tenancy_ocid
+data "oci_identity_availability_domain" "ad1" {
+  compartment_id = var.compartment_ocid // needs to be compartment_ocid if not using root compartment
   ad_number      = 1
 }
 
@@ -46,7 +47,7 @@ resource "oci_core_vcn" "vcn1" {
 }
 
 resource "oci_core_subnet" "subnet1" {
-  availability_domain        = data.oci_identity_availability_domain.ad.name
+  availability_domain        = data.oci_identity_availability_domain.ad1.name
   cidr_block                 = "10.1.20.0/24"
   display_name               = "subnet1"
   dns_label                  = "subnet1"
@@ -127,4 +128,3 @@ resource "oci_core_network_security_group" "test_network_security_group" {
 output "lb_private_ip" {
   value = [oci_load_balancer.lb1.ip_address_details]
 }
-
