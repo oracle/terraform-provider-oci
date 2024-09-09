@@ -1,0 +1,36 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package fleet_apps_management
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_fleet_apps_management_announcements", FleetAppsManagementAnnouncementsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet", FleetAppsManagementFleetDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_compliance_report", FleetAppsManagementFleetComplianceReportDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_credential", FleetAppsManagementFleetCredentialDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_credentials", FleetAppsManagementFleetCredentialsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_products", FleetAppsManagementFleetProductsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_properties", FleetAppsManagementFleetPropertiesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_property", FleetAppsManagementFleetPropertyDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_resource", FleetAppsManagementFleetResourceDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_resources", FleetAppsManagementFleetResourcesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_targets", FleetAppsManagementFleetTargetsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleet_targets", FleetAppsManagementFleetTargetsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_fleets", FleetAppsManagementFleetsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_inventory_resources", FleetAppsManagementInventoryResourcesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_maintenance_window", FleetAppsManagementMaintenanceWindowDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_maintenance_windows", FleetAppsManagementMaintenanceWindowsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_onboarding_policies", FleetAppsManagementOnboardingPoliciesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_onboardings", FleetAppsManagementOnboardingsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_properties", FleetAppsManagementPropertiesDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_property", FleetAppsManagementPropertyDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_runbook", FleetAppsManagementRunbookDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_runbooks", FleetAppsManagementRunbooksDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_scheduler_definition", FleetAppsManagementSchedulerDefinitionDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_scheduler_definition_scheduled_fleets", FleetAppsManagementSchedulerDefinitionScheduledFleetsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_scheduler_definitions", FleetAppsManagementSchedulerDefinitionsDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_task_record", FleetAppsManagementTaskRecordDataSource())
+	tfresource.RegisterDatasource("oci_fleet_apps_management_task_records", FleetAppsManagementTaskRecordsDataSource())
+}
