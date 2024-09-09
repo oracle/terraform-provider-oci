@@ -388,6 +388,11 @@ var exportDataSafeCalculateAuditVolumeCollectedHints = &tf_export.TerraformResou
 	ResourceAbbreviation: "calculate_audit_volume_collected",
 }
 
+var exportDataSafeGenerateOnPremConnectorConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_data_safe_generate_on_prem_connector_configuration",
+	ResourceAbbreviation: "generate_on_prem_connector_configuration",
+}
+
 var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDataSafeDataSafePrivateEndpointHints},
