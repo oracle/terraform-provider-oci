@@ -63,14 +63,14 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
   #  nsg_ids              = var.desktop_pool_nsg_ids
   #  time_start_scheduled = var.desktop_pool_time_start_scheduled
   #  time_stop_scheduled  = var.desktop_pool_time_stop_scheduled
-  #  private_access_details {
-    #    #Required
-    #    subnet_id = var.desktop_pool_private_access_details_subnet_id
-    #
-    #    #Optional
-    #    nsg_ids    = var.desktop_pool_private_access_details_nsg_ids
-    #    private_ip = var.desktop_pool_private_access_details_private_ip
-    #  }
+  private_access_details {
+      #Required
+      subnet_id = var.desktop_pool_private_access_details_subnet_id
+
+      #Optional
+      nsg_ids    = var.desktop_pool_private_access_details_nsg_ids
+      private_ip = var.desktop_pool_private_access_details_private_ip
+    }
 }
 
 data "oci_desktops_desktop_pools" "test_desktop_pools_datasource" {

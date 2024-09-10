@@ -67,6 +67,14 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
 	description = var.desktop_pool_description
 	freeform_tags = {"Department"= "Finance"}
 	nsg_ids = var.desktop_pool_nsg_ids
+	private_access_details {
+		#Required
+		subnet_id = oci_core_subnet.test_subnet.id
+
+		#Optional
+		nsg_ids = var.desktop_pool_private_access_details_nsg_ids
+		private_ip = var.desktop_pool_private_access_details_private_ip
+	}
 	time_start_scheduled = var.desktop_pool_time_start_scheduled
 	time_stop_scheduled = var.desktop_pool_time_stop_scheduled
 }
@@ -105,9 +113,13 @@ The following arguments are supported:
 * `is_storage_enabled` - (Required) Indicates whether storage is enabled for the desktop pool.
 * `maximum_size` - (Required) (Updatable) The maximum number of desktops permitted in the desktop pool.
 * `network_configuration` - (Required) Provides information about the network configuration of the desktop pool.
-	* `subnet_id` - (Required) The OCID of the subnet to use for the desktop pool.
-	* `vcn_id` - (Required) The OCID of the VCN used by the desktop pool.
-* `nsg_ids` - (Optional) A list of network security groups for the desktop pool.
+	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
+* `nsg_ids` - (Optional) A list of network security groups for the private access.
+* `private_access_details` - (Optional) The details of the desktop's private access network connectivity to be set up for the desktop pool. 
+	* `nsg_ids` - (Optional) A list of network security groups for the private access.
+	* `private_ip` - (Optional) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
+	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
 * `shape_name` - (Required) The shape of the desktop pool.
 * `standby_size` - (Required) (Updatable) The maximum number of standby desktops available in the desktop pool.
 * `storage_backup_policy_id` - (Required) The backup policy OCID of the storage.
@@ -154,9 +166,15 @@ The following attributes are exported:
 * `is_storage_enabled` - Indicates whether storage is enabled for the desktop pool.
 * `maximum_size` - The maximum number of desktops permitted in the desktop pool.
 * `network_configuration` - Provides information about the network configuration of the desktop pool.
-	* `subnet_id` - The OCID of the subnet to use for the desktop pool.
-	* `vcn_id` - The OCID of the VCN used by the desktop pool.
-* `nsg_ids` - A list of network security groups for the desktop pool.
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
+* `nsg_ids` - A list of network security groups for the network.
+* `private_access_details` - The details of the desktop's private access network connectivity that were used to create the pool. 
+	* `endpoint_fqdn` - The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are updated with this FQDN. This enables the customer to use the FQDN instead of the private endpoint's private IP address to access the service (for example, xyz.oraclecloud.com). 
+	* `nsg_ids` - A list of network security groups for the private access.
+	* `private_ip` - The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
 * `shape_name` - The shape of the desktop pool.
 * `standby_size` - The maximum number of standby desktops available in the desktop pool.
 * `state` - The current state of the desktop pool.

@@ -131,6 +131,12 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
+	if s.Res.PrivateAccessDetails != nil {
+		s.D.Set("private_access_details", []interface{}{DesktopPoolPrivateAccessDetailsToMap(s.Res.PrivateAccessDetails, true)})
+	} else {
+		s.D.Set("private_access_details", nil)
+	}
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
