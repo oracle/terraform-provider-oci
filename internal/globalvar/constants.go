@@ -46,6 +46,7 @@ const (
 	ConfigFileProfileAttrName                   = "config_file_profile"
 	DefinedTagsToIgnore                         = "ignore_defined_tags"
 	RealmSpecificServiceEndpointTemplateEnabled = "realm_specific_service_endpoint_template_enabled"
+	DualStackEndpointEnabled                    = "dual_stack_endpoint_enabled"
 
 	DefaultConfigFileName    = "config"
 	DefaultConfigDirName     = ".oci"

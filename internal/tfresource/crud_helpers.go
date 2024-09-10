@@ -39,6 +39,7 @@ import (
 var (
 	//string value can store true,false and empty. Empty value can identify that user has not set the flag.
 	RealmSpecificServiceEndpointTemplateEnabled               = ""
+	DualStackEndpointTemplateEnabled                          = ""
 	FifteenMinutes                                            = 15 * time.Minute
 	TwentyMinutes                                             = 20 * time.Minute
 	ThirtyMinutes                                             = 30 * time.Minute

@@ -180,3 +180,16 @@ func setCustomConfiguration(oClient interface {
 	}
 	return nil
 }
+
+func SetDualStackEndpointEnabled(oClient interface {
+	EnableDualStackEndpoints(flag bool)
+}) error {
+	if tfresource.DualStackEndpointTemplateEnabled != "" {
+		value, err := strconv.ParseBool(tfresource.DualStackEndpointTemplateEnabled)
+		if err != nil {
+			return err
+		}
+		oClient.EnableDualStackEndpoints(value)
+	}
+	return nil
+}
