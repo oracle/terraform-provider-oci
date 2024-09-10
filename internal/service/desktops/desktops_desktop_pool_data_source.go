@@ -131,12 +131,6 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 
 	s.D.Set("nsg_ids", s.Res.NsgIds)
 
-	if s.Res.ShapeConfig != nil {
-		s.D.Set("shape_config", []interface{}{DesktopPoolShapeConfigToMap(s.Res.ShapeConfig)})
-	} else {
-		s.D.Set("shape_config", nil)
-	}
-
 	if s.Res.PrivateAccessDetails != nil {
 		s.D.Set("private_access_details", []interface{}{DesktopPoolPrivateAccessDetailsToMap(s.Res.PrivateAccessDetails, true)})
 	} else {
@@ -172,8 +166,6 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 	if s.Res.TimeStopScheduled != nil {
 		s.D.Set("time_stop_scheduled", s.Res.TimeStopScheduled.Format(time.RFC3339Nano))
 	}
-
-	s.D.Set("use_dedicated_vm_host", s.Res.UseDedicatedVmHost)
 
 	return nil
 }
