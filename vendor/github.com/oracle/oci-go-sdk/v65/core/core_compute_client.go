@@ -704,6 +704,73 @@ func (client ComputeClient) changeComputeClusterCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeComputeHostCompartment Moves a compute host into a different compartment. For information about moving resources between
+// compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// A default retry strategy applies to this operation ChangeComputeHostCompartment()
+func (client ComputeClient) ChangeComputeHostCompartment(ctx context.Context, request ChangeComputeHostCompartmentRequest) (response ChangeComputeHostCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeComputeHostCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeComputeHostCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeComputeHostCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeComputeHostCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeComputeHostCompartmentResponse")
+	}
+	return
+}
+
+// changeComputeHostCompartment implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) changeComputeHostCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/computeHosts/{computeHostId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ChangeComputeHostCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/ChangeComputeHostCompartment"
+		err = common.PostProcessServiceError(err, "Compute", "ChangeComputeHostCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeComputeImageCapabilitySchemaCompartment Moves a compute image capability schema into a different compartment within the same tenancy.
 // For information about moving resources between compartments, see
 //
@@ -3292,6 +3359,67 @@ func (client ComputeClient) getComputeGlobalImageCapabilitySchemaVersion(ctx con
 	return response, err
 }
 
+// GetComputeHost Gets information about the specified compute host
+// A default retry strategy applies to this operation GetComputeHost()
+func (client ComputeClient) GetComputeHost(ctx context.Context, request GetComputeHostRequest) (response GetComputeHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getComputeHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetComputeHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetComputeHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetComputeHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetComputeHostResponse")
+	}
+	return
+}
+
+// getComputeHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) getComputeHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetComputeHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/GetComputeHost"
+		err = common.PostProcessServiceError(err, "Compute", "GetComputeHost", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetComputeImageCapabilitySchema Gets the specified Compute Image Capability Schema
 // A default retry strategy applies to this operation GetComputeImageCapabilitySchema()
 func (client ComputeClient) GetComputeImageCapabilitySchema(ctx context.Context, request GetComputeImageCapabilitySchemaRequest) (response GetComputeImageCapabilitySchemaResponse, err error) {
@@ -5440,6 +5568,67 @@ func (client ComputeClient) listComputeGlobalImageCapabilitySchemas(ctx context.
 	return response, err
 }
 
+// ListComputeHosts Generates a list of summary host details
+// A default retry strategy applies to this operation ListComputeHosts()
+func (client ComputeClient) ListComputeHosts(ctx context.Context, request ListComputeHostsRequest) (response ListComputeHostsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listComputeHosts, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListComputeHostsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListComputeHostsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListComputeHostsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListComputeHostsResponse")
+	}
+	return
+}
+
+// listComputeHosts implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) listComputeHosts(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeHosts", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListComputeHostsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/ListComputeHosts"
+		err = common.PostProcessServiceError(err, "Compute", "ListComputeHosts", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListComputeImageCapabilitySchemas Lists Compute Image Capability Schema in the specified compartment. You can also query by a specific imageId.
 // A default retry strategy applies to this operation ListComputeImageCapabilitySchemas()
 func (client ComputeClient) ListComputeImageCapabilitySchemas(ctx context.Context, request ListComputeImageCapabilitySchemasRequest) (response ListComputeImageCapabilitySchemasResponse, err error) {
@@ -7070,6 +7259,67 @@ func (client ComputeClient) updateComputeCluster(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeCluster/UpdateComputeCluster"
 		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeCluster", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateComputeHost Customer can update the some fields for ComputeHost record
+// A default retry strategy applies to this operation UpdateComputeHost()
+func (client ComputeClient) UpdateComputeHost(ctx context.Context, request UpdateComputeHostRequest) (response UpdateComputeHostResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateComputeHost, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateComputeHostResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateComputeHostResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateComputeHostResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateComputeHostResponse")
+	}
+	return
+}
+
+// updateComputeHost implements the OCIOperation interface (enables retrying operations)
+func (client ComputeClient) updateComputeHost(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/computeHosts/{computeHostId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateComputeHostResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ComputeHost/UpdateComputeHost"
+		err = common.PostProcessServiceError(err, "Compute", "UpdateComputeHost", apiReferenceLink)
 		return response, err
 	}
 

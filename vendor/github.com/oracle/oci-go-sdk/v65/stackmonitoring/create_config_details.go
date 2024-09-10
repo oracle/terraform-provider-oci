@@ -84,6 +84,10 @@ func (m *createconfigdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := CreateAutoPromoteConfigDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPUTE_AUTO_ACTIVATE_PLUGIN":
+		mm := CreateComputeAutoActivatePluginConfigDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "LICENSE_ENTERPRISE_EXTENSIBILITY":
 		mm := CreateLicenseEnterpriseExtensibilityConfigDetails{}
 		err = json.Unmarshal(data, &mm)

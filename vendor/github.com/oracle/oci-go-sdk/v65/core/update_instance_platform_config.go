@@ -56,12 +56,40 @@ func (m *updateinstanceplatformconfig) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Type {
+	case "AMD_MILAN_BM":
+		mm := AmdMilanBmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "GENERIC_BM":
+		mm := GenericBmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AMD_VM":
 		mm := AmdVmUpdateInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AMD_ROME_BM":
+		mm := AmdRomeBmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "INTEL_VM":
 		mm := IntelVmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_ICELAKE_BM":
+		mm := IntelIcelakeBmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "INTEL_SKYLAKE_BM":
+		mm := IntelSkylakeBmUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMD_ROME_BM_GPU":
+		mm := AmdRomeBmGpuUpdateInstancePlatformConfig{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "AMD_MILAN_BM_GPU":
+		mm := AmdMilanBmGpuUpdateInstancePlatformConfig{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -91,18 +119,39 @@ type UpdateInstancePlatformConfigTypeEnum string
 
 // Set of constants representing the allowable values for UpdateInstancePlatformConfigTypeEnum
 const (
-	UpdateInstancePlatformConfigTypeAmdVm   UpdateInstancePlatformConfigTypeEnum = "AMD_VM"
-	UpdateInstancePlatformConfigTypeIntelVm UpdateInstancePlatformConfigTypeEnum = "INTEL_VM"
+	UpdateInstancePlatformConfigTypeAmdVm          UpdateInstancePlatformConfigTypeEnum = "AMD_VM"
+	UpdateInstancePlatformConfigTypeIntelVm        UpdateInstancePlatformConfigTypeEnum = "INTEL_VM"
+	UpdateInstancePlatformConfigTypeAmdRomeBm      UpdateInstancePlatformConfigTypeEnum = "AMD_ROME_BM"
+	UpdateInstancePlatformConfigTypeAmdMilanBm     UpdateInstancePlatformConfigTypeEnum = "AMD_MILAN_BM"
+	UpdateInstancePlatformConfigTypeAmdMilanBmGpu  UpdateInstancePlatformConfigTypeEnum = "AMD_MILAN_BM_GPU"
+	UpdateInstancePlatformConfigTypeAmdRomeBmGpu   UpdateInstancePlatformConfigTypeEnum = "AMD_ROME_BM_GPU"
+	UpdateInstancePlatformConfigTypeGenericBm      UpdateInstancePlatformConfigTypeEnum = "GENERIC_BM"
+	UpdateInstancePlatformConfigTypeIntelIcelakeBm UpdateInstancePlatformConfigTypeEnum = "INTEL_ICELAKE_BM"
+	UpdateInstancePlatformConfigTypeIntelSkylakeBm UpdateInstancePlatformConfigTypeEnum = "INTEL_SKYLAKE_BM"
 )
 
 var mappingUpdateInstancePlatformConfigTypeEnum = map[string]UpdateInstancePlatformConfigTypeEnum{
-	"AMD_VM":   UpdateInstancePlatformConfigTypeAmdVm,
-	"INTEL_VM": UpdateInstancePlatformConfigTypeIntelVm,
+	"AMD_VM":           UpdateInstancePlatformConfigTypeAmdVm,
+	"INTEL_VM":         UpdateInstancePlatformConfigTypeIntelVm,
+	"AMD_ROME_BM":      UpdateInstancePlatformConfigTypeAmdRomeBm,
+	"AMD_MILAN_BM":     UpdateInstancePlatformConfigTypeAmdMilanBm,
+	"AMD_MILAN_BM_GPU": UpdateInstancePlatformConfigTypeAmdMilanBmGpu,
+	"AMD_ROME_BM_GPU":  UpdateInstancePlatformConfigTypeAmdRomeBmGpu,
+	"GENERIC_BM":       UpdateInstancePlatformConfigTypeGenericBm,
+	"INTEL_ICELAKE_BM": UpdateInstancePlatformConfigTypeIntelIcelakeBm,
+	"INTEL_SKYLAKE_BM": UpdateInstancePlatformConfigTypeIntelSkylakeBm,
 }
 
 var mappingUpdateInstancePlatformConfigTypeEnumLowerCase = map[string]UpdateInstancePlatformConfigTypeEnum{
-	"amd_vm":   UpdateInstancePlatformConfigTypeAmdVm,
-	"intel_vm": UpdateInstancePlatformConfigTypeIntelVm,
+	"amd_vm":           UpdateInstancePlatformConfigTypeAmdVm,
+	"intel_vm":         UpdateInstancePlatformConfigTypeIntelVm,
+	"amd_rome_bm":      UpdateInstancePlatformConfigTypeAmdRomeBm,
+	"amd_milan_bm":     UpdateInstancePlatformConfigTypeAmdMilanBm,
+	"amd_milan_bm_gpu": UpdateInstancePlatformConfigTypeAmdMilanBmGpu,
+	"amd_rome_bm_gpu":  UpdateInstancePlatformConfigTypeAmdRomeBmGpu,
+	"generic_bm":       UpdateInstancePlatformConfigTypeGenericBm,
+	"intel_icelake_bm": UpdateInstancePlatformConfigTypeIntelIcelakeBm,
+	"intel_skylake_bm": UpdateInstancePlatformConfigTypeIntelSkylakeBm,
 }
 
 // GetUpdateInstancePlatformConfigTypeEnumValues Enumerates the set of values for UpdateInstancePlatformConfigTypeEnum
@@ -119,6 +168,13 @@ func GetUpdateInstancePlatformConfigTypeEnumStringValues() []string {
 	return []string{
 		"AMD_VM",
 		"INTEL_VM",
+		"AMD_ROME_BM",
+		"AMD_MILAN_BM",
+		"AMD_MILAN_BM_GPU",
+		"AMD_ROME_BM_GPU",
+		"GENERIC_BM",
+		"INTEL_ICELAKE_BM",
+		"INTEL_SKYLAKE_BM",
 	}
 }
 

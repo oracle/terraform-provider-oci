@@ -16,21 +16,24 @@ import (
 	"strings"
 )
 
-// VideoStreamObjectTrackingFeature Video stream object tracking feature
-type VideoStreamObjectTrackingFeature struct {
+// VideoStreamFaceDetectionFeature Video stream face detection feature
+type VideoStreamFaceDetectionFeature struct {
 
-	// List of details of what to track.
-	TrackingTypes []TrackingType `mandatory:"false" json:"trackingTypes"`
+	// The maximum number of results to return.
+	MaxResults *int `mandatory:"false" json:"maxResults"`
+
+	// Whether or not return face landmarks.
+	ShouldReturnLandmarks *bool `mandatory:"false" json:"shouldReturnLandmarks"`
 }
 
-func (m VideoStreamObjectTrackingFeature) String() string {
+func (m VideoStreamFaceDetectionFeature) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m VideoStreamObjectTrackingFeature) ValidateEnumValue() (bool, error) {
+func (m VideoStreamFaceDetectionFeature) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -40,14 +43,14 @@ func (m VideoStreamObjectTrackingFeature) ValidateEnumValue() (bool, error) {
 }
 
 // MarshalJSON marshals to json representation
-func (m VideoStreamObjectTrackingFeature) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeVideoStreamObjectTrackingFeature VideoStreamObjectTrackingFeature
+func (m VideoStreamFaceDetectionFeature) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeVideoStreamFaceDetectionFeature VideoStreamFaceDetectionFeature
 	s := struct {
 		DiscriminatorParam string `json:"featureType"`
-		MarshalTypeVideoStreamObjectTrackingFeature
+		MarshalTypeVideoStreamFaceDetectionFeature
 	}{
-		"OBJECT_TRACKING",
-		(MarshalTypeVideoStreamObjectTrackingFeature)(m),
+		"FACE_DETECTION",
+		(MarshalTypeVideoStreamFaceDetectionFeature)(m),
 	}
 
 	return json.Marshal(&s)

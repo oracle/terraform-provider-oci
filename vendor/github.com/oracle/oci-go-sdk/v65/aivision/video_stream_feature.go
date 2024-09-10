@@ -54,6 +54,10 @@ func (m *videostreamfeature) UnmarshalPolymorphicJSON(data []byte) (interface{},
 		mm := VideoStreamObjectTrackingFeature{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FACE_DETECTION":
+		mm := VideoStreamFaceDetectionFeature{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for VideoStreamFeature: %s.", m.FeatureType)
 		return *m, nil
@@ -82,14 +86,17 @@ type VideoStreamFeatureFeatureTypeEnum string
 // Set of constants representing the allowable values for VideoStreamFeatureFeatureTypeEnum
 const (
 	VideoStreamFeatureFeatureTypeObjectTracking VideoStreamFeatureFeatureTypeEnum = "OBJECT_TRACKING"
+	VideoStreamFeatureFeatureTypeFaceDetection  VideoStreamFeatureFeatureTypeEnum = "FACE_DETECTION"
 )
 
 var mappingVideoStreamFeatureFeatureTypeEnum = map[string]VideoStreamFeatureFeatureTypeEnum{
 	"OBJECT_TRACKING": VideoStreamFeatureFeatureTypeObjectTracking,
+	"FACE_DETECTION":  VideoStreamFeatureFeatureTypeFaceDetection,
 }
 
 var mappingVideoStreamFeatureFeatureTypeEnumLowerCase = map[string]VideoStreamFeatureFeatureTypeEnum{
 	"object_tracking": VideoStreamFeatureFeatureTypeObjectTracking,
+	"face_detection":  VideoStreamFeatureFeatureTypeFaceDetection,
 }
 
 // GetVideoStreamFeatureFeatureTypeEnumValues Enumerates the set of values for VideoStreamFeatureFeatureTypeEnum
@@ -105,6 +112,7 @@ func GetVideoStreamFeatureFeatureTypeEnumValues() []VideoStreamFeatureFeatureTyp
 func GetVideoStreamFeatureFeatureTypeEnumStringValues() []string {
 	return []string{
 		"OBJECT_TRACKING",
+		"FACE_DETECTION",
 	}
 }
 

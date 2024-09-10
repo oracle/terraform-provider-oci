@@ -1168,7 +1168,7 @@ func (client AIServiceVisionClient) EndStreamJob(ctx context.Context, request En
 // endStreamJob implements the OCIOperation interface (enables retrying operations)
 func (client AIServiceVisionClient) endStreamJob(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{streamRunId}/actions/end", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/runs/{streamJobId}/actions/end", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}

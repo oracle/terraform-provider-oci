@@ -17,7 +17,7 @@ import (
 
 // RenameDatasetLabelsDetails Renames a subset of Labels in the Dataset's LabelSet.  The Labels in the source LabelSet will be replaced with the Labels in the target LabelSet.
 // Labels are correlated by index, i.e. the first Label in the source LabelSet will be replaced by the first Label in the target LabelSet.
-// If the size of the source and target LabelSets are not equal, the request will be rejected.
+// If the size of the source and target LabelSets are not equal, the request will be rejected.
 type RenameDatasetLabelsDetails struct {
 	SourceLabelSet *LabelSet `mandatory:"false" json:"sourceLabelSet"`
 

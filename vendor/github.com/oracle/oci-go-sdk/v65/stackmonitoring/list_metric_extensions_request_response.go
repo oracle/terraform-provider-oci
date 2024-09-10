@@ -14,9 +14,6 @@ import (
 // ListMetricExtensionsRequest wrapper for the ListMetricExtensions operation
 type ListMetricExtensionsRequest struct {
 
-	// The ID of the compartment in which data is listed.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// For list pagination. The maximum number of results per page, or items to return in a
 	// paginated "List" call. For important details about how pagination works, see
 	// List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
@@ -34,6 +31,9 @@ type ListMetricExtensionsRequest struct {
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListMetricExtensionsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
+	// The ID of the compartment in which data is listed.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
 	// A filter to return resources based on resource type.
 	ResourceType *string `mandatory:"false" contributesTo:"query" name:"resourceType"`
 
@@ -48,6 +48,9 @@ type ListMetricExtensionsRequest struct {
 
 	// A filter to return metric extensions based on input resource Id on which metric extension is enabled
 	EnabledOnResourceId *string `mandatory:"false" contributesTo:"query" name:"enabledOnResourceId"`
+
+	// Identifier for the metric extension
+	MetricExtensionId *string `mandatory:"false" contributesTo:"query" name:"metricExtensionId"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please provide the request ID.
@@ -140,18 +143,21 @@ type ListMetricExtensionsSortByEnum string
 
 // Set of constants representing the allowable values for ListMetricExtensionsSortByEnum
 const (
-	ListMetricExtensionsSortByName        ListMetricExtensionsSortByEnum = "NAME"
-	ListMetricExtensionsSortByTimeCreated ListMetricExtensionsSortByEnum = "TIME_CREATED"
+	ListMetricExtensionsSortByName                   ListMetricExtensionsSortByEnum = "NAME"
+	ListMetricExtensionsSortByTimeCreated            ListMetricExtensionsSortByEnum = "TIME_CREATED"
+	ListMetricExtensionsSortByEnabledOnResourceCount ListMetricExtensionsSortByEnum = "ENABLED_ON_RESOURCE_COUNT"
 )
 
 var mappingListMetricExtensionsSortByEnum = map[string]ListMetricExtensionsSortByEnum{
-	"NAME":         ListMetricExtensionsSortByName,
-	"TIME_CREATED": ListMetricExtensionsSortByTimeCreated,
+	"NAME":                      ListMetricExtensionsSortByName,
+	"TIME_CREATED":              ListMetricExtensionsSortByTimeCreated,
+	"ENABLED_ON_RESOURCE_COUNT": ListMetricExtensionsSortByEnabledOnResourceCount,
 }
 
 var mappingListMetricExtensionsSortByEnumLowerCase = map[string]ListMetricExtensionsSortByEnum{
-	"name":         ListMetricExtensionsSortByName,
-	"time_created": ListMetricExtensionsSortByTimeCreated,
+	"name":                      ListMetricExtensionsSortByName,
+	"time_created":              ListMetricExtensionsSortByTimeCreated,
+	"enabled_on_resource_count": ListMetricExtensionsSortByEnabledOnResourceCount,
 }
 
 // GetListMetricExtensionsSortByEnumValues Enumerates the set of values for ListMetricExtensionsSortByEnum
@@ -168,6 +174,7 @@ func GetListMetricExtensionsSortByEnumStringValues() []string {
 	return []string{
 		"NAME",
 		"TIME_CREATED",
+		"ENABLED_ON_RESOURCE_COUNT",
 	}
 }
 

@@ -21,13 +21,13 @@ type VideoStreamObject struct {
 	// Name of the object category label.
 	Name *string `mandatory:"true" json:"name"`
 
-	// Unique identifier for the object.
-	ObjectId *int `mandatory:"true" json:"objectId"`
-
 	// The confidence score, between 0 and 1.
 	Confidence *float32 `mandatory:"true" json:"confidence"`
 
 	BoundingPolygon *BoundingPolygon `mandatory:"true" json:"boundingPolygon"`
+
+	// Unique identifier for the object.
+	ObjectId *int `mandatory:"false" json:"objectId"`
 
 	Properties *ObjectProperties `mandatory:"false" json:"properties"`
 }

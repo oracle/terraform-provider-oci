@@ -14,8 +14,8 @@ import (
 // EndStreamJobRequest wrapper for the EndStreamJob operation
 type EndStreamJobRequest struct {
 
-	// Stream Run id.
-	StreamRunId *string `mandatory:"true" contributesTo:"path" name:"streamRunId"`
+	// Stream job id.
+	StreamJobId *string `mandatory:"true" contributesTo:"path" name:"streamJobId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call
 	// for a resource, set the `if-match` parameter to the value of the

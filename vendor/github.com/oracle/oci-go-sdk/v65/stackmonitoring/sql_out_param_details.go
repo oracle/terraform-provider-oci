@@ -18,11 +18,14 @@ import (
 // SqlOutParamDetails Position and SQL Type of PL/SQL OUT parameter
 type SqlOutParamDetails struct {
 
-	// Position of PL/SQL procedure OUT parameter
+	// Position of PL/SQL procedure OUT parameter. The value of this property is ignored during update, if "outParamType" is set to NO_OUT_PARAM value.
 	OutParamPosition *int `mandatory:"true" json:"outParamPosition"`
 
-	// SQL Type of PL/SQL procedure OUT parameter
+	// SQL Type of PL/SQL procedure OUT parameter. During the update, to completely remove the out parameter, use the value NO_OUT_PARAM. In that case, the value of "outParamPosition" will be ignored.
 	OutParamType SqlOutParamTypesEnum `mandatory:"true" json:"outParamType"`
+
+	// Name of the Out Parameter
+	OutParamName *string `mandatory:"false" json:"outParamName"`
 }
 
 func (m SqlOutParamDetails) String() string {
