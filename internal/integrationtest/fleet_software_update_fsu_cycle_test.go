@@ -177,11 +177,11 @@ var (
 	}
 
 	FleetSoftwareUpdateFsuCycleDBResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FleetSoftwareUpdateFsuCollectionDBRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FsuCollection_DB19_Representation) +
 		DefinedTagsDependencies
 
 	FleetSoftwareUpdateFsuCycleGIResourceDependencies = utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FleetSoftwareUpdateFsuCollectionGIRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_fleet_software_update_fsu_collection", "test_fsu_collection", acctest.Required, acctest.Create, FsuCollection_GI19_Representation) +
 		DefinedTagsDependencies
 )
 
@@ -198,13 +198,10 @@ func TestFleetSoftwareUpdateFsuCycleResource_DB_VersionDetails(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_target_1")
+	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_19_target_1")
 	dbTargetId1VariableStr := fmt.Sprintf("variable \"db_target_1\" { default = \"%s\" }\n", dbTargetId1)
 
-	dbTargetId2 := utils.GetEnvSettingWithBlankDefault("fsu_db_target_2")
-	dbTargetId2VariableStr := fmt.Sprintf("variable \"db_target_2\" { default = \"%s\" }\n", dbTargetId2)
-
-	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr + dbTargetId2VariableStr
+	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr
 
 	resourceName := "oci_fleet_software_update_fsu_cycle.test_fsu_cycle"
 	datasourceName := "data.oci_fleet_software_update_fsu_cycles.test_fsu_cycles"
@@ -429,16 +426,13 @@ func TestFleetSoftwareUpdateFsuCycleResource_DB_ImageIdDetails(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_target_1")
+	dbTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_db_19_target_1")
 	dbTargetId1VariableStr := fmt.Sprintf("variable \"db_target_1\" { default = \"%s\" }\n", dbTargetId1)
 
-	dbTargetId2 := utils.GetEnvSettingWithBlankDefault("fsu_db_target_2")
-	dbTargetId2VariableStr := fmt.Sprintf("variable \"db_target_2\" { default = \"%s\" }\n", dbTargetId2)
-
-	dbSwImage1 := utils.GetEnvSettingWithBlankDefault("fsu_db_software_image_1")
+	dbSwImage1 := utils.GetEnvSettingWithBlankDefault("fsu_db_19_software_image_1")
 	dbSwImage1VariableStr := fmt.Sprintf("variable \"db_software_image_1\" { default = \"%s\" }\n", dbSwImage1)
 
-	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr + dbTargetId2VariableStr + dbSwImage1VariableStr
+	var variablesStr = compartmentIdVariableStr + dbTargetId1VariableStr + dbSwImage1VariableStr
 
 	resourceName := "oci_fleet_software_update_fsu_cycle.test_fsu_cycle"
 	datasourceName := "data.oci_fleet_software_update_fsu_cycles.test_fsu_cycles"
@@ -662,16 +656,13 @@ func TestFleetSoftwareUpdateFsuCycleResource_GI_ImageIdDetails(t *testing.T) {
 	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
 	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
 
-	giTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_gi_target_1")
+	giTargetId1 := utils.GetEnvSettingWithBlankDefault("fsu_gi_19_target_1")
 	giTargetId1VariableStr := fmt.Sprintf("variable \"gi_target_1\" { default = \"%s\" }\n", giTargetId1)
 
-	giTargetId2 := utils.GetEnvSettingWithBlankDefault("fsu_gi_target_2")
-	giTargetId2VariableStr := fmt.Sprintf("variable \"gi_target_2\" { default = \"%s\" }\n", giTargetId2)
-
-	dbGridSwImage1 := utils.GetEnvSettingWithBlankDefault("fsu_db_grid_software_image_1")
+	dbGridSwImage1 := utils.GetEnvSettingWithBlankDefault("fsu_db_19_grid_software_image_1")
 	dbGridSwImage1VariableStr := fmt.Sprintf("variable \"db_grid_software_image_1\" { default = \"%s\" }\n", dbGridSwImage1)
 
-	var variablesStr = compartmentIdVariableStr + giTargetId1VariableStr + giTargetId2VariableStr + dbGridSwImage1VariableStr
+	var variablesStr = compartmentIdVariableStr + giTargetId1VariableStr + dbGridSwImage1VariableStr
 
 	resourceName := "oci_fleet_software_update_fsu_cycle.test_fsu_cycle"
 	datasourceName := "data.oci_fleet_software_update_fsu_cycles.test_fsu_cycles"
