@@ -1,0 +1,19 @@
+# OCI config profile
+config_file_profile="terraform-federation-test"
+
+# region (us-phoenix-1, ca-toronto-1, etc)
+region="us-phoenix-1"
+
+# Secure Desktops Example Configuration
+
+compartment_id                                  = "<compartment_ocid>"
+
+desktop_pool_vcn_id                             = "<vcn_ocid>"
+desktop_pool_subnet_id                          = "<subnet_ocid>"
+desktop_pool_image_id                           = "<image_ocid>"
+desktop_pool_image_name                         = "<image_name>"
+desktop_pool_backup_policy_id                   = "<volume_backup_policy_ocid>"
+desktop_pool_contact_details                    = "test%40example.com"
+desktop_pool_private_access_details_subnet_id   = "<private_access_subnet_ocid>"
+desktop_pool_private_access_details_nsg_ids     = "[<private_access_nsg_ids>]"
+desktop_pool_private_access_details_private_ip  = "<private_access_private_ip>"

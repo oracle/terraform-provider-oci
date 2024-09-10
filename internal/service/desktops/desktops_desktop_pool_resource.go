@@ -268,6 +268,50 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"private_access_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"nsg_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							ForceNew: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"private_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							ForceNew: true,
+						},
+
+						// Computed
+						"endpoint_fqdn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"vcn_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"time_start_scheduled": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -474,6 +518,17 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 		}
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
+		}
+	}
+
+	if privateAccessDetails, ok := s.D.GetOkExists("private_access_details"); ok {
+		if tmpList := privateAccessDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_access_details", 0)
+			tmp, err := s.mapToCreateDesktopPoolPrivateAccessDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.PrivateAccessDetails = &tmp
 		}
 	}
 
@@ -869,6 +924,12 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 	}
 	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
+	if s.Res.PrivateAccessDetails != nil {
+		s.D.Set("private_access_details", []interface{}{DesktopPoolPrivateAccessDetailsToMap(s.Res.PrivateAccessDetails, false)})
+	} else {
+		s.D.Set("private_access_details", nil)
+	}
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
@@ -900,6 +961,68 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DesktopsDesktopPoolResourceCrud) mapToCreateDesktopPoolPrivateAccessDetails(fieldKeyFormat string) (oci_desktops.CreateDesktopPoolPrivateAccessDetails, error) {
+	result := oci_desktops.CreateDesktopPoolPrivateAccessDetails{}
+
+	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
+		set := nsgIds.(*schema.Set)
+		interfaces := set.List()
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "nsg_ids")) {
+			result.NsgIds = tmp
+		}
+	}
+
+	if privateIp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_ip")); ok {
+		tmp := privateIp.(string)
+		result.PrivateIp = &tmp
+	}
+
+	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+		tmp := subnetId.(string)
+		result.SubnetId = &tmp
+	}
+
+	return result, nil
+}
+
+func DesktopPoolPrivateAccessDetailsToMap(obj *oci_desktops.DesktopPoolPrivateAccessDetails, datasource bool) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EndpointFqdn != nil {
+		result["endpoint_fqdn"] = string(*obj.EndpointFqdn)
+	}
+
+	nsgIds := []interface{}{}
+	for _, item := range obj.NsgIds {
+		nsgIds = append(nsgIds, item)
+	}
+	if datasource {
+		result["nsg_ids"] = nsgIds
+	} else {
+		result["nsg_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds)
+	}
+
+	if obj.PrivateIp != nil {
+		result["private_ip"] = string(*obj.PrivateIp)
+	}
+
+	if obj.SubnetId != nil {
+		result["subnet_id"] = string(*obj.SubnetId)
+	}
+
+	if obj.VcnId != nil {
+		result["vcn_id"] = string(*obj.VcnId)
+	}
+
+	return result
 }
 
 func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopAvailabilityPolicy(fieldKeyFormat string) (oci_desktops.DesktopAvailabilityPolicy, error) {
