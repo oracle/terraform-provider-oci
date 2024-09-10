@@ -7,7 +7,6 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"strconv"
 	"strings"
 	"time"
 
@@ -181,12 +180,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 						},
 
 						// Optional
-						"operating_system": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
 
 						// Computed
 					},
@@ -275,45 +268,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
-			"shape_config": {
-				Type:     schema.TypeList,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
-				MaxItems: 1,
-				MinItems: 1,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-						"baseline_ocpu_utilization": {
-							Type:     schema.TypeString,
-							Optional: true,
-							Computed: true,
-							ForceNew: true,
-						},
-						"memory_in_gbs": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							Computed:         true,
-							ForceNew:         true,
-							ValidateFunc:     tfresource.ValidateInt64TypeString,
-							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
-						},
-						"ocpus": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							Computed:         true,
-							ForceNew:         true,
-							ValidateFunc:     tfresource.ValidateInt64TypeString,
-							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
-						},
-
-						// Computed
-					},
-				},
-			},
 			"private_access_details": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -367,12 +321,6 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 				Type:             schema.TypeString,
 				Optional:         true,
 				DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
-			},
-			"use_dedicated_vm_host": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-				ForceNew: true,
 			},
 
 			// Computed
@@ -573,17 +521,6 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 		}
 	}
 
-	if shapeConfig, ok := s.D.GetOkExists("shape_config"); ok {
-		if tmpList := shapeConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "shape_config", 0)
-			tmp, err := s.mapToCreateDesktopPoolShapeConfigDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.ShapeConfig = &tmp
-		}
-	}
-
 	if privateAccessDetails, ok := s.D.GetOkExists("private_access_details"); ok {
 		if tmpList := privateAccessDetails.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "private_access_details", 0)
@@ -629,10 +566,6 @@ func (s *DesktopsDesktopPoolResourceCrud) Create() error {
 			return err
 		}
 		request.TimeStopScheduled = &oci_common.SDKTime{Time: tmp}
-	}
-
-	if useDedicatedVmHost, ok := s.D.GetOkExists("use_dedicated_vm_host"); ok {
-		request.UseDedicatedVmHost = oci_desktops.CreateDesktopPoolDetailsUseDedicatedVmHostEnum(useDedicatedVmHost.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "desktops")
@@ -991,12 +924,6 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 	}
 	s.D.Set("nsg_ids", schema.NewSet(tfresource.LiteralTypeHashCodeForSets, nsgIds))
 
-	if s.Res.ShapeConfig != nil {
-		s.D.Set("shape_config", []interface{}{DesktopPoolShapeConfigToMap(s.Res.ShapeConfig)})
-	} else {
-		s.D.Set("shape_config", nil)
-	}
-
 	if s.Res.PrivateAccessDetails != nil {
 		s.D.Set("private_access_details", []interface{}{DesktopPoolPrivateAccessDetailsToMap(s.Res.PrivateAccessDetails, false)})
 	} else {
@@ -1033,53 +960,7 @@ func (s *DesktopsDesktopPoolResourceCrud) SetData() error {
 		s.D.Set("time_stop_scheduled", s.Res.TimeStopScheduled.Format(time.RFC3339Nano))
 	}
 
-	s.D.Set("use_dedicated_vm_host", s.Res.UseDedicatedVmHost)
-
 	return nil
-}
-
-func (s *DesktopsDesktopPoolResourceCrud) mapToCreateDesktopPoolShapeConfigDetails(fieldKeyFormat string) (oci_desktops.CreateDesktopPoolShapeConfigDetails, error) {
-	result := oci_desktops.CreateDesktopPoolShapeConfigDetails{}
-
-	if baselineOcpuUtilization, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "baseline_ocpu_utilization")); ok {
-		result.BaselineOcpuUtilization = oci_desktops.CreateDesktopPoolShapeConfigDetailsBaselineOcpuUtilizationEnum(baselineOcpuUtilization.(string))
-	}
-
-	if memoryInGBs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "memory_in_gbs")); ok {
-		tmp := memoryInGBs.(string)
-		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-		if err != nil {
-			return result, fmt.Errorf("unable to convert memoryInGBs string: %s to an int64 and encountered error: %v", tmp, err)
-		}
-		result.MemoryInGBs = &tmpInt64
-	}
-
-	if ocpus, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ocpus")); ok {
-		tmp := ocpus.(string)
-		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
-		if err != nil {
-			return result, fmt.Errorf("unable to convert ocpus string: %s to an int64 and encountered error: %v", tmp, err)
-		}
-		result.Ocpus = &tmpInt64
-	}
-
-	return result, nil
-}
-
-func DesktopPoolShapeConfigToMap(obj *oci_desktops.DesktopPoolShapeConfig) map[string]interface{} {
-	result := map[string]interface{}{}
-
-	result["baseline_ocpu_utilization"] = string(obj.BaselineOcpuUtilization)
-
-	if obj.MemoryInGBs != nil {
-		result["memory_in_gbs"] = strconv.FormatInt(*obj.MemoryInGBs, 10)
-	}
-
-	if obj.Ocpus != nil {
-		result["ocpus"] = strconv.FormatInt(*obj.Ocpus, 10)
-	}
-
-	return result
 }
 
 func (s *DesktopsDesktopPoolResourceCrud) mapToCreateDesktopPoolPrivateAccessDetails(fieldKeyFormat string) (oci_desktops.CreateDesktopPoolPrivateAccessDetails, error) {
@@ -1265,11 +1146,6 @@ func (s *DesktopsDesktopPoolResourceCrud) mapToDesktopImage(fieldKeyFormat strin
 		result.ImageName = &tmp
 	}
 
-	if operatingSystem, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operating_system")); ok {
-		tmp := operatingSystem.(string)
-		result.OperatingSystem = &tmp
-	}
-
 	return result, nil
 }
 
@@ -1282,10 +1158,6 @@ func DesktopImageToMap(obj *oci_desktops.DesktopImage) map[string]interface{} {
 
 	if obj.ImageName != nil {
 		result["image_name"] = string(*obj.ImageName)
-	}
-
-	if obj.OperatingSystem != nil {
-		result["operating_system"] = string(*obj.OperatingSystem)
 	}
 
 	return result
