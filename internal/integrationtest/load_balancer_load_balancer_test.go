@@ -70,6 +70,14 @@ var (
 		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
 	}
 
+	loadBalancer3Representation = map[string]interface{}{
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `example_load_balancer3`, Update: `displayName4`},
+		"shape":          acctest.Representation{RepType: acctest.Required, Create: `100Mbps`, Update: `400Mbps`},
+		"subnet_ids":     acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_subnet.lb_test_subnet_3.id}`, `${oci_core_subnet.lb_test_subnet_4.id}`}},
+		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreChangesLBRepresentation},
+	}
+
 	ignoreChangesLBRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
