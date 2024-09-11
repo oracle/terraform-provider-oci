@@ -97,6 +97,8 @@ type CreateInternalVnicAttachmentDetails struct {
 	// Identifier of how the target instance is going be launched. For example, launch from marketplace.
 	// STANDARD is the default type if not specified.
 	LaunchType CreateInternalVnicAttachmentDetailsLaunchTypeEnum `mandatory:"false" json:"launchType,omitempty"`
+
+	VnicaasPodConfig *VnicaasPodConfig `mandatory:"false" json:"vnicaasPodConfig"`
 }
 
 func (m CreateInternalVnicAttachmentDetails) String() string {

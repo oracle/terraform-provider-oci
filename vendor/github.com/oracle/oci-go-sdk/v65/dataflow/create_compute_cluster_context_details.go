@@ -20,6 +20,9 @@ type CreateComputeClusterContextDetails struct {
 
 	// Supported software coding language.
 	DefaultLanguage LanguageEnum `mandatory:"true" json:"defaultLanguage"`
+
+	// Parameter key value pairs. Example: `{"paramA_key": "paramA_value","paramB_key": "paramB_value"}`
+	ParameterMap *interface{} `mandatory:"false" json:"parameterMap"`
 }
 
 func (m CreateComputeClusterContextDetails) String() string {

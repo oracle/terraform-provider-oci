@@ -90,6 +90,7 @@ type Policy struct {
 	// A list of tags on this resource.
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [key, value]
+	//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	//  - idcsSearchable: true
 	//  - multiValued: true
 	//  - mutability: readWrite
@@ -216,6 +217,8 @@ type Policy struct {
 	//  - type: complex
 	//  - uniqueness: none
 	Rules []PolicyRules `mandatory:"false" json:"rules"`
+
+	UrnIetfParamsScimSchemasOracleIdcsExtensionOciconsolesignonpolicyconsentPolicy *PolicyExtensionOciconsolesignonpolicyconsentPolicy `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:ociconsolesignonpolicyconsent:Policy"`
 }
 
 func (m Policy) String() string {

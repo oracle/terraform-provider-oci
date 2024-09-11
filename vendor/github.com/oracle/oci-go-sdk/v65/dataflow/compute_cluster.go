@@ -76,6 +76,9 @@ type ComputeCluster struct {
 	// The OCID of Hub.
 	HubId *string `mandatory:"false" json:"hubId"`
 
+	// The paths to init scripts that will be executed in the order of definition
+	InitScripts []string `mandatory:"false" json:"initScripts"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -103,6 +106,15 @@ type ComputeCluster struct {
 	// Optional timeout value in minutes used to auto stop Compute Clusters. A cluster will be auto stopped after inactivity for this amount of time period.
 	// If value not set, the cluster will not be auto stopped.
 	IdleComputeClusterTimeoutInMinutes *int `mandatory:"false" json:"idleComputeClusterTimeoutInMinutes"`
+
+	// WorkspaceKey of the cluster.
+	WorkspaceKey *string `mandatory:"false" json:"workspaceKey"`
+
+	// HubProxyEndpoint of the cluster.
+	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
+
+	// Cluster Key of the cluster.
+	ClusterKey *string `mandatory:"false" json:"clusterKey"`
 }
 
 func (m ComputeCluster) String() string {

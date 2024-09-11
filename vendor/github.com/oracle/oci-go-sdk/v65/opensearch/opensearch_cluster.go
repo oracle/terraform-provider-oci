@@ -154,6 +154,9 @@ type OpensearchCluster struct {
 
 	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
 
+	// The list of source clusters for which the cluster is remote
+	SourceClusters []string `mandatory:"false" json:"sourceClusters"`
+
 	MaintenanceDetails *MaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
 }
 

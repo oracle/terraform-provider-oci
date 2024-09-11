@@ -20,6 +20,8 @@ type StartBdsInstanceDetails struct {
 
 	// Base-64 encoded password for the cluster admin user.
 	ClusterAdminPassword *string `mandatory:"true" json:"clusterAdminPassword"`
+
+	StartClusterShapeConfigs *StartClusterShapeConfigs `mandatory:"false" json:"startClusterShapeConfigs"`
 }
 
 func (m StartBdsInstanceDetails) String() string {

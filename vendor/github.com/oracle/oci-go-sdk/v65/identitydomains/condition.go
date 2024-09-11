@@ -124,6 +124,7 @@ type Condition struct {
 	// A list of tags on this resource.
 	// **SCIM++ Properties:**
 	//  - idcsCompositeKey: [key, value]
+	//  - idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	//  - idcsSearchable: true
 	//  - multiValued: true
 	//  - mutability: readWrite
@@ -228,6 +229,8 @@ type Condition struct {
 	//  - type: string
 	//  - uniqueness: none
 	EvaluateConditionIf *string `mandatory:"false" json:"evaluateConditionIf"`
+
+	UrnIetfParamsScimSchemasOracleIdcsExtensionOciconsolesignonpolicyconsentPolicy *ConditionExtensionOciconsolesignonpolicyconsentPolicy `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:ociconsolesignonpolicyconsent:Policy"`
 }
 
 func (m Condition) String() string {

@@ -26,7 +26,7 @@ type ReverseConnectionsSourceIpDetails struct {
 
 	// The IP address in the customer's VCN to be used as the source IP for reverse connection packets
 	// traveling from the customer's VCN to the service's VCN.
-	// Example: `10.0.4.9`
+	// Example: `10.0.4.9` or 'fc00:0:1:0:699a:73be:85ff:6e65'
 	SourceIp *string `mandatory:"false" json:"sourceIp"`
 }
 

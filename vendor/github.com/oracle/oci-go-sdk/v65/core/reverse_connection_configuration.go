@@ -104,8 +104,8 @@ type ReverseConnectionConfiguration struct {
 	// be chosen from the service subnet's CIDR.
 	ProxyIpv6 *string `mandatory:"false" json:"proxyIpv6"`
 
-	// This optional field will indicate whether the RCE dns proxy will use v4 and v6 address in service dualstack subnet.
-	IsAssignDualstackProxyIpv6 *bool `mandatory:"false" json:"isAssignDualstackProxyIpv6"`
+	// This optional field will indicate whether the RCE will use v4 and v6 address in service and customer dualstack subnet.
+	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
 
 	// Number of customer endpoints that the service provider expects to establish connections to using this RCE. The default is 0.
 	// When non-zero value is specified, reverse connection configuration will be allocated with a list of CIDRs, from

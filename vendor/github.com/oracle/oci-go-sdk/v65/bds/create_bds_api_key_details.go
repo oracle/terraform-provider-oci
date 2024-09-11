@@ -31,6 +31,9 @@ type CreateBdsApiKeyDetails struct {
 	// The name of the region to establish the Object Storage endpoint. See https://docs.oracle.com/en-us/iaas/api/#/en/identity/20160918/Region/
 	// for additional information.
 	DefaultRegion *string `mandatory:"false" json:"defaultRegion"`
+
+	// Identity domain OCID , where user is present. For default domain , this field will be optional.
+	DomainOcid *string `mandatory:"false" json:"domainOcid"`
 }
 
 func (m CreateBdsApiKeyDetails) String() string {

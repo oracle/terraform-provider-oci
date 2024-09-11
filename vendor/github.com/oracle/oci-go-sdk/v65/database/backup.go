@@ -83,6 +83,24 @@ type Backup struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	// List of OCIDs of the key containers used as the secondary encryption key in database transparent data encryption (TDE) operations.
+	SecondaryKmsKeyIds []string `mandatory:"false" json:"secondaryKmsKeyIds"`
+
+	// The retention period of the long term backup in days.
+	RetentionPeriodInDays *int `mandatory:"false" json:"retentionPeriodInDays"`
+
+	// The retention period of the long term backup in years.
+	RetentionPeriodInYears *int `mandatory:"false" json:"retentionPeriodInYears"`
+
+	// Expiration time of the long term database backup.
+	TimeExpiryScheduled *common.SDKTime `mandatory:"false" json:"timeExpiryScheduled"`
+
+	// True if Oracle Managed Keys is required for restore of the backup.
+	IsUsingOracleManagedKeys *bool `mandatory:"false" json:"isUsingOracleManagedKeys"`
+
+	// Type of the backup destination.
+	BackupDestinationType BackupBackupDestinationTypeEnum `mandatory:"false" json:"backupDestinationType,omitempty"`
 }
 
 func (m Backup) String() string {
@@ -103,6 +121,9 @@ func (m Backup) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingBackupDatabaseEditionEnum(string(m.DatabaseEdition)); !ok && m.DatabaseEdition != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DatabaseEdition: %s. Supported values are: %s.", m.DatabaseEdition, strings.Join(GetBackupDatabaseEditionEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackupBackupDestinationTypeEnum(string(m.BackupDestinationType)); !ok && m.BackupDestinationType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupDestinationType: %s. Supported values are: %s.", m.BackupDestinationType, strings.Join(GetBackupBackupDestinationTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -167,6 +188,7 @@ const (
 	BackupLifecycleStateDeleted   BackupLifecycleStateEnum = "DELETED"
 	BackupLifecycleStateFailed    BackupLifecycleStateEnum = "FAILED"
 	BackupLifecycleStateRestoring BackupLifecycleStateEnum = "RESTORING"
+	BackupLifecycleStateUpdating  BackupLifecycleStateEnum = "UPDATING"
 	BackupLifecycleStateCanceling BackupLifecycleStateEnum = "CANCELING"
 	BackupLifecycleStateCanceled  BackupLifecycleStateEnum = "CANCELED"
 )
@@ -178,6 +200,7 @@ var mappingBackupLifecycleStateEnum = map[string]BackupLifecycleStateEnum{
 	"DELETED":   BackupLifecycleStateDeleted,
 	"FAILED":    BackupLifecycleStateFailed,
 	"RESTORING": BackupLifecycleStateRestoring,
+	"UPDATING":  BackupLifecycleStateUpdating,
 	"CANCELING": BackupLifecycleStateCanceling,
 	"CANCELED":  BackupLifecycleStateCanceled,
 }
@@ -189,6 +212,7 @@ var mappingBackupLifecycleStateEnumLowerCase = map[string]BackupLifecycleStateEn
 	"deleted":   BackupLifecycleStateDeleted,
 	"failed":    BackupLifecycleStateFailed,
 	"restoring": BackupLifecycleStateRestoring,
+	"updating":  BackupLifecycleStateUpdating,
 	"canceling": BackupLifecycleStateCanceling,
 	"canceled":  BackupLifecycleStateCanceled,
 }
@@ -211,6 +235,7 @@ func GetBackupLifecycleStateEnumStringValues() []string {
 		"DELETED",
 		"FAILED",
 		"RESTORING",
+		"UPDATING",
 		"CANCELING",
 		"CANCELED",
 	}
@@ -269,5 +294,47 @@ func GetBackupDatabaseEditionEnumStringValues() []string {
 // GetMappingBackupDatabaseEditionEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingBackupDatabaseEditionEnum(val string) (BackupDatabaseEditionEnum, bool) {
 	enum, ok := mappingBackupDatabaseEditionEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// BackupBackupDestinationTypeEnum Enum with underlying type: string
+type BackupBackupDestinationTypeEnum string
+
+// Set of constants representing the allowable values for BackupBackupDestinationTypeEnum
+const (
+	BackupBackupDestinationTypeObjectStore BackupBackupDestinationTypeEnum = "OBJECT_STORE"
+	BackupBackupDestinationTypeDbrs        BackupBackupDestinationTypeEnum = "DBRS"
+)
+
+var mappingBackupBackupDestinationTypeEnum = map[string]BackupBackupDestinationTypeEnum{
+	"OBJECT_STORE": BackupBackupDestinationTypeObjectStore,
+	"DBRS":         BackupBackupDestinationTypeDbrs,
+}
+
+var mappingBackupBackupDestinationTypeEnumLowerCase = map[string]BackupBackupDestinationTypeEnum{
+	"object_store": BackupBackupDestinationTypeObjectStore,
+	"dbrs":         BackupBackupDestinationTypeDbrs,
+}
+
+// GetBackupBackupDestinationTypeEnumValues Enumerates the set of values for BackupBackupDestinationTypeEnum
+func GetBackupBackupDestinationTypeEnumValues() []BackupBackupDestinationTypeEnum {
+	values := make([]BackupBackupDestinationTypeEnum, 0)
+	for _, v := range mappingBackupBackupDestinationTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetBackupBackupDestinationTypeEnumStringValues Enumerates the set of values in String for BackupBackupDestinationTypeEnum
+func GetBackupBackupDestinationTypeEnumStringValues() []string {
+	return []string{
+		"OBJECT_STORE",
+		"DBRS",
+	}
+}
+
+// GetMappingBackupBackupDestinationTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingBackupBackupDestinationTypeEnum(val string) (BackupBackupDestinationTypeEnum, bool) {
+	enum, ok := mappingBackupBackupDestinationTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

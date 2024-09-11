@@ -30,8 +30,8 @@ type ModifyReverseConnectionsDetails struct {
 	// This field will be deprecated in favor of proxyIp in future. (Optional field)
 	ProxyIpv6 *string `mandatory:"false" json:"proxyIpv6"`
 
-	// This optional field will indicate whether the RCE dns proxy will use v4 and v6 address in service dualstack subnet.
-	IsAssignDualstackProxyIpv6 *bool `mandatory:"false" json:"isAssignDualstackProxyIpv6"`
+	// This optional field will indicate whether the RCE will use v4 and v6 address in service and customer dualstack subnet.
+	IsAssignDualstackIpv6 *bool `mandatory:"false" json:"isAssignDualstackIpv6"`
 
 	// List of DNS zones to exclude from the default DNS resolution context.
 	ExcludedDnsZones []string `mandatory:"false" json:"excludedDnsZones"`
@@ -79,6 +79,11 @@ type ModifyReverseConnectionsDetails struct {
 	// This field cannot be specified if the customerEndpointsV6Size field is non null and vice versa.
 	// Additional Cidrs can be specified, however the existing CIDRs cannot be modified or removed.
 	ReverseConnectionNatIpv6Cidrs []string `mandatory:"false" json:"reverseConnectionNatIpv6Cidrs"`
+
+	// A list of IPv6 addresses in the customer VCN to be used as the source IPs for reverse connection packets
+	// traveling from the service's VCN to the customer's VCN. If no list is specified or
+	// an empty list is provided, an IPv6 address will be chosen from the customer subnet's CIDR.
+	ReverseConnectionsSourceIpv6s []ReverseConnectionsSourceIpDetails `mandatory:"false" json:"reverseConnectionsSourceIpv6s"`
 }
 
 func (m ModifyReverseConnectionsDetails) String() string {

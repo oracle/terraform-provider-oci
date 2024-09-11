@@ -73,6 +73,11 @@ type DesktopPool struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	ShapeConfig *DesktopPoolShapeConfig `mandatory:"false" json:"shapeConfig"`
+
+	// Indicates whether the desktop pool uses dedicated virtual machine hosts.
+	UseDedicatedVmHost DesktopPoolUseDedicatedVmHostEnum `mandatory:"false" json:"useDedicatedVmHost,omitempty"`
+
 	// The start time of the desktop pool.
 	TimeStartScheduled *common.SDKTime `mandatory:"false" json:"timeStartScheduled"`
 
@@ -107,8 +112,57 @@ func (m DesktopPool) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDesktopPoolUseDedicatedVmHostEnum(string(m.UseDedicatedVmHost)); !ok && m.UseDedicatedVmHost != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UseDedicatedVmHost: %s. Supported values are: %s.", m.UseDedicatedVmHost, strings.Join(GetDesktopPoolUseDedicatedVmHostEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DesktopPoolUseDedicatedVmHostEnum Enum with underlying type: string
+type DesktopPoolUseDedicatedVmHostEnum string
+
+// Set of constants representing the allowable values for DesktopPoolUseDedicatedVmHostEnum
+const (
+	DesktopPoolUseDedicatedVmHostTrue  DesktopPoolUseDedicatedVmHostEnum = "TRUE"
+	DesktopPoolUseDedicatedVmHostFalse DesktopPoolUseDedicatedVmHostEnum = "FALSE"
+	DesktopPoolUseDedicatedVmHostAuto  DesktopPoolUseDedicatedVmHostEnum = "AUTO"
+)
+
+var mappingDesktopPoolUseDedicatedVmHostEnum = map[string]DesktopPoolUseDedicatedVmHostEnum{
+	"TRUE":  DesktopPoolUseDedicatedVmHostTrue,
+	"FALSE": DesktopPoolUseDedicatedVmHostFalse,
+	"AUTO":  DesktopPoolUseDedicatedVmHostAuto,
+}
+
+var mappingDesktopPoolUseDedicatedVmHostEnumLowerCase = map[string]DesktopPoolUseDedicatedVmHostEnum{
+	"true":  DesktopPoolUseDedicatedVmHostTrue,
+	"false": DesktopPoolUseDedicatedVmHostFalse,
+	"auto":  DesktopPoolUseDedicatedVmHostAuto,
+}
+
+// GetDesktopPoolUseDedicatedVmHostEnumValues Enumerates the set of values for DesktopPoolUseDedicatedVmHostEnum
+func GetDesktopPoolUseDedicatedVmHostEnumValues() []DesktopPoolUseDedicatedVmHostEnum {
+	values := make([]DesktopPoolUseDedicatedVmHostEnum, 0)
+	for _, v := range mappingDesktopPoolUseDedicatedVmHostEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDesktopPoolUseDedicatedVmHostEnumStringValues Enumerates the set of values in String for DesktopPoolUseDedicatedVmHostEnum
+func GetDesktopPoolUseDedicatedVmHostEnumStringValues() []string {
+	return []string{
+		"TRUE",
+		"FALSE",
+		"AUTO",
+	}
+}
+
+// GetMappingDesktopPoolUseDedicatedVmHostEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDesktopPoolUseDedicatedVmHostEnum(val string) (DesktopPoolUseDedicatedVmHostEnum, bool) {
+	enum, ok := mappingDesktopPoolUseDedicatedVmHostEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

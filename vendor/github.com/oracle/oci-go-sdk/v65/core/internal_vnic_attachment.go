@@ -89,6 +89,8 @@ type InternalVnicAttachment struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of `Cluster Placement Group` to be used
 	// for the ServiceVnic placement.
 	CpgId *string `mandatory:"false" json:"cpgId"`
+
+	VnicaasPodConfig *VnicaasPodConfig `mandatory:"false" json:"vnicaasPodConfig"`
 }
 
 func (m InternalVnicAttachment) String() string {

@@ -40,6 +40,12 @@ type ComputeClusterCommand struct {
 
 	// Spark events details for the command.
 	Events *interface{} `mandatory:"false" json:"events"`
+
+	// Indicates whether resolved output parameters should be returned in Response.
+	IsOutputParameterRequired *bool `mandatory:"false" json:"isOutputParameterRequired"`
+
+	// Parameter key value pairs. Example: `{"paramA_key": "paramA_value","paramB_key": "paramB_value"}`
+	ParameterMap *interface{} `mandatory:"false" json:"parameterMap"`
 }
 
 func (m ComputeClusterCommand) String() string {

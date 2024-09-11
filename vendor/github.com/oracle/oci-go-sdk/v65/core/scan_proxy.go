@@ -54,6 +54,10 @@ type ScanProxy struct {
 	// service.
 	ScanProxyIp *string `mandatory:"false" json:"scanProxyIp"`
 
+	// The IPv6 address in the service VCN to be used to reach the reverse connection SCAN proxy
+	// service.
+	ScanProxyIpv6 *string `mandatory:"false" json:"scanProxyIpv6"`
+
 	// The scan proxy instance's current state.
 	LifecycleState ScanProxyLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 

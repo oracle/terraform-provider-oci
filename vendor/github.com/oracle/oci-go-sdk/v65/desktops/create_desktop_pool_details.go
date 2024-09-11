@@ -64,6 +64,11 @@ type CreateDesktopPoolDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	ShapeConfig *CreateDesktopPoolShapeConfigDetails `mandatory:"false" json:"shapeConfig"`
+
+	// Indicates whether the desktop pool uses dedicated virtual machine hosts.
+	UseDedicatedVmHost CreateDesktopPoolDetailsUseDedicatedVmHostEnum `mandatory:"false" json:"useDedicatedVmHost,omitempty"`
+
 	// The start time of the desktop pool.
 	TimeStartScheduled *common.SDKTime `mandatory:"false" json:"timeStartScheduled"`
 
@@ -95,8 +100,57 @@ func (m CreateDesktopPoolDetails) String() string {
 func (m CreateDesktopPoolDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingCreateDesktopPoolDetailsUseDedicatedVmHostEnum(string(m.UseDedicatedVmHost)); !ok && m.UseDedicatedVmHost != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UseDedicatedVmHost: %s. Supported values are: %s.", m.UseDedicatedVmHost, strings.Join(GetCreateDesktopPoolDetailsUseDedicatedVmHostEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// CreateDesktopPoolDetailsUseDedicatedVmHostEnum Enum with underlying type: string
+type CreateDesktopPoolDetailsUseDedicatedVmHostEnum string
+
+// Set of constants representing the allowable values for CreateDesktopPoolDetailsUseDedicatedVmHostEnum
+const (
+	CreateDesktopPoolDetailsUseDedicatedVmHostTrue  CreateDesktopPoolDetailsUseDedicatedVmHostEnum = "TRUE"
+	CreateDesktopPoolDetailsUseDedicatedVmHostFalse CreateDesktopPoolDetailsUseDedicatedVmHostEnum = "FALSE"
+	CreateDesktopPoolDetailsUseDedicatedVmHostAuto  CreateDesktopPoolDetailsUseDedicatedVmHostEnum = "AUTO"
+)
+
+var mappingCreateDesktopPoolDetailsUseDedicatedVmHostEnum = map[string]CreateDesktopPoolDetailsUseDedicatedVmHostEnum{
+	"TRUE":  CreateDesktopPoolDetailsUseDedicatedVmHostTrue,
+	"FALSE": CreateDesktopPoolDetailsUseDedicatedVmHostFalse,
+	"AUTO":  CreateDesktopPoolDetailsUseDedicatedVmHostAuto,
+}
+
+var mappingCreateDesktopPoolDetailsUseDedicatedVmHostEnumLowerCase = map[string]CreateDesktopPoolDetailsUseDedicatedVmHostEnum{
+	"true":  CreateDesktopPoolDetailsUseDedicatedVmHostTrue,
+	"false": CreateDesktopPoolDetailsUseDedicatedVmHostFalse,
+	"auto":  CreateDesktopPoolDetailsUseDedicatedVmHostAuto,
+}
+
+// GetCreateDesktopPoolDetailsUseDedicatedVmHostEnumValues Enumerates the set of values for CreateDesktopPoolDetailsUseDedicatedVmHostEnum
+func GetCreateDesktopPoolDetailsUseDedicatedVmHostEnumValues() []CreateDesktopPoolDetailsUseDedicatedVmHostEnum {
+	values := make([]CreateDesktopPoolDetailsUseDedicatedVmHostEnum, 0)
+	for _, v := range mappingCreateDesktopPoolDetailsUseDedicatedVmHostEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateDesktopPoolDetailsUseDedicatedVmHostEnumStringValues Enumerates the set of values in String for CreateDesktopPoolDetailsUseDedicatedVmHostEnum
+func GetCreateDesktopPoolDetailsUseDedicatedVmHostEnumStringValues() []string {
+	return []string{
+		"TRUE",
+		"FALSE",
+		"AUTO",
+	}
+}
+
+// GetMappingCreateDesktopPoolDetailsUseDedicatedVmHostEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateDesktopPoolDetailsUseDedicatedVmHostEnum(val string) (CreateDesktopPoolDetailsUseDedicatedVmHostEnum, bool) {
+	enum, ok := mappingCreateDesktopPoolDetailsUseDedicatedVmHostEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

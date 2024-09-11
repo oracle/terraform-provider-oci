@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Engine for Kubernetes API
+// Kubernetes Engine API
 //
-// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
 // and manage cloud-native applications. For more information, see
-// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+// Overview of Kubernetes Engine (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -55,6 +55,8 @@ const (
 	WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestOperationTypeMoveClusterNamespaceProfileVersion   WorkRequestOperationTypeEnum = "MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION"
+	WorkRequestOperationTypeClusterNodeCycle                     WorkRequestOperationTypeEnum = "CLUSTER_NODE_CYCLE"
+	WorkRequestOperationTypeClusterNodeReboot                    WorkRequestOperationTypeEnum = "CLUSTER_NODE_REBOOT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -93,6 +95,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION": WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion,
 	"DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION": WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion,
 	"MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION":   WorkRequestOperationTypeMoveClusterNamespaceProfileVersion,
+	"CLUSTER_NODE_CYCLE":                       WorkRequestOperationTypeClusterNodeCycle,
+	"CLUSTER_NODE_REBOOT":                      WorkRequestOperationTypeClusterNodeReboot,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -131,6 +135,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_cluster_namespace_profile_version": WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion,
 	"delete_cluster_namespace_profile_version": WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion,
 	"move_cluster_namespace_profile_version":   WorkRequestOperationTypeMoveClusterNamespaceProfileVersion,
+	"cluster_node_cycle":                       WorkRequestOperationTypeClusterNodeCycle,
+	"cluster_node_reboot":                      WorkRequestOperationTypeClusterNodeReboot,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -180,6 +186,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION",
 		"DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION",
 		"MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION",
+		"CLUSTER_NODE_CYCLE",
+		"CLUSTER_NODE_REBOOT",
 	}
 }
 

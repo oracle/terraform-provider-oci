@@ -32,6 +32,9 @@ type ComputeClusterContext struct {
 
 	// The time the Compute Cluster Context was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// Parameter key value pairs. Example: `{"paramA_key": "paramA_value","paramB_key": "paramB_value"}`
+	ParameterMap *interface{} `mandatory:"false" json:"parameterMap"`
 }
 
 func (m ComputeClusterContext) String() string {

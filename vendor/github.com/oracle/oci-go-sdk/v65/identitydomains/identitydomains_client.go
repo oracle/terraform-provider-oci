@@ -719,7 +719,7 @@ func (client IdentityDomainsClient) createCloudGateServer(ctx context.Context, r
 	return response, err
 }
 
-// CreateCondition Create a Condition
+// CreateCondition Create a condition
 func (client IdentityDomainsClient) CreateCondition(ctx context.Context, request CreateConditionRequest) (response CreateConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2111,7 +2111,7 @@ func (client IdentityDomainsClient) createPasswordPolicy(ctx context.Context, re
 	return response, err
 }
 
-// CreatePolicy Create a Policy
+// CreatePolicy Create a Policy.
 func (client IdentityDomainsClient) CreatePolicy(ctx context.Context, request CreatePolicyRequest) (response CreatePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2169,7 +2169,65 @@ func (client IdentityDomainsClient) createPolicy(ctx context.Context, request co
 	return response, err
 }
 
-// CreateRule Create a Rule
+// CreateRestoreOciConsolePolicy Create a RestoreOciConsolePolicy entry to restore Policy to factory default.
+func (client IdentityDomainsClient) CreateRestoreOciConsolePolicy(ctx context.Context, request CreateRestoreOciConsolePolicyRequest) (response CreateRestoreOciConsolePolicyResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRestoreOciConsolePolicy, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRestoreOciConsolePolicyResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRestoreOciConsolePolicyResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRestoreOciConsolePolicyResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRestoreOciConsolePolicyResponse")
+	}
+	return
+}
+
+// createRestoreOciConsolePolicy implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) createRestoreOciConsolePolicy(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/RestoreOciConsolePolicy", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRestoreOciConsolePolicyResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "IdentityDomains", "CreateRestoreOciConsolePolicy", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateRule Create a Rule.
 func (client IdentityDomainsClient) CreateRule(ctx context.Context, request CreateRuleRequest) (response CreateRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -3155,7 +3213,7 @@ func (client IdentityDomainsClient) deleteCloudGateServer(ctx context.Context, r
 	return response, err
 }
 
-// DeleteCondition Delete a Condition
+// DeleteCondition Delete a condition.
 func (client IdentityDomainsClient) DeleteCondition(ctx context.Context, request DeleteConditionRequest) (response DeleteConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4373,7 +4431,7 @@ func (client IdentityDomainsClient) deletePasswordPolicy(ctx context.Context, re
 	return response, err
 }
 
-// DeletePolicy Delete a Policy
+// DeletePolicy Delete a Policy.
 func (client IdentityDomainsClient) DeletePolicy(ctx context.Context, request DeletePolicyRequest) (response DeletePolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -4431,7 +4489,7 @@ func (client IdentityDomainsClient) deletePolicy(ctx context.Context, request co
 	return response, err
 }
 
-// DeleteRule Delete a Rule
+// DeleteRule Delete a Rule.
 func (client IdentityDomainsClient) DeleteRule(ctx context.Context, request DeleteRuleRequest) (response DeleteRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5649,7 +5707,7 @@ func (client IdentityDomainsClient) getCloudGateServer(ctx context.Context, requ
 	return response, err
 }
 
-// GetCondition Get a Condition
+// GetCondition Get a condition.
 func (client IdentityDomainsClient) GetCondition(ctx context.Context, request GetConditionRequest) (response GetConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7273,6 +7331,64 @@ func (client IdentityDomainsClient) getOAuthPartnerCertificate(ctx context.Conte
 	return response, err
 }
 
+// GetOciConsoleSignOnPolicyConsent Get a OciConsoleSignOnPolicyConsent Entry.
+func (client IdentityDomainsClient) GetOciConsoleSignOnPolicyConsent(ctx context.Context, request GetOciConsoleSignOnPolicyConsentRequest) (response GetOciConsoleSignOnPolicyConsentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getOciConsoleSignOnPolicyConsent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetOciConsoleSignOnPolicyConsentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetOciConsoleSignOnPolicyConsentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetOciConsoleSignOnPolicyConsentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetOciConsoleSignOnPolicyConsentResponse")
+	}
+	return
+}
+
+// getOciConsoleSignOnPolicyConsent implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) getOciConsoleSignOnPolicyConsent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OciConsoleSignOnPolicyConsents/{ociConsoleSignOnPolicyConsentId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetOciConsoleSignOnPolicyConsentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/GetOciConsoleSignOnPolicyConsent"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "GetOciConsoleSignOnPolicyConsent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetPasswordPolicy Get a password policy.
 func (client IdentityDomainsClient) GetPasswordPolicy(ctx context.Context, request GetPasswordPolicyRequest) (response GetPasswordPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7331,7 +7447,7 @@ func (client IdentityDomainsClient) getPasswordPolicy(ctx context.Context, reque
 	return response, err
 }
 
-// GetPolicy Get a Policy
+// GetPolicy Get a Policy.
 func (client IdentityDomainsClient) GetPolicy(ctx context.Context, request GetPolicyRequest) (response GetPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -7389,7 +7505,7 @@ func (client IdentityDomainsClient) getPolicy(ctx context.Context, request commo
 	return response, err
 }
 
-// GetRule Get a Rule
+// GetRule Get a Rule.
 func (client IdentityDomainsClient) GetRule(ctx context.Context, request GetRuleRequest) (response GetRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8839,7 +8955,7 @@ func (client IdentityDomainsClient) listCloudGates(ctx context.Context, request 
 	return response, err
 }
 
-// ListConditions Search Conditions
+// ListConditions Search conditions.
 func (client IdentityDomainsClient) ListConditions(ctx context.Context, request ListConditionsRequest) (response ListConditionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -8888,7 +9004,7 @@ func (client IdentityDomainsClient) listConditions(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Conditions/ListConditions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/ListConditions"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListConditions", apiReferenceLink)
 		return response, err
 	}
@@ -10579,6 +10695,64 @@ func (client IdentityDomainsClient) listOAuthPartnerCertificates(ctx context.Con
 	return response, err
 }
 
+// ListOciConsoleSignOnPolicyConsents Search OciConsoleSignOnPolicyConsent entries
+func (client IdentityDomainsClient) ListOciConsoleSignOnPolicyConsents(ctx context.Context, request ListOciConsoleSignOnPolicyConsentsRequest) (response ListOciConsoleSignOnPolicyConsentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.listOciConsoleSignOnPolicyConsents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOciConsoleSignOnPolicyConsentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOciConsoleSignOnPolicyConsentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOciConsoleSignOnPolicyConsentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOciConsoleSignOnPolicyConsentsResponse")
+	}
+	return
+}
+
+// listOciConsoleSignOnPolicyConsents implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) listOciConsoleSignOnPolicyConsents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/admin/v1/OciConsoleSignOnPolicyConsents", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOciConsoleSignOnPolicyConsentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/ListOciConsoleSignOnPolicyConsents"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "ListOciConsoleSignOnPolicyConsents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPasswordPolicies Search for password policies.
 func (client IdentityDomainsClient) ListPasswordPolicies(ctx context.Context, request ListPasswordPoliciesRequest) (response ListPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10637,7 +10811,7 @@ func (client IdentityDomainsClient) listPasswordPolicies(ctx context.Context, re
 	return response, err
 }
 
-// ListPolicies Search Policies
+// ListPolicies Search Policies.
 func (client IdentityDomainsClient) ListPolicies(ctx context.Context, request ListPoliciesRequest) (response ListPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10686,7 +10860,7 @@ func (client IdentityDomainsClient) listPolicies(ctx context.Context, request co
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policies/ListPolicies"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/ListPolicies"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -10753,7 +10927,7 @@ func (client IdentityDomainsClient) listResourceTypeSchemaAttributes(ctx context
 	return response, err
 }
 
-// ListRules Search Rules
+// ListRules Search Rules.
 func (client IdentityDomainsClient) ListRules(ctx context.Context, request ListRulesRequest) (response ListRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -10802,7 +10976,7 @@ func (client IdentityDomainsClient) listRules(ctx context.Context, request commo
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rules/ListRules"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/ListRules"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "ListRules", apiReferenceLink)
 		return response, err
 	}
@@ -11971,7 +12145,7 @@ func (client IdentityDomainsClient) patchCloudGateServer(ctx context.Context, re
 	return response, err
 }
 
-// PatchCondition Update a Condition
+// PatchCondition Update a condition.
 func (client IdentityDomainsClient) PatchCondition(ctx context.Context, request PatchConditionRequest) (response PatchConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13247,7 +13421,7 @@ func (client IdentityDomainsClient) patchPasswordPolicy(ctx context.Context, req
 	return response, err
 }
 
-// PatchPolicy Update a Policy
+// PatchPolicy Update a Policy.
 func (client IdentityDomainsClient) PatchPolicy(ctx context.Context, request PatchPolicyRequest) (response PatchPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -13305,7 +13479,7 @@ func (client IdentityDomainsClient) patchPolicy(ctx context.Context, request com
 	return response, err
 }
 
-// PatchRule Update a Rule
+// PatchRule Update a Rule.
 func (client IdentityDomainsClient) PatchRule(ctx context.Context, request PatchRuleRequest) (response PatchRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -14349,7 +14523,7 @@ func (client IdentityDomainsClient) putCloudGateServer(ctx context.Context, requ
 	return response, err
 }
 
-// PutCondition Replace a Condition
+// PutCondition Replace a condition.
 func (client IdentityDomainsClient) PutCondition(ctx context.Context, request PutConditionRequest) (response PutConditionResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15103,7 +15277,7 @@ func (client IdentityDomainsClient) putPasswordPolicy(ctx context.Context, reque
 	return response, err
 }
 
-// PutPolicy Replace a Policy
+// PutPolicy Replace a Policy.
 func (client IdentityDomainsClient) PutPolicy(ctx context.Context, request PutPolicyRequest) (response PutPolicyResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -15161,7 +15335,7 @@ func (client IdentityDomainsClient) putPolicy(ctx context.Context, request commo
 	return response, err
 }
 
-// PutRule Replace a Rule
+// PutRule Replace a Rule.
 func (client IdentityDomainsClient) PutRule(ctx context.Context, request PutRuleRequest) (response PutRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16321,7 +16495,7 @@ func (client IdentityDomainsClient) searchCloudGates(ctx context.Context, reques
 	return response, err
 }
 
-// SearchConditions Search Conditions Using POST
+// SearchConditions Search Conditions Using POST.
 func (client IdentityDomainsClient) SearchConditions(ctx context.Context, request SearchConditionsRequest) (response SearchConditionsResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -16370,7 +16544,7 @@ func (client IdentityDomainsClient) searchConditions(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Conditions/SearchConditions"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Condition/SearchConditions"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchConditions", apiReferenceLink)
 		return response, err
 	}
@@ -17365,6 +17539,64 @@ func (client IdentityDomainsClient) searchOAuthPartnerCertificates(ctx context.C
 	return response, err
 }
 
+// SearchOciConsoleSignOnPolicyConsents Search OciConsoleSignOnPolicyConsents Using POST
+func (client IdentityDomainsClient) SearchOciConsoleSignOnPolicyConsents(ctx context.Context, request SearchOciConsoleSignOnPolicyConsentsRequest) (response SearchOciConsoleSignOnPolicyConsentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.searchOciConsoleSignOnPolicyConsents, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SearchOciConsoleSignOnPolicyConsentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SearchOciConsoleSignOnPolicyConsentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SearchOciConsoleSignOnPolicyConsentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SearchOciConsoleSignOnPolicyConsentsResponse")
+	}
+	return
+}
+
+// searchOciConsoleSignOnPolicyConsents implements the OCIOperation interface (enables retrying operations)
+func (client IdentityDomainsClient) searchOciConsoleSignOnPolicyConsents(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/admin/v1/OciConsoleSignOnPolicyConsents/.search", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SearchOciConsoleSignOnPolicyConsentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/OciConsoleSignOnPolicyConsent/SearchOciConsoleSignOnPolicyConsents"
+		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchOciConsoleSignOnPolicyConsents", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchPasswordPolicies Search for password policies using POST.
 func (client IdentityDomainsClient) SearchPasswordPolicies(ctx context.Context, request SearchPasswordPoliciesRequest) (response SearchPasswordPoliciesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17472,7 +17704,7 @@ func (client IdentityDomainsClient) searchPolicies(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policies/SearchPolicies"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Policy/SearchPolicies"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -17539,7 +17771,7 @@ func (client IdentityDomainsClient) searchResourceTypeSchemaAttributes(ctx conte
 	return response, err
 }
 
-// SearchRules Search Rules Using POST
+// SearchRules Search Rules Using POST.
 func (client IdentityDomainsClient) SearchRules(ctx context.Context, request SearchRulesRequest) (response SearchRulesResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -17588,7 +17820,7 @@ func (client IdentityDomainsClient) searchRules(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rules/SearchRules"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/identity-domains/v1/Rule/SearchRules"
 		err = common.PostProcessServiceError(err, "IdentityDomains", "SearchRules", apiReferenceLink)
 		return response, err
 	}

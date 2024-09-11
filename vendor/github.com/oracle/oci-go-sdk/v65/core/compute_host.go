@@ -52,6 +52,15 @@ type ComputeHost struct {
 	// The lifecycle state of the host
 	LifecycleState ComputeHostLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The date and time that the compute host record was created, in the format defined by RFC3339 (https://tools
+	// .ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
+
+	// The date and time that the compute host record was updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeUpdated *common.SDKTime `mandatory:"true" json:"timeUpdated"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for Customer-unique HPC Island
 	HpcIslandId *string `mandatory:"false" json:"hpcIslandId"`
 

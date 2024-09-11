@@ -35,6 +35,9 @@ type StopComputeClusterRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// The optional parameter of details for stop compute cluster command.
+	StopComputeClusterDetails `contributesTo:"body"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

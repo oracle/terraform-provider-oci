@@ -26,6 +26,9 @@ type CreateComputeClusterCommandDetails struct {
 
 	// URL to give callback.
 	CallbackUrl *string `mandatory:"false" json:"callbackUrl"`
+
+	// Indicates whether resolved output parameters should be returned in Response.
+	IsOutputParameterRequired *bool `mandatory:"false" json:"isOutputParameterRequired"`
 }
 
 func (m CreateComputeClusterCommandDetails) String() string {
