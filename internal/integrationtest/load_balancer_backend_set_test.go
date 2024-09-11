@@ -77,6 +77,13 @@ var (
 		"policy":           acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
 	}
 
+	backendSet3Representation = map[string]interface{}{
+		"health_checker":   acctest.RepresentationGroup{RepType: acctest.Required, Group: backendSetHealthCheckerRepresentation},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer3.id}`},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `backendSet3`},
+		"policy":           acctest.Representation{RepType: acctest.Required, Create: `LEAST_CONNECTIONS`},
+	}
+
 	backendSetLBRepresentation = acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(backendSetRepresentation, []string{`session_persistence_configuration`}), map[string]interface{}{
 		"lb_cookie_session_persistence_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: backendSetLbCookieSessionPersistenceConfigurationRepresentation},
 	})
