@@ -270,7 +270,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 			},
 			"ip_address": {
 				Type:     schema.TypeString,
@@ -1222,6 +1221,11 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok && s.D.HasChange("freeform_tags") {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if hostnameLabel, ok := s.D.GetOkExists("hostname_label"); ok && s.D.HasChange("hostname_label") {
+		tmp := hostnameLabel.(string)
+		request.HostnameLabel = &tmp
 	}
 
 	if isHighlyAvailable, ok := s.D.GetOkExists("is_highly_available"); ok && s.D.HasChange("is_highly_available") {
