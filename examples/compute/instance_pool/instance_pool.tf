@@ -333,11 +333,6 @@ data "oci_core_instance" "test_instance_pool_instance_singular_datasource" {
   instance_id = data.oci_core_instance_pool_instances.test_instance_pool_instances_datasource.instances[count.index]["id"]
 }
 
-data "oci_core_instance_pool_load_balancer_attachment" "test_instance_pool_load_balancer_attachment" {
-  instance_pool_id                          = oci_core_instance_pool.test_instance_pool.id
-  instance_pool_load_balancer_attachment_id = oci_core_instance_pool.test_instance_pool.load_balancers[0].id
-}
-
 output "pooled_instances_private_ips" {
   value = [data.oci_core_instance.test_instance_pool_instance_singular_datasource.*.private_ip]
 }
@@ -348,9 +343,5 @@ output "pooled_instances_public_ips" {
 
 output "pooled_instances_hostname_labels" {
   value = [data.oci_core_instance.test_instance_pool_instance_singular_datasource.*.hostname_label]
-}
-
-output "load_balancer_backend_set_name" {
-  value = [data.oci_core_instance_pool_load_balancer_attachment.test_instance_pool_load_balancer_attachment.backend_set_name]
 }
 

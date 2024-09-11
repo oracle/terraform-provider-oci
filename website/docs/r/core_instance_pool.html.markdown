@@ -86,7 +86,7 @@ The following arguments are supported:
 * `instance_configuration_id` - (Required) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - (Optional) (Updatable) A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
-* `load_balancers` - (Optional) The load balancers to attach to the instance pool. 
+* `load_balancers` - (Optional) The load balancers to attach to the instance pool. (Note: From 6.14.0 load_balancers field in oci_core_instance_pool is changed from TypeList to TypeSet - to support load balancer insert operation. Also, LB cant by accessed by index)
 	* `backend_set_name` - (Required) The name of the backend set on the load balancer to add instances to.
 	* `load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer to attach to the instance pool. 
 	* `port` - (Required) The port value to use when creating the backend set.
@@ -135,7 +135,7 @@ The following attributes are exported:
 * `instance_configuration_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance configuration associated with the instance pool. 
 * `instance_display_name_formatter` - A user-friendly formatter for the instance pool's instances. Instance displaynames follow the format. The formatter does not retroactively change instance's displaynames, only instance displaynames in the future follow the format 
 * `instance_hostname_formatter` - A user-friendly formatter for the instance pool's instances. Instance hostnames follow the format. The formatter does not retroactively change instance's hostnames, only instance hostnames in the future follow the format 
-* `load_balancers` - The load balancers attached to the instance pool. 
+* `load_balancers` - The load balancers attached to the instance pool. (Note: From 6.14.0 load_balancers field in oci_core_instance_pool is changed from TypeList to TypeSet - to support load balancer insert operation. Also, LB cant by accessed by index)
 	* `backend_set_name` - The name of the backend set on the load balancer.
 	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the load balancer attachment.
 	* `instance_pool_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance pool of the load balancer attachment. 

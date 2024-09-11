@@ -207,7 +207,7 @@ func CoreInstancePoolResource() *schema.Resource {
 				Computed: true,
 			},
 			"load_balancers": {
-				Type:             schema.TypeList,
+				Type:             schema.TypeSet,
 				Optional:         true,
 				Computed:         true,
 				DiffSuppressFunc: tfresource.LoadBalancersSuppressDiff,
@@ -402,15 +402,12 @@ func (s *CoreInstancePoolResourceCrud) Create() error {
 	}
 
 	if loadBalancers, ok := s.D.GetOkExists("load_balancers"); ok {
-		interfaces := loadBalancers.([]interface{})
+		set := loadBalancers.(*schema.Set)
+		interfaces := set.List()
+
 		tmp := make([]oci_core.AttachLoadBalancerDetails, len(interfaces))
-		for i := range interfaces {
-			stateDataIndex := i
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "load_balancers", stateDataIndex)
-			converted, err := s.mapToAttachLoadBalancerDetails(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
+		for i, item := range interfaces {
+			converted := mapToAttachLoadBalancerDetails(item.(map[string]interface{}))
 			tmp[i] = converted
 		}
 		if len(tmp) != 0 || s.D.HasChange("load_balancers") {
@@ -523,7 +520,12 @@ func (s *CoreInstancePoolResourceCrud) Update() error {
 	}
 
 	if _, ok := s.D.GetOkExists("load_balancers"); ok && s.D.HasChange("load_balancers") {
-		oldRaw, newRaw := s.D.GetChange("load_balancers")
+		oldPoint, newPoint := s.D.GetChange("load_balancers")
+		oldSet := oldPoint.(*schema.Set)
+		oldRaw := oldSet.List()
+		newSet := newPoint.(*schema.Set)
+		newRaw := newSet.List()
+
 		err := s.updateLoadBalancers(oldRaw, newRaw)
 		if err != nil {
 			return err
@@ -1070,18 +1072,24 @@ func (s *CoreInstancePoolResourceCrud) oneEditAway(oldLoadBalancers []oci_core.A
 	if Abs(newLbsLength-oldLbsLength) == 0 {
 		deltas, positionToUpdate := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
 		if deltas > 1 {
-			return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers details, only one load balancer can be modified but found more than one"
+			uniqueDeltas := s.getUniqueLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
+			if uniqueDeltas > 1 {
+				return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers details, only one load balancer can be modified but found more than one"
+			} else {
+				return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Info: Ignoring order of load balancers"
+			}
+
 		} else if deltas == 1 && positionToUpdate == newLbsLength-1 {
 			return true, "update", oldLoadBalancers[positionToUpdate], newLoadBalancers[positionToUpdate], ""
 		}
-		return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only the load balancer which is at the end of the config can be modified"
+		return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to update load balancers, only the load balancer which is at the end of the config can be modified"
 	}
 
 	// If the new lbs length is > old one that means an attach of an lb
 	if newLbsLength > oldLbsLength {
 		deltas, _ := s.getLoadBalancerDeltas(oldLoadBalancers, newLoadBalancers)
 		if deltas != 0 {
-			return false, "", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to attach load balancer, only the load balancer which is at the end of the config can be attached"
+			return true, "ignoreOrder", oci_core.AttachLoadBalancerDetails{}, oci_core.AttachLoadBalancerDetails{}, "Error: Failed to attach load balancer, only the load balancer which is at the end of the config can be attached"
 		}
 		return true, "attach", oci_core.AttachLoadBalancerDetails{}, newLoadBalancers[newLbsLength-1], ""
 	}
@@ -1118,43 +1126,162 @@ func (s *CoreInstancePoolResourceCrud) updateLoadBalancers(oldRaw interface{}, n
 	if !canEdit {
 		return fmt.Errorf(errorMsg)
 	}
-	id := s.D.Id()
 
-	if operation == "detach" || operation == "update" {
-		detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
-		detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
-		detachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		detachLoadBalancerRequest.InstancePoolId = &id
-		detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
-		_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
+	if operation == "ignoreOrder" {
+		log.Printf("Unordered edits are present in the request")
+		log.Printf("Error Msg from oneEditAway func: %s\n", errorMsg)
+		s.multipleEdits(oldBalancers, newBalancers)
+	} else {
+		id := s.D.Id()
 
-		if err != nil {
-			return err
+		if operation == "detach" || operation == "update" {
+			detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
+			detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
+			detachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			detachLoadBalancerRequest.InstancePoolId = &id
+			detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
+			_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
+
+			if err != nil {
+				return err
+			}
+
+			_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
+
+			if err != nil {
+				return err
+			}
 		}
 
-		_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
+		if operation == "attach" || operation == "update" {
+			attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
+			attachLoadBalancerRequest.InstancePoolId = &id
+			attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+			attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
+			_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
 
-		if err != nil {
-			return err
+			if err != nil {
+				return err
+			}
+
+			_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+
+			if err != nil {
+				return err
+			}
+		}
+	}
+	return nil
+}
+
+/*
+*
+This function handles unordered addition of load balancers and multiple changes to the load balancer list.
+It is designed to manage multiple attach and detach operations
+
+Currently, upstream filtering ensures only unordered requests are sent to this function to maintain alignment
+with the other SDK. In the future, when the other SDKs are updated to handle multiple operations on the load
+balancer list, we can update the conditions upstream to forward those requests to this function as well.
+*/
+func (s *CoreInstancePoolResourceCrud) multipleEdits(oldLoadBalancers []oci_core.AttachLoadBalancerDetails, newLoadBalancers []oci_core.AttachLoadBalancerDetails) {
+	log.Printf("entering the multiple edits")
+
+	var noChangeLBS []int
+	var attachLBS []oci_core.AttachLoadBalancerDetails
+	var detachLBS []oci_core.AttachLoadBalancerDetails
+
+	for _, newLoadBalancer := range newLoadBalancers {
+		foundMatch := false
+		for i, oldLoadBalancer := range oldLoadBalancers {
+			if lbHasChanges(newLoadBalancer, oldLoadBalancer) {
+				continue
+			}
+			log.Printf("Adding index to noChangeLBS list")
+			noChangeLBS = append(noChangeLBS, i)
+			foundMatch = true
+			//break
+		}
+		if !foundMatch {
+			attachLBS = append(attachLBS, newLoadBalancer)
 		}
 	}
 
-	if operation == "attach" || operation == "update" {
-		attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
-		attachLoadBalancerRequest.InstancePoolId = &id
-		attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
-		attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
-		_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
+	for i, oldLoadBalancer := range oldLoadBalancers {
+		foundMatch := false
+		for _, noChangeLB := range noChangeLBS {
+			if i == noChangeLB {
+				foundMatch = true
+			}
+		}
+		if !foundMatch {
+			detachLBS = append(detachLBS, oldLoadBalancer)
+		}
+	}
+
+	id := s.D.Id()
+
+	for _, detachLB := range detachLBS {
+		log.Printf("calling detach load balancer")
+		err := s.detachLoadBalancer(id, detachLB)
+		log.Printf("Detach load balancer process complete")
 
 		if err != nil {
-			return err
+			log.Printf("Error occurred while detaching load balancer: %v", err)
+			// return err
+			// *** decide if we want to return err here or continue trying to detach remaining lbs
 		}
+	}
 
-		_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+	for _, attachLB := range attachLBS {
+		log.Printf("calling attach load balancer")
+		err := s.attachLoadBalancer(id, attachLB)
+		log.Printf("Attach load balancer process complete")
 
 		if err != nil {
-			return err
+			log.Printf("Error occurred while attaching load balancer: %v", err)
+			// return err
+			// *** decide if we want to return err here or continue trying to attach remaining lbs
 		}
+	}
+
+}
+
+func (s *CoreInstancePoolResourceCrud) attachLoadBalancer(id string, newLoadBalancer oci_core.AttachLoadBalancerDetails) error {
+	attachLoadBalancerRequest := oci_core.AttachLoadBalancerRequest{}
+	attachLoadBalancerRequest.InstancePoolId = &id
+	attachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+	attachLoadBalancerRequest.AttachLoadBalancerDetails = newLoadBalancer
+
+	// Perform the actual attach operation
+	_, err := s.Client.AttachLoadBalancer(context.Background(), attachLoadBalancerRequest)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.pollForLbOperationCompletion(&id, &attachLoadBalancerRequest.AttachLoadBalancerDetails)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (s *CoreInstancePoolResourceCrud) detachLoadBalancer(id string, oldLoadbalancer oci_core.AttachLoadBalancerDetails) error {
+	detachLoadBalancerRequest := oci_core.DetachLoadBalancerRequest{}
+	detachLoadBalancerRequest.LoadBalancerId = oldLoadbalancer.LoadBalancerId
+	detachLoadBalancerRequest.InstancePoolId = &id
+	detachLoadBalancerRequest.BackendSetName = oldLoadbalancer.BackendSetName
+	detachLoadBalancerRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
+
+	// Perform the actual detach operation
+	_, err := s.Client.DetachLoadBalancer(context.Background(), detachLoadBalancerRequest)
+	if err != nil {
+		return err
+	}
+
+	_, err = s.pollForLbOperationCompletion(&id, &oldLoadbalancer)
+	if err != nil {
+		return err
 	}
 
 	return nil
@@ -1228,6 +1355,37 @@ func (s *CoreInstancePoolResourceCrud) getLoadBalancerDeltas(balancers []oci_cor
 		}
 	}
 	return deltas, positionToUpdate
+}
+
+func (s *CoreInstancePoolResourceCrud) getUniqueLoadBalancerDeltas(balancers []oci_core.AttachLoadBalancerDetails, balancers2 []oci_core.AttachLoadBalancerDetails) int {
+	deltas := 0
+
+	for _, oldLb := range balancers {
+		found := false
+		for _, newLb := range balancers2 {
+			if oldLb == newLb {
+				found = true
+				break
+			}
+		}
+		if !found {
+			deltas++
+		}
+	}
+	for _, newLb := range balancers2 {
+		found := false
+		for _, oldLb := range balancers {
+			if oldLb == newLb {
+				found = true
+				break
+			}
+		}
+		if !found {
+			deltas++
+		}
+	}
+	// Dividing by 2 because we calculate same delta twice
+	return deltas / 2.0
 }
 
 func lbHasChanges(details oci_core.AttachLoadBalancerDetails, details2 oci_core.AttachLoadBalancerDetails) bool {

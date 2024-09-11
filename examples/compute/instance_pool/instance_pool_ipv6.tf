@@ -140,7 +140,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration_ipv6" {
         assign_public_ip       = true
         display_name           = "TestInstanceConfigurationVNIC"
         skip_source_dest_check = false
-        subnet_id                 = oci_core_subnet.test_subnet.id
+        subnet_id                 = oci_core_subnet.test_subnet_ipv6.id
         assign_ipv6ip             = true
         ipv6address_ipv6subnet_cidr_pair_details {
           ipv6subnet_cidr = oci_core_subnet.test_subnet_ipv6.ipv6cidr_blocks[0]
@@ -161,7 +161,7 @@ resource "oci_core_instance_configuration" "test_instance_configuration_ipv6" {
     secondary_vnics {
       display_name = "TestInstancePoolSecondaryVNIC"
       create_vnic_details {
-        subnet_id = oci_core_subnet.test_subnet.id
+        subnet_id = oci_core_subnet.test_subnet_ipv6.id
         assign_ipv6ip = true
         display_name = "TestInstancePoolSecondaryVNIC"
         ipv6address_ipv6subnet_cidr_pair_details {
