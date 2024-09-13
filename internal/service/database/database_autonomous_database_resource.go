@@ -442,12 +442,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 						"scheduled_start_time": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 						"scheduled_stop_time": {
 							Type:     schema.TypeString,
 							Optional: true,
-							Computed: true,
 						},
 
 						// Computed
