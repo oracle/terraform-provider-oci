@@ -23,6 +23,8 @@ func DatabaseVmClusterResource() *schema.Resource {
 		},
 		Timeouts: &schema.ResourceTimeout{
 			Create: tfresource.GetTimeoutDuration("30m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
+			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createDatabaseVmCluster,
 		Read:   readDatabaseVmCluster,
