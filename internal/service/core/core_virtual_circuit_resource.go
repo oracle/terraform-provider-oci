@@ -70,6 +70,7 @@ func CoreVirtualCircuitResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+							Default:  nil,
 						},
 						"customer_bgp_peering_ip": {
 							Type:     schema.TypeString,
@@ -97,6 +98,7 @@ func CoreVirtualCircuitResource() *schema.Resource {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
+							Default:  nil,
 						},
 
 						// Computed
@@ -348,7 +350,7 @@ func (s *CoreVirtualCircuitResourceCrud) Create() error {
 		for i := range interfaces {
 			stateDataIndex := i
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cross_connect_mappings", stateDataIndex)
-			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat)
+			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat, false)
 			if err != nil {
 				return err
 			}
@@ -551,7 +553,7 @@ func (s *CoreVirtualCircuitResourceCrud) Update() error {
 		for i := range interfaces {
 			stateDataIndex := i
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "cross_connect_mappings", stateDataIndex)
-			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat)
+			converted, err := s.mapToCrossConnectMapping(fieldKeyFormat, true)
 			if err != nil {
 				return err
 			}
@@ -870,8 +872,11 @@ func CreateVirtualCircuitPublicPrefixDetailsToMap(obj string) map[string]interfa
 	return result
 }
 
-func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string) (oci_core.CrossConnectMapping, error) {
+func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat string, isUpdate bool) (oci_core.CrossConnectMapping, error) {
 	result := oci_core.CrossConnectMapping{}
+	_, hasProviderId := s.D.GetOkExists("provider_service_id")
+	_, hasProviderName := s.D.GetOkExists("provider_service_name")
+	isProvider := hasProviderId || hasProviderName
 
 	// Do not include default empty bgp_md5auth_key in request payload unless it has changed
 	if bgpMd5AuthKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bgp_md5auth_key")); ok &&
@@ -882,7 +887,8 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 
 	// Do not include default empty cross_connect_or_cross_connect_group_id in request payload unless it has changed
 	if crossConnectOrCrossConnectGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "cross_connect_or_cross_connect_group_id")); ok &&
-		(crossConnectOrCrossConnectGroupId != "" || s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
+		((!isUpdate && crossConnectOrCrossConnectGroupId != "") || !isProvider) ||
+		(isUpdate && s.D.HasChange("cross_connect_or_cross_connect_group_id")) {
 		tmp := crossConnectOrCrossConnectGroupId.(string)
 		result.CrossConnectOrCrossConnectGroupId = &tmp
 	}
@@ -914,10 +920,10 @@ func (s *CoreVirtualCircuitResourceCrud) mapToCrossConnectMapping(fieldKeyFormat
 		}
 	}
 
-	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok || s.D.HasChange("vlan") {
+	if vlan, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vlan")); ok {
 		tmp := vlan.(int)
 		// Do not include default 0 vlan in request payload unless it has changed
-		if tmp > 0 || s.D.HasChange("vlan") {
+		if ((!isUpdate && tmp > 0) || !isProvider) || (isUpdate && s.D.HasChange("vlan")) {
 			result.Vlan = &tmp
 		}
 	}

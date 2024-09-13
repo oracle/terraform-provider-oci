@@ -102,16 +102,26 @@ var (
 	CoreVirtualCircuitWithProviderRepresentation = map[string]interface{}{
 		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"type":                   acctest.Representation{RepType: acctest.Required, Create: `${var.virtual_circuit_type}`},
-		"bandwidth_shape_name":   acctest.Representation{RepType: acctest.Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes.virtual_circuit_bandwidth_shapes.0.name}"},
+		"bandwidth_shape_name":   acctest.Representation{RepType: acctest.Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes_layer2.virtual_circuit_bandwidth_shapes.0.name}"},
 		"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsRepresentation},
 		"customer_asn":           acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
 		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"gateway_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_drg.test_drg.id}`},
-		"provider_service_id":    acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}`},
+		"provider_service_id":    acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_layer2.fast_connect_provider_services.0.id}`},
 		// provider_service_key_name can only be updated by a Fast Connect Service Provider
 		// "provider_service_key_name": acctest.Representation{RepType: acctest.Optional, Create: `d8f7a443-28c2-4dcf-996c-286351908c58`},
 		"region": acctest.Representation{RepType: acctest.Optional, Create: `us-phoenix-1`},
 	}
+	CorePrivateVirtualCircuitUpdateRepresentation = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(CoreVirtualCircuitRequiredOnlyRepresentation, []string{"cross_connect_mappings"}), map[string]interface{}{
+			"cross_connect_mappings": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreVirtualCircuitCrossConnectMappingsRepresentation},
+		})
+
+	CoreVirtualCircuitWithProviderLayer3Representation = acctest.RepresentationCopyWithNewProperties(
+		acctest.RepresentationCopyWithRemovedProperties(CoreVirtualCircuitRequiredOnlyRepresentation, []string{"cross_connect_mappings", "bandwidth_shape_name", "provider_service_id", "customer_asn"}), map[string]interface{}{
+			"bandwidth_shape_name": acctest.Representation{RepType: acctest.Optional, Create: "${data.oci_core_virtual_circuit_bandwidth_shapes.test_virtual_circuit_bandwidth_shapes_layer3.virtual_circuit_bandwidth_shapes.0.name}"},
+			"provider_service_id":  acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_layer3.fast_connect_provider_services.0.id}`},
+		})
 
 	CoreVirtualCircuitCrossConnectMappingsPublicRequiredOnlyRepresentation = map[string]interface{}{
 		"cross_connect_or_cross_connect_group_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_cross_connect.test_cross_connect.cross_connect_group_id}`},
@@ -132,13 +142,18 @@ var (
 	}
 
 	VirtualCircuitWithProviderResourceConfigFilter = `
-data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services" {
+data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services_layer2" {
 	#Required
 	compartment_id = "${var.compartment_id}"
 
 	filter {
 		name = "type"
 		values = [ "LAYER2" ]
+	}
+
+	filter {
+		name = "provider_name"
+		values = ["OracleL2IntegDeployment"]
 	}
 
 	filter {
@@ -162,9 +177,44 @@ data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_servi
 	}
 }
 
-data "oci_core_virtual_circuit_bandwidth_shapes" "test_virtual_circuit_bandwidth_shapes" {
+data "oci_core_fast_connect_provider_services" "test_fast_connect_provider_services_layer3" {
+	#Required
+	compartment_id = "${var.compartment_id}"
+
+	filter {
+		name = "type"
+		values = [ "LAYER3" ]
+	}
+
+	filter {
+		name = "provider_name"
+		values = ["OracleL3IntegDeployment"]
+	}
+
+	filter {
+		name = "supported_virtual_circuit_types"
+		values = [ "${var.virtual_circuit_type}" ]
+	}
+
+	filter {
+		name = "public_peering_bgp_management"
+		values = [ "ORACLE_MANAGED" ]
+	}
+
+	filter {
+		name = "provider_service_key_management"
+		values = ["PROVIDER_MANAGED"]
+	}
+}
+
+data "oci_core_virtual_circuit_bandwidth_shapes" "test_virtual_circuit_bandwidth_shapes_layer2" {
   #Required
-  provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services.fast_connect_provider_services.0.id}"
+  provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_layer2.fast_connect_provider_services.0.id}"
+}
+
+data "oci_core_virtual_circuit_bandwidth_shapes" "test_virtual_circuit_bandwidth_shapes_layer3" {
+  #Required
+  provider_service_id = "${data.oci_core_fast_connect_provider_services.test_fast_connect_provider_services_layer3.fast_connect_provider_services.0.id}"
 }
 `
 
@@ -329,10 +379,11 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
-		// verify Create - PRIVATE Virtual Circuit with Provider
+		// verify Create - PRIVATE Virtual Circuit with Provider Layer 2
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
-				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create, CoreVirtualCircuitWithProviderRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create,
+					CoreVirtualCircuitWithProviderRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
@@ -350,7 +401,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				},
 			),
 		},
-		// verify Update - PRIVATE Virtual Circuit with Provider
+		// verify Update - PRIVATE Virtual Circuit with Provider Layer 2
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Update, CoreVirtualCircuitWithProviderRepresentation),
@@ -378,6 +429,29 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
 		},
+		// verify Create - PRIVATE Virtual Circuit with Provider Layer 3
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + VirtualCircuitPrivatePropertyVariables + VirtualCircuitWithProviderResourceConfigFilter +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Optional, acctest.Create,
+					CoreVirtualCircuitWithProviderLayer3Representation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "0"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "provider_service_id"),
+				resource.TestCheckResourceAttr(resourceName, "provider_state", "INACTIVE"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + VirtualCircuitResourceDependenciesCopyForVC + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN,
+		},
 
 		// verify Create - PRIVATE Virtual Circuit
 		{
@@ -390,6 +464,28 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.19/31"),
 				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
 				resource.TestCheckResourceAttr(resourceName, "customer_asn", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
+				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// verify Update - PRIVATE Virtual Circuit
+		{
+			Config: config + VirtualCircuitPrivatePropertyVariables + compartmentIdVariableStr + secretIdVariableStrCKN + secretIdVariableStrCAK + secretVersionStrCAK + secretVersionStrCKN + secretVersionStrCAKU +
+				VirtualCircuitResourceDependenciesCopyForVC +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_virtual_circuit", "test_virtual_circuit", acctest.Required, acctest.Update, CorePrivateVirtualCircuitUpdateRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "cross_connect_mappings.0.cross_connect_or_cross_connect_group_id"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.customer_bgp_peering_ip", "10.0.0.20/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.oracle_bgp_peering_ip", "10.0.0.21/31"),
+				resource.TestCheckResourceAttr(resourceName, "cross_connect_mappings.0.vlan", "200"),
+				resource.TestCheckResourceAttr(resourceName, "customer_asn", "11"),
 				resource.TestCheckResourceAttrSet(resourceName, "gateway_id"),
 				resource.TestCheckResourceAttr(resourceName, "type", "PRIVATE"),
 
