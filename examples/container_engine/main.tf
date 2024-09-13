@@ -351,6 +351,18 @@ data "oci_core_images" "shape_specific_images" {
   shape = "VM.Standard2.1"
 }
 
+data "oci_containerengine_cluster" "test_cluster" {
+  cluster_id = oci_containerengine_cluster.test_cluster.id
+}
+
+output "test_cluster" {
+  value = {
+    id = data.oci_containerengine_cluster.test_cluster.id
+    name = data.oci_containerengine_cluster.test_cluster.name
+    compartment_id = data.oci_containerengine_cluster.test_cluster.compartment_id
+  }
+}
+
 locals {
   all_images = "${data.oci_core_images.shape_specific_images.images}"
   all_sources = "${data.oci_containerengine_node_pool_option.test_node_pool_option.sources}"
