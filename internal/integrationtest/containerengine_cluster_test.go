@@ -42,6 +42,13 @@ var (
 	ContainerengineClusterRequiredOnlyResource = ContainerengineClusterResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterRepresentation)
 
+	ContainerengineClusterResourceConfig = ContainerengineClusterResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Optional, acctest.Update, ContainerengineClusterRepresentation)
+
+	ContainerengineClusterSingularDataSourceRepresentation = map[string]interface{}{
+		"cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+	}
+
 	ContainerengineContainerengineClusterDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"name":           acctest.Representation{RepType: acctest.Optional, Create: `name`, Update: `name2`},
@@ -129,6 +136,7 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 
 	resourceName := "oci_containerengine_cluster.test_cluster"
 	datasourceName := "data.oci_containerengine_clusters.test_clusters"
+	singularDatasourceName := "data.oci_containerengine_cluster.test_cluster"
 
 	var resId, resId2 string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
@@ -291,6 +299,47 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.state"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.type", "ENHANCED_CLUSTER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.vcn_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create, ContainerengineClusterSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + ContainerengineClusterResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "cluster_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "available_kubernetes_upgrades.#", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_pod_network_options.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_pod_network_options.0.cni_type", "OCI_VCN_IP_NATIVE"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoint_config.0.is_public_ip_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "endpoints.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.0.is_policy_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "image_policy_config.0.key_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kubernetes_version"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "metadata.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "name", "name2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.add_ons.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.admission_controller_options.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.kubernetes_network_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.persistent_volume_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_config.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "options.0.service_lb_subnet_ids.#", "2"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "type", "ENHANCED_CLUSTER"),
 			),
 		},
 		// verify resource import
