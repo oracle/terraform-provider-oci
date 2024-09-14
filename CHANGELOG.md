@@ -1,3 +1,21 @@
+## 6.10.0 (Unreleased)
+
+### Added
+- Support for Llama 3.1 Model Refresh
+- Tests cases for FSU support for DB and GI new 23ai version
+- Capacity Management release 3.1 support
+- Onboard to pipeline for patches
+- Handle disassociate trigger for DR Protection Group
+- Support for BDS - Resource Principal Support in BDS
+### Bug Fix
+- OKE terraform provider bug fix: add missing cluster data source
+- Virtual circuit should not pass vlan if not changed in core_virtual_circuit resource
+- checkforHydration logic and single stage fix
+- Database Migration changed WF Retry logic
+- Resource documentation for OS_PATCH
+- Autonomous Database change DbTools from list to set.
+- adding entries for fleet_software_update and globally_distributed_database
+
 ## 6.9.0 (August 27, 2024)
 
 ### Added
