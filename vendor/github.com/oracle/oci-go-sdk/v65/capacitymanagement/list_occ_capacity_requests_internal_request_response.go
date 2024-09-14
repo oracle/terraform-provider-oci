@@ -22,7 +22,7 @@ type ListOccCapacityRequestsInternalRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The customer group ocid by which we would filter the list.
-	OccCustomerGroupId *string `mandatory:"false" contributesTo:"query" name:"occCustomerGroupId"`
+	OccCustomerGroupId *string `mandatory:"true" contributesTo:"query" name:"occCustomerGroupId"`
 
 	// A filter to return the list of capacity requests based on the OCID of the availability catalog against which they were created.
 	OccAvailabilityCatalogId *string `mandatory:"false" contributesTo:"query" name:"occAvailabilityCatalogId"`
