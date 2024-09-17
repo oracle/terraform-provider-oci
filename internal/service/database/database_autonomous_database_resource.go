@@ -114,6 +114,15 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"clone_table_space_list": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeInt,
+				},
+			},
 			"clone_type": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -2298,6 +2307,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
 
+	s.D.Set("clone_table_space_list", s.Res.CloneTableSpaceList)
+
 	if s.Res.ClusterPlacementGroupId != nil {
 		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
@@ -3315,6 +3326,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := autonomousDatabaseBackupId.(string)
 			details.AutonomousDatabaseBackupId = &tmp
 		}
+		if cloneTableSpaceList, ok := s.D.GetOkExists("clone_table_space_list"); ok {
+			interfaces := cloneTableSpaceList.([]interface{})
+			tmp := make([]int, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(int)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("clone_table_space_list") {
+				details.CloneTableSpaceList = tmp
+			}
+		}
 		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
 			details.CloneType = oci_database.CreateAutonomousDatabaseFromBackupDetailsCloneTypeEnum(cloneType.(string))
 		}
@@ -3608,6 +3631,18 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if autonomousDatabaseId, ok := s.D.GetOkExists("autonomous_database_id"); ok {
 			tmp := autonomousDatabaseId.(string)
 			details.AutonomousDatabaseId = &tmp
+		}
+		if cloneTableSpaceList, ok := s.D.GetOkExists("clone_table_space_list"); ok {
+			interfaces := cloneTableSpaceList.([]interface{})
+			tmp := make([]int, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(int)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange("clone_table_space_list") {
+				details.CloneTableSpaceList = tmp
+			}
 		}
 		if cloneType, ok := s.D.GetOkExists("clone_type"); ok {
 			details.CloneType = oci_database.CreateAutonomousDatabaseFromBackupTimestampDetailsCloneTypeEnum(cloneType.(string))

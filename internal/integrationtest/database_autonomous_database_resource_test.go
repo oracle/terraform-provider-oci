@@ -106,7 +106,7 @@ var (
 
 	DatabaseAutonomousDatabaseBackupRepresentationNew = map[string]interface{}{
 		"autonomous_database_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database.test_autonomous_database.id}`},
-		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `LongTerm Backup`},
+		"display_name":             acctest.Representation{RepType: acctest.Required, Create: `adbLongTermBackup`},
 		"is_long_term_backup":      acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"retention_period_in_days": acctest.Representation{RepType: acctest.Required, Create: `90`, Update: `91`},
 	}
@@ -117,7 +117,12 @@ var (
 			acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
 				"db_name": acctest.Representation{RepType: acctest.Required, Create: adbBackupSourceName},
 			}))
-
+	AutonomousDatabaseFromBackupDependenciesPartialDedicated = AutonomousDatabaseDedicatedResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseBackupRepresentationNew) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(acctest.RepresentationCopyWithRemovedProperties(autonomousDatabaseDedicatedRepresentation, []string{"in_memory_percentage"}), map[string]interface{}{
+				"db_name": acctest.Representation{RepType: acctest.Required, Create: adbBackupSourceName},
+			}))
 	autonomousDatabaseRepresentationForSourceFromBackupId = acctest.RepresentationCopyWithNewProperties(
 		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbBackupIdName}, DatabaseAutonomousDatabaseRepresentation),
 		map[string]interface{}{
@@ -126,6 +131,24 @@ var (
 			"autonomous_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
 		})
 
+	adbdAutonomousDatabaseRepresentationForPartialClone = acctest.RepresentationCopyWithNewProperties(
+		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Optional, Create: adbBackupIdName},
+			acctest.RepresentationCopyWithRemovedProperties(autonomousDatabaseDedicatedRepresentation, []string{"in_memory_percentage", "display_name"})),
+		map[string]interface{}{
+			"display_name":                  acctest.Representation{RepType: acctest.Required, Create: adbDedicatedCloneName},
+			"clone_type":                    acctest.Representation{RepType: acctest.Required, Create: `PARTIAL`},
+			"clone_table_space_list":        acctest.Representation{RepType: acctest.Optional, Create: []string{`1`, `2`, `3`}},
+			"source":                        acctest.Representation{RepType: acctest.Required, Create: `BACKUP_FROM_ID`},
+			"autonomous_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
+		})
+	exaccAutonomousDatabaseRepresentationForPartialClone = acctest.RepresentationCopyWithNewProperties(
+		acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbBackupIdName}, autonomousDatabaseExaccRepresentation),
+		map[string]interface{}{
+			"clone_type":                    acctest.Representation{RepType: acctest.Required, Create: `PARTIAL`},
+			"clone_table_space_list":        acctest.Representation{RepType: acctest.Optional, Create: []string{`1`, `2`, `3`}},
+			"source":                        acctest.Representation{RepType: acctest.Required, Create: `BACKUP_FROM_ID`},
+			"autonomous_database_backup_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_autonomous_database_backup.test_autonomous_database_backup.id}`},
+		})
 	autonomousDatabaseRepresentationForSourceFromBackupTimestamp = acctest.RepresentationCopyWithNewProperties(
 		acctest.RepresentationCopyWithRemovedProperties(acctest.GetUpdatedRepresentationCopy("db_name", acctest.Representation{RepType: acctest.Required, Create: adbBackupTimestampName}, DatabaseAutonomousDatabaseRepresentation), []string{"kms_key_id", "vault_id"}),
 		map[string]interface{}{
@@ -343,6 +366,22 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Update, autonomousDatabaseUpdateExaccRepresentation)
 
 	ExaccADBDatabaseResourceDependencies = ExaccACDResourceConfig
+
+	ExaccAutonomousDatabaseResourceFromBackupDependencies = ExaccAutonomousDatabaseResourceFromBackupDependenciesWithoutBkp +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database_backup", "test_autonomous_database_backup", acctest.Optional, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(DatabaseExaccAutonomousDatabaseBackupRepresentationForLongTermBackup, map[string]interface{}{
+				"lifecycle": acctest.RepresentationGroup{
+					Group: map[string]interface{}{
+						"prevent_destroy": acctest.Representation{
+							Create: `false`},
+					},
+				},
+			}))
+	ExaccAutonomousDatabaseResourceFromBackupDependenciesWithoutBkp = ExaccACDResourceConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Optional, acctest.Create,
+			acctest.RepresentationCopyWithNewProperties(autonomousDatabaseExaccRepresentation, map[string]interface{}{
+				"db_name": acctest.Representation{RepType: acctest.Required, Create: adbBackupSourceName},
+			}))
 
 	ExaccKeyResourceDependencyConfigDbaas = tfStaticCompartmentIdVariableStr + `
 	data "oci_kms_keys" "test_keys_dependency" {
@@ -1432,6 +1471,48 @@ func TestResourceDatabaseAutonomousDatabaseResource_dataSafeStatus(t *testing.T)
 		},
 	})
 }
+func TestAutonomousDatabaseDedicatedResourceCreateFromBackupAsPartialClone(t *testing.T) {
+	httpreplay.SetScenario("TestAutonomousDatabaseResourceCreateFromBackupAsPartialClone")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.test_autonomous_database_from_backupid"
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		//0. Create dependencies
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesPartialDedicated,
+		},
+		//1. verify create
+		{
+			Config: config + compartmentIdVariableStr + AutonomousDatabaseFromBackupDependenciesPartialDedicated +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database_from_backupid", acctest.Optional, acctest.Create, adbdAutonomousDatabaseRepresentationForPartialClone),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "clone_type", "PARTIAL"),
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				//resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "clone_table_space_list.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_name"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", adbDedicatedCloneName),
+
+				func(s *terraform.State) (err error) {
+					resId, err := acctest.FromInstanceState(s, resourceName, "id")
+					sourceresId, err := acctest.FromInstanceState(s, "oci_database_autonomous_database.test_autonomous_database", "id")
+					if resId == sourceresId {
+						return fmt.Errorf("resource not created when it was supposed to be created")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
 
 // issue-routing-tag: database/dbaas-adb
 func TestResourceDatabaseAutonomousDatabaseResource_FromBackupId(t *testing.T) {
@@ -2500,6 +2581,61 @@ func TestResourceDatabaseExaccAutonomousDatabaseResource(t *testing.T) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}
+
+func TestAutonomousDatabaseExaccResourceCreateFromBackupAsPartialClone(t *testing.T) {
+	shouldSkipEXACCtest := utils.GetEnvSettingWithDefault("TF_VAR_should_skip_exacc_test", "false")
+
+	if shouldSkipEXACCtest == "true" {
+		t.Skip("Skipping TestAutonomousDatabaseExaccResourceCreateFromBackupAsPartialClone test.\n" + "Current TF_VAR_should_skip_exacc_test=" + shouldSkipEXACCtest)
+	}
+
+	httpreplay.SetScenario("TestAutonomousDatabaseExaccResourceCreateFromBackupAsPartialClone")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_database_autonomous_database.autonomous_database_partial_clone"
+
+	var resId string
+
+	acctest.ResourceTest(t, testAccCheckDatabaseAutonomousDatabaseDestroy, []resource.TestStep{
+		// verify create partial clone
+		{
+			Config: config + compartmentIdVariableStr + ExaccAutonomousDatabaseResourceFromBackupDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "autonomous_database_partial_clone", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(exaccAutonomousDatabaseRepresentationForPartialClone, map[string]interface{}{
+					"display_name": acctest.Representation{RepType: acctest.Optional, Create: adbCloneExaccName},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "clone_table_space_list.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbBackupIdName),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", adbCloneExaccName),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_auto_scaling_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dedicated", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "memory_per_oracle_compute_unit_in_gbs"),
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
 					}
 					return err
 				},
