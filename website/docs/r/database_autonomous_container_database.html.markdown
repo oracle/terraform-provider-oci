@@ -194,6 +194,17 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `associated_backup_configuration_details` - A backup config object holds information about preferred backup destinations only. This object holds information about the associated backup destinations, such as secondary backup destinations created for local backups or remote replicated backups.
+	* `backup_destination_attach_history` - The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
+	* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
+	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
+	* `internet_proxy` - Proxy URL to connect to object store.
+	* `recovery_window_in_days` - Number of days between the current and earliest point of recoverability covered by automatic backups and manual backups, but not long term backups.
+	* `space_utilized_in_gbs` - The total space utilized (in GBs) by this Autonomous Container Database on this backup destination, rounded to the nearest integer.
+	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
+	* `type` - Type of the database backup destination.
+	* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
+	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`. 
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `cloud_autonomous_vm_cluster_id` - The OCID of the Cloud Autonomous VM Cluster.
@@ -208,6 +219,10 @@ The following attributes are exported:
 		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. If the number of specified days is 0 then there will be no backups. 
+* `backup_destination_properties_list` - This list describes the backup destination properties associated with the Autonomous Container Database (ACD) 's preferred backup destination. The object at a given index is associated with the destination present at the same index in the backup destination details list of the ACD Backup Configuration.
+	* `backup_destination_attach_history` - The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
+	* `space_utilized_in_gbs` - The total space utilized (in GBs) by this Autonomous Container Database on this backup destination, rounded to the nearest integer.
+	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
 * `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - The OCID of the compartment.
 * `compute_model` - The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
@@ -259,9 +274,17 @@ The following attributes are exported:
 * `patch_model` - Database patch model preference.
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database. 
 * `provisioned_cpus` - The number of CPUs provisioned in an Autonomous Container Database.
+<<<<<<< ours
+* `reclaimable_cpus` - CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database. 
+* `recovery_appliance_details` - Information about the recovery appliance configuration associated with the Autonomous Container Database.
+	* `allocated_storage_size_in_gbs` - The storage size of the backup destination allocated for an Autonomous Container Database to store backups on the recovery appliance, in GBs, rounded to the nearest integer.
+	* `recovery_window_in_days` - Number of days between the current and earliest point of recoverability covered by automatic backups.
+	* `time_recovery_appliance_details_updated` - The time when the recovery appliance details are updated.
+=======
 * `reclaimable_cpus` - For Autonomous Databases on Dedicated Exadata Infrastructure:
     * These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database.
     * The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
+>>>>>>> theirs
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous Container Database.
     * These are the CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database. 
     * The CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.

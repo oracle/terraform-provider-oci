@@ -81,8 +81,11 @@ The following attributes are exported:
 * `nfs_server` - Host names or IP addresses for NFS Auto mount.
 * `nfs_server_export` - Specifies the directory on which to mount the file system
 * `state` - The current lifecycle state of the backup destination.
+* `time_at_which_storage_details_are_updated` - The time when the total storage size and the utilized storage size of the backup destination are updated.
 * `time_created` - The date and time the backup destination was created.
+* `total_storage_size_in_gbs` - The total storage size of the backup destination in GBs, rounded to the nearest integer.
 * `type` - Type of the backup destination.
+* `utilized_storage_size_in_gbs` - The total amount of space utilized on the backup destination (in GBs), rounded to the nearest integer.
 * `vpc_users` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) users that are used to access the Recovery Appliance.
 
 ## Timeouts

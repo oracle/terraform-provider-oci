@@ -173,8 +173,20 @@ func DatabaseBackupDestinationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"time_at_which_storage_details_are_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"total_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
+				Computed: true,
+			},
+			"utilized_storage_size_in_gbs": {
+				Type:     schema.TypeInt,
 				Computed: true,
 			},
 		},
@@ -410,15 +422,31 @@ func (s *DatabaseBackupDestinationResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.TimeAtWhichStorageDetailsAreUpdated != nil {
+		s.D.Set("time_at_which_storage_details_are_updated", s.Res.TimeAtWhichStorageDetailsAreUpdated.String())
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
 
+	if s.Res.TotalStorageSizeInGBs != nil {
+		s.D.Set("total_storage_size_in_gbs", *s.Res.TotalStorageSizeInGBs)
+	}
+
 	s.D.Set("type", s.Res.Type)
 
-	if s.Res.VpcUsers != nil {
-		s.D.Set("vpc_users", s.Res.VpcUsers)
+	//<<<<<<< ours
+	if s.Res.UtilizedStorageSizeInGBs != nil {
+		s.D.Set("utilized_storage_size_in_gbs", *s.Res.UtilizedStorageSizeInGBs)
 	}
+
+	s.D.Set("vpc_users", s.Res.VpcUsers)
+	//=======
+	//if s.Res.VpcUsers != nil {
+	//	s.D.Set("vpc_users", s.Res.VpcUsers)
+	//}
+	//>>>>>>> theirs
 
 	return nil
 }

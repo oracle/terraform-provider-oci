@@ -144,11 +144,23 @@ func (s *DatabaseBackupDestinationsDataSourceCrud) SetData() error {
 
 		backupDestination["state"] = r.LifecycleState
 
+		if r.TimeAtWhichStorageDetailsAreUpdated != nil {
+			backupDestination["time_at_which_storage_details_are_updated"] = r.TimeAtWhichStorageDetailsAreUpdated.String()
+		}
+
 		if r.TimeCreated != nil {
 			backupDestination["time_created"] = r.TimeCreated.String()
 		}
 
+		if r.TotalStorageSizeInGBs != nil {
+			backupDestination["total_storage_size_in_gbs"] = *r.TotalStorageSizeInGBs
+		}
+
 		backupDestination["type"] = r.Type
+
+		if r.UtilizedStorageSizeInGBs != nil {
+			backupDestination["utilized_storage_size_in_gbs"] = *r.UtilizedStorageSizeInGBs
+		}
 
 		backupDestination["vpc_users"] = r.VpcUsers
 
