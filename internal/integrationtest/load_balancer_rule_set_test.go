@@ -144,6 +144,44 @@ resource "oci_load_balancer_rule_set" "test_rule_set" {
 		}
 		response_code = 302
 	}
+    items {
+		#Required
+		action = "REDIRECT"
+		conditions {
+			#Required
+			attribute_name = "PATH"
+			attribute_value = "/example"
+			operator = "SUFFIX_MATCH"
+		}
+		redirect_uri {
+			protocol = "{protocol}"
+			host = "in{host}"
+			port = 8081
+			path = "{path}/video"
+			# empty query will be passed in as empty string
+			query = ""
+		}
+		response_code = 302
+	}
+    items {
+		#Required
+		action = "REDIRECT"
+		conditions {
+			#Required
+			attribute_name = "PATH"
+			attribute_value = "/example"
+			operator = "SUFFIX_MATCH"
+		}
+		redirect_uri {
+			protocol = "{protocol}"
+			host = "in{host}"
+			port = 8081
+			path = "{path}/video"
+			#provider will replace it with default query when no query is passed in
+		}
+		response_code = 302
+	}
+
 	items {
 		#Required
 		action = "HTTP_HEADER"
@@ -221,7 +259,7 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + RuleSetResourceDependencies +
 				RuleSetResourceWithMultipleRules,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "items.#", "12"),
+				resource.TestCheckResourceAttr(resourceName, "items.#", "14"),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 					"action": "ADD_HTTP_REQUEST_HEADER",
 					"header": "example_header_name",
@@ -272,6 +310,21 @@ func TestLoadBalancerRuleSetResource_basic(t *testing.T) {
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
 					"action":       "ALLOW",
 					"conditions.#": "2",
+				},
+					[]string{}),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"action":         "REDIRECT",
+					"conditions.#":   "1",
+					"redirect_uri.#": "1",
+					"response_code":  "302",
+				},
+					[]string{}),
+				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
+					"action":               "REDIRECT",
+					"conditions.#":         "1",
+					"redirect_uri.#":       "1",
+					"redirect_uri.0.query": "",
+					"response_code":        "302",
 				},
 					[]string{}),
 				acctest.CheckResourceSetContainsElementWithProperties(resourceName, "items", map[string]string{
