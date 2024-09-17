@@ -73,10 +73,16 @@ func (s *ResourceLoadBalancerListenerTestSuite) SetupTest() {
 	
 	resource "oci_load_balancer_certificate" "t" {
 		load_balancer_id = "${oci_load_balancer.t.id}"
-		ca_certificate = "${var.ca_certificate_value}"
+		ca_certificate = <<-EOT
+${var.ca_certificate_value}
+         EOT
 		certificate_name = "tf_cert_name"
-		private_key = "${var.private_key_value}"
-		public_certificate = "${var.ca_certificate_value}"
+		private_key =  <<-EOT
+${var.private_key_value}
+         EOT
+        public_certificate = <<-EOT
+${var.ca_certificate_value}
+         EOT
 	}`
 	s.ResourceName = "oci_load_balancer_listener.t"
 }
