@@ -123,6 +123,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("character_set", *s.Res.CharacterSet)
 	}
 
+	s.D.Set("clone_table_space_list", s.Res.CloneTableSpaceList)
+
 	if s.Res.ClusterPlacementGroupId != nil {
 		s.D.Set("cluster_placement_group_id", *s.Res.ClusterPlacementGroupId)
 	}
