@@ -6,6 +6,7 @@ package integrationtest
 import (
 	"context"
 	"fmt"
+	"os"
 	"strconv"
 	"testing"
 	"time"
@@ -59,7 +60,7 @@ var (
 		"version_preference":             acctest.Representation{RepType: acctest.Optional, Create: `LATEST_RELEASE_UPDATE`, Update: `NEXT_RELEASE_UPDATE`},
 		"display_name":                   acctest.Representation{RepType: acctest.Required, Create: `containerDatabase2`, Update: `displayName2`},
 		"patch_model":                    acctest.Representation{RepType: acctest.Required, Create: `RELEASE_UPDATES`, Update: `RELEASE_UPDATE_REVISIONS`},
-		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.22.0.1.0")},
+		"db_version":                     acctest.Representation{RepType: acctest.Required, Create: utils.GetEnvSettingWithDefault("acd_db_version", "19.24.0.1.0")},
 		"cloud_autonomous_vm_cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_autonomous_vm_cluster.test_cloud_autonomous_vm_cluster.id}`},
 		"backup_config":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ACDatabaseBackupConfigRepresentation},
 		"compartment_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
@@ -78,10 +79,20 @@ var (
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
-
+	DatabaseAutonomousContainerDatabaseBackupConfigWithRAUpdateRepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRAUpdateRepresentation},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
+	}
+	DatabaseAutonomousContainerDatabaseBackupConfigWithRARepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsWithRARepresentation},
+	}
 	DatabaseAddStandbyAutonomousContainerDatabaseBackupConfigRepresentation = map[string]interface{}{
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `7`, Update: `7`},
+	}
+	AddStandbyAutonomousContainerDatabaseBackupConfigWithNoUpdateRepresentation = map[string]interface{}{
+		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: autonomousContainerDatabaseBackupConfigBackupDestinationDetailsRepresentationWithNoUpdate},
+		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
 
 	DatabaseAutonomousContainerDatabaseMaintenanceWindowDetailsRepresentation = map[string]interface{}{
@@ -128,6 +139,12 @@ var (
 // issue-routing-tag: database/dbaas-atp-d
 func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 	//t.Skip("Skip this test as AEI and its api no longer exists.")
+
+	shouldSkipADBDtest := os.Getenv("TF_VAR_should_skip_adbd_test")
+
+	if shouldSkipADBDtest == "true" {
+		t.Skip("Skipping TestDatabaseCrossRegionDisasterRecovery_basic test.\n" + "Current TF_VAR_should_skip_adbd_test=" + shouldSkipADBDtest)
+	}
 
 	httpreplay.SetScenario("TestDatabaseAutonomousContainerDatabaseResource_basic")
 	defer httpreplay.SaveScenario()
