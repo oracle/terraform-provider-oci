@@ -74,6 +74,18 @@ var (
 		"ssl_configuration":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerSslConfigurationRepresentationLBCert},
 	}
 
+	listenerRepresentationLBCertWithoutRoutingPolicy = map[string]interface{}{
+		"default_backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set.name}`},
+		"load_balancer_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer.id}`},
+		"name":                     acctest.Representation{RepType: acctest.Required, Create: `myListener1`},
+		"port":                     acctest.Representation{RepType: acctest.Required, Create: `10`, Update: `11`},
+		"protocol":                 acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
+		"connection_configuration": acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerConnectionConfigurationRepresentation},
+		"hostname_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_hostname.test_hostname.name}`}},
+		"rule_set_names":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_load_balancer_rule_set.test_rule_set.name}`}},
+		"ssl_configuration":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: listenerSslConfigurationRepresentationLBCert},
+	}
+
 	listenerSslConfigurationRepresentationLBCert = map[string]interface{}{
 		// note: cannot specify certificate_name along with trusted_certificate_authority_ids
 		"cipher_suite_name":       acctest.Representation{RepType: acctest.Optional, Create: `oci-default-ssl-cipher-suite-v1`, Update: `oci-default-ssl-cipher-suite-v1`},
@@ -345,6 +357,23 @@ func TestLoadBalancerListenerResourceLBCert_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_depth", "11"),
 				resource.TestCheckResourceAttr(resourceName, "ssl_configuration.0.verify_peer_certificate", "true"),
 
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
+		{
+			Config: config + compartmentIdVariableStr + ListenerResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_listener", "test_listener_with_lb_cert",
+					acctest.Optional, acctest.Update, listenerRepresentationLBCertWithoutRoutingPolicy),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "path_route_set_name", ""),
+				resource.TestCheckResourceAttr(resourceName, "routing_policy_name", ""),
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {

@@ -93,12 +93,10 @@ func LoadBalancerListenerResource() *schema.Resource {
 			"path_route_set_name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 			"routing_policy_name": {
 				Type:     schema.TypeString,
 				Optional: true,
-				Computed: true,
 			},
 			"rule_set_names": {
 				Type:     schema.TypeList,
@@ -465,7 +463,11 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 
 	if pathRouteSetName, ok := s.D.GetOkExists("path_route_set_name"); ok {
 		tmp := pathRouteSetName.(string)
-		request.PathRouteSetName = &tmp
+		if tmp == "" {
+			request.PathRouteSetName = nil
+		} else {
+			request.PathRouteSetName = &tmp
+		}
 	}
 
 	if port, ok := s.D.GetOkExists("port"); ok {
@@ -480,7 +482,11 @@ func (s *LoadBalancerListenerResourceCrud) Update() error {
 
 	if routingPolicyName, ok := s.D.GetOkExists("routing_policy_name"); ok {
 		tmp := routingPolicyName.(string)
-		request.RoutingPolicyName = &tmp
+		if tmp == "" {
+			request.RoutingPolicyName = nil
+		} else {
+			request.RoutingPolicyName = &tmp
+		}
 	}
 
 	if ruleSetNames, ok := s.D.GetOkExists("rule_set_names"); ok {
