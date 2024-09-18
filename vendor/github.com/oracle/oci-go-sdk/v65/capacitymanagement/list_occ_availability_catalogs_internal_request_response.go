@@ -21,6 +21,9 @@ type ListOccAvailabilityCatalogsInternalRequest struct {
 	// The ocid of the compartment or tenancy in which resources are to be listed. This will also be used for authorization purposes.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// The customer group ocid by which we would filter the list.
+	OccCustomerGroupId *string `mandatory:"true" contributesTo:"query" name:"occCustomerGroupId"`
+
 	// The namespace by which we would filter the list.
 	Namespace ListOccAvailabilityCatalogsInternalNamespaceEnum `mandatory:"false" contributesTo:"query" name:"namespace" omitEmpty:"true"`
 
@@ -32,9 +35,6 @@ type ListOccAvailabilityCatalogsInternalRequest struct {
 
 	// Filter the list of availability catalogs based on the catalog state.
 	CatalogState OccAvailabilityCatalogCatalogStateEnum `mandatory:"false" contributesTo:"query" name:"catalogState" omitEmpty:"true"`
-
-	// The customer group ocid by which we would filter the list.
-	OccCustomerGroupId *string `mandatory:"false" contributesTo:"query" name:"occCustomerGroupId"`
 
 	// The maximum number of items to return.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`

@@ -50,7 +50,7 @@ var (
 		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"namespace":                     acctest.Representation{RepType: acctest.Required, Create: `COMPUTE`},
-		"occ_customer_group_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.occ_customer_group_id}`},
+		"occ_customer_group_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_capacity_management_occ_customer_group.test_occ_customer_group.id}`},
 		//"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`},
 		"description":      acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
@@ -60,7 +60,7 @@ var (
 		"format_version": acctest.Representation{RepType: acctest.Required, Create: `V1`},
 	}
 
-	CapacityManagementOccAvailabilityCatalogResourceDependencies = "" //acctest.GenerateDataSourceFromRepresentationMap("oci_capacity_management_occ_customer_group", "test_occ_customer_group", acctest.Required, acctest.Create, CapacityManagementOccCustomerGroupSingularDataSourceRepresentation) +
+	CapacityManagementOccAvailabilityCatalogResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_capacity_management_occ_customer_group", "test_occ_customer_group", acctest.Optional, acctest.Create, CapacityManagementOccCustomerGroupRepresentation)
 	//DefinedTagsDependencies
 )
 
@@ -131,6 +131,10 @@ func TestCapacityManagementOccAvailabilityCatalogResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					/*
+						OccAvailabilityCatalog is an internal resource which is not exposed to customers and accessible(creation/deletion/updation) via service tenancy only.
+						Since this is an internal resource hence onboarding to resource discovery is not a priority. Corresponding ticket: https://jira.oci.oraclecorp.com/browse/OCCM-253
+					*/
 					//if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 					//	if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
 					//		return errExport

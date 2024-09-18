@@ -30,9 +30,6 @@ type CreateOccCapacityRequestDetails struct {
 	// An user-friendly name for the capacity request. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 	DisplayName *string `mandatory:"true" json:"displayName"`
 
-	// The availability domain (AD) for which the capacity request is made. If this is specified then the capacity will be validated and fulfilled within the scope of this AD.
-	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
-
 	// The date by which the capacity requested by customers before dateFinalCustomerOrder needs to be fulfilled.
 	DateExpectedCapacityHandover *common.SDKTime `mandatory:"true" json:"dateExpectedCapacityHandover"`
 
@@ -58,6 +55,9 @@ type CreateOccCapacityRequestDetails struct {
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in a Failed State.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// The availability domain (AD) in which the new resource is to be placed. If this is specified then the capacity will be validated and fulfilled within the scope of this AD. Note that this field is NOT required for Capacity request Transfer requests.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
 	// The subset of request states available for creating the capacity request.
 	RequestState CreateOccCapacityRequestDetailsRequestStateEnum `mandatory:"false" json:"requestState,omitempty"`

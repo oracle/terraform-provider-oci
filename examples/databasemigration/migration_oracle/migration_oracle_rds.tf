@@ -35,6 +35,7 @@ resource "oci_database_migration_connection" "test_connection_rds_target" {
   username = "ggfe"
   replication_password="replicationPassword"
   replication_username="replicationUsername"
+  subnet_id = var.subnet_id
 }
 
 resource "oci_database_migration_migration" "test_oracle_rds_migration" {
@@ -58,8 +59,6 @@ resource "oci_database_migration_migration" "test_oracle_rds_migration" {
     job_mode = "SCHEMA"
     export_directory_object {
       name = "name"
-      path = "/test/test/test/dumpdir"
-
     }
     data_pump_parameters {
       estimate = "BLOCKS"

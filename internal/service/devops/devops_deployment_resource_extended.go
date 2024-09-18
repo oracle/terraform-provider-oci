@@ -36,7 +36,7 @@ func resourceOkeClusterHelmReleaseDiff(c context.Context, d *schema.ResourceDiff
 	// Add DRY_RUN = true if there is a Helm Artifact in pipeline
 	// and trigger a deployment
 	if isHelmArtifactInPipeline(devopsClient, deployParams.deployPipelineId) {
-
+		checkPipelineForHydrationWorkRequest(deployParams.deployPipelineId, m)
 		deploymentArguments := deployParams.deploymentArguments
 
 		if len(deploymentArguments) > 0 {
@@ -64,8 +64,10 @@ func resourceOkeClusterHelmReleaseDiff(c context.Context, d *schema.ResourceDiff
 								}}},
 							}
 						case "SINGLE_STAGE_DEPLOYMENT":
+							log.Printf("[WARN] Creating a single stage deployment with deploy stage id %s", deployParams.deployStageId)
 							deploymentDetails = oci_devops.CreateSingleDeployStageDeploymentDetails{
 								DeployPipelineId: &deployParams.deployPipelineId,
+								DeployStageId:    &deployParams.deployStageId,
 								DisplayName:      &deploymentName,
 								DeploymentArguments: &oci_devops.DeploymentArgumentCollection{Items: []oci_devops.DeploymentArgument{oci_devops.DeploymentArgument{Name: common.String("DRY_RUN"),
 									Value: common.String("true"),
@@ -77,11 +79,13 @@ func resourceOkeClusterHelmReleaseDiff(c context.Context, d *schema.ResourceDiff
 						}
 						if deployParams.deploymentType == "SINGLE_STAGE_DEPLOYMENT" || deployParams.deploymentType == "PIPELINE_DEPLOYMENT" {
 							// API call for deployment
+							log.Printf("[WARN] Deployment Details %s", deploymentDetails)
 							req := oci_devops.CreateDeploymentRequest{CreateDeploymentDetails: deploymentDetails}
 							resp, _ := devopsClient.CreateDeployment(context.Background(), req)
 
 							// Get API Deployment call for querying status
 							request := oci_devops.GetDeploymentRequest{}
+							log.Printf("[WARN] Deployment request %s", request)
 							request.DeploymentId = resp.GetId()
 							deploymentResponse, _ := devopsClient.GetDeployment(context.Background(), request)
 							status := deploymentResponse.GetLifecycleState()
@@ -229,6 +233,30 @@ func extractDeploymentParameters(d *schema.ResourceDiff) *DeploymentParams {
 
 }
 
+func checkPipelineForHydrationWorkRequest(pipelineId string, m interface{}) {
+	common.Debugf("checkPipelineForHydrationWorkRequest: enter, pipelineId=%v\n", pipelineId)
+
+	getDeployPipelineRequest := oci_devops.GetDeployPipelineRequest{}
+	listWorkRequestsRequest := oci_devops.ListWorkRequestsRequest{}
+	devOpsClient := m.(*client.OracleClients).DevopsClient()
+
+	listWorkRequestsRequest.ResourceId = &pipelineId
+	getDeployPipelineRequest.DeployPipelineId = &pipelineId
+	// Get the compartment id from the Pipeline
+	common.Debugf("checkPipelineForHydrationWorkRequest: getDeployPipelineRequest= %v\n", getDeployPipelineRequest)
+	getDeployPipelineResponse, err := devOpsClient.GetDeployPipeline(context.Background(), getDeployPipelineRequest)
+	if err != nil {
+		common.Debugf("checkPipelineForHydrationWorkRequest: getDeployPipelineResponse err= %v\n", err)
+	} else {
+		common.Debugf("checkPipelineForHydrationWorkRequest: getDeployPipelineResponse.OpcRequestId= %v\n", *getDeployPipelineResponse.OpcRequestId)
+		deployPipeline := getDeployPipelineResponse.DeployPipeline
+		listWorkRequestsRequest.CompartmentId = deployPipeline.CompartmentId
+	}
+
+	waitForHydrationWorkRequest(listWorkRequestsRequest, devOpsClient)
+	common.Debugf("checkPipelineForHydrationWorkRequest: exit")
+}
+
 func checkForHydrationWorkRequest(d *schema.ResourceData, m interface{}) {
 	common.Debugf("checkForHydrationWorkRequest: enter, ResourceData= %v\n", d)
 
@@ -258,15 +286,20 @@ func checkForHydrationWorkRequest(d *schema.ResourceData, m interface{}) {
 			listWorkRequestsRequest.CompartmentId = deployPipeline.CompartmentId
 		}
 	}
-
+	waitForHydrationWorkRequest(listWorkRequestsRequest, devOpsClient)
+	common.Debugf("checkForHydrationWorkRequest: exit")
+}
+func waitForHydrationWorkRequest(listWorkRequestsRequest oci_devops.ListWorkRequestsRequest, devOpsClient *oci_devops.DevopsClient) {
 	common.Debugf("checkForHydrationWorkRequest: listWorkRequestsRequest= %v\n", listWorkRequestsRequest)
 	if listWorkRequestsRequest.CompartmentId != nil {
 		workRequestInProgress := true
 		// Wait until all hydration work requests for the pipeline are complete.
-	workRequestInProgressLoop:
 		for workRequestInProgress {
 			workRequestInProgress = false
+		InProgress:
+			log.Printf(" InProgress Block Execution")
 			listWorkRequestsResponse, err := devOpsClient.ListWorkRequests(context.Background(), listWorkRequestsRequest)
+			common.Debugf("checkForHydrationWorkRequest: listWorkRequestsResponse= %v\n", listWorkRequestsResponse)
 			if err != nil {
 				// If we can't list the work requests, we'll just continue with the deployment.
 				common.Debugf("checkForHydrationWorkRequest: listWorkRequestResponse err= %v\n", err)
@@ -278,11 +311,11 @@ func checkForHydrationWorkRequest(d *schema.ResourceData, m interface{}) {
 					if len(workRequestCollection.Items) > 0 {
 						common.Debugf("checkForHydrationWorkRequest: workRequestCollection.Items= %i\n", len(workRequestCollection.Items))
 						for i, summary := range workRequestCollection.Items {
-							if !(*summary.PercentComplete > 99.0 || summary.Status == "SUCCEEDED" || summary.Status == "FAILED" ||
+							if !(summary.Status == "SUCCEEDED" || summary.Status == "FAILED" ||
 								summary.Status == "CANCELED" || summary.Status == "NEEDS_ATTENTION") {
 								workRequestInProgress = true
 								common.Debugf("checkForHydrationWorkRequest: WorkRequestSummary found in progress= %i %v\n", i, summary)
-								break workRequestInProgressLoop
+								goto InProgress
 							}
 						}
 					}
@@ -306,5 +339,4 @@ func checkForHydrationWorkRequest(d *schema.ResourceData, m interface{}) {
 			}
 		}
 	}
-	common.Debugf("checkForHydrationWorkRequest: exit")
 }

@@ -538,12 +538,6 @@ func createDisasterRecoveryDrProtectionGroup(d *schema.ResourceData, m interface
 		return e
 	}
 
-	if _, ok := sync.D.GetOkExists("disassociate_trigger"); ok {
-		err := sync.DisassociateDrProtectionGroup()
-		if err != nil {
-			return err
-		}
-	}
 	return nil
 
 }
