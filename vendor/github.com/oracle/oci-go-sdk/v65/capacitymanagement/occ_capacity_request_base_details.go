@@ -44,6 +44,12 @@ type OccCapacityRequestBaseDetails struct {
 
 	// The date on which the actual handover quantity of resources is delivered.
 	DateActualHandover *common.SDKTime `mandatory:"false" json:"dateActualHandover"`
+
+	// The availability domain of the resource which is to be transferred. Note that this is only required for Capacity Request Transfer requests.
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+
+	// A list containing details about occHandoverResourceBlocks which were handed over for the corresponding resource name.
+	AssociatedOccHandoverResourceBlockList []AssociatedOccHandoverResourceBlock `mandatory:"false" json:"associatedOccHandoverResourceBlockList"`
 }
 
 func (m OccCapacityRequestBaseDetails) String() string {

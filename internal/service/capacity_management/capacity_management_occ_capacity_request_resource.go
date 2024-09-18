@@ -32,12 +32,6 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 		Delete:   deleteCapacityManagementOccCapacityRequest,
 		Schema: map[string]*schema.Schema{
 			// Required
-			"availability_domain": {
-				Type:             schema.TypeString,
-				Required:         true,
-				ForceNew:         true,
-				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -69,13 +63,9 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"resource_type": {
-							Type:             schema.TypeString,
-							Required:         true,
-							ForceNew:         true,
-							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
-							ValidateFunc: validation.StringInSlice([]string{
-								"SERVER_HW",
-							}, true),
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
 						},
 						"workload_type": {
 							Type:     schema.TypeString,
@@ -91,6 +81,42 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"associated_occ_handover_resource_block_list": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"handover_quantity": {
+										Type:             schema.TypeString,
+										Optional:         true,
+										Computed:         true,
+										ForceNew:         true,
+										ValidateFunc:     tfresource.ValidateInt64TypeString,
+										DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+									},
+									"occ_handover_resource_block_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"availability_domain": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 						},
 						"date_actual_handover": {
 							Type:             schema.TypeString,
@@ -113,6 +139,12 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"source_workload_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 
 						// Computed
@@ -145,6 +177,13 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 			},
 
 			// Optional
+			"availability_domain": {
+				Type:             schema.TypeString,
+				Optional:         true,
+				Computed:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
 				Optional:         true,
@@ -228,6 +267,12 @@ func CapacityManagementOccCapacityRequestResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"request_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -408,6 +453,10 @@ func (s *CapacityManagementOccCapacityRequestResourceCrud) Create() error {
 		request.RequestState = oci_capacity_management.CreateOccCapacityRequestDetailsRequestStateEnum(requestState.(string))
 	}
 
+	if requestType, ok := s.D.GetOkExists("request_type"); ok {
+		request.RequestType = oci_capacity_management.OccCapacityRequestRequestTypeEnum(requestType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "capacity_management")
 
 	response, err := s.Client.CreateOccCapacityRequest(context.Background(), request)
@@ -578,6 +627,8 @@ func (s *CapacityManagementOccCapacityRequestResourceCrud) SetData() error {
 
 	s.D.Set("request_state", s.Res.RequestState)
 
+	s.D.Set("request_type", s.Res.RequestType)
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.SystemTags != nil {
@@ -595,89 +646,146 @@ func (s *CapacityManagementOccCapacityRequestResourceCrud) SetData() error {
 	return nil
 }
 
-func (s *CapacityManagementOccCapacityRequestResourceCrud) mapToOccCapacityRequestBaseDetails(fieldKeyFormat string) (oci_capacity_management.OccCapacityRequestBaseDetails, error) {
-	var baseObject oci_capacity_management.OccCapacityRequestBaseDetails
-	details := oci_capacity_management.OccCapacityRequestBaseDetails{}
+func (s *CapacityManagementOccCapacityRequestResourceCrud) mapToAssociatedOccHandoverResourceBlock(fieldKeyFormat string) (oci_capacity_management.AssociatedOccHandoverResourceBlock, error) {
+	result := oci_capacity_management.AssociatedOccHandoverResourceBlock{}
 
-	if demandQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "demand_quantity")); ok {
-		tmp := demandQuantity.(string)
+	if handoverQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "handover_quantity")); ok {
+		tmp := handoverQuantity.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return details, fmt.Errorf("unable to convert demandQuantity string: %s to an int64 and encountered error: %v", tmp, err)
+			return result, fmt.Errorf("unable to convert handoverQuantity string: %s to an int64 and encountered error: %v", tmp, err)
 		}
-		details.DemandQuantity = &tmpInt64
+		result.HandoverQuantity = &tmpInt64
 	}
 
-	if resourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_name")); ok {
-		tmp := resourceName.(string)
-		details.ResourceName = &tmp
+	if occHandoverResourceBlockId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "occ_handover_resource_block_id")); ok {
+		tmp := occHandoverResourceBlockId.(string)
+		result.OccHandoverResourceBlockId = &tmp
 	}
+
+	return result, nil
+}
+
+func AssociatedOccHandoverResourceBlockToMap(obj oci_capacity_management.AssociatedOccHandoverResourceBlock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HandoverQuantity != nil {
+		result["handover_quantity"] = strconv.FormatInt(*obj.HandoverQuantity, 10)
+	}
+
+	if obj.OccHandoverResourceBlockId != nil {
+		result["occ_handover_resource_block_id"] = string(*obj.OccHandoverResourceBlockId)
+	}
+
+	return result
+}
+
+func (s *CapacityManagementOccCapacityRequestResourceCrud) mapToOccCapacityRequestBaseDetails(fieldKeyFormat string) (oci_capacity_management.OccCapacityRequestBaseDetails, error) {
+	result := oci_capacity_management.OccCapacityRequestBaseDetails{}
 
 	if actualHandoverQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "actual_handover_quantity")); ok {
 		tmp := actualHandoverQuantity.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return details, fmt.Errorf("unable to convert actualHandoverQuantity string: %s to an int64 and encountered error: %v", tmp, err)
+			return result, fmt.Errorf("unable to convert actualHandoverQuantity string: %s to an int64 and encountered error: %v", tmp, err)
 		}
-		details.ActualHandoverQuantity = &tmpInt64
+		result.ActualHandoverQuantity = &tmpInt64
+	}
+
+	if associatedOccHandoverResourceBlockList, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "associated_occ_handover_resource_block_list")); ok {
+		interfaces := associatedOccHandoverResourceBlockList.([]interface{})
+		tmp := make([]oci_capacity_management.AssociatedOccHandoverResourceBlock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "associated_occ_handover_resource_block_list"), stateDataIndex)
+			converted, err := s.mapToAssociatedOccHandoverResourceBlock(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "associated_occ_handover_resource_block_list")) {
+			result.AssociatedOccHandoverResourceBlockList = tmp
+		}
+	}
+
+	if availabilityDomain, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_domain")); ok {
+		tmp := availabilityDomain.(string)
+		result.AvailabilityDomain = &tmp
 	}
 
 	if dateActualHandover, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "date_actual_handover")); ok {
 		tmp, err := time.Parse(time.RFC3339, dateActualHandover.(string))
 		if err != nil {
-			return details, err
+			return result, err
 		}
-		details.DateActualHandover = &oci_common.SDKTime{Time: tmp}
+		result.DateActualHandover = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if dateExpectedHandover, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "date_expected_handover")); ok {
 		tmp, err := time.Parse(time.RFC3339, dateExpectedHandover.(string))
 		if err != nil {
-			return details, err
+			return result, err
 		}
-		details.DateExpectedHandover = &oci_common.SDKTime{Time: tmp}
+		result.DateExpectedHandover = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if demandQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "demand_quantity")); ok {
+		tmp := demandQuantity.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert demandQuantity string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.DemandQuantity = &tmpInt64
 	}
 
 	if expectedHandoverQuantity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "expected_handover_quantity")); ok {
 		tmp := expectedHandoverQuantity.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
 		if err != nil {
-			return details, fmt.Errorf("unable to convert expectedHandoverQuantity string: %s to an int64 and encountered error: %v", tmp, err)
+			return result, fmt.Errorf("unable to convert expectedHandoverQuantity string: %s to an int64 and encountered error: %v", tmp, err)
 		}
-		details.ExpectedHandoverQuantity = &tmpInt64
+		result.ExpectedHandoverQuantity = &tmpInt64
+	}
+
+	if resourceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_name")); ok {
+		tmp := resourceName.(string)
+		result.ResourceName = &tmp
 	}
 
 	if resourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_type")); ok {
 		tmp := resourceType.(string)
-		details.ResourceType = &tmp
+		result.ResourceType = &tmp
+	}
+
+	if sourceWorkloadType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_workload_type")); ok {
+		tmp := sourceWorkloadType.(string)
+		result.SourceWorkloadType = &tmp
 	}
 
 	if workloadType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "workload_type")); ok {
 		tmp := workloadType.(string)
-		details.WorkloadType = &tmp
+		result.WorkloadType = &tmp
 	}
 
-	baseObject = details
-	return baseObject, nil
+	return result, nil
 }
 
 func OccCapacityRequestBaseDetailsToMap(obj oci_capacity_management.OccCapacityRequestBaseDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.ResourceType != nil {
-		result["resource_type"] = string(*obj.ResourceType)
-	}
-
-	if obj.DemandQuantity != nil {
-		result["demand_quantity"] = strconv.FormatInt(*obj.DemandQuantity, 10)
-	}
-
-	if obj.ResourceName != nil {
-		result["resource_name"] = string(*obj.ResourceName)
-	}
-
 	if obj.ActualHandoverQuantity != nil {
 		result["actual_handover_quantity"] = strconv.FormatInt(*obj.ActualHandoverQuantity, 10)
+	}
+
+	associatedOccHandoverResourceBlockList := []interface{}{}
+	for _, item := range obj.AssociatedOccHandoverResourceBlockList {
+		associatedOccHandoverResourceBlockList = append(associatedOccHandoverResourceBlockList, AssociatedOccHandoverResourceBlockToMap(item))
+	}
+	result["associated_occ_handover_resource_block_list"] = associatedOccHandoverResourceBlockList
+
+	if obj.AvailabilityDomain != nil {
+		result["availability_domain"] = string(*obj.AvailabilityDomain)
 	}
 
 	if obj.DateActualHandover != nil {
@@ -688,8 +796,24 @@ func OccCapacityRequestBaseDetailsToMap(obj oci_capacity_management.OccCapacityR
 		result["date_expected_handover"] = obj.DateExpectedHandover.Format(time.RFC3339Nano)
 	}
 
+	if obj.DemandQuantity != nil {
+		result["demand_quantity"] = strconv.FormatInt(*obj.DemandQuantity, 10)
+	}
+
 	if obj.ExpectedHandoverQuantity != nil {
 		result["expected_handover_quantity"] = strconv.FormatInt(*obj.ExpectedHandoverQuantity, 10)
+	}
+
+	if obj.ResourceName != nil {
+		result["resource_name"] = string(*obj.ResourceName)
+	}
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
+	}
+
+	if obj.SourceWorkloadType != nil {
+		result["source_workload_type"] = string(*obj.SourceWorkloadType)
 	}
 
 	if obj.WorkloadType != nil {
@@ -751,6 +875,8 @@ func OccCapacityRequestSummaryToMap(obj oci_capacity_management.OccCapacityReque
 	}
 
 	result["request_state"] = string(obj.RequestState)
+
+	result["request_type"] = string(obj.RequestType)
 
 	result["state"] = string(obj.LifecycleState)
 

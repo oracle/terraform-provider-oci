@@ -89,8 +89,9 @@ The following attributes are exported:
 * `state` - The lifecycle state of the model.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time that the model was created in the format of an RFC3339 datetime string.
-* `time_deprecated` - Corresponds to the time when the custom model and its associated foundation model will be deprecated.
 * `time_updated` - The date and time that the model was updated in the format of an RFC3339 datetime string.
+* `time_deprecated` - Corresponds to the time when the custom model and its associated foundation model will be deprecated.
+* `type` - The model type indicating whether this is a pretrained/base model or a custom/fine-tuned model.
 * `vendor` - The provider of the base model.
 * `version` - The version of the model.
 

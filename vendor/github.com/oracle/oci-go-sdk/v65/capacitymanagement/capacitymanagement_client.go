@@ -217,6 +217,132 @@ func (client CapacityManagementClient) createOccCapacityRequest(ctx context.Cont
 	return response, err
 }
 
+// CreateOccCustomer Create customer.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomer.go.html to see an example of how to use CreateOccCustomer API.
+// A default retry strategy applies to this operation CreateOccCustomer()
+func (client CapacityManagementClient) CreateOccCustomer(ctx context.Context, request CreateOccCustomerRequest) (response CreateOccCustomerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOccCustomer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOccCustomerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOccCustomerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOccCustomerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOccCustomerResponse")
+	}
+	return
+}
+
+// createOccCustomer implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) createOccCustomer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/occCustomerGroups/{occCustomerGroupId}/occCustomers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOccCustomerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomer/CreateOccCustomer"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "CreateOccCustomer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateOccCustomerGroup Create customer group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/CreateOccCustomerGroup.go.html to see an example of how to use CreateOccCustomerGroup API.
+// A default retry strategy applies to this operation CreateOccCustomerGroup()
+func (client CapacityManagementClient) CreateOccCustomerGroup(ctx context.Context, request CreateOccCustomerGroupRequest) (response CreateOccCustomerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createOccCustomerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateOccCustomerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateOccCustomerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateOccCustomerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateOccCustomerGroupResponse")
+	}
+	return
+}
+
+// createOccCustomerGroup implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) createOccCustomerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/occCustomerGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateOccCustomerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomerGroup/CreateOccCustomerGroup"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "CreateOccCustomerGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteOccAvailabilityCatalog Deletes the availability catalog resource.
 //
 // # See also
@@ -326,6 +452,122 @@ func (client CapacityManagementClient) deleteOccCapacityRequest(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCapacityRequest/DeleteOccCapacityRequest"
 		err = common.PostProcessServiceError(err, "CapacityManagement", "DeleteOccCapacityRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOccCustomer Deletes the customer resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomer.go.html to see an example of how to use DeleteOccCustomer API.
+// A default retry strategy applies to this operation DeleteOccCustomer()
+func (client CapacityManagementClient) DeleteOccCustomer(ctx context.Context, request DeleteOccCustomerRequest) (response DeleteOccCustomerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOccCustomer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOccCustomerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOccCustomerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOccCustomerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOccCustomerResponse")
+	}
+	return
+}
+
+// deleteOccCustomer implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) deleteOccCustomer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/occCustomerGroups/{occCustomerGroupId}/occCustomers/{occCustomerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOccCustomerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomer/DeleteOccCustomer"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "DeleteOccCustomer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteOccCustomerGroup Deletes the customer group resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/DeleteOccCustomerGroup.go.html to see an example of how to use DeleteOccCustomerGroup API.
+// A default retry strategy applies to this operation DeleteOccCustomerGroup()
+func (client CapacityManagementClient) DeleteOccCustomerGroup(ctx context.Context, request DeleteOccCustomerGroupRequest) (response DeleteOccCustomerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteOccCustomerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteOccCustomerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteOccCustomerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteOccCustomerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteOccCustomerGroupResponse")
+	}
+	return
+}
+
+// deleteOccCustomerGroup implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) deleteOccCustomerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/occCustomerGroups/{occCustomerGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteOccCustomerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomerGroup/DeleteOccCustomerGroup"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "DeleteOccCustomerGroup", apiReferenceLink)
 		return response, err
 	}
 
@@ -620,6 +862,122 @@ func (client CapacityManagementClient) listInternalNamespaceOccOverviews(ctx con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccOverviewCollection/ListInternalNamespaceOccOverviews"
 		err = common.PostProcessServiceError(err, "CapacityManagement", "ListInternalNamespaceOccOverviews", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalOccHandoverResourceBlockDetails List details about a given occHandoverResourceBlock.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlockDetails.go.html to see an example of how to use ListInternalOccHandoverResourceBlockDetails API.
+// A default retry strategy applies to this operation ListInternalOccHandoverResourceBlockDetails()
+func (client CapacityManagementClient) ListInternalOccHandoverResourceBlockDetails(ctx context.Context, request ListInternalOccHandoverResourceBlockDetailsRequest) (response ListInternalOccHandoverResourceBlockDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalOccHandoverResourceBlockDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalOccHandoverResourceBlockDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalOccHandoverResourceBlockDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalOccHandoverResourceBlockDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalOccHandoverResourceBlockDetailsResponse")
+	}
+	return
+}
+
+// listInternalOccHandoverResourceBlockDetails implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) listInternalOccHandoverResourceBlockDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/occHandoverResourceBlockDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalOccHandoverResourceBlockDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccHandoverResourceBlockDetailCollection/ListInternalOccHandoverResourceBlockDetails"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "ListInternalOccHandoverResourceBlockDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalOccHandoverResourceBlocks List Occ Handover Resource blocks.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListInternalOccHandoverResourceBlocks.go.html to see an example of how to use ListInternalOccHandoverResourceBlocks API.
+// A default retry strategy applies to this operation ListInternalOccHandoverResourceBlocks()
+func (client CapacityManagementClient) ListInternalOccHandoverResourceBlocks(ctx context.Context, request ListInternalOccHandoverResourceBlocksRequest) (response ListInternalOccHandoverResourceBlocksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalOccHandoverResourceBlocks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalOccHandoverResourceBlocksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalOccHandoverResourceBlocksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalOccHandoverResourceBlocksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalOccHandoverResourceBlocksResponse")
+	}
+	return
+}
+
+// listInternalOccHandoverResourceBlocks implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) listInternalOccHandoverResourceBlocks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internal/occHandoverResourceBlocks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListInternalOccHandoverResourceBlocksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccHandoverResourceBlockCollection/ListInternalOccHandoverResourceBlocks"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "ListInternalOccHandoverResourceBlocks", apiReferenceLink)
 		return response, err
 	}
 
@@ -968,6 +1326,122 @@ func (client CapacityManagementClient) listOccCustomerGroups(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomerGroupCollection/ListOccCustomerGroups"
 		err = common.PostProcessServiceError(err, "CapacityManagement", "ListOccCustomerGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOccHandoverResourceBlockDetails List details about a given occHandoverResourceBlock.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlockDetails.go.html to see an example of how to use ListOccHandoverResourceBlockDetails API.
+// A default retry strategy applies to this operation ListOccHandoverResourceBlockDetails()
+func (client CapacityManagementClient) ListOccHandoverResourceBlockDetails(ctx context.Context, request ListOccHandoverResourceBlockDetailsRequest) (response ListOccHandoverResourceBlockDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOccHandoverResourceBlockDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOccHandoverResourceBlockDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOccHandoverResourceBlockDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOccHandoverResourceBlockDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOccHandoverResourceBlockDetailsResponse")
+	}
+	return
+}
+
+// listOccHandoverResourceBlockDetails implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) listOccHandoverResourceBlockDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/occHandoverResourceBlockDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOccHandoverResourceBlockDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccHandoverResourceBlockDetailCollection/ListOccHandoverResourceBlockDetails"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "ListOccHandoverResourceBlockDetails", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListOccHandoverResourceBlocks List Occ Handover Resource blocks.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/ListOccHandoverResourceBlocks.go.html to see an example of how to use ListOccHandoverResourceBlocks API.
+// A default retry strategy applies to this operation ListOccHandoverResourceBlocks()
+func (client CapacityManagementClient) ListOccHandoverResourceBlocks(ctx context.Context, request ListOccHandoverResourceBlocksRequest) (response ListOccHandoverResourceBlocksResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listOccHandoverResourceBlocks, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListOccHandoverResourceBlocksResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListOccHandoverResourceBlocksResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListOccHandoverResourceBlocksResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListOccHandoverResourceBlocksResponse")
+	}
+	return
+}
+
+// listOccHandoverResourceBlocks implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) listOccHandoverResourceBlocks(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/occHandoverResourceBlocks", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListOccHandoverResourceBlocksResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccHandoverResourceBlockCollection/ListOccHandoverResourceBlocks"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "ListOccHandoverResourceBlocks", apiReferenceLink)
 		return response, err
 	}
 
@@ -1379,6 +1853,122 @@ func (client CapacityManagementClient) updateOccCapacityRequest(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCapacityRequest/UpdateOccCapacityRequest"
 		err = common.PostProcessServiceError(err, "CapacityManagement", "UpdateOccCapacityRequest", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOccCustomer The request to update the customer.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomer.go.html to see an example of how to use UpdateOccCustomer API.
+// A default retry strategy applies to this operation UpdateOccCustomer()
+func (client CapacityManagementClient) UpdateOccCustomer(ctx context.Context, request UpdateOccCustomerRequest) (response UpdateOccCustomerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOccCustomer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOccCustomerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOccCustomerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOccCustomerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOccCustomerResponse")
+	}
+	return
+}
+
+// updateOccCustomer implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) updateOccCustomer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/occCustomerGroups/{occCustomerGroupId}/occCustomers/{occCustomerId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOccCustomerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomer/UpdateOccCustomer"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "UpdateOccCustomer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateOccCustomerGroup The request to update the customer group.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/capacitymanagement/UpdateOccCustomerGroup.go.html to see an example of how to use UpdateOccCustomerGroup API.
+// A default retry strategy applies to this operation UpdateOccCustomerGroup()
+func (client CapacityManagementClient) UpdateOccCustomerGroup(ctx context.Context, request UpdateOccCustomerGroupRequest) (response UpdateOccCustomerGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateOccCustomerGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateOccCustomerGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateOccCustomerGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateOccCustomerGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateOccCustomerGroupResponse")
+	}
+	return
+}
+
+// updateOccCustomerGroup implements the OCIOperation interface (enables retrying operations)
+func (client CapacityManagementClient) updateOccCustomerGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/occCustomerGroups/{occCustomerGroupId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateOccCustomerGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/occcm/20231107/OccCustomerGroup/UpdateOccCustomerGroup"
+		err = common.PostProcessServiceError(err, "CapacityManagement", "UpdateOccCustomerGroup", apiReferenceLink)
 		return response, err
 	}
 
