@@ -411,6 +411,7 @@ bds
 * oci\_bds\_auto\_scaling\_configuration
 * oci\_bds\_bds\_instance\_api\_key
 * oci\_bds\_bds\_instance\_metastore\_config
+* oci\_bds\_bds\_instance\_resource\_principal\_configuration
 
 blockchain
     
@@ -425,8 +426,10 @@ budget
 
 capacity_management
     
+* oci\_capacity\_management\_occ\_customer\_group
 * oci\_capacity\_management\_occ\_availability\_catalog
 * oci\_capacity\_management\_occ\_capacity\_request
+* oci\_capacity\_management\_occ\_customer\_group\_occ\_customer
 
 certificates_management
     

@@ -25,7 +25,7 @@ type ListInternalNamespaceOccOverviewsRequest struct {
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// The customer group ocid by which we would filter the list.
-	OccCustomerGroupId *string `mandatory:"false" contributesTo:"query" name:"occCustomerGroupId"`
+	OccCustomerGroupId *string `mandatory:"true" contributesTo:"query" name:"occCustomerGroupId"`
 
 	// Workload type using the resources in an availability catalog can be filtered.
 	WorkloadType *string `mandatory:"false" contributesTo:"query" name:"workloadType"`

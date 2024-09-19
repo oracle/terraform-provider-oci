@@ -2002,6 +2002,10 @@ func placementConfigsHashCodeForSets(v interface{}) int {
 	if availabilityDomain, ok := m["availability_domain"]; ok && availabilityDomain != "" {
 		buf.WriteString(fmt.Sprintf("%v-", availabilityDomain))
 	}
+
+	if faultDomains, ok := m["fault_domains"]; ok && faultDomains != "" {
+		buf.WriteString(fmt.Sprintf("%v-", faultDomains))
+	}
 	if capacityReservationId, ok := m["capacity_reservation_id"]; ok && capacityReservationId != "" {
 		buf.WriteString(fmt.Sprintf("%v-", capacityReservationId))
 	}

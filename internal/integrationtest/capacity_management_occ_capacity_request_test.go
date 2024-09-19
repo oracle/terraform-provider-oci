@@ -44,7 +44,7 @@ var (
 	CapacityManagementOccCapacityRequestRepresentation = map[string]interface{}{
 		"availability_domain":             acctest.Representation{RepType: acctest.Required, Create: `US-ASHBURN-1-AD-2`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"date_expected_capacity_handover": acctest.Representation{RepType: acctest.Required, Create: `2025-04-05T00:00:00.000Z`},
+		"date_expected_capacity_handover": acctest.Representation{RepType: acctest.Required, Create: `2124-06-15T00:00:00.000Z`},
 		"details":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: CapacityManagementOccCapacityRequestDetailsRepresentation},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `UI test request`, Update: `displayName2`},
 		"namespace":                       acctest.Representation{RepType: acctest.Required, Create: `COMPUTE`},
@@ -53,14 +53,14 @@ var (
 		"description":                     acctest.Representation{RepType: acctest.Optional, Create: `This is the test request created for UI`},
 		"freeform_tags":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"request_state":                   acctest.Representation{RepType: acctest.Optional, Create: `CREATED`},
+		"request_type":                    acctest.Representation{RepType: acctest.Optional, Create: `NEW`},
 	}
 	CapacityManagementOccCapacityRequestDetailsRepresentation = map[string]interface{}{
 		"demand_quantity": acctest.Representation{RepType: acctest.Required, Create: `10`},
-		"resource_name":   acctest.Representation{RepType: acctest.Required, Create: `BM.Standard3.64`},
+		"resource_name":   acctest.Representation{RepType: acctest.Required, Create: `BM.Standard2.521`},
 		"resource_type":   acctest.Representation{RepType: acctest.Required, Create: `SERVER_HW`},
 		"workload_type":   acctest.Representation{RepType: acctest.Required, Create: `US_PROD`},
 	}
-
 	CapacityManagementOccCapacityRequestResourceDependencies = ""
 )
 
