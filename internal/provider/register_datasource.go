@@ -127,6 +127,7 @@ import (
 	tf_waa "github.com/oracle/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/oracle/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/oracle/terraform-provider-oci/internal/service/waf"
+	tf_zpr "github.com/oracle/terraform-provider-oci/internal/service/zpr"
 )
 
 func init() {
@@ -495,6 +496,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("waf") {
 		tf_waf.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("zpr") {
+		tf_zpr.RegisterDatasource()
 	}
 
 }
