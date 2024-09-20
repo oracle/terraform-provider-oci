@@ -163,7 +163,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `devops` - Discovers devops resources within the specified compartment
     * `disaster_recovery` - Discovers disaster_recovery resources within the specified compartment
     * `dns` - Discovers dns resources (except record) within the specified compartment
-    * `em_warehouse` - Discovers em_warehouse resources within the specified compartment
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
@@ -171,6 +170,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
+    * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
     * `identity` - Discovers identity resources across the entire tenancy
@@ -225,6 +225,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `waa` - Discovers waa resources within the specified compartment
     * `waas` - Discovers waas resources within the specified compartment
     * `waf` - Discovers waf resources within the specified compartment
+    * `zpr` - Discovers Zero Trust Packet Routing resources across the entire tenancy
 * `tf_version` - The version of terraform syntax to generate for configurations. Default is v0.12. The state file will be written in v0.12 only. The allowed values are:
     * 0.11
     * 0.12
@@ -570,6 +571,8 @@ data_safe
 * oci\_data\_safe\_alert
 * oci\_data\_safe\_audit\_archive\_retrieval
 * oci\_data\_safe\_audit\_profile
+* oci\_data\_safe\_alert\_policy\_rule
+* oci\_data\_safe\_alert\_policy
 * oci\_data\_safe\_audit\_policy
 * oci\_data\_safe\_target\_alert\_policy\_association
 * oci\_data\_safe\_report
@@ -581,12 +584,8 @@ data_safe
 * oci\_data\_safe\_sensitive\_data\_models\_sensitive\_column
 * oci\_data\_safe\_discovery\_job
 * oci\_data\_safe\_sdm\_masking\_policy\_difference
-* oci\_data\_safe\_security\_policy\_deployment
-* oci\_data\_safe\_security\_policy
-* oci\_data\_safe\_database\_security\_config
-* oci\_data\_safe\_sql\_firewall\_policy
-* oci\_data\_safe\_sql\_collection
-* oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_calculate\_audit\_volume\_available
+* oci\_data\_safe\_calculate\_audit\_volume\_collected
 
 database
     
@@ -705,6 +704,8 @@ devops
 * oci\_devops\_build\_pipeline\_stage
 * oci\_devops\_trigger
 * oci\_devops\_repository\_mirror
+* oci\_devops\_repository\_setting
+* oci\_devops\_project\_repository\_setting
 
 disaster_recovery
     
@@ -722,10 +723,6 @@ dns
 * oci\_dns\_resolver
 * oci\_dns\_resolver\_endpoint
 * oci\_dns\_view
-
-em_warehouse
-
-* oci\_em\_warehouse\_em\_warehouse
 
 email
     
@@ -775,6 +772,11 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
+
+globally_distributed_database
+    
+* oci\_globally\_distributed\_database\_private\_endpoint
+* oci\_globally\_distributed\_database\_sharded\_database
 
 golden_gate
     
@@ -863,6 +865,7 @@ identity_domains
 * oci\_identity\_domains\_oauth\_partner\_certificate
 * oci\_identity\_domains\_rule
 * oci\_identity\_domains\_identity\_propagation\_trust
+* oci\_identity\_domains\_social\_identity\_provider
 
 integration
     
@@ -872,6 +875,7 @@ jms
     
 * oci\_jms\_fleet
 * oci\_jms\_fleet\_advanced\_feature\_configuration
+* oci\_jms\_jms\_plugin
 
 kms
     
@@ -979,6 +983,7 @@ network_firewall
 * oci\_network\_firewall\_network\_firewall\_policy\_service\_list
 * oci\_network\_firewall\_network\_firewall\_policy\_service
 * oci\_network\_firewall\_network\_firewall\_policy\_decryption\_profile
+* oci\_network\_firewall\_network\_firewall\_policy\_tunnel\_inspection\_rule
 
 network_load_balancer
     
@@ -1207,3 +1212,8 @@ waf
 * oci\_waf\_web\_app\_firewall\_policy
 * oci\_waf\_web\_app\_firewall
 * oci\_waf\_network\_address\_list
+
+zpr
+    
+* oci\_zpr\_configuration
+* oci\_zpr\_zpr\_policy
