@@ -353,6 +353,7 @@ github.com/oracle/oci-go-sdk/v65/waa
 github.com/oracle/oci-go-sdk/v65/waas
 github.com/oracle/oci-go-sdk/v65/waf
 github.com/oracle/oci-go-sdk/v65/workrequests
+github.com/oracle/oci-go-sdk/v65/zpr
 # github.com/pmezard/go-difflib v1.0.0
 ## explicit
 github.com/pmezard/go-difflib/difflib
