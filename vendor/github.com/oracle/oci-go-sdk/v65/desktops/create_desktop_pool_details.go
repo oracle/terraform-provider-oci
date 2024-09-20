@@ -69,6 +69,8 @@ type CreateDesktopPoolDetails struct {
 	// Indicates whether the desktop pool uses dedicated virtual machine hosts.
 	UseDedicatedVmHost CreateDesktopPoolDetailsUseDedicatedVmHostEnum `mandatory:"false" json:"useDedicatedVmHost,omitempty"`
 
+	SessionLifecycleActions *CreateDesktopPoolDesktopSessionLifecycleActions `mandatory:"false" json:"sessionLifecycleActions"`
+
 	// The start time of the desktop pool.
 	TimeStartScheduled *common.SDKTime `mandatory:"false" json:"timeStartScheduled"`
 

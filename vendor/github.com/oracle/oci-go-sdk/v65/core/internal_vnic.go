@@ -22,7 +22,7 @@ import (
 )
 
 // InternalVnic This is a VNIC type only used in operations with overlay customers and RCE.
-// It defines additonal properties: isManaged, resourceType, resourceId, isBMVnic, isGarpEnabled, isEdpEnabled, and isServiceVnic
+// It defines additonal properties: isManaged, resourceType, resourceId, isBMVnic, isGarpEnabled, isEdpEnabled, symmetricHashingEnabled, and isServiceVnic
 type InternalVnic struct {
 
 	// The VNIC's availability domain.
@@ -70,6 +70,9 @@ type InternalVnic struct {
 
 	// Indicates if Elastic Datapath is enabled for the VNIC.
 	IsEdpEnabled *bool `mandatory:"false" json:"isEdpEnabled"`
+
+	// Turn on/off symmetric hashing in VNIC for the private IP's nextHop. The default is 'false'.
+	SymmetricHashingEnabled *bool `mandatory:"false" json:"symmetricHashingEnabled"`
 
 	// The VNIC's physical availability domain.
 	// Example: `PHX-AD-1`

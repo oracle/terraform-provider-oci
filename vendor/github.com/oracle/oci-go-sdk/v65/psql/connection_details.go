@@ -28,6 +28,8 @@ type ConnectionDetails struct {
 
 	// The list of database instance node endpoints in the database system.
 	InstanceEndpoints []DbInstanceEndpoint `mandatory:"true" json:"instanceEndpoints"`
+
+	ReaderEndpoint *Endpoint `mandatory:"false" json:"readerEndpoint"`
 }
 
 func (m ConnectionDetails) String() string {

@@ -21,6 +21,12 @@ type CreateBackupPolicyDetails struct {
 	// Specifies if automatic backups are enabled.
 	IsEnabled *bool `mandatory:"false" json:"isEnabled"`
 
+	// List of policies of a DB system to schedule cross-region DB system backup copy.
+	// The policy includes the name of the destination region to which the DB system backup will be copied, and
+	// an optional parameter which specifies the retention period of the copied DB system backup in days.
+	// **Note:** Currently, only one policy can be specified in the list.
+	CopyPolicies []CopyPolicy `mandatory:"false" json:"copyPolicies"`
+
 	// The start of a 30-minute window of time in which daily, automated backups occur.
 	// This should be in the format of the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero.
 	// At some point in the window, the system may incur a brief service disruption as the backup is performed.

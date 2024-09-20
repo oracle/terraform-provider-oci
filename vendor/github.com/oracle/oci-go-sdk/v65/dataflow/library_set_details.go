@@ -25,7 +25,7 @@ type LibrarySetDetails struct {
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of library details for patch install/uninstall.
-	Libraries map[string]interface{} `mandatory:"true" json:"libraries"`
+	Libraries []LibraryDetails `mandatory:"true" json:"libraries"`
 }
 
 func (m LibrarySetDetails) String() string {

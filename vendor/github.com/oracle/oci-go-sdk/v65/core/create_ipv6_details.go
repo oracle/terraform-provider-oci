@@ -49,6 +49,10 @@ type CreateIpv6Details struct {
 	// IPv6 will be in the VNIC's subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the IPv6 is to be drawn. The IP address,
+	// *if supplied*, must be valid for the given subnet, only valid for reserved IPs currently.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// Lifetime of the IP address.
 	// There are two types of IPv6 IPs:
 	//  - Ephemeral

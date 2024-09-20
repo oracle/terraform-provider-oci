@@ -52,6 +52,9 @@ type UpdateInternalVnicDetails struct {
 	// Indicates if Elastic Datapath is enabled for the VNIC.
 	IsEdpEnabled *bool `mandatory:"false" json:"isEdpEnabled"`
 
+	// Turn on/off symmetric hashing in VNIC for the private IP's nextHop. The default is 'false'.
+	SymmetricHashingEnabled *bool `mandatory:"false" json:"symmetricHashingEnabled"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

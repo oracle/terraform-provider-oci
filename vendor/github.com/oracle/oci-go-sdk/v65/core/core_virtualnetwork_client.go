@@ -21112,6 +21112,71 @@ func (client VirtualNetworkClient) getVtap(ctx context.Context, request common.O
 	return response, err
 }
 
+// GetZprNetworkSecurityGroups Get ZPR Network Security Groups
+func (client VirtualNetworkClient) GetZprNetworkSecurityGroups(ctx context.Context, request GetZprNetworkSecurityGroupsRequest) (response GetZprNetworkSecurityGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getZprNetworkSecurityGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetZprNetworkSecurityGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetZprNetworkSecurityGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetZprNetworkSecurityGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetZprNetworkSecurityGroupsResponse")
+	}
+	return
+}
+
+// getZprNetworkSecurityGroups implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getZprNetworkSecurityGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/networkSecurityGroups/actions/getZprNetworkSecurityGroupDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetZprNetworkSecurityGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ZprNetworkSecurityGroupDetails/GetZprNetworkSecurityGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetZprNetworkSecurityGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LearnInternalPrivateIp Optionally Create and move a private IP to the desired VNIC.
 func (client VirtualNetworkClient) LearnInternalPrivateIp(ctx context.Context, request LearnInternalPrivateIpRequest) (response LearnInternalPrivateIpResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -28503,6 +28568,67 @@ func (client VirtualNetworkClient) rollbackUpgradeDrg(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/RollbackUpgradeDrg"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "RollbackUpgradeDrg", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RotateDeviceCredentialsInternal Rotate the device credentials for edgePop devices
+// A default retry strategy applies to this operation RotateDeviceCredentialsInternal()
+func (client VirtualNetworkClient) RotateDeviceCredentialsInternal(ctx context.Context, request RotateDeviceCredentialsInternalRequest) (response RotateDeviceCredentialsInternalResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.rotateDeviceCredentialsInternal, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RotateDeviceCredentialsInternalResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RotateDeviceCredentialsInternalResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RotateDeviceCredentialsInternalResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RotateDeviceCredentialsInternalResponse")
+	}
+	return
+}
+
+// rotateDeviceCredentialsInternal implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) rotateDeviceCredentialsInternal(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/edgePop/rotateDeviceCredentialsInternal", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response RotateDeviceCredentialsInternalResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RotateDeviceCredentialsInternalResponseDetails/RotateDeviceCredentialsInternal"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "RotateDeviceCredentialsInternal", apiReferenceLink)
 		return response, err
 	}
 

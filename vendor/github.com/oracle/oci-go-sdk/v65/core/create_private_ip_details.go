@@ -64,6 +64,10 @@ type CreatePrivateIpDetails struct {
 	// *if supplied*, must be valid for the given VLAN. See Vlan.
 	VlanId *string `mandatory:"false" json:"vlanId"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet from which the private IP is to be drawn. The IP address,
+	// *if supplied*, must be valid for the given subnet.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
+
 	// Lifetime of the IP address.
 	// There are two types of IPv6 IPs:
 	//  - Ephemeral
