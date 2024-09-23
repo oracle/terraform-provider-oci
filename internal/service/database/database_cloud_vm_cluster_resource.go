@@ -233,7 +233,6 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				Elem: &schema.Schema{
 					Type: schema.TypeString,
 				},
@@ -354,6 +353,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"time_zone": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"vm_cluster_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -817,6 +822,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.TimeZone = &tmp
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CreateCloudVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateCloudVmCluster(context.Background(), request)
@@ -1260,6 +1269,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)

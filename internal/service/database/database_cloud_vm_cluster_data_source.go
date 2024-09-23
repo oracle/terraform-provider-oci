@@ -251,6 +251,8 @@ func (s *DatabaseCloudVmClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("vip_ids", s.Res.VipIds)
 
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
 	if s.Res.ZoneId != nil {
 		s.D.Set("zone_id", *s.Res.ZoneId)
 	}

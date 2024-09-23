@@ -24,6 +24,7 @@ data "oci_database_cloud_vm_clusters" "test_cloud_vm_clusters" {
 	cloud_exadata_infrastructure_id = oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id
 	display_name = var.cloud_vm_cluster_display_name
 	state = var.cloud_vm_cluster_state
+	vm_cluster_type = var.cloud_vm_cluster_vm_cluster_type
 }
 ```
 
@@ -35,6 +36,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `state` - (Optional) A filter to return only cloud VM clusters that match the given lifecycle state exactly.
+* `vm_cluster_type` - (Optional) A filter to return only cloud vmclusters that match the given cloud vmcluster type exactly.
 
 
 ## Attributes Reference
@@ -122,5 +124,6 @@ The following attributes are exported:
 * `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
+* `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 * `zone_id` - The OCID of the zone the cloud VM cluster is associated with. 
 

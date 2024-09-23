@@ -45,6 +45,7 @@ var (
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"display_name":                    acctest.Representation{RepType: acctest.Optional, Create: `cloudVmCluster`, Update: `displayName2`},
 		"state":                           acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPER`},
 		"filter":                          acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseCloudVmClusterDataSourceFilterRepresentation}}
 	DatabaseCloudVmClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -67,6 +68,10 @@ var (
 		"cloud_exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
 		"compartment_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpu_core_count":                  acctest.Representation{RepType: acctest.Required, Create: `4`, Update: `6`},
+		"data_storage_size_in_tbs":        acctest.Representation{RepType: acctest.Optional, Create: `2`, Update: `3`},
+		"db_node_storage_size_in_gbs":     acctest.Representation{RepType: acctest.Optional, Create: `120`, Update: `160`},
+		"memory_size_in_gbs":              acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
+		"db_servers":                      acctest.Representation{RepType: acctest.Optional, Create: []string{`${data.oci_database_db_servers.test_db_servers.db_servers.0.id}`}},
 		"display_name":                    acctest.Representation{RepType: acctest.Required, Create: `cloudVmCluster`, Update: `displayName2`},
 		"gi_version":                      acctest.Representation{RepType: acctest.Required, Create: `19.0.0.0`},
 		"hostname":                        acctest.Representation{RepType: acctest.Required, Create: `apollo`},
@@ -90,6 +95,7 @@ var (
 		"private_zone_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_dns_zone.test_zone.id}`},
 		"security_attributes":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
 		"time_zone":                       acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"vm_cluster_type":                 acctest.Representation{RepType: acctest.Optional, Create: `DEVELOPER`},
 		"lifecycle":                       acctest.RepresentationGroup{RepType: acctest.Required, Group: cloudVmClusterIgnoreDefinedTagsRepresentation},
 	}
 
@@ -226,6 +232,13 @@ var (
 		"view_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_dns_view.test_view.id}`},
 	}
 
+	DatabaseDbServerDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_cloud_exadata_infrastructure.test_cloud_exadata_infrastructure.id}`},
+		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
+		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+	}
+
 	ad_subnet_security = `
                 data "oci_identity_availability_domains" "ADs" {
                     compartment_id = "${var.compartment_id}"
@@ -349,7 +362,8 @@ var (
           } 
 		` +
 		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, ViewRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
 	DatabaseDatabaseCloudVmClusterResourceDependencies = DatabaseCloudVmClusterResourceDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation) + Sleep180
 
@@ -371,7 +385,8 @@ var (
          }
 		` +
 		acctest.GenerateResourceFromRepresentationMap("oci_dns_view", "test_view", acctest.Optional, acctest.Create, ViewRepresentation) +
-		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation)
+		acctest.GenerateDataSourceFromRepresentationMap("oci_core_vcn_dns_resolver_association", "test_vcn_dns_resolver_association", acctest.Optional, acctest.Create, CoreCoreVcnDnsResolverAssociationRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Optional, acctest.Create, DatabaseDbServerDataSourceRepresentation)
 
 	CloudVmClusterCloudVmClusterResourceUpdateDependencies = CloudVmClusterResourceUpdateDependencies + acctest.GenerateResourceFromRepresentationMap("oci_dns_resolver", "test_resolver", acctest.Optional, acctest.Create, ResolverRepresentation)
 
@@ -460,6 +475,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "compute_model", "OCPU"),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "4"),
+				resource.TestCheckResourceAttr(resourceName, "db_servers.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
@@ -491,6 +507,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -560,6 +577,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -625,6 +643,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckNoResourceAttr(resourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "private_zone_id"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "DEVELOPER"),
 				//resource.TestCheckResourceAttr(resourceName, "node_count", "3"), // Assertion Failing, needs to be reviewed
 
 				func(s *terraform.State) (err error) {
@@ -651,6 +670,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_type", "DEVELOPER"),
 
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.availability_domain"),
@@ -703,6 +723,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.subscription_id", ""),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.zone_id"),
 			),
 		},
@@ -764,6 +785,7 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),
 			),

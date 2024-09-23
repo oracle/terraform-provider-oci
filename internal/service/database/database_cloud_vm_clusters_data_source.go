@@ -35,6 +35,10 @@ func DatabaseCloudVmClustersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"cloud_vm_clusters": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -82,6 +86,10 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_database.CloudVmClusterSummaryLifecycleStateEnum(state.(string))
+	}
+
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CloudVmClusterSummaryVmClusterTypeEnum(vmClusterType.(string))
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -297,6 +305,8 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 		}
 
 		cloudVmCluster["vip_ids"] = r.VipIds
+
+		cloudVmCluster["vm_cluster_type"] = r.VmClusterType
 
 		if r.ZoneId != nil {
 			cloudVmCluster["zone_id"] = *r.ZoneId

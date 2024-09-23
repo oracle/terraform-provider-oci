@@ -41,6 +41,7 @@ var (
 		"display_name":              acctest.Representation{RepType: acctest.Optional, Create: `vmCluster`},
 		"exadata_infrastructure_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_exadata_infrastructure.test_exadata_infrastructure.id}`},
 		"state":                     acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"vm_cluster_type":           acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
 		"filter":                    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseVmClusterDataSourceFilterRepresentation}}
 	DatabaseVmClusterDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -79,6 +80,7 @@ var (
 		"lifecycle":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: vmClusterIgnoreDefinedTagsSystemVersionRepresentation},
 		"memory_size_in_gbs":          acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `90`},
 		"time_zone":                   acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"vm_cluster_type":             acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
 	}
 	DatabaseVmClusterCloudAutomationUpdateDetailsRepresentation = map[string]interface{}{
 		"apply_update_time_preference": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseVmClusterCloudAutomationUpdateDetailsApplyUpdateTimePreferenceRepresentation},
@@ -229,8 +231,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -240,6 +242,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -282,8 +285,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "250"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "15"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -293,6 +296,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -330,8 +334,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(resourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.#", "9"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
-				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/u01"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.file_system_size_gb", "25"),
+				resource.TestCheckResourceAttr(resourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttr(resourceName, "is_local_backup_enabled", "false"),
@@ -341,6 +345,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "system_version", "19.2.12.0.0.200317"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(resourceName, "vm_cluster_network_id"),
+				resource.TestCheckResourceAttr(resourceName, "vm_cluster_type", "REGULAR"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -362,6 +367,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_cluster_type", "REGULAR"),
 
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.availability_domain"),
@@ -387,8 +393,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.display_name", "vmCluster"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.exadata_infrastructure_id"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.#", "9"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "260"),
-				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.mount_point", "/u01"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.file_system_size_gb", "25"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.id"),
@@ -402,6 +408,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vm_clusters.0.vm_cluster_network_id"),
+				resource.TestCheckResourceAttr(datasourceName, "vm_clusters.0.vm_cluster_type", "REGULAR"),
 			),
 		},
 		// verify singular datasource
@@ -435,8 +442,8 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "db_servers.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "vmCluster"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.#", "9"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "260"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/u01"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.file_system_size_gb", "25"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "file_system_configuration_details.0.mount_point", "/"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "gi_version", "19.0.0.0.0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -449,6 +456,7 @@ func TestDatabaseVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "REGULAR"),
 			),
 		},
 		// verify resource import
