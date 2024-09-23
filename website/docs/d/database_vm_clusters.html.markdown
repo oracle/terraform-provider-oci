@@ -25,6 +25,7 @@ data "oci_database_vm_clusters" "test_vm_clusters" {
 	display_name = var.vm_cluster_display_name
 	exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 	state = var.vm_cluster_state
+	vm_cluster_type = var.vm_cluster_vm_cluster_type
 }
 ```
 
@@ -36,6 +37,7 @@ The following arguments are supported:
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given. The match is not case sensitive.
 * `exadata_infrastructure_id` - (Optional) If provided, filters the results for the given Exadata Infrastructure.
 * `state` - (Optional) A filter to return only resources that match the given lifecycle state exactly.
+* `vm_cluster_type` - (Optional) A filter to return only vmclusters that match the given vmcluster type exactly.
 
 
 ## Attributes Reference
@@ -91,4 +93,5 @@ The following attributes are exported:
 * `time_created` - The date and time that the VM cluster was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
+* `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 

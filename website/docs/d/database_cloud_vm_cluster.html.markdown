@@ -116,5 +116,6 @@ The following attributes are exported:
 * `vip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the virtual IP (VIP) addresses associated with the cloud VM cluster. The Cluster Ready Services (CRS) creates and maintains one VIP address for each node in the Exadata Cloud Service instance to enable failover. If one node fails, the VIP is reassigned to another active node in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
+* `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 * `zone_id` - The OCID of the zone the cloud VM cluster is associated with. 
 

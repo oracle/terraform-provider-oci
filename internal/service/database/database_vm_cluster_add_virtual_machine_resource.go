@@ -272,6 +272,10 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -467,6 +471,8 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }

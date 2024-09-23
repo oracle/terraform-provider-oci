@@ -180,5 +180,7 @@ func (s *DatabaseVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
 
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
+
 	return nil
 }
