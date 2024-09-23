@@ -1,3 +1,25 @@
+## 6.11.0 (Unreleased)
+
+### Added
+- Support for ADB-S: Undelete an ADB instance - ECPUs only
+- Support for FAaaS API update | expose a new boolean parameter via the existing FAaaS public API listRefreshActivites
+- Support for Private Endpoint support for Object Storage
+- Support for Fleet Application Management service v1.0
+- Support for Configure Custom Endpoint on an OIC Gen3 Instance
+- Support for assign new key versions for KMS-based DB containers
+- Support for OAC - provide ability for customers to select an update window (regular/early) for their OAC instance
+- Support for Recurring Alarm suppressions to Telemetry alarms
+- Support for Operations Insights Cloud Support for ExaCC
+- Support for DB firewall support in Data Safe Phase 2
+### Bug Fix
+- Fix handling of backend max connections in load balancer provider.
+- update ocibuild with lint script
+
+- Addnode failing for dense shapes
+- unset path route set name/routing policy
+- Made secret access key sensitive and prevent 0 values in numeric parameters.
+- Handling 404 while Deleting Storage Bucket Resource
+
 ## 6.10.0 (Unreleased)
 
 ### Added
