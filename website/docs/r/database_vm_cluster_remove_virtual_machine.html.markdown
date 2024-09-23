@@ -85,6 +85,7 @@ The following attributes are exported:
 * `time_created` - The date and time that the VM cluster was created.
 * `time_zone` - The time zone of the Exadata infrastructure. For details, see [Exadata Infrastructure Time Zones](https://docs.cloud.oracle.com/iaas/Content/Database/References/timezones.htm).
 * `vm_cluster_network_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the VM cluster network.
+* `vm_cluster_type` - The vmcluster type for the VM cluster/Cloud VM cluster.
 
 ## Timeouts
 

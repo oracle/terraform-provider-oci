@@ -280,6 +280,12 @@ func DatabaseVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"vm_cluster_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"availability_domain": {
@@ -568,6 +574,10 @@ func (s *DatabaseVmClusterResourceCrud) Create() error {
 		request.VmClusterNetworkId = &tmp
 	}
 
+	if vmClusterType, ok := s.D.GetOkExists("vm_cluster_type"); ok {
+		request.VmClusterType = oci_database.CreateVmClusterDetailsVmClusterTypeEnum(vmClusterType.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateVmCluster(context.Background(), request)
@@ -851,6 +861,8 @@ func (s *DatabaseVmClusterResourceCrud) SetData() error {
 	if s.Res.VmClusterNetworkId != nil {
 		s.D.Set("vm_cluster_network_id", *s.Res.VmClusterNetworkId)
 	}
+
+	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 
 	return nil
 }
