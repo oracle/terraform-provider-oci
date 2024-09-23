@@ -57,6 +57,10 @@ func (m *alarmsuppressiontarget) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := AlarmSuppressionAlarmTarget{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COMPARTMENT":
+		mm := AlarmSuppressionCompartmentTarget{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for AlarmSuppressionTarget: %s.", m.TargetType)
 		return *m, nil
@@ -84,15 +88,18 @@ type AlarmSuppressionTargetTargetTypeEnum string
 
 // Set of constants representing the allowable values for AlarmSuppressionTargetTargetTypeEnum
 const (
-	AlarmSuppressionTargetTargetTypeAlarm AlarmSuppressionTargetTargetTypeEnum = "ALARM"
+	AlarmSuppressionTargetTargetTypeAlarm       AlarmSuppressionTargetTargetTypeEnum = "ALARM"
+	AlarmSuppressionTargetTargetTypeCompartment AlarmSuppressionTargetTargetTypeEnum = "COMPARTMENT"
 )
 
 var mappingAlarmSuppressionTargetTargetTypeEnum = map[string]AlarmSuppressionTargetTargetTypeEnum{
-	"ALARM": AlarmSuppressionTargetTargetTypeAlarm,
+	"ALARM":       AlarmSuppressionTargetTargetTypeAlarm,
+	"COMPARTMENT": AlarmSuppressionTargetTargetTypeCompartment,
 }
 
 var mappingAlarmSuppressionTargetTargetTypeEnumLowerCase = map[string]AlarmSuppressionTargetTargetTypeEnum{
-	"alarm": AlarmSuppressionTargetTargetTypeAlarm,
+	"alarm":       AlarmSuppressionTargetTargetTypeAlarm,
+	"compartment": AlarmSuppressionTargetTargetTypeCompartment,
 }
 
 // GetAlarmSuppressionTargetTargetTypeEnumValues Enumerates the set of values for AlarmSuppressionTargetTargetTypeEnum
@@ -108,6 +115,7 @@ func GetAlarmSuppressionTargetTargetTypeEnumValues() []AlarmSuppressionTargetTar
 func GetAlarmSuppressionTargetTargetTypeEnumStringValues() []string {
 	return []string{
 		"ALARM",
+		"COMPARTMENT",
 	}
 }
 

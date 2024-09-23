@@ -249,6 +249,9 @@ const (
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsCdb    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsPdb    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsNoncdb SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccCdb    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACC-CDB"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccPdb    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
+	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = "MDS-MYSQL"
 )
 
@@ -268,6 +271,9 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnum = map[s
 	"COMANAGED-EXACS-CDB":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsNoncdb,
+	"COMANAGED-EXACC-CDB":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccCdb,
+	"COMANAGED-EXACC-PDB":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccPdb,
+	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql,
 }
 
@@ -287,6 +293,9 @@ var mappingSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumLowerCas
 	"comanaged-exacs-cdb":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExacsNoncdb,
+	"comanaged-exacc-cdb":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccCdb,
+	"comanaged-exacc-pdb":    SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccPdb,
+	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceForecastTrendDatabaseTypeMdsMysql,
 }
 
@@ -317,6 +326,9 @@ func GetSummarizeDatabaseInsightResourceForecastTrendDatabaseTypeEnumStringValue
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"COMANAGED-EXACC-CDB",
+		"COMANAGED-EXACC-PDB",
+		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 	}
 }

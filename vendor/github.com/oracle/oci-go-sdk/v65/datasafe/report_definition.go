@@ -213,18 +213,21 @@ type ReportDefinitionScheduledReportMimeTypeEnum string
 
 // Set of constants representing the allowable values for ReportDefinitionScheduledReportMimeTypeEnum
 const (
-	ReportDefinitionScheduledReportMimeTypePdf ReportDefinitionScheduledReportMimeTypeEnum = "PDF"
-	ReportDefinitionScheduledReportMimeTypeXls ReportDefinitionScheduledReportMimeTypeEnum = "XLS"
+	ReportDefinitionScheduledReportMimeTypePdf  ReportDefinitionScheduledReportMimeTypeEnum = "PDF"
+	ReportDefinitionScheduledReportMimeTypeXls  ReportDefinitionScheduledReportMimeTypeEnum = "XLS"
+	ReportDefinitionScheduledReportMimeTypeJson ReportDefinitionScheduledReportMimeTypeEnum = "JSON"
 )
 
 var mappingReportDefinitionScheduledReportMimeTypeEnum = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
-	"PDF": ReportDefinitionScheduledReportMimeTypePdf,
-	"XLS": ReportDefinitionScheduledReportMimeTypeXls,
+	"PDF":  ReportDefinitionScheduledReportMimeTypePdf,
+	"XLS":  ReportDefinitionScheduledReportMimeTypeXls,
+	"JSON": ReportDefinitionScheduledReportMimeTypeJson,
 }
 
 var mappingReportDefinitionScheduledReportMimeTypeEnumLowerCase = map[string]ReportDefinitionScheduledReportMimeTypeEnum{
-	"pdf": ReportDefinitionScheduledReportMimeTypePdf,
-	"xls": ReportDefinitionScheduledReportMimeTypeXls,
+	"pdf":  ReportDefinitionScheduledReportMimeTypePdf,
+	"xls":  ReportDefinitionScheduledReportMimeTypeXls,
+	"json": ReportDefinitionScheduledReportMimeTypeJson,
 }
 
 // GetReportDefinitionScheduledReportMimeTypeEnumValues Enumerates the set of values for ReportDefinitionScheduledReportMimeTypeEnum
@@ -241,6 +244,7 @@ func GetReportDefinitionScheduledReportMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

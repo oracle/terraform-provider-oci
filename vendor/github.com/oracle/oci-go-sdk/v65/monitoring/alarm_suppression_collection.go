@@ -18,10 +18,10 @@ import (
 	"strings"
 )
 
-// AlarmSuppressionCollection Collection of property summaries for dimension-specific alarm suppressions.
+// AlarmSuppressionCollection Collection of property summaries for alarm suppressions.
 type AlarmSuppressionCollection struct {
 
-	// List of property summaries for dimension-specific alarm suppressions.
+	// List of property summaries for alarm suppressions.
 	Items []AlarmSuppressionSummary `mandatory:"true" json:"items"`
 }
 

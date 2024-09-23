@@ -407,6 +407,127 @@ func (client DataSafeClient) applySdmMaskingPolicyDifference(ctx context.Context
 	return response, err
 }
 
+// BulkCreateSqlFirewallAllowedSqls Appends the allowedSqls with entries from the logs.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkCreateSqlFirewallAllowedSqls.go.html to see an example of how to use BulkCreateSqlFirewallAllowedSqls API.
+// A default retry strategy applies to this operation BulkCreateSqlFirewallAllowedSqls()
+func (client DataSafeClient) BulkCreateSqlFirewallAllowedSqls(ctx context.Context, request BulkCreateSqlFirewallAllowedSqlsRequest) (response BulkCreateSqlFirewallAllowedSqlsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.bulkCreateSqlFirewallAllowedSqls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkCreateSqlFirewallAllowedSqlsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkCreateSqlFirewallAllowedSqlsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkCreateSqlFirewallAllowedSqlsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkCreateSqlFirewallAllowedSqlsResponse")
+	}
+	return
+}
+
+// bulkCreateSqlFirewallAllowedSqls implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) bulkCreateSqlFirewallAllowedSqls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlFirewallAllowedSqls/actions/bulkCreate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkCreateSqlFirewallAllowedSqlsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/BulkCreateSqlFirewallAllowedSqls"
+		err = common.PostProcessServiceError(err, "DataSafe", "BulkCreateSqlFirewallAllowedSqls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// BulkDeleteSqlFirewallAllowedSqls Delete multiple allowed sqls from the SQL firewall policy.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/BulkDeleteSqlFirewallAllowedSqls.go.html to see an example of how to use BulkDeleteSqlFirewallAllowedSqls API.
+// A default retry strategy applies to this operation BulkDeleteSqlFirewallAllowedSqls()
+func (client DataSafeClient) BulkDeleteSqlFirewallAllowedSqls(ctx context.Context, request BulkDeleteSqlFirewallAllowedSqlsRequest) (response BulkDeleteSqlFirewallAllowedSqlsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.bulkDeleteSqlFirewallAllowedSqls, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = BulkDeleteSqlFirewallAllowedSqlsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = BulkDeleteSqlFirewallAllowedSqlsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(BulkDeleteSqlFirewallAllowedSqlsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into BulkDeleteSqlFirewallAllowedSqlsResponse")
+	}
+	return
+}
+
+// bulkDeleteSqlFirewallAllowedSqls implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) bulkDeleteSqlFirewallAllowedSqls(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/sqlFirewallAllowedSqls/actions/bulkDelete", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response BulkDeleteSqlFirewallAllowedSqlsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/BulkDeleteSqlFirewallAllowedSqls"
+		err = common.PostProcessServiceError(err, "DataSafe", "BulkDeleteSqlFirewallAllowedSqls", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CalculateAuditVolumeAvailable Calculates the volume of audit events available on the target database to be collected. Measurable up to the defined retention period of the audit target resource.
 //
 // # See also
@@ -4902,6 +5023,64 @@ func (client DataSafeClient) deleteSqlCollection(ctx context.Context, request co
 	return response, err
 }
 
+// DeleteSqlFirewallAllowedSql Deletes the specified allowed sql.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/DeleteSqlFirewallAllowedSql.go.html to see an example of how to use DeleteSqlFirewallAllowedSql API.
+// A default retry strategy applies to this operation DeleteSqlFirewallAllowedSql()
+func (client DataSafeClient) DeleteSqlFirewallAllowedSql(ctx context.Context, request DeleteSqlFirewallAllowedSqlRequest) (response DeleteSqlFirewallAllowedSqlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteSqlFirewallAllowedSql, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteSqlFirewallAllowedSqlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteSqlFirewallAllowedSqlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteSqlFirewallAllowedSqlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteSqlFirewallAllowedSqlResponse")
+	}
+	return
+}
+
+// deleteSqlFirewallAllowedSql implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) deleteSqlFirewallAllowedSql(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/sqlFirewallAllowedSqls/{sqlFirewallAllowedSqlId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteSqlFirewallAllowedSqlResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/DeleteSqlFirewallAllowedSql"
+		err = common.PostProcessServiceError(err, "DataSafe", "DeleteSqlFirewallAllowedSql", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteSqlFirewallPolicy Deletes the SQL Firewall policy resource.
 //
 // # See also
@@ -8634,6 +8813,64 @@ func (client DataSafeClient) getSqlCollection(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlCollection/GetSqlCollection"
 		err = common.PostProcessServiceError(err, "DataSafe", "GetSqlCollection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetSqlFirewallAllowedSql Gets a SQL firewall allowed SQL by identifier.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/GetSqlFirewallAllowedSql.go.html to see an example of how to use GetSqlFirewallAllowedSql API.
+// A default retry strategy applies to this operation GetSqlFirewallAllowedSql()
+func (client DataSafeClient) GetSqlFirewallAllowedSql(ctx context.Context, request GetSqlFirewallAllowedSqlRequest) (response GetSqlFirewallAllowedSqlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getSqlFirewallAllowedSql, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetSqlFirewallAllowedSqlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetSqlFirewallAllowedSqlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetSqlFirewallAllowedSqlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetSqlFirewallAllowedSqlResponse")
+	}
+	return
+}
+
+// getSqlFirewallAllowedSql implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) getSqlFirewallAllowedSql(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/sqlFirewallAllowedSqls/{sqlFirewallAllowedSqlId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetSqlFirewallAllowedSqlResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/GetSqlFirewallAllowedSql"
+		err = common.PostProcessServiceError(err, "DataSafe", "GetSqlFirewallAllowedSql", apiReferenceLink)
 		return response, err
 	}
 
@@ -14328,6 +14565,65 @@ func (client DataSafeClient) patchSensitiveColumns(ctx context.Context, request 
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SensitiveColumn/PatchSensitiveColumns"
 		err = common.PostProcessServiceError(err, "DataSafe", "PatchSensitiveColumns", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// PatchSqlFirewallAllowedSql Delete multiple allowed sqls. You can use this operation to delete one or more allowed sqls.
+// Create and update of multiple allowed sqls is not supported.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datasafe/PatchSqlFirewallAllowedSql.go.html to see an example of how to use PatchSqlFirewallAllowedSql API.
+// A default retry strategy applies to this operation PatchSqlFirewallAllowedSql()
+func (client DataSafeClient) PatchSqlFirewallAllowedSql(ctx context.Context, request PatchSqlFirewallAllowedSqlRequest) (response PatchSqlFirewallAllowedSqlResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.patchSqlFirewallAllowedSql, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PatchSqlFirewallAllowedSqlResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PatchSqlFirewallAllowedSqlResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PatchSqlFirewallAllowedSqlResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PatchSqlFirewallAllowedSqlResponse")
+	}
+	return
+}
+
+// patchSqlFirewallAllowedSql implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) patchSqlFirewallAllowedSql(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPatch, "/sqlFirewallAllowedSqls", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PatchSqlFirewallAllowedSqlResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/SqlFirewallAllowedSql/PatchSqlFirewallAllowedSql"
+		err = common.PostProcessServiceError(err, "DataSafe", "PatchSqlFirewallAllowedSql", apiReferenceLink)
 		return response, err
 	}
 

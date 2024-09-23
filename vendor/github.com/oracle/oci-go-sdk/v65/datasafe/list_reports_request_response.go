@@ -46,6 +46,9 @@ type ListReportsRequest struct {
 	// The field to sort by. Only one sort order may be provided. Default order for timeGenerated is descending. Default order for displayName is ascending. If no value is specified timeGenerated is default.
 	SortBy ListReportsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
+	// An optional filter to return only resources that match the specified mime type.
+	MimeType ListReportsMimeTypeEnum `mandatory:"false" contributesTo:"query" name:"mimeType" omitEmpty:"true"`
+
 	// The ID of the report definition to filter the list of reports
 	ReportDefinitionId *string `mandatory:"false" contributesTo:"query" name:"reportDefinitionId"`
 
@@ -115,6 +118,9 @@ func (request ListReportsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListReportsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListReportsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListReportsMimeTypeEnum(string(request.MimeType)); !ok && request.MimeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MimeType: %s. Supported values are: %s.", request.MimeType, strings.Join(GetListReportsMimeTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListReportsLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListReportsLifecycleStateEnumStringValues(), ",")))
@@ -276,6 +282,52 @@ func GetListReportsSortByEnumStringValues() []string {
 // GetMappingListReportsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListReportsSortByEnum(val string) (ListReportsSortByEnum, bool) {
 	enum, ok := mappingListReportsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListReportsMimeTypeEnum Enum with underlying type: string
+type ListReportsMimeTypeEnum string
+
+// Set of constants representing the allowable values for ListReportsMimeTypeEnum
+const (
+	ListReportsMimeTypePdf  ListReportsMimeTypeEnum = "PDF"
+	ListReportsMimeTypeXls  ListReportsMimeTypeEnum = "XLS"
+	ListReportsMimeTypeJson ListReportsMimeTypeEnum = "JSON"
+)
+
+var mappingListReportsMimeTypeEnum = map[string]ListReportsMimeTypeEnum{
+	"PDF":  ListReportsMimeTypePdf,
+	"XLS":  ListReportsMimeTypeXls,
+	"JSON": ListReportsMimeTypeJson,
+}
+
+var mappingListReportsMimeTypeEnumLowerCase = map[string]ListReportsMimeTypeEnum{
+	"pdf":  ListReportsMimeTypePdf,
+	"xls":  ListReportsMimeTypeXls,
+	"json": ListReportsMimeTypeJson,
+}
+
+// GetListReportsMimeTypeEnumValues Enumerates the set of values for ListReportsMimeTypeEnum
+func GetListReportsMimeTypeEnumValues() []ListReportsMimeTypeEnum {
+	values := make([]ListReportsMimeTypeEnum, 0)
+	for _, v := range mappingListReportsMimeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListReportsMimeTypeEnumStringValues Enumerates the set of values in String for ListReportsMimeTypeEnum
+func GetListReportsMimeTypeEnumStringValues() []string {
+	return []string{
+		"PDF",
+		"XLS",
+		"JSON",
+	}
+}
+
+// GetMappingListReportsMimeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListReportsMimeTypeEnum(val string) (ListReportsMimeTypeEnum, bool) {
+	enum, ok := mappingListReportsMimeTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

@@ -529,6 +529,69 @@ func (client OperationsInsightsClient) changeHostInsightCompartment(ctx context.
 	return response, err
 }
 
+// ChangeMacsManagedCloudDatabaseInsightConnection Change the connection details of a Cloud MACS-managed database insight. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeMacsManagedCloudDatabaseInsightConnection.go.html to see an example of how to use ChangeMacsManagedCloudDatabaseInsightConnection API.
+// A default retry strategy applies to this operation ChangeMacsManagedCloudDatabaseInsightConnection()
+func (client OperationsInsightsClient) ChangeMacsManagedCloudDatabaseInsightConnection(ctx context.Context, request ChangeMacsManagedCloudDatabaseInsightConnectionRequest) (response ChangeMacsManagedCloudDatabaseInsightConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeMacsManagedCloudDatabaseInsightConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeMacsManagedCloudDatabaseInsightConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeMacsManagedCloudDatabaseInsightConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeMacsManagedCloudDatabaseInsightConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeMacsManagedCloudDatabaseInsightConnectionResponse")
+	}
+	return
+}
+
+// changeMacsManagedCloudDatabaseInsightConnection implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeMacsManagedCloudDatabaseInsightConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeMacsManagedCloudDatabaseInsightConnectionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeMacsManagedCloudDatabaseInsightConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeMacsManagedCloudDatabaseInsightConnection"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeMacsManagedCloudDatabaseInsightConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeNewsReportCompartment Moves a news report resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also
@@ -10070,6 +10133,69 @@ func (client OperationsInsightsClient) summarizeSqlStatisticsTimeSeriesByPlan(ct
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/SummarizeSqlStatisticsTimeSeriesByPlan"
 		err = common.PostProcessServiceError(err, "OperationsInsights", "SummarizeSqlStatisticsTimeSeriesByPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// TestMacsManagedCloudDatabaseInsightConnection Test the connection details of a Cloud MACS-managed database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/TestMacsManagedCloudDatabaseInsightConnection.go.html to see an example of how to use TestMacsManagedCloudDatabaseInsightConnection API.
+// A default retry strategy applies to this operation TestMacsManagedCloudDatabaseInsightConnection()
+func (client OperationsInsightsClient) TestMacsManagedCloudDatabaseInsightConnection(ctx context.Context, request TestMacsManagedCloudDatabaseInsightConnectionRequest) (response TestMacsManagedCloudDatabaseInsightConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.testMacsManagedCloudDatabaseInsightConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = TestMacsManagedCloudDatabaseInsightConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = TestMacsManagedCloudDatabaseInsightConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(TestMacsManagedCloudDatabaseInsightConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into TestMacsManagedCloudDatabaseInsightConnectionResponse")
+	}
+	return
+}
+
+// testMacsManagedCloudDatabaseInsightConnection implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) testMacsManagedCloudDatabaseInsightConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/actions/testMacsManagedCloudDatabaseInsightConnectionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response TestMacsManagedCloudDatabaseInsightConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/TestMacsManagedCloudDatabaseInsightConnection"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "TestMacsManagedCloudDatabaseInsightConnection", apiReferenceLink)
 		return response, err
 	}
 
