@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -18,22 +18,22 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetResources.go.html to see an example of how to use ListFleetResourcesRequest.
 type ListFleetResourcesRequest struct {
 
-	// Unique Fleet identifier.
+	// unique Fleet identifier
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// Resource Tenancy Id
 	TenancyId *string `mandatory:"false" contributesTo:"query" name:"tenancyId"`
 
-	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
+	// A filter to return only resources their lifecycleState matches the given lifecycleState.
 	LifecycleState FleetResourceLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only resources whose identifier matches the given identifier.
+	// unique FleetResource identifier
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// A filter to return only resources whose resourceType matches the given resourceType.
+	// A filter to return resources that match the Type
 	FleetResourceType *string `mandatory:"false" contributesTo:"query" name:"fleetResourceType"`
 
 	// The maximum number of items to return.

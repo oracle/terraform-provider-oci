@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -16,18 +17,14 @@ import (
 	"strings"
 )
 
-// ScriptBasedExecutionDetails Details for script-based execution.
+// ScriptBasedExecutionDetails Details for script based execution
 type ScriptBasedExecutionDetails struct {
 	Variables *TaskVariable `mandatory:"false" json:"variables"`
 
 	Content ContentDetails `mandatory:"false" json:"content"`
 
-	// Optional command to execute the content.
-	// You can provide any commands/arguments that can't be part of the script.
+	// Optional Command to execute the content.
 	Command *string `mandatory:"false" json:"command"`
-
-	// Credentials required for executing the task.
-	Credentials []ConfigAssociationDetails `mandatory:"false" json:"credentials"`
 }
 
 func (m ScriptBasedExecutionDetails) String() string {
@@ -63,10 +60,9 @@ func (m ScriptBasedExecutionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Variables   *TaskVariable              `json:"variables"`
-		Content     contentdetails             `json:"content"`
-		Command     *string                    `json:"command"`
-		Credentials []ConfigAssociationDetails `json:"credentials"`
+		Variables *TaskVariable  `json:"variables"`
+		Content   contentdetails `json:"content"`
+		Command   *string        `json:"command"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -88,7 +84,5 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Command = model.Command
 
-	m.Credentials = make([]ConfigAssociationDetails, len(model.Credentials))
-	copy(m.Credentials, model.Credentials)
 	return
 }

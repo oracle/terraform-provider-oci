@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,19 +16,19 @@ import (
 	"strings"
 )
 
-// ComplianceReportTarget Details of the target and patches.
+// ComplianceReportTarget Details of the Patch.
 type ComplianceReportTarget struct {
 
-	// Target Identifier.Can be the target name if a separate ID is not available.
+	// Target Identifier.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Target Name.
 	TargetName *string `mandatory:"true" json:"targetName"`
 
-	// The last known compliance state of the target.
+	// Last known compliance state of target.
 	ComplianceState ComplianceStateEnum `mandatory:"true" json:"complianceState"`
 
-	// Current version of the target.
+	// Current version.
 	Version *string `mandatory:"false" json:"version"`
 
 	// Installed Patches for the Target.

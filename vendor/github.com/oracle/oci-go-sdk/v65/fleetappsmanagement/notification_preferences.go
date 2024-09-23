@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,14 +16,13 @@ import (
 	"strings"
 )
 
-// NotificationPreferences Notification information to get notified when the fleet status changes.
+// NotificationPreferences Conditions when met to send notifications on the fleet activities
 type NotificationPreferences struct {
 
-	// Topic Id where the notifications will be directed.
-	// A topic is a communication channel for sending messages on chosen events to subscriptions.
+	// Topic Id where the notifications will be directed
 	TopicId *string `mandatory:"true" json:"topicId"`
 
-	// Compartment ID the topic belongs to.
+	// Copartment Id of the topic where the notifications will be directed
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	Preferences *Preferences `mandatory:"false" json:"preferences"`

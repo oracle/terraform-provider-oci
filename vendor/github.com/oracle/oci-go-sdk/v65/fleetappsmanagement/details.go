@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -18,7 +19,6 @@ import (
 
 // Details The details of the task.
 type Details struct {
-	ExecutionDetails ExecutionDetails `mandatory:"true" json:"executionDetails"`
 
 	// The OS for the task
 	OsType OsTypeEnum `mandatory:"true" json:"osType"`
@@ -26,17 +26,12 @@ type Details struct {
 	// The scope of the task
 	Scope TaskScopeEnum `mandatory:"true" json:"scope"`
 
+	ExecutionDetails ExecutionDetails `mandatory:"false" json:"executionDetails"`
+
 	// The platform of the runbook.
 	Platform *string `mandatory:"false" json:"platform"`
 
 	Properties *Properties `mandatory:"false" json:"properties"`
-
-	// Is this a discovery output task?
-	IsDiscoveryOutputTask *bool `mandatory:"false" json:"isDiscoveryOutputTask"`
-
-	// Is this an Apply Subject Task?
-	// Set this to true for a Patch Execution Task which applies patches(subjects) on a target.
-	IsApplySubjectTask *bool `mandatory:"false" json:"isApplySubjectTask"`
 }
 
 func (m Details) String() string {
@@ -64,13 +59,11 @@ func (m Details) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Details) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Platform              *string          `json:"platform"`
-		Properties            *Properties      `json:"properties"`
-		IsDiscoveryOutputTask *bool            `json:"isDiscoveryOutputTask"`
-		IsApplySubjectTask    *bool            `json:"isApplySubjectTask"`
-		ExecutionDetails      executiondetails `json:"executionDetails"`
-		OsType                OsTypeEnum       `json:"osType"`
-		Scope                 TaskScopeEnum    `json:"scope"`
+		ExecutionDetails executiondetails `json:"executionDetails"`
+		Platform         *string          `json:"platform"`
+		Properties       *Properties      `json:"properties"`
+		OsType           OsTypeEnum       `json:"osType"`
+		Scope            TaskScopeEnum    `json:"scope"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -78,14 +71,6 @@ func (m *Details) UnmarshalJSON(data []byte) (e error) {
 		return
 	}
 	var nn interface{}
-	m.Platform = model.Platform
-
-	m.Properties = model.Properties
-
-	m.IsDiscoveryOutputTask = model.IsDiscoveryOutputTask
-
-	m.IsApplySubjectTask = model.IsApplySubjectTask
-
 	nn, e = model.ExecutionDetails.UnmarshalPolymorphicJSON(model.ExecutionDetails.JsonData)
 	if e != nil {
 		return
@@ -95,6 +80,10 @@ func (m *Details) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.ExecutionDetails = nil
 	}
+
+	m.Platform = model.Platform
+
+	m.Properties = model.Properties
 
 	m.OsType = model.OsType
 

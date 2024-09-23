@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,26 +16,25 @@ import (
 	"strings"
 )
 
-// EntityExecutionDetails Resource level execution status and target associations.
+// EntityExecutionDetails Activity Resource and execution details including outcome.
 type EntityExecutionDetails struct {
 
-	// Resource Identifier associated with the Work Request.
+	// Resource Identifier associated with the Work Request
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Status of the Job at Resource Level.
+	// Status of the Job at Resource Level
 	Status JobStatusEnum `mandatory:"true" json:"status"`
 
-	// Resource Display Name.
+	// Resource Display Name
 	ResourceDisplayName *string `mandatory:"false" json:"resourceDisplayName"`
 
-	// Description of the Resource Execution status.
-	// If there are any errors, this can also include a short error message.
+	// Description of the Work Request
 	Description *string `mandatory:"false" json:"description"`
 
-	// The sequence of the Resource.
+	// The sequence of the Resource
 	Sequence *string `mandatory:"false" json:"sequence"`
 
-	// Targets associated with the resource.
+	// Targets associated.
 	Targets []ActivityResourceTarget `mandatory:"false" json:"targets"`
 
 	// The time the task started for the resource. An RFC3339 formatted datetime string

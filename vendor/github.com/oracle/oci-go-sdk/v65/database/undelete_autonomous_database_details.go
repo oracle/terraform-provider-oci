@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,7 +49,7 @@ type UndeleteAutonomousDatabaseDetails struct {
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The number of OCPU cores to be made available to the database.
@@ -81,8 +81,6 @@ type UndeleteAutonomousDatabaseDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	VaultId *string `mandatory:"false" json:"vaultId"`
-
-	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 
 	// **Important** The `adminPassword` or `secretId` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
@@ -186,11 +184,6 @@ type UndeleteAutonomousDatabaseDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
-	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
-	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
-
 	// The private endpoint Ip address for the resource.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
@@ -226,9 +219,6 @@ type UndeleteAutonomousDatabaseDetails struct {
 	// The list of database tools details.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
-
-	// True if the Autonomous Database is backup retention locked.
-	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
 	// This cannot be used in conjunction with adminPassword.
@@ -343,11 +333,6 @@ func (m UndeleteAutonomousDatabaseDetails) GetVaultId() *string {
 	return m.VaultId
 }
 
-// GetEncryptionKey returns EncryptionKey
-func (m UndeleteAutonomousDatabaseDetails) GetEncryptionKey() AutonomousDatabaseEncryptionKeyDetails {
-	return m.EncryptionKey
-}
-
 // GetAdminPassword returns AdminPassword
 func (m UndeleteAutonomousDatabaseDetails) GetAdminPassword() *string {
 	return m.AdminPassword
@@ -453,11 +438,6 @@ func (m UndeleteAutonomousDatabaseDetails) GetDefinedTags() map[string]map[strin
 	return m.DefinedTags
 }
 
-// GetSecurityAttributes returns SecurityAttributes
-func (m UndeleteAutonomousDatabaseDetails) GetSecurityAttributes() map[string]map[string]interface{} {
-	return m.SecurityAttributes
-}
-
 // GetPrivateEndpointIp returns PrivateEndpointIp
 func (m UndeleteAutonomousDatabaseDetails) GetPrivateEndpointIp() *string {
 	return m.PrivateEndpointIp
@@ -513,11 +493,6 @@ func (m UndeleteAutonomousDatabaseDetails) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
 }
 
-// GetIsBackupRetentionLocked returns IsBackupRetentionLocked
-func (m UndeleteAutonomousDatabaseDetails) GetIsBackupRetentionLocked() *bool {
-	return m.IsBackupRetentionLocked
-}
-
 // GetSecretId returns SecretId
 func (m UndeleteAutonomousDatabaseDetails) GetSecretId() *string {
 	return m.SecretId
@@ -571,187 +546,4 @@ func (m UndeleteAutonomousDatabaseDetails) MarshalJSON() (buff []byte, e error) 
 	}
 
 	return json.Marshal(&s)
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *UndeleteAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		SubscriptionId                           *string                                                           `json:"subscriptionId"`
-		CharacterSet                             *string                                                           `json:"characterSet"`
-		NcharacterSet                            *string                                                           `json:"ncharacterSet"`
-		DbName                                   *string                                                           `json:"dbName"`
-		CpuCoreCount                             *int                                                              `json:"cpuCoreCount"`
-		BackupRetentionPeriodInDays              *int                                                              `json:"backupRetentionPeriodInDays"`
-		ComputeModel                             CreateAutonomousDatabaseBaseComputeModelEnum                      `json:"computeModel"`
-		ComputeCount                             *float32                                                          `json:"computeCount"`
-		OcpuCount                                *float32                                                          `json:"ocpuCount"`
-		DbWorkload                               CreateAutonomousDatabaseBaseDbWorkloadEnum                        `json:"dbWorkload"`
-		DataStorageSizeInTBs                     *int                                                              `json:"dataStorageSizeInTBs"`
-		DataStorageSizeInGBs                     *int                                                              `json:"dataStorageSizeInGBs"`
-		IsFreeTier                               *bool                                                             `json:"isFreeTier"`
-		KmsKeyId                                 *string                                                           `json:"kmsKeyId"`
-		VaultId                                  *string                                                           `json:"vaultId"`
-		EncryptionKey                            autonomousdatabaseencryptionkeydetails                            `json:"encryptionKey"`
-		AdminPassword                            *string                                                           `json:"adminPassword"`
-		DisplayName                              *string                                                           `json:"displayName"`
-		LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `json:"licenseModel"`
-		ByolComputeCountLimit                    *float32                                                          `json:"byolComputeCountLimit"`
-		IsPreviewVersionWithServiceTermsAccepted *bool                                                             `json:"isPreviewVersionWithServiceTermsAccepted"`
-		IsAutoScalingEnabled                     *bool                                                             `json:"isAutoScalingEnabled"`
-		IsDevTier                                *bool                                                             `json:"isDevTier"`
-		IsDedicated                              *bool                                                             `json:"isDedicated"`
-		AutonomousContainerDatabaseId            *string                                                           `json:"autonomousContainerDatabaseId"`
-		InMemoryPercentage                       *int                                                              `json:"inMemoryPercentage"`
-		IsAccessControlEnabled                   *bool                                                             `json:"isAccessControlEnabled"`
-		WhitelistedIps                           []string                                                          `json:"whitelistedIps"`
-		ArePrimaryWhitelistedIpsUsed             *bool                                                             `json:"arePrimaryWhitelistedIpsUsed"`
-		StandbyWhitelistedIps                    []string                                                          `json:"standbyWhitelistedIps"`
-		IsDataGuardEnabled                       *bool                                                             `json:"isDataGuardEnabled"`
-		IsLocalDataGuardEnabled                  *bool                                                             `json:"isLocalDataGuardEnabled"`
-		SubnetId                                 *string                                                           `json:"subnetId"`
-		NsgIds                                   []string                                                          `json:"nsgIds"`
-		PrivateEndpointLabel                     *string                                                           `json:"privateEndpointLabel"`
-		FreeformTags                             map[string]string                                                 `json:"freeformTags"`
-		DefinedTags                              map[string]map[string]interface{}                                 `json:"definedTags"`
-		SecurityAttributes                       map[string]map[string]interface{}                                 `json:"securityAttributes"`
-		PrivateEndpointIp                        *string                                                           `json:"privateEndpointIp"`
-		DbVersion                                *string                                                           `json:"dbVersion"`
-		CustomerContacts                         []CustomerContact                                                 `json:"customerContacts"`
-		IsMtlsConnectionRequired                 *bool                                                             `json:"isMtlsConnectionRequired"`
-		ResourcePoolLeaderId                     *string                                                           `json:"resourcePoolLeaderId"`
-		ResourcePoolSummary                      *ResourcePoolSummary                                              `json:"resourcePoolSummary"`
-		AutonomousMaintenanceScheduleType        CreateAutonomousDatabaseBaseAutonomousMaintenanceScheduleTypeEnum `json:"autonomousMaintenanceScheduleType"`
-		ScheduledOperations                      []ScheduledOperationDetails                                       `json:"scheduledOperations"`
-		IsAutoScalingForStorageEnabled           *bool                                                             `json:"isAutoScalingForStorageEnabled"`
-		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `json:"databaseEdition"`
-		DbToolsDetails                           []DatabaseTool                                                    `json:"dbToolsDetails"`
-		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
-		SecretId                                 *string                                                           `json:"secretId"`
-		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
-		CompartmentId                            *string                                                           `json:"compartmentId"`
-		SourceId                                 *string                                                           `json:"sourceId"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.SubscriptionId = model.SubscriptionId
-
-	m.CharacterSet = model.CharacterSet
-
-	m.NcharacterSet = model.NcharacterSet
-
-	m.DbName = model.DbName
-
-	m.CpuCoreCount = model.CpuCoreCount
-
-	m.BackupRetentionPeriodInDays = model.BackupRetentionPeriodInDays
-
-	m.ComputeModel = model.ComputeModel
-
-	m.ComputeCount = model.ComputeCount
-
-	m.OcpuCount = model.OcpuCount
-
-	m.DbWorkload = model.DbWorkload
-
-	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
-
-	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
-
-	m.IsFreeTier = model.IsFreeTier
-
-	m.KmsKeyId = model.KmsKeyId
-
-	m.VaultId = model.VaultId
-
-	nn, e = model.EncryptionKey.UnmarshalPolymorphicJSON(model.EncryptionKey.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.EncryptionKey = nn.(AutonomousDatabaseEncryptionKeyDetails)
-	} else {
-		m.EncryptionKey = nil
-	}
-
-	m.AdminPassword = model.AdminPassword
-
-	m.DisplayName = model.DisplayName
-
-	m.LicenseModel = model.LicenseModel
-
-	m.ByolComputeCountLimit = model.ByolComputeCountLimit
-
-	m.IsPreviewVersionWithServiceTermsAccepted = model.IsPreviewVersionWithServiceTermsAccepted
-
-	m.IsAutoScalingEnabled = model.IsAutoScalingEnabled
-
-	m.IsDevTier = model.IsDevTier
-
-	m.IsDedicated = model.IsDedicated
-
-	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
-
-	m.InMemoryPercentage = model.InMemoryPercentage
-
-	m.IsAccessControlEnabled = model.IsAccessControlEnabled
-
-	m.WhitelistedIps = make([]string, len(model.WhitelistedIps))
-	copy(m.WhitelistedIps, model.WhitelistedIps)
-	m.ArePrimaryWhitelistedIpsUsed = model.ArePrimaryWhitelistedIpsUsed
-
-	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
-	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
-	m.IsDataGuardEnabled = model.IsDataGuardEnabled
-
-	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
-
-	m.SubnetId = model.SubnetId
-
-	m.NsgIds = make([]string, len(model.NsgIds))
-	copy(m.NsgIds, model.NsgIds)
-	m.PrivateEndpointLabel = model.PrivateEndpointLabel
-
-	m.FreeformTags = model.FreeformTags
-
-	m.DefinedTags = model.DefinedTags
-
-	m.SecurityAttributes = model.SecurityAttributes
-
-	m.PrivateEndpointIp = model.PrivateEndpointIp
-
-	m.DbVersion = model.DbVersion
-
-	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
-	copy(m.CustomerContacts, model.CustomerContacts)
-	m.IsMtlsConnectionRequired = model.IsMtlsConnectionRequired
-
-	m.ResourcePoolLeaderId = model.ResourcePoolLeaderId
-
-	m.ResourcePoolSummary = model.ResourcePoolSummary
-
-	m.AutonomousMaintenanceScheduleType = model.AutonomousMaintenanceScheduleType
-
-	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
-	copy(m.ScheduledOperations, model.ScheduledOperations)
-	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
-
-	m.DatabaseEdition = model.DatabaseEdition
-
-	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
-	copy(m.DbToolsDetails, model.DbToolsDetails)
-	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
-
-	m.SecretId = model.SecretId
-
-	m.SecretVersionNumber = model.SecretVersionNumber
-
-	m.CompartmentId = model.CompartmentId
-
-	m.SourceId = model.SourceId
-
-	return
 }

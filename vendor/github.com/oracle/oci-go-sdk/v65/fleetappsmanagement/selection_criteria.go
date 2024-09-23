@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,12 +16,10 @@ import (
 	"strings"
 )
 
-// SelectionCriteria Rule Selection Criteria for DYNAMIC resource selection for a GENERIC fleet.
-// Rules define what resources are members of this fleet. All resources that meet the criteria are added automatically.
+// SelectionCriteria Rule Selection Criteria
 type SelectionCriteria struct {
 
-	// Match condition for the rule selection.
-	// Include resources that match all rules or any of the rules.
+	// Rule selection match condition.
 	MatchCondition SelectionCriteriaMatchConditionEnum `mandatory:"true" json:"matchCondition"`
 
 	// Rules.

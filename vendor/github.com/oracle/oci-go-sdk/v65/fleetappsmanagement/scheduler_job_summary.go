@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -46,30 +47,28 @@ type SchedulerJobSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// The scheduled date and time for the Job.
+	// Scheduled date for the Job.Provide only the date
 	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 
-	// Count of Action Groups affected by the Schedule.
-	// An action group is a group of entities grouped for a lifecycle activity.
-	// Example - A Fleet will be considered an Action Group for any lifecycle activity.
+	// Count of ActionGroups affected by the Schedule.
 	CountOfAffectedActionGroups *int `mandatory:"false" json:"countOfAffectedActionGroups"`
 
-	// Count of resources affected by the schedule.
+	// Count of Resources affected by the Schedule
 	CountOfAffectedResources *int `mandatory:"false" json:"countOfAffectedResources"`
 
-	// Count of targets affected by the schedule.
+	// Count of Targets affected by the Schedule
 	CountOfAffectedTargets *int `mandatory:"false" json:"countOfAffectedTargets"`
 
-	// All Action Group types are part of the schedule.
+	// All ActionGroup Types part of the schedule.
 	ActionGroupTypes []LifeCycleActionGroupTypeEnum `mandatory:"false" json:"actionGroupTypes,omitempty"`
 
-	// All application types that are part of the schedule for an ENVIRONMENT action group Type.
+	// All application types part of the schedule for ENVIRONMENT ActionGroup Type.
 	ApplicationTypes []string `mandatory:"false" json:"applicationTypes"`
 
-	// All products that are part of the schedule for a PRODUCT action group type.
+	// All products part of the schedule for PRODUCT ActionGroup Type.
 	Products []string `mandatory:"false" json:"products"`
 
-	// All LifeCycle Operations that are part of the schedule.
+	// All LifeCycle Operations part of the schedule
 	LifecycleOperations []string `mandatory:"false" json:"lifecycleOperations"`
 
 	// Action Groups associated with the Schedule.

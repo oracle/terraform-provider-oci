@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// FleetTargetSummary Summary of a confirmed target within a fleet.
+// FleetTargetSummary Summary of the FleetTarget.
 type FleetTargetSummary struct {
 
 	// The OCID of the resource.
@@ -29,7 +30,7 @@ type FleetTargetSummary struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Current version of target.
+	// Current version of Target
 	Version *string `mandatory:"false" json:"version"`
 
 	// Product to which the target belongs to.
@@ -37,17 +38,8 @@ type FleetTargetSummary struct {
 
 	Resource *TargetResource `mandatory:"false" json:"resource"`
 
-	// The last known compliance state of the target.
+	// Last known compliance state of Target.
 	ComplianceState ComplianceStateEnum `mandatory:"false" json:"complianceState,omitempty"`
-
-	// The time when the last successful discovery was made.
-	TimeOfLastSuccessfulDiscovery *common.SDKTime `mandatory:"false" json:"timeOfLastSuccessfulDiscovery"`
-
-	// The time when last discovery was attempted.
-	TimeOfLastDiscoveryAttempt *common.SDKTime `mandatory:"false" json:"timeOfLastDiscoveryAttempt"`
-
-	// A boolean flag that represents whether the last discovery attempt was successful.
-	IsLastDiscoveryAttemptSuccessful *bool `mandatory:"false" json:"isLastDiscoveryAttemptSuccessful"`
 
 	// The current state of the FleetTarget.
 	LifecycleState FleetTargetLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// FleetSummary Summary of a Fleet.A fleet is a collection or grouping of resources based on criteria.
+// FleetSummary Summary of the Fleet.
 type FleetSummary struct {
 
 	// The OCID of the resource.
@@ -33,13 +34,9 @@ type FleetSummary struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Type of the Fleet.
-	// PRODUCT - A fleet of product-specific resources for a product type.
-	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
-	// GROUP - A fleet of a fleet of either environment or product fleets.
-	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
 	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
 
-	// The lifecycle state of the Fleet.
+	// The current state of the Fleet.
 	LifecycleState FleetLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// Associated region
@@ -48,8 +45,7 @@ type FleetSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Environment Type associated with the Fleet.
-	// Applicable for ENVIRONMENT fleet types.
+	// Environment Type associated with the Fleet.Applicable for ENVIRONMENT fleet types.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

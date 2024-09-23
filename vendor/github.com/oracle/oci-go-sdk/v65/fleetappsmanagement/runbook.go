@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -16,7 +17,6 @@ import (
 )
 
 // Runbook Runbook definition.
-// Runbooks allow you to capture procedural tasks for handling a workflow.
 type Runbook struct {
 
 	// The OCID of the resource.
@@ -30,10 +30,10 @@ type Runbook struct {
 	// The type of the runbook.
 	Type RunbookTypeEnum `mandatory:"true" json:"type"`
 
-	// Relevance of the runbook.
+	// Type of runbook structure.
 	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"true" json:"runbookRelevance"`
 
-	// The lifecycle operation performed by the runbook.
+	// The lifecycle operation performed by the task.
 	Operation *string `mandatory:"true" json:"operation"`
 
 	// The OS type for the runbook.
@@ -43,7 +43,6 @@ type Runbook struct {
 	Platform *string `mandatory:"true" json:"platform"`
 
 	// Is the runbook default?
-	// Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation.
 	IsDefault *bool `mandatory:"true" json:"isDefault"`
 
 	// The current state of the Runbook.
@@ -62,7 +61,7 @@ type Runbook struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Estimated time to successfully complete the runbook execution.
+	// Estimated time to successfully complete the runbook execution
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
@@ -207,33 +206,21 @@ type RunbookLifecycleStateEnum string
 
 // Set of constants representing the allowable values for RunbookLifecycleStateEnum
 const (
-	RunbookLifecycleStateActive   RunbookLifecycleStateEnum = "ACTIVE"
-	RunbookLifecycleStateDeleted  RunbookLifecycleStateEnum = "DELETED"
-	RunbookLifecycleStateFailed   RunbookLifecycleStateEnum = "FAILED"
-	RunbookLifecycleStateInactive RunbookLifecycleStateEnum = "INACTIVE"
-	RunbookLifecycleStateCreating RunbookLifecycleStateEnum = "CREATING"
-	RunbookLifecycleStateDeleting RunbookLifecycleStateEnum = "DELETING"
-	RunbookLifecycleStateUpdating RunbookLifecycleStateEnum = "UPDATING"
+	RunbookLifecycleStateActive  RunbookLifecycleStateEnum = "ACTIVE"
+	RunbookLifecycleStateDeleted RunbookLifecycleStateEnum = "DELETED"
+	RunbookLifecycleStateFailed  RunbookLifecycleStateEnum = "FAILED"
 )
 
 var mappingRunbookLifecycleStateEnum = map[string]RunbookLifecycleStateEnum{
-	"ACTIVE":   RunbookLifecycleStateActive,
-	"DELETED":  RunbookLifecycleStateDeleted,
-	"FAILED":   RunbookLifecycleStateFailed,
-	"INACTIVE": RunbookLifecycleStateInactive,
-	"CREATING": RunbookLifecycleStateCreating,
-	"DELETING": RunbookLifecycleStateDeleting,
-	"UPDATING": RunbookLifecycleStateUpdating,
+	"ACTIVE":  RunbookLifecycleStateActive,
+	"DELETED": RunbookLifecycleStateDeleted,
+	"FAILED":  RunbookLifecycleStateFailed,
 }
 
 var mappingRunbookLifecycleStateEnumLowerCase = map[string]RunbookLifecycleStateEnum{
-	"active":   RunbookLifecycleStateActive,
-	"deleted":  RunbookLifecycleStateDeleted,
-	"failed":   RunbookLifecycleStateFailed,
-	"inactive": RunbookLifecycleStateInactive,
-	"creating": RunbookLifecycleStateCreating,
-	"deleting": RunbookLifecycleStateDeleting,
-	"updating": RunbookLifecycleStateUpdating,
+	"active":  RunbookLifecycleStateActive,
+	"deleted": RunbookLifecycleStateDeleted,
+	"failed":  RunbookLifecycleStateFailed,
 }
 
 // GetRunbookLifecycleStateEnumValues Enumerates the set of values for RunbookLifecycleStateEnum
@@ -251,10 +238,6 @@ func GetRunbookLifecycleStateEnumStringValues() []string {
 		"ACTIVE",
 		"DELETED",
 		"FAILED",
-		"INACTIVE",
-		"CREATING",
-		"DELETING",
-		"UPDATING",
 	}
 }
 

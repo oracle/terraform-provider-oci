@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -91,7 +92,7 @@ func (client *FleetAppsManagementClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
-// CheckResourceTagging Check if Fleet Application Management tags can be added to the resources.
+// CheckResourceTagging Check if FAMS tags can be added for the resources
 //
 // # See also
 //
@@ -154,8 +155,7 @@ func (client FleetAppsManagementClient) checkResourceTagging(ctx context.Context
 	return response, err
 }
 
-// ConfirmTargets Confirm targets to be managed for a Fleet.
-// Only targets that are confirmed will be managed by Fleet Application Management
+// ConfirmTargets Confirm targets to be managed for a Fleet.Only targets that are confirmed will be managed by FAMS
 //
 // # See also
 //
@@ -218,7 +218,8 @@ func (client FleetAppsManagementClient) confirmTargets(ctx context.Context, requ
 	return response, err
 }
 
-// CreateFleet Create a product, environment, group, or generic type of fleet in Fleet Application Management.
+// CreateFleet Creates a new fleet instance that includes fleet resources and properties.
+// For more information, please see the documentation.
 //
 // # See also
 //
@@ -281,7 +282,7 @@ func (client FleetAppsManagementClient) createFleet(ctx context.Context, request
 	return response, err
 }
 
-// CreateFleetCredential Add credentials to a fleet in Fleet Application Management.
+// CreateFleetCredential Creates a new FleetCredential.
 //
 // # See also
 //
@@ -344,7 +345,7 @@ func (client FleetAppsManagementClient) createFleetCredential(ctx context.Contex
 	return response, err
 }
 
-// CreateFleetProperty Add an existing global property to a fleet in Fleet Application Management.
+// CreateFleetProperty Creates a new FleetProperty.
 //
 // # See also
 //
@@ -407,7 +408,7 @@ func (client FleetAppsManagementClient) createFleetProperty(ctx context.Context,
 	return response, err
 }
 
-// CreateFleetResource Add resource to a fleet in Fleet Application Management.
+// CreateFleetResource Creates a new FleetResource.
 //
 // # See also
 //
@@ -470,7 +471,7 @@ func (client FleetAppsManagementClient) createFleetResource(ctx context.Context,
 	return response, err
 }
 
-// DeleteFleet Delete a fleet in Fleet Application Management.
+// DeleteFleet Deletes a Fleet resource by identifier
 //
 // # See also
 //
@@ -528,7 +529,7 @@ func (client FleetAppsManagementClient) deleteFleet(ctx context.Context, request
 	return response, err
 }
 
-// DeleteFleetCredential Delete a credential associated with a fleet product or application in Fleet Application Management.
+// DeleteFleetCredential Deletes a FleetCredential resource by identifier
 //
 // # See also
 //
@@ -586,7 +587,7 @@ func (client FleetAppsManagementClient) deleteFleetCredential(ctx context.Contex
 	return response, err
 }
 
-// DeleteFleetProperty Delete a property associated with a fleet in Fleet Application Management.
+// DeleteFleetProperty Deletes a FleetProperty resource by identifier
 //
 // # See also
 //
@@ -644,7 +645,7 @@ func (client FleetAppsManagementClient) deleteFleetProperty(ctx context.Context,
 	return response, err
 }
 
-// DeleteFleetResource Removes a resource from the fleet in Fleet Application Management.
+// DeleteFleetResource Deletes a FleetResource resource by identifier
 //
 // # See also
 //
@@ -702,7 +703,7 @@ func (client FleetAppsManagementClient) deleteFleetResource(ctx context.Context,
 	return response, err
 }
 
-// GenerateComplianceReport Generate compliance reports for a Fleet.
+// GenerateComplianceReport Request to generate compliance report for a Fleet
 //
 // # See also
 //
@@ -765,7 +766,7 @@ func (client FleetAppsManagementClient) generateComplianceReport(ctx context.Con
 	return response, err
 }
 
-// GetComplianceReport Retrieve compliance report for a fleet.
+// GetComplianceReport Retrieve compiane report for a Fleet
 //
 // # See also
 //
@@ -823,7 +824,7 @@ func (client FleetAppsManagementClient) getComplianceReport(ctx context.Context,
 	return response, err
 }
 
-// GetFleet Get the details of a fleet in Fleet Application Management.
+// GetFleet Gets a Fleet by identifier
 //
 // # See also
 //
@@ -881,7 +882,7 @@ func (client FleetAppsManagementClient) getFleet(ctx context.Context, request co
 	return response, err
 }
 
-// GetFleetCredential Gets a FleetCredential by identifier.
+// GetFleetCredential Gets a FleetCredential by identifier
 //
 // # See also
 //
@@ -939,7 +940,7 @@ func (client FleetAppsManagementClient) getFleetCredential(ctx context.Context, 
 	return response, err
 }
 
-// GetFleetProperty Gets a Fleet Property by identifier.
+// GetFleetProperty Gets a FleetProperty by identifier
 //
 // # See also
 //
@@ -997,7 +998,7 @@ func (client FleetAppsManagementClient) getFleetProperty(ctx context.Context, re
 	return response, err
 }
 
-// GetFleetResource Gets a Fleet Resource by identifier.
+// GetFleetResource Gets a FleetResource by identifier
 //
 // # See also
 //
@@ -1113,7 +1114,7 @@ func (client FleetAppsManagementClient) getWorkRequest(ctx context.Context, requ
 	return response, err
 }
 
-// ListAnnouncements Return a list of AnnouncementSummary items.
+// ListAnnouncements Return a list of AnnouncementSummary items
 //
 // # See also
 //
@@ -1171,7 +1172,7 @@ func (client FleetAppsManagementClient) listAnnouncements(ctx context.Context, r
 	return response, err
 }
 
-// ListFleetCredentials List credentials in Fleet Application Management.
+// ListFleetCredentials Returns a list of FleetCredentials.
 //
 // # See also
 //
@@ -1229,7 +1230,7 @@ func (client FleetAppsManagementClient) listFleetCredentials(ctx context.Context
 	return response, err
 }
 
-// ListFleetProducts Returns a list of products associated with the confirmed targets.
+// ListFleetProducts Returns a list of FleetProducts.
 //
 // # See also
 //
@@ -1287,7 +1288,7 @@ func (client FleetAppsManagementClient) listFleetProducts(ctx context.Context, r
 	return response, err
 }
 
-// ListFleetProperties List fleet properties in Fleet Application Management.
+// ListFleetProperties Returns a list of FleetProperties.
 //
 // # See also
 //
@@ -1345,7 +1346,7 @@ func (client FleetAppsManagementClient) listFleetProperties(ctx context.Context,
 	return response, err
 }
 
-// ListFleetResources List resources for a fleet in Fleet Application Management.
+// ListFleetResources Returns a list of FleetResources.
 //
 // # See also
 //
@@ -1403,7 +1404,7 @@ func (client FleetAppsManagementClient) listFleetResources(ctx context.Context, 
 	return response, err
 }
 
-// ListFleetTargets Returns the list of all confirmed targets within a fleet.
+// ListFleetTargets Returns a list of FleetTargets.
 //
 // # See also
 //
@@ -1577,8 +1578,7 @@ func (client FleetAppsManagementClient) listInventoryResources(ctx context.Conte
 	return response, err
 }
 
-// ListTargets Return all targets belonging to the resources within a fleet.
-// It will include both confirmed and unconfirmed targets.
+// ListTargets Returns a list of FleetTargets.
 //
 // # See also
 //
@@ -1810,7 +1810,7 @@ func (client FleetAppsManagementClient) listWorkRequests(ctx context.Context, re
 	return response, err
 }
 
-// RequestResourceValidation Request validation for resources within a fleet.
+// RequestResourceValidation Request validation for resources with in a fleet
 //
 // # See also
 //
@@ -1873,8 +1873,7 @@ func (client FleetAppsManagementClient) requestResourceValidation(ctx context.Co
 	return response, err
 }
 
-// RequestTargetDiscovery Confirm targets to be managed for a Fleet.
-// Only targets that are confirmed will be managed by Fleet Application Management
+// RequestTargetDiscovery Confirm targets to be managed for a Fleet.Only targets that are confirmed will be managed by FAMS
 //
 // # See also
 //
@@ -1937,7 +1936,7 @@ func (client FleetAppsManagementClient) requestTargetDiscovery(ctx context.Conte
 	return response, err
 }
 
-// UpdateFleet Update fleet information in Fleet Application Management.
+// UpdateFleet Updates the Fleet
 //
 // # See also
 //
@@ -1995,7 +1994,7 @@ func (client FleetAppsManagementClient) updateFleet(ctx context.Context, request
 	return response, err
 }
 
-// UpdateFleetCredential Edit credentials associated with a product or application in Fleet Application Management.
+// UpdateFleetCredential Updates the FleetCredential
 //
 // # See also
 //
@@ -2053,7 +2052,7 @@ func (client FleetAppsManagementClient) updateFleetCredential(ctx context.Contex
 	return response, err
 }
 
-// UpdateFleetProperty Edit a property associated with a fleet in Fleet Application Management.
+// UpdateFleetProperty Updates the FleetProperty
 //
 // # See also
 //
@@ -2111,7 +2110,7 @@ func (client FleetAppsManagementClient) updateFleetProperty(ctx context.Context,
 	return response, err
 }
 
-// UpdateFleetResource Updates the FleetResource.
+// UpdateFleetResource Updates the FleetResource
 //
 // # See also
 //

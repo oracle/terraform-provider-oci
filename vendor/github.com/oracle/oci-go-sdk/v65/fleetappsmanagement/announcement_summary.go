@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,7 +16,7 @@ import (
 	"strings"
 )
 
-// AnnouncementSummary A summary of announcements for Fleet Application Management.
+// AnnouncementSummary An summary of announcements for Fleet Application Management Service
 type AnnouncementSummary struct {
 
 	// The OCID of the resource.
@@ -24,16 +25,16 @@ type AnnouncementSummary struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of announcement.
+	// Type of announcement
 	Type *string `mandatory:"true" json:"type"`
 
-	// Summary of the announcement.
+	// Summary of the announcement
 	Summary *string `mandatory:"true" json:"summary"`
 
-	// Announcement start date.
+	// Date to start displaying announcement to user
 	AnnouncementStart *common.SDKTime `mandatory:"true" json:"announcementStart"`
 
-	// Announcement end date
+	// Date to end displaying annonucement to user
 	AnnouncementEnd *common.SDKTime `mandatory:"true" json:"announcementEnd"`
 
 	// Associated region
@@ -54,10 +55,10 @@ type AnnouncementSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Announcement Details.
+	// Details of the announcement
 	Details *string `mandatory:"false" json:"details"`
 
-	// URL to the announcement.
+	// URL to the announcement
 	Url *string `mandatory:"false" json:"url"`
 
 	// The lifecycle state of the announcement.

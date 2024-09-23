@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -15,16 +16,13 @@ import (
 	"strings"
 )
 
-// Group The group of the runbook.
+// Group The group of the runbook
 type Group struct {
 
-	// The type of the group.
-	// PARALLEL_TASK_GROUP : Helps to execute tasks parallelly inside a resource.
-	// PARALLEL_RESOURCE_GROUP : Executes tasks across resources parallelly.
-	// ROLLING_RESOURCE_GROUP : Executes tasks across resources in a rolling order.
+	// The type of the group
 	Type GroupTypeEnum `mandatory:"true" json:"type"`
 
-	// The name of the group.
+	// The name of the group
 	Name *string `mandatory:"true" json:"name"`
 
 	Properties *ComponentProperties `mandatory:"false" json:"properties"`

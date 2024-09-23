@@ -1,10 +1,11 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
+// Fleet Application Management Service API. Use this API to for all FAMS related activities.
+// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
 //
 
 package fleetappsmanagement
@@ -21,11 +22,7 @@ type CreateFleetDetails struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of the Fleet.
-	// PRODUCT - A fleet of product-specific resources for a product type.
-	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
-	// GROUP - A fleet of a fleet of either environment or product fleets.
-	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
+	// Type of the Fleet
 	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -37,36 +34,29 @@ type CreateFleetDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Products associated with the Fleet.
+	// Products associated with the Fleet
 	Products []string `mandatory:"false" json:"products"`
 
-	// Product stack associated with the Fleet.
-	// Applicable for ENVIRONMENT fleet types.
+	// Application Type associated with the Fleet.Applicable for Environment fleet types.
 	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
-	// Environment Type associated with the Fleet.
-	// Applicable for ENVIRONMENT fleet types.
+	// Environment Type associated with the Fleet.Applicable for Environment fleet types.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
-	// Group Type associated with Group Fleet.
+	// Group Type associated with Group Fleet.Applicable for Group fleet types.
 	GroupType FleetGroupTypeEnum `mandatory:"false" json:"groupType,omitempty"`
 
-	// Type of resource selection in a Fleet.
-	// Select resources manually or select resources based on rules.
+	// Type of resource selection in a fleet
 	ResourceSelectionType FleetResourceSelectionTypeEnum `mandatory:"false" json:"resourceSelectionType,omitempty"`
 
 	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
 
 	NotificationPreferences *NotificationPreferences `mandatory:"false" json:"notificationPreferences"`
 
-	// Resources associated with the Fleet if resourceSelectionType is MANUAL.
+	// Resources to be added during fleet creation when Resource selection type is Manual.
 	Resources []AssociatedFleetResourceDetails `mandatory:"false" json:"resources"`
 
-	// Credentials associated with the Fleet.
-	Credentials []AssociatedFleetCredentialDetails `mandatory:"false" json:"credentials"`
-
-	// A value that represents if auto-confirming of the targets can be enabled.
-	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
+	// A value which represents if auto confirming of the targets can be enabled
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

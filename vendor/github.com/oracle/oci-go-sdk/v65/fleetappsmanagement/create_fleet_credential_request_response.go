@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,7 +21,7 @@ type CreateFleetCredentialRequest struct {
 	// Details for the new FleetCredential.
 	CreateFleetCredentialDetails `contributesTo:"body"`
 
-	// Unique Fleet identifier.
+	// unique Fleet identifier
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
