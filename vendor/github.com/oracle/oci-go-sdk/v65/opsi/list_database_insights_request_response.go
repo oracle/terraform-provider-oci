@@ -197,6 +197,9 @@ const (
 	ListDatabaseInsightsDatabaseTypeComanagedExacsCdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-CDB"
 	ListDatabaseInsightsDatabaseTypeComanagedExacsPdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-PDB"
 	ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACS-NONCDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExaccCdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACC-CDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExaccPdb    ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
+	ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb ListDatabaseInsightsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	ListDatabaseInsightsDatabaseTypeMdsMysql             ListDatabaseInsightsDatabaseTypeEnum = "MDS-MYSQL"
 )
 
@@ -216,6 +219,9 @@ var mappingListDatabaseInsightsDatabaseTypeEnum = map[string]ListDatabaseInsight
 	"COMANAGED-EXACS-CDB":    ListDatabaseInsightsDatabaseTypeComanagedExacsCdb,
 	"COMANAGED-EXACS-PDB":    ListDatabaseInsightsDatabaseTypeComanagedExacsPdb,
 	"COMANAGED-EXACS-NONCDB": ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb,
+	"COMANAGED-EXACC-CDB":    ListDatabaseInsightsDatabaseTypeComanagedExaccCdb,
+	"COMANAGED-EXACC-PDB":    ListDatabaseInsightsDatabaseTypeComanagedExaccPdb,
+	"COMANAGED-EXACC-NONCDB": ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              ListDatabaseInsightsDatabaseTypeMdsMysql,
 }
 
@@ -235,6 +241,9 @@ var mappingListDatabaseInsightsDatabaseTypeEnumLowerCase = map[string]ListDataba
 	"comanaged-exacs-cdb":    ListDatabaseInsightsDatabaseTypeComanagedExacsCdb,
 	"comanaged-exacs-pdb":    ListDatabaseInsightsDatabaseTypeComanagedExacsPdb,
 	"comanaged-exacs-noncdb": ListDatabaseInsightsDatabaseTypeComanagedExacsNoncdb,
+	"comanaged-exacc-cdb":    ListDatabaseInsightsDatabaseTypeComanagedExaccCdb,
+	"comanaged-exacc-pdb":    ListDatabaseInsightsDatabaseTypeComanagedExaccPdb,
+	"comanaged-exacc-noncdb": ListDatabaseInsightsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              ListDatabaseInsightsDatabaseTypeMdsMysql,
 }
 
@@ -265,6 +274,9 @@ func GetListDatabaseInsightsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACS-CDB",
 		"COMANAGED-EXACS-PDB",
 		"COMANAGED-EXACS-NONCDB",
+		"COMANAGED-EXACC-CDB",
+		"COMANAGED-EXACC-PDB",
+		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
 	}
 }

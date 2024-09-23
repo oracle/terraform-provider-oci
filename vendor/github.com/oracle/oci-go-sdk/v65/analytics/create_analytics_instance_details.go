@@ -54,6 +54,9 @@ type CreateAnalyticsInstanceDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Analytics instance update channel.
+	UpdateChannel UpdateChannelEnum `mandatory:"false" json:"updateChannel,omitempty"`
+
 	// OCID of the OCI Vault Key encrypting the customer data stored in this Analytics instance. A null value indicates Oracle managed default encryption.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 
@@ -83,6 +86,9 @@ func (m CreateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingUpdateChannelEnum(string(m.UpdateChannel)); !ok && m.UpdateChannel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateChannel: %s. Supported values are: %s.", m.UpdateChannel, strings.Join(GetUpdateChannelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingFeatureBundleEnum(string(m.FeatureBundle)); !ok && m.FeatureBundle != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureBundle: %s. Supported values are: %s.", m.FeatureBundle, strings.Join(GetFeatureBundleEnumStringValues(), ",")))
 	}
@@ -101,6 +107,7 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IdcsAccessToken        *string                           `json:"idcsAccessToken"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
+		UpdateChannel          UpdateChannelEnum                 `json:"updateChannel"`
 		KmsKeyId               *string                           `json:"kmsKeyId"`
 		DomainId               *string                           `json:"domainId"`
 		AdminUser              *string                           `json:"adminUser"`
@@ -136,6 +143,8 @@ func (m *CreateAnalyticsInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.UpdateChannel = model.UpdateChannel
 
 	m.KmsKeyId = model.KmsKeyId
 

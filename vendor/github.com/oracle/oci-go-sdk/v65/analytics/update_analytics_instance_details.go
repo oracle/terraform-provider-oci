@@ -37,6 +37,9 @@ type UpdateAnalyticsInstanceDetails struct {
 	// predefined name, type, or namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
+
+	// Analytics instance update channel.
+	UpdateChannel UpdateChannelEnum `mandatory:"false" json:"updateChannel,omitempty"`
 }
 
 func (m UpdateAnalyticsInstanceDetails) String() string {
@@ -51,6 +54,9 @@ func (m UpdateAnalyticsInstanceDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingLicenseTypeEnum(string(m.LicenseType)); !ok && m.LicenseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingUpdateChannelEnum(string(m.UpdateChannel)); !ok && m.UpdateChannel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateChannel: %s. Supported values are: %s.", m.UpdateChannel, strings.Join(GetUpdateChannelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

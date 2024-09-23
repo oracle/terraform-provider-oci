@@ -51,6 +51,9 @@ type AnalyticsInstance struct {
 	// Email address receiving notifications.
 	EmailNotification *string `mandatory:"false" json:"emailNotification"`
 
+	// Analytics instance update channel.
+	UpdateChannel UpdateChannelEnum `mandatory:"false" json:"updateChannel,omitempty"`
+
 	// Map of PrivateAccessChannel unique identifier key as KEY and PrivateAccessChannel Object as VALUE.
 	PrivateAccessChannels map[string]PrivateAccessChannel `mandatory:"false" json:"privateAccessChannels"`
 
@@ -108,6 +111,9 @@ func (m AnalyticsInstance) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLicenseTypeEnum(string(m.LicenseType)); !ok && m.LicenseType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseType: %s. Supported values are: %s.", m.LicenseType, strings.Join(GetLicenseTypeEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingUpdateChannelEnum(string(m.UpdateChannel)); !ok && m.UpdateChannel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for UpdateChannel: %s. Supported values are: %s.", m.UpdateChannel, strings.Join(GetUpdateChannelEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingFeatureBundleEnum(string(m.FeatureBundle)); !ok && m.FeatureBundle != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for FeatureBundle: %s. Supported values are: %s.", m.FeatureBundle, strings.Join(GetFeatureBundleEnumStringValues(), ",")))
 	}
@@ -123,6 +129,7 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 		Description            *string                             `json:"description"`
 		LicenseType            LicenseTypeEnum                     `json:"licenseType"`
 		EmailNotification      *string                             `json:"emailNotification"`
+		UpdateChannel          UpdateChannelEnum                   `json:"updateChannel"`
 		PrivateAccessChannels  map[string]PrivateAccessChannel     `json:"privateAccessChannels"`
 		VanityUrlDetails       map[string]VanityUrlDetails         `json:"vanityUrlDetails"`
 		ServiceUrl             *string                             `json:"serviceUrl"`
@@ -153,6 +160,8 @@ func (m *AnalyticsInstance) UnmarshalJSON(data []byte) (e error) {
 	m.LicenseType = model.LicenseType
 
 	m.EmailNotification = model.EmailNotification
+
+	m.UpdateChannel = model.UpdateChannel
 
 	m.PrivateAccessChannels = model.PrivateAccessChannels
 

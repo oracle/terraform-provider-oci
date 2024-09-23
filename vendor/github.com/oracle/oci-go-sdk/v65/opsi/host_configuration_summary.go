@@ -160,6 +160,10 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		mm := PeComanagedHostConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_CLOUD_DB_HOST":
+		mm := MacsManagedCloudDbHostConfigurationSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EM_MANAGED_EXTERNAL_HOST":
 		mm := EmManagedExternalHostConfigurationSummary{}
 		err = json.Unmarshal(data, &mm)

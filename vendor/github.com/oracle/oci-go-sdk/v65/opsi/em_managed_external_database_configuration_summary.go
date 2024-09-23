@@ -61,6 +61,18 @@ type EmManagedExternalDatabaseConfigurationSummary struct {
 
 	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
 
+	// Enterprise Manager Entity Unique Identifier
+	EnterpriseManagerEntityIdentifier *string `mandatory:"true" json:"enterpriseManagerEntityIdentifier"`
+
+	// Enterprise Manager Console Url
+	EnterpriseManagerConsoleUrl *string `mandatory:"true" json:"enterpriseManagerConsoleUrl"`
+
+	// Enterprise Manager OMS Version
+	EnterpriseManagerOmsVer *string `mandatory:"true" json:"enterpriseManagerOmsVer"`
+
+	// Enterprise Manager Entity Type
+	EnterpriseManagerEntityType *string `mandatory:"true" json:"enterpriseManagerEntityType"`
+
 	// Processor count. This is the OCPU count for Autonomous Database and CPU core count for other database types.
 	ProcessorCount *int `mandatory:"false" json:"processorCount"`
 }

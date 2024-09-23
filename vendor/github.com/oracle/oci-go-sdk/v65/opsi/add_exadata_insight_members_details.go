@@ -60,6 +60,10 @@ func (m *addexadatainsightmembersdetails) UnmarshalPolymorphicJSON(data []byte) 
 		mm := AddEmManagedExternalExadataInsightMembersDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_CLOUD_EXADATA":
+		mm := AddMacsManagedCloudExadataInsightMembersDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for AddExadataInsightMembersDetails: %s.", m.EntitySource)
 		return *m, nil
