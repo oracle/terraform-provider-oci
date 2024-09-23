@@ -138,7 +138,6 @@ const (
 	ListIntegrationInstancesLifecycleStateDeleting ListIntegrationInstancesLifecycleStateEnum = "DELETING"
 	ListIntegrationInstancesLifecycleStateDeleted  ListIntegrationInstancesLifecycleStateEnum = "DELETED"
 	ListIntegrationInstancesLifecycleStateFailed   ListIntegrationInstancesLifecycleStateEnum = "FAILED"
-	ListIntegrationInstancesLifecycleStateStandby  ListIntegrationInstancesLifecycleStateEnum = "STANDBY"
 )
 
 var mappingListIntegrationInstancesLifecycleStateEnum = map[string]ListIntegrationInstancesLifecycleStateEnum{
@@ -149,7 +148,6 @@ var mappingListIntegrationInstancesLifecycleStateEnum = map[string]ListIntegrati
 	"DELETING": ListIntegrationInstancesLifecycleStateDeleting,
 	"DELETED":  ListIntegrationInstancesLifecycleStateDeleted,
 	"FAILED":   ListIntegrationInstancesLifecycleStateFailed,
-	"STANDBY":  ListIntegrationInstancesLifecycleStateStandby,
 }
 
 var mappingListIntegrationInstancesLifecycleStateEnumLowerCase = map[string]ListIntegrationInstancesLifecycleStateEnum{
@@ -160,7 +158,6 @@ var mappingListIntegrationInstancesLifecycleStateEnumLowerCase = map[string]List
 	"deleting": ListIntegrationInstancesLifecycleStateDeleting,
 	"deleted":  ListIntegrationInstancesLifecycleStateDeleted,
 	"failed":   ListIntegrationInstancesLifecycleStateFailed,
-	"standby":  ListIntegrationInstancesLifecycleStateStandby,
 }
 
 // GetListIntegrationInstancesLifecycleStateEnumValues Enumerates the set of values for ListIntegrationInstancesLifecycleStateEnum
@@ -182,7 +179,6 @@ func GetListIntegrationInstancesLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
-		"STANDBY",
 	}
 }
 

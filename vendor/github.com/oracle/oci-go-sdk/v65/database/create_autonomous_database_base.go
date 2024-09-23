@@ -387,6 +387,10 @@ func (m *createautonomousdatabasebase) UnmarshalPolymorphicJSON(data []byte) (in
 
 	var err error
 	switch m.Source {
+	case "UNDELETE_ADB":
+		mm := UndeleteAutonomousDatabaseDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "DATABASE":
 		mm := CreateAutonomousDatabaseCloneDetails{}
 		err = json.Unmarshal(data, &mm)
@@ -891,6 +895,7 @@ const (
 	CreateAutonomousDatabaseBaseSourceDatabase                    CreateAutonomousDatabaseBaseSourceEnum = "DATABASE"
 	CreateAutonomousDatabaseBaseSourceBackupFromId                CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_ID"
 	CreateAutonomousDatabaseBaseSourceBackupFromTimestamp         CreateAutonomousDatabaseBaseSourceEnum = "BACKUP_FROM_TIMESTAMP"
+	CreateAutonomousDatabaseBaseSourceUndeleteAdb                 CreateAutonomousDatabaseBaseSourceEnum = "UNDELETE_ADB"
 	CreateAutonomousDatabaseBaseSourceCloneToRefreshable          CreateAutonomousDatabaseBaseSourceEnum = "CLONE_TO_REFRESHABLE"
 	CreateAutonomousDatabaseBaseSourceCrossRegionDataguard        CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DATAGUARD"
 	CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery CreateAutonomousDatabaseBaseSourceEnum = "CROSS_REGION_DISASTER_RECOVERY"
@@ -901,6 +906,7 @@ var mappingCreateAutonomousDatabaseBaseSourceEnum = map[string]CreateAutonomousD
 	"DATABASE":                       CreateAutonomousDatabaseBaseSourceDatabase,
 	"BACKUP_FROM_ID":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"BACKUP_FROM_TIMESTAMP":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"UNDELETE_ADB":                   CreateAutonomousDatabaseBaseSourceUndeleteAdb,
 	"CLONE_TO_REFRESHABLE":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
 	"CROSS_REGION_DATAGUARD":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
 	"CROSS_REGION_DISASTER_RECOVERY": CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery,
@@ -911,6 +917,7 @@ var mappingCreateAutonomousDatabaseBaseSourceEnumLowerCase = map[string]CreateAu
 	"database":                       CreateAutonomousDatabaseBaseSourceDatabase,
 	"backup_from_id":                 CreateAutonomousDatabaseBaseSourceBackupFromId,
 	"backup_from_timestamp":          CreateAutonomousDatabaseBaseSourceBackupFromTimestamp,
+	"undelete_adb":                   CreateAutonomousDatabaseBaseSourceUndeleteAdb,
 	"clone_to_refreshable":           CreateAutonomousDatabaseBaseSourceCloneToRefreshable,
 	"cross_region_dataguard":         CreateAutonomousDatabaseBaseSourceCrossRegionDataguard,
 	"cross_region_disaster_recovery": CreateAutonomousDatabaseBaseSourceCrossRegionDisasterRecovery,
@@ -932,6 +939,7 @@ func GetCreateAutonomousDatabaseBaseSourceEnumStringValues() []string {
 		"DATABASE",
 		"BACKUP_FROM_ID",
 		"BACKUP_FROM_TIMESTAMP",
+		"UNDELETE_ADB",
 		"CLONE_TO_REFRESHABLE",
 		"CROSS_REGION_DATAGUARD",
 		"CROSS_REGION_DISASTER_RECOVERY",

@@ -64,6 +64,10 @@ func (m *updatehostinsightdetails) UnmarshalPolymorphicJSON(data []byte) (interf
 
 	var err error
 	switch m.EntitySource {
+	case "MACS_MANAGED_CLOUD_DB_HOST":
+		mm := UpdateMacsManagedCloudDatabaseHostInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EM_MANAGED_EXTERNAL_HOST":
 		mm := UpdateEmManagedExternalHostInsightDetails{}
 		err = json.Unmarshal(data, &mm)

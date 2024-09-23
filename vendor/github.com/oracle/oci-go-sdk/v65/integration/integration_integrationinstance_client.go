@@ -91,6 +91,69 @@ func (client *IntegrationInstanceClient) ConfigurationProvider() *common.Configu
 	return client.config
 }
 
+// AddOracleManagedCustomEndpoint Enable Oracle Managed Custom Endpoint for given integration instance.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/AddOracleManagedCustomEndpoint.go.html to see an example of how to use AddOracleManagedCustomEndpoint API.
+// A default retry strategy applies to this operation AddOracleManagedCustomEndpoint()
+func (client IntegrationInstanceClient) AddOracleManagedCustomEndpoint(ctx context.Context, request AddOracleManagedCustomEndpointRequest) (response AddOracleManagedCustomEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addOracleManagedCustomEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddOracleManagedCustomEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddOracleManagedCustomEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddOracleManagedCustomEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddOracleManagedCustomEndpointResponse")
+	}
+	return
+}
+
+// addOracleManagedCustomEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) addOracleManagedCustomEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/addOracleManagedCustomEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddOracleManagedCustomEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/AddOracleManagedCustomEndpoint"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "AddOracleManagedCustomEndpoint", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeIntegrationInstanceCompartment Change the compartment for an integration instance
 //
 // # See also
@@ -859,6 +922,69 @@ func (client IntegrationInstanceClient) listWorkRequests(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/WorkRequestSummary/ListWorkRequests"
 		err = common.PostProcessServiceError(err, "IntegrationInstance", "ListWorkRequests", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RemoveOracleManagedCustomEndpoint Remove Oracle Managed Custom Endpoint for given integration instance that was previously enabled.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/integration/RemoveOracleManagedCustomEndpoint.go.html to see an example of how to use RemoveOracleManagedCustomEndpoint API.
+// A default retry strategy applies to this operation RemoveOracleManagedCustomEndpoint()
+func (client IntegrationInstanceClient) RemoveOracleManagedCustomEndpoint(ctx context.Context, request RemoveOracleManagedCustomEndpointRequest) (response RemoveOracleManagedCustomEndpointResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeOracleManagedCustomEndpoint, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveOracleManagedCustomEndpointResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveOracleManagedCustomEndpointResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveOracleManagedCustomEndpointResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveOracleManagedCustomEndpointResponse")
+	}
+	return
+}
+
+// removeOracleManagedCustomEndpoint implements the OCIOperation interface (enables retrying operations)
+func (client IntegrationInstanceClient) removeOracleManagedCustomEndpoint(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/integrationInstances/{integrationInstanceId}/actions/removeOracleManagedCustomEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveOracleManagedCustomEndpointResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/integration/20190131/IntegrationInstance/RemoveOracleManagedCustomEndpoint"
+		err = common.PostProcessServiceError(err, "IntegrationInstance", "RemoveOracleManagedCustomEndpoint", apiReferenceLink)
 		return response, err
 	}
 

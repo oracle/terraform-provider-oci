@@ -54,6 +54,14 @@ type AlarmSuppressionHistoryItem struct {
 	// Configured dimension filter for suppressing alarm state entries that include the set of specified dimension key-value pairs.
 	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"false" json:"dimensions"`
+
+	// Array of all preconditions for alarm suppression.
+	// Example: `[{
+	//   conditionType: "RECURRENCE",
+	//   suppressionRecurrence: "FRQ=DAILY;BYHOUR=10",
+	//   suppressionDuration: "PT1H"
+	// }]`
+	SuppressionConditions []SuppressionCondition `mandatory:"false" json:"suppressionConditions"`
 }
 
 func (m AlarmSuppressionHistoryItem) String() string {
@@ -80,6 +88,7 @@ func (m *AlarmSuppressionHistoryItem) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description            *string                              `json:"description"`
 		Dimensions             map[string]string                    `json:"dimensions"`
+		SuppressionConditions  []suppressioncondition               `json:"suppressionConditions"`
 		SuppressionId          *string                              `json:"suppressionId"`
 		AlarmSuppressionTarget alarmsuppressiontarget               `json:"alarmSuppressionTarget"`
 		Level                  AlarmSuppressionHistoryItemLevelEnum `json:"level"`
@@ -97,6 +106,18 @@ func (m *AlarmSuppressionHistoryItem) UnmarshalJSON(data []byte) (e error) {
 
 	m.Dimensions = model.Dimensions
 
+	m.SuppressionConditions = make([]SuppressionCondition, len(model.SuppressionConditions))
+	for i, n := range model.SuppressionConditions {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.SuppressionConditions[i] = nn.(SuppressionCondition)
+		} else {
+			m.SuppressionConditions[i] = nil
+		}
+	}
 	m.SuppressionId = model.SuppressionId
 
 	nn, e = model.AlarmSuppressionTarget.UnmarshalPolymorphicJSON(model.AlarmSuppressionTarget.JsonData)
