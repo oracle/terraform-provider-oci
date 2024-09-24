@@ -48,6 +48,7 @@ The following attributes are exported:
 	* `image` - Provides information about the desktop image.
 		* `image_id` - The OCID of the desktop image.
 		* `image_name` - The name of the desktop image.
+		* `operating_system` - The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
 * `id` - The OCID of the desktop.
 * `pool_id` - The OCID of the desktop pool the desktop is a member of.
 * `state` - The state of the desktop.
