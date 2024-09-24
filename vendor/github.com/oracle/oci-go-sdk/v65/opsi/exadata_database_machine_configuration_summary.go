@@ -47,6 +47,18 @@ type ExadataDatabaseMachineConfigurationSummary struct {
 	// OPSI Enterprise Manager Bridge OCID
 	EnterpriseManagerBridgeId *string `mandatory:"true" json:"enterpriseManagerBridgeId"`
 
+	// Enterprise Manager Entity Unique Identifier
+	EnterpriseManagerEntityIdentifier *string `mandatory:"true" json:"enterpriseManagerEntityIdentifier"`
+
+	// Enterprise Manager Console Url
+	EnterpriseManagerConsoleUrl *string `mandatory:"true" json:"enterpriseManagerConsoleUrl"`
+
+	// Enterprise Manager OMS Version
+	EnterpriseManagerOmsVer *string `mandatory:"true" json:"enterpriseManagerOmsVer"`
+
+	// Enterprise Manager Entity Type
+	EnterpriseManagerEntityType *string `mandatory:"true" json:"enterpriseManagerEntityType"`
+
 	// Array of objects containing VM cluster information.
 	VmclusterDetails []VmClusterSummary `mandatory:"false" json:"vmclusterDetails"`
 

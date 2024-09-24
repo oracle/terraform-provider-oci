@@ -59,6 +59,10 @@ func DatabaseAutonomousDatabasesDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"lifecycle_state_not_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"resource_pool_leader_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -143,6 +147,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) Get() error {
 	if isResourcePoolLeader, ok := s.D.GetOkExists("is_resource_pool_leader"); ok {
 		tmp := isResourcePoolLeader.(bool)
 		request.IsResourcePoolLeader = &tmp
+	}
+
+	if lifecycleStateNotEqualTo, ok := s.D.GetOkExists("lifecycle_state_not_equal_to"); ok {
+		request.LifecycleStateNotEqualTo = oci_database.AutonomousDatabaseSummaryLifecycleStateEnum(lifecycleStateNotEqualTo.(string))
 	}
 
 	if resourcePoolLeaderId, ok := s.D.GetOkExists("resource_pool_leader_id"); ok {
@@ -612,6 +620,10 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabase["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeUndeleted != nil {
+			autonomousDatabase["time_undeleted"] = r.TimeUndeleted.String()
 		}
 
 		if r.TimeUntilReconnectCloneEnabled != nil {

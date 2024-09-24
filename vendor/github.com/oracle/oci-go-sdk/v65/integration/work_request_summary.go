@@ -90,6 +90,8 @@ const (
 	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
+	WorkRequestSummaryOperationTypeCreateCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "CREATE_CUSTOM_ENDPOINT"
+	WorkRequestSummaryOperationTypeDeleteCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "DELETE_CUSTOM_ENDPOINT"
 )
 
 var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -101,6 +103,8 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"CREATE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
+	"DELETE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeDeleteCustomEndpoint,
 }
 
 var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequestSummaryOperationTypeEnum{
@@ -112,6 +116,8 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"create_custom_endpoint":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
+	"delete_custom_endpoint":                      WorkRequestSummaryOperationTypeDeleteCustomEndpoint,
 }
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestSummaryOperationTypeEnum
@@ -134,6 +140,8 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
 		"EXTEND_DATA_RETENTION",
+		"CREATE_CUSTOM_ENDPOINT",
+		"DELETE_CUSTOM_ENDPOINT",
 	}
 }
 

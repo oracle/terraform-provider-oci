@@ -84,18 +84,21 @@ type ReportSummaryMimeTypeEnum string
 
 // Set of constants representing the allowable values for ReportSummaryMimeTypeEnum
 const (
-	ReportSummaryMimeTypePdf ReportSummaryMimeTypeEnum = "PDF"
-	ReportSummaryMimeTypeXls ReportSummaryMimeTypeEnum = "XLS"
+	ReportSummaryMimeTypePdf  ReportSummaryMimeTypeEnum = "PDF"
+	ReportSummaryMimeTypeXls  ReportSummaryMimeTypeEnum = "XLS"
+	ReportSummaryMimeTypeJson ReportSummaryMimeTypeEnum = "JSON"
 )
 
 var mappingReportSummaryMimeTypeEnum = map[string]ReportSummaryMimeTypeEnum{
-	"PDF": ReportSummaryMimeTypePdf,
-	"XLS": ReportSummaryMimeTypeXls,
+	"PDF":  ReportSummaryMimeTypePdf,
+	"XLS":  ReportSummaryMimeTypeXls,
+	"JSON": ReportSummaryMimeTypeJson,
 }
 
 var mappingReportSummaryMimeTypeEnumLowerCase = map[string]ReportSummaryMimeTypeEnum{
-	"pdf": ReportSummaryMimeTypePdf,
-	"xls": ReportSummaryMimeTypeXls,
+	"pdf":  ReportSummaryMimeTypePdf,
+	"xls":  ReportSummaryMimeTypeXls,
+	"json": ReportSummaryMimeTypeJson,
 }
 
 // GetReportSummaryMimeTypeEnumValues Enumerates the set of values for ReportSummaryMimeTypeEnum
@@ -112,6 +115,7 @@ func GetReportSummaryMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

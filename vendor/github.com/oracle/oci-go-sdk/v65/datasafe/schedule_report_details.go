@@ -107,18 +107,21 @@ type ScheduleReportDetailsMimeTypeEnum string
 
 // Set of constants representing the allowable values for ScheduleReportDetailsMimeTypeEnum
 const (
-	ScheduleReportDetailsMimeTypePdf ScheduleReportDetailsMimeTypeEnum = "PDF"
-	ScheduleReportDetailsMimeTypeXls ScheduleReportDetailsMimeTypeEnum = "XLS"
+	ScheduleReportDetailsMimeTypePdf  ScheduleReportDetailsMimeTypeEnum = "PDF"
+	ScheduleReportDetailsMimeTypeXls  ScheduleReportDetailsMimeTypeEnum = "XLS"
+	ScheduleReportDetailsMimeTypeJson ScheduleReportDetailsMimeTypeEnum = "JSON"
 )
 
 var mappingScheduleReportDetailsMimeTypeEnum = map[string]ScheduleReportDetailsMimeTypeEnum{
-	"PDF": ScheduleReportDetailsMimeTypePdf,
-	"XLS": ScheduleReportDetailsMimeTypeXls,
+	"PDF":  ScheduleReportDetailsMimeTypePdf,
+	"XLS":  ScheduleReportDetailsMimeTypeXls,
+	"JSON": ScheduleReportDetailsMimeTypeJson,
 }
 
 var mappingScheduleReportDetailsMimeTypeEnumLowerCase = map[string]ScheduleReportDetailsMimeTypeEnum{
-	"pdf": ScheduleReportDetailsMimeTypePdf,
-	"xls": ScheduleReportDetailsMimeTypeXls,
+	"pdf":  ScheduleReportDetailsMimeTypePdf,
+	"xls":  ScheduleReportDetailsMimeTypeXls,
+	"json": ScheduleReportDetailsMimeTypeJson,
 }
 
 // GetScheduleReportDetailsMimeTypeEnumValues Enumerates the set of values for ScheduleReportDetailsMimeTypeEnum
@@ -135,6 +138,7 @@ func GetScheduleReportDetailsMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

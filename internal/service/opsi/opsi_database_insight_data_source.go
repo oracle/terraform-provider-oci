@@ -139,6 +139,98 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MacsManagedCloudDatabaseInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_CLOUD_DATABASE")
+
+		if v.ConnectionCredentialDetails != nil {
+			connectionCredentialDetailsArray := []interface{}{}
+			if connectionCredentialDetailsMap := CredentialDetailsToMap(&v.ConnectionCredentialDetails); connectionCredentialDetailsMap != nil {
+				connectionCredentialDetailsArray = append(connectionCredentialDetailsArray, connectionCredentialDetailsMap)
+			}
+			s.D.Set("connection_credential_details", connectionCredentialDetailsArray)
+		} else {
+			s.D.Set("connection_credential_details", nil)
+		}
+
+		if v.ConnectionDetails != nil {
+			s.D.Set("connection_details", []interface{}{ConnectionDetailsToMap(v.ConnectionDetails)})
+		} else {
+			s.D.Set("connection_details", nil)
+		}
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.ManagementAgentId != nil {
+			s.D.Set("management_agent_id", *v.ManagementAgentId)
+		}
+
+		if v.ParentId != nil {
+			s.D.Set("parent_id", *v.ParentId)
+		}
+
+		if v.RootId != nil {
+			s.D.Set("root_id", *v.RootId)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.MdsMySqlDatabaseInsight:
 		s.D.Set("entity_source", "MDS_MYSQL_DATABASE_SYSTEM")
 
@@ -178,23 +270,11 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 			s.D.Set("database_type", *v.DatabaseType)
 		}
 
-		if v.DatabaseVersion != nil {
-			s.D.Set("database_version", *v.DatabaseVersion)
-		}
-
 		if v.DefinedTags != nil {
 			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
-
-		if v.LifecycleDetails != nil {
-			s.D.Set("lifecycle_details", *v.LifecycleDetails)
-		}
-
-		//if v.ProcessorCount != nil {
-		//	s.D.Set("processor_count", *v.ProcessorCount)
-		//}
 
 		s.D.Set("state", v.LifecycleState)
 
@@ -260,8 +340,16 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
 		}
 
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
 		if v.DatabaseType != nil {
 			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
 		}
 
 		if v.DefinedTags != nil {
@@ -269,6 +357,18 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 		}
 
 		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		if v.OpsiPrivateEndpointId != nil {
+			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
+		}
+
+		if v.ProcessorCount != nil {
+			s.D.Set("processor_count", *v.ProcessorCount)
+		}
 
 		s.D.Set("state", v.LifecycleState)
 
