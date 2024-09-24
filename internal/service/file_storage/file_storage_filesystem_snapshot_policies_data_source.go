@@ -143,6 +143,12 @@ func (s *FileStorageFilesystemSnapshotPoliciesDataSourceCrud) SetData() error {
 			filesystemSnapshotPolicy["id"] = *r.Id
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		filesystemSnapshotPolicy["locks"] = locks
+
 		if r.PolicyPrefix != nil {
 			filesystemSnapshotPolicy["policy_prefix"] = *r.PolicyPrefix
 		}

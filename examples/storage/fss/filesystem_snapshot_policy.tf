@@ -24,4 +24,12 @@ resource "oci_file_storage_filesystem_snapshot_policy" "my_filesystem_snapshot_p
     # Commented out time_schedule_start as the date given should be a time in the future
     # time_schedule_start           = "2096-01-02T15:04:05Z"
   }
+  locks {
+    #Required
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }

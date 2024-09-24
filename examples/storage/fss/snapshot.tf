@@ -15,5 +15,15 @@ resource "oci_file_storage_snapshot" "my_snapshot" {
   }
   # Commented out expiration_time as the date given should be a time in the future
   # expiration_time = "2096-01-02T15:04:05Z"
+
+
+  locks {
+    #Required
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
