@@ -303,3 +303,15 @@ variable "krb_export_export_options_is_anonymous_access_allowed" {
 variable "krb_export_is_idmap_groups_for_sys_auth" {
   default = "false"
 }
+
+variable "locks_type" {
+  default = "FULL"
+}
+
+variable "locks_message" {
+  default = "message"
+}
+
+variable "is_lock_override" {
+  default = true
+}

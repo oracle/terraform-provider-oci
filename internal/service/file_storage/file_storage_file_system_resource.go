@@ -7,12 +7,14 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_file_storage "github.com/oracle/oci-go-sdk/v65/filestorage"
 )
 
@@ -74,6 +76,50 @@ func FileStorageFileSystemResource() *schema.Resource {
 			"kms_key_id": {
 				Type:     schema.TypeString,
 				Optional: true,
+			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
 			},
 			"source_snapshot_id": {
 				Type:     schema.TypeString,
@@ -291,6 +337,23 @@ func (s *FileStorageFileSystemResourceCrud) Create() error {
 		request.KmsKeyId = &tmp
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_file_storage.ResourceLock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToResourceLock(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
+	}
+
 	if sourceSnapshotId, ok := s.D.GetOkExists("source_snapshot_id"); ok {
 		tmp := sourceSnapshotId.(string)
 		request.SourceSnapshotId = &tmp
@@ -365,6 +428,11 @@ func (s *FileStorageFileSystemResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
 		tmp := kmsKeyId.(string)
 		request.KmsKeyId = &tmp
@@ -391,6 +459,11 @@ func (s *FileStorageFileSystemResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.FileSystemId = &tmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
@@ -447,6 +520,12 @@ func (s *FileStorageFileSystemResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.MeteredBytes != nil {
 		s.D.Set("metered_bytes", strconv.FormatInt(*s.Res.MeteredBytes, 10))
 	}
@@ -493,6 +572,54 @@ func (s *FileStorageFileSystemResourceCrud) DetachClone() error {
 	return nil
 }
 
+func (s *FileStorageFileSystemResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_file_storage.ResourceLock, error) {
+	result := oci_file_storage.ResourceLock{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_file_storage.ResourceLockTypeEnum(type_.(string))
+	}
+
+	return result, nil
+}
+
+func ResourceLockToMap(obj oci_file_storage.ResourceLock) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Message != nil {
+		result["message"] = string(*obj.Message)
+	}
+
+	if obj.RelatedResourceId != nil {
+		result["related_resource_id"] = string(*obj.RelatedResourceId)
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.Format(time.RFC3339Nano)
+	}
+
+	result["type"] = string(obj.Type)
+
+	return result
+}
+
 func FileSystemSourceDetailsToMap(obj *oci_file_storage.SourceDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -515,6 +642,11 @@ func (s *FileStorageFileSystemResourceCrud) updateCompartment(compartment interf
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.FileSystemId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 

@@ -99,6 +99,12 @@ func (s *FileStorageReplicationDataSourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.RecoveryPointTime != nil {
 		s.D.Set("recovery_point_time", s.Res.RecoveryPointTime.String())
 	}
