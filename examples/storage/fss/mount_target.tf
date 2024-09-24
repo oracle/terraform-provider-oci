@@ -19,6 +19,15 @@ resource "oci_file_storage_mount_target" "my_mount_target_1" {
   requested_throughput = "1"
 
   nsg_ids = [oci_core_network_security_group.test_network_security_group.id]
+
+  locks {
+    #Required
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_mount_target" "my_mount_target_2" {

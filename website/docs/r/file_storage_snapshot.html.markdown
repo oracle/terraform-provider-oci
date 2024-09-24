@@ -26,6 +26,15 @@ resource "oci_file_storage_snapshot" "test_snapshot" {
 	defined_tags = {"Operations.CostCenter"= "42"}
 	expiration_time = var.snapshot_expiration_time
 	freeform_tags = {"Department"= "Finance"}
+	locks {
+		#Required
+		type = var.snapshot_locks_type
+
+		#Optional
+		message = var.snapshot_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.snapshot_locks_time_created
+	}
 }
 ```
 
@@ -37,6 +46,11 @@ The following arguments are supported:
 * `expiration_time` - (Optional) (Updatable) The time when this snapshot will be deleted.
 * `file_system_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system to take a snapshot of.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `name` - (Required) Name of the snapshot. This value is immutable. It must also be unique with respect to all other non-DELETED snapshots on the associated file system.
 
 	Avoid entering confidential information.
@@ -59,6 +73,11 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot.
 * `is_clone_source` - Specifies whether the snapshot has been cloned. See [Cloning a File System](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm). 
 * `lifecycle_details` - Additional information about the current `lifecycleState`.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `name` - Name of the snapshot. This value is immutable.
 
 	Avoid entering confidential information.
