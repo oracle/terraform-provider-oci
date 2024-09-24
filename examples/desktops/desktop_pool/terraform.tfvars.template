@@ -41,6 +41,10 @@ config_file_profile="terraform-federation-test"
 # region (us-phoenix-1, ca-toronto-1, etc)
 region="<your region>"
 
+# needed to get domain availability zone
+tenancy_ocid="<your tenancy ocid>"
+
+
 # To be able to use OCI Secure Desktops it requires to have some customer OCI resources ready in the customer tenancy like a VCN, Subnet and a custom Image.
 # Additionally a Dynamic Group, service policies and user policies are required.
 # See setting up the Tenancy: https://docs.oracle.com/en-us/iaas/secure-desktops/setup-tenancy.htm for guidance.
@@ -60,4 +64,10 @@ desktop_pool_image_id          = "<image_ocid>"
 desktop_pool_image_name        = "<image_name>"
 desktop_pool_backup_policy_id  = "<volume_backup_policy_ocid>"
 desktop_pool_contact_details   = "<admin_contact_details>"
+
+# shape flexibility
+desktop_pool_shape_config_baseline_ocpu_utilization = "BASELINE_1_2"
+desktop_pool_shape_config_memory_in_gbs             = 4
+desktop_pool_shape_config_ocpus                     = 2
+desktop_pool_use_dedicated_vm_host                  = "FALSE"
 
