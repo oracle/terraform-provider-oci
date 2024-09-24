@@ -142,6 +142,12 @@ func (s *FileStorageExportsDataSourceCrud) SetData() error {
 			export["is_idmap_groups_for_sys_auth"] = *r.IsIdmapGroupsForSysAuth
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		export["locks"] = locks
+
 		if r.Path != nil {
 			export["path"] = *r.Path
 		}

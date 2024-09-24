@@ -40,7 +40,9 @@ var (
 		"parent_file_system_id":         acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_file_system.test_file_system.id}`},
 		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 		"state":                         acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageFileSystemDataSourceFilterRepresentation}}
+		"filter":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageFileSystemDataSourceFilterRepresentation},
+	}
+
 	FileStorageFileSystemDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_file_storage_file_system.test_file_system2.id}`}},
@@ -58,6 +60,44 @@ var (
 		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
 		"detach_clone_trigger":          acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `0`},
 		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageFileSystemRepresentationWithFullLock = map[string]interface{}{
+		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
+		"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}`},
+		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFileSystemFullLocksRepresentation},
+		"is_lock_override":              acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"kms_key_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
+		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageFileSystemRepresentationWithDeleteLock = map[string]interface{}{
+		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":                  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":                  acctest.Representation{RepType: acctest.Optional, Create: `media-files-1`, Update: `displayName2`},
+		"filesystem_snapshot_policy_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id}`},
+		"freeform_tags":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                         acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFileSystemDeleteLocksRepresentation},
+		"is_lock_override":              acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"kms_key_id":                    acctest.Representation{RepType: acctest.Optional, Create: `${oci_kms_key.kms_key_id_for_create.id}`, Update: `${oci_kms_key.kms_key_id_for_update.id}`},
+		"source_snapshot_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_snapshot.test_snapshot.id}`},
+		"lifecycle":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageFileSystemFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
+	FileStorageFileSystemDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	FileStorageFileSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
@@ -119,10 +159,10 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals and DELETED Lock
 		{
 			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "clone_attach_status", "ATTACHED"),
@@ -133,6 +173,10 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttrSet(resourceName, "metered_bytes"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_snapshot_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -274,12 +318,38 @@ func TestFileStorageFileSystemResource_basic(t *testing.T) {
 				acctest.TestCheckResourceAttributesEqual(datasourceName, "file_systems.0.time_created", "oci_file_storage_file_system.test_file_system2", "time_created"),
 			),
 		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies,
+		},
+		// verify Create with optionals and FULL Lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system2", acctest.Optional, acctest.Create, FileStorageFileSystemRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageFileSystem2RequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id", "detach_clone_trigger"},
+			ImportStateVerifyIgnore: []string{"source_snapshot_id", "parent_file_system_id", "detach_clone_trigger", "is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

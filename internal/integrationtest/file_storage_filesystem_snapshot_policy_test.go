@@ -58,6 +58,42 @@ var (
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
+	FileStorageFilesystemSnapshotPolicyRepresentationWithFullLock = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `media-policy-1`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFilesystemSnapshotPolicyFullLocksRepresentation},
+		"is_lock_override":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"policy_prefix":       acctest.Representation{RepType: acctest.Optional, Create: `mp1`, Update: `policyPrefix2`},
+		"schedules":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFilesystemSnapshotPolicySchedulesRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageFilesystemSnapshotPolicyRepresentationWithDeleteLock = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `media-policy-1`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFilesystemSnapshotPolicyDeleteLocksRepresentation},
+		"is_lock_override":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"policy_prefix":       acctest.Representation{RepType: acctest.Optional, Create: `mp1`, Update: `policyPrefix2`},
+		"schedules":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageFilesystemSnapshotPolicySchedulesRepresentation},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageFilesystemSnapshotPolicyFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
+	FileStorageFilesystemSnapshotPolicyDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
 	FileStorageFilesystemSnapshotPolicySchedulesRepresentation = map[string]interface{}{
 		"period":                        acctest.Representation{RepType: acctest.Required, Create: `YEARLY`, Update: `WEEKLY`},
 		"time_zone":                     acctest.Representation{RepType: acctest.Required, Create: `UTC`, Update: `REGIONAL_DATA_CENTER_TIME`},
@@ -120,16 +156,20 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + FileStorageFilesystemSnapshotPolicyResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals and DELETE lock
 		{
 			Config: config + compartmentIdVariableStr + FileStorageFilesystemSnapshotPolicyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_filesystem_snapshot_policy", "test_filesystem_snapshot_policy", acctest.Optional, acctest.Create, FileStorageFilesystemSnapshotPolicyRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_filesystem_snapshot_policy", "test_filesystem_snapshot_policy", acctest.Optional, acctest.Create, FileStorageFilesystemSnapshotPolicyRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "media-policy-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "policy_prefix", "mp1"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "schedules.0.day_of_month", "10"),
@@ -241,6 +281,8 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "filesystem_snapshot_policies.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "filesystem_snapshot_policies.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policies.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policies.0.locks.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "filesystem_snapshot_policies.0.locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(datasourceName, "filesystem_snapshot_policies.0.policy_prefix", "policyPrefix2"),
 				resource.TestCheckResourceAttr(datasourceName, "filesystem_snapshot_policies.0.state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "filesystem_snapshot_policies.0.time_created"),
@@ -259,6 +301,10 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "policy_prefix", "policyPrefix2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedules.0.day_of_week", "TUESDAY"),
@@ -273,12 +319,39 @@ func TestFileStorageFilesystemSnapshotPolicyResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageFileSystemResourceDependencies,
+		},
+		// verify Create with optionals and FULL Lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageFilesystemSnapshotPolicyResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_filesystem_snapshot_policy", "test_filesystem_snapshot_policy", acctest.Optional, acctest.Create, FileStorageFilesystemSnapshotPolicyRepresentationWithFullLock),
+			// FileStorageFileSystemRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageFilesystemSnapshotPolicyRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

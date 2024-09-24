@@ -20,6 +20,14 @@ resource "oci_file_storage_export" "my_export_fs1_mt1" {
     identity_squash                = "ALL"
     require_privileged_source_port = true
   }
+  locks {
+    #Required
+    type = var.locks_type
+
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_export" "my_export_fs1_mt2" {
@@ -34,6 +42,13 @@ resource "oci_file_storage_export" "my_export_fs2_mt1" {
   export_set_id  = oci_file_storage_export_set.my_export_set_1.id
   file_system_id = oci_file_storage_file_system.my_fs_2.id
   path           = var.export_path_fs2_mt1
+  locks {
+    #Required
+    type = var.locks_type
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_export" "my_krb_export_krbfs_krbmt" {

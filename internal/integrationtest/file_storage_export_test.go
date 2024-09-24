@@ -48,6 +48,24 @@ var (
 		"export_options":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageExportExportOptionsRepresentation},
 		"is_idmap_groups_for_sys_auth": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
+	FileStorageExportRepresentationWithFullLock = map[string]interface{}{
+		"export_set_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"path":                         acctest.Representation{RepType: acctest.Required, Create: `/files-5`},
+		"export_options":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageExportExportOptionsRepresentation},
+		"is_idmap_groups_for_sys_auth": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"locks":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageExportFullLockRepresentation},
+		"is_lock_override":             acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
+	FileStorageExportRepresentationWithDeleteLock = map[string]interface{}{
+		"export_set_id":                acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_export_set.test_export_set.id}`},
+		"file_system_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"path":                         acctest.Representation{RepType: acctest.Required, Create: `/files-5`},
+		"export_options":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageExportExportOptionsRepresentation},
+		"is_idmap_groups_for_sys_auth": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"locks":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageExportDeleteLockRepresentation},
+		"is_lock_override":             acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
 	FileStorageExportExportOptionsRepresentation = map[string]interface{}{
 		"source":                         acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
 		"access":                         acctest.Representation{RepType: acctest.Optional, Create: `READ_WRITE`, Update: `READ_ONLY`},
@@ -57,6 +75,14 @@ var (
 		"identity_squash":                acctest.Representation{RepType: acctest.Optional, Create: `NONE`, Update: `ALL`},
 		"is_anonymous_access_allowed":    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"require_privileged_source_port": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+	}
+	FileStorageExportFullLockRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	FileStorageExportDeleteLockRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	FileStorageExportResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Required, acctest.Create, FileStorageExportSetRepresentation) +
@@ -106,10 +132,10 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + FileStorageExportResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals and DELETE lock
 		{
 			Config: config + compartmentIdVariableStr + FileStorageExportResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", acctest.Optional, acctest.Create, FileStorageExportRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", acctest.Optional, acctest.Create, FileStorageExportRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "export_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "export_options.0.access", "READ_WRITE"),
@@ -125,6 +151,10 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "is_idmap_groups_for_sys_auth", "false"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "path", "/files-5"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -192,12 +222,41 @@ func TestFileStorageExportResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "exports.0.time_created"),
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageExportResourceDependencies,
+		},
+		// verify Create with FULL Lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageExportResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", acctest.Optional, acctest.Create, FileStorageExportRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "export_set_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_idmap_groups_for_sys_auth", "false"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageExportRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

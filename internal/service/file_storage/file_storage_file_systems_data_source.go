@@ -189,6 +189,12 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 			fileSystem["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		fileSystem["locks"] = locks
+
 		if r.MeteredBytes != nil {
 			fileSystem["metered_bytes"] = strconv.FormatInt(*r.MeteredBytes, 10)
 		}

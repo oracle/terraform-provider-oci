@@ -106,6 +106,12 @@ func (s *FileStorageOutboundConnectorDataSourceCrud) SetData() error {
 
 		s.D.Set("freeform_tags", v.FreeformTags)
 
+		locks := []interface{}{}
+		for _, item := range v.Locks {
+			locks = append(locks, ResourceLockToMap(item))
+		}
+		s.D.Set("locks", locks)
+
 		s.D.Set("state", v.LifecycleState)
 
 		if v.TimeCreated != nil {

@@ -29,6 +29,15 @@ resource "oci_file_storage_filesystem_snapshot_policy" "test_filesystem_snapshot
 	defined_tags = {"Operations.CostCenter"= "42"}
 	display_name = var.filesystem_snapshot_policy_display_name
 	freeform_tags = {"Department"= "Finance"}
+	locks {
+		#Required
+		type = var.filesystem_snapshot_policy_locks_type
+
+		#Optional
+		message = var.filesystem_snapshot_policy_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.filesystem_snapshot_policy_locks_time_created
+	}
 	policy_prefix = var.filesystem_snapshot_policy_policy_prefix
 	schedules {
 		#Required
@@ -56,6 +65,11 @@ The following arguments are supported:
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `policy1` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `policy_prefix` - (Optional) (Updatable) The prefix to apply to all snapshots created by this policy.  Example: `acme` 
 * `schedules` - (Optional) (Updatable) The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy.
 
@@ -85,6 +99,11 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. It does not have to be unique, and it is changeable. Avoid entering confidential information.  Example: `My Filesystem Snapshot Policy` 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the file system snapshot policy.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `policy_prefix` - The prefix to apply to all snapshots created by this policy.  Example: `acme` 
 * `schedules` - The list of associated snapshot schedules. A maximum of 10 schedules can be associated with a policy. 
 	* `day_of_month` - The day of the month to create a scheduled snapshot. If the day does not exist for the month, snapshot creation will be skipped. Used for MONTHLY and YEARLY snapshot schedules. If not set, the system chooses a value at creation time. 
