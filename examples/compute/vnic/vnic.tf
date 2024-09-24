@@ -94,6 +94,11 @@ resource "oci_core_instance" "test_instance" {
   create_vnic_details {
     subnet_id      = oci_core_subnet.test_subnet.id
     hostname_label = "testinstance"
+
+    security_attributes = {
+      "oracle-zpr.sensitivity.value" = "low"
+      "oracle-zpr.sensitivity.mode" = "enforce"
+    }
   }
 
   metadata = {
