@@ -15,6 +15,14 @@ resource "oci_file_storage_file_system" "my_fs_1" {
   freeform_tags = {
     "Department" = "Finance"
   }
+
+  locks {
+    #Required
+    type = var.locks_type
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_file_system" "my_fs_2" {
@@ -31,6 +39,14 @@ resource "oci_file_storage_file_system" "my_fs_2" {
   freeform_tags = {
     "Department" = "Accounting"
   }
+
+  locks {
+    #Required
+    type = var.locks_type
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_file_system" "my_file_system_with_fs_snapshot_policy" {
@@ -48,6 +64,14 @@ resource "oci_file_storage_file_system" "my_file_system_with_fs_snapshot_policy"
   freeform_tags = {
     "Department" = "Accounting"
   }
+
+  locks {
+    #Required
+    type = var.locks_type
+    #Optional
+    message = var.locks_message
+  }
+  is_lock_override = var.is_lock_override
 }
 
 resource "oci_file_storage_file_system" "my_krb_file_system" {

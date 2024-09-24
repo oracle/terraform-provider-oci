@@ -162,6 +162,12 @@ func (s *FileStorageOutboundConnectorsDataSourceCrud) SetData() error {
 				result["id"] = string(*v.Id)
 			}
 
+			locks := []interface{}{}
+			for _, item := range v.Locks {
+				locks = append(locks, ResourceLockToMap(item))
+			}
+			result["locks"] = locks
+
 			result["state"] = string(v.LifecycleState)
 
 			if v.TimeCreated != nil {

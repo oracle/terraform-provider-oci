@@ -55,6 +55,39 @@ var (
 		"freeform_tags":   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"lifecycle":       acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
+
+	FileStorageSnapshotRepresentationWithFullLock = map[string]interface{}{
+		"file_system_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"expiration_time":  acctest.Representation{RepType: acctest.Optional, Create: ExpirationTimeCreate, Update: ExpirationTimeUpdate},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageSnapshotFullLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
+
+	FileStorageSnapshotRepresentationWithDeleteLock = map[string]interface{}{
+		"file_system_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system.id}`},
+		"name":             acctest.Representation{RepType: acctest.Required, Create: `snapshot-1`},
+		"defined_tags":     acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"expiration_time":  acctest.Representation{RepType: acctest.Optional, Create: ExpirationTimeCreate, Update: ExpirationTimeUpdate},
+		"freeform_tags":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+		"locks":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageSnapshotDeleteLocksRepresentation},
+		"is_lock_override": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
+
+	FileStorageSnapshotFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
+	FileStorageSnapshotDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
 	ExpirationTimeCreate = time.Now().Add(10 * time.Hour).Format(TimeFormat)
 	ExpirationTimeUpdate = time.Now().Add(11 * time.Hour).Format(TimeFormat)
 
@@ -103,15 +136,19 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies,
 		},
-		// verify Create with optionals
+		// verify Create with optionals and UPDATE Lock
 		{
 			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "expiration_time", ExpirationTimeCreate),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -128,15 +165,19 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
+		// verify updates to updatable parameters with DELETE lock
 		{
 			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "expiration_time", ExpirationTimeUpdate),
 				resource.TestCheckResourceAttrSet(resourceName, "file_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -155,7 +196,7 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_file_storage_snapshots", "test_snapshots", acctest.Optional, acctest.Update, FileStorageFileStorageSnapshotDataSourceRepresentation) +
 				compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Update, FileStorageSnapshotRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "file_system_id"),
@@ -168,6 +209,10 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.is_clone_source"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.locks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.locks.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(datasourceName, "snapshots.0.name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.provenance_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "snapshots.0.snapshot_time"),
@@ -188,6 +233,10 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_clone_source"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "name", "snapshot-1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "provenance_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "snapshot_time"),
@@ -196,12 +245,38 @@ func TestFileStorageSnapshotResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies,
+		},
+
+		// Verify Full lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageSnapshotResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_snapshot", "test_snapshot", acctest.Optional, acctest.Create, FileStorageSnapshotRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageSnapshotRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

@@ -56,6 +56,15 @@ resource "oci_file_storage_file_system" "test_file_system" {
 	filesystem_snapshot_policy_id = oci_file_storage_filesystem_snapshot_policy.test_filesystem_snapshot_policy.id
 	freeform_tags = {"Department"= "Finance"}
 	kms_key_id = oci_kms_key.test_key.id
+	locks {
+		#Required
+		type = var.file_system_locks_type
+
+		#Optional
+		message = var.file_system_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.file_system_locks_time_created
+	}
 	source_snapshot_id = oci_file_storage_snapshot.test_snapshot.id
 }
 ```
@@ -74,6 +83,11 @@ The following arguments are supported:
 	May be unset as a blank value. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `kms_key_id` - (Optional) (Updatable) The OCID of KMS key used to encrypt the encryption keys associated with this file system. May be unset as a blank or deleted from the configuration to remove the KMS key.
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `source_snapshot_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the snapshot used to create a cloned file system. See [Cloning a File System](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/cloningFS.htm). 
 * `detach_clone_trigger` - (Optional) (Updatable) An optional property when incremented triggers Detach Clone. Could be set to any integer value.
 
@@ -99,6 +113,11 @@ The following attributes are exported:
 * `is_targetable` - Specifies whether the file system can be used as a target file system for replication. The system sets this value to `true` if the file system is unexported, hasn't yet been specified as a target file system in any replication resource, and has no user snapshots. After the file system has been specified as a target in a replication, or if the file system contains user snapshots, the system sets this value to `false`. For more information, see [Using Replication](https://docs.cloud.oracle.com/iaas/Content/File/Tasks/using-replication.htm). 
 * `kms_key_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the KMS key used to encrypt the encryption keys associated with this file system. 
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `metered_bytes` - The number of bytes consumed by the file system, including any snapshots. This number reflects the metered size of the file system and is updated asynchronously with respect to updates to the file system. For more information, see [File System Usage and Metering](https://docs.cloud.oracle.com/iaas/Content/File/Concepts/FSutilization.htm). 
 * `replication_target_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the replication target associated with the file system. Empty if the file system is not being used as target in a replication. 
 * `source_details` - Source information for the file system. 
