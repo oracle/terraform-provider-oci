@@ -179,7 +179,9 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
 
 	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
 
