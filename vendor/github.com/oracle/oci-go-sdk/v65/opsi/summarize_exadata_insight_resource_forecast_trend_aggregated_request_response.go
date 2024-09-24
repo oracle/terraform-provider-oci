@@ -114,6 +114,9 @@ type SummarizeExadataInsightResourceForecastTrendAggregatedRequest struct {
 	// Multiple values for different tag names are interpreted as "AND".
 	FreeformTagExists []string `contributesTo:"query" name:"freeformTagExists" collectionFormat:"multi"`
 
+	// A flag to search all resources within a given compartment and all sub-compartments.
+	CompartmentIdInSubtree *bool `mandatory:"false" contributesTo:"query" name:"compartmentIdInSubtree"`
+
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

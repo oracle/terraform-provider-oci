@@ -196,10 +196,8 @@ func LoadBalancerRuleSetResource() *schema.Resource {
 									"query": {
 										Type:     schema.TypeString,
 										Optional: true,
-										Computed: true,
+										Default:  "{query}",
 									},
-
-									// Computed
 								},
 							},
 						},

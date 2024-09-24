@@ -43,6 +43,7 @@ func OpsiExadataInsightResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					"EM_MANAGED_EXTERNAL_EXADATA",
+					"MACS_MANAGED_CLOUD_EXADATA",
 					"PE_COMANAGED_EXADATA",
 				}, true),
 			},
@@ -130,6 +131,64 @@ func OpsiExadataInsightResource() *schema.Resource {
 										Optional: true,
 										Computed: true,
 									},
+									"connection_credential_details": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+												"credential_type": {
+													Type:             schema.TypeString,
+													Required:         true,
+													ForceNew:         true,
+													DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+													ValidateFunc: validation.StringInSlice([]string{
+														"CREDENTIALS_BY_SOURCE",
+														"CREDENTIALS_BY_VAULT",
+													}, true),
+												},
+
+												// Optional
+												"credential_source_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"password_secret_id": {
+													Type:      schema.TypeString,
+													Optional:  true,
+													Computed:  true,
+													ForceNew:  true,
+													Sensitive: true,
+												},
+												"role": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"user_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"wallet_secret_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
 									"connection_details": {
 										Type:     schema.TypeList,
 										Optional: true,
@@ -141,6 +200,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 												// Required
 
 												// Optional
+												"host_name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 												"hosts": {
 													Type:     schema.TypeList,
 													Optional: true,
@@ -164,6 +229,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 															// Computed
 														},
 													},
+												},
+												"port": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
 												},
 												"protocol": {
 													Type:     schema.TypeString,
@@ -283,6 +354,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 										ForceNew: true,
 										Elem:     schema.TypeString,
 									},
+									"management_agent_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
 									"opsi_private_endpoint_id": {
 										Type:     schema.TypeString,
 										Optional: true,
@@ -308,6 +385,12 @@ func OpsiExadataInsightResource() *schema.Resource {
 							},
 						},
 						"opsi_private_endpoint_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"vm_cluster_type": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -866,6 +949,64 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 		if v.TimeUpdated != nil {
 			s.D.Set("time_updated", v.TimeUpdated.String())
 		}
+	case oci_opsi.MacsManagedCloudExadataInsight:
+		s.D.Set("entity_source", "MACS_MANAGED_CLOUD_EXADATA")
+
+		if v.ExadataInfraId != nil {
+			s.D.Set("exadata_infra_id", *v.ExadataInfraId)
+		}
+
+		s.D.Set("exadata_infra_resource_type", v.ExadataInfraResourceType)
+
+		if v.ExadataShape != nil {
+			s.D.Set("exadata_shape", *v.ExadataShape)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		if v.ExadataDisplayName != nil {
+			s.D.Set("exadata_display_name", *v.ExadataDisplayName)
+		}
+
+		if v.ExadataName != nil {
+			s.D.Set("exadata_name", *v.ExadataName)
+		}
+
+		s.D.Set("exadata_rack_type", v.ExadataRackType)
+
+		s.D.Set("exadata_type", v.ExadataType)
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.IsVirtualizedExadata != nil {
+			s.D.Set("is_virtualized_exadata", *v.IsVirtualizedExadata)
+		}
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.PeComanagedExadataInsight:
 		s.D.Set("entity_source", "PE_COMANAGED_EXADATA")
 
@@ -931,6 +1072,51 @@ func (s *OpsiExadataInsightResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *OpsiExadataInsightResourceCrud) mapToConnectionDetails(fieldKeyFormat string) (oci_opsi.ConnectionDetails, error) {
+	result := oci_opsi.ConnectionDetails{}
+
+	if hostName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "host_name")); ok {
+		tmp := hostName.(string)
+		result.HostName = &tmp
+	}
+
+	if port, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "port")); ok {
+		tmp := port.(int)
+		result.Port = &tmp
+	}
+
+	if protocol, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol")); ok {
+		result.Protocol = oci_opsi.ConnectionDetailsProtocolEnum(protocol.(string))
+	}
+
+	if serviceName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_name")); ok {
+		tmp := serviceName.(string)
+		result.ServiceName = &tmp
+	}
+
+	return result, nil
+}
+
+/*func ConnectionDetailsToMap(obj *oci_opsi.ConnectionDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.HostName != nil {
+		result["host_name"] = string(*obj.HostName)
+	}
+
+	if obj.Port != nil {
+		result["port"] = int(*obj.Port)
+	}
+
+	result["protocol"] = string(obj.Protocol)
+
+	if obj.ServiceName != nil {
+		result["service_name"] = string(*obj.ServiceName)
+	}
+
+	return result
+}*/
+
 func (s *OpsiExadataInsightResourceCrud) mapToCreateEmManagedExternalExadataMemberEntityDetails(fieldKeyFormat string) (oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails, error) {
 	result := oci_opsi.CreateEmManagedExternalExadataMemberEntityDetails{}
 
@@ -956,6 +1142,179 @@ func CreateEmManagedExternalExadataMemberEntityDetailsToMap(obj oci_opsi.CreateE
 
 	if obj.EnterpriseManagerEntityIdentifier != nil {
 		result["enterprise_manager_entity_identifier"] = string(*obj.EnterpriseManagerEntityIdentifier)
+	}
+
+	return result
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToCreateMacsManagedCloudDatabaseInsightDetails(fieldKeyFormat string) (oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails, error) {
+	result := oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if connectionCredentialDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_credential_details")); ok {
+		if tmpList := connectionCredentialDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_credential_details"), 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_credential_details, encountered error: %v", err)
+			}
+			result.ConnectionCredentialDetails = tmp
+		}
+	}
+
+	if connectionDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "connection_details")); ok {
+		if tmpList := connectionDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "connection_details"), 0)
+			tmp, err := s.mapToConnectionDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert connection_details, encountered error: %v", err)
+			}
+			result.ConnectionDetails = &tmp
+		}
+	}
+
+	if databaseId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_id")); ok {
+		tmp := databaseId.(string)
+		result.DatabaseId = &tmp
+	}
+
+	if databaseResourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "database_resource_type")); ok {
+		tmp := databaseResourceType.(string)
+		result.DatabaseResourceType = &tmp
+	}
+
+	if definedTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "defined_tags")); ok {
+		tmp, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
+		}
+		result.DefinedTags = tmp
+	}
+
+	if deploymentType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "deployment_type")); ok {
+		result.DeploymentType = oci_opsi.CreateMacsManagedCloudDatabaseInsightDetailsDeploymentTypeEnum(deploymentType.(string))
+	}
+
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if managementAgentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "management_agent_id")); ok {
+		tmp := managementAgentId.(string)
+		result.ManagementAgentId = &tmp
+	}
+
+	if systemTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "system_tags")); ok {
+		tmp, err := tfresource.MapToSystemTags(systemTags.(map[string]interface{}))
+		if err != nil {
+			return result, fmt.Errorf("unable to convert system_tags, encountered error: %v", err)
+		}
+		result.SystemTags = tmp
+	}
+
+	return result, nil
+}
+
+func CreateMacsManagedCloudDatabaseInsightDetailsToMap(obj oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.ConnectionCredentialDetails != nil {
+		connectionCredentialDetailsArray := []interface{}{}
+		if connectionCredentialDetailsMap := CredentialDetailsToMap(&obj.ConnectionCredentialDetails); connectionCredentialDetailsMap != nil {
+			connectionCredentialDetailsArray = append(connectionCredentialDetailsArray, connectionCredentialDetailsMap)
+		}
+		result["connection_credential_details"] = connectionCredentialDetailsArray
+	}
+
+	if obj.ConnectionDetails != nil {
+		result["connection_details"] = []interface{}{ConnectionDetailsToMap(obj.ConnectionDetails)}
+	}
+
+	if obj.DatabaseId != nil {
+		result["database_id"] = string(*obj.DatabaseId)
+	}
+
+	if obj.DatabaseResourceType != nil {
+		result["database_resource_type"] = string(*obj.DatabaseResourceType)
+	}
+
+	if obj.DefinedTags != nil {
+		result["defined_tags"] = tfresource.DefinedTagsToMap(obj.DefinedTags)
+	}
+
+	result["deployment_type"] = string(obj.DeploymentType)
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.ManagementAgentId != nil {
+		result["management_agent_id"] = string(*obj.ManagementAgentId)
+	}
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	return result
+}
+
+func (s *OpsiExadataInsightResourceCrud) mapToCreateMacsManagedCloudExadataVmclusterDetails(fieldKeyFormat string) (oci_opsi.CreateMacsManagedCloudExadataVmclusterDetails, error) {
+	result := oci_opsi.CreateMacsManagedCloudExadataVmclusterDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if memberDatabaseDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "member_database_details")); ok {
+		interfaces := memberDatabaseDetails.([]interface{})
+		tmp := make([]oci_opsi.CreateMacsManagedCloudDatabaseInsightDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "member_database_details"), stateDataIndex)
+			converted, err := s.mapToCreateMacsManagedCloudDatabaseInsightDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "member_database_details")) {
+			result.MemberDatabaseDetails = tmp
+		}
+	}
+
+	if vmclusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vmcluster_id")); ok {
+		tmp := vmclusterId.(string)
+		result.VmclusterId = &tmp
+	}
+
+	return result, nil
+}
+
+func CreateMacsManagedCloudExadataVmclusterDetailsToMap(obj oci_opsi.CreateMacsManagedCloudExadataVmclusterDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CompartmentId != nil {
+		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	memberDatabaseDetails := []interface{}{}
+	for _, item := range obj.MemberDatabaseDetails {
+		memberDatabaseDetails = append(memberDatabaseDetails, CreateMacsManagedCloudDatabaseInsightDetailsToMap(item))
+	}
+	result["member_database_details"] = memberDatabaseDetails
+
+	//result["vm_cluster_type"] = string(obj.VmClusterType)
+
+	if obj.VmclusterId != nil {
+		result["vmcluster_id"] = string(*obj.VmclusterId)
 	}
 
 	return result
@@ -1290,6 +1649,18 @@ func ExadataInsightSummaryToMap(obj oci_opsi.ExadataInsightSummary) map[string]i
 		if v.TimeUpdated != nil {
 			result["time_updated"] = v.TimeCreated.String()
 		}
+	case oci_opsi.MacsManagedCloudExadataInsightSummary:
+		result["entity_source"] = "MACS_MANAGED_CLOUD_EXADATA"
+
+		if v.ExadataInfraId != nil {
+			result["exadata_infra_id"] = string(*v.ExadataInfraId)
+		}
+
+		result["exadata_infra_resource_type"] = string(v.ExadataInfraResourceType)
+
+		if v.ExadataShape != nil {
+			result["exadata_shape"] = string(*v.ExadataShape)
+		}
 	case oci_opsi.PeComanagedExadataInsightSummary:
 		result["entity_source"] = "PE_COMANAGED_EXADATA"
 
@@ -1421,6 +1792,43 @@ func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicCreateExadat
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.CreateExadataInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_EXADATA"):
+		details := oci_opsi.CreateMacsManagedCloudExadataInsightDetails{}
+		if exadataInfraId, ok := s.D.GetOkExists("exadata_infra_id"); ok {
+			tmp := exadataInfraId.(string)
+			details.ExadataInfraId = &tmp
+		}
+		if memberVmClusterDetails, ok := s.D.GetOkExists("member_vm_cluster_details"); ok {
+			interfaces := memberVmClusterDetails.([]interface{})
+			tmp := make([]oci_opsi.CreateMacsManagedCloudExadataVmclusterDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "member_vm_cluster_details", stateDataIndex)
+				converted, err := s.mapToCreateMacsManagedCloudExadataVmclusterDetails(fieldKeyFormat)
+				if err != nil {
+					return err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange("member_vm_cluster_details") {
+				details.MemberVmClusterDetails = tmp
+			}
+		}
+		if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+			tmp := compartmentId.(string)
+			details.CompartmentId = &tmp
+		}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.CreateExadataInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_EXADATA"):
 		details := oci_opsi.CreatePeComanagedExadataInsightDetails{}
 		if exadataInfraId, ok := s.D.GetOkExists("exadata_infra_id"); ok {
@@ -1493,6 +1901,21 @@ func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicUpdateExadat
 			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 		}
 		request.UpdateExadataInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_EXADATA"):
+		details := oci_opsi.UpdateMacsManagedCloudExadataInsightDetails{}
+		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+			if err != nil {
+				return err
+			}
+			details.DefinedTags = convertedDefinedTags
+		}
+		tmp := s.D.Id()
+		request.ExadataInsightId = &tmp
+		if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+			details.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+		}
+		request.UpdateExadataInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_EXADATA"):
 		details := oci_opsi.UpdatePeComanagedExadataInsightDetails{}
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1526,6 +1949,9 @@ func (s *OpsiExadataInsightResourceCrud) populateTopLevelPolymorphicEnableExadat
 	switch strings.ToLower(entitySource) {
 	case strings.ToLower("EM_MANAGED_EXTERNAL_EXADATA"):
 		details := oci_opsi.EnableEmManagedExternalExadataInsightDetails{}
+		request.EnableExadataInsightDetails = details
+	case strings.ToLower("MACS_MANAGED_CLOUD_EXADATA"):
+		details := oci_opsi.EnableMacsManagedCloudExadataInsightDetails{}
 		request.EnableExadataInsightDetails = details
 	case strings.ToLower("PE_COMANAGED_EXADATA"):
 		details := oci_opsi.EnablePeComanagedExadataInsightDetails{}

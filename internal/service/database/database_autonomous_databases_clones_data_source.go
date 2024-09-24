@@ -943,6 +943,10 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"time_undeleted": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"time_until_reconnect_clone_enabled": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1475,6 +1479,10 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 
 		if r.TimeReclamationOfFreeAutonomousDatabase != nil {
 			autonomousDatabasesClone["time_reclamation_of_free_autonomous_database"] = r.TimeReclamationOfFreeAutonomousDatabase.String()
+		}
+
+		if r.TimeUndeleted != nil {
+			autonomousDatabasesClone["time_undeleted"] = r.TimeUndeleted.String()
 		}
 
 		if r.TimeUntilReconnectCloneEnabled != nil {

@@ -73,6 +73,10 @@ func (m *createexadatainsightdetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := CreateEmManagedExternalExadataInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "MACS_MANAGED_CLOUD_EXADATA":
+		mm := CreateMacsManagedCloudExadataInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PE_COMANAGED_EXADATA":
 		mm := CreatePeComanagedExadataInsightDetails{}
 		err = json.Unmarshal(data, &mm)

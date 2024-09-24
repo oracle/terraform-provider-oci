@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_data_safe_target_alert_policy_associations"
 sidebar_current: "docs-oci-datasource-data_safe-target_alert_policy_associations"
 description: |-
-	Provides the list of Target Alert Policy Associations in Oracle Cloud Infrastructure Data Safe service
+  Provides the list of Target Alert Policy Associations in Oracle Cloud Infrastructure Data Safe service
 ---
 
 # Data Source: oci_data_safe_target_alert_policy_associations

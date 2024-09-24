@@ -121,6 +121,9 @@ const (
 	WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline             WorkRequestSummaryOperationTypeEnum = "SET_SECURITY_ASSESSMENT_BASELINE"
 	WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline           WorkRequestSummaryOperationTypeEnum = "UNSET_SECURITY_ASSESSMENT_BASELINE"
 	WorkRequestSummaryOperationTypeGenerateSecurityAssessmentReport          WorkRequestSummaryOperationTypeEnum = "GENERATE_SECURITY_ASSESSMENT_REPORT"
+	WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql               WorkRequestSummaryOperationTypeEnum = "DELETE_SQL_FIREWALL_ALLOWED_SQL"
+	WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql           WorkRequestSummaryOperationTypeEnum = "BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL"
+	WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql           WorkRequestSummaryOperationTypeEnum = "BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL"
 	WorkRequestSummaryOperationTypeCalculateVolume                           WorkRequestSummaryOperationTypeEnum = "CALCULATE_VOLUME"
 	WorkRequestSummaryOperationTypeCalculateCollectedVolume                  WorkRequestSummaryOperationTypeEnum = "CALCULATE_COLLECTED_VOLUME"
 	WorkRequestSummaryOperationTypeCreateDbSecurityConfig                    WorkRequestSummaryOperationTypeEnum = "CREATE_DB_SECURITY_CONFIG"
@@ -264,6 +267,9 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"SET_SECURITY_ASSESSMENT_BASELINE":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"UNSET_SECURITY_ASSESSMENT_BASELINE":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
 	"GENERATE_SECURITY_ASSESSMENT_REPORT":           WorkRequestSummaryOperationTypeGenerateSecurityAssessmentReport,
+	"DELETE_SQL_FIREWALL_ALLOWED_SQL":               WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
+	"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL":          WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
+	"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL":          WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
 	"CALCULATE_VOLUME":                              WorkRequestSummaryOperationTypeCalculateVolume,
 	"CALCULATE_COLLECTED_VOLUME":                    WorkRequestSummaryOperationTypeCalculateCollectedVolume,
 	"CREATE_DB_SECURITY_CONFIG":                     WorkRequestSummaryOperationTypeCreateDbSecurityConfig,
@@ -407,6 +413,9 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"set_security_assessment_baseline":              WorkRequestSummaryOperationTypeSetSecurityAssessmentBaseline,
 	"unset_security_assessment_baseline":            WorkRequestSummaryOperationTypeUnsetSecurityAssessmentBaseline,
 	"generate_security_assessment_report":           WorkRequestSummaryOperationTypeGenerateSecurityAssessmentReport,
+	"delete_sql_firewall_allowed_sql":               WorkRequestSummaryOperationTypeDeleteSqlFirewallAllowedSql,
+	"bulk_create_sql_firewall_allowed_sql":          WorkRequestSummaryOperationTypeBulkCreateSqlFirewallAllowedSql,
+	"bulk_delete_sql_firewall_allowed_sql":          WorkRequestSummaryOperationTypeBulkDeleteSqlFirewallAllowedSql,
 	"calculate_volume":                              WorkRequestSummaryOperationTypeCalculateVolume,
 	"calculate_collected_volume":                    WorkRequestSummaryOperationTypeCalculateCollectedVolume,
 	"create_db_security_config":                     WorkRequestSummaryOperationTypeCreateDbSecurityConfig,
@@ -561,6 +570,9 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"SET_SECURITY_ASSESSMENT_BASELINE",
 		"UNSET_SECURITY_ASSESSMENT_BASELINE",
 		"GENERATE_SECURITY_ASSESSMENT_REPORT",
+		"DELETE_SQL_FIREWALL_ALLOWED_SQL",
+		"BULK_CREATE_SQL_FIREWALL_ALLOWED_SQL",
+		"BULK_DELETE_SQL_FIREWALL_ALLOWED_SQL",
 		"CALCULATE_VOLUME",
 		"CALCULATE_COLLECTED_VOLUME",
 		"CREATE_DB_SECURITY_CONFIG",

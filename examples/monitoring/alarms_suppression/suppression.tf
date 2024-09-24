@@ -66,10 +66,17 @@ resource "oci_monitoring_alarm_suppression" "test_alarm_suppression" {
     alarm_id     = oci_monitoring_alarm.test_suppression_alarm.id
     target_type = "ALARM"
   }
+  level = "DIMENSION"
   dimensions = var.dimensions
   display_name         = var.display_name
-  time_suppress_from   = timeadd(timestamp(),"${local.alarm_suppression_from_offset_in_days * 24}h")
-  time_suppress_until  = timeadd(timestamp(), "${local.alarm_suppression_to_offset_in_days * 24}h")
+  time_suppress_from   = "2024-09-24T19:45:07.000Z"
+  time_suppress_until  = "2024-09-24T20:45:07.000Z"
+  suppression_conditions {
+    condition_type = "RECURRENCE"
+    suppression_recurrence = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;BYMINUTE=00;BYSECOND=00"
+    suppression_duration = "PT1H"
+  }
+
 
   #Optional
   description = var.description

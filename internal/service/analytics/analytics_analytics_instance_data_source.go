@@ -136,5 +136,7 @@ func (s *AnalyticsAnalyticsInstanceDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	s.D.Set("update_channel", s.Res.UpdateChannel)
+
 	return nil
 }

@@ -7,6 +7,7 @@ variable "fingerprint" {}
 variable "private_key_path" {}
 variable "region" {}
 variable "compartment_ocid" {}
+variable "sql_firewall_allowed_sql_ocid" {}
 
 variable "allowed_sql_sort_by" {
   default = "timeCollected"
@@ -35,5 +36,10 @@ data "oci_data_safe_sql_firewall_allowed_sqls" "test_sql_firewall_allowed_sqls" 
   #Optional
   compartment_id_in_subtree = var.allowed_sql_compartment_id_in_subtree
   access_level                  = var.access_level
+}
+
+data "oci_data_safe_sql_firewall_allowed_sql" "test_sql_firewall_allowed_sql" {
+  #Required
+  sql_firewall_allowed_sql_id = var.sql_firewall_allowed_sql_ocid
 }
 

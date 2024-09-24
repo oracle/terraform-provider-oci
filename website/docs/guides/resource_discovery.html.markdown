@@ -167,6 +167,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `email` - Discovers email_sender resources within the specified compartment
     * `events` - Discovers events resources within the specified compartment
     * `file_storage` - Discovers file_storage resources within the specified compartment
+    * `fleet_apps_management` - Discovers fleet_apps_management resources within the specified compartment
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
@@ -746,6 +747,13 @@ file_storage
 * oci\_file\_storage\_replication
 * oci\_file\_storage\_filesystem\_snapshot\_policy
 * oci\_file\_storage\_outbound\_connector
+
+fleet_apps_management
+    
+* oci\_fleet\_apps\_management\_maintenance\_window
+* oci\_fleet\_apps\_management\_fleet
+* oci\_fleet\_apps\_management\_scheduler\_definition
+* oci\_fleet\_apps\_management\_property
 
 functions
     

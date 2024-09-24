@@ -221,6 +221,11 @@ func AnalyticsAnalyticsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"update_channel": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -487,6 +492,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if updateChannel, ok := s.D.GetOkExists("update_channel"); ok {
+		request.UpdateChannel = oci_analytics.UpdateChannelEnum(updateChannel.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.CreateAnalyticsInstance(context.Background(), request)
@@ -718,6 +727,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) Update() error {
 		request.LicenseType = oci_analytics.LicenseTypeEnum(licenseType.(string))
 	}
 
+	if updateChannel, ok := s.D.GetOkExists("update_channel"); ok {
+		request.UpdateChannel = oci_analytics.UpdateChannelEnum(updateChannel.(string))
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "analytics")
 
 	response, err := s.Client.UpdateAnalyticsInstance(context.Background(), request)
@@ -847,6 +860,10 @@ func (s *AnalyticsAnalyticsInstanceResourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.TimeUpdated != nil {
+		s.D.Set("update_channel", s.Res.UpdateChannel)
 	}
 
 	return nil

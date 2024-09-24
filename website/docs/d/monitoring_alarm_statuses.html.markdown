@@ -13,7 +13,8 @@ This data source provides the list of Alarm Statuses in Oracle Cloud Infrastruct
 List the status of each alarm in the specified compartment.
 Status is collective, across all metric streams in the alarm.
 To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates).
-The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`.
+Optionally filter by resource or status value.
+
 For more information, see
 [Listing Alarm Statuses](https://docs.cloud.oracle.com/iaas/Content/Monitoring/Tasks/list-alarm-status.htm).
 For important limits information, see
@@ -68,8 +69,8 @@ The following attributes are exported:
 * `display_name` - The configured name of the alarm.  Example: `High CPU Utilization` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the alarm. 
 * `rule_name` - Identifier of the alarm's base values for alarm evaluation, for use when the alarm contains overrides.  Default value is `BASE`. For information about alarm overrides, see [AlarmOverride](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/datatypes/AlarmOverride). 
-* `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL` 
-* `status` - The status of this alarm. Status is collective, across all metric streams in the alarm. To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates). The alarm attribute `isNotificationsPerMetricDimensionEnabled` must be set to `true`. Example: `FIRING` 
+* `severity` - The perceived type of response required when the alarm is in the "FIRING" state.  Example: `CRITICAL`
+* `status` - The status of this alarm. Status is collective, across all metric streams in the alarm. To list alarm status for each metric stream, use [RetrieveDimensionStates](https://docs.cloud.oracle.com/iaas/api/#/en/monitoring/latest/AlarmDimensionStatesCollection/RetrieveDimensionStates).  Example: `FIRING`
 * `suppression` - The configuration details for suppressing an alarm. 
 	* `description` - Human-readable reason for suppressing alarm notifications. It does not have to be unique, and it's changeable. Avoid entering confidential information.
 

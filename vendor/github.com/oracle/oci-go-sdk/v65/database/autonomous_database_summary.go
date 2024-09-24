@@ -145,6 +145,9 @@ type AutonomousDatabaseSummary struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
+	// The date and time the Autonomous Database was most recently undeleted.
+	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
+
 	// The date and time the Autonomous Database was created.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 

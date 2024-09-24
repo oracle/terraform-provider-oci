@@ -20,67 +20,69 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeEnableDatabaseInsight                   OperationTypeEnum = "ENABLE_DATABASE_INSIGHT"
-	OperationTypeDisableDatabaseInsight                  OperationTypeEnum = "DISABLE_DATABASE_INSIGHT"
-	OperationTypeUpdateDatabaseInsight                   OperationTypeEnum = "UPDATE_DATABASE_INSIGHT"
-	OperationTypeCreateDatabaseInsight                   OperationTypeEnum = "CREATE_DATABASE_INSIGHT"
-	OperationTypeMoveDatabaseInsight                     OperationTypeEnum = "MOVE_DATABASE_INSIGHT"
-	OperationTypeDeleteDatabaseInsight                   OperationTypeEnum = "DELETE_DATABASE_INSIGHT"
-	OperationTypeCreateEnterpriseManagerBridge           OperationTypeEnum = "CREATE_ENTERPRISE_MANAGER_BRIDGE"
-	OperationTypeUdpateEnterpriseManagerBridge           OperationTypeEnum = "UDPATE_ENTERPRISE_MANAGER_BRIDGE"
-	OperationTypeMoveEnterpriseManagerBridge             OperationTypeEnum = "MOVE_ENTERPRISE_MANAGER_BRIDGE"
-	OperationTypeDeleteEnterpriseManagerBridge           OperationTypeEnum = "DELETE_ENTERPRISE_MANAGER_BRIDGE"
-	OperationTypeEnableHostInsight                       OperationTypeEnum = "ENABLE_HOST_INSIGHT"
-	OperationTypeDisableHostInsight                      OperationTypeEnum = "DISABLE_HOST_INSIGHT"
-	OperationTypeUpdateHostInsight                       OperationTypeEnum = "UPDATE_HOST_INSIGHT"
-	OperationTypeCreateHostInsight                       OperationTypeEnum = "CREATE_HOST_INSIGHT"
-	OperationTypeMoveHostInsight                         OperationTypeEnum = "MOVE_HOST_INSIGHT"
-	OperationTypeDeleteHostInsight                       OperationTypeEnum = "DELETE_HOST_INSIGHT"
-	OperationTypeCreateExadataInsight                    OperationTypeEnum = "CREATE_EXADATA_INSIGHT"
-	OperationTypeEnableExadataInsight                    OperationTypeEnum = "ENABLE_EXADATA_INSIGHT"
-	OperationTypeDisableExadataInsight                   OperationTypeEnum = "DISABLE_EXADATA_INSIGHT"
-	OperationTypeUpdateExadataInsight                    OperationTypeEnum = "UPDATE_EXADATA_INSIGHT"
-	OperationTypeMoveExadataInsight                      OperationTypeEnum = "MOVE_EXADATA_INSIGHT"
-	OperationTypeDeleteExadataInsight                    OperationTypeEnum = "DELETE_EXADATA_INSIGHT"
-	OperationTypeAddExadataInsightMembers                OperationTypeEnum = "ADD_EXADATA_INSIGHT_MEMBERS"
-	OperationTypeExadataAutoSync                         OperationTypeEnum = "EXADATA_AUTO_SYNC"
-	OperationTypeUpdateOpsiWarehouse                     OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE"
-	OperationTypeCreateOpsiWarehouse                     OperationTypeEnum = "CREATE_OPSI_WAREHOUSE"
-	OperationTypeMoveOpsiWarehouse                       OperationTypeEnum = "MOVE_OPSI_WAREHOUSE"
-	OperationTypeDeleteOpsiWarehouse                     OperationTypeEnum = "DELETE_OPSI_WAREHOUSE"
-	OperationTypeRotateOpsiWarehouseWallet               OperationTypeEnum = "ROTATE_OPSI_WAREHOUSE_WALLET"
-	OperationTypeUpdateOpsiWarehouseUser                 OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE_USER"
-	OperationTypeCreateOpsiWarehouseUser                 OperationTypeEnum = "CREATE_OPSI_WAREHOUSE_USER"
-	OperationTypeMoveOpsiWarehouseUser                   OperationTypeEnum = "MOVE_OPSI_WAREHOUSE_USER"
-	OperationTypeDeleteOpsiWarehouseUser                 OperationTypeEnum = "DELETE_OPSI_WAREHOUSE_USER"
-	OperationTypeUpdateAwrhub                            OperationTypeEnum = "UPDATE_AWRHUB"
-	OperationTypeCreateAwrhub                            OperationTypeEnum = "CREATE_AWRHUB"
-	OperationTypeMoveAwrhub                              OperationTypeEnum = "MOVE_AWRHUB"
-	OperationTypeDeleteAwrhub                            OperationTypeEnum = "DELETE_AWRHUB"
-	OperationTypeUpdatePrivateEndpoint                   OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
-	OperationTypeCreatePrivateEndpoint                   OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
-	OperationTypeMovePrivateEndpoint                     OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
-	OperationTypeDeletePrivateEndpoint                   OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
-	OperationTypeChangePeComanagedDatabaseInsightDetails OperationTypeEnum = "CHANGE_PE_COMANAGED_DATABASE_INSIGHT_DETAILS"
-	OperationTypeUpdateOpsiConfiguration                 OperationTypeEnum = "UPDATE_OPSI_CONFIGURATION"
-	OperationTypeCreateOpsiConfiguration                 OperationTypeEnum = "CREATE_OPSI_CONFIGURATION"
-	OperationTypeMoveOpsiConfiguration                   OperationTypeEnum = "MOVE_OPSI_CONFIGURATION"
-	OperationTypeDeleteOpsiConfiguration                 OperationTypeEnum = "DELETE_OPSI_CONFIGURATION"
-	OperationTypeEnableAdbAdvancedFeatures               OperationTypeEnum = "ENABLE_ADB_ADVANCED_FEATURES"
-	OperationTypeDisableAdbAdvancedFeatures              OperationTypeEnum = "DISABLE_ADB_ADVANCED_FEATURES"
-	OperationTypeUpdateAdbAdvancedFeatures               OperationTypeEnum = "UPDATE_ADB_ADVANCED_FEATURES"
-	OperationTypeCreateNewsReport                        OperationTypeEnum = "CREATE_NEWS_REPORT"
-	OperationTypeEnableNewsReport                        OperationTypeEnum = "ENABLE_NEWS_REPORT"
-	OperationTypeDisableNewsReport                       OperationTypeEnum = "DISABLE_NEWS_REPORT"
-	OperationTypeUpdateNewsReport                        OperationTypeEnum = "UPDATE_NEWS_REPORT"
-	OperationTypeMoveNewsReport                          OperationTypeEnum = "MOVE_NEWS_REPORT"
-	OperationTypeDeleteNewsReport                        OperationTypeEnum = "DELETE_NEWS_REPORT"
-	OperationTypeCreateAwrhubSource                      OperationTypeEnum = "CREATE_AWRHUB_SOURCE"
-	OperationTypeDeleteAwrhubSource                      OperationTypeEnum = "DELETE_AWRHUB_SOURCE"
-	OperationTypeUpdateAwrhubSource                      OperationTypeEnum = "UPDATE_AWRHUB_SOURCE"
-	OperationTypeMoveAwrhubSource                        OperationTypeEnum = "MOVE_AWRHUB_SOURCE"
-	OperationTypeEnableAwrhubSource                      OperationTypeEnum = "ENABLE_AWRHUB_SOURCE"
-	OperationTypeDisableAwrhubSource                     OperationTypeEnum = "DISABLE_AWRHUB_SOURCE"
+	OperationTypeEnableDatabaseInsight                                  OperationTypeEnum = "ENABLE_DATABASE_INSIGHT"
+	OperationTypeDisableDatabaseInsight                                 OperationTypeEnum = "DISABLE_DATABASE_INSIGHT"
+	OperationTypeUpdateDatabaseInsight                                  OperationTypeEnum = "UPDATE_DATABASE_INSIGHT"
+	OperationTypeCreateDatabaseInsight                                  OperationTypeEnum = "CREATE_DATABASE_INSIGHT"
+	OperationTypeMoveDatabaseInsight                                    OperationTypeEnum = "MOVE_DATABASE_INSIGHT"
+	OperationTypeDeleteDatabaseInsight                                  OperationTypeEnum = "DELETE_DATABASE_INSIGHT"
+	OperationTypeCreateEnterpriseManagerBridge                          OperationTypeEnum = "CREATE_ENTERPRISE_MANAGER_BRIDGE"
+	OperationTypeUdpateEnterpriseManagerBridge                          OperationTypeEnum = "UDPATE_ENTERPRISE_MANAGER_BRIDGE"
+	OperationTypeMoveEnterpriseManagerBridge                            OperationTypeEnum = "MOVE_ENTERPRISE_MANAGER_BRIDGE"
+	OperationTypeDeleteEnterpriseManagerBridge                          OperationTypeEnum = "DELETE_ENTERPRISE_MANAGER_BRIDGE"
+	OperationTypeEnableHostInsight                                      OperationTypeEnum = "ENABLE_HOST_INSIGHT"
+	OperationTypeDisableHostInsight                                     OperationTypeEnum = "DISABLE_HOST_INSIGHT"
+	OperationTypeUpdateHostInsight                                      OperationTypeEnum = "UPDATE_HOST_INSIGHT"
+	OperationTypeCreateHostInsight                                      OperationTypeEnum = "CREATE_HOST_INSIGHT"
+	OperationTypeMoveHostInsight                                        OperationTypeEnum = "MOVE_HOST_INSIGHT"
+	OperationTypeDeleteHostInsight                                      OperationTypeEnum = "DELETE_HOST_INSIGHT"
+	OperationTypeCreateExadataInsight                                   OperationTypeEnum = "CREATE_EXADATA_INSIGHT"
+	OperationTypeEnableExadataInsight                                   OperationTypeEnum = "ENABLE_EXADATA_INSIGHT"
+	OperationTypeDisableExadataInsight                                  OperationTypeEnum = "DISABLE_EXADATA_INSIGHT"
+	OperationTypeUpdateExadataInsight                                   OperationTypeEnum = "UPDATE_EXADATA_INSIGHT"
+	OperationTypeMoveExadataInsight                                     OperationTypeEnum = "MOVE_EXADATA_INSIGHT"
+	OperationTypeDeleteExadataInsight                                   OperationTypeEnum = "DELETE_EXADATA_INSIGHT"
+	OperationTypeAddExadataInsightMembers                               OperationTypeEnum = "ADD_EXADATA_INSIGHT_MEMBERS"
+	OperationTypeExadataAutoSync                                        OperationTypeEnum = "EXADATA_AUTO_SYNC"
+	OperationTypeUpdateOpsiWarehouse                                    OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE"
+	OperationTypeCreateOpsiWarehouse                                    OperationTypeEnum = "CREATE_OPSI_WAREHOUSE"
+	OperationTypeMoveOpsiWarehouse                                      OperationTypeEnum = "MOVE_OPSI_WAREHOUSE"
+	OperationTypeDeleteOpsiWarehouse                                    OperationTypeEnum = "DELETE_OPSI_WAREHOUSE"
+	OperationTypeRotateOpsiWarehouseWallet                              OperationTypeEnum = "ROTATE_OPSI_WAREHOUSE_WALLET"
+	OperationTypeUpdateOpsiWarehouseUser                                OperationTypeEnum = "UPDATE_OPSI_WAREHOUSE_USER"
+	OperationTypeCreateOpsiWarehouseUser                                OperationTypeEnum = "CREATE_OPSI_WAREHOUSE_USER"
+	OperationTypeMoveOpsiWarehouseUser                                  OperationTypeEnum = "MOVE_OPSI_WAREHOUSE_USER"
+	OperationTypeDeleteOpsiWarehouseUser                                OperationTypeEnum = "DELETE_OPSI_WAREHOUSE_USER"
+	OperationTypeUpdateAwrhub                                           OperationTypeEnum = "UPDATE_AWRHUB"
+	OperationTypeCreateAwrhub                                           OperationTypeEnum = "CREATE_AWRHUB"
+	OperationTypeMoveAwrhub                                             OperationTypeEnum = "MOVE_AWRHUB"
+	OperationTypeDeleteAwrhub                                           OperationTypeEnum = "DELETE_AWRHUB"
+	OperationTypeUpdatePrivateEndpoint                                  OperationTypeEnum = "UPDATE_PRIVATE_ENDPOINT"
+	OperationTypeCreatePrivateEndpoint                                  OperationTypeEnum = "CREATE_PRIVATE_ENDPOINT"
+	OperationTypeMovePrivateEndpoint                                    OperationTypeEnum = "MOVE_PRIVATE_ENDPOINT"
+	OperationTypeDeletePrivateEndpoint                                  OperationTypeEnum = "DELETE_PRIVATE_ENDPOINT"
+	OperationTypeChangePeComanagedDatabaseInsightDetails                OperationTypeEnum = "CHANGE_PE_COMANAGED_DATABASE_INSIGHT_DETAILS"
+	OperationTypeUpdateOpsiConfiguration                                OperationTypeEnum = "UPDATE_OPSI_CONFIGURATION"
+	OperationTypeCreateOpsiConfiguration                                OperationTypeEnum = "CREATE_OPSI_CONFIGURATION"
+	OperationTypeMoveOpsiConfiguration                                  OperationTypeEnum = "MOVE_OPSI_CONFIGURATION"
+	OperationTypeDeleteOpsiConfiguration                                OperationTypeEnum = "DELETE_OPSI_CONFIGURATION"
+	OperationTypeEnableAdbAdvancedFeatures                              OperationTypeEnum = "ENABLE_ADB_ADVANCED_FEATURES"
+	OperationTypeDisableAdbAdvancedFeatures                             OperationTypeEnum = "DISABLE_ADB_ADVANCED_FEATURES"
+	OperationTypeUpdateAdbAdvancedFeatures                              OperationTypeEnum = "UPDATE_ADB_ADVANCED_FEATURES"
+	OperationTypeCreateNewsReport                                       OperationTypeEnum = "CREATE_NEWS_REPORT"
+	OperationTypeEnableNewsReport                                       OperationTypeEnum = "ENABLE_NEWS_REPORT"
+	OperationTypeDisableNewsReport                                      OperationTypeEnum = "DISABLE_NEWS_REPORT"
+	OperationTypeUpdateNewsReport                                       OperationTypeEnum = "UPDATE_NEWS_REPORT"
+	OperationTypeMoveNewsReport                                         OperationTypeEnum = "MOVE_NEWS_REPORT"
+	OperationTypeDeleteNewsReport                                       OperationTypeEnum = "DELETE_NEWS_REPORT"
+	OperationTypeCreateAwrhubSource                                     OperationTypeEnum = "CREATE_AWRHUB_SOURCE"
+	OperationTypeDeleteAwrhubSource                                     OperationTypeEnum = "DELETE_AWRHUB_SOURCE"
+	OperationTypeUpdateAwrhubSource                                     OperationTypeEnum = "UPDATE_AWRHUB_SOURCE"
+	OperationTypeMoveAwrhubSource                                       OperationTypeEnum = "MOVE_AWRHUB_SOURCE"
+	OperationTypeEnableAwrhubSource                                     OperationTypeEnum = "ENABLE_AWRHUB_SOURCE"
+	OperationTypeDisableAwrhubSource                                    OperationTypeEnum = "DISABLE_AWRHUB_SOURCE"
+	OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails OperationTypeEnum = "CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS"
+	OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails   OperationTypeEnum = "TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -145,6 +147,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_AWRHUB_SOURCE":                           OperationTypeMoveAwrhubSource,
 	"ENABLE_AWRHUB_SOURCE":                         OperationTypeEnableAwrhubSource,
 	"DISABLE_AWRHUB_SOURCE":                        OperationTypeDisableAwrhubSource,
+	"CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS": OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails,
+	"TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS":   OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -209,6 +213,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_awrhub_source":                           OperationTypeMoveAwrhubSource,
 	"enable_awrhub_source":                         OperationTypeEnableAwrhubSource,
 	"disable_awrhub_source":                        OperationTypeDisableAwrhubSource,
+	"change_macs_managed_cloud_database_insight_connection_details": OperationTypeChangeMacsManagedCloudDatabaseInsightConnectionDetails,
+	"test_macs_managed_cloud_database_insight_connection_details":   OperationTypeTestMacsManagedCloudDatabaseInsightConnectionDetails,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -284,6 +290,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_AWRHUB_SOURCE",
 		"ENABLE_AWRHUB_SOURCE",
 		"DISABLE_AWRHUB_SOURCE",
+		"CHANGE_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS",
+		"TEST_MACS_MANAGED_CLOUD_DATABASE_INSIGHT_CONNECTION_DETAILS",
 	}
 }
 

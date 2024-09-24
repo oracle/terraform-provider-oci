@@ -85,6 +85,18 @@ type EmManagedExternalHostConfigurationSummary struct {
 
 	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
 
+	// Enterprise Manager Entity Unique Identifier
+	EnterpriseManagerEntityIdentifier *string `mandatory:"true" json:"enterpriseManagerEntityIdentifier"`
+
+	// Enterprise Manager Console Url
+	EnterpriseManagerConsoleUrl *string `mandatory:"true" json:"enterpriseManagerConsoleUrl"`
+
+	// Enterprise Manager OMS Version
+	EnterpriseManagerOmsVer *string `mandatory:"true" json:"enterpriseManagerOmsVer"`
+
+	// Enterprise Manager Entity Type
+	EnterpriseManagerEntityType *string `mandatory:"true" json:"enterpriseManagerEntityType"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].

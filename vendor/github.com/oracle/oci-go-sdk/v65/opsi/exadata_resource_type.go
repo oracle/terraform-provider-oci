@@ -21,14 +21,17 @@ type ExadataResourceTypeEnum string
 // Set of constants representing the allowable values for ExadataResourceTypeEnum
 const (
 	ExadataResourceTypeCloudExadataInfrastructure ExadataResourceTypeEnum = "cloudExadataInfrastructure"
+	ExadataResourceTypeExadataInfrastructure      ExadataResourceTypeEnum = "exadataInfrastructure"
 )
 
 var mappingExadataResourceTypeEnum = map[string]ExadataResourceTypeEnum{
 	"cloudExadataInfrastructure": ExadataResourceTypeCloudExadataInfrastructure,
+	"exadataInfrastructure":      ExadataResourceTypeExadataInfrastructure,
 }
 
 var mappingExadataResourceTypeEnumLowerCase = map[string]ExadataResourceTypeEnum{
 	"cloudexadatainfrastructure": ExadataResourceTypeCloudExadataInfrastructure,
+	"exadatainfrastructure":      ExadataResourceTypeExadataInfrastructure,
 }
 
 // GetExadataResourceTypeEnumValues Enumerates the set of values for ExadataResourceTypeEnum
@@ -44,6 +47,7 @@ func GetExadataResourceTypeEnumValues() []ExadataResourceTypeEnum {
 func GetExadataResourceTypeEnumStringValues() []string {
 	return []string{
 		"cloudExadataInfrastructure",
+		"exadataInfrastructure",
 	}
 }
 

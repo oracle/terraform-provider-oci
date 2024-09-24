@@ -43,6 +43,9 @@ type ListAutonomousDatabasesRequest struct {
 	// A filter to return only resources that match the given lifecycle state exactly.
 	LifecycleState AutonomousDatabaseSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
+	// A filter to return only resources that not match the given lifecycle state.
+	LifecycleStateNotEqualTo AutonomousDatabaseSummaryLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleStateNotEqualTo" omitEmpty:"true"`
+
 	// A filter to return only autonomous database resources that match the specified workload type.
 	DbWorkload AutonomousDatabaseSummaryDbWorkloadEnum `mandatory:"false" contributesTo:"query" name:"dbWorkload" omitEmpty:"true"`
 
@@ -119,6 +122,9 @@ func (request ListAutonomousDatabasesRequest) ValidateEnumValue() (bool, error) 
 	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingAutonomousDatabaseSummaryLifecycleStateEnum(string(request.LifecycleStateNotEqualTo)); !ok && request.LifecycleStateNotEqualTo != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleStateNotEqualTo: %s. Supported values are: %s.", request.LifecycleStateNotEqualTo, strings.Join(GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingAutonomousDatabaseSummaryDbWorkloadEnum(string(request.DbWorkload)); !ok && request.DbWorkload != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DbWorkload: %s. Supported values are: %s.", request.DbWorkload, strings.Join(GetAutonomousDatabaseSummaryDbWorkloadEnumStringValues(), ",")))

@@ -126,15 +126,15 @@ var (
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `2`},
 	}
 	bdsInstanceNodesOdhWorkerRepresentation = map[string]interface{}{
-		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E5.Flex`},
-		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
-		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
-		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesWorkerShapeConfigRepresentation},
+		"shape":           acctest.Representation{RepType: acctest.Required, Create: `VM.DenseIO.E5.Flex`, Update: `VM.DenseIO.Generic`},
+		"subnet_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"number_of_nodes": acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `4`},
+		"shape_config":    acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesWorkerShapeConfigRepresentation},
 	}
 	bdsInstanceNodesWorkerShapeConfigRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `120`, Update: `120`},
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `96`, Update: `96`},
 		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`, Update: `8`},
+		"nvmes":         acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
 	}
 
 	bdsInstanceNodeFlexShapeRepresentation = map[string]interface{}{

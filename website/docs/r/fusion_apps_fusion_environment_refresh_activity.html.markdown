@@ -20,6 +20,9 @@ resource "oci_fusion_apps_fusion_environment_refresh_activity" "test_fusion_envi
 	#Required
 	fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
 	source_fusion_environment_id = oci_fusion_apps_fusion_environment.test_fusion_environment.id
+	#Optional
+	is_data_masking_opted = var.fusion_environment_refresh_activity_is_data_masking_opted
+	time_scheduled_start = var.fusion_environment_refresh_activity_time_scheduled_start
 }
 ```
 
@@ -28,7 +31,9 @@ resource "oci_fusion_apps_fusion_environment_refresh_activity" "test_fusion_envi
 The following arguments are supported:
 
 * `fusion_environment_id` - (Required) unique FusionEnvironment identifier
-* `source_fusion_environment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source environment
+* `is_data_masking_opted` - (Optional) Represents if the customer opted for Data Masking or not during refreshActivity.
+* `source_fusion_environment_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source environment 
+* `time_scheduled_start` - (Optional) (Updatable) Current time the refresh activity is scheduled to start. An RFC3339 formatted datetime string.
 
 
 ** IMPORTANT **
@@ -40,6 +45,7 @@ The following attributes are exported:
 
 * `display_name` - A friendly name for the refresh activity. Can be changed later.
 * `id` - The unique identifier (OCID) of the refresh activity. Can't be changed after creation.
+* `is_data_masking_opted` - Represents if the customer opted for Data Masking or not during refreshActivity.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `refresh_issue_details_list` - Details of refresh investigation information, each item represents a different issue.
 	* `refresh_issues` - Detail reasons of refresh failure or validation failure that needs to be shown to customer.

@@ -68,18 +68,21 @@ type GenerateReportDetailsMimeTypeEnum string
 
 // Set of constants representing the allowable values for GenerateReportDetailsMimeTypeEnum
 const (
-	GenerateReportDetailsMimeTypePdf GenerateReportDetailsMimeTypeEnum = "PDF"
-	GenerateReportDetailsMimeTypeXls GenerateReportDetailsMimeTypeEnum = "XLS"
+	GenerateReportDetailsMimeTypePdf  GenerateReportDetailsMimeTypeEnum = "PDF"
+	GenerateReportDetailsMimeTypeXls  GenerateReportDetailsMimeTypeEnum = "XLS"
+	GenerateReportDetailsMimeTypeJson GenerateReportDetailsMimeTypeEnum = "JSON"
 )
 
 var mappingGenerateReportDetailsMimeTypeEnum = map[string]GenerateReportDetailsMimeTypeEnum{
-	"PDF": GenerateReportDetailsMimeTypePdf,
-	"XLS": GenerateReportDetailsMimeTypeXls,
+	"PDF":  GenerateReportDetailsMimeTypePdf,
+	"XLS":  GenerateReportDetailsMimeTypeXls,
+	"JSON": GenerateReportDetailsMimeTypeJson,
 }
 
 var mappingGenerateReportDetailsMimeTypeEnumLowerCase = map[string]GenerateReportDetailsMimeTypeEnum{
-	"pdf": GenerateReportDetailsMimeTypePdf,
-	"xls": GenerateReportDetailsMimeTypeXls,
+	"pdf":  GenerateReportDetailsMimeTypePdf,
+	"xls":  GenerateReportDetailsMimeTypeXls,
+	"json": GenerateReportDetailsMimeTypeJson,
 }
 
 // GetGenerateReportDetailsMimeTypeEnumValues Enumerates the set of values for GenerateReportDetailsMimeTypeEnum
@@ -96,6 +99,7 @@ func GetGenerateReportDetailsMimeTypeEnumStringValues() []string {
 	return []string{
 		"PDF",
 		"XLS",
+		"JSON",
 	}
 }
 

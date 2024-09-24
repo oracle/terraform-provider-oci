@@ -5,6 +5,7 @@ package client
 
 import (
 	oci_object_storage "github.com/oracle/oci-go-sdk/v65/objectstorage"
+	"os"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 )
@@ -14,21 +15,26 @@ func init() {
 }
 
 func initObjectstorageObjectStorageClient(configProvider oci_common.ConfigurationProvider, configureClient ConfigureClient, serviceClientOverrides ServiceClientOverrides) (interface{}, error) {
+	err := os.Setenv("OCI_REALM_SPECIFIC_SERVICE_ENDPOINT_TEMPLATE_ENABLED", "false")
+	if err != nil {
+		return nil, err
+	}
 	client, err := oci_object_storage.NewObjectStorageClientWithConfigurationProvider(configProvider)
 	if err != nil {
 		return nil, err
 	}
+
+	client.SetCustomClientConfiguration(oci_common.CustomClientConfiguration{
+		RealmSpecificServiceEndpointTemplateEnabled: oci_common.Bool(false),
+	})
 	err = configureClient(&client.BaseClient)
+
 	if err != nil {
 		return nil, err
 	}
 
 	if serviceClientOverrides.HostUrlOverride != "" {
 		client.Host = serviceClientOverrides.HostUrlOverride
-	}
-	err = setCustomConfiguration(&client)
-	if err != nil {
-		return nil, err
 	}
 	return &client, nil
 }

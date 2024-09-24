@@ -313,7 +313,7 @@ func multiPartUploadImpl(multipartUploadData MultipartUploadData) (string, error
 
 func objectMultiPartSplit(file *os.File) ([]objectStorageSourceBlock, error) {
 
-	info, err := file.Stat()
+	info, err := os.Stat(file.Name())
 	if err != nil {
 		return nil, fmt.Errorf("failed to get FileInfo for the source %q: %s", file.Name(), err)
 	}

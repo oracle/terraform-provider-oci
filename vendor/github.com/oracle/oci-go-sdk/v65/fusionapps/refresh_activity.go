@@ -51,6 +51,9 @@ type RefreshActivity struct {
 	// The time the refresh activity record was updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Represents if the customer opted for Data Masking or not during refreshActivity.
+	IsDataMaskingOpted *bool `mandatory:"false" json:"isDataMaskingOpted"`
+
 	// Details of refresh investigation information, each item represents a different issue.
 	RefreshIssueDetailsList []RefreshIssueDetails `mandatory:"false" json:"refreshIssueDetailsList"`
 

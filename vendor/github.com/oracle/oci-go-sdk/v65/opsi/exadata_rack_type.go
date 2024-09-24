@@ -20,27 +20,39 @@ type ExadataRackTypeEnum string
 
 // Set of constants representing the allowable values for ExadataRackTypeEnum
 const (
-	ExadataRackTypeFull    ExadataRackTypeEnum = "FULL"
-	ExadataRackTypeHalf    ExadataRackTypeEnum = "HALF"
-	ExadataRackTypeQuarter ExadataRackTypeEnum = "QUARTER"
-	ExadataRackTypeEighth  ExadataRackTypeEnum = "EIGHTH"
-	ExadataRackTypeFlex    ExadataRackTypeEnum = "FLEX"
+	ExadataRackTypeFull         ExadataRackTypeEnum = "FULL"
+	ExadataRackTypeHalf         ExadataRackTypeEnum = "HALF"
+	ExadataRackTypeQuarter      ExadataRackTypeEnum = "QUARTER"
+	ExadataRackTypeEighth       ExadataRackTypeEnum = "EIGHTH"
+	ExadataRackTypeFlex         ExadataRackTypeEnum = "FLEX"
+	ExadataRackTypeBase         ExadataRackTypeEnum = "BASE"
+	ExadataRackTypeElastic      ExadataRackTypeEnum = "ELASTIC"
+	ExadataRackTypeElasticBase  ExadataRackTypeEnum = "ELASTIC_BASE"
+	ExadataRackTypeElasticLarge ExadataRackTypeEnum = "ELASTIC_LARGE"
 )
 
 var mappingExadataRackTypeEnum = map[string]ExadataRackTypeEnum{
-	"FULL":    ExadataRackTypeFull,
-	"HALF":    ExadataRackTypeHalf,
-	"QUARTER": ExadataRackTypeQuarter,
-	"EIGHTH":  ExadataRackTypeEighth,
-	"FLEX":    ExadataRackTypeFlex,
+	"FULL":          ExadataRackTypeFull,
+	"HALF":          ExadataRackTypeHalf,
+	"QUARTER":       ExadataRackTypeQuarter,
+	"EIGHTH":        ExadataRackTypeEighth,
+	"FLEX":          ExadataRackTypeFlex,
+	"BASE":          ExadataRackTypeBase,
+	"ELASTIC":       ExadataRackTypeElastic,
+	"ELASTIC_BASE":  ExadataRackTypeElasticBase,
+	"ELASTIC_LARGE": ExadataRackTypeElasticLarge,
 }
 
 var mappingExadataRackTypeEnumLowerCase = map[string]ExadataRackTypeEnum{
-	"full":    ExadataRackTypeFull,
-	"half":    ExadataRackTypeHalf,
-	"quarter": ExadataRackTypeQuarter,
-	"eighth":  ExadataRackTypeEighth,
-	"flex":    ExadataRackTypeFlex,
+	"full":          ExadataRackTypeFull,
+	"half":          ExadataRackTypeHalf,
+	"quarter":       ExadataRackTypeQuarter,
+	"eighth":        ExadataRackTypeEighth,
+	"flex":          ExadataRackTypeFlex,
+	"base":          ExadataRackTypeBase,
+	"elastic":       ExadataRackTypeElastic,
+	"elastic_base":  ExadataRackTypeElasticBase,
+	"elastic_large": ExadataRackTypeElasticLarge,
 }
 
 // GetExadataRackTypeEnumValues Enumerates the set of values for ExadataRackTypeEnum
@@ -60,6 +72,10 @@ func GetExadataRackTypeEnumStringValues() []string {
 		"QUARTER",
 		"EIGHTH",
 		"FLEX",
+		"BASE",
+		"ELASTIC",
+		"ELASTIC_BASE",
+		"ELASTIC_LARGE",
 	}
 }
 

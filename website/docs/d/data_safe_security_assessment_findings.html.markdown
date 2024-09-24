@@ -4,7 +4,7 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_data_safe_security_assessment_findings"
 sidebar_current: "docs-oci-datasource-data_safe-security_assessment_findings"
 description: |-
-	Provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service
+  Provides the list of Security Assessment Findings in Oracle Cloud Infrastructure Data Safe service
 ---
 
 # Data Source: oci_data_safe_security_assessment_findings

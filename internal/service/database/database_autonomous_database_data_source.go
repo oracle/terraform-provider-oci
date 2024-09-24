@@ -499,6 +499,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("time_reclamation_of_free_autonomous_database", s.Res.TimeReclamationOfFreeAutonomousDatabase.String())
 	}
 
+	if s.Res.TimeUndeleted != nil {
+		s.D.Set("time_undeleted", s.Res.TimeUndeleted.String())
+	}
+
 	if s.Res.TimeUntilReconnectCloneEnabled != nil {
 		s.D.Set("time_until_reconnect_clone_enabled", s.Res.TimeUntilReconnectCloneEnabled.String())
 	}
