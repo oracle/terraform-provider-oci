@@ -34,6 +34,7 @@
 
 ## 6.10.0 (September 17, 2024)
 
+
 ### Added
 - Support for Llama 3.1 Model Refresh
 - Tests cases for FSU support for DB and GI new 23ai version
@@ -76,6 +77,7 @@ trigger for dev branches
 ### Bug Fix
 - Reverted back the changes in Preview SDK
 - BDS instance create
+
 
 ## 6.8.0 (August 21, 2024)
 
@@ -156,13 +158,16 @@ em_warehouse service
 ### Bug Fix
 Autostart and autostop along with other updates.
 
+
 ## 6.2.0 (July 10, 2024)
+
 
 ### Added
 - Support for Support Dynamic list of ZDM parameters for Oracle<>Oracle migrations
 - Support for Shared Resources feature
 ### Bug Fix
 Update current_version_number on secret_content update
+
 
 ## 6.1.0 (July 02, 2024)
 
@@ -174,6 +179,7 @@ Update current_version_number on secret_content update
 ### Bug Fix
 - tagging in management_agent
 
+
 ## 6.0.0 (June 26, 2024)
 
 ### Added
@@ -181,6 +187,7 @@ Update current_version_number on secret_content update
 - Support for Terraform integration for MHS: Manual Cross region backup copy
 ### Bug Fix
 Fixed DB unique name parameter not getting honoured for new base DB system resource
+
 
 ## 5.47.0 (June 18, 2024)
 
@@ -201,6 +208,7 @@ Fixed DB unique name parameter not getting honoured for new base DB system resou
 ### Bug Fix
 - oci_log_analytics_namespace source doc fix
 
+
 ## 5.45.0 (June 04, 2024)
 
 ### Added
@@ -211,6 +219,7 @@ examples and tests
 ### Bug Fix
 - Fix function batching terraform bug
 - Capacity Management Breaking change fix
+
 
 ## 5.44.0 (May 29, 2024)
 
@@ -349,6 +358,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - remove hardcoded values
 - remove space from url
 
+
 ## 5.32.0 (March 06, 2024)
 
 ### Added
@@ -368,12 +378,14 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Add Standby ACDs / Enable AuDG | ADB-C@C
 - Support for Support for Project Indigo and Cluster Placement Groups- phase II
 
+
 ## 5.30.0 (February 21, 2024)
 
 ### Added
 - Support for ODSC - Bring Your Own Container for ML Jobs
 - Support for Disabling Simultaneous Multithreading (SMT) on VMs
 - Support for Adding schedule API
+
 
 ## 5.29.0 (February 13, 2024)
 
@@ -383,6 +395,7 @@ support for Devops Deploy Helm Uninstall/Open Cli
 - Support for Network Path Analyzer: Support Overlapping Cidr
 ### Bug Fix
 - Fix Addon Configuration Update
+
 
 ## 5.28.0 (February 06, 2024)
 
@@ -396,6 +409,7 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 ### Bug Fix
 - Fix the document for how to update volumes in oci_core_volume_group
 
+
 ## 5.27.0 (January 30, 2024)
 
 ### Added
@@ -407,6 +421,7 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 - Validate VM Cluster tag addition failing in VALIDATED state
 - Consecutive Shrink action api calls fails.
 
+
 ## 5.26.0 (January 24, 2024)
 
 ### Added
@@ -415,6 +430,7 @@ Missing DatabaseManualConnectionSubTypes to oci_database_migration_connection_re
 - Support for International Expansion of Paid Listings - Phase 3
 ### Bug Fix
 - Fix update drg attachment when vcn_route_type provided
+
 
 ## 5.25.0 (January 16, 2024)
 
@@ -427,6 +443,7 @@ Support for Data Safe Support for Active DataGuard (ADG) enabled databases
 Support for OL8/OL7 DomU provisioning on OL8 Infra
 ### Bug Fix
 Fix missing discover private IPs associated with VLAN using terraform
+
 
 ## 5.24.0 (January 10, 2024)
 
@@ -488,6 +505,7 @@ test improvements for postgresql service
 - Analytics - fix for AOAC-60112 change on network_security_group_ids attribute for oci_analytics_analytics_instance resource forces replacement
 - Removed repeat code in SetData()
 
+
 ## 5.20.0 (November 07, 2023)
 
 ### Added
@@ -499,6 +517,7 @@ test improvements for postgresql service
 - Support for GoldenGate Additional Connection Types R4
 ### Bug Fix
 Update startCredentialRotation and completeCredentialRotation resource for failed scenario to get error msg from workflow
+
 
 ## 5.19.0 (November 01, 2023)
 
@@ -514,6 +533,7 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 - Support for Extend the OS Management service to manage systems in OCI Compute, in customer data centers, and in 3rd party clouds.
 - Support for DB firewall support in Data Safe
 
+
 ## 5.18.0 (October 24, 2023)
 
 ### Added
@@ -523,6 +543,7 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 - Support for filter alarms by dimension
 ### Bug Fix
 - adding static drgrouterule using core_drg_route_table_route_rule_resource makes calls to list dynamic route rules
+
 
 ## 5.17.0 (October 18, 2023)
 
@@ -548,6 +569,7 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 ### Bug Fix
 - Only trigger recreation while change subnet_id for endpoint config on native vcn cluster
 
+
 ## 5.15.0 (October 04, 2023)
 
 ### Added
@@ -562,6 +584,7 @@ Update startCredentialRotation and completeCredentialRotation resource for faile
 ### Bug Fix
 - Unset policy field from filesystem changes
 
+
 ## 5.14.0 (September 26, 2023)
 
 ### Added
@@ -572,6 +595,7 @@ support to fetch UserAgent from env var
 - Fix APM Synthetic service update the number of vantagepoints supported in monitor as per spec to 100
 - Fix Resource Manager Create/Get Private Endpoint examples
 
+
 ## 5.13.0 (September 12, 2023)
 
 ### Added
@@ -580,11 +604,13 @@ support to fetch UserAgent from env var
 - Support for Stack Monitoring: Auto-Promotion of Hosts
 - Support for LifecycleDetails in Data catalog Data assets resources
 
+
 ## 5.12.0 (September 06, 2023)
 
 ### Added
 - Support for Terraform for Serial Console Phase 1 ExaDB-C@C (EXACC) Serial Console Access to VM
 - Support for refreshing security token auth
+
 
 ## 5.11.0 (August 29, 2023)
 
@@ -600,6 +626,7 @@ Support for alloy support (PLC)
 - Support for Terraform support Assign IPv6 at Compute Instance Launch
 - Support for Enabling Single Sign-on support for GGS Deployments
 Support for BDS - Automated Patching for OS/Kernel, Node Maintenance, Add Master/Utility
+
 
 ## 5.10.0 (August 22, 2023)
 
@@ -617,6 +644,7 @@ Fix reference hashicorp/oci to oracle/oci in some documents
 - Support for GoldenGate Maintenance R2
 upport for DIS Application APIs and fix bugs.
 
+
 ## 5.8.0 (August 08, 2023)
 
 ### Added
@@ -630,12 +658,14 @@ upport for DIS Application APIs and fix bugs.
 ### Bug Fix
 - Null pointer exception in CVM resource
 
+
 ## 5.7.0 (August 01, 2023)
 
 ### Added
 Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-C@C
 startCredentialRotation, completeCredentialRotation, getCredentialRotationStatus terraform implementation tests and examples
 Support for OPSI News Reports
+
 
 ## 5.6.0 (July 26, 2023)
 
@@ -644,6 +674,7 @@ Support for OPSI News Reports
 - Support for Budgets - Single Use Budgets
 - Model Compose and Model Alias features to custom Models in document service
 - Support for Tersi for Test Connectivity feature GoldenGate Test Connectivity for Connections associated with Deployments
+
 
 ## 5.5.0 (July 19, 2023)
 
@@ -655,6 +686,7 @@ Support for OPSI News Reports
 ### Bug Fix
 - updated document for content field of vault oci_vault_secret
 - Adding checks for ocpu_count and storage_size_in_gbs
+
 
 ## 5.4.0 (July 12, 2023)
 
@@ -670,6 +702,7 @@ Support for OPSI News Reports
 ### Bug Fix
 - Adding rack_serial_number in database_exadata_infrastructure_resource.go
 - Resolved Resource Discovery issue for Terraform Version Greater than 1.3
+
 
 ## 5.3.0 (June 28, 2023)
 
