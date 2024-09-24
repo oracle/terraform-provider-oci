@@ -242,7 +242,9 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["region"] = *r.Region
 		}
 
-		instance["security_attributes"] = r.SecurityAttributes
+		if r.SecurityAttributes != nil {
+			instance["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+		}
 
 		instance["security_attributes_state"] = r.SecurityAttributesState
 
