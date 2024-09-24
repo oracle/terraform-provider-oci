@@ -109,6 +109,10 @@ func DesktopsDesktopDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"operating_system": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 								},
 							},
 						},
