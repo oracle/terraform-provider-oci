@@ -84,6 +84,12 @@ func (s *FileStorageFilesystemSnapshotPolicyDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
+
 	if s.Res.PolicyPrefix != nil {
 		s.D.Set("policy_prefix", *s.Res.PolicyPrefix)
 	}

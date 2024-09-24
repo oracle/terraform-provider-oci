@@ -43,7 +43,6 @@ var (
 	}
 
 	FileStorageMountTargetRepresentation = map[string]interface{}{
-
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
@@ -55,6 +54,40 @@ var (
 		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 		"kerberos":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetKerberosRepresentation},
 		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+	FileStorageMountTargetRepresentationWithFullLock = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `mount-target-5`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"idmap_type":          acctest.Representation{RepType: acctest.Optional, Create: `LDAP`, Update: `LDAP`},
+		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"kerberos":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetKerberosRepresentation},
+		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
+		"locks":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetFullLocksRepresentation},
+		"is_lock_override":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
+		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+	FileStorageMountTargetRepresentationWithDeleteLock = map[string]interface{}{
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `mount-target-5`, Update: `displayName2`},
+		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"hostname_label":      acctest.Representation{RepType: acctest.Optional, Create: `hostnamelabel`},
+		"idmap_type":          acctest.Representation{RepType: acctest.Optional, Create: `LDAP`, Update: `LDAP`},
+		"ip_address":          acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"kerberos":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetKerberosRepresentation},
+		"ldap_idmap":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetLdapIdmapRepresentation},
+		"locks":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageMountTargetDeleteLocksRepresentation},
+		"is_lock_override":    acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 		"nsg_ids":             acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
 		"lifecycle":           acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
@@ -85,6 +118,14 @@ var (
 		"outbound_connector1id":           acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_outbound_connector.test_outbound_connector1.id}`},
 		"outbound_connector2id":           acctest.Representation{RepType: acctest.Optional, Update: `${oci_file_storage_outbound_connector.test_outbound_connector2.id}`},
 		"schema_type":                     acctest.Representation{RepType: acctest.Optional, Create: `RFC2307`},
+	}
+	FileStorageMountTargetFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	FileStorageMountTargetDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	FileStorageMountTargetResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -367,12 +408,52 @@ func TestFileStorageMountTargetResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies,
+		},
+		// Vertify create with FULL lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies,
+		},
+		// Vertify create with DELETE lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageMountTargetResourceDependencies + FileStorageMountTargetResourceKerberosDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Optional, acctest.Create, FileStorageMountTargetRepresentationWithDeleteLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
+
+				func(s *terraform.State) (err error) {
+					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageMountTargetRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})
