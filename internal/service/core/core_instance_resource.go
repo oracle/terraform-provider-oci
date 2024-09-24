@@ -1315,7 +1315,7 @@ func (s *CoreInstanceResourceCrud) Create() error {
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {
@@ -1514,7 +1514,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		request.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	s.Res = &response.Instance
@@ -1717,7 +1717,9 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
 
 	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
 
@@ -1890,7 +1892,7 @@ func (s *CoreInstanceResourceCrud) mapToCreateVnicDetailsInstance(fieldKeyFormat
 	}
 
 	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
-		result.SecurityAttributes = securityAttributes.(map[string]map[string]interface{})
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -1968,7 +1970,9 @@ func CreateVnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]int
 		result["private_ip"] = string(*obj.PrivateIp)
 	}
 
-	result["security_attributes"] = obj.SecurityAttributes
+	if obj.SecurityAttributes != nil {
+		result["security_attributes"] = tfresource.SecurityAttributesToMap(obj.SecurityAttributes)
+	}
 
 	if obj.SkipSourceDestCheck != nil {
 		result["skip_source_dest_check"] = bool(*obj.SkipSourceDestCheck)
