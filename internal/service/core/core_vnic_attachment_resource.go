@@ -542,9 +542,8 @@ func (s *CoreVnicAttachmentResourceCrud) mapToCreateVnicDetails(fieldKeyFormat s
 		result.PrivateIp = &tmp
 	}
 
-	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-		result.SecurityAttributes = convertedAttributes
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if skipSourceDestCheck, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_source_dest_check")); ok {
@@ -608,9 +607,8 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.SkipSourceDestCheck = &tmp
 	}
 
-	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
-		convertedAttributes := tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
-		result.SecurityAttributes = convertedAttributes
+	if securityAttributes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_attributes")); ok {
+		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	return result, nil
