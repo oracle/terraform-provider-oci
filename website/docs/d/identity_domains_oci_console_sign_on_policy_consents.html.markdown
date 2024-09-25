@@ -1,32 +1,32 @@
 ---
 subcategory: "Identity Domains"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_identity_domains_rules"
-sidebar_current: "docs-oci-datasource-identity_domains-rules"
+page_title: "Oracle Cloud Infrastructure: oci_identity_domains_oci_console_sign_on_policy_consents"
+sidebar_current: "docs-oci-datasource-identity_domains-oci_console_sign_on_policy_consents"
 description: |-
-  Provides the list of Rules in Oracle Cloud Infrastructure Identity Domains service
+  Provides the list of Oci Console Sign On Policy Consents in Oracle Cloud Infrastructure Identity Domains service
 ---
 
-# Data Source: oci_identity_domains_rules
-This data source provides the list of Rules in Oracle Cloud Infrastructure Identity Domains service.
+# Data Source: oci_identity_domains_oci_console_sign_on_policy_consents
+This data source provides the list of Oci Console Sign On Policy Consents in Oracle Cloud Infrastructure Identity Domains service.
 
-Search Rules.
+Search OciConsoleSignOnPolicyConsent entries
 
 ## Example Usage
 
 ```hcl
-data "oci_identity_domains_rules" "test_rules" {
-	#Required
+data "oci_identity_domains_oci_console_sign_on_policy_consents" "test_oci_console_sign_on_policy_consents" {
+
 	idcs_endpoint = data.oci_identity_domain.test_domain.url
 
 	#Optional
-	rule_count = var.rule_rule_count
-	rule_filter = var.rule_rule_filter
-	attribute_sets = ["all"]
-	attributes = ""
-	authorization = var.rule_authorization
-	resource_type_schema_version = var.rule_resource_type_schema_version
-	start_index = var.rule_start_index
+	oci_console_sign_on_policy_consent_count = var.oci_console_sign_on_policy_consent_oci_console_sign_on_policy_consent_count
+	oci_console_sign_on_policy_consent_filter = var.oci_console_sign_on_policy_consent_oci_console_sign_on_policy_consent_filter
+	attribute_sets = var.oci_console_sign_on_policy_consent_attribute_sets
+	attributes = var.oci_console_sign_on_policy_consent_attributes
+	authorization = var.oci_console_sign_on_policy_consent_authorization
+	resource_type_schema_version = var.oci_console_sign_on_policy_consent_resource_type_schema_version
+	start_index = var.oci_console_sign_on_policy_consent_start_index
 }
 ```
 
@@ -34,8 +34,8 @@ data "oci_identity_domains_rules" "test_rules" {
 
 The following arguments are supported:
 
-* `rule_count` - (Optional) OPTIONAL. An integer that indicates the desired maximum number of query results per page. 1000 is the largest value that you can use. See the Pagination section of the System for Cross-Domain Identity Management Protocol specification for more information. (Section 3.4.2.4).
-* `rule_filter` - (Optional) OPTIONAL. The filter string that is used to request a subset of resources. The filter string MUST be a valid filter expression. See the Filtering section of the SCIM specification for more information (Section 3.4.2.2). The string should contain at least one condition that each item must match in order to be returned in the search results. Each condition specifies an attribute, an operator, and a value. Conditions within a filter can be connected by logical operators (such as AND and OR). Sets of conditions can be grouped together using parentheses.
+* `oci_console_sign_on_policy_consent_count` - (Optional) OPTIONAL. An integer that indicates the desired maximum number of query results per page. 1000 is the largest value that you can use. See the Pagination section of the System for Cross-Domain Identity Management Protocol specification for more information. (Section 3.4.2.4).
+* `oci_console_sign_on_policy_consent_filter` - (Optional) OPTIONAL. The filter string that is used to request a subset of resources. The filter string MUST be a valid filter expression. See the Filtering section of the SCIM specification for more information (Section 3.4.2.2). The string should contain at least one condition that each item must match in order to be returned in the search results. Each condition specifies an attribute, an operator, and a value. Conditions within a filter can be connected by logical operators (such as AND and OR). Sets of conditions can be grouped together using parentheses.
 * `attribute_sets` - (Optional) A multi-valued list of strings indicating the return type of attribute definition. The specified set of attributes can be fetched by the return type of the attribute. One or more values can be given together to fetch more than one group of attributes. If 'attributes' query parameter is also available, union of the two is fetched. Valid values - all, always, never, request, default. Values are case-insensitive.
 * `attributes` - (Optional) A comma-delimited string that specifies the names of resource attributes that should be returned in the response. By default, a response that contains resource attributes contains only attributes that are defined in the schema for that resource type as returned=always or returned=default. An attribute that is defined as returned=request is returned in a response only if the request specifies its name in the value of this query parameter. If a request specifies this query parameter, the response contains the attributes that this query parameter specifies, as well as any attribute that is defined as returned=always.
 * `authorization` - (Optional) The Authorization field value consists of credentials containing the authentication information of the user agent for the realm of the resource being requested.
@@ -48,21 +48,31 @@ The following arguments are supported:
 
 The following attributes are exported:
 
-* `rules` - The list of rules.
+* `oci_console_sign_on_policy_consents` - The list of oci_console_sign_on_policy_consents.
 
-### Rule Reference
+### OciConsoleSignOnPolicyConsent Reference
 
 The following attributes are exported:
 
-* `active` - If true, rule is active
+* `change_type` - Change Type - MODIFIED or RESTORED_TO_FACTORY_DEFAULT
 
 	**SCIM++ Properties:**
 	* idcsSearchable: true
 	* multiValued: false
-	* mutability: readWrite
-	* required: false
+	* mutability: immutable
+	* required: true
 	* returned: default
-	* type: boolean
+	* type: string
+	* uniqueness: none
+* `client_ip` - Client IP of the Consent Signer
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: immutable
+	* required: true
+	* returned: default
+	* type: string
 	* uniqueness: none
 * `compartment_ocid` - Oracle Cloud Infrastructure Compartment Id (ocid) in which the resource lives.
 
@@ -75,73 +85,55 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
-* `condition` - SCIM filters
-
-	**Deprecated Since: 17.3.4**
-
-	**SCIM++ Properties:**
-	* caseExact: true
-	* idcsSearchable: false
-	* multiValued: false
-	* mutability: readWrite
-	* required: true
-	* returned: default
-	* type: string
-	* uniqueness: none
-* `condition_group` - Condition or ConditionGroup assigned to the rule
+* `consent_signed_by` - User or App that signs the consent.
 
 	**SCIM++ Properties:**
 	* idcsSearchable: true
 	* multiValued: false
-	* mutability: readWrite
-	* required: false
+	* mutability: immutable
+	* required: true
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `ref` - ConditionGroup URI
+	* `display_name` - Name of the User or App that signed consent.
 
 		**SCIM++ Properties:**
+		* caseExact: false
 		* idcsSearchable: false
 		* multiValued: false
-		* mutability: readOnly
-		* required: false
-		* returned: default
-		* type: reference
-		* uniqueness: none
-	* `name` - Condition or ConditionGroup name
-
-		**Added In:** 17.4.2
-
-		**SCIM++ Properties:**
-		* idcsSearchable: false
-		* multiValued: false
-		* mutability: readOnly
-		* required: false
-		* returned: default
-		* type: string
-		* uniqueness: none
-	* `type` - A label that indicates whether this is Condition or ConditionGroup.
-
-		**SCIM++ Properties:**
-		* idcsDefaultValue: Condition
-		* idcsSearchable: false
-		* multiValued: false
-		* mutability: readWrite
+		* mutability: immutable
 		* required: true
 		* returned: default
 		* type: string
-		* uniqueness: none
-	* `value` - Condition or ConditionGroup identifier.
+	* `ocid` - OCID of the User or App that signed consent.
 
 		**SCIM++ Properties:**
 		* caseExact: true
 		* idcsSearchable: true
 		* multiValued: false
-		* mutability: readWrite
-		* required: false
+		* mutability: immutable
+		* required: true
 		* returned: default
 		* type: string
-		* uniqueness: none
+	* `type` - Type of principal that signed consent: User or App.
+
+		**SCIM++ Properties:**
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: immutable
+		* required: true
+		* returned: default
+		* type: string
+	* `value` - Id of the User or App that signed consent.
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: true
+		* multiValued: false
+		* mutability: immutable
+		* required: true
+		* returned: default
+		* type: string
 * `delete_in_progress` - A boolean flag indicating this resource in the process of being deleted. Usually set to true when synchronous deletion of the resource would take too long.
 
 	**SCIM++ Properties:**
@@ -153,16 +145,6 @@ The following attributes are exported:
 	* returned: default
 	* type: boolean
 	* uniqueness: none
-* `description` - Rule Description
-
-	**SCIM++ Properties:**
-	* idcsSearchable: false
-	* multiValued: false
-	* mutability: readWrite
-	* required: false
-	* returned: default
-	* type: string
-	* uniqueness: none
 * `domain_ocid` - Oracle Cloud Infrastructure Domain Id (ocid) in which the resource lives.
 
 	**SCIM++ Properties:**
@@ -170,17 +152,6 @@ The following attributes are exported:
 	* idcsSearchable: false
 	* multiValued: false
 	* mutability: readOnly
-	* required: false
-	* returned: default
-	* type: string
-	* uniqueness: none
-* `external_id` - An identifier for the Resource as defined by the Service Consumer. The externalId may simplify identification of the Resource between Service Consumer and Service provider by allowing the Consumer to refer to the Resource with its own identifier, obviating the need to store a local mapping between the local identifier of the Resource and the identifier used by the Service Provider. Each Resource MAY include a non-empty externalId value.  The value of the externalId attribute is always issued be the Service Consumer and can never be specified by the Service Provider. The Service Provider MUST always interpret the externalId as scoped to the Service Consumer's tenant.
-
-	**SCIM++ Properties:**
-	* caseExact: false
-	* idcsSearchable: true
-	* multiValued: false
-	* mutability: readWrite
 	* required: false
 	* returned: default
 	* type: string
@@ -205,7 +176,7 @@ The following attributes are exported:
 	* required: true
 	* returned: default
 	* type: complex
-	* `ref` - The URI of the SCIM resource that represents the User or App who created this Resource
+	* `_ref` - The URI of the SCIM resource that represents the User or App who created this Resource
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -268,7 +239,7 @@ The following attributes are exported:
 	* required: false
 	* returned: default
 	* type: complex
-	* `ref` - The URI of the SCIM resource that represents the User or App who modified this Resource
+	* `_ref` - The URI of the SCIM resource that represents the User or App who modified this Resource
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -343,15 +314,15 @@ The following attributes are exported:
 	* returned: request
 	* type: string
 	* uniqueness: none
-* `locked` - Shows if the rule is locked
+* `justification` - The justification for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for Oracle Cloud Infrastructure Console" sign-on policy shipped by Oracle.
 
 	**SCIM++ Properties:**
-	* idcsSearchable: true
+	* idcsSearchable: false
 	* multiValued: false
-	* mutability: readWrite
-	* required: false
+	* mutability: immutable
+	* required: true
 	* returned: default
-	* type: boolean
+	* type: string
 	* uniqueness: none
 * `meta` - A complex attribute that contains resource metadata. All sub-attributes are OPTIONAL.
 
@@ -419,17 +390,56 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-* `name` - Rule name
+* `modified_resource` - The modified Policy, Rule, ConditionGroup or Condition during consent signing.
 
 	**SCIM++ Properties:**
-	* caseExact: true
-	* idcsSearchable: true
+	* idcsSearchable: false
 	* multiValued: false
-	* mutability: readWrite
+	* mutability: immutable
 	* required: true
-	* returned: always
-	* type: string
+	* returned: default
+	* type: complex
 	* uniqueness: none
+	* `ocid` - The modified Policy, Rule, ConditionGroup, or Condition OCID.
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: immutable
+		* required: true
+		* returned: default
+		* type: string
+	* `type` - The Modified Resource type - Policy, Rule, ConditionGroup, or Condition. A label that indicates the resource type.
+
+		**SCIM++ Properties:**
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: immutable
+		* idcsDefaultValue: Policy
+		* required: true
+		* returned: default
+		* type: string
+		* uniqueness: none
+	* `value` - Modified Policy, Rule, ConditionGroup or Condition Id.
+
+		**SCIM++ Properties:**
+		* caseExact: true
+		* idcsSearchable: false
+		* multiValued: false
+		* mutability: immutable
+		* required: true
+		* returned: default
+		* type: string
+* `notification_recipients` - The recipients of the email notification for the change in consent.
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: true
+	* mutability: immutable
+	* required: true
+	* returned: default
+	* type: string
 * `ocid` - Unique Oracle Cloud Infrastructure identifier for the SCIM Resource.
 
 	**SCIM++ Properties:**
@@ -441,7 +451,7 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: global
-* `policy_type` - PolicyType on which the policy is based
+* `policy_resource` - Policy Resource
 
 	**SCIM++ Properties:**
 	* idcsSearchable: true
@@ -451,17 +461,7 @@ The following attributes are exported:
 	* returned: default
 	* type: complex
 	* uniqueness: none
-	* `ref` - PolicyType URI
-
-		**SCIM++ Properties:**
-		* idcsSearchable: false
-		* multiValued: false
-		* mutability: readOnly
-		* required: false
-		* returned: default
-		* type: reference
-		* uniqueness: none
-	* `value` - PolicyType identifier
+	* `ocid` - Policy Resource Ocid
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -471,55 +471,22 @@ The following attributes are exported:
 		* required: true
 		* returned: default
 		* type: string
-		* uniqueness: none
-* `return` - The return values are the then portion of a Rule
-
-	**SCIM++ Properties:**
-	* idcsCompositeKey: [name]
-	* idcsSearchable: false
-	* multiValued: true
-	* mutability: readWrite
-	* required: true
-	* returned: default
-	* type: complex
-	* uniqueness: none
-	* `name` - Attribute name of an individual value to be returned.
+	* `value` - Policy Resource Id
 
 		**SCIM++ Properties:**
-		* idcsSearchable: false
+		* caseExact: true
+		* idcsSearchable: true
 		* multiValued: false
-		* mutability: readWrite
+		* mutability: immutable
 		* required: true
 		* returned: default
 		* type: string
-		* uniqueness: none
-	* `return_groovy` - The Groovy script that is run to generate output for the rule, if the policy type allows the return value to be a Groovy script.
-
-		**SCIM++ Properties:**
-		* idcsSearchable: false
-		* multiValued: false
-		* mutability: readWrite
-		* required: false
-		* returned: default
-		* type: string
-		* uniqueness: none
-	* `value` - Attribute value of some attribute to be returned.
-
-		**SCIM++ Properties:**
-		* idcsSearchable: false
-		* multiValued: false
-		* mutability: readWrite
-		* required: true
-		* returned: default
-		* type: string
-		* uniqueness: none
-* `rule_groovy` - The Groovy script that is run instead of the rule, if policy type allows the rule to be a Groovy script.
+* `reason` - The detailed reason for the change when an identity domain administrator opts to modify the Oracle security defaults for the "Security Policy for Oracle Cloud Infrastructure Console" sign-on policy shipped by Oracle.
 
 	**SCIM++ Properties:**
-	* caseExact: true
 	* idcsSearchable: false
 	* multiValued: false
-	* mutability: readWrite
+	* mutability: immutable
 	* required: false
 	* returned: default
 	* type: string
@@ -579,5 +546,15 @@ The following attributes are exported:
 	* required: false
 	* returned: default
 	* type: string
+	* uniqueness: none
+* `time_consent_signed` - Time when Consent was signed.
+
+	**SCIM++ Properties:**
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: immutable
+	* required: true
+	* returned: default
+	* type: dateTime
 	* uniqueness: none
 

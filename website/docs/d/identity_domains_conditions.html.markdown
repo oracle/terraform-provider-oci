@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_conditions
 This data source provides the list of Conditions in Oracle Cloud Infrastructure Identity Domains service.
 
-Search Conditions
+Search conditions.
 
 ## Example Usage
 
@@ -413,6 +413,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite

@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_condition
 This resource provides the Condition resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a Condition
+Create a condition
 
 ## Example Usage
 
@@ -409,6 +409,7 @@ The following arguments are supported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite
@@ -817,6 +818,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite
