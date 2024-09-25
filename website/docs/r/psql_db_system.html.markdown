@@ -39,6 +39,7 @@ resource "oci_psql_db_system" "test_db_system" {
 		subnet_id = oci_core_subnet.test_subnet.id
 
 		#Optional
+		is_reader_endpoint_enabled = var.db_system_network_details_is_reader_endpoint_enabled
 		nsg_ids = var.db_system_network_details_nsg_ids
 		primary_db_endpoint_private_ip = var.db_system_network_details_primary_db_endpoint_private_ip
 	}
@@ -141,6 +142,7 @@ The following arguments are supported:
 
 		This string is of the format: "{day-of-week} {time-of-day}". "{day-of-week}" is a case-insensitive string like "mon", "tue", &c. "{time-of-day}" is the "Time" portion of an RFC3339-formatted timestamp. Any second or sub-second time data will be truncated to zero. 
 * `network_details` - (Required) (Updatable) Network details for the database system.
+	* `is_reader_endpoint_enabled` - (Optional) (Updatable) Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - (Optional) (Updatable) List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - (Optional) Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.
@@ -199,6 +201,7 @@ The following attributes are exported:
 		* `retention_days` - How many days the data should be stored after the database system deletion.
 	* `maintenance_window_start` - The start of the maintenance window. 
 * `network_details` - Network details for the database system.
+	* `is_reader_endpoint_enabled` - Specifies if the reader endpoint is enabled on the dbSystem.
 	* `nsg_ids` - List of customer Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with the database system.
 	* `primary_db_endpoint_private_ip` - Private IP in customer subnet. The value is optional. If the IP is not provided, the IP will be chosen from the available IP addresses from the specified subnet. 
 	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer subnet associated with the database system.

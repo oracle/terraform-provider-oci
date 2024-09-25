@@ -54,6 +54,7 @@ resource "oci_psql_db_system" "test_db_system" {
   db_version          = "14"
   display_name = "tf-test-dbSystem"
   network_details {
+    is_reader_endpoint_enabled = true
     subnet_id = oci_core_subnet.test_subnet.id
   }
   shape = "PostgreSQL.VM.Standard.E4.Flex.2.32GB"
@@ -73,12 +74,14 @@ resource "oci_psql_db_system" "test_db_system" {
   system_type = "OCI_OPTIMIZED_STORAGE"
 }
 
+# Creating flex dbsystem
 resource "oci_psql_db_system" "test_flexdb_system" {
   #Required
   db_version          = "14"
   display_name = "tf-flex-test-dbSystem"
   network_details {
     subnet_id = oci_core_subnet.test_subnet.id
+    is_reader_endpoint_enabled = true
   }
   shape = "PostgreSQL.VM.Standard.E4.Flex"
   storage_details {
@@ -143,4 +146,10 @@ resource "oci_psql_configuration" "test_flexible_configuration" {
 data "oci_psql_configurations" "test_configurations" {
   compartment_id = var.compartment_ocid
 
+}
+
+# Details about specific dbsystem connection
+data "oci_psql_db_system_connection_detail" "test_db_system_connection_detail" {
+  #Required
+  db_system_id = oci_psql_db_system.test_db_system.id
 }
