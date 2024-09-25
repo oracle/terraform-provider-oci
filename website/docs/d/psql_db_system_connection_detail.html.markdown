@@ -43,4 +43,8 @@ The following attributes are exported:
 	* `fqdn` - The FQDN of the endpoint.
 	* `ip_address` - The IP address of the endpoint.
 	* `port` - The port address of the endpoint.
+* `reader_endpoint` - Information about the database instance node endpoint.
+	* `fqdn` - The FQDN of the endpoint.
+	* `ip_address` - The IP address of the endpoint.
+	* `port` - The port address of the endpoint.
 

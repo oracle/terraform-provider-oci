@@ -93,6 +93,31 @@ func PsqlDbSystemConnectionDetailDataSource() *schema.Resource {
 					},
 				},
 			},
+			"reader_endpoint": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"fqdn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ip_address": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"port": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -155,6 +180,12 @@ func (s *PsqlDbSystemConnectionDetailDataSourceCrud) SetData() error {
 		s.D.Set("primary_db_endpoint", []interface{}{EndpointToMap(s.Res.PrimaryDbEndpoint)})
 	} else {
 		s.D.Set("primary_db_endpoint", nil)
+	}
+
+	if s.Res.ReaderEndpoint != nil {
+		s.D.Set("reader_endpoint", []interface{}{EndpointToMap(s.Res.ReaderEndpoint)})
+	} else {
+		s.D.Set("reader_endpoint", nil)
 	}
 
 	return nil
