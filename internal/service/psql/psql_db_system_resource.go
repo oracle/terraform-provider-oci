@@ -62,6 +62,10 @@ func PsqlDbSystemResource() *schema.Resource {
 						},
 
 						// Optional
+						"is_reader_endpoint_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+						},
 						"nsg_ids": {
 							Type:     schema.TypeSet,
 							Optional: true,
@@ -1597,6 +1601,11 @@ func ManagementPolicyToMap(obj *oci_psql.ManagementPolicy) map[string]interface{
 func (s *PsqlDbSystemResourceCrud) mapToNetworkDetails(fieldKeyFormat string) (oci_psql.NetworkDetails, error) {
 	result := oci_psql.NetworkDetails{}
 
+	if isReaderEndpointEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_reader_endpoint_enabled")); ok {
+		tmp := isReaderEndpointEnabled.(bool)
+		result.IsReaderEndpointEnabled = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1627,6 +1636,11 @@ func (s *PsqlDbSystemResourceCrud) mapToNetworkDetails(fieldKeyFormat string) (o
 func (s *PsqlDbSystemResourceCrud) mapToUpdateNetworkDetails(fieldKeyFormat string) (oci_psql.UpdateNetworkDetails, error) {
 	result := oci_psql.UpdateNetworkDetails{}
 
+	if isReaderEndpointEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_reader_endpoint_enabled")); ok {
+		tmp := isReaderEndpointEnabled.(bool)
+		result.IsReaderEndpointEnabled = &tmp
+	}
+
 	if nsgIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "nsg_ids")); ok {
 		set := nsgIds.(*schema.Set)
 		interfaces := set.List()
@@ -1646,6 +1660,10 @@ func (s *PsqlDbSystemResourceCrud) mapToUpdateNetworkDetails(fieldKeyFormat stri
 
 func NetworkDetailsToMap(obj *oci_psql.NetworkDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.IsReaderEndpointEnabled != nil {
+		result["is_reader_endpoint_enabled"] = bool(*obj.IsReaderEndpointEnabled)
+	}
 
 	nsgIds := []interface{}{}
 	for _, item := range obj.NsgIds {
