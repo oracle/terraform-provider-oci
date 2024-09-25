@@ -90,8 +90,9 @@ var (
 	}
 
 	PsqlDbSystemNetworkDetailsRepresentation = map[string]interface{}{
-		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		"nsg_ids":   acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}, Update: []string{`${var.update_nsg_id}`}},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"is_reader_endpoint_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"nsg_ids":                    acctest.Representation{RepType: acctest.Required, Create: []string{`${var.nsg_id}`}, Update: []string{`${var.update_nsg_id}`}},
 		//"primary_db_endpoint_private_ip": acctest.Representation{RepType: acctest.Optional, Create: `primaryDbEndpointPrivateIp`},
 	}
 	PsqlDbSystemStorageDetailsRepresentation = map[string]interface{}{
@@ -389,6 +390,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -450,6 +452,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -506,6 +509,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
@@ -587,6 +591,7 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.backup_policy.0.retention_days", "1"),
 				resource.TestCheckResourceAttr(resourceName, "management_policy.0.maintenance_window_start", "SUN 12:00"),
 				resource.TestCheckResourceAttr(resourceName, "network_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "network_details.0.is_reader_endpoint_enabled", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.primary_db_endpoint_private_ip"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "PostgreSQL.VM.Standard.E4.Flex.2.32GB"),
