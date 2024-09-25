@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_policy
 This resource provides the Policy resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a Policy
+Create a Policy.
 
 ## Example Usage
 
@@ -397,7 +397,7 @@ The following arguments are supported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - (Required) (Updatable) PolicyType identifier
+	* `value` - (Required) (Updatable) PolicyType identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -480,6 +480,7 @@ The following arguments are supported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite
@@ -870,7 +871,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - PolicyType identifier
+	* `value` - PolicyType identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -952,6 +953,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite
