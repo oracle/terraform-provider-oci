@@ -19,13 +19,14 @@ type JobTypesEnum string
 
 // Set of constants representing the allowable values for JobTypesEnum
 const (
-	JobTypesStage                   JobTypesEnum = "STAGE"
-	JobTypesPrecheck                JobTypesEnum = "PRECHECK"
-	JobTypesApply                   JobTypesEnum = "APPLY"
-	JobTypesRollbackAndRemoveTarget JobTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	JobTypesCleanup                 JobTypesEnum = "CLEANUP"
-	JobTypesSingleTargetPrecheck    JobTypesEnum = "SINGLE_TARGET_PRECHECK"
-	JobTypesSingleTargetApply       JobTypesEnum = "SINGLE_TARGET_APPLY"
+	JobTypesStage                    JobTypesEnum = "STAGE"
+	JobTypesPrecheck                 JobTypesEnum = "PRECHECK"
+	JobTypesApply                    JobTypesEnum = "APPLY"
+	JobTypesRollbackAndRemoveTarget  JobTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	JobTypesRollbackMaintenanceCycle JobTypesEnum = "ROLLBACK_MAINTENANCE_CYCLE"
+	JobTypesCleanup                  JobTypesEnum = "CLEANUP"
+	JobTypesSingleTargetPrecheck     JobTypesEnum = "SINGLE_TARGET_PRECHECK"
+	JobTypesSingleTargetApply        JobTypesEnum = "SINGLE_TARGET_APPLY"
 )
 
 var mappingJobTypesEnum = map[string]JobTypesEnum{
@@ -33,6 +34,7 @@ var mappingJobTypesEnum = map[string]JobTypesEnum{
 	"PRECHECK":                   JobTypesPrecheck,
 	"APPLY":                      JobTypesApply,
 	"ROLLBACK_AND_REMOVE_TARGET": JobTypesRollbackAndRemoveTarget,
+	"ROLLBACK_MAINTENANCE_CYCLE": JobTypesRollbackMaintenanceCycle,
 	"CLEANUP":                    JobTypesCleanup,
 	"SINGLE_TARGET_PRECHECK":     JobTypesSingleTargetPrecheck,
 	"SINGLE_TARGET_APPLY":        JobTypesSingleTargetApply,
@@ -43,6 +45,7 @@ var mappingJobTypesEnumLowerCase = map[string]JobTypesEnum{
 	"precheck":                   JobTypesPrecheck,
 	"apply":                      JobTypesApply,
 	"rollback_and_remove_target": JobTypesRollbackAndRemoveTarget,
+	"rollback_maintenance_cycle": JobTypesRollbackMaintenanceCycle,
 	"cleanup":                    JobTypesCleanup,
 	"single_target_precheck":     JobTypesSingleTargetPrecheck,
 	"single_target_apply":        JobTypesSingleTargetApply,
@@ -64,6 +67,7 @@ func GetJobTypesEnumStringValues() []string {
 		"PRECHECK",
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 		"CLEANUP",
 		"SINGLE_TARGET_PRECHECK",
 		"SINGLE_TARGET_APPLY",

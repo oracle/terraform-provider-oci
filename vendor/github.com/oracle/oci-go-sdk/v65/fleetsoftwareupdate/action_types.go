@@ -19,13 +19,14 @@ type ActionTypesEnum string
 
 // Set of constants representing the allowable values for ActionTypesEnum
 const (
-	ActionTypesStage                   ActionTypesEnum = "STAGE"
-	ActionTypesPrecheck                ActionTypesEnum = "PRECHECK"
-	ActionTypesApply                   ActionTypesEnum = "APPLY"
-	ActionTypesRollbackAndRemoveTarget ActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	ActionTypesCleanup                 ActionTypesEnum = "CLEANUP"
-	ActionTypesSingleTargetPrecheck    ActionTypesEnum = "SINGLE_TARGET_PRECHECK"
-	ActionTypesSingleTargetApply       ActionTypesEnum = "SINGLE_TARGET_APPLY"
+	ActionTypesStage                    ActionTypesEnum = "STAGE"
+	ActionTypesPrecheck                 ActionTypesEnum = "PRECHECK"
+	ActionTypesApply                    ActionTypesEnum = "APPLY"
+	ActionTypesRollbackAndRemoveTarget  ActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	ActionTypesCleanup                  ActionTypesEnum = "CLEANUP"
+	ActionTypesRollbackMaintenanceCycle ActionTypesEnum = "ROLLBACK_MAINTENANCE_CYCLE"
+	ActionTypesSingleTargetPrecheck     ActionTypesEnum = "SINGLE_TARGET_PRECHECK"
+	ActionTypesSingleTargetApply        ActionTypesEnum = "SINGLE_TARGET_APPLY"
 )
 
 var mappingActionTypesEnum = map[string]ActionTypesEnum{
@@ -34,6 +35,7 @@ var mappingActionTypesEnum = map[string]ActionTypesEnum{
 	"APPLY":                      ActionTypesApply,
 	"ROLLBACK_AND_REMOVE_TARGET": ActionTypesRollbackAndRemoveTarget,
 	"CLEANUP":                    ActionTypesCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": ActionTypesRollbackMaintenanceCycle,
 	"SINGLE_TARGET_PRECHECK":     ActionTypesSingleTargetPrecheck,
 	"SINGLE_TARGET_APPLY":        ActionTypesSingleTargetApply,
 }
@@ -44,6 +46,7 @@ var mappingActionTypesEnumLowerCase = map[string]ActionTypesEnum{
 	"apply":                      ActionTypesApply,
 	"rollback_and_remove_target": ActionTypesRollbackAndRemoveTarget,
 	"cleanup":                    ActionTypesCleanup,
+	"rollback_maintenance_cycle": ActionTypesRollbackMaintenanceCycle,
 	"single_target_precheck":     ActionTypesSingleTargetPrecheck,
 	"single_target_apply":        ActionTypesSingleTargetApply,
 }
@@ -65,6 +68,7 @@ func GetActionTypesEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 		"SINGLE_TARGET_PRECHECK",
 		"SINGLE_TARGET_APPLY",
 	}

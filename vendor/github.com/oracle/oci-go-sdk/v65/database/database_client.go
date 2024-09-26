@@ -149,6 +149,66 @@ func (client DatabaseClient) activateExadataInfrastructure(ctx context.Context, 
 	return response, err
 }
 
+// AddStandbyAutonomousContainerDatabase Create Standby Autonomous Container Database.
+// For more information about changing Autonomous Container Databases Add Standby, see
+// Create Standby Autonomous Container Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+func (client DatabaseClient) AddStandbyAutonomousContainerDatabase(ctx context.Context, request AddStandbyAutonomousContainerDatabaseRequest) (response AddStandbyAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addStandbyAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddStandbyAutonomousContainerDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddStandbyAutonomousContainerDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddStandbyAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddStandbyAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// addStandbyAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) addStandbyAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/addStandby", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddStandbyAutonomousContainerDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/AddStandbyAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "AddStandbyAutonomousContainerDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddStorageCapacityCloudExadataInfrastructure Makes the storage capacity from additional storage servers available for Cloud VM Cluster consumption. Applies to Exadata Cloud Service instances and Autonomous Database on dedicated Exadata infrastructure only.
 func (client DatabaseClient) AddStorageCapacityCloudExadataInfrastructure(ctx context.Context, request AddStorageCapacityCloudExadataInfrastructureRequest) (response AddStorageCapacityCloudExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2824,6 +2884,66 @@ func (client DatabaseClient) confirmKeyStoreDetailsAreCorrect(ctx context.Contex
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/KeyStore/ConfirmKeyStoreDetailsAreCorrect"
 		err = common.PostProcessServiceError(err, "Database", "ConfirmKeyStoreDetailsAreCorrect", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConvertStandbyAutonomousContainerDatabase Convert between and SnapshotStandby Standby Autonomous Container Database .
+// For more information about changing Autonomous Container Databases Add Standby, see
+// Convert Standby Autonomous Container Database (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+func (client DatabaseClient) ConvertStandbyAutonomousContainerDatabase(ctx context.Context, request ConvertStandbyAutonomousContainerDatabaseRequest) (response ConvertStandbyAutonomousContainerDatabaseResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.convertStandbyAutonomousContainerDatabase, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertStandbyAutonomousContainerDatabaseResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertStandbyAutonomousContainerDatabaseResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertStandbyAutonomousContainerDatabaseResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertStandbyAutonomousContainerDatabaseResponse")
+	}
+	return
+}
+
+// convertStandbyAutonomousContainerDatabase implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) convertStandbyAutonomousContainerDatabase(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/snapshotStandby", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertStandbyAutonomousContainerDatabaseResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ConvertStandbyAutonomousContainerDatabase"
+		err = common.PostProcessServiceError(err, "Database", "ConvertStandbyAutonomousContainerDatabase", apiReferenceLink)
 		return response, err
 	}
 
@@ -8139,6 +8259,66 @@ func (client DatabaseClient) downloadVmClusterNetworkConfigFile(ctx context.Cont
 	return response, err
 }
 
+// EditAutonomousContainerDatabaseDataguard Edit Autonomous Container Database Dataguard.
+// For more information about changing Autonomous Container Databases Add Standby, see
+// Update Autonomous Container Database Dataguard (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and Convert Snapshot Standby to Physical Standby (https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+func (client DatabaseClient) EditAutonomousContainerDatabaseDataguard(ctx context.Context, request EditAutonomousContainerDatabaseDataguardRequest) (response EditAutonomousContainerDatabaseDataguardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.editAutonomousContainerDatabaseDataguard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = EditAutonomousContainerDatabaseDataguardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = EditAutonomousContainerDatabaseDataguardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(EditAutonomousContainerDatabaseDataguardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into EditAutonomousContainerDatabaseDataguardResponse")
+	}
+	return
+}
+
+// editAutonomousContainerDatabaseDataguard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) editAutonomousContainerDatabaseDataguard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/editDataguard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response EditAutonomousContainerDatabaseDataguardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/EditAutonomousContainerDatabaseDataguard"
+		err = common.PostProcessServiceError(err, "Database", "EditAutonomousContainerDatabaseDataguard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // EnableAutonomousDatabaseManagement Enables Database Management for Autonomous Database.
 func (client DatabaseClient) EnableAutonomousDatabaseManagement(ctx context.Context, request EnableAutonomousDatabaseManagementRequest) (response EnableAutonomousDatabaseManagementResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -8887,6 +9067,59 @@ func (client DatabaseClient) failOverAutonomousDatabase(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/FailOverAutonomousDatabase"
 		err = common.PostProcessServiceError(err, "Database", "FailOverAutonomousDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FailoverAutonomousContainerDatabaseDataguard Failover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+func (client DatabaseClient) FailoverAutonomousContainerDatabaseDataguard(ctx context.Context, request FailoverAutonomousContainerDatabaseDataguardRequest) (response FailoverAutonomousContainerDatabaseDataguardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.failoverAutonomousContainerDatabaseDataguard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FailoverAutonomousContainerDatabaseDataguardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FailoverAutonomousContainerDatabaseDataguardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FailoverAutonomousContainerDatabaseDataguardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FailoverAutonomousContainerDatabaseDataguardResponse")
+	}
+	return
+}
+
+// failoverAutonomousContainerDatabaseDataguard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/failover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FailoverAutonomousContainerDatabaseDataguardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/FailoverAutonomousContainerDatabaseDataguard"
+		err = common.PostProcessServiceError(err, "Database", "FailoverAutonomousContainerDatabaseDataguard", apiReferenceLink)
 		return response, err
 	}
 
@@ -17776,6 +18009,59 @@ func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, re
 	return response, err
 }
 
+// MigrateAutonomousContainerDatabaseDataguardAssociation Migrate Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter.
+func (client DatabaseClient) MigrateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request MigrateAutonomousContainerDatabaseDataguardAssociationRequest) (response MigrateAutonomousContainerDatabaseDataguardAssociationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.migrateAutonomousContainerDatabaseDataguardAssociation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MigrateAutonomousContainerDatabaseDataguardAssociationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MigrateAutonomousContainerDatabaseDataguardAssociationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MigrateAutonomousContainerDatabaseDataguardAssociationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MigrateAutonomousContainerDatabaseDataguardAssociationResponse")
+	}
+	return
+}
+
+// migrateAutonomousContainerDatabaseDataguardAssociation implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) migrateAutonomousContainerDatabaseDataguardAssociation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/autonomousContainerDatabaseDataguardAssociations/{autonomousContainerDatabaseDataguardAssociationId}/actions/migrate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MigrateAutonomousContainerDatabaseDataguardAssociationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/MigrateAutonomousContainerDatabaseDataguardAssociation"
+		err = common.PostProcessServiceError(err, "Database", "MigrateAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MigrateDataGuardAssociationToMultiDataGuards Migrates the existing Data Guard association to new Data Guard model to support multiple standby databases functionality.
 // This operation should always be performed on primary.
 func (client DatabaseClient) MigrateDataGuardAssociationToMultiDataGuards(ctx context.Context, request MigrateDataGuardAssociationToMultiDataGuardsRequest) (response MigrateDataGuardAssociationToMultiDataGuardsResponse, err error) {
@@ -18341,6 +18627,59 @@ func (client DatabaseClient) registerAutonomousDatabaseDataSafe(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/RegisterAutonomousDatabaseDataSafe"
 		err = common.PostProcessServiceError(err, "Database", "RegisterAutonomousDatabaseDataSafe", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReinstateAutonomousContainerDatabaseDataguard Reinstates a disabled standby Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+func (client DatabaseClient) ReinstateAutonomousContainerDatabaseDataguard(ctx context.Context, request ReinstateAutonomousContainerDatabaseDataguardRequest) (response ReinstateAutonomousContainerDatabaseDataguardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.reinstateAutonomousContainerDatabaseDataguard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReinstateAutonomousContainerDatabaseDataguardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReinstateAutonomousContainerDatabaseDataguardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReinstateAutonomousContainerDatabaseDataguardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReinstateAutonomousContainerDatabaseDataguardResponse")
+	}
+	return
+}
+
+// reinstateAutonomousContainerDatabaseDataguard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/reinstate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReinstateAutonomousContainerDatabaseDataguardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ReinstateAutonomousContainerDatabaseDataguard"
+		err = common.PostProcessServiceError(err, "Database", "ReinstateAutonomousContainerDatabaseDataguard", apiReferenceLink)
 		return response, err
 	}
 
@@ -20329,6 +20668,59 @@ func (client DatabaseClient) switchOverDataGuard(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/SwitchOverDataGuard"
 		err = common.PostProcessServiceError(err, "Database", "SwitchOverDataGuard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchoverAutonomousContainerDatabaseDataguard Switchover Autonomous Container Database, identified by the autonomousContainerDatabaseId parameter, to an active standby Autonomous Container Database.
+func (client DatabaseClient) SwitchoverAutonomousContainerDatabaseDataguard(ctx context.Context, request SwitchoverAutonomousContainerDatabaseDataguardRequest) (response SwitchoverAutonomousContainerDatabaseDataguardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.switchoverAutonomousContainerDatabaseDataguard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchoverAutonomousContainerDatabaseDataguardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchoverAutonomousContainerDatabaseDataguardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchoverAutonomousContainerDatabaseDataguardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchoverAutonomousContainerDatabaseDataguardResponse")
+	}
+	return
+}
+
+// switchoverAutonomousContainerDatabaseDataguard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) switchoverAutonomousContainerDatabaseDataguard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousContainerDatabases/{autonomousContainerDatabaseId}/actions/switchover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchoverAutonomousContainerDatabaseDataguardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/SwitchoverAutonomousContainerDatabaseDataguard"
+		err = common.PostProcessServiceError(err, "Database", "SwitchoverAutonomousContainerDatabaseDataguard", apiReferenceLink)
 		return response, err
 	}
 

@@ -28,6 +28,9 @@ type StreamingSourceDetails struct {
 	StreamId *string `mandatory:"true" json:"streamId"`
 
 	Cursor StreamingCursorDetails `mandatory:"false" json:"cursor"`
+
+	// The optional list of network security groups (NSGs) to be used with the private endpoint of the connector. Each NSG is identified by its OCID.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m StreamingSourceDetails) String() string {
@@ -64,6 +67,7 @@ func (m StreamingSourceDetails) MarshalJSON() (buff []byte, e error) {
 func (m *StreamingSourceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Cursor   streamingcursordetails `json:"cursor"`
+		NsgIds   []string               `json:"nsgIds"`
 		StreamId *string                `json:"streamId"`
 	}{}
 
@@ -82,6 +86,8 @@ func (m *StreamingSourceDetails) UnmarshalJSON(data []byte) (e error) {
 		m.Cursor = nil
 	}
 
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
 	m.StreamId = model.StreamId
 
 	return

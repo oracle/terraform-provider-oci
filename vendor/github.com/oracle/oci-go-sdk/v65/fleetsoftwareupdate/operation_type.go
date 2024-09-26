@@ -19,111 +19,114 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateDiscovery           OperationTypeEnum = "CREATE_DISCOVERY"
-	OperationTypeDeleteDiscovery           OperationTypeEnum = "DELETE_DISCOVERY"
-	OperationTypeCreateCollection          OperationTypeEnum = "CREATE_COLLECTION"
-	OperationTypeUpdateCollection          OperationTypeEnum = "UPDATE_COLLECTION"
-	OperationTypeDeleteCollection          OperationTypeEnum = "DELETE_COLLECTION"
-	OperationTypeMoveCollection            OperationTypeEnum = "MOVE_COLLECTION"
-	OperationTypeAddTargetsToCollection    OperationTypeEnum = "ADD_TARGETS_TO_COLLECTION"
-	OperationTypeRemoveTargetsInCollection OperationTypeEnum = "REMOVE_TARGETS_IN_COLLECTION"
-	OperationTypeCreateMaintenanceCycle    OperationTypeEnum = "CREATE_MAINTENANCE_CYCLE"
-	OperationTypeUpdateMaintenanceCycle    OperationTypeEnum = "UPDATE_MAINTENANCE_CYCLE"
-	OperationTypeDeleteMaintenanceCycle    OperationTypeEnum = "DELETE_MAINTENANCE_CYCLE"
-	OperationTypeMoveMaintenanceCycle      OperationTypeEnum = "MOVE_MAINTENANCE_CYCLE"
-	OperationTypeCloneMaintenanceCycle     OperationTypeEnum = "CLONE_MAINTENANCE_CYCLE"
-	OperationTypeCreateAction              OperationTypeEnum = "CREATE_ACTION"
-	OperationTypeUpdateAction              OperationTypeEnum = "UPDATE_ACTION"
-	OperationTypeDeleteAction              OperationTypeEnum = "DELETE_ACTION"
-	OperationTypeMoveAction                OperationTypeEnum = "MOVE_ACTION"
-	OperationTypePatchAction               OperationTypeEnum = "PATCH_ACTION"
-	OperationTypeCleanupAction             OperationTypeEnum = "CLEANUP_ACTION"
-	OperationTypeRollbackAndRemoveAction   OperationTypeEnum = "ROLLBACK_AND_REMOVE_ACTION"
-	OperationTypeApplyAction               OperationTypeEnum = "APPLY_ACTION"
-	OperationTypePrecheckAction            OperationTypeEnum = "PRECHECK_ACTION"
-	OperationTypeStageAction               OperationTypeEnum = "STAGE_ACTION"
-	OperationTypeCreateImage               OperationTypeEnum = "CREATE_IMAGE"
-	OperationTypeUpdateImage               OperationTypeEnum = "UPDATE_IMAGE"
-	OperationTypeDeleteImage               OperationTypeEnum = "DELETE_IMAGE"
-	OperationTypeMoveImage                 OperationTypeEnum = "MOVE_IMAGE"
-	OperationTypeCreateHome                OperationTypeEnum = "CREATE_HOME"
-	OperationTypeUpdateHome                OperationTypeEnum = "UPDATE_HOME"
-	OperationTypeDeleteHome                OperationTypeEnum = "DELETE_HOME"
-	OperationTypeMoveHome                  OperationTypeEnum = "MOVE_HOME"
-	OperationTypeSingleTargetPrecheck      OperationTypeEnum = "SINGLE_TARGET_PRECHECK"
-	OperationTypeSingleTargetApply         OperationTypeEnum = "SINGLE_TARGET_APPLY"
+	OperationTypeCreateDiscovery                OperationTypeEnum = "CREATE_DISCOVERY"
+	OperationTypeDeleteDiscovery                OperationTypeEnum = "DELETE_DISCOVERY"
+	OperationTypeCreateCollection               OperationTypeEnum = "CREATE_COLLECTION"
+	OperationTypeUpdateCollection               OperationTypeEnum = "UPDATE_COLLECTION"
+	OperationTypeDeleteCollection               OperationTypeEnum = "DELETE_COLLECTION"
+	OperationTypeMoveCollection                 OperationTypeEnum = "MOVE_COLLECTION"
+	OperationTypeAddTargetsToCollection         OperationTypeEnum = "ADD_TARGETS_TO_COLLECTION"
+	OperationTypeRemoveTargetsInCollection      OperationTypeEnum = "REMOVE_TARGETS_IN_COLLECTION"
+	OperationTypeCreateMaintenanceCycle         OperationTypeEnum = "CREATE_MAINTENANCE_CYCLE"
+	OperationTypeUpdateMaintenanceCycle         OperationTypeEnum = "UPDATE_MAINTENANCE_CYCLE"
+	OperationTypeDeleteMaintenanceCycle         OperationTypeEnum = "DELETE_MAINTENANCE_CYCLE"
+	OperationTypeMoveMaintenanceCycle           OperationTypeEnum = "MOVE_MAINTENANCE_CYCLE"
+	OperationTypeCloneMaintenanceCycle          OperationTypeEnum = "CLONE_MAINTENANCE_CYCLE"
+	OperationTypeRollbackMaintenanceCycleAction OperationTypeEnum = "ROLLBACK_MAINTENANCE_CYCLE_ACTION"
+	OperationTypeCreateAction                   OperationTypeEnum = "CREATE_ACTION"
+	OperationTypeUpdateAction                   OperationTypeEnum = "UPDATE_ACTION"
+	OperationTypeDeleteAction                   OperationTypeEnum = "DELETE_ACTION"
+	OperationTypeMoveAction                     OperationTypeEnum = "MOVE_ACTION"
+	OperationTypePatchAction                    OperationTypeEnum = "PATCH_ACTION"
+	OperationTypeCleanupAction                  OperationTypeEnum = "CLEANUP_ACTION"
+	OperationTypeRollbackAndRemoveAction        OperationTypeEnum = "ROLLBACK_AND_REMOVE_ACTION"
+	OperationTypeApplyAction                    OperationTypeEnum = "APPLY_ACTION"
+	OperationTypePrecheckAction                 OperationTypeEnum = "PRECHECK_ACTION"
+	OperationTypeStageAction                    OperationTypeEnum = "STAGE_ACTION"
+	OperationTypeCreateImage                    OperationTypeEnum = "CREATE_IMAGE"
+	OperationTypeUpdateImage                    OperationTypeEnum = "UPDATE_IMAGE"
+	OperationTypeDeleteImage                    OperationTypeEnum = "DELETE_IMAGE"
+	OperationTypeMoveImage                      OperationTypeEnum = "MOVE_IMAGE"
+	OperationTypeCreateHome                     OperationTypeEnum = "CREATE_HOME"
+	OperationTypeUpdateHome                     OperationTypeEnum = "UPDATE_HOME"
+	OperationTypeDeleteHome                     OperationTypeEnum = "DELETE_HOME"
+	OperationTypeMoveHome                       OperationTypeEnum = "MOVE_HOME"
+	OperationTypeSingleTargetPrecheck           OperationTypeEnum = "SINGLE_TARGET_PRECHECK"
+	OperationTypeSingleTargetApply              OperationTypeEnum = "SINGLE_TARGET_APPLY"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_DISCOVERY":             OperationTypeCreateDiscovery,
-	"DELETE_DISCOVERY":             OperationTypeDeleteDiscovery,
-	"CREATE_COLLECTION":            OperationTypeCreateCollection,
-	"UPDATE_COLLECTION":            OperationTypeUpdateCollection,
-	"DELETE_COLLECTION":            OperationTypeDeleteCollection,
-	"MOVE_COLLECTION":              OperationTypeMoveCollection,
-	"ADD_TARGETS_TO_COLLECTION":    OperationTypeAddTargetsToCollection,
-	"REMOVE_TARGETS_IN_COLLECTION": OperationTypeRemoveTargetsInCollection,
-	"CREATE_MAINTENANCE_CYCLE":     OperationTypeCreateMaintenanceCycle,
-	"UPDATE_MAINTENANCE_CYCLE":     OperationTypeUpdateMaintenanceCycle,
-	"DELETE_MAINTENANCE_CYCLE":     OperationTypeDeleteMaintenanceCycle,
-	"MOVE_MAINTENANCE_CYCLE":       OperationTypeMoveMaintenanceCycle,
-	"CLONE_MAINTENANCE_CYCLE":      OperationTypeCloneMaintenanceCycle,
-	"CREATE_ACTION":                OperationTypeCreateAction,
-	"UPDATE_ACTION":                OperationTypeUpdateAction,
-	"DELETE_ACTION":                OperationTypeDeleteAction,
-	"MOVE_ACTION":                  OperationTypeMoveAction,
-	"PATCH_ACTION":                 OperationTypePatchAction,
-	"CLEANUP_ACTION":               OperationTypeCleanupAction,
-	"ROLLBACK_AND_REMOVE_ACTION":   OperationTypeRollbackAndRemoveAction,
-	"APPLY_ACTION":                 OperationTypeApplyAction,
-	"PRECHECK_ACTION":              OperationTypePrecheckAction,
-	"STAGE_ACTION":                 OperationTypeStageAction,
-	"CREATE_IMAGE":                 OperationTypeCreateImage,
-	"UPDATE_IMAGE":                 OperationTypeUpdateImage,
-	"DELETE_IMAGE":                 OperationTypeDeleteImage,
-	"MOVE_IMAGE":                   OperationTypeMoveImage,
-	"CREATE_HOME":                  OperationTypeCreateHome,
-	"UPDATE_HOME":                  OperationTypeUpdateHome,
-	"DELETE_HOME":                  OperationTypeDeleteHome,
-	"MOVE_HOME":                    OperationTypeMoveHome,
-	"SINGLE_TARGET_PRECHECK":       OperationTypeSingleTargetPrecheck,
-	"SINGLE_TARGET_APPLY":          OperationTypeSingleTargetApply,
+	"CREATE_DISCOVERY":                  OperationTypeCreateDiscovery,
+	"DELETE_DISCOVERY":                  OperationTypeDeleteDiscovery,
+	"CREATE_COLLECTION":                 OperationTypeCreateCollection,
+	"UPDATE_COLLECTION":                 OperationTypeUpdateCollection,
+	"DELETE_COLLECTION":                 OperationTypeDeleteCollection,
+	"MOVE_COLLECTION":                   OperationTypeMoveCollection,
+	"ADD_TARGETS_TO_COLLECTION":         OperationTypeAddTargetsToCollection,
+	"REMOVE_TARGETS_IN_COLLECTION":      OperationTypeRemoveTargetsInCollection,
+	"CREATE_MAINTENANCE_CYCLE":          OperationTypeCreateMaintenanceCycle,
+	"UPDATE_MAINTENANCE_CYCLE":          OperationTypeUpdateMaintenanceCycle,
+	"DELETE_MAINTENANCE_CYCLE":          OperationTypeDeleteMaintenanceCycle,
+	"MOVE_MAINTENANCE_CYCLE":            OperationTypeMoveMaintenanceCycle,
+	"CLONE_MAINTENANCE_CYCLE":           OperationTypeCloneMaintenanceCycle,
+	"ROLLBACK_MAINTENANCE_CYCLE_ACTION": OperationTypeRollbackMaintenanceCycleAction,
+	"CREATE_ACTION":                     OperationTypeCreateAction,
+	"UPDATE_ACTION":                     OperationTypeUpdateAction,
+	"DELETE_ACTION":                     OperationTypeDeleteAction,
+	"MOVE_ACTION":                       OperationTypeMoveAction,
+	"PATCH_ACTION":                      OperationTypePatchAction,
+	"CLEANUP_ACTION":                    OperationTypeCleanupAction,
+	"ROLLBACK_AND_REMOVE_ACTION":        OperationTypeRollbackAndRemoveAction,
+	"APPLY_ACTION":                      OperationTypeApplyAction,
+	"PRECHECK_ACTION":                   OperationTypePrecheckAction,
+	"STAGE_ACTION":                      OperationTypeStageAction,
+	"CREATE_IMAGE":                      OperationTypeCreateImage,
+	"UPDATE_IMAGE":                      OperationTypeUpdateImage,
+	"DELETE_IMAGE":                      OperationTypeDeleteImage,
+	"MOVE_IMAGE":                        OperationTypeMoveImage,
+	"CREATE_HOME":                       OperationTypeCreateHome,
+	"UPDATE_HOME":                       OperationTypeUpdateHome,
+	"DELETE_HOME":                       OperationTypeDeleteHome,
+	"MOVE_HOME":                         OperationTypeMoveHome,
+	"SINGLE_TARGET_PRECHECK":            OperationTypeSingleTargetPrecheck,
+	"SINGLE_TARGET_APPLY":               OperationTypeSingleTargetApply,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_discovery":             OperationTypeCreateDiscovery,
-	"delete_discovery":             OperationTypeDeleteDiscovery,
-	"create_collection":            OperationTypeCreateCollection,
-	"update_collection":            OperationTypeUpdateCollection,
-	"delete_collection":            OperationTypeDeleteCollection,
-	"move_collection":              OperationTypeMoveCollection,
-	"add_targets_to_collection":    OperationTypeAddTargetsToCollection,
-	"remove_targets_in_collection": OperationTypeRemoveTargetsInCollection,
-	"create_maintenance_cycle":     OperationTypeCreateMaintenanceCycle,
-	"update_maintenance_cycle":     OperationTypeUpdateMaintenanceCycle,
-	"delete_maintenance_cycle":     OperationTypeDeleteMaintenanceCycle,
-	"move_maintenance_cycle":       OperationTypeMoveMaintenanceCycle,
-	"clone_maintenance_cycle":      OperationTypeCloneMaintenanceCycle,
-	"create_action":                OperationTypeCreateAction,
-	"update_action":                OperationTypeUpdateAction,
-	"delete_action":                OperationTypeDeleteAction,
-	"move_action":                  OperationTypeMoveAction,
-	"patch_action":                 OperationTypePatchAction,
-	"cleanup_action":               OperationTypeCleanupAction,
-	"rollback_and_remove_action":   OperationTypeRollbackAndRemoveAction,
-	"apply_action":                 OperationTypeApplyAction,
-	"precheck_action":              OperationTypePrecheckAction,
-	"stage_action":                 OperationTypeStageAction,
-	"create_image":                 OperationTypeCreateImage,
-	"update_image":                 OperationTypeUpdateImage,
-	"delete_image":                 OperationTypeDeleteImage,
-	"move_image":                   OperationTypeMoveImage,
-	"create_home":                  OperationTypeCreateHome,
-	"update_home":                  OperationTypeUpdateHome,
-	"delete_home":                  OperationTypeDeleteHome,
-	"move_home":                    OperationTypeMoveHome,
-	"single_target_precheck":       OperationTypeSingleTargetPrecheck,
-	"single_target_apply":          OperationTypeSingleTargetApply,
+	"create_discovery":                  OperationTypeCreateDiscovery,
+	"delete_discovery":                  OperationTypeDeleteDiscovery,
+	"create_collection":                 OperationTypeCreateCollection,
+	"update_collection":                 OperationTypeUpdateCollection,
+	"delete_collection":                 OperationTypeDeleteCollection,
+	"move_collection":                   OperationTypeMoveCollection,
+	"add_targets_to_collection":         OperationTypeAddTargetsToCollection,
+	"remove_targets_in_collection":      OperationTypeRemoveTargetsInCollection,
+	"create_maintenance_cycle":          OperationTypeCreateMaintenanceCycle,
+	"update_maintenance_cycle":          OperationTypeUpdateMaintenanceCycle,
+	"delete_maintenance_cycle":          OperationTypeDeleteMaintenanceCycle,
+	"move_maintenance_cycle":            OperationTypeMoveMaintenanceCycle,
+	"clone_maintenance_cycle":           OperationTypeCloneMaintenanceCycle,
+	"rollback_maintenance_cycle_action": OperationTypeRollbackMaintenanceCycleAction,
+	"create_action":                     OperationTypeCreateAction,
+	"update_action":                     OperationTypeUpdateAction,
+	"delete_action":                     OperationTypeDeleteAction,
+	"move_action":                       OperationTypeMoveAction,
+	"patch_action":                      OperationTypePatchAction,
+	"cleanup_action":                    OperationTypeCleanupAction,
+	"rollback_and_remove_action":        OperationTypeRollbackAndRemoveAction,
+	"apply_action":                      OperationTypeApplyAction,
+	"precheck_action":                   OperationTypePrecheckAction,
+	"stage_action":                      OperationTypeStageAction,
+	"create_image":                      OperationTypeCreateImage,
+	"update_image":                      OperationTypeUpdateImage,
+	"delete_image":                      OperationTypeDeleteImage,
+	"move_image":                        OperationTypeMoveImage,
+	"create_home":                       OperationTypeCreateHome,
+	"update_home":                       OperationTypeUpdateHome,
+	"delete_home":                       OperationTypeDeleteHome,
+	"move_home":                         OperationTypeMoveHome,
+	"single_target_precheck":            OperationTypeSingleTargetPrecheck,
+	"single_target_apply":               OperationTypeSingleTargetApply,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -151,6 +154,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"DELETE_MAINTENANCE_CYCLE",
 		"MOVE_MAINTENANCE_CYCLE",
 		"CLONE_MAINTENANCE_CYCLE",
+		"ROLLBACK_MAINTENANCE_CYCLE_ACTION",
 		"CREATE_ACTION",
 		"UPDATE_ACTION",
 		"DELETE_ACTION",

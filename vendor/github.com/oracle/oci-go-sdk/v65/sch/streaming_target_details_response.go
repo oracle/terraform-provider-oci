@@ -27,6 +27,9 @@ type StreamingTargetDetailsResponse struct {
 	StreamId *string `mandatory:"true" json:"streamId"`
 
 	PrivateEndpointMetadata *PrivateEndpointMetadata `mandatory:"false" json:"privateEndpointMetadata"`
+
+	// The optional list of network security groups (NSGs) to be used with the private endpoint of the stream pool. Each NSG is identified by its OCID.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 // GetPrivateEndpointMetadata returns PrivateEndpointMetadata

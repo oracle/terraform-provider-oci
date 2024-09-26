@@ -53,6 +53,14 @@ type FsuCycleSummary struct {
 	// In this array all the possible actions will be listed. The first element is the suggested Action.
 	NextActionToExecute []NextActionToExecuteDetails `mandatory:"false" json:"nextActionToExecute"`
 
+	// OCID identifier for the latest Action the Exadata Fleet Update Cycle.
+	// No value would indicate that the Cycle has not completed any Action yet.
+	LastCompletedActionId *string `mandatory:"false" json:"lastCompletedActionId"`
+
+	// Current rollback cycle state if rollback maintenance cycle action has been attempted.
+	// No value would indicate that the Cycle has not run a rollback maintenance cycle action before.
+	RollbackCycleState RollbackCycleStatesEnum `mandatory:"false" json:"rollbackCycleState,omitempty"`
+
 	// The latest Action type that was completed in the Exadata Fleet Update Cycle.
 	// No value would indicate that the Cycle has not completed any Action yet.
 	LastCompletedAction DetailedActionTypesEnum `mandatory:"false" json:"lastCompletedAction,omitempty"`
@@ -104,6 +112,9 @@ func (m FsuCycleSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCycleLifecycleStatesEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingRollbackCycleStatesEnum(string(m.RollbackCycleState)); !ok && m.RollbackCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RollbackCycleState: %s. Supported values are: %s.", m.RollbackCycleState, strings.Join(GetRollbackCycleStatesEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDetailedActionTypesEnum(string(m.LastCompletedAction)); !ok && m.LastCompletedAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastCompletedAction: %s. Supported values are: %s.", m.LastCompletedAction, strings.Join(GetDetailedActionTypesEnumStringValues(), ",")))
 	}
@@ -119,6 +130,8 @@ func (m *FsuCycleSummary) UnmarshalJSON(data []byte) (e error) {
 		DisplayName           *string                           `json:"displayName"`
 		ExecutingFsuActionId  *string                           `json:"executingFsuActionId"`
 		NextActionToExecute   []NextActionToExecuteDetails      `json:"nextActionToExecute"`
+		LastCompletedActionId *string                           `json:"lastCompletedActionId"`
+		RollbackCycleState    RollbackCycleStatesEnum           `json:"rollbackCycleState"`
 		LastCompletedAction   DetailedActionTypesEnum           `json:"lastCompletedAction"`
 		DiagnosticsCollection *DiagnosticsCollectionDetails     `json:"diagnosticsCollection"`
 		TimeUpdated           *common.SDKTime                   `json:"timeUpdated"`
@@ -148,6 +161,10 @@ func (m *FsuCycleSummary) UnmarshalJSON(data []byte) (e error) {
 
 	m.NextActionToExecute = make([]NextActionToExecuteDetails, len(model.NextActionToExecute))
 	copy(m.NextActionToExecute, model.NextActionToExecute)
+	m.LastCompletedActionId = model.LastCompletedActionId
+
+	m.RollbackCycleState = model.RollbackCycleState
+
 	m.LastCompletedAction = model.LastCompletedAction
 
 	m.DiagnosticsCollection = model.DiagnosticsCollection

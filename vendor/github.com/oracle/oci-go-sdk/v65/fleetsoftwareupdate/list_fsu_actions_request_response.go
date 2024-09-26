@@ -214,13 +214,14 @@ type ListFsuActionsTypeEnum string
 
 // Set of constants representing the allowable values for ListFsuActionsTypeEnum
 const (
-	ListFsuActionsTypeStage                   ListFsuActionsTypeEnum = "STAGE"
-	ListFsuActionsTypePrecheck                ListFsuActionsTypeEnum = "PRECHECK"
-	ListFsuActionsTypeApply                   ListFsuActionsTypeEnum = "APPLY"
-	ListFsuActionsTypeRollbackAndRemoveTarget ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	ListFsuActionsTypeCleanup                 ListFsuActionsTypeEnum = "CLEANUP"
-	ListFsuActionsTypeSingleTargetPrecheck    ListFsuActionsTypeEnum = "SINGLE_TARGET_PRECHECK"
-	ListFsuActionsTypeSingleTargetApply       ListFsuActionsTypeEnum = "SINGLE_TARGET_APPLY"
+	ListFsuActionsTypeStage                    ListFsuActionsTypeEnum = "STAGE"
+	ListFsuActionsTypePrecheck                 ListFsuActionsTypeEnum = "PRECHECK"
+	ListFsuActionsTypeApply                    ListFsuActionsTypeEnum = "APPLY"
+	ListFsuActionsTypeRollbackAndRemoveTarget  ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	ListFsuActionsTypeCleanup                  ListFsuActionsTypeEnum = "CLEANUP"
+	ListFsuActionsTypeRollbackMaintenanceCycle ListFsuActionsTypeEnum = "ROLLBACK_MAINTENANCE_CYCLE"
+	ListFsuActionsTypeSingleTargetPrecheck     ListFsuActionsTypeEnum = "SINGLE_TARGET_PRECHECK"
+	ListFsuActionsTypeSingleTargetApply        ListFsuActionsTypeEnum = "SINGLE_TARGET_APPLY"
 )
 
 var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
@@ -229,6 +230,7 @@ var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
 	"APPLY":                      ListFsuActionsTypeApply,
 	"ROLLBACK_AND_REMOVE_TARGET": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"CLEANUP":                    ListFsuActionsTypeCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": ListFsuActionsTypeRollbackMaintenanceCycle,
 	"SINGLE_TARGET_PRECHECK":     ListFsuActionsTypeSingleTargetPrecheck,
 	"SINGLE_TARGET_APPLY":        ListFsuActionsTypeSingleTargetApply,
 }
@@ -239,6 +241,7 @@ var mappingListFsuActionsTypeEnumLowerCase = map[string]ListFsuActionsTypeEnum{
 	"apply":                      ListFsuActionsTypeApply,
 	"rollback_and_remove_target": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"cleanup":                    ListFsuActionsTypeCleanup,
+	"rollback_maintenance_cycle": ListFsuActionsTypeRollbackMaintenanceCycle,
 	"single_target_precheck":     ListFsuActionsTypeSingleTargetPrecheck,
 	"single_target_apply":        ListFsuActionsTypeSingleTargetApply,
 }
@@ -260,6 +263,7 @@ func GetListFsuActionsTypeEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 		"SINGLE_TARGET_PRECHECK",
 		"SINGLE_TARGET_APPLY",
 	}

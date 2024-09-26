@@ -26,6 +26,9 @@ type StreamingTargetDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the stream.
 	StreamId *string `mandatory:"true" json:"streamId"`
+
+	// The optional list of network security groups (NSGs) to be used with the private endpoint of the stream pool. Each NSG is identified by its OCID.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m StreamingTargetDetails) String() string {
