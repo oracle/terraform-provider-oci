@@ -90,16 +90,20 @@ The following attributes are exported:
 		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
 		* `BASELINE_1_1` - baseline usage is the entire OCPU. This represents a non-burstable instance. 
 	* `memory_in_gbs` - The total amount of memory available in gigabytes for each desktop compute instance in the desktop pool. 
-	* `ocpus` - The total number of OCPUs available for each desktop compute instance in the desktop pool. 
-	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
-	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
-* `nsg_ids` - A list of network security groups for the network.
+	* `ocpus` - The total number of OCPUs available for each desktop compute instance in the desktop pool.
 * `private_access_details` - The details of the desktop's private access network connectivity that were used to create the pool. 
 	* `endpoint_fqdn` - The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are updated with this FQDN. This enables the customer to use the FQDN instead of the private endpoint's private IP address to access the service (for example, xyz.oraclecloud.com). 
 	* `nsg_ids` - A list of network security groups for the private access.
 	* `private_ip` - The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
-	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
-	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN.
+* `session_lifecycle_actions` - Action to be triggered on inactivity or disconnect
+	* `disconnect` - Action and grace period for disconnect
+		* `action` - a disconnect action to be triggered
+		* `grace_period_in_minutes` - The period of time (in minutes) after disconnect before any action occurs. If the value is not provided, a default value is used. 
+	* `inactivity` - Action and grace period for inactivity
+		* `action` - an inactivity action to be triggered
+		* `grace_period_in_minutes` - The period of time (in minutes) during which the session must remain inactive before any action occurs. If the value is not provided, a default value is used.
 * `shape_name` - The shape of the desktop pool.
 * `standby_size` - The maximum number of standby desktops available in the desktop pool.
 * `state` - The current state of the desktop pool.
