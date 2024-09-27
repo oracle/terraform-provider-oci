@@ -254,6 +254,7 @@ var (
                     cidr_block = "10.1.0.0/16"
                     display_name = "-tf-vcn"
                     dns_label = "tfvcn"
+                    is_ipv6enabled =  true
                 }
 
                 resource "oci_core_route_table" "t" {
@@ -273,6 +274,7 @@ var (
                 resource "oci_core_subnet" "t" {
                     availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
                     cidr_block          = "10.1.20.0/24"
+                    ipv6cidr_blocks     = ["${substr(oci_core_virtual_network.t.ipv6cidr_blocks[0], 0, length(oci_core_virtual_network.t.ipv6cidr_blocks[0]) - 7)}01::/64"]
                     display_name        = "TFSubnet1"
                     compartment_id      = "${var.compartment_id}"
                     vcn_id              = "${oci_core_virtual_network.t.id}"
@@ -284,6 +286,7 @@ var (
                 resource "oci_core_subnet" "t2" {
                     availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
                     cidr_block          = "10.1.21.0/24"
+                    ipv6cidr_blocks     = ["${substr(oci_core_virtual_network.t.ipv6cidr_blocks[0], 0, length(oci_core_virtual_network.t.ipv6cidr_blocks[0]) - 7)}02::/64"]
                     display_name        = "TFSubnet2"
                     compartment_id      = "${var.compartment_id}"
                     vcn_id              = "${oci_core_virtual_network.t.id}"
@@ -712,6 +715,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.node_count"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.ocpu_count", "6"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.scan_dns_name"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.scan_ip_ids.#", "3"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.scan_ipv6ids.#", "3"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.oracle-zpr.maxegresscount.value", "updatedValue"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
@@ -723,6 +728,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.subscription_id", ""),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vip_ids.#", "2"),
+				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vipv6ids.#", "2"),
 				resource.TestCheckResourceAttr(datasourceName, "cloud_vm_clusters.0.vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckResourceAttrSet(datasourceName, "cloud_vm_clusters.0.zone_id"),
 			),
@@ -776,6 +783,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "node_count"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "ocpu_count", "6"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "scan_dns_name"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_ip_ids.#", "3"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "scan_ipv6ids.#", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.%", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.maxegresscount.value", "updatedValue"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
@@ -785,6 +794,8 @@ func TestDatabaseCloudVmClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "storage_size_in_gbs"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "time_zone", "US/Pacific"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vip_ids.#", "2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vipv6ids.#", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_type", "DEVELOPER"),
 				resource.TestCheckNoResourceAttr(singularDatasourceName, "subscription_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "zone_id"),

@@ -459,6 +459,13 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"scan_ipv6ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -481,6 +488,13 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"vip_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"vipv6ids": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Schema{
@@ -1222,6 +1236,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 
 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
 
+	s.D.Set("scan_ipv6ids", s.Res.ScanIpv6Ids)
+
 	if s.Res.ScanListenerPortTcp != nil {
 		s.D.Set("scan_listener_port_tcp", *s.Res.ScanListenerPortTcp)
 	}
@@ -1269,6 +1285,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	}
 
 	s.D.Set("vip_ids", s.Res.VipIds)
+
+	s.D.Set("vipv6ids", s.Res.Vipv6Ids)
 
 	s.D.Set("vm_cluster_type", s.Res.VmClusterType)
 

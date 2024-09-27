@@ -61,6 +61,10 @@ func DatabaseDbNodeResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"backup_ipv6id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"backup_vnic2id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -90,6 +94,10 @@ func DatabaseDbNodeResource() *schema.Resource {
 				Computed: true,
 			},
 			"host_ip_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"host_ipv6id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -325,6 +333,10 @@ func (s *DatabaseDbNodeResourceCrud) SetData() error {
 		s.D.Set("backup_ip_id", *s.Res.BackupIpId)
 	}
 
+	if s.Res.BackupIpv6Id != nil {
+		s.D.Set("backup_ipv6id", *s.Res.BackupIpv6Id)
+	}
+
 	if s.Res.BackupVnic2Id != nil {
 		s.D.Set("backup_vnic2id", *s.Res.BackupVnic2Id)
 	}
@@ -363,6 +375,10 @@ func (s *DatabaseDbNodeResourceCrud) SetData() error {
 
 	if s.Res.HostIpId != nil {
 		s.D.Set("host_ip_id", *s.Res.HostIpId)
+	}
+
+	if s.Res.HostIpv6Id != nil {
+		s.D.Set("host_ipv6id", *s.Res.HostIpv6Id)
 	}
 
 	if s.Res.Hostname != nil {
