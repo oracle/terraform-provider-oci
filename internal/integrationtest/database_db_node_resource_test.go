@@ -63,8 +63,10 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.#"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.backup_ip_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.backup_ipv6id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.backup_vnic2id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.host_ip_id"),
+					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.host_ipv6id"),
 					resource.TestCheckResourceAttrSet(datasourceName, "db_nodes.0.vnic2id"),
 				),
 			},
@@ -78,8 +80,10 @@ func TestDatabaseDbNodeResource_basic(t *testing.T) {
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "db_node_id"),
 
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_ip_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_ipv6id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "backup_vnic2id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_ip_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "host_ipv6id"),
 					resource.TestCheckResourceAttrSet(singularDatasourceName, "vnic2id"),
 				),
 			},
