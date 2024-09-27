@@ -74,6 +74,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 		s.D.Set("backup_ip_id", *s.Res.BackupIpId)
 	}
 
+	if s.Res.BackupIpv6Id != nil {
+		s.D.Set("backup_ipv6id", *s.Res.BackupIpv6Id)
+	}
+
 	if s.Res.BackupVnic2Id != nil {
 		s.D.Set("backup_vnic2id", *s.Res.BackupVnic2Id)
 	}
@@ -110,6 +114,10 @@ func (s *DatabaseDbNodeDataSourceCrud) SetData() error {
 
 	if s.Res.HostIpId != nil {
 		s.D.Set("host_ip_id", *s.Res.HostIpId)
+	}
+
+	if s.Res.HostIpv6Id != nil {
+		s.D.Set("host_ipv6id", *s.Res.HostIpv6Id)
 	}
 
 	if s.Res.Hostname != nil {

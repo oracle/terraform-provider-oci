@@ -38,7 +38,8 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `hostname_label` - The hostname of the application virtual IP (VIP) address.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the application virtual IP (VIP) address.
-* `ip_address` - The application virtual IP (VIP) address.
+* `ip_address` - The application virtual IP (VIP) IPv4 address.
+* `ipv6address` - The application virtual IP (VIP) IPv6 address.
 * `lifecycle_details` - Additional information about the current lifecycle state of the application virtual IP (VIP) address.
 * `state` - The current lifecycle state of the application virtual IP (VIP) address.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the application virtual IP (VIP) address.

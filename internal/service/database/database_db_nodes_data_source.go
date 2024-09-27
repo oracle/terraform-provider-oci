@@ -137,6 +137,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 			dbNode["backup_ip_id"] = *r.BackupIpId
 		}
 
+		if r.BackupIpv6Id != nil {
+			dbNode["backup_ipv6id"] = *r.BackupIpv6Id
+		}
+
 		if r.BackupVnic2Id != nil {
 			dbNode["backup_vnic2id"] = *r.BackupVnic2Id
 		}
@@ -175,6 +179,10 @@ func (s *DatabaseDbNodesDataSourceCrud) SetData() error {
 
 		if r.HostIpId != nil {
 			dbNode["host_ip_id"] = *r.HostIpId
+		}
+
+		if r.HostIpv6Id != nil {
+			dbNode["host_ipv6id"] = *r.HostIpv6Id
 		}
 
 		if r.Hostname != nil {
