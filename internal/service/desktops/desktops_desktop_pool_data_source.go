@@ -143,6 +143,12 @@ func (s *DesktopsDesktopPoolDataSourceCrud) SetData() error {
 		s.D.Set("private_access_details", nil)
 	}
 
+	if s.Res.SessionLifecycleActions != nil {
+		s.D.Set("session_lifecycle_actions", []interface{}{DesktopSessionLifecycleActionsToMap(s.Res.SessionLifecycleActions)})
+	} else {
+		s.D.Set("session_lifecycle_actions", nil)
+	}
+
 	if s.Res.ShapeName != nil {
 		s.D.Set("shape_name", *s.Res.ShapeName)
 	}
