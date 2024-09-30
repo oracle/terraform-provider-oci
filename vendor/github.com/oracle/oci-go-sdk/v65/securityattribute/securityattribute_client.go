@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -160,7 +160,7 @@ func (client SecurityAttributeClient) bulkDeleteSecurityAttributes(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/BulkDeleteSecurityAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "BulkDeleteSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -231,7 +231,7 @@ func (client SecurityAttributeClient) bulkEditSecurityAttributes(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/BulkEditSecurityAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "BulkEditSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -307,7 +307,7 @@ func (client SecurityAttributeClient) cascadingDeleteSecurityAttributeNamespace(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/CascadingDeleteSecurityAttributeNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CascadingDeleteSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -373,7 +373,7 @@ func (client SecurityAttributeClient) changeSecurityAttributeNamespaceCompartmen
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/ChangeSecurityAttributeNamespaceCompartment"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ChangeSecurityAttributeNamespaceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -448,7 +448,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/CreateSecurityAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CreateSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -521,7 +521,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/CreateSecurityAttributeNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CreateSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -593,7 +593,7 @@ func (client SecurityAttributeClient) deleteSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/DeleteSecurityAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "DeleteSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -658,7 +658,7 @@ func (client SecurityAttributeClient) deleteSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/DeleteSecurityAttributeNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "DeleteSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -716,7 +716,7 @@ func (client SecurityAttributeClient) getSecurityAttribute(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/GetSecurityAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -774,7 +774,7 @@ func (client SecurityAttributeClient) getSecurityAttributeNamespace(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/GetSecurityAttributeNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -833,7 +833,7 @@ func (client SecurityAttributeClient) getSecurityAttributeWorkRequest(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequest/GetSecurityAttributeWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttributeWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -891,7 +891,7 @@ func (client SecurityAttributeClient) listSecurityAttributeNamespaces(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespaceSummary/ListSecurityAttributeNamespaces"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeNamespaces", apiReferenceLink)
 		return response, err
 	}
@@ -949,7 +949,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestErrors(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestErrorSummary/ListSecurityAttributeWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -1007,7 +1007,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestLogs(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestLogSummary/ListSecurityAttributeWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1065,7 +1065,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequests(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestSummary/ListSecurityAttributeWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1123,7 +1123,7 @@ func (client SecurityAttributeClient) listSecurityAttributes(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeSummary/ListSecurityAttributes"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -1186,7 +1186,7 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/UpdateSecurityAttribute"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "UpdateSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -1255,7 +1255,7 @@ func (client SecurityAttributeClient) updateSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/UpdateSecurityAttributeNamespace"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "UpdateSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}

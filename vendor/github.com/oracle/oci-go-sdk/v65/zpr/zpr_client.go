@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -67,7 +67,7 @@ func newZprClientFromBaseClient(baseClient common.BaseClient, configProvider com
 
 // SetRegion overrides the region of this client.
 func (client *ZprClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("zpr", "https://zpr.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("zpr", "https://{service}.{region}.oci.{secondLevelDomain}", "${endpoint-template-prefix}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
@@ -146,7 +146,7 @@ func (client ZprClient) createConfiguration(ctx context.Context, request common.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/Configuration/CreateConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "CreateConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -209,7 +209,7 @@ func (client ZprClient) createZprPolicy(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/ZprPolicy/CreateZprPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "CreateZprPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -267,7 +267,7 @@ func (client ZprClient) deleteZprPolicy(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/ZprPolicy/DeleteZprPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "DeleteZprPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -326,7 +326,7 @@ func (client ZprClient) getConfiguration(ctx context.Context, request common.OCI
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/Configuration/GetConfiguration"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "GetConfiguration", apiReferenceLink)
 		return response, err
 	}
@@ -384,7 +384,7 @@ func (client ZprClient) getZprConfigurationWorkRequest(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequest/GetZprConfigurationWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "GetZprConfigurationWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -442,7 +442,7 @@ func (client ZprClient) getZprPolicy(ctx context.Context, request common.OCIRequ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/ZprPolicy/GetZprPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "GetZprPolicy", apiReferenceLink)
 		return response, err
 	}
@@ -500,7 +500,7 @@ func (client ZprClient) getZprPolicyWorkRequest(ctx context.Context, request com
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequest/GetZprPolicyWorkRequest"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "GetZprPolicyWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -558,7 +558,7 @@ func (client ZprClient) listZprConfigurationWorkRequestErrors(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequestError/ListZprConfigurationWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprConfigurationWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -616,7 +616,7 @@ func (client ZprClient) listZprConfigurationWorkRequestLogs(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequestLogEntry/ListZprConfigurationWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprConfigurationWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -674,7 +674,7 @@ func (client ZprClient) listZprConfigurationWorkRequests(ctx context.Context, re
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequest/ListZprConfigurationWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprConfigurationWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -732,7 +732,7 @@ func (client ZprClient) listZprPolicies(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/ZprPolicyCollection/ListZprPolicies"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprPolicies", apiReferenceLink)
 		return response, err
 	}
@@ -790,7 +790,7 @@ func (client ZprClient) listZprPolicyWorkRequestErrors(ctx context.Context, requ
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequestError/ListZprPolicyWorkRequestErrors"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprPolicyWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -848,7 +848,7 @@ func (client ZprClient) listZprPolicyWorkRequestLogs(ctx context.Context, reques
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequestLogEntry/ListZprPolicyWorkRequestLogs"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprPolicyWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -906,7 +906,7 @@ func (client ZprClient) listZprPolicyWorkRequests(ctx context.Context, request c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/WorkRequest/ListZprPolicyWorkRequests"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "ListZprPolicyWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -969,7 +969,7 @@ func (client ZprClient) updateZprPolicy(ctx context.Context, request common.OCIR
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/zero-trust-packet-routing/20240301/ZprPolicy/UpdateZprPolicy"
+		apiReferenceLink := ""
 		err = common.PostProcessServiceError(err, "Zpr", "UpdateZprPolicy", apiReferenceLink)
 		return response, err
 	}

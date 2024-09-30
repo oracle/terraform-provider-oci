@@ -90,6 +90,7 @@ const (
 	WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection WorkRequestSummaryOperationTypeEnum = "CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION"
 	WorkRequestSummaryOperationTypeEnableProcessAutomation                 WorkRequestSummaryOperationTypeEnum = "ENABLE_PROCESS_AUTOMATION"
 	WorkRequestSummaryOperationTypeExtendDataRetention                     WorkRequestSummaryOperationTypeEnum = "EXTEND_DATA_RETENTION"
+	WorkRequestSummaryOperationTypeDisasterRecoveryFailover                WorkRequestSummaryOperationTypeEnum = "DISASTER_RECOVERY_FAILOVER"
 	WorkRequestSummaryOperationTypeCreateCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "CREATE_CUSTOM_ENDPOINT"
 	WorkRequestSummaryOperationTypeDeleteCustomEndpoint                    WorkRequestSummaryOperationTypeEnum = "DELETE_CUSTOM_ENDPOINT"
 )
@@ -103,6 +104,7 @@ var mappingWorkRequestSummaryOperationTypeEnum = map[string]WorkRequestSummaryOp
 	"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"ENABLE_PROCESS_AUTOMATION":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"EXTEND_DATA_RETENTION":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"DISASTER_RECOVERY_FAILOVER":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"CREATE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
 	"DELETE_CUSTOM_ENDPOINT":                      WorkRequestSummaryOperationTypeDeleteCustomEndpoint,
 }
@@ -116,6 +118,7 @@ var mappingWorkRequestSummaryOperationTypeEnumLowerCase = map[string]WorkRequest
 	"change_private_endpoint_outbound_connection": WorkRequestSummaryOperationTypeChangePrivateEndpointOutboundConnection,
 	"enable_process_automation":                   WorkRequestSummaryOperationTypeEnableProcessAutomation,
 	"extend_data_retention":                       WorkRequestSummaryOperationTypeExtendDataRetention,
+	"disaster_recovery_failover":                  WorkRequestSummaryOperationTypeDisasterRecoveryFailover,
 	"create_custom_endpoint":                      WorkRequestSummaryOperationTypeCreateCustomEndpoint,
 	"delete_custom_endpoint":                      WorkRequestSummaryOperationTypeDeleteCustomEndpoint,
 }
@@ -140,6 +143,7 @@ func GetWorkRequestSummaryOperationTypeEnumStringValues() []string {
 		"CHANGE_PRIVATE_ENDPOINT_OUTBOUND_CONNECTION",
 		"ENABLE_PROCESS_AUTOMATION",
 		"EXTEND_DATA_RETENTION",
+		"DISASTER_RECOVERY_FAILOVER",
 		"CREATE_CUSTOM_ENDPOINT",
 		"DELETE_CUSTOM_ENDPOINT",
 	}

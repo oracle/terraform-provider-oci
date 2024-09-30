@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -86,9 +86,7 @@ type Instance struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Security attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/zpr-artifacts.htm#security-attributes) are labels
-	// for a resource that can be referenced in a Zero Trust Packet Routing (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/overview.htm)
-	// (ZPR) policy to control access to ZPR-supported resources.
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
 	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
 
@@ -189,9 +187,6 @@ type Instance struct {
 
 	// The OCID of the Instance Configuration used to source launch details for this instance. Any other fields supplied in the instance launch request override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
-
-	// List of licensing configurations associated with the instance.
-	LicensingConfigs []LicensingConfig `mandatory:"false" json:"licensingConfigs"`
 }
 
 func (m Instance) String() string {
@@ -248,7 +243,6 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 		TimeMaintenanceRebootDue  *common.SDKTime                     `json:"timeMaintenanceRebootDue"`
 		PlatformConfig            platformconfig                      `json:"platformConfig"`
 		InstanceConfigurationId   *string                             `json:"instanceConfigurationId"`
-		LicensingConfigs          []LicensingConfig                   `json:"licensingConfigs"`
 		AvailabilityDomain        *string                             `json:"availabilityDomain"`
 		CompartmentId             *string                             `json:"compartmentId"`
 		Id                        *string                             `json:"id"`
@@ -331,8 +325,6 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstanceConfigurationId = model.InstanceConfigurationId
 
-	m.LicensingConfigs = make([]LicensingConfig, len(model.LicensingConfigs))
-	copy(m.LicensingConfigs, model.LicensingConfigs)
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId
