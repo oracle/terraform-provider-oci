@@ -206,6 +206,11 @@ type CreateAutonomousDatabaseBase interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	GetSecurityAttributes() map[string]map[string]interface{}
+
 	// The private endpoint Ip address for the resource.
 	GetPrivateEndpointIp() *string
 
@@ -295,6 +300,7 @@ type createautonomousdatabasebase struct {
 	PrivateEndpointLabel                     *string                                                           `mandatory:"false" json:"privateEndpointLabel"`
 	FreeformTags                             map[string]string                                                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags                              map[string]map[string]interface{}                                 `mandatory:"false" json:"definedTags"`
+	SecurityAttributes                       map[string]map[string]interface{}                                 `mandatory:"false" json:"securityAttributes"`
 	PrivateEndpointIp                        *string                                                           `mandatory:"false" json:"privateEndpointIp"`
 	DbVersion                                *string                                                           `mandatory:"false" json:"dbVersion"`
 	CustomerContacts                         []CustomerContact                                                 `mandatory:"false" json:"customerContacts"`
@@ -360,6 +366,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.PrivateEndpointLabel = s.Model.PrivateEndpointLabel
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SecurityAttributes = s.Model.SecurityAttributes
 	m.PrivateEndpointIp = s.Model.PrivateEndpointIp
 	m.DbVersion = s.Model.DbVersion
 	m.CustomerContacts = s.Model.CustomerContacts
@@ -607,6 +614,11 @@ func (m createautonomousdatabasebase) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createautonomousdatabasebase) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m createautonomousdatabasebase) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetPrivateEndpointIp returns PrivateEndpointIp

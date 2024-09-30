@@ -49,6 +49,10 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -210,6 +214,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		ClusterPlacementGroupId        *string                                                                  `json:"clusterPlacementGroupId"`
 		CreateVnicDetails              *InstanceConfigurationCreateVnicDetails                                  `json:"createVnicDetails"`
 		DefinedTags                    map[string]map[string]interface{}                                        `json:"definedTags"`
+		SecurityAttributes             map[string]map[string]interface{}                                        `json:"securityAttributes"`
 		DisplayName                    *string                                                                  `json:"displayName"`
 		ExtendedMetadata               map[string]interface{}                                                   `json:"extendedMetadata"`
 		FreeformTags                   map[string]string                                                        `json:"freeformTags"`
@@ -247,6 +252,8 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 	m.CreateVnicDetails = model.CreateVnicDetails
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.DisplayName = model.DisplayName
 
