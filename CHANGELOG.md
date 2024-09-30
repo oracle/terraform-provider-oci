@@ -1,3 +1,16 @@
+## 6.12.0 (Unreleased)
+
+### Added
+- Support for OIC Gen3 Disaster Recovery
+- Support for ZPR v1 - Oracle Cloud World Scope - OC1 ONLY
+- Support for Security Attributes
+- Support for change hostname label to be updatable
+- LBCP ppv2 support
+- Support for Zero Trust Packet Routing
+### Bug Fix
+- add support for tunnel configurations in create private ipsec over fastconnect
+- add publish_artifact branch in ocibuild.conf file
+
 ## 6.11.0 (Unreleased)
 
 ### Added
