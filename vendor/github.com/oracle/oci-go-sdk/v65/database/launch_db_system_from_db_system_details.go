@@ -142,6 +142,11 @@ type LaunchDbSystemFromDbSystemDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// A private IP address of your choice. Must be an available IP address within the subnet's CIDR.
 	// If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
@@ -278,6 +283,11 @@ func (m LaunchDbSystemFromDbSystemDetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m LaunchDbSystemFromDbSystemDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m LaunchDbSystemFromDbSystemDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetPrivateIp returns PrivateIp

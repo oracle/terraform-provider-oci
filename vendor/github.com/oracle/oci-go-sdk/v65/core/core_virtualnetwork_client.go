@@ -341,7 +341,7 @@ func (client VirtualNetworkClient) addIpv6VcnCidr(ctx context.Context, request c
 	return response, err
 }
 
-// AddNetworkSecurityGroupSecurityRules Adds one or more security rules to the specified network security group.
+// AddNetworkSecurityGroupSecurityRules Adds up to 25 security rules to the specified network security group. Adding more than 25 rules requires multiple operations.
 //
 // # See also
 //
@@ -3897,6 +3897,8 @@ func (client VirtualNetworkClient) createSecurityList(ctx context.Context, reque
 // For information about OCIDs, see Resource Identifiers (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 // You may optionally specify a *display name* for the service gateway, otherwise a default is provided.
 // It does not have to be unique, and you can change it. Avoid entering confidential information.
+// Use the ListServices operation to find service CIDR labels
+// available in the region.
 //
 // # See also
 //
@@ -11037,7 +11039,7 @@ func (client VirtualNetworkClient) listIpInventory(ctx context.Context, request 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Vcn/ListIpInventory"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IpInventoryCollection/ListIpInventory"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIpInventory", apiReferenceLink)
 		return response, err
 	}
@@ -12066,7 +12068,7 @@ func (client VirtualNetworkClient) listVirtualCircuitAssociatedTunnels(ctx conte
 	return response, err
 }
 
-// ListVirtualCircuitBandwidthShapes The deprecated operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// ListVirtualCircuitBandwidthShapes The operation lists available bandwidth levels for virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
 //
 // # See also
 //
