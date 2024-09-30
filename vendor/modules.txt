@@ -225,7 +225,7 @@ github.com/mitchellh/reflectwalk
 # github.com/oklog/run v1.0.0
 ## explicit
 github.com/oklog/run
-# github.com/oracle/oci-go-sdk/v65 v65.75.0
+# github.com/oracle/oci-go-sdk/v65 v65.75.0 => ./vendor/github.com/oracle/oci-go-sdk
 ## explicit; go 1.13
 github.com/oracle/oci-go-sdk/v65/adm
 github.com/oracle/oci-go-sdk/v65/aianomalydetection
@@ -337,6 +337,7 @@ github.com/oracle/oci-go-sdk/v65/resourcemanager
 github.com/oracle/oci-go-sdk/v65/resourcescheduler
 github.com/oracle/oci-go-sdk/v65/sch
 github.com/oracle/oci-go-sdk/v65/secrets
+github.com/oracle/oci-go-sdk/v65/securityattribute
 github.com/oracle/oci-go-sdk/v65/servicecatalog
 github.com/oracle/oci-go-sdk/v65/servicemanagerproxy
 github.com/oracle/oci-go-sdk/v65/servicemesh
@@ -353,6 +354,7 @@ github.com/oracle/oci-go-sdk/v65/waa
 github.com/oracle/oci-go-sdk/v65/waas
 github.com/oracle/oci-go-sdk/v65/waf
 github.com/oracle/oci-go-sdk/v65/workrequests
+github.com/oracle/oci-go-sdk/v65/zpr
 # github.com/pmezard/go-difflib v1.0.0
 ## explicit
 github.com/pmezard/go-difflib/difflib

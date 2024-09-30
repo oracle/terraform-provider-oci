@@ -24,7 +24,7 @@ import (
 // CreateServiceGatewayDetails The representation of CreateServiceGatewayDetails
 type CreateServiceGatewayDetails struct {
 
-	// The OCID  (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment to contain the service gateway.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	// List of the OCIDs of the Service objects to
