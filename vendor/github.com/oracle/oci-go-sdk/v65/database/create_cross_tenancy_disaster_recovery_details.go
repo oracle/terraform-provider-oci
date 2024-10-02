@@ -206,6 +206,11 @@ type CreateCrossTenancyDisasterRecoveryDetails struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
+	// Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// The private endpoint Ip address for the resource.
 	PrivateEndpointIp *string `mandatory:"false" json:"privateEndpointIp"`
 
@@ -466,6 +471,11 @@ func (m CreateCrossTenancyDisasterRecoveryDetails) GetFreeformTags() map[string]
 // GetDefinedTags returns DefinedTags
 func (m CreateCrossTenancyDisasterRecoveryDetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSecurityAttributes returns SecurityAttributes
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecurityAttributes() map[string]map[string]interface{} {
+	return m.SecurityAttributes
 }
 
 // GetPrivateEndpointIp returns PrivateEndpointIp

@@ -150,7 +150,7 @@ The following arguments are supported:
 
 	For a standalone DB System, this defines the fault domain in which the DB System is placed. 
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
-* `hostname_label` - (Optional) The hostname for the primary endpoint of the DB System. Used for DNS.
+* `hostname_label` - (Optional) (Updatable) The hostname for the primary endpoint of the DB System. Used for DNS.
 
 	The value is the hostname portion of the primary private IP's fully qualified domain name (FQDN) (for example, "dbsystem-1" in FQDN "dbsystem-1.subnet123.vcn1.oraclevcn.com").
 

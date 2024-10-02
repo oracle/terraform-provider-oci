@@ -3758,6 +3758,11 @@ func (client ComputeClient) instanceAction(ctx context.Context, request common.O
 // Then, call CreateAppCatalogSubscription
 // with the signature. To get the image ID for the LaunchInstance operation, call
 // GetAppCatalogListingResourceVersion.
+// When launching an instance, you may provide the `securityAttributes` parameter in
+// LaunchInstanceDetails to manage security attributes via the instance,
+// or in the embedded CreateVnicDetails to manage security attributes
+// via the VNIC directly, but not both.  Providing `securityAttributes` in both locations will return a
+// 400 Bad Request response.
 // To determine whether capacity is available for a specific shape before you create an instance,
 // use the CreateComputeCapacityReport
 // operation.

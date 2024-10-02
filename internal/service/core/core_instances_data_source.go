@@ -242,6 +242,10 @@ func (s *CoreInstancesDataSourceCrud) SetData() error {
 			instance["region"] = *r.Region
 		}
 
+		instance["security_attributes"] = r.SecurityAttributes
+
+		instance["security_attributes_state"] = r.SecurityAttributesState
+
 		if r.Shape != nil {
 			instance["shape"] = *r.Shape
 		}

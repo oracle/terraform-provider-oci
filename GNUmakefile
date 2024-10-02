@@ -162,3 +162,6 @@ check-untagged-tests:
 
 check-module-name:
 	@sh -c "'$(CURDIR)/scripts/gomodnamecheck.sh'"
+
+buildpyEnv:
+	cd ./terraform-test-resources/dev_tools/teamcity_scripts/python_script; @echo $(SCRIPT_ARG) ; sh run_python_script.sh

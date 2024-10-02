@@ -179,6 +179,10 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("region", *s.Res.Region)
 	}
 
+	s.D.Set("security_attributes", s.Res.SecurityAttributes)
+
+	s.D.Set("security_attributes_state", s.Res.SecurityAttributesState)
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}

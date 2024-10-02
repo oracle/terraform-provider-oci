@@ -901,3 +901,55 @@ func TestMysqlMysqlDbSystemResource_secureConnections(t *testing.T) {
 		},
 	})
 }
+
+func TestMysqlMysqlDbSystemResource_hostnameLabel(t *testing.T) {
+	httpreplay.SetScenario("TestMysqlMysqlDbSystemResource_hostnameLabel")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_mysql_mysql_db_system.test_mysql_db_system"
+
+	var resId, resId2 string
+
+	updatedRepresentation := acctest.GetUpdatedRepresentationCopy("hostname_label", acctest.Representation{RepType: acctest.Optional, Create: `hostnameLabel`, Update: `hostnameLabel2`},
+		acctest.RepresentationCopyWithNewProperties(MysqlMysqlDbSystemRepresentation, map[string]interface{}{
+			"backup_policy": acctest.RepresentationGroup{RepType: acctest.Optional, Group: MysqlDbSystemBackupPolicyNotUpdateableRepresentation},
+		}))
+
+	acctest.ResourceTest(t, nil, []resource.TestStep{
+		// verify Create with hostname_label
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Create, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify update to hostname_label
+		{
+			Config: config + compartmentIdVariableStr + MysqlDbSystemSourceBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_mysql_mysql_db_system", "test_mysql_db_system", acctest.Optional, acctest.Update, updatedRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "hostname_label", "hostnameLabel2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+	})
+}

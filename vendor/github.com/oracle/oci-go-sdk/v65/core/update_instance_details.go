@@ -35,6 +35,10 @@ type UpdateInstanceDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -161,6 +165,7 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		CapacityReservationId     *string                                            `json:"capacityReservationId"`
 		DefinedTags               map[string]map[string]interface{}                  `json:"definedTags"`
+		SecurityAttributes        map[string]map[string]interface{}                  `json:"securityAttributes"`
 		DisplayName               *string                                            `json:"displayName"`
 		FreeformTags              map[string]string                                  `json:"freeformTags"`
 		AgentConfig               *UpdateInstanceAgentConfigDetails                  `json:"agentConfig"`
@@ -187,6 +192,8 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	m.CapacityReservationId = model.CapacityReservationId
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
 
 	m.DisplayName = model.DisplayName
 

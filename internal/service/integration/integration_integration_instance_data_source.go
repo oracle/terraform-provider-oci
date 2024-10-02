@@ -96,6 +96,12 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DisasterRecoveryDetails != nil {
+		s.D.Set("disaster_recovery_details", []interface{}{DisasterRecoveryDetailsToMap(s.Res.DisasterRecoveryDetails)})
+	} else {
+		s.D.Set("disaster_recovery_details", nil)
+	}
+
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -122,12 +128,20 @@ func (s *IntegrationIntegrationInstanceDataSourceCrud) SetData() error {
 		s.D.Set("is_byol", *s.Res.IsByol)
 	}
 
+	if s.Res.IsDisasterRecoveryEnabled != nil {
+		s.D.Set("is_disaster_recovery_enabled", *s.Res.IsDisasterRecoveryEnabled)
+	}
+
 	if s.Res.IsFileServerEnabled != nil {
 		s.D.Set("is_file_server_enabled", *s.Res.IsFileServerEnabled)
 	}
 
 	if s.Res.IsVisualBuilderEnabled != nil {
 		s.D.Set("is_visual_builder_enabled", *s.Res.IsVisualBuilderEnabled)
+	}
+
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
 	if s.Res.MessagePacks != nil {
