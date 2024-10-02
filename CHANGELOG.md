@@ -1,4 +1,4 @@
-## 6.12.0 (Unreleased)
+## 6.12.0 (October 02, 2024)
 
 ### Added
 - Support for OIC Gen3 Disaster Recovery
