@@ -67,6 +67,9 @@ type CreateIntegrationInstanceDetails struct {
 	// The file server is enabled or not.
 	IsFileServerEnabled *bool `mandatory:"false" json:"isFileServerEnabled"`
 
+	// Is Disaster Recovery enabled or not.
+	IsDisasterRecoveryEnabled *bool `mandatory:"false" json:"isDisasterRecoveryEnabled"`
+
 	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 
 	// Shape
@@ -107,22 +110,23 @@ func (m CreateIntegrationInstanceDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		FreeformTags             map[string]string                                           `json:"freeformTags"`
-		DefinedTags              map[string]map[string]interface{}                           `json:"definedTags"`
-		IdcsAt                   *string                                                     `json:"idcsAt"`
-		IsVisualBuilderEnabled   *bool                                                       `json:"isVisualBuilderEnabled"`
-		CustomEndpoint           *CreateCustomEndpointDetails                                `json:"customEndpoint"`
-		AlternateCustomEndpoints []CreateCustomEndpointDetails                               `json:"alternateCustomEndpoints"`
-		ConsumptionModel         CreateIntegrationInstanceDetailsConsumptionModelEnum        `json:"consumptionModel"`
-		IsFileServerEnabled      *bool                                                       `json:"isFileServerEnabled"`
-		NetworkEndpointDetails   networkendpointdetails                                      `json:"networkEndpointDetails"`
-		Shape                    CreateIntegrationInstanceDetailsShapeEnum                   `json:"shape"`
-		DomainId                 *string                                                     `json:"domainId"`
-		DisplayName              *string                                                     `json:"displayName"`
-		CompartmentId            *string                                                     `json:"compartmentId"`
-		IntegrationInstanceType  CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
-		IsByol                   *bool                                                       `json:"isByol"`
-		MessagePacks             *int                                                        `json:"messagePacks"`
+		FreeformTags              map[string]string                                           `json:"freeformTags"`
+		DefinedTags               map[string]map[string]interface{}                           `json:"definedTags"`
+		IdcsAt                    *string                                                     `json:"idcsAt"`
+		IsVisualBuilderEnabled    *bool                                                       `json:"isVisualBuilderEnabled"`
+		CustomEndpoint            *CreateCustomEndpointDetails                                `json:"customEndpoint"`
+		AlternateCustomEndpoints  []CreateCustomEndpointDetails                               `json:"alternateCustomEndpoints"`
+		ConsumptionModel          CreateIntegrationInstanceDetailsConsumptionModelEnum        `json:"consumptionModel"`
+		IsFileServerEnabled       *bool                                                       `json:"isFileServerEnabled"`
+		IsDisasterRecoveryEnabled *bool                                                       `json:"isDisasterRecoveryEnabled"`
+		NetworkEndpointDetails    networkendpointdetails                                      `json:"networkEndpointDetails"`
+		Shape                     CreateIntegrationInstanceDetailsShapeEnum                   `json:"shape"`
+		DomainId                  *string                                                     `json:"domainId"`
+		DisplayName               *string                                                     `json:"displayName"`
+		CompartmentId             *string                                                     `json:"compartmentId"`
+		IntegrationInstanceType   CreateIntegrationInstanceDetailsIntegrationInstanceTypeEnum `json:"integrationInstanceType"`
+		IsByol                    *bool                                                       `json:"isByol"`
+		MessagePacks              *int                                                        `json:"messagePacks"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -145,6 +149,8 @@ func (m *CreateIntegrationInstanceDetails) UnmarshalJSON(data []byte) (e error) 
 	m.ConsumptionModel = model.ConsumptionModel
 
 	m.IsFileServerEnabled = model.IsFileServerEnabled
+
+	m.IsDisasterRecoveryEnabled = model.IsDisasterRecoveryEnabled
 
 	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
 	if e != nil {

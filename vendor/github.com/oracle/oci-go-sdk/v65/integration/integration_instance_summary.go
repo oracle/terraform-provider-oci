@@ -51,6 +51,9 @@ type IntegrationInstanceSummary struct {
 	// The current state of the Integration Instance.
 	LifecycleState IntegrationInstanceSummaryLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// Additional details of lifecycleState or substates
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// An message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 	StateMessage *string `mandatory:"false" json:"stateMessage"`
 
@@ -91,6 +94,9 @@ type IntegrationInstanceSummary struct {
 	Shape IntegrationInstanceSummaryShapeEnum `mandatory:"false" json:"shape,omitempty"`
 
 	PrivateEndpointOutboundConnection OutboundConnection `mandatory:"false" json:"privateEndpointOutboundConnection"`
+
+	// Is Disaster Recovery enabled for the integrationInstance
+	IsDisasterRecoveryEnabled *bool `mandatory:"false" json:"isDisasterRecoveryEnabled"`
 
 	// Data retention period set for given integration instance
 	DataRetentionPeriod IntegrationInstanceSummaryDataRetentionPeriodEnum `mandatory:"false" json:"dataRetentionPeriod,omitempty"`
@@ -133,6 +139,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		TimeCreated                       *common.SDKTime                                       `json:"timeCreated"`
 		TimeUpdated                       *common.SDKTime                                       `json:"timeUpdated"`
 		LifecycleState                    IntegrationInstanceSummaryLifecycleStateEnum          `json:"lifecycleState"`
+		LifecycleDetails                  *string                                               `json:"lifecycleDetails"`
 		StateMessage                      *string                                               `json:"stateMessage"`
 		InstanceDesignTimeUrl             *string                                               `json:"instanceDesignTimeUrl"`
 		IsFileServerEnabled               *bool                                                 `json:"isFileServerEnabled"`
@@ -146,6 +153,7 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 		SystemTags                        map[string]map[string]interface{}                     `json:"systemTags"`
 		Shape                             IntegrationInstanceSummaryShapeEnum                   `json:"shape"`
 		PrivateEndpointOutboundConnection outboundconnection                                    `json:"privateEndpointOutboundConnection"`
+		IsDisasterRecoveryEnabled         *bool                                                 `json:"isDisasterRecoveryEnabled"`
 		DataRetentionPeriod               IntegrationInstanceSummaryDataRetentionPeriodEnum     `json:"dataRetentionPeriod"`
 		Id                                *string                                               `json:"id"`
 		DisplayName                       *string                                               `json:"displayName"`
@@ -166,6 +174,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleState = model.LifecycleState
+
+	m.LifecycleDetails = model.LifecycleDetails
 
 	m.StateMessage = model.StateMessage
 
@@ -208,6 +218,8 @@ func (m *IntegrationInstanceSummary) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.PrivateEndpointOutboundConnection = nil
 	}
+
+	m.IsDisasterRecoveryEnabled = model.IsDisasterRecoveryEnabled
 
 	m.DataRetentionPeriod = model.DataRetentionPeriod
 

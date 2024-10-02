@@ -86,6 +86,13 @@ type Instance struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
+	// The lifecycle state of the `securityAttributes`
+	SecurityAttributesState InstanceSecurityAttributesStateEnum `mandatory:"false" json:"securityAttributesState,omitempty"`
+
 	// A user-friendly name. Does not have to be unique, and it's changeable.
 	// Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
@@ -195,6 +202,9 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetInstanceLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingInstanceSecurityAttributesStateEnum(string(m.SecurityAttributesState)); !ok && m.SecurityAttributesState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityAttributesState: %s. Supported values are: %s.", m.SecurityAttributesState, strings.Join(GetInstanceSecurityAttributesStateEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingInstanceLaunchModeEnum(string(m.LaunchMode)); !ok && m.LaunchMode != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LaunchMode: %s. Supported values are: %s.", m.LaunchMode, strings.Join(GetInstanceLaunchModeEnumStringValues(), ",")))
 	}
@@ -207,37 +217,39 @@ func (m Instance) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		CapacityReservationId     *string                           `json:"capacityReservationId"`
-		ClusterPlacementGroupId   *string                           `json:"clusterPlacementGroupId"`
-		DedicatedVmHostId         *string                           `json:"dedicatedVmHostId"`
-		DefinedTags               map[string]map[string]interface{} `json:"definedTags"`
-		DisplayName               *string                           `json:"displayName"`
-		ExtendedMetadata          map[string]interface{}            `json:"extendedMetadata"`
-		FaultDomain               *string                           `json:"faultDomain"`
-		FreeformTags              map[string]string                 `json:"freeformTags"`
-		ImageId                   *string                           `json:"imageId"`
-		IpxeScript                *string                           `json:"ipxeScript"`
-		LaunchMode                InstanceLaunchModeEnum            `json:"launchMode"`
-		LaunchOptions             *LaunchOptions                    `json:"launchOptions"`
-		InstanceOptions           *InstanceOptions                  `json:"instanceOptions"`
-		AvailabilityConfig        *InstanceAvailabilityConfig       `json:"availabilityConfig"`
-		PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `json:"preemptibleInstanceConfig"`
-		Metadata                  map[string]string                 `json:"metadata"`
-		ShapeConfig               *InstanceShapeConfig              `json:"shapeConfig"`
-		IsCrossNumaNode           *bool                             `json:"isCrossNumaNode"`
-		SourceDetails             instancesourcedetails             `json:"sourceDetails"`
-		SystemTags                map[string]map[string]interface{} `json:"systemTags"`
-		AgentConfig               *InstanceAgentConfig              `json:"agentConfig"`
-		TimeMaintenanceRebootDue  *common.SDKTime                   `json:"timeMaintenanceRebootDue"`
-		PlatformConfig            platformconfig                    `json:"platformConfig"`
-		InstanceConfigurationId   *string                           `json:"instanceConfigurationId"`
-		AvailabilityDomain        *string                           `json:"availabilityDomain"`
-		CompartmentId             *string                           `json:"compartmentId"`
-		Id                        *string                           `json:"id"`
-		LifecycleState            InstanceLifecycleStateEnum        `json:"lifecycleState"`
-		Region                    *string                           `json:"region"`
-		Shape                     *string                           `json:"shape"`
-		TimeCreated               *common.SDKTime                   `json:"timeCreated"`
+		CapacityReservationId     *string                             `json:"capacityReservationId"`
+		ClusterPlacementGroupId   *string                             `json:"clusterPlacementGroupId"`
+		DedicatedVmHostId         *string                             `json:"dedicatedVmHostId"`
+		DefinedTags               map[string]map[string]interface{}   `json:"definedTags"`
+		SecurityAttributes        map[string]map[string]interface{}   `json:"securityAttributes"`
+		SecurityAttributesState   InstanceSecurityAttributesStateEnum `json:"securityAttributesState"`
+		DisplayName               *string                             `json:"displayName"`
+		ExtendedMetadata          map[string]interface{}              `json:"extendedMetadata"`
+		FaultDomain               *string                             `json:"faultDomain"`
+		FreeformTags              map[string]string                   `json:"freeformTags"`
+		ImageId                   *string                             `json:"imageId"`
+		IpxeScript                *string                             `json:"ipxeScript"`
+		LaunchMode                InstanceLaunchModeEnum              `json:"launchMode"`
+		LaunchOptions             *LaunchOptions                      `json:"launchOptions"`
+		InstanceOptions           *InstanceOptions                    `json:"instanceOptions"`
+		AvailabilityConfig        *InstanceAvailabilityConfig         `json:"availabilityConfig"`
+		PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails   `json:"preemptibleInstanceConfig"`
+		Metadata                  map[string]string                   `json:"metadata"`
+		ShapeConfig               *InstanceShapeConfig                `json:"shapeConfig"`
+		IsCrossNumaNode           *bool                               `json:"isCrossNumaNode"`
+		SourceDetails             instancesourcedetails               `json:"sourceDetails"`
+		SystemTags                map[string]map[string]interface{}   `json:"systemTags"`
+		AgentConfig               *InstanceAgentConfig                `json:"agentConfig"`
+		TimeMaintenanceRebootDue  *common.SDKTime                     `json:"timeMaintenanceRebootDue"`
+		PlatformConfig            platformconfig                      `json:"platformConfig"`
+		InstanceConfigurationId   *string                             `json:"instanceConfigurationId"`
+		AvailabilityDomain        *string                             `json:"availabilityDomain"`
+		CompartmentId             *string                             `json:"compartmentId"`
+		Id                        *string                             `json:"id"`
+		LifecycleState            InstanceLifecycleStateEnum          `json:"lifecycleState"`
+		Region                    *string                             `json:"region"`
+		Shape                     *string                             `json:"shape"`
+		TimeCreated               *common.SDKTime                     `json:"timeCreated"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -252,6 +264,10 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.DedicatedVmHostId = model.DedicatedVmHostId
 
 	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.SecurityAttributesState = model.SecurityAttributesState
 
 	m.DisplayName = model.DisplayName
 
@@ -324,6 +340,48 @@ func (m *Instance) UnmarshalJSON(data []byte) (e error) {
 	m.TimeCreated = model.TimeCreated
 
 	return
+}
+
+// InstanceSecurityAttributesStateEnum Enum with underlying type: string
+type InstanceSecurityAttributesStateEnum string
+
+// Set of constants representing the allowable values for InstanceSecurityAttributesStateEnum
+const (
+	InstanceSecurityAttributesStateStable   InstanceSecurityAttributesStateEnum = "STABLE"
+	InstanceSecurityAttributesStateUpdating InstanceSecurityAttributesStateEnum = "UPDATING"
+)
+
+var mappingInstanceSecurityAttributesStateEnum = map[string]InstanceSecurityAttributesStateEnum{
+	"STABLE":   InstanceSecurityAttributesStateStable,
+	"UPDATING": InstanceSecurityAttributesStateUpdating,
+}
+
+var mappingInstanceSecurityAttributesStateEnumLowerCase = map[string]InstanceSecurityAttributesStateEnum{
+	"stable":   InstanceSecurityAttributesStateStable,
+	"updating": InstanceSecurityAttributesStateUpdating,
+}
+
+// GetInstanceSecurityAttributesStateEnumValues Enumerates the set of values for InstanceSecurityAttributesStateEnum
+func GetInstanceSecurityAttributesStateEnumValues() []InstanceSecurityAttributesStateEnum {
+	values := make([]InstanceSecurityAttributesStateEnum, 0)
+	for _, v := range mappingInstanceSecurityAttributesStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetInstanceSecurityAttributesStateEnumStringValues Enumerates the set of values in String for InstanceSecurityAttributesStateEnum
+func GetInstanceSecurityAttributesStateEnumStringValues() []string {
+	return []string{
+		"STABLE",
+		"UPDATING",
+	}
+}
+
+// GetMappingInstanceSecurityAttributesStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingInstanceSecurityAttributesStateEnum(val string) (InstanceSecurityAttributesStateEnum, bool) {
+	enum, ok := mappingInstanceSecurityAttributesStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // InstanceLaunchModeEnum Enum with underlying type: string

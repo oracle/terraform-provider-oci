@@ -24,7 +24,9 @@ import (
 // AddNetworkSecurityGroupSecurityRulesDetails The representation of AddNetworkSecurityGroupSecurityRulesDetails
 type AddNetworkSecurityGroupSecurityRulesDetails struct {
 
-	// The NSG security rules to add.
+	// An array of security rules to add to the NSG. You can add up to 25 rules in a single
+	// `AddNetworkSecurityGroupSecurityRules` operation.
+	// Adding more than 25 rules requires multiple operations.
 	SecurityRules []AddSecurityRuleDetails `mandatory:"false" json:"securityRules"`
 }
 

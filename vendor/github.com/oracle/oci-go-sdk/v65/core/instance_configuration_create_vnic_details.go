@@ -54,6 +54,10 @@ type InstanceConfigurationCreateVnicDetails struct {
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 
+	// Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.
+	// Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
+	SecurityAttributes map[string]map[string]interface{} `mandatory:"false" json:"securityAttributes"`
+
 	// A list of IPv6 prefixes from which the VNIC should be assigned an IPv6 address.
 	// You can provide only the prefix and OCI selects an available
 	// address from the range. You can optionally choose to leave the prefix range empty

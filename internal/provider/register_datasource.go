@@ -113,6 +113,7 @@ import (
 	tf_resourcemanager "github.com/oracle/terraform-provider-oci/internal/service/resourcemanager"
 	tf_sch "github.com/oracle/terraform-provider-oci/internal/service/sch"
 	tf_secrets "github.com/oracle/terraform-provider-oci/internal/service/secrets"
+	tf_security_attribute "github.com/oracle/terraform-provider-oci/internal/service/security_attribute"
 	tf_service_catalog "github.com/oracle/terraform-provider-oci/internal/service/service_catalog"
 	tf_service_manager_proxy "github.com/oracle/terraform-provider-oci/internal/service/service_manager_proxy"
 	tf_service_mesh "github.com/oracle/terraform-provider-oci/internal/service/service_mesh"
@@ -127,6 +128,7 @@ import (
 	tf_waa "github.com/oracle/terraform-provider-oci/internal/service/waa"
 	tf_waas "github.com/oracle/terraform-provider-oci/internal/service/waas"
 	tf_waf "github.com/oracle/terraform-provider-oci/internal/service/waf"
+	tf_zpr "github.com/oracle/terraform-provider-oci/internal/service/zpr"
 )
 
 func init() {
@@ -454,6 +456,9 @@ func init() {
 	if common.CheckForEnabledServices("secrets") {
 		tf_secrets.RegisterDatasource()
 	}
+	if common.CheckForEnabledServices("securityattribute") {
+		tf_security_attribute.RegisterDatasource()
+	}
 	if common.CheckForEnabledServices("servicecatalog") {
 		tf_service_catalog.RegisterDatasource()
 	}
@@ -495,6 +500,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("waf") {
 		tf_waf.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("zpr") {
+		tf_zpr.RegisterDatasource()
 	}
 
 }

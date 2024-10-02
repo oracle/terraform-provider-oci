@@ -4,7 +4,10 @@
 package core
 
 import (
+	"bytes"
 	"context"
+	"net"
+	"sort"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
@@ -48,9 +51,10 @@ func readCoreIpSecConnections(d *schema.ResourceData, m interface{}) error {
 }
 
 type CoreIpSecConnectionsDataSourceCrud struct {
-	D      *schema.ResourceData
-	Client *oci_core.VirtualNetworkClient
-	Res    *oci_core.ListIPSecConnectionsResponse
+	D          *schema.ResourceData
+	Client     *oci_core.VirtualNetworkClient
+	Res        *oci_core.ListIPSecConnectionsResponse
+	ResTunnels map[string][]PrivateIpSecConnectionTunnelResourceCrud
 }
 
 func (s *CoreIpSecConnectionsDataSourceCrud) VoidState() {
@@ -93,6 +97,17 @@ func (s *CoreIpSecConnectionsDataSourceCrud) Get() error {
 
 		s.Res.Items = append(s.Res.Items, listResponse.Items...)
 		request.Page = listResponse.OpcNextPage
+	}
+
+	s.ResTunnels = make(map[string][]PrivateIpSecConnectionTunnelResourceCrud, len(s.Res.Items))
+	for _, value := range s.Res.Items {
+		// only retrieve tunnels for tunnel config info if ipsec over fastconnect
+		if value.TransportType == oci_core.IpSecConnectionTransportTypeFastconnect {
+			err = s.GetTunnels(value.Id)
+			if err != nil {
+				return err
+			}
+		}
 	}
 
 	return nil
@@ -149,6 +164,29 @@ func (s *CoreIpSecConnectionsDataSourceCrud) SetData() error {
 
 		ipSecConnection["transport_type"] = r.TransportType
 
+		// set tunnel_configurations if ipsec over fast connect tunnel
+		if r.TransportType == oci_core.IpSecConnectionTransportTypeFastconnect {
+			tunnels := s.ResTunnels[*r.Id]
+			if tunnels != nil && len(tunnels) > 0 {
+				tmpList := make([]interface{}, len(tunnels))
+				for key, value := range tunnels {
+					t := make(map[string]interface{})
+					if value.OracleTunnelIp != nil {
+						t["oracle_tunnel_ip"] = *value.OracleTunnelIp
+					} else {
+						t["oracle_tunnel_ip"] = ""
+					}
+					t["associated_virtual_circuits"] = value.AssociatedVirtualCircuits
+					if value.DrgRouteTableId != nil {
+						t["drg_route_table_id"] = *value.DrgRouteTableId
+					} else {
+						t["drg_route_table_id"] = ""
+					}
+					tmpList[key] = t
+				}
+				ipSecConnection["tunnel_configuration"] = tmpList
+			}
+		}
 		resources = append(resources, ipSecConnection)
 	}
 
@@ -160,5 +198,76 @@ func (s *CoreIpSecConnectionsDataSourceCrud) SetData() error {
 		return err
 	}
 
+	return nil
+}
+
+func (s *CoreIpSecConnectionsDataSourceCrud) GetTunnels(Id *string) error {
+	request := oci_core.ListIPSecConnectionTunnelsRequest{}
+
+	request.IpscId = Id
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
+
+	response, err := s.Client.ListIPSecConnectionTunnels(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	resTunnels := &response
+	request.Page = resTunnels.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := s.Client.ListIPSecConnectionTunnels(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		resTunnels.Items = append(resTunnels.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+	sort.Slice(resTunnels.Items, func(i, j int) bool {
+		return bytes.Compare(net.ParseIP(*resTunnels.Items[i].VpnIp), net.ParseIP(*resTunnels.Items[j].VpnIp)) > 0
+	})
+	tunnelConfig := make([]PrivateIpSecConnectionTunnelResourceCrud, len(resTunnels.Items))
+	for key, value := range resTunnels.Items {
+		var tmp PrivateIpSecConnectionTunnelResourceCrud
+		tmp.AssociatedVirtualCircuits = value.AssociatedVirtualCircuits
+		tmp.OracleTunnelIp = value.VpnIp
+		err := s.GetDrgRouteTableId(value, &tmp)
+		if err != nil {
+			return err
+		}
+		tunnelConfig[key] = tmp
+	}
+	s.ResTunnels[*Id] = tunnelConfig
+	return nil
+}
+
+func (s *CoreIpSecConnectionsDataSourceCrud) GetDrgRouteTableId(tunnel oci_core.IpSecConnectionTunnel, t *PrivateIpSecConnectionTunnelResourceCrud) error {
+	request := oci_core.ListDrgAttachmentsRequest{}
+
+	request.NetworkId = tunnel.Id
+	request.CompartmentId = tunnel.CompartmentId
+	request.AttachmentType = oci_core.ListDrgAttachmentsAttachmentTypeIpsecTunnel
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "core")
+
+	response, err := s.Client.ListDrgAttachments(context.Background(), request)
+	if err != nil {
+		return err
+	}
+	resAtt := response
+	for request.Page != nil {
+		listResponse, err := s.Client.ListDrgAttachments(context.Background(), request)
+		if err != nil {
+			return err
+		}
+
+		resAtt.Items = append(resAtt.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+	if len(resAtt.Items) == 1 {
+		t.DrgRouteTableId = resAtt.Items[0].DrgRouteTableId
+	}
 	return nil
 }
