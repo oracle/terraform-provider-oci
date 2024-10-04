@@ -1,7 +1,5 @@
 
 variable "compartment_id" {}
-variable "tag_namespace1_name" {}
-variable "tag1_name" {}
 
 variable "defined_tags_value" {
   default = "defined_tags_value"
@@ -21,9 +19,6 @@ resource "oci_logging_log" "test_log" {
 resource "oci_logging_log_rule" "test_log_rule" {
   compartment_id = var.compartment_id
   custom_log_id = oci_logging_log.test_log.id
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.defined_tags_value
-  }
   description = "description2"
   display_name = "logRuleTFExampleName"
   freeform_tags = {
