@@ -88,4 +88,8 @@ The following attributes are exported:
 * `state` - The virtual circuit's current state. For information about the different states, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
 * `time_created` - The date and time the virtual circuit was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `type` - Whether the virtual circuit supports private or public peering. For more information, see [FastConnect Overview](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnect.htm). 
+* `virtual_circuit_redundancy_metadata` - Redundancy level details of the virtual circuit 
+	* `configured_redundancy_level` - The configured redundancy level of the virtual circuit
+	* `ipv4bgp_session_redundancy_status` - IPV4 BGP redundancy status indicates if the configured redundancy level is met
+	* `ipv6bgp_session_redundancy_status` - IPV6 BGP redundancy status indicates if the configured redundancy level is met
 

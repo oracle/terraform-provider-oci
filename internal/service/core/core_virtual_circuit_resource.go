@@ -240,6 +240,31 @@ func CoreVirtualCircuitResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"virtual_circuit_redundancy_metadata": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"configured_redundancy_level": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ipv4bgp_session_redundancy_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"ipv6bgp_session_redundancy_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 		},
 	}
 }
@@ -826,6 +851,12 @@ func (s *CoreVirtualCircuitResourceCrud) SetData() error {
 
 	s.D.Set("type", s.Res.Type)
 
+	if s.Res.VirtualCircuitRedundancyMetadata != nil {
+		s.D.Set("virtual_circuit_redundancy_metadata", []interface{}{VirtualCircuitRedundancyMetadataToMap(s.Res.VirtualCircuitRedundancyMetadata)})
+	} else {
+		s.D.Set("virtual_circuit_redundancy_metadata", nil)
+	}
+
 	return nil
 }
 
@@ -961,6 +992,18 @@ func CrossConnectMappingToMap(obj oci_core.CrossConnectMapping) map[string]inter
 	if obj.Vlan != nil {
 		result["vlan"] = int(*obj.Vlan)
 	}
+
+	return result
+}
+
+func VirtualCircuitRedundancyMetadataToMap(obj *oci_core.VirtualCircuitRedundancyMetadata) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["configured_redundancy_level"] = string(obj.ConfiguredRedundancyLevel)
+
+	result["ipv4bgp_session_redundancy_status"] = string(obj.Ipv4bgpSessionRedundancyStatus)
+
+	result["ipv6bgp_session_redundancy_status"] = string(obj.Ipv6bgpSessionRedundancyStatus)
 
 	return result
 }
