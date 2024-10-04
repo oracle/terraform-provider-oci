@@ -750,7 +750,7 @@ func ContinuousQueryStartPolicyToMap(obj *oci_cloud_guard.ContinuousQueryStartPo
 		result["start_policy_type"] = "ABSOLUTE_TIME_START_POLICY"
 
 		if v.QueryStartTime != nil {
-			result["query_start_time"] = v.QueryStartTime.Format(time.RFC3339Nano)
+			result["query_start_time"] = v.QueryStartTime.Round(time.Millisecond).Format(time.RFC3339Nano)
 		}
 	case oci_cloud_guard.NoDelayStartPolicy:
 		result["start_policy_type"] = "NO_DELAY_START_POLICY"
