@@ -66,6 +66,7 @@ resource "oci_dataflow_application" "test_application" {
 	private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	type = var.application_type
 	warehouse_bucket_uri = var.application_warehouse_bucket_uri
+	terminate_runs_on_deletion = true
 }
 ```
 
@@ -109,7 +110,7 @@ The following arguments are supported:
 * `spark_version` - (Required) (Updatable) The Spark version utilized to run the application. 
 * `type` - (Optional) The Spark application processing type. 
 * `warehouse_bucket_uri` - (Optional) (Updatable) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs. See https://docs.cloud.oracle.com/iaas/Content/API/SDKDocs/hdfsconnector.htm#uriformat. 
-
+* `terminate_runs_on_deletion` - (Optional) A boolean flag which indicates whether related non-terminal Run(s) for the Application should be terminated along with Application deletion or not.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
