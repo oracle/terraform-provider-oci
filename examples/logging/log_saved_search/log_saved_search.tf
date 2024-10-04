@@ -13,8 +13,6 @@ variable "log_group_defined_tags_value" {
   default = "tf-value-group"
 }
 variable "compartment_id" {}
-variable "tag_namespace1_name" {}
-variable "tag1_name" {}
 variable "test_log_saved_search_name" {
   default = "tf-exampleLogSavedSearch"
 }
@@ -26,9 +24,6 @@ resource "oci_logging_log_saved_search" "test_log_saved_search" {
   query          = "exampleQuery"
 
   #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description = "description"
 
   freeform_tags = var.log_saved_search_freeform_tags

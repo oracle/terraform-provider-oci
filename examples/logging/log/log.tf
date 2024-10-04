@@ -57,8 +57,7 @@ variable "test_log_group_id" {}
 variable "test_log_name" {
   default = "tf-exampleLog"
 }
-variable "tag_namespace1_name" {}
-variable "tag2_name" {}
+
 
 resource "oci_logging_log" "test_log" {
   #Required
@@ -84,9 +83,6 @@ resource "oci_logging_log" "test_log" {
     compartment_id = "ocid1.compartment.oc1..aaaaaaaa4rv5j2vzbrwaztnzvtu7kgswtigms4llcbylelylsqt2l3kl7gaa"
   }*/
 
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag2_name}" = var.defined_tags_value
-  }
   freeform_tags      = var.freeform_tags_value
   is_enabled         = "false"
   retention_duration = "30"
