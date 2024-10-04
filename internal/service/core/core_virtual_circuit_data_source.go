@@ -161,5 +161,11 @@ func (s *CoreVirtualCircuitDataSourceCrud) SetData() error {
 
 	s.D.Set("type", s.Res.Type)
 
+	if s.Res.VirtualCircuitRedundancyMetadata != nil {
+		s.D.Set("virtual_circuit_redundancy_metadata", []interface{}{VirtualCircuitRedundancyMetadataToMap(s.Res.VirtualCircuitRedundancyMetadata)})
+	} else {
+		s.D.Set("virtual_circuit_redundancy_metadata", nil)
+	}
+
 	return nil
 }

@@ -205,6 +205,12 @@ func (s *CoreVirtualCircuitsDataSourceCrud) SetData() error {
 
 		virtualCircuit["type"] = r.Type
 
+		if r.VirtualCircuitRedundancyMetadata != nil {
+			virtualCircuit["virtual_circuit_redundancy_metadata"] = []interface{}{VirtualCircuitRedundancyMetadataToMap(r.VirtualCircuitRedundancyMetadata)}
+		} else {
+			virtualCircuit["virtual_circuit_redundancy_metadata"] = nil
+		}
+
 		resources = append(resources, virtualCircuit)
 	}
 
