@@ -98,6 +98,8 @@ func (s *OpsiNewsReportDataSourceCrud) SetData() error {
 
 	s.D.Set("locale", s.Res.Locale)
 
+	s.D.Set("match_rule", s.Res.MatchRule)
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -115,6 +117,8 @@ func (s *OpsiNewsReportDataSourceCrud) SetData() error {
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
+
+	s.D.Set("tag_filters", s.Res.TagFilters)
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
