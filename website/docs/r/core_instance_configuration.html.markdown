@@ -465,12 +465,8 @@ The following arguments are supported:
 			* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 			* `is_pv_encryption_in_transit_enabled` - (Applicable when type=paravirtualized) Whether to enable in-transit encryption for the data volume's paravirtualized attachment. The default value is false.
 			* `is_read_only` - (Applicable when instance_type=compute) Whether the attachment should be created in read-only mode.
-			* `is_shareable` - (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified. 
-<<<<<<< HEAD
-			* `type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized". 
-=======
+			* `is_shareable` - (Applicable when instance_type=compute) Whether the attachment should be created in shareable mode. If an attachment is created in shareable mode, then other instances can attach the same volume, provided that they also create their attachments in shareable mode. Only certain volume types can be attached in shareable mode. Defaults to false if not specified.
 			* `type` - (Required) The type of volume. The only supported values are "iscsi" and "paravirtualized"
->>>>>>> d27cc8d600f (Added - Support for BDS - Resource Principal Support in BDS)
 			* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 		* `create_details` - (Applicable when instance_type=compute) Creates a new block volume. Please see [CreateVolumeDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVolumeDetails/) 
 			* `autotune_policies` - (Applicable when instance_type=compute) The list of autotune policies enabled for this volume.
@@ -946,10 +942,7 @@ The following arguments are supported:
 				* `hostname_label` - (Applicable when instance_type=instance_options) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 				* `nsg_ids` - (Applicable when instance_type=instance_options) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/). 
 				* `private_ip` - (Applicable when instance_type=instance_options) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
-<<<<<<< HEAD
-				* `security_attributes` - (Applicable when instance_type=instance_options) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
-=======
->>>>>>> d27cc8d600f (Added - Support for BDS - Resource Principal Support in BDS)
+				* `security_attributes` - (Applicable when instance_type=instance_options) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 				* `skip_source_dest_check` - (Applicable when instance_type=instance_options) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 				* `subnet_id` - (Applicable when instance_type=instance_options) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 			* `display_name` - (Applicable when instance_type=instance_options) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -964,19 +957,12 @@ The following arguments are supported:
 			* `hostname_label` - (Applicable when instance_type=compute) The hostname for the VNIC's primary private IP. See the `hostnameLabel` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 			* `nsg_ids` - (Applicable when instance_type=compute) A list of the OCIDs of the network security groups (NSGs) to add the VNIC to. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/NetworkSecurityGroup/). 
 			* `private_ip` - (Applicable when instance_type=compute) A private IP address of your choice to assign to the VNIC. See the `privateIp` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
-<<<<<<< HEAD
-			* `security_attributes` - (Applicable when instance_type=compute) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
-=======
->>>>>>> d27cc8d600f (Added - Support for BDS - Resource Principal Support in BDS)
+			* `security_attributes` - (Applicable when instance_type=compute) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 			* `skip_source_dest_check` - (Applicable when instance_type=compute) Whether the source/destination check is disabled on the VNIC. See the `skipSourceDestCheck` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 			* `subnet_id` - (Applicable when instance_type=compute) The OCID of the subnet to create the VNIC in. See the `subnetId` attribute of [CreateVnicDetails](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/CreateVnicDetails/) for more information. 
 		* `display_name` - (Applicable when instance_type=compute) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
-		* `nic_index` - (Applicable when instance_type=compute) Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm). 
-<<<<<<< HEAD
-* `instance_id` - (Required when source=INSTANCE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance to use to create the instance configuration. 
-=======
+		* `nic_index` - (Applicable when instance_type=compute) Which physical network interface card (NIC) the VNIC will use. Defaults to 0. Certain bare metal instance shapes have two active physical NICs (0 and 1). If you add a secondary VNIC to one of these instances, you can specify which NIC the VNIC will use. For more information, see [Virtual Network Interface Cards (VNICs)](https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVNICs.htm).
 * `instance_id` - (Required when source=INSTANCE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance to use to create the instance configuration.
->>>>>>> d27cc8d600f (Added - Support for BDS - Resource Principal Support in BDS)
 * `source` - (Optional) The source of the instance configuration. An instance configuration defines the settings to use when creating Compute instances, including details such as the base image, shape, and metadata. You can also specify the associated resources for the instance, such as block volume attachments and network configuration.
 
   When you create an instance configuration using an existing instance as a template, the instance configuration does not include any information from the source instance's boot volume, such as installed applications, binaries, and files on the instance. It also does not include the contents of any block volumes that are attached to the instance.
@@ -1428,11 +1414,8 @@ The following attributes are exported:
 					* `type` - The type of action to run when the instance is interrupted for eviction.
 			* `preferred_maintenance_action` - The preferred maintenance action for an instance. The default is LIVE_MIGRATE, if live migration is supported.
 				* `LIVE_MIGRATE` - Run maintenance using a live migration.
-				* `REBOOT` - Run maintenance using a reboot. 
-<<<<<<< HEAD
-			* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}` 
-=======
->>>>>>> d27cc8d600f (Added - Support for BDS - Resource Principal Support in BDS)
+				* `REBOOT` - Run maintenance using a reboot.
+			* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR": {"MaxEgressCount": {"value":"42","mode":"audit"}}}`
 			* `shape` - The shape of an instance. The shape determines the number of CPUs, amount of memory, and other resources allocated to the instance.
 
 			  You can enumerate all available shapes by calling [ListShapes](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/latest/Shape/ListShapes).
