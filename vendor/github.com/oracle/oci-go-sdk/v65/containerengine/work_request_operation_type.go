@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Engine for Kubernetes API
+// Kubernetes Engine API
 //
-// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
 // and manage cloud-native applications. For more information, see
-// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+// Overview of Kubernetes Engine (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -23,6 +23,7 @@ const (
 	WorkRequestOperationTypeClusterCreate         WorkRequestOperationTypeEnum = "CLUSTER_CREATE"
 	WorkRequestOperationTypeClusterUpdate         WorkRequestOperationTypeEnum = "CLUSTER_UPDATE"
 	WorkRequestOperationTypeClusterDelete         WorkRequestOperationTypeEnum = "CLUSTER_DELETE"
+	WorkRequestOperationTypeCreateNamespace       WorkRequestOperationTypeEnum = "CREATE_NAMESPACE"
 	WorkRequestOperationTypeNodepoolCreate        WorkRequestOperationTypeEnum = "NODEPOOL_CREATE"
 	WorkRequestOperationTypeNodepoolUpdate        WorkRequestOperationTypeEnum = "NODEPOOL_UPDATE"
 	WorkRequestOperationTypeNodepoolDelete        WorkRequestOperationTypeEnum = "NODEPOOL_DELETE"
@@ -43,6 +44,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"CLUSTER_CREATE":         WorkRequestOperationTypeClusterCreate,
 	"CLUSTER_UPDATE":         WorkRequestOperationTypeClusterUpdate,
 	"CLUSTER_DELETE":         WorkRequestOperationTypeClusterDelete,
+	"CREATE_NAMESPACE":       WorkRequestOperationTypeCreateNamespace,
 	"NODEPOOL_CREATE":        WorkRequestOperationTypeNodepoolCreate,
 	"NODEPOOL_UPDATE":        WorkRequestOperationTypeNodepoolUpdate,
 	"NODEPOOL_DELETE":        WorkRequestOperationTypeNodepoolDelete,
@@ -63,6 +65,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"cluster_create":         WorkRequestOperationTypeClusterCreate,
 	"cluster_update":         WorkRequestOperationTypeClusterUpdate,
 	"cluster_delete":         WorkRequestOperationTypeClusterDelete,
+	"create_namespace":       WorkRequestOperationTypeCreateNamespace,
 	"nodepool_create":        WorkRequestOperationTypeNodepoolCreate,
 	"nodepool_update":        WorkRequestOperationTypeNodepoolUpdate,
 	"nodepool_delete":        WorkRequestOperationTypeNodepoolDelete,
@@ -94,6 +97,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"CLUSTER_CREATE",
 		"CLUSTER_UPDATE",
 		"CLUSTER_DELETE",
+		"CREATE_NAMESPACE",
 		"NODEPOOL_CREATE",
 		"NODEPOOL_UPDATE",
 		"NODEPOOL_DELETE",

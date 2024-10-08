@@ -89,6 +89,10 @@ func (m *launchattachvolumedetails) UnmarshalPolymorphicJSON(data []byte) (inter
 
 	var err error
 	switch m.Type {
+	case "paravirtualized":
+		mm := LaunchAttachParavirtualizedVolumeDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "iscsi":
 		mm := LaunchAttachIScsiVolumeDetails{}
 		err = json.Unmarshal(data, &mm)
