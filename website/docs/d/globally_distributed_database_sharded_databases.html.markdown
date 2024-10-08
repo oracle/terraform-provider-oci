@@ -96,6 +96,9 @@ The following attributes are exported:
 * `ons_port_remote` - Ons remote port number.
 * `prefix` - Unique prefix for the sharded database.
 * `private_endpoint` - The OCID of private endpoint being used by the sharded database.
+* `replication_factor` - The Replication factor for RAFT replication based sharded database. Currently supported values are 3, 5 and 7. 
+* `replication_method` - The Replication method for sharded database. Use RAFT for Raft replication, and DG for DataGuard. If replicationMethod is not provided, it defaults to DG. 
+* `replication_unit` - For RAFT replication based sharded database, the value should be atleast twice the number of shards.
 * `shard_details` - Details of ATP-D based shards.
 	* `cloud_autonomous_vm_cluster_id` - Identifier of the primary cloudAutonomousVmCluster for the shard. 
 	* `compute_count` - The compute amount available to the underlying autonomous database associated with shard.
