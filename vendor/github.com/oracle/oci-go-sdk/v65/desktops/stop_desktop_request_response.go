@@ -30,6 +30,9 @@ type StopDesktopRequest struct {
 	// A token that uniquely identifies a request.
 	OpcRetryToken *string `mandatory:"false" contributesTo:"header" name:"opc-retry-token"`
 
+	// Force a STOP(power off) of the desktop if set to false
+	IsSoftStop *bool `mandatory:"false" contributesTo:"query" name:"isSoftStop"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

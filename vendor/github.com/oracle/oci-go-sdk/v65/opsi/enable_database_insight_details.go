@@ -60,6 +60,10 @@ func (m *enabledatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := EnableMdsMySqlDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "AUTONOMOUS_DATABASE":
+		mm := EnableAutonomousDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "MACS_MANAGED_CLOUD_DATABASE":
 		mm := EnableMacsManagedCloudDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
