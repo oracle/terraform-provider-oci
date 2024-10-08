@@ -23,6 +23,9 @@ type DesktopImage struct {
 
 	// The name of the desktop image.
 	ImageName *string `mandatory:"true" json:"imageName"`
+
+	// The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
+	OperatingSystem *string `mandatory:"false" json:"operatingSystem"`
 }
 
 func (m DesktopImage) String() string {

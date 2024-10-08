@@ -86,6 +86,8 @@ type CreateVmClusterDetails struct {
 
 	// Details of the file system configuration of the VM cluster.
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
+
+	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
 }
 
 func (m CreateVmClusterDetails) String() string {
