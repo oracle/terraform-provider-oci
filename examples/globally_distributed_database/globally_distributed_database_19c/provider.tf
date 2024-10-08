@@ -10,7 +10,5 @@ provider "oci" {
   region              = var.region
 }
 
-provider "local" {
-  version = ">=1.3.0" # Need this version of the local provider to support base64 encoded inputs
-}
+
 
