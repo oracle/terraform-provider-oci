@@ -9,6 +9,7 @@
 - Support for Stack Monitoring Maintenance Windows
 - To Support for Depracate old apps admin user creation with password
 - Support for Desktop as a Service: Private Access
+- Support for Proxy Protocol on OCI LBaaS
 
 ## 6.12.0 (October 02, 2024)
 
