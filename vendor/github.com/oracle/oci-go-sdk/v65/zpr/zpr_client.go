@@ -67,7 +67,7 @@ func newZprClientFromBaseClient(baseClient common.BaseClient, configProvider com
 
 // SetRegion overrides the region of this client.
 func (client *ZprClient) SetRegion(region string) {
-	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("zpr", "https://{service}.{region}.oci.{secondLevelDomain}", "${endpoint-template-prefix}")
+	client.Host = common.StringToRegion(region).EndpointForTemplate("zpr", "https://zpr.{region}.oci.{secondLevelDomain}")
 }
 
 // SetConfigurationProvider sets the configuration provider including the region, returns an error if is not valid
