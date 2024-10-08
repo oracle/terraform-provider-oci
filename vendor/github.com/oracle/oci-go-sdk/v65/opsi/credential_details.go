@@ -65,6 +65,10 @@ func (m *credentialdetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := CredentialByVault{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "CREDENTIALS_BY_IAM":
+		mm := CredentialByIam{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for CredentialDetails: %s.", m.CredentialType)
 		return *m, nil
@@ -99,16 +103,19 @@ type CredentialDetailsCredentialTypeEnum string
 const (
 	CredentialDetailsCredentialTypeSource CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_SOURCE"
 	CredentialDetailsCredentialTypeVault  CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_VAULT"
+	CredentialDetailsCredentialTypeIam    CredentialDetailsCredentialTypeEnum = "CREDENTIALS_BY_IAM"
 )
 
 var mappingCredentialDetailsCredentialTypeEnum = map[string]CredentialDetailsCredentialTypeEnum{
 	"CREDENTIALS_BY_SOURCE": CredentialDetailsCredentialTypeSource,
 	"CREDENTIALS_BY_VAULT":  CredentialDetailsCredentialTypeVault,
+	"CREDENTIALS_BY_IAM":    CredentialDetailsCredentialTypeIam,
 }
 
 var mappingCredentialDetailsCredentialTypeEnumLowerCase = map[string]CredentialDetailsCredentialTypeEnum{
 	"credentials_by_source": CredentialDetailsCredentialTypeSource,
 	"credentials_by_vault":  CredentialDetailsCredentialTypeVault,
+	"credentials_by_iam":    CredentialDetailsCredentialTypeIam,
 }
 
 // GetCredentialDetailsCredentialTypeEnumValues Enumerates the set of values for CredentialDetailsCredentialTypeEnum
@@ -125,6 +132,7 @@ func GetCredentialDetailsCredentialTypeEnumStringValues() []string {
 	return []string{
 		"CREDENTIALS_BY_SOURCE",
 		"CREDENTIALS_BY_VAULT",
+		"CREDENTIALS_BY_IAM",
 	}
 }
 
