@@ -138,6 +138,9 @@ type Vnic struct {
 	// List of IPv6 addresses assigned to the VNIC.
 	// Example: `2001:DB8::`
 	Ipv6Addresses []string `mandatory:"false" json:"ipv6Addresses"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m Vnic) String() string {

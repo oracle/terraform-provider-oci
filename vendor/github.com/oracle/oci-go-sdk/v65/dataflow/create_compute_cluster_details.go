@@ -89,6 +89,9 @@ type CreateComputeClusterDetails struct {
 
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`
+
+	// Async Operation Key for the operation on the cluster.
+	OperationKey *string `mandatory:"false" json:"operationKey"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

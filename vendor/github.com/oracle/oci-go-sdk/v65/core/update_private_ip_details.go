@@ -58,6 +58,9 @@ type UpdatePrivateIpDetails struct {
 	//  - Ephemeral
 	//  - Reserved
 	Lifetime UpdatePrivateIpDetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdatePrivateIpDetails) String() string {

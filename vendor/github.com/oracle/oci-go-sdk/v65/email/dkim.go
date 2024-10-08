@@ -70,6 +70,12 @@ type Dkim struct {
 	// Many DNS APIs require you to break this string into segments of fewer than 255 characters.
 	TxtRecordValue *string `mandatory:"false" json:"txtRecordValue"`
 
+	// Indicates whether the DKIM was imported.
+	IsImported *bool `mandatory:"false" json:"isImported"`
+
+	// Length of the RSA key used in the DKIM.
+	KeyLength *int `mandatory:"false" json:"keyLength"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

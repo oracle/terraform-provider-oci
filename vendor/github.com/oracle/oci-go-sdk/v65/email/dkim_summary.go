@@ -52,6 +52,12 @@ type DkimSummary struct {
 	// timestamp format, "YYYY-MM-ddThh:mmZ".
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
+	// Indicates whether the DKIM was imported.
+	IsImported *bool `mandatory:"false" json:"isImported"`
+
+	// Length of the RSA key used in the DKIM.
+	KeyLength *int `mandatory:"false" json:"keyLength"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

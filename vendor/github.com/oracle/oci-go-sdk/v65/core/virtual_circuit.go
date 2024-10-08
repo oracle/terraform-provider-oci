@@ -174,6 +174,8 @@ type VirtualCircuit struct {
 	//           ListQosBandwidthReservationTemplateShapes.
 	// Example: `FC_QoS_25_25_25_20`.
 	QosBandwidthReservationTemplateShapeName *string `mandatory:"false" json:"qosBandwidthReservationTemplateShapeName"`
+
+	VirtualCircuitRedundancyMetadata *VirtualCircuitRedundancyMetadata `mandatory:"false" json:"virtualCircuitRedundancyMetadata"`
 }
 
 func (m VirtualCircuit) String() string {

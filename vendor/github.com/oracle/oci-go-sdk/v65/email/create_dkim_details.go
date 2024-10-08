@@ -39,6 +39,9 @@ type CreateDkimDetails struct {
 	// and you can change it. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// The DKIM RSA Private Key in Privacy-Enhanced Mail (PEM) format. It is a text-based representation of the private key used for signing email messages.
+	PrivateKey *string `mandatory:"false" json:"privateKey"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

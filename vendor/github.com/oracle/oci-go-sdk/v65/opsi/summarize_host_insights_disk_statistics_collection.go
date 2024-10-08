@@ -65,6 +65,8 @@ const (
 	SummarizeHostInsightsDiskStatisticsCollectionUsageUnitMbps    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = "MBPS"
 	SummarizeHostInsightsDiskStatisticsCollectionUsageUnitIops    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = "IOPS"
 	SummarizeHostInsightsDiskStatisticsCollectionUsageUnitPercent SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = "PERCENT"
+	SummarizeHostInsightsDiskStatisticsCollectionUsageUnitWatts   SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = "WATTS"
+	SummarizeHostInsightsDiskStatisticsCollectionUsageUnitCelsius SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = map[string]SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum{
@@ -73,6 +75,8 @@ var mappingSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum = map[stri
 	"MBPS":    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitMbps,
 	"IOPS":    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitIops,
 	"PERCENT": SummarizeHostInsightsDiskStatisticsCollectionUsageUnitPercent,
+	"WATTS":   SummarizeHostInsightsDiskStatisticsCollectionUsageUnitWatts,
+	"CELSIUS": SummarizeHostInsightsDiskStatisticsCollectionUsageUnitCelsius,
 }
 
 var mappingSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnumLowerCase = map[string]SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum{
@@ -81,6 +85,8 @@ var mappingSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnumLowerCase =
 	"mbps":    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitMbps,
 	"iops":    SummarizeHostInsightsDiskStatisticsCollectionUsageUnitIops,
 	"percent": SummarizeHostInsightsDiskStatisticsCollectionUsageUnitPercent,
+	"watts":   SummarizeHostInsightsDiskStatisticsCollectionUsageUnitWatts,
+	"celsius": SummarizeHostInsightsDiskStatisticsCollectionUsageUnitCelsius,
 }
 
 // GetSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnum
@@ -100,6 +106,8 @@ func GetSummarizeHostInsightsDiskStatisticsCollectionUsageUnitEnumStringValues()
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

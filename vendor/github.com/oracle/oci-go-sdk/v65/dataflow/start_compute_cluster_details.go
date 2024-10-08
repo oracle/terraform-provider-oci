@@ -23,6 +23,9 @@ type StartComputeClusterDetails struct {
 
 	// HubProxyEndpoint of the cluster.
 	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
+
+	// Async Operation Key for the operation on the cluster.
+	OperationKey *string `mandatory:"false" json:"operationKey"`
 }
 
 func (m StartComputeClusterDetails) String() string {

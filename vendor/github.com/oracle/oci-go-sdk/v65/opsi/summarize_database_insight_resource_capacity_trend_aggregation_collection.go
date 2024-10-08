@@ -135,6 +135,8 @@ const (
 	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "MBPS"
 	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "IOPS"
 	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "PERCENT"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitWatts   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "WATTS"
+	SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCelsius SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum{
@@ -143,6 +145,8 @@ var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsa
 	"MBPS":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps,
 	"IOPS":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops,
 	"PERCENT": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent,
+	"WATTS":   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitWatts,
+	"CELSIUS": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCelsius,
 }
 
 var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum{
@@ -151,6 +155,8 @@ var mappingSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsa
 	"mbps":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitMbps,
 	"iops":    SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitIops,
 	"percent": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitPercent,
+	"watts":   SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitWatts,
+	"celsius": SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitCelsius,
 }
 
 // GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageUnitEnum
@@ -170,6 +176,8 @@ func GetSummarizeDatabaseInsightResourceCapacityTrendAggregationCollectionUsageU
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

@@ -45,6 +45,9 @@ type UpdateIpv6Details struct {
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// Lifetime of the IP address.
 	// There are two types of IPv6 IPs:
 	//  - Ephemeral

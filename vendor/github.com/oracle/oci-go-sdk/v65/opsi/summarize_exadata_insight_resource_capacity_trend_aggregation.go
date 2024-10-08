@@ -185,6 +185,8 @@ const (
 	SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitMbps    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = "MBPS"
 	SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitIops    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = "IOPS"
 	SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitPercent SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = "PERCENT"
+	SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitWatts   SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = "WATTS"
+	SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitCelsius SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum = map[string]SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum{
@@ -193,6 +195,8 @@ var mappingSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum 
 	"MBPS":    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitMbps,
 	"IOPS":    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitIops,
 	"PERCENT": SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitPercent,
+	"WATTS":   SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitWatts,
+	"CELSIUS": SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitCelsius,
 }
 
 var mappingSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnumLowerCase = map[string]SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum{
@@ -201,6 +205,8 @@ var mappingSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnumL
 	"mbps":    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitMbps,
 	"iops":    SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitIops,
 	"percent": SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitPercent,
+	"watts":   SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitWatts,
+	"celsius": SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitCelsius,
 }
 
 // GetSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnumValues Enumerates the set of values for SummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnum
@@ -220,6 +226,8 @@ func GetSummarizeExadataInsightResourceCapacityTrendAggregationUsageUnitEnumStri
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

@@ -50,6 +50,12 @@ const (
 	OperationTypeGoldengateDeploymentUpgradeSnooze     OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE"
 	OperationTypeGoldengateDeploymentCertificateCreate OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE"
 	OperationTypeGoldengateDeploymentCertificateDelete OperationTypeEnum = "GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE"
+	OperationTypeGoldengatePipelineCreate              OperationTypeEnum = "GOLDENGATE_PIPELINE_CREATE"
+	OperationTypeGoldengatePipelineStart               OperationTypeEnum = "GOLDENGATE_PIPELINE_START"
+	OperationTypeGoldengatePipelineStop                OperationTypeEnum = "GOLDENGATE_PIPELINE_STOP"
+	OperationTypeGoldengatePipelineUpdate              OperationTypeEnum = "GOLDENGATE_PIPELINE_UPDATE"
+	OperationTypeGoldengatePipelineDelete              OperationTypeEnum = "GOLDENGATE_PIPELINE_DELETE"
+	OperationTypeGoldengatePipelineMove                OperationTypeEnum = "GOLDENGATE_PIPELINE_MOVE"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -85,6 +91,12 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE": OperationTypeGoldengateDeploymentCertificateCreate,
 	"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE": OperationTypeGoldengateDeploymentCertificateDelete,
+	"GOLDENGATE_PIPELINE_CREATE":               OperationTypeGoldengatePipelineCreate,
+	"GOLDENGATE_PIPELINE_START":                OperationTypeGoldengatePipelineStart,
+	"GOLDENGATE_PIPELINE_STOP":                 OperationTypeGoldengatePipelineStop,
+	"GOLDENGATE_PIPELINE_UPDATE":               OperationTypeGoldengatePipelineUpdate,
+	"GOLDENGATE_PIPELINE_DELETE":               OperationTypeGoldengatePipelineDelete,
+	"GOLDENGATE_PIPELINE_MOVE":                 OperationTypeGoldengatePipelineMove,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -120,6 +132,12 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_deployment_upgrade_snooze":     OperationTypeGoldengateDeploymentUpgradeSnooze,
 	"goldengate_deployment_certificate_create": OperationTypeGoldengateDeploymentCertificateCreate,
 	"goldengate_deployment_certificate_delete": OperationTypeGoldengateDeploymentCertificateDelete,
+	"goldengate_pipeline_create":               OperationTypeGoldengatePipelineCreate,
+	"goldengate_pipeline_start":                OperationTypeGoldengatePipelineStart,
+	"goldengate_pipeline_stop":                 OperationTypeGoldengatePipelineStop,
+	"goldengate_pipeline_update":               OperationTypeGoldengatePipelineUpdate,
+	"goldengate_pipeline_delete":               OperationTypeGoldengatePipelineDelete,
+	"goldengate_pipeline_move":                 OperationTypeGoldengatePipelineMove,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -166,6 +184,12 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_DEPLOYMENT_UPGRADE_SNOOZE",
 		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_CREATE",
 		"GOLDENGATE_DEPLOYMENT_CERTIFICATE_DELETE",
+		"GOLDENGATE_PIPELINE_CREATE",
+		"GOLDENGATE_PIPELINE_START",
+		"GOLDENGATE_PIPELINE_STOP",
+		"GOLDENGATE_PIPELINE_UPDATE",
+		"GOLDENGATE_PIPELINE_DELETE",
+		"GOLDENGATE_PIPELINE_MOVE",
 	}
 }
 

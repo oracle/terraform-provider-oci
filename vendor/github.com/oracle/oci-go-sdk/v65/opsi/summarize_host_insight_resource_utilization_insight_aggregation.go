@@ -72,6 +72,8 @@ const (
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_UTILIZATION"
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_MEMORY_USAGE"
 	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo             SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "IO"
+	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuTemperature SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_TEMPERATURE"
+	SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuPower       SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = "GPU_POWER"
 )
 
 var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum = map[string]SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum{
@@ -83,6 +85,8 @@ var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetr
 	"GPU_UTILIZATION":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization,
 	"GPU_MEMORY_USAGE": SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage,
 	"IO":               SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo,
+	"GPU_TEMPERATURE":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuTemperature,
+	"GPU_POWER":        SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuPower,
 }
 
 var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum{
@@ -94,6 +98,8 @@ var mappingSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetr
 	"gpu_utilization":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuUtilization,
 	"gpu_memory_usage": SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuMemoryUsage,
 	"io":               SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricIo,
+	"gpu_temperature":  SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuTemperature,
+	"gpu_power":        SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricGpuPower,
 }
 
 // GetSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricEnum
@@ -116,6 +122,8 @@ func GetSummarizeHostInsightResourceUtilizationInsightAggregationResourceMetricE
 		"GPU_UTILIZATION",
 		"GPU_MEMORY_USAGE",
 		"IO",
+		"GPU_TEMPERATURE",
+		"GPU_POWER",
 	}
 }
 

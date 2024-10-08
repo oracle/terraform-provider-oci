@@ -113,6 +113,8 @@ const (
 	SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuUtilization SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = "GPU_UTILIZATION"
 	SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuMemoryUsage SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = "GPU_MEMORY_USAGE"
 	SummarizeHostInsightHostRecommendationAggregationResourceMetricIo             SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = "IO"
+	SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuTemperature SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = "GPU_TEMPERATURE"
+	SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuPower       SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = "GPU_POWER"
 )
 
 var mappingSummarizeHostInsightHostRecommendationAggregationResourceMetricEnum = map[string]SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum{
@@ -124,6 +126,8 @@ var mappingSummarizeHostInsightHostRecommendationAggregationResourceMetricEnum =
 	"GPU_UTILIZATION":  SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuUtilization,
 	"GPU_MEMORY_USAGE": SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuMemoryUsage,
 	"IO":               SummarizeHostInsightHostRecommendationAggregationResourceMetricIo,
+	"GPU_TEMPERATURE":  SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuTemperature,
+	"GPU_POWER":        SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuPower,
 }
 
 var mappingSummarizeHostInsightHostRecommendationAggregationResourceMetricEnumLowerCase = map[string]SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum{
@@ -135,6 +139,8 @@ var mappingSummarizeHostInsightHostRecommendationAggregationResourceMetricEnumLo
 	"gpu_utilization":  SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuUtilization,
 	"gpu_memory_usage": SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuMemoryUsage,
 	"io":               SummarizeHostInsightHostRecommendationAggregationResourceMetricIo,
+	"gpu_temperature":  SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuTemperature,
+	"gpu_power":        SummarizeHostInsightHostRecommendationAggregationResourceMetricGpuPower,
 }
 
 // GetSummarizeHostInsightHostRecommendationAggregationResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightHostRecommendationAggregationResourceMetricEnum
@@ -157,6 +163,8 @@ func GetSummarizeHostInsightHostRecommendationAggregationResourceMetricEnumStrin
 		"GPU_UTILIZATION",
 		"GPU_MEMORY_USAGE",
 		"IO",
+		"GPU_TEMPERATURE",
+		"GPU_POWER",
 	}
 }
 
@@ -176,6 +184,8 @@ const (
 	SummarizeHostInsightHostRecommendationAggregationUsageUnitMbps    SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = "MBPS"
 	SummarizeHostInsightHostRecommendationAggregationUsageUnitIops    SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = "IOPS"
 	SummarizeHostInsightHostRecommendationAggregationUsageUnitPercent SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = "PERCENT"
+	SummarizeHostInsightHostRecommendationAggregationUsageUnitWatts   SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = "WATTS"
+	SummarizeHostInsightHostRecommendationAggregationUsageUnitCelsius SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = map[string]SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum{
@@ -184,6 +194,8 @@ var mappingSummarizeHostInsightHostRecommendationAggregationUsageUnitEnum = map[
 	"MBPS":    SummarizeHostInsightHostRecommendationAggregationUsageUnitMbps,
 	"IOPS":    SummarizeHostInsightHostRecommendationAggregationUsageUnitIops,
 	"PERCENT": SummarizeHostInsightHostRecommendationAggregationUsageUnitPercent,
+	"WATTS":   SummarizeHostInsightHostRecommendationAggregationUsageUnitWatts,
+	"CELSIUS": SummarizeHostInsightHostRecommendationAggregationUsageUnitCelsius,
 }
 
 var mappingSummarizeHostInsightHostRecommendationAggregationUsageUnitEnumLowerCase = map[string]SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum{
@@ -192,6 +204,8 @@ var mappingSummarizeHostInsightHostRecommendationAggregationUsageUnitEnumLowerCa
 	"mbps":    SummarizeHostInsightHostRecommendationAggregationUsageUnitMbps,
 	"iops":    SummarizeHostInsightHostRecommendationAggregationUsageUnitIops,
 	"percent": SummarizeHostInsightHostRecommendationAggregationUsageUnitPercent,
+	"watts":   SummarizeHostInsightHostRecommendationAggregationUsageUnitWatts,
+	"celsius": SummarizeHostInsightHostRecommendationAggregationUsageUnitCelsius,
 }
 
 // GetSummarizeHostInsightHostRecommendationAggregationUsageUnitEnumValues Enumerates the set of values for SummarizeHostInsightHostRecommendationAggregationUsageUnitEnum
@@ -211,6 +225,8 @@ func GetSummarizeHostInsightHostRecommendationAggregationUsageUnitEnumStringValu
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

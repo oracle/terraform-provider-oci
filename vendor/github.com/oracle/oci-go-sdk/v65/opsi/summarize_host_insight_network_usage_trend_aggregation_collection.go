@@ -65,6 +65,8 @@ const (
 	SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitMbps    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = "MBPS"
 	SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitIops    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = "IOPS"
 	SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitPercent SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = "PERCENT"
+	SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitWatts   SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = "WATTS"
+	SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitCelsius SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum = map[string]SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum{
@@ -73,6 +75,8 @@ var mappingSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEn
 	"MBPS":    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitMbps,
 	"IOPS":    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitIops,
 	"PERCENT": SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitPercent,
+	"WATTS":   SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitWatts,
+	"CELSIUS": SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitCelsius,
 }
 
 var mappingSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum{
@@ -81,6 +85,8 @@ var mappingSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEn
 	"mbps":    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitMbps,
 	"iops":    SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitIops,
 	"percent": SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitPercent,
+	"watts":   SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitWatts,
+	"celsius": SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitCelsius,
 }
 
 // GetSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnum
@@ -100,6 +106,8 @@ func GetSummarizeHostInsightNetworkUsageTrendAggregationCollectionUsageUnitEnumS
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

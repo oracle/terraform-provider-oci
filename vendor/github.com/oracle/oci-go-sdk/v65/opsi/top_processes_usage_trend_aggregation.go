@@ -25,6 +25,9 @@ type TopProcessesUsageTrendAggregation struct {
 
 	// List of usage data samples for a top process
 	UsageData []TopProcessesUsageTrend `mandatory:"true" json:"usageData"`
+
+	// Host Process Alias
+	ProcessAlias *string `mandatory:"false" json:"processAlias"`
 }
 
 func (m TopProcessesUsageTrendAggregation) String() string {

@@ -22,16 +22,19 @@ type NewsFrequencyEnum string
 const (
 	NewsFrequencyWeekly NewsFrequencyEnum = "WEEKLY"
 	NewsFrequencyDaily  NewsFrequencyEnum = "DAILY"
+	NewsFrequencyHourly NewsFrequencyEnum = "HOURLY"
 )
 
 var mappingNewsFrequencyEnum = map[string]NewsFrequencyEnum{
 	"WEEKLY": NewsFrequencyWeekly,
 	"DAILY":  NewsFrequencyDaily,
+	"HOURLY": NewsFrequencyHourly,
 }
 
 var mappingNewsFrequencyEnumLowerCase = map[string]NewsFrequencyEnum{
 	"weekly": NewsFrequencyWeekly,
 	"daily":  NewsFrequencyDaily,
+	"hourly": NewsFrequencyHourly,
 }
 
 // GetNewsFrequencyEnumValues Enumerates the set of values for NewsFrequencyEnum
@@ -48,6 +51,7 @@ func GetNewsFrequencyEnumStringValues() []string {
 	return []string{
 		"WEEKLY",
 		"DAILY",
+		"HOURLY",
 	}
 }
 

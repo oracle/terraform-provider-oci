@@ -77,6 +77,8 @@ const (
 	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_UTILIZATION"
 	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_MEMORY_USAGE"
 	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricIo             SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "IO"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuTemperature SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_TEMPERATURE"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuPower       SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = "GPU_POWER"
 )
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum{
@@ -88,6 +90,8 @@ var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMe
 	"GPU_UTILIZATION":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization,
 	"GPU_MEMORY_USAGE": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage,
 	"IO":               SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricIo,
+	"GPU_TEMPERATURE":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuTemperature,
+	"GPU_POWER":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuPower,
 }
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnumLowerCase = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum{
@@ -99,6 +103,8 @@ var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMe
 	"gpu_utilization":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuUtilization,
 	"gpu_memory_usage": SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuMemoryUsage,
 	"io":               SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricIo,
+	"gpu_temperature":  SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuTemperature,
+	"gpu_power":        SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricGpuPower,
 }
 
 // GetSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetricEnum
@@ -121,6 +127,8 @@ func GetSummarizeHostInsightResourceStatisticsAggregationCollectionResourceMetri
 		"GPU_UTILIZATION",
 		"GPU_MEMORY_USAGE",
 		"IO",
+		"GPU_TEMPERATURE",
+		"GPU_POWER",
 	}
 }
 
@@ -140,6 +148,8 @@ const (
 	SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitMbps    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "MBPS"
 	SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitIops    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "IOPS"
 	SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitPercent SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "PERCENT"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitWatts   SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "WATTS"
+	SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitCelsius SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = "CELSIUS"
 )
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum{
@@ -148,6 +158,8 @@ var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitE
 	"MBPS":    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitMbps,
 	"IOPS":    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitIops,
 	"PERCENT": SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitPercent,
+	"WATTS":   SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitWatts,
+	"CELSIUS": SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitCelsius,
 }
 
 var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnumLowerCase = map[string]SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum{
@@ -156,6 +168,8 @@ var mappingSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitE
 	"mbps":    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitMbps,
 	"iops":    SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitIops,
 	"percent": SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitPercent,
+	"watts":   SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitWatts,
+	"celsius": SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitCelsius,
 }
 
 // GetSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnumValues Enumerates the set of values for SummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum
@@ -175,6 +189,8 @@ func GetSummarizeHostInsightResourceStatisticsAggregationCollectionUsageUnitEnum
 		"MBPS",
 		"IOPS",
 		"PERCENT",
+		"WATTS",
+		"CELSIUS",
 	}
 }
 

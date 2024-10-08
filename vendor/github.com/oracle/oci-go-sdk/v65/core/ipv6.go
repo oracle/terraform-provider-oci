@@ -78,6 +78,9 @@ type Ipv6 struct {
 	//  - Reserved
 	Lifetime Ipv6LifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 }

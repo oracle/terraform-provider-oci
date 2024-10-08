@@ -44,6 +44,9 @@ type TopProcessesUsage struct {
 	// Maximum number of processes running at time of collection.
 	MaxProcessCount *int `mandatory:"true" json:"maxProcessCount"`
 
+	// Host Process Alias
+	ProcessAlias *string `mandatory:"false" json:"processAlias"`
+
 	// Container id if this process corresponds to a running container in the host.
 	ContainerId *string `mandatory:"false" json:"containerId"`
 }

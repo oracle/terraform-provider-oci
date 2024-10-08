@@ -59,6 +59,9 @@ type CreateIpv6Details struct {
 	//  - Reserved
 	Lifetime CreateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
+
 	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
 	Ipv6SubnetCidr *string `mandatory:"false" json:"ipv6SubnetCidr"`
 

@@ -76,6 +76,9 @@ type UpdateVnicDetails struct {
 	// This is because the source/destination check is always disabled for VNICs in a VLAN.
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 
 func (m UpdateVnicDetails) String() string {
