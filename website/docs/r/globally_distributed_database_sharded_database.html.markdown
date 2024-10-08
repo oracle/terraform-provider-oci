@@ -89,6 +89,9 @@ resource "oci_globally_distributed_database_sharded_database" "test_sharded_data
 		#Optional
 		value = var.sharded_database_patch_operations_value
 	}
+	replication_factor = var.sharded_database_replication_factor
+	replication_method = var.sharded_database_replication_method
+	replication_unit = var.sharded_database_replication_unit
 }
 ```
 
@@ -127,6 +130,9 @@ The following arguments are supported:
 	* `selection` - (Required) (Updatable) 
 	* `value` - (Required when operation=INSERT | MERGE) (Updatable) 
 * `prefix` - (Required) Unique name prefix for the sharded databases. Only alpha-numeric values are allowed. First character has to be a letter followed by any combination of letter and number. 
+* `replication_factor` - (Optional) The Replication factor for RAFT replication based sharded database. Currently supported values are 3, 5 and 7. 
+* `replication_method` - (Optional) The Replication method for sharded database.
+* `replication_unit` - (Optional) For RAFT replication based sharded database, the value should be atleast twice the number of shards.
 * `shard_details` - (Required) Collection of ATP-Dedicated shards that needs to be created.
 	* `admin_password` - (Required) Admin password for shard database.
 	* `cloud_autonomous_vm_cluster_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
@@ -211,6 +217,9 @@ The following attributes are exported:
 * `ons_port_remote` - Ons remote port number.
 * `prefix` - Unique prefix for the sharded database.
 * `private_endpoint` - The OCID of private endpoint being used by the sharded database.
+* `replication_factor` - The Replication factor for RAFT replication based sharded database. Currently supported values are 3, 5 and 7. 
+* `replication_method` - The Replication method for sharded database. Use RAFT for Raft replication, and DG for DataGuard. If replicationMethod is not provided, it defaults to DG. 
+* `replication_unit` - For RAFT replication based sharded database, the value should be atleast twice the number of shards.
 * `shard_details` - Details of ATP-D based shards.
 	* `cloud_autonomous_vm_cluster_id` - Identifier of the primary cloudAutonomousVmCluster for the shard. 
 	* `compute_count` - The compute amount available to the underlying autonomous database associated with shard.
