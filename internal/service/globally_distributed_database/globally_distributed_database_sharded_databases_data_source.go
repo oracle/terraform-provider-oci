@@ -133,6 +133,18 @@ func GloballyDistributedDatabaseShardedDatabaseSummaryResource() *schema.Resourc
 				Type:     schema.TypeFloat,
 				ForceNew: true,
 			},
+			"replication_factor": {
+				Type:     schema.TypeInt,
+				ForceNew: true,
+			},
+			"replication_method": {
+				Type:     schema.TypeString,
+				ForceNew: true,
+			},
+			"replication_unit": {
+				Type:     schema.TypeInt,
+				ForceNew: true,
+			},
 		},
 	}
 }
