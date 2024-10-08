@@ -143,6 +143,16 @@ func (s *GloballyDistributedDatabaseShardedDatabaseDataSourceCrud) SetData() err
 			s.D.Set("private_endpoint", *v.PrivateEndpoint)
 		}
 
+		if v.ReplicationFactor != nil {
+			s.D.Set("replication_factor", *v.ReplicationFactor)
+		}
+
+		s.D.Set("replication_method", v.ReplicationMethod)
+
+		if v.ReplicationUnit != nil {
+			s.D.Set("replication_unit", *v.ReplicationUnit)
+		}
+
 		shardDetails := []interface{}{}
 		for _, item := range v.ShardDetails {
 			shardDetails = append(shardDetails, DedicatedShardDetailsToMap(item))

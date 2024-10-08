@@ -41,6 +41,7 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `nsg_ids` - (Optional) (Updatable) The OCIDs of the network security groups that the private endpoint belongs to. 
 * `subnet_id` - (Required) Identifier of the customer subnet against which private endpoint is to be created.
+* `reinstate_proxy_instance_trigger` - (Optional) (Updatable) An optional property when incremented triggers Reinstate Proxy Instance. Could be set to any integer value.
 
 
 ** IMPORTANT **
@@ -59,6 +60,7 @@ The following attributes are exported:
 * `lifecycle_state_details` - Detailed message for the lifecycle state.
 * `nsg_ids` - The OCIDs of the network security groups that the private endpoint belongs to. 
 * `private_ip` - IP address of the Private Endpoint.
+* `proxy_compute_instance_id` - The identifier of the proxy compute instance.
 * `sharded_databases` - The OCIDs of sharded databases that consumes the given private endpoint.
 * `state` - Lifecycle states for private endpoint.
 * `subnet_id` - Identifier of the subnet in which private endpoint exists.

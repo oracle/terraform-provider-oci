@@ -77,6 +77,10 @@ func GloballyDistributedDatabasePrivateEndpointResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"reinstate_proxy_instance_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"lifecycle_state_details": {
@@ -84,6 +88,10 @@ func GloballyDistributedDatabasePrivateEndpointResource() *schema.Resource {
 				Computed: true,
 			},
 			"private_ip": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"proxy_compute_instance_id": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -124,7 +132,18 @@ func createGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m 
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.CreateResource(d, sync)
+	if e := tfresource.CreateResource(d, sync); e != nil {
+		return e
+	}
+
+	if _, ok := sync.D.GetOkExists("reinstate_proxy_instance_trigger"); ok {
+		err := sync.ReinstateProxyInstance()
+		if err != nil {
+			return err
+		}
+	}
+	return nil
+
 }
 
 func readGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
@@ -140,7 +159,27 @@ func updateGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m 
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).ShardedDatabaseServiceClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("reinstate_proxy_instance_trigger"); ok && sync.D.HasChange("reinstate_proxy_instance_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("reinstate_proxy_instance_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ReinstateProxyInstance()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("reinstate_proxy_instance_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
+
+	if err := tfresource.UpdateResource(d, sync); err != nil {
+		return err
+	}
+
+	return nil
 }
 
 func deleteGloballyDistributedDatabasePrivateEndpoint(d *schema.ResourceData, m interface{}) error {
@@ -498,6 +537,10 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) SetData() error
 		s.D.Set("private_ip", *s.Res.PrivateIp)
 	}
 
+	if s.Res.ProxyComputeInstanceId != nil {
+		s.D.Set("proxy_compute_instance_id", *s.Res.ProxyComputeInstanceId)
+	}
+
 	s.D.Set("sharded_databases", s.Res.ShardedDatabases)
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -522,6 +565,32 @@ func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) SetData() error
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
 
+	return nil
+}
+
+func (s *GloballyDistributedDatabasePrivateEndpointResourceCrud) ReinstateProxyInstance() error {
+	request := oci_globally_distributed_database.ReinstateProxyInstanceRequest{}
+
+	idTmp := s.D.Id()
+	request.PrivateEndpointId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "globally_distributed_database")
+
+	//response, err := s.Client.ReinstateProxyInstance(context.Background(), request)
+	/*if err != nil {
+		return err
+	}*/
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("reinstate_proxy_instance_trigger")
+	s.D.Set("reinstate_proxy_instance_trigger", val)
+
+	s.Res = nil
+
+	//s.Res = &response.PrivateEndpoint
 	return nil
 }
 

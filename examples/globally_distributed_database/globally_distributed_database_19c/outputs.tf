@@ -11,7 +11,7 @@ output "oci_globally_distributed_database_sharded_database_non_secret" {
     oci_globally_distributed_database_sharded_database = {
       catalog_details = [
         for catalog_detail in oci_globally_distributed_database_sharded_database.this.catalog_details : {
-          admin_password                      = nonsensitive(catalog_detail.admin_password)
+          //admin_password                      = nonsensitive(catalog_detail.admin_password)
           cloud_autonomous_vm_cluster_id      = catalog_detail.cloud_autonomous_vm_cluster_id
           compute_count                       = catalog_detail.compute_count
           container_database_id               = catalog_detail.container_database_id
@@ -58,7 +58,7 @@ output "oci_globally_distributed_database_sharded_database_non_secret" {
       private_endpoint        = oci_globally_distributed_database_sharded_database.this.private_endpoint
       shard_details = [
         for shard_detail in oci_globally_distributed_database_sharded_database.this.shard_details : {
-          admin_password                      = nonsensitive(shard_detail.admin_password)
+          //admin_password                      = nonsensitive(shard_detail.admin_password)
           cloud_autonomous_vm_cluster_id      = shard_detail.cloud_autonomous_vm_cluster_id
           compute_count                       = shard_detail.compute_count
           container_database_id               = shard_detail.container_database_id
@@ -94,6 +94,7 @@ output "oci_globally_distributed_database_sharded_database_non_secret" {
     data_source_sharded_database  = data.oci_globally_distributed_database_sharded_database.this
     data_source_sharded_databases = data.oci_globally_distributed_database_sharded_databases.this
   }
+  sensitive = true
 }
 
 output "oci_globally_distributed_database_sharded_database" {
