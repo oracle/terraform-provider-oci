@@ -1,4 +1,4 @@
-## 6.13.0 (Unreleased)
+## 6.13.0 (October 09, 2024)
 
 ### Added
 - Desktop as a Service: Shape Flexibility
