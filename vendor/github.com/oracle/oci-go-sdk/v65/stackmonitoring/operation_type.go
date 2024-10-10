@@ -32,6 +32,10 @@ const (
 	OperationTypeBulkDeleteResources     OperationTypeEnum = "BULK_DELETE_RESOURCES"
 	OperationTypeUpdateAndPropagateTags  OperationTypeEnum = "UPDATE_AND_PROPAGATE_TAGS"
 	OperationTypeImportResources         OperationTypeEnum = "IMPORT_RESOURCES"
+	OperationTypeCreateMaintenanceWindow OperationTypeEnum = "CREATE_MAINTENANCE_WINDOW"
+	OperationTypeUpdateMaintenanceWindow OperationTypeEnum = "UPDATE_MAINTENANCE_WINDOW"
+	OperationTypeDeleteMaintenanceWindow OperationTypeEnum = "DELETE_MAINTENANCE_WINDOW"
+	OperationTypeStopMaintenanceWindow   OperationTypeEnum = "STOP_MAINTENANCE_WINDOW"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -49,6 +53,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"BULK_DELETE_RESOURCES":     OperationTypeBulkDeleteResources,
 	"UPDATE_AND_PROPAGATE_TAGS": OperationTypeUpdateAndPropagateTags,
 	"IMPORT_RESOURCES":          OperationTypeImportResources,
+	"CREATE_MAINTENANCE_WINDOW": OperationTypeCreateMaintenanceWindow,
+	"UPDATE_MAINTENANCE_WINDOW": OperationTypeUpdateMaintenanceWindow,
+	"DELETE_MAINTENANCE_WINDOW": OperationTypeDeleteMaintenanceWindow,
+	"STOP_MAINTENANCE_WINDOW":   OperationTypeStopMaintenanceWindow,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -66,6 +74,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"bulk_delete_resources":     OperationTypeBulkDeleteResources,
 	"update_and_propagate_tags": OperationTypeUpdateAndPropagateTags,
 	"import_resources":          OperationTypeImportResources,
+	"create_maintenance_window": OperationTypeCreateMaintenanceWindow,
+	"update_maintenance_window": OperationTypeUpdateMaintenanceWindow,
+	"delete_maintenance_window": OperationTypeDeleteMaintenanceWindow,
+	"stop_maintenance_window":   OperationTypeStopMaintenanceWindow,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -94,6 +106,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"BULK_DELETE_RESOURCES",
 		"UPDATE_AND_PROPAGATE_TAGS",
 		"IMPORT_RESOURCES",
+		"CREATE_MAINTENANCE_WINDOW",
+		"UPDATE_MAINTENANCE_WINDOW",
+		"DELETE_MAINTENANCE_WINDOW",
+		"STOP_MAINTENANCE_WINDOW",
 	}
 }
 

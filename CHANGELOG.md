@@ -1,3 +1,16 @@
+## 6.13.0 (October 09, 2024)
+
+### Added
+- Desktop as a Service: Shape Flexibility
+- Support for Operations Insights : Autonomous Database IAM based connections
+- Support for Customer Facing Scalable agent upgrade | ExaCC and ExaCS
+- 9/24- Support for ZPR v1
+- Support for PV Support for Launch w/Multiple Attachments Support for VMs
+- Support for Stack Monitoring Maintenance Windows
+- To Support for Depracate old apps admin user creation with password
+- Support for Desktop as a Service: Private Access
+- Support for Proxy Protocol on OCI LBaaS
+
 ## 6.12.0 (October 02, 2024)
 
 ### Added

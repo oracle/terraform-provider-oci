@@ -73,6 +73,7 @@ resource "oci_core_vcn" "test_vcn" {
 	ipv6private_cidr_blocks = var.vcn_ipv6private_cidr_blocks
 	is_ipv6enabled = var.vcn_is_ipv6enabled
 	is_oracle_gua_allocation_enabled = var.vcn_is_oracle_gua_allocation_enabled
+	security_attributes = var.vcn_security_attributes
 }
 ```
 
@@ -107,7 +108,7 @@ The following arguments are supported:
 	**Important:** Do *not* specify a value for `ipv6cidr_block`. Use this parameter instead. 
 * `is_ipv6enabled` - (Optional) Whether IPv6 is enabled for the VCN. Default is `false`. If enabled, Oracle will assign the VCN a IPv6 /56 CIDR block. You may skip having Oracle allocate the VCN a IPv6 /56 CIDR block by setting isOracleGuaAllocationEnabled to `false`. For important details about IPv6 addressing in a VCN, see [IPv6 Addresses](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/ipv6.htm).  Example: `true` 
 * `is_oracle_gua_allocation_enabled` - (Optional) Specifies whether to skip Oracle allocated IPv6 GUA. By default, Oracle will allocate one GUA of /56 size for an IPv6 enabled VCN. 
-
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}`
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -136,6 +137,7 @@ The following attributes are exported:
 * `id` - The VCN's Oracle ID ([OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
 * `ipv6cidr_blocks` - For an IPv6-enabled VCN, this is the list of IPv6 prefixes for the VCN's IP address space. The prefixes are provided by Oracle and the sizes are always /56. 
 * `ipv6private_cidr_blocks` - For an IPv6-enabled VCN, this is the list of Private IPv6 prefixes for the VCN's IP address space. 
+* `security_attributes` - Security Attributes for this resource. This is unique to ZPR, and helps identify which resources are allowed to be accessed by what permission controls.  Example: `{"Oracle-DataSecurity-ZPR.MaxEgressCount.value": "42", "Oracle-DataSecurity-ZPR.MaxEgressCount.mode": "audit"}` 
 * `state` - The VCN's current state.
 * `time_created` - The date and time the VCN was created, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).  Example: `2016-08-25T21:10:29.600Z` 
 * `vcn_domain_name` - The VCN's domain name, which consists of the VCN's DNS label, and the `oraclevcn.com` domain.

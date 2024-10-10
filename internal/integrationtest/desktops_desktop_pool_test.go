@@ -66,6 +66,9 @@ var (
 		"description":              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"nsg_ids":                  acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolShapeConfigRepresentation},
+		"use_dedicated_vm_host":    acctest.Representation{RepType: acctest.Optional, Create: `${var.test_use_dedicated_vm_host}`},
+		"private_access_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DesktopsDesktopPoolPrivateAccessDetailsRepresentation},
 	}
 	DesktopsDesktopPoolAvailabilityPolicyRepresentation = map[string]interface{}{
 		"start_schedule": acctest.RepresentationGroup{RepType: acctest.Required, Group: DesktopsDesktopPoolAvailabilityPolicyStartScheduleRepresentation},
@@ -87,6 +90,16 @@ var (
 	DesktopsDesktopPoolNetworkConfigurationRepresentation = map[string]interface{}{
 		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${var.test_subnet_id}`},
 		"vcn_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.test_vcn_id}`},
+	}
+	DesktopsDesktopPoolShapeConfigRepresentation = map[string]interface{}{
+		"baseline_ocpu_utilization": acctest.Representation{RepType: acctest.Optional, Create: `${var.test_shape_config_baseline_ocpu_utilization}`},
+		"memory_in_gbs":             acctest.Representation{RepType: acctest.Optional, Create: `${var.test_shape_config_memory_in_gbs}`},
+		"ocpus":                     acctest.Representation{RepType: acctest.Optional, Create: `${var.test_shape_config_ocpus}`},
+	}
+	DesktopsDesktopPoolPrivateAccessDetailsRepresentation = map[string]interface{}{
+		"subnet_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.test_private_access_subnet_id}`},
+		"nsg_ids":    acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_private_access_nsg_id}`}},
+		"private_ip": acctest.Representation{RepType: acctest.Optional, Create: `${var.test_private_access_private_ip}`},
 	}
 	DesktopsDesktopPoolAvailabilityPolicyStartScheduleRepresentation = map[string]interface{}{
 		"cron_expression": acctest.Representation{RepType: acctest.Required, Create: `${var.test_start_schedule_cron_expr_create}`, Update: `${var.test_start_schedule_cron_expr_update}`},
@@ -142,6 +155,27 @@ var (
 	test_nsg_id      = utils.GetEnvSettingWithBlankDefault("test_nsg_id")
 	nsgIdVariableStr = fmt.Sprintf("variable \"test_nsg_id\" { default = \"%s\" }\n", test_nsg_id)
 
+	test_use_dedicated_vm_host    = utils.GetEnvSettingWithBlankDefault("test_use_dedicated_vm_host")
+	useDedicatedVmHostVariableStr = fmt.Sprintf("variable \"test_use_dedicated_vm_host\" { default = \"%s\" }\n", test_use_dedicated_vm_host)
+
+	test_shape_config_baseline_ocpu_utilization   = utils.GetEnvSettingWithBlankDefault("test_shape_config_baseline_ocpu_utilization")
+	shapeConfigBaselineOcpuUtilizationVariableStr = fmt.Sprintf("variable \"test_shape_config_baseline_ocpu_utilization\" { default = \"%s\" }\n", test_shape_config_baseline_ocpu_utilization)
+
+	test_shape_config_memory_in_gbs   = utils.GetEnvSettingWithBlankDefault("test_shape_config_memory_in_gbs")
+	shapeConfigMemoryInGbsVariableStr = fmt.Sprintf("variable \"test_shape_config_memory_in_gbs\" { default = \"%s\" }\n", test_shape_config_memory_in_gbs)
+
+	test_shape_config_ocpus     = utils.GetEnvSettingWithBlankDefault("test_shape_config_ocpus")
+	shapeConfigOcpusVariableStr = fmt.Sprintf("variable \"test_shape_config_ocpus\" { default = \"%s\" }\n", test_shape_config_ocpus)
+
+	test_private_access_subnet_id    = utils.GetEnvSettingWithBlankDefault("test_private_access_subnet_id")
+	privateAccessSubnetIdVariableStr = fmt.Sprintf("variable \"test_private_access_subnet_id\" { default = \"%s\" }\n", test_private_access_subnet_id)
+
+	test_private_access_nsg_id    = utils.GetEnvSettingWithBlankDefault("test_private_access_nsg_id")
+	privateAccessNsgIdVariableStr = fmt.Sprintf("variable \"test_private_access_nsg_id\" { default = \"%s\" }\n", test_private_access_nsg_id)
+
+	test_private_access_private_ip    = utils.GetEnvSettingWithBlankDefault("test_private_access_private_ip")
+	privateAccessPrivateIpVariableStr = fmt.Sprintf("variable \"test_private_access_private_ip\" { default = \"%s\" }\n", test_private_access_private_ip)
+
 	DesktopsDesktopPoolResourceDependencies = vcnIdVariableStr +
 		subnetIdVariableStr +
 		shapeNameVariableStr +
@@ -157,6 +191,13 @@ var (
 		stopScheduleTimezoneCreateVariableStr +
 		stopScheduleTimezoneUpdateVariableStr +
 		nsgIdVariableStr +
+		useDedicatedVmHostVariableStr +
+		shapeConfigBaselineOcpuUtilizationVariableStr +
+		shapeConfigMemoryInGbsVariableStr +
+		shapeConfigOcpusVariableStr +
+		privateAccessSubnetIdVariableStr +
+		privateAccessNsgIdVariableStr +
+		privateAccessPrivateIpVariableStr +
 		AvailabilityDomainConfig
 )
 
@@ -268,12 +309,21 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "standby_size", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "use_dedicated_vm_host"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -326,12 +376,21 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "standby_size", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "use_dedicated_vm_host"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -379,12 +438,21 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "network_configuration.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.subnet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "network_configuration.0.vcn_id"),
+				resource.TestCheckResourceAttr(resourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.baseline_ocpu_utilization"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(resourceName, "shape_config.0.ocpus"),
+				resource.TestCheckResourceAttr(resourceName, "private_access_details.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.private_ip"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "private_access_details.0.vcn_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "standby_size", "3"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "use_dedicated_vm_host"),
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -455,11 +523,20 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_storage_enabled", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "maximum_size", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "network_configuration.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "private_access_details.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.endpoint_fqdn"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.private_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_access_details.0.vcn_id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.baseline_ocpu_utilization"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.memory_in_gbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_config.0.ocpus"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "shape_name"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "standby_size", "3"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "use_dedicated_vm_host"),
 			),
 		},
 		// verify resource import

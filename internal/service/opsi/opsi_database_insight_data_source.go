@@ -67,6 +67,90 @@ func (s *OpsiDatabaseInsightDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("OpsiDatabaseInsightsSingularDataSource-", OpsiDatabaseInsightsDataSource(), s.D))
 	switch v := (s.Res.DatabaseInsight).(type) {
+	case oci_opsi.AutonomousDatabaseInsight:
+		s.D.Set("entity_source", "AUTONOMOUS_DATABASE")
+
+		if v.ConnectionDetails != nil {
+			s.D.Set("connection_details", []interface{}{ConnectionDetailsToMap(v.ConnectionDetails)})
+		} else {
+			s.D.Set("connection_details", nil)
+		}
+		log.Printf("[DEBUG] in data source setData")
+		if v.CredentialDetails != nil {
+			credentialDetailsArray := []interface{}{}
+			if credentialDetailsMap := CredentialDetailsToMap(&v.CredentialDetails); credentialDetailsMap != nil {
+				credentialDetailsArray = append(credentialDetailsArray, credentialDetailsMap)
+			}
+			s.D.Set("credential_details", credentialDetailsArray)
+		} else {
+			s.D.Set("credential_details", nil)
+		}
+
+		if v.DatabaseDisplayName != nil {
+			s.D.Set("database_display_name", *v.DatabaseDisplayName)
+		}
+
+		if v.DatabaseId != nil {
+			s.D.Set("database_id", *v.DatabaseId)
+		}
+
+		if v.DatabaseName != nil {
+			s.D.Set("database_name", *v.DatabaseName)
+		}
+
+		if v.DatabaseResourceType != nil {
+			s.D.Set("database_resource_type", *v.DatabaseResourceType)
+		}
+
+		if v.OpsiPrivateEndpointId != nil {
+			s.D.Set("opsi_private_endpoint_id", *v.OpsiPrivateEndpointId)
+		}
+
+		if v.IsAdvancedFeaturesEnabled != nil {
+			s.D.Set("is_advanced_features_enabled", *v.IsAdvancedFeaturesEnabled)
+		}
+
+		if v.CompartmentId != nil {
+			s.D.Set("compartment_id", *v.CompartmentId)
+		}
+
+		if v.DatabaseConnectionStatusDetails != nil {
+			s.D.Set("database_connection_status_details", *v.DatabaseConnectionStatusDetails)
+		}
+
+		if v.DatabaseType != nil {
+			s.D.Set("database_type", *v.DatabaseType)
+		}
+
+		if v.DatabaseVersion != nil {
+			s.D.Set("database_version", *v.DatabaseVersion)
+		}
+
+		if v.DefinedTags != nil {
+			s.D.Set("defined_tags", tfresource.DefinedTagsToMap(v.DefinedTags))
+		}
+
+		s.D.Set("freeform_tags", v.FreeformTags)
+
+		if v.LifecycleDetails != nil {
+			s.D.Set("lifecycle_details", *v.LifecycleDetails)
+		}
+
+		s.D.Set("state", v.LifecycleState)
+
+		s.D.Set("status", v.Status)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
+
+		if v.TimeCreated != nil {
+			s.D.Set("time_created", v.TimeCreated.String())
+		}
+
+		if v.TimeUpdated != nil {
+			s.D.Set("time_updated", v.TimeUpdated.String())
+		}
 	case oci_opsi.EmManagedExternalDatabaseInsight:
 		s.D.Set("entity_source", "EM_MANAGED_EXTERNAL_DATABASE")
 

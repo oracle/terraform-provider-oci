@@ -2,11 +2,11 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Container Engine for Kubernetes API
+// Kubernetes Engine API
 //
-// API for the Container Engine for Kubernetes service. Use this API to build, deploy,
+// API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
 // and manage cloud-native applications. For more information, see
-// Overview of Container Engine for Kubernetes (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
+// Overview of Kubernetes Engine (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
 package containerengine
@@ -20,7 +20,7 @@ import (
 // StartCredentialRotationDetails Properties that define a request to start credential rotation on a kubernetes cluster.
 type StartCredentialRotationDetails struct {
 
-	// The duration in days(in ISO 8601 notation eg. P5D) after which the old credentials should be retired. Maximum delay duration is 14 days.
+	// The duration in days(in ISO 8601 notation eg. P5D) after which the old credentials should be retired. Maximum delay duration is 90 days.
 	AutoCompletionDelayDuration *string `mandatory:"true" json:"autoCompletionDelayDuration"`
 }
 

@@ -66,6 +66,69 @@ func DatabaseVmClusterAddVirtualMachineResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"cloud_automation_update_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"apply_update_time_preference": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"apply_update_preferred_end_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"apply_update_preferred_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"freeze_period": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"freeze_period_end_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"freeze_period_start_time": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"is_early_adoption_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_freeze_period_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -301,6 +364,12 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	if s.Res.CloudAutomationUpdateDetails != nil {
+		s.D.Set("cloud_automation_update_details", []interface{}{CloudAutomationUpdateDetailsToMap(s.Res.CloudAutomationUpdateDetails)})
+	} else {
+		s.D.Set("cloud_automation_update_details", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -394,6 +463,74 @@ func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) CloudAutomationApplyUpdateTimePreferenceToMap(obj *oci_database.CloudAutomationApplyUpdateTimePreference) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApplyUpdatePreferredEndTime != nil {
+		result["apply_update_preferred_end_time"] = string(*obj.ApplyUpdatePreferredEndTime)
+	}
+
+	if obj.ApplyUpdatePreferredStartTime != nil {
+		result["apply_update_preferred_start_time"] = string(*obj.ApplyUpdatePreferredStartTime)
+	}
+
+	return result
+}
+
+func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) CloudAutomationFreezePeriodToMap(obj *oci_database.CloudAutomationFreezePeriod) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.FreezePeriodEndTime != nil {
+		result["freeze_period_end_time"] = string(*obj.FreezePeriodEndTime)
+	}
+
+	if obj.FreezePeriodStartTime != nil {
+		result["freeze_period_start_time"] = string(*obj.FreezePeriodStartTime)
+	}
+
+	return result
+}
+
+func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) CloudAutomationUpdateDetailsToMap(obj *oci_database.CloudAutomationUpdateDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ApplyUpdateTimePreference != nil {
+		result["apply_update_time_preference"] = []interface{}{CloudAutomationApplyUpdateTimePreferenceToMap(obj.ApplyUpdateTimePreference)}
+	}
+
+	if obj.FreezePeriod != nil {
+		result["freeze_period"] = []interface{}{CloudAutomationFreezePeriodToMap(obj.FreezePeriod)}
+	}
+
+	if obj.IsEarlyAdoptionEnabled != nil {
+		result["is_early_adoption_enabled"] = bool(*obj.IsEarlyAdoptionEnabled)
+	}
+
+	if obj.IsFreezePeriodEnabled != nil {
+		result["is_freeze_period_enabled"] = bool(*obj.IsFreezePeriodEnabled)
+	}
+
+	return result
+}
+
+func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) DataCollectionOptionsToMap(obj *oci_database.DataCollectionOptions) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsDiagnosticsEventsEnabled != nil {
+		result["is_diagnostics_events_enabled"] = bool(*obj.IsDiagnosticsEventsEnabled)
+	}
+
+	if obj.IsHealthMonitoringEnabled != nil {
+		result["is_health_monitoring_enabled"] = bool(*obj.IsHealthMonitoringEnabled)
+	}
+
+	if obj.IsIncidentLogsEnabled != nil {
+		result["is_incident_logs_enabled"] = bool(*obj.IsIncidentLogsEnabled)
+	}
+
+	return result
 }
 
 func (s *DatabaseVmClusterAddVirtualMachineResourceCrud) mapToDbServerDetails(fieldKeyFormat string) (oci_database.DbServerDetails, error) {
