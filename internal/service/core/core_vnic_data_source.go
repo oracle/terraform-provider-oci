@@ -78,6 +78,11 @@ func CoreVnicDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"skip_source_dest_check": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -186,6 +191,10 @@ func (s *CoreVnicDataSourceCrud) SetData() error {
 
 	if s.Res.PublicIp != nil {
 		s.D.Set("public_ip_address", *s.Res.PublicIp)
+	}
+
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 	}
 
 	if s.Res.SkipSourceDestCheck != nil {

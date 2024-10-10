@@ -2221,7 +2221,7 @@ func (client FusionApplicationsClient) listWorkRequests(ctx context.Context, req
 	return response, err
 }
 
-// ResetFusionEnvironmentPassword Resets the password of the Fusion Environment Administrator.
+// ResetFusionEnvironmentPassword Reset FusionEnvironment admin password. This API will be deprecated on Mon, 15 Jan 2024 01:00:00 GMT. Users can reset password themselves, FAaaS will no longer provide an API for this.
 //
 // # See also
 //

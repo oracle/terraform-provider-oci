@@ -110,6 +110,10 @@ func (s *CoreVcnDataSourceCrud) SetData() error {
 
 	s.D.Set("ipv6private_cidr_blocks", s.Res.Ipv6PrivateCidrBlocks)
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	s.D.Set("state", s.Res.LifecycleState)
 
 	if s.Res.TimeCreated != nil {

@@ -1,0 +1,20 @@
+# OCI config profile
+config_file_profile="terraform-federation-test"
+
+# region (us-phoenix-1, ca-toronto-1, etc)
+region="us-phoenix-1"
+
+# Secure Desktops with Shape Flexibility Example Configuration
+
+compartment_id                                      = "<compartment_ocid>"
+
+desktop_pool_vcn_id                                 = "<vcn_ocid>"
+desktop_pool_subnet_id                              = "<subnet_ocid>"
+desktop_pool_image_id                               = "<image_ocid>"
+desktop_pool_image_name                             = "<image_name>"
+desktop_pool_backup_policy_id                       = "<volume_backup_policy_ocid>"
+desktop_pool_contact_details                        = "test%40example.com"
+desktop_pool_shape_config_baseline_ocpu_utilization = "BASELINE_1_2"
+desktop_pool_shape_config_memory_in_gbs             = 4
+desktop_pool_shape_config_ocpus                     = 2
+desktop_pool_use_dedicated_vm_host                  = "FALSE"

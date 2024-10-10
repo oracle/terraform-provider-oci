@@ -670,6 +670,70 @@ func (client StackMonitoringClient) createDiscoveryJob(ctx context.Context, requ
 	return response, err
 }
 
+// CreateMaintenanceWindow Creates a new Maintenance Window for the given resources. It will create also the
+// Alarms Suppression for each alarm that the resource migth trigger.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/CreateMaintenanceWindow.go.html to see an example of how to use CreateMaintenanceWindow API.
+// A default retry strategy applies to this operation CreateMaintenanceWindow()
+func (client StackMonitoringClient) CreateMaintenanceWindow(ctx context.Context, request CreateMaintenanceWindowRequest) (response CreateMaintenanceWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createMaintenanceWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateMaintenanceWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateMaintenanceWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateMaintenanceWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateMaintenanceWindowResponse")
+	}
+	return
+}
+
+// createMaintenanceWindow implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createMaintenanceWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maintenanceWindows", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateMaintenanceWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/CreateMaintenanceWindow"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateMaintenanceWindow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateMetricExtension Creates a new metric extension resource for a given compartment
 //
 // # See also
@@ -1152,6 +1216,63 @@ func (client StackMonitoringClient) deleteDiscoveryJob(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJob/DeleteDiscoveryJob"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteDiscoveryJob", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteMaintenanceWindow Deletes a maintenance window by identifier
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/DeleteMaintenanceWindow.go.html to see an example of how to use DeleteMaintenanceWindow API.
+func (client StackMonitoringClient) DeleteMaintenanceWindow(ctx context.Context, request DeleteMaintenanceWindowRequest) (response DeleteMaintenanceWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteMaintenanceWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteMaintenanceWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteMaintenanceWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteMaintenanceWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteMaintenanceWindowResponse")
+	}
+	return
+}
+
+// deleteMaintenanceWindow implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteMaintenanceWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/maintenanceWindows/{maintenanceWindowId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteMaintenanceWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/DeleteMaintenanceWindow"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteMaintenanceWindow", apiReferenceLink)
 		return response, err
 	}
 
@@ -1940,6 +2061,64 @@ func (client StackMonitoringClient) getDiscoveryJob(ctx context.Context, request
 	return response, err
 }
 
+// GetMaintenanceWindow Get maintenance window for the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/GetMaintenanceWindow.go.html to see an example of how to use GetMaintenanceWindow API.
+// A default retry strategy applies to this operation GetMaintenanceWindow()
+func (client StackMonitoringClient) GetMaintenanceWindow(ctx context.Context, request GetMaintenanceWindowRequest) (response GetMaintenanceWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getMaintenanceWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetMaintenanceWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetMaintenanceWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetMaintenanceWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetMaintenanceWindowResponse")
+	}
+	return
+}
+
+// getMaintenanceWindow implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getMaintenanceWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceWindows/{maintenanceWindowId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetMaintenanceWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/GetMaintenanceWindow"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetMaintenanceWindow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetMetricExtension Gets a Metric Extension by identifier
 //
 // # See also
@@ -2513,6 +2692,64 @@ func (client StackMonitoringClient) listDiscoveryJobs(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiscoveryJobCollection/ListDiscoveryJobs"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListDiscoveryJobs", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListMaintenanceWindows Returns a list of maintenance windows.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/ListMaintenanceWindows.go.html to see an example of how to use ListMaintenanceWindows API.
+// A default retry strategy applies to this operation ListMaintenanceWindows()
+func (client StackMonitoringClient) ListMaintenanceWindows(ctx context.Context, request ListMaintenanceWindowsRequest) (response ListMaintenanceWindowsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaintenanceWindows, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaintenanceWindowsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaintenanceWindowsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaintenanceWindowsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaintenanceWindowsResponse")
+	}
+	return
+}
+
+// listMaintenanceWindows implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listMaintenanceWindows(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maintenanceWindows", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaintenanceWindowsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/ListMaintenanceWindows"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListMaintenanceWindows", apiReferenceLink)
 		return response, err
 	}
 
@@ -3176,6 +3413,63 @@ func (client StackMonitoringClient) requestMonitoredResourcesSummarizedCount(ctx
 	return response, err
 }
 
+// RetryFailedMaintenanceWindowOperation Retry the last failed operation. The operation failed will be the most recent one. It won't apply for previous failed operations.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/RetryFailedMaintenanceWindowOperation.go.html to see an example of how to use RetryFailedMaintenanceWindowOperation API.
+func (client StackMonitoringClient) RetryFailedMaintenanceWindowOperation(ctx context.Context, request RetryFailedMaintenanceWindowOperationRequest) (response RetryFailedMaintenanceWindowOperationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.retryFailedMaintenanceWindowOperation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RetryFailedMaintenanceWindowOperationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RetryFailedMaintenanceWindowOperationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RetryFailedMaintenanceWindowOperationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RetryFailedMaintenanceWindowOperationResponse")
+	}
+	return
+}
+
+// retryFailedMaintenanceWindowOperation implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) retryFailedMaintenanceWindowOperation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maintenanceWindows/{maintenanceWindowId}/actions/retryFailedOperation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RetryFailedMaintenanceWindowOperationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/RetryFailedMaintenanceWindowOperation"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "RetryFailedMaintenanceWindowOperation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SearchAssociatedResources List all associated resources recursively up-to a specified level,
 // for the monitored resources of type specified.
 //
@@ -3429,6 +3723,63 @@ func (client StackMonitoringClient) searchMonitoredResources(ctx context.Context
 	return response, err
 }
 
+// StopMaintenanceWindow Stop a maintenance window before the end time is reached.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/StopMaintenanceWindow.go.html to see an example of how to use StopMaintenanceWindow API.
+func (client StackMonitoringClient) StopMaintenanceWindow(ctx context.Context, request StopMaintenanceWindowRequest) (response StopMaintenanceWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.stopMaintenanceWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StopMaintenanceWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StopMaintenanceWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StopMaintenanceWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StopMaintenanceWindowResponse")
+	}
+	return
+}
+
+// stopMaintenanceWindow implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) stopMaintenanceWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/maintenanceWindows/{maintenanceWindowId}/actions/stop", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StopMaintenanceWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/StopMaintenanceWindow"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "StopMaintenanceWindow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // TestMetricExtension Performs test of Metric Extension on a specific resource Id
 //
 // # See also
@@ -3670,6 +4021,63 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &config{})
+	return response, err
+}
+
+// UpdateMaintenanceWindow Update maintenance window by the given identifier OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/stackmonitoring/UpdateMaintenanceWindow.go.html to see an example of how to use UpdateMaintenanceWindow API.
+func (client StackMonitoringClient) UpdateMaintenanceWindow(ctx context.Context, request UpdateMaintenanceWindowRequest) (response UpdateMaintenanceWindowResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateMaintenanceWindow, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateMaintenanceWindowResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateMaintenanceWindowResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateMaintenanceWindowResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateMaintenanceWindowResponse")
+	}
+	return
+}
+
+// updateMaintenanceWindow implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateMaintenanceWindow(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/maintenanceWindows/{maintenanceWindowId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateMaintenanceWindowResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/MaintenanceWindow/UpdateMaintenanceWindow"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateMaintenanceWindow", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
 	return response, err
 }
 

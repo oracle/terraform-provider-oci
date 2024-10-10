@@ -96,8 +96,9 @@ resource "oci_fusion_apps_fusion_environment" "test_fusion_environment" {
     email_address = var.fusion_environment_create_fusion_environment_admin_user_details_email_address
     first_name    = var.fusion_environment_create_fusion_environment_admin_user_details_first_name
     last_name     = var.fusion_environment_create_fusion_environment_admin_user_details_last_name
-    password      = var.fusion_environment_create_fusion_environment_admin_user_details_password
     username      = var.fusion_environment_create_fusion_environment_admin_user_details_username
+    #Optional
+    password      = var.fusion_environment_create_fusion_environment_admin_user_details_password
   }
   display_name                 = var.fusion_environment_display_name
   fusion_environment_family_id = oci_fusion_apps_fusion_environment_family.test_fusion_environment_family.id

@@ -19,6 +19,11 @@ Create a Database Insight resource for a Enterprise Manager(EM) managed database
 resource "oci_opsi_database_insight" "test_database_insight" {
 	#Required
 	compartment_id = var.compartment_id
+	database_id = oci_database_database.test_database.id
+	database_resource_type = var.database_insight_database_resource_type
+	entity_source = var.database_insight_entity_source
+
+	#Optional
 	connection_details {
 		#Required
 		protocol = var.database_insight_connection_details_protocol
@@ -59,8 +64,6 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 		user_name = oci_identity_user.test_user.name
 		wallet_secret_id = oci_vault_secret.test_secret.id
 	}
-	database_id = oci_database_database.test_database.id
-	database_resource_type = var.database_insight_database_resource_type
 	dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_type = var.database_insight_deployment_type
@@ -114,6 +117,7 @@ The following arguments are supported:
 * `entity_source` - (Required) (Updatable) Source of the database entity.
 * `exadata_insight_id` - (Applicable when entity_source=EM_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata insight.
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
+* `is_advanced_features_enabled` - (Required when entity_source=AUTONOMOUS_DATABASE) Flag is to identify if advanced features for autonomous database is enabled or not
 * `management_agent_id` - (Required when entity_source=MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 * `opsi_private_endpoint_id` - (Applicable when entity_source=AUTONOMOUS_DATABASE | PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the OPSI private endpoint
 * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint. This field and opsi_private_endpoint_id are mutually exclusive. If DBM private endpoint ID is provided, a new OPSI private endpoint ID will be created.
@@ -131,27 +135,27 @@ The following attributes are exported:
 * `compartment_id` - Compartment identifier of the database
 * `connection_credential_details` - User credential details to connect to the database. This is supplied via the External Database Service.
 * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-* `credential_type` - Credential type.
+* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
 * `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
 * `role` - database user role.
 * `user_name` - database user name.
 * `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `connection_details` - Connection details to connect to the database. HostName, protocol, and port should be specified.
-* `host_name` - Name of the listener host that will be used to create the connect string to the database.
-* `hosts` - List of hosts and port for private endpoint accessed database resource.
-	* `host_ip` - Host IP used for connection requests for Cloud DB resource.
-	* `port` - Listener port number used for connection requests for rivate endpoint accessed db resource.
-* `port` - Listener port number used for connection requests.
-* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
-* `service_name` - Database service name used for connection requests.
+	* `host_name` - Name of the listener host that will be used to create the connect string to the database.
+	* `hosts` - List of hosts and port for private endpoint accessed database resource.
+		* `host_ip` - Host IP used for connection requests for Cloud DB resource.
+		* `port` - Listener port number used for connection requests for rivate endpoint accessed db resource.
+	* `port` - Listener port number used for connection requests.
+	* `protocol` - Protocol used for connection requests for private endpoint accssed database resource.
+	* `service_name` - Database service name used for connection requests.
 * `connector_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of External Database Connector
 * `credential_details` - User credential details to connect to the database.
 * `credential_source_name` - Credential source name that had been added in Management Agent wallet. This is supplied in the External Database Service.
-* `credential_type` - Credential type.
-* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
-* `role` - database user role.
-* `user_name` - database user name.
-* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
+* `credential_type` - CREDENTIALS_BY_SOURCE is supplied via the External Database Service. CREDENTIALS_BY_VAULT is supplied by secret service to connection PE_COMANAGED_DATABASE and ADB as well. CREDENTIALS_BY_IAM is used db-token to connect only for Autonomous Database. 
+	* `password_secret_id` - The secret [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) mapping to the database credentials.
+	* `role` - database user role.
+	* `user_name` - database user name.
+	* `wallet_secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored.
 * `database_connection_status_details` - A message describing the status of the database connection of this resource. For example, it can be used to provide actionable information about the permission and content validity of the database connection.
 * `database_display_name` - Display name of database
 * `database_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.

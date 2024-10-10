@@ -61,12 +61,29 @@ The following attributes are exported:
 * `image` - Provides information about the desktop image.
 	* `image_id` - The OCID of the desktop image.
 	* `image_name` - The name of the desktop image.
+	* `operating_system` - The operating system of the desktop image, e.g. "Oracle Linux", "Windows".
 * `is_storage_enabled` - Indicates whether storage is enabled for the desktop pool.
 * `maximum_size` - The maximum number of desktops permitted in the desktop pool.
 * `network_configuration` - Provides information about the network configuration of the desktop pool.
-	* `subnet_id` - The OCID of the subnet to use for the desktop pool.
-	* `vcn_id` - The OCID of the VCN used by the desktop pool.
-* `nsg_ids` - A list of network security groups for the desktop pool.
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
+* `nsg_ids` - A list of network security groups for the network.
+* `shape_config` - The shape configuration used for each desktop compute instance in the desktop pool. 
+	* `baseline_ocpu_utilization` - The baseline OCPU utilization for a subcore burstable VM instance used for each desktop compute instance in the desktop pool. Leave this attribute blank for a non-burstable instance, or explicitly specify non-burstable with `BASELINE_1_1`. The following values are supported:
+		* `BASELINE_1_8` - baseline usage is 1/8 of an OCPU.
+		* `BASELINE_1_2` - baseline usage is 1/2 of an OCPU.
+		* `BASELINE_1_1` - baseline usage is the entire OCPU. This represents a non-burstable instance. 
+	* `memory_in_gbs` - The total amount of memory available in gigabytes for each desktop compute instance in the desktop pool. 
+	* `ocpus` - The total number of OCPUs available for each desktop compute instance in the desktop pool. 
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
+* `nsg_ids` - A list of network security groups for the network.
+* `private_access_details` - The details of the desktop's private access network connectivity that were used to create the pool. 
+	* `endpoint_fqdn` - The three-label FQDN to use for the private endpoint. The customer VCN's DNS records are updated with this FQDN. This enables the customer to use the FQDN instead of the private endpoint's private IP address to access the service (for example, xyz.oraclecloud.com). 
+	* `nsg_ids` - A list of network security groups for the private access.
+	* `private_ip` - The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
+	* `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in the customer VCN where the connectivity will be established. 
+	* `vcn_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the customer VCN. 
 * `shape_name` - The shape of the desktop pool.
 * `standby_size` - The maximum number of standby desktops available in the desktop pool.
 * `state` - The current state of the desktop pool.
@@ -75,4 +92,5 @@ The following attributes are exported:
 * `time_created` - The date and time the resource was created.
 * `time_start_scheduled` - The start time of the desktop pool.
 * `time_stop_scheduled` - The stop time of the desktop pool.
+* `use_dedicated_vm_host` - Indicates whether the desktop pool uses dedicated virtual machine hosts.
 
