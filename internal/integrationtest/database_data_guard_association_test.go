@@ -75,7 +75,7 @@ var (
 
 	DBSystemRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `tfDbSystemDataguardAssociationPrimary`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `TFTestDbSystemVM`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"database_edition":        acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_EDITION`},
 		"disk_redundancy":         acctest.Representation{RepType: acctest.Required, Create: `NORMAL`},
@@ -202,6 +202,7 @@ var (
 		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 		"display_name":               acctest.Representation{RepType: acctest.Required, Create: `test_subnet`},
+		"ipv6cidr_blocks":            acctest.Representation{RepType: acctest.Required, Create: []string{`2603:c022:0003:897e:0000:0000:0000:0000/64`}},
 		"security_list_ids":          acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_security_list.test_security_list.id}`}},
 		"route_table_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`},
 		"dhcp_options_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
@@ -216,8 +217,7 @@ var (
 		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
 	}
 
-	//ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig
-	ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies +
+	ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, DataguardAssociationCoreVcnRepresentation)
 
 	DataSourceDependenciesConfig = ExternalDependenciesConfig +
@@ -275,6 +275,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip", "10.0.2.223"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_v6", "2603:c022:3:897e:d53:b488:2394:d88c"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
@@ -311,6 +312,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "private_ip", "10.0.2.223"),
+				resource.TestCheckResourceAttr(resourceName, "private_ip_v6", "2603:c022:3:897e:d53:b488:2394:d88c"),
 				resource.TestCheckResourceAttr(resourceName, "time_zone", "US/Pacific"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
