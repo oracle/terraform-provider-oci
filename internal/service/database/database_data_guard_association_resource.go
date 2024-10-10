@@ -247,6 +247,12 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				Optional: true,
 				ForceNew: true,
 			},
+			"private_ip_v6": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -823,6 +829,10 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		if privateIp, ok := s.D.GetOkExists("private_ip"); ok {
 			tmp := privateIp.(string)
 			details.PrivateIp = &tmp
+		}
+		if privateIpV6, ok := s.D.GetOkExists("private_ip_v6"); ok {
+			tmp := privateIpV6.(string)
+			details.PrivateIpV6 = &tmp
 		}
 		if shape, ok := s.D.GetOkExists("shape"); ok {
 			tmp := shape.(string)
