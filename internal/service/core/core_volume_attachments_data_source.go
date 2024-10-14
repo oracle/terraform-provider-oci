@@ -158,6 +158,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
 
+			if v.IsShareable != nil {
+				result["is_shareable"] = bool(*v.IsShareable)
+			}
+
 			if v.IsVolumeCreatedDuringLaunch != nil {
 				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
 			}
@@ -244,6 +248,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 				result["is_read_only"] = bool(*v.IsReadOnly)
 			}
 
+			if v.IsShareable != nil {
+				result["is_shareable"] = bool(*v.IsShareable)
+			}
+
 			if v.IsVolumeCreatedDuringLaunch != nil {
 				result["is_volume_created_during_launch"] = bool(*v.IsVolumeCreatedDuringLaunch)
 			}
@@ -296,6 +304,10 @@ func (s *CoreVolumeAttachmentsDataSourceCrud) SetData() error {
 
 			if v.IsReadOnly != nil {
 				result["is_read_only"] = bool(*v.IsReadOnly)
+			}
+
+			if v.IsShareable != nil {
+				result["is_shareable"] = bool(*v.IsShareable)
 			}
 
 			if v.IsVolumeCreatedDuringLaunch != nil {
