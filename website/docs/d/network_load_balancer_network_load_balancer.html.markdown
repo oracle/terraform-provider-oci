@@ -155,6 +155,7 @@ The following attributes are exported:
 
     Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
 * `nlb_ip_version` - IP version associated with the NLB.
+* `security_attributes` - ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{ "oracle-zpr": { "td": { "value": "42", "mode": "audit" } } }` 
 * `state` - The current state of the network load balancer.
 * `subnet_id` - The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)."
 * `system_tags` - Key-value pair representing system tags' keys and values scoped to a namespace. Example: `{"bar-key": "value"}` 

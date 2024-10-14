@@ -133,7 +133,8 @@ The following attributes are exported:
     *  Network security groups define network security rules to govern ingress and egress traffic for the network load balancer.
     *  The network security rules of other resources can reference the network security groups associated with the network load balancer to ensure access.
 
-    Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+	Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
+* `security_attributes` - ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{ "oracle-zpr": { "td": { "value": "42", "mode": "audit" } } }` 
 * `state` - The current state of the network load balancer.
 * `subnet_id` - The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)."
 * `nlb_ip_version` - IP version associated with the NLB.
