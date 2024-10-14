@@ -140,6 +140,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 		#Optional
 		id = var.network_load_balancer_reserved_ips_id
 	}
+	security_attributes = var.network_load_balancer_security_attributes
 	subnet_ipv6cidr = var.network_load_balancer_subnet_ipv6cidr
 }
 ```
@@ -230,7 +231,8 @@ The following arguments are supported:
 
         Reserved public IP addresses are not deleted when the network load balancer is deleted. The IP addresses become unattached from the network load balancer.
 
-        Example: "ocid1.publicip.oc1.phx.unique_ID" 
+		Example: "ocid1.publicip.oc1.phx.unique_ID" 
+* `security_attributes` - (Optional) (Updatable) ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"oracle-zpr": {"td": {"value": "42", "mode": "audit"}}}` 
 * `subnet_id` - (Required) The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `subnet_ipv6cidr` - (Optional) IPv6 subnet prefix selection. If Ipv6 subnet prefix is passed, Nlb Ipv6 Address would be assign within the cidr block. NLB has to be dual or single stack ipv6 to support this.
 
@@ -334,6 +336,7 @@ The following attributes are exported:
 
     Example: ["ocid1.nsg.oc1.phx.unique_ID"] 
 * `nlb_ip_version` - IP version associated with the NLB.
+* `security_attributes` - ZPR tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{ "oracle-zpr": { "td": { "value": "42", "mode": "audit" } } }` 
 * `state` - The current state of the network load balancer.
 * `subnet_id` - The subnet in which the network load balancer is spawned [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)."
 * `system_tags` - Key-value pair representing system tags' keys and values scoped to a namespace. Example: `{"bar-key": "value"}` 
