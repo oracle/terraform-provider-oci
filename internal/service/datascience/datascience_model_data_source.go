@@ -87,6 +87,18 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BackupOperationDetails != nil {
+		s.D.Set("backup_operation_details", []interface{}{BackupOperationDetailsToMap(s.Res.BackupOperationDetails)})
+	} else {
+		s.D.Set("backup_operation_details", nil)
+	}
+
+	if s.Res.BackupSetting != nil {
+		s.D.Set("backup_setting", []interface{}{BackupSettingToMap(s.Res.BackupSetting)})
+	} else {
+		s.D.Set("backup_setting", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -141,12 +153,36 @@ func (s *DatascienceModelDataSourceCrud) SetData() error {
 		s.D.Set("input_schema", *s.Res.InputSchema)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ModelVersionSetId != nil {
+		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
+	}
+
+	if s.Res.ModelVersionSetName != nil {
+		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
+	}
+
 	if s.Res.OutputSchema != nil {
 		s.D.Set("output_schema", *s.Res.OutputSchema)
 	}
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
+	}
+
+	if s.Res.RetentionOperationDetails != nil {
+		s.D.Set("retention_operation_details", []interface{}{RetentionOperationDetailsToMap(s.Res.RetentionOperationDetails)})
+	} else {
+		s.D.Set("retention_operation_details", nil)
+	}
+
+	if s.Res.RetentionSetting != nil {
+		s.D.Set("retention_setting", []interface{}{RetentionSettingToMap(s.Res.RetentionSetting)})
+	} else {
+		s.D.Set("retention_setting", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
