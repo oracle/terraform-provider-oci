@@ -93,6 +93,12 @@ type CreateVolumeDetails struct {
 
 	// The list of autotune policies to be enabled for this volume.
 	AutotunePolicies []AutotunePolicy `mandatory:"false" json:"autotunePolicies"`
+
+	// The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys.
+	// For more information about the Vault service and encryption keys, see
+	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
+	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
 }
 
 func (m CreateVolumeDetails) String() string {
@@ -129,6 +135,7 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 		IsAutoTuneEnabled       *bool                             `json:"isAutoTuneEnabled"`
 		BlockVolumeReplicas     []BlockVolumeReplicaDetails       `json:"blockVolumeReplicas"`
 		AutotunePolicies        []autotunepolicy                  `json:"autotunePolicies"`
+		XrcKmsKeyId             *string                           `json:"xrcKmsKeyId"`
 		CompartmentId           *string                           `json:"compartmentId"`
 	}{}
 
@@ -185,6 +192,8 @@ func (m *CreateVolumeDetails) UnmarshalJSON(data []byte) (e error) {
 			m.AutotunePolicies[i] = nil
 		}
 	}
+	m.XrcKmsKeyId = model.XrcKmsKeyId
+
 	m.CompartmentId = model.CompartmentId
 
 	return

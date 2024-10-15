@@ -68,6 +68,10 @@ func (m *bootvolumesourcedetails) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := BootVolumeSourceFromBootVolumeReplicaDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "bootVolumeBackupDelta":
+		mm := BootVolumeSourceFromBootVolumeBackupDeltaDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for BootVolumeSourceDetails: %s.", m.Type)
 		return *m, nil

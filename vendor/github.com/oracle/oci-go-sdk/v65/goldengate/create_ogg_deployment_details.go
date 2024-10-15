@@ -48,6 +48,8 @@ type CreateOggDeploymentDetails struct {
 
 	// Version of OGG
 	OggVersion *string `mandatory:"false" json:"oggVersion"`
+
+	GroupToRolesMapping *GroupToRolesMappingDetails `mandatory:"false" json:"groupToRolesMapping"`
 }
 
 func (m CreateOggDeploymentDetails) String() string {
