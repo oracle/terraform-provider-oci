@@ -289,9 +289,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"block_volume_size_in_gbs": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							ForceNew:         true,
+							Type:     schema.TypeString,
+							Optional: true,
+							//ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -362,9 +362,9 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"block_volume_size_in_gbs": {
-							Type:             schema.TypeString,
-							Optional:         true,
-							ForceNew:         true,
+							Type:     schema.TypeString,
+							Optional: true,
+							//ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -424,7 +424,7 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
+							//ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {
@@ -2226,7 +2226,7 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 				}
 			}
 
-			if numberOfKafkaNodes, ok := s.D.GetOkExists("number_of_kafka_nodes"); ok {
+			if numberOfKafkaNodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "number_of_kafka_nodes")); ok {
 				tmp := numberOfKafkaNodes.(int)
 				request.NumberOfKafkaNodes = &tmp
 			}
@@ -2895,7 +2895,7 @@ func ShapeChangeDiffSuppressFunction(nodeType string, d *schema.ResourceData) bo
 	} else if nodeType == "edge" && ignoreEdgeShape == true {
 		addNode = d.HasChange("edge_node.0.number_of_nodes")
 	} else if nodeType == "kafka_broker" && ignoreKafkaBrokerShape == true {
-		addNode = d.HasChange("kafka_broker_node.0.number_of_nodes")
+		addNode = d.HasChange("kafka_broker_node.0.number_of_kafka_nodes")
 	} else {
 		addNode = true
 	}
