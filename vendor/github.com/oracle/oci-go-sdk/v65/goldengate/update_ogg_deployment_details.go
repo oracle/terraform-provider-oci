@@ -41,6 +41,8 @@ type UpdateOggDeploymentDetails struct {
 
 	// The base64 encoded content of the PEM file containing the private key.
 	Key *string `mandatory:"false" json:"key"`
+
+	GroupToRolesMapping *UpdateGroupToRolesMappingDetails `mandatory:"false" json:"groupToRolesMapping"`
 }
 
 func (m UpdateOggDeploymentDetails) String() string {
