@@ -56,21 +56,6 @@ func DatascienceModelResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"model_version_set_name": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"model_version_set_id": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
-			"version_label": {
-				Type:     schema.TypeString,
-				Optional: true,
-				Computed: true,
-			},
 
 			// Optional
 			"backup_setting": {
@@ -265,6 +250,10 @@ func DatascienceModelResource() *schema.Resource {
 				},
 			},
 			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"model_version_set_name": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -762,18 +751,6 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 		s.D.Set("description", *s.Res.Description)
 	}
 
-	if s.Res.ModelVersionSetName != nil {
-		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
-	}
-
-	if s.Res.ModelVersionSetId != nil {
-		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
-	}
-
-	if s.Res.VersionLabel != nil {
-		s.D.Set("version_label", *s.Res.VersionLabel)
-	}
-
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
@@ -786,6 +763,14 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ModelVersionSetId != nil {
+		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
+	}
+
+	if s.Res.ModelVersionSetName != nil {
+		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
 	}
 
 	if s.Res.OutputSchema != nil {
