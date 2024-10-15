@@ -131,6 +131,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 		#Optional
 		ip_version = var.network_load_balancer_listeners_ip_version
 		is_ppv2enabled = var.network_load_balancer_listeners_is_ppv2enabled
+		l3ip_idle_timeout = var.network_load_balancer_listeners_l3ip_idle_timeout
 		tcp_idle_timeout = var.network_load_balancer_listeners_tcp_idle_timeout
 		udp_idle_timeout = var.network_load_balancer_listeners_udp_idle_timeout
 	}
@@ -207,6 +208,8 @@ The following arguments are supported:
 * `listeners` - (Optional) Listeners associated with the network load balancer.
 	* `default_backend_set_name` - (Required) The name of the associated backend set.  Example: `example_backend_set` 
 	* `ip_version` - (Optional) IP version associated with the listener.
+	* `is_ppv2enabled` - (Optional) Property to enable/disable PPv2 feature for this listener.
+	* `l3ip_idle_timeout` - (Optional) The duration for L3IP idle timeout in seconds. Example: `200`
 	* `name` - (Required) A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 	* `port` - (Required) The communication port for the listener.  Example: `80` 
 	* `protocol` - (Required) The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 
@@ -321,6 +324,8 @@ The following attributes are exported:
 * `listeners` - Listeners associated with the network load balancer.
 	* `default_backend_set_name` - The name of the associated backend set.  Example: `example_backend_set` 
 	* `ip_version` - IP version associated with the listener.
+	* `is_ppv2enabled` - Property to enable/disable PPv2 feature for this listener.
+	* `l3ip_idle_timeout` - The duration for L3IP idle timeout in seconds. Example: `200`
 	* `name` - A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 	* `port` - The communication port for the listener.  Example: `80` 
 	* `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 

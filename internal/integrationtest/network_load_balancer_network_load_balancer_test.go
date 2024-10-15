@@ -156,8 +156,18 @@ func TestNetworkLoadBalancerNetworkLoadBalancerResource_basic(t *testing.T) {
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, testAccCheckNetworkLoadBalancerNetworkLoadBalancerDestroy, []resource.TestStep{
+		// Initialize Tag dependencies: After a tag is created, if it is defined in the resource immediately, a 400-InvalidParameter error due to invalid tags may be returned.
+		// However, this error is not observed if we wait for some time. To prevent the issue, a preconfigured 30-second wait is added.
+		{
+			Config: config + compartmentIdVariableStr + DefinedTagsDependencies,
+		},
+
 		// verify Create with optionals
 		{
+			//wait for 30 sec
+			PreConfig: func() {
+				time.Sleep(30 * time.Second)
+			},
 			Config: config + compartmentIdVariableStr + NetworkLoadBalancerNetworkLoadBalancerResourceDependencies + NetworkLoadBalancerReservedIpDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_network_load_balancer_network_load_balancer", "test_network_load_balancer", acctest.Optional, acctest.Create, networkLoadBalancerRepresentationIpv6),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
