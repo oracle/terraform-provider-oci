@@ -32,6 +32,10 @@ type Deployment struct {
 	// The Oracle license model that applies to a Deployment.
 	LicenseModel LicenseModelEnum `mandatory:"true" json:"licenseModel"`
 
+	// The deployment category defines the broad separation of the deployment type into three categories.
+	// Currently the separation is 'DATA_REPLICATION', 'STREAM_ANALYTICS' and 'DATA_TRANSFORMS'.
+	Category DeploymentCategoryEnum `mandatory:"true" json:"category"`
+
 	// The Minimum number of OCPUs to be made available for this Deployment.
 	CpuCoreCount *int `mandatory:"true" json:"cpuCoreCount"`
 
@@ -97,6 +101,9 @@ type Deployment struct {
 	// A three-label Fully Qualified Domain Name (FQDN) for a resource.
 	Fqdn *string `mandatory:"false" json:"fqdn"`
 
+	// Specifies whether the deployment is used in a production or development/testing environment.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
+
 	// An array of Network Security Group OCIDs used to define network access for either Deployments or Connections.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
 
@@ -134,6 +141,7 @@ type Deployment struct {
 	// The amount of storage being utilized (in bytes)
 	StorageUtilizationInBytes *int64 `mandatory:"false" json:"storageUtilizationInBytes"`
 
+	// Deprecated: This field is not updated and will be removed in future versions. If storage utilization exceeds the limit, the respective warning message will appear in deployment messages, which can be accessed through /messages?deploymentId=.
 	// Indicator will be true if the amount of storage being utilized exceeds the allowable storage utilization limit.  Exceeding the limit may be an indication of a misconfiguration of the deployment's GoldenGate service.
 	IsStorageUtilizationLimitExceeded *bool `mandatory:"false" json:"isStorageUtilizationLimitExceeded"`
 
@@ -176,6 +184,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLicenseModelEnum(string(m.LicenseModel)); !ok && m.LicenseModel != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LicenseModel: %s. Supported values are: %s.", m.LicenseModel, strings.Join(GetLicenseModelEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingDeploymentCategoryEnum(string(m.Category)); !ok && m.Category != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Category: %s. Supported values are: %s.", m.Category, strings.Join(GetDeploymentCategoryEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDeploymentTypeEnum(string(m.DeploymentType)); !ok && m.DeploymentType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
@@ -185,6 +196,9 @@ func (m Deployment) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetLifecycleSubStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingMaintenanceActionTypeEnum(string(m.NextMaintenanceActionType)); !ok && m.NextMaintenanceActionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NextMaintenanceActionType: %s. Supported values are: %s.", m.NextMaintenanceActionType, strings.Join(GetMaintenanceActionTypeEnumStringValues(), ",")))

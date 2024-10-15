@@ -70,6 +70,9 @@ type ListZonesRequest struct {
 	// Search for zones that are associated with a TSIG key.
 	TsigKeyId *string `mandatory:"false" contributesTo:"query" name:"tsigKeyId"`
 
+	// Search for zones that have the given `DnssecState`.
+	DnssecState ListZonesDnssecStateEnum `mandatory:"false" contributesTo:"query" name:"dnssecState" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -120,6 +123,9 @@ func (request ListZonesRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListZonesScopeEnum(string(request.Scope)); !ok && request.Scope != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Scope: %s. Supported values are: %s.", request.Scope, strings.Join(GetListZonesScopeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListZonesDnssecStateEnum(string(request.DnssecState)); !ok && request.DnssecState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DnssecState: %s. Supported values are: %s.", request.DnssecState, strings.Join(GetListZonesDnssecStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -385,5 +391,47 @@ func GetListZonesScopeEnumStringValues() []string {
 // GetMappingListZonesScopeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListZonesScopeEnum(val string) (ListZonesScopeEnum, bool) {
 	enum, ok := mappingListZonesScopeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListZonesDnssecStateEnum Enum with underlying type: string
+type ListZonesDnssecStateEnum string
+
+// Set of constants representing the allowable values for ListZonesDnssecStateEnum
+const (
+	ListZonesDnssecStateEnabled  ListZonesDnssecStateEnum = "ENABLED"
+	ListZonesDnssecStateDisabled ListZonesDnssecStateEnum = "DISABLED"
+)
+
+var mappingListZonesDnssecStateEnum = map[string]ListZonesDnssecStateEnum{
+	"ENABLED":  ListZonesDnssecStateEnabled,
+	"DISABLED": ListZonesDnssecStateDisabled,
+}
+
+var mappingListZonesDnssecStateEnumLowerCase = map[string]ListZonesDnssecStateEnum{
+	"enabled":  ListZonesDnssecStateEnabled,
+	"disabled": ListZonesDnssecStateDisabled,
+}
+
+// GetListZonesDnssecStateEnumValues Enumerates the set of values for ListZonesDnssecStateEnum
+func GetListZonesDnssecStateEnumValues() []ListZonesDnssecStateEnum {
+	values := make([]ListZonesDnssecStateEnum, 0)
+	for _, v := range mappingListZonesDnssecStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListZonesDnssecStateEnumStringValues Enumerates the set of values in String for ListZonesDnssecStateEnum
+func GetListZonesDnssecStateEnumStringValues() []string {
+	return []string{
+		"ENABLED",
+		"DISABLED",
+	}
+}
+
+// GetMappingListZonesDnssecStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListZonesDnssecStateEnum(val string) (ListZonesDnssecStateEnum, bool) {
+	enum, ok := mappingListZonesDnssecStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -70,8 +70,8 @@ type CreateDatabaseRegistrationDetails struct {
 	// to the database node to connect to. By default the mode would be DIRECT.
 	SessionMode CreateDatabaseRegistrationDetailsSessionModeEnum `mandatory:"false" json:"sessionMode,omitempty"`
 
-	// The wallet contents Oracle GoldenGate uses to make connections to a database.  This
-	// attribute is expected to be base64 encoded.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.
+	// This attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
 	// Refers to the customer's vault OCID.

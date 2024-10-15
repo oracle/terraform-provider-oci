@@ -43,6 +43,9 @@ type CreateDeploymentDetails struct {
 	//     Its use is discouraged in favor of 'DATABASE_ORACLE'.
 	DeploymentType DeploymentTypeEnum `mandatory:"true" json:"deploymentType"`
 
+	// Specifies whether the deployment is used in a production or development/testing environment.
+	EnvironmentType EnvironmentTypeEnum `mandatory:"false" json:"environmentType,omitempty"`
+
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -98,6 +101,9 @@ func (m CreateDeploymentDetails) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DeploymentType: %s. Supported values are: %s.", m.DeploymentType, strings.Join(GetDeploymentTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEnvironmentTypeEnum(string(m.EnvironmentType)); !ok && m.EnvironmentType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for EnvironmentType: %s. Supported values are: %s.", m.EnvironmentType, strings.Join(GetEnvironmentTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
