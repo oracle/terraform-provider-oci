@@ -409,6 +409,32 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
   depends_on = [oci_network_load_balancer_backend_set.nlb-bes2]
 }
 
+resource "oci_network_load_balancer_backend_set" "nlb-bes4" {
+  name                     = "nlb-bes4"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                   = "THREE_TUPLE"
+  is_fail_open = false
+  is_instant_failover_enabled = true
+  is_preserve_source = true
+
+  health_checker {
+    port                = "53"
+    protocol            = "DNS"
+    timeout_in_millis   = 10000
+    interval_in_millis  = 10000
+    retries             = 3
+    dns {
+      domain_name = "oracle.com"
+      query_class = "IN"
+      query_type = "A"
+      rcodes = ["NOERROR", "SERVFAIL"]
+      transport_protocol = "UDP"
+    }
+  }
+  depends_on = [oci_network_load_balancer_backend_set.nlb-bes3]
+}
+
+
 resource "oci_network_load_balancer_listener" "nlb-listener1" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   name                        = "tcp_listener"
@@ -417,7 +443,7 @@ resource "oci_network_load_balancer_listener" "nlb-listener1" {
   protocol                    = "TCP"
   tcp_idle_timeout            = 360
   is_ppv2enabled	          = true
-  depends_on = [oci_network_load_balancer_backend_set.nlb-bes3]
+  depends_on = [oci_network_load_balancer_backend_set.nlb-bes4]
 }
 
 resource "oci_network_load_balancer_listener" "nlb-listener2" {
@@ -441,6 +467,18 @@ resource "oci_network_load_balancer_listener" "nlb-listener3" {
   depends_on = [oci_network_load_balancer_listener.nlb-listener2]
 }
 
+resource "oci_network_load_balancer_listener" "nlb-listener4" {
+  network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
+  name                        = "l3_ip_listener"
+  default_backend_set_name    = oci_network_load_balancer_backend_set.nlb-bes4.name
+  port                        = 0
+  protocol                    = "L3IP"
+  tcp_idle_timeout            = 240
+  udp_idle_timeout            = 180
+  l3ip_idle_timeout           = 360
+  depends_on = [oci_network_load_balancer_listener.nlb-listener3]
+}
+
 resource "oci_network_load_balancer_backend" "nlb-be1" {
   network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
   backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes1.name
@@ -450,7 +488,7 @@ resource "oci_network_load_balancer_backend" "nlb-be1" {
   is_drain                 = false
   is_offline               = false
   weight                   = 1
-  depends_on = [oci_network_load_balancer_listener.nlb-listener3]
+  depends_on = [oci_network_load_balancer_listener.nlb-listener4]
 }
 
 resource "oci_network_load_balancer_backend" "nlb-be2" {
