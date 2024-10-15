@@ -172,6 +172,14 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 			model["id"] = *r.Id
 		}
 
+		if r.LifecycleDetails != nil {
+			model["lifecycle_details"] = *r.LifecycleDetails
+		}
+
+		if r.ModelVersionSetId != nil {
+			model["model_version_set_id"] = *r.ModelVersionSetId
+		}
+
 		if r.ProjectId != nil {
 			model["project_id"] = *r.ProjectId
 		}

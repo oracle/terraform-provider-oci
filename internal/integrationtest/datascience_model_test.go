@@ -51,19 +51,26 @@ var (
 	}
 
 	DatascienceModelRepresentation = map[string]interface{}{
-		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
-		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
 		"compartment_id":               acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"project_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact`},
+		"backup_setting":               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelBackupSettingRepresentation},
 		"custom_metadata_list":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelCustomMetadataListRepresentation},
 		"defined_metadata_list":        acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelDefinedMetadataListRepresentation},
 		"defined_tags":                 acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"input_schema":                 acctest.Representation{RepType: acctest.Optional, Create: "{}"},
-		"output_schema":                acctest.Representation{RepType: acctest.Optional, Create: "{}"},
+		"input_schema":                 acctest.Representation{RepType: acctest.Optional, Create: `inputSchema`},
+		"output_schema":                acctest.Representation{RepType: acctest.Optional, Create: `outputSchema`},
+		"retention_setting":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatascienceModelRetentionSettingRepresentation},
+		"artifact_content_length":      acctest.Representation{RepType: acctest.Required, Create: `6954`},
+		"model_artifact":               acctest.Representation{RepType: acctest.Required, Create: `../../examples/datascience/artifact.zip`},
+		"artifact_content_disposition": acctest.Representation{RepType: acctest.Optional, Create: `attachment; filename=tfTestArtifact`},
+	}
+	DatascienceModelBackupSettingRepresentation = map[string]interface{}{
+		"backup_region":              acctest.Representation{RepType: acctest.Required, Create: `us-phoenix-1`, Update: `us-phoenix-1`},
+		"is_backup_enabled":          acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"customer_notification_type": acctest.Representation{RepType: acctest.Optional, Create: `NONE`, Update: `ALL`},
 	}
 	DatascienceModelCustomMetadataListRepresentation = map[string]interface{}{
 		"category":    acctest.Representation{RepType: acctest.Optional, Create: `Performance`, Update: `Performance`},
@@ -74,6 +81,11 @@ var (
 	DatascienceModelDefinedMetadataListRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: `UseCaseType`, Update: `UseCaseType`},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `ner`, Update: `ner`},
+	}
+	DatascienceModelRetentionSettingRepresentation = map[string]interface{}{
+		"archive_after_days":         acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `41`},
+		"customer_notification_type": acctest.Representation{RepType: acctest.Optional, Create: `NONE`, Update: `ALL`},
+		"delete_after_days":          acctest.Representation{RepType: acctest.Optional, Create: `45`, Update: `46`},
 	}
 
 	DatascienceModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
@@ -133,6 +145,11 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Create, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.backup_region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.customer_notification_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.is_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "6954"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
@@ -153,6 +170,12 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
 				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttr(resourceName, "retention_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "40"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.customer_notification_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "45"),
+				//resource.TestCheckResourceAttr(resourceName, "state", ACTIVE),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -176,6 +199,11 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.backup_region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.customer_notification_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.is_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "artifact_content_length", "6954"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_content_md5"),
 				resource.TestCheckResourceAttrSet(resourceName, "artifact_last_modified"),
@@ -196,6 +224,12 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
 				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttr(resourceName, "retention_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.customer_notification_type", "NONE"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "10"),
+				//resource.TestCheckResourceAttr(resourceName, "state", ACTIVE),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -214,6 +248,11 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + DatascienceModelResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_datascience_model", "test_model", acctest.Optional, acctest.Update, DatascienceModelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "backup_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.backup_region", "us-phoenix-1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.customer_notification_type", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "backup_setting.0.is_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "custom_metadata_list.0.category", "Performance"),
@@ -231,6 +270,12 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "input_schema", "{}"),
 				resource.TestCheckResourceAttr(resourceName, "output_schema", "{}"),
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttr(resourceName, "retention_operation_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.customer_notification_type", "ALL"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "11"),
+				//resource.TestCheckResourceAttr(resourceName, "state", ACTIVE),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
@@ -255,7 +300,6 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "project_id"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "models.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "models.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.created_by"),
@@ -265,8 +309,11 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.project_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "models.0.version_id"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.version_label", "versionLabel2"),
 			),
 		},
+
 		// verify resource import
 		{
 			Config:            config + DatascienceModelRequiredOnlyResource,

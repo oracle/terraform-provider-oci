@@ -51,6 +51,14 @@ The following attributes are exported:
 
 The following attributes are exported:
 
+* `backup_operation_details` - Backup operation details of the model.
+	* `backup_state` - The backup status of the model.
+	* `backup_state_details` - The backup execution status details of the model.
+	* `time_last_backup` - The last backup execution time of the model.
+* `backup_setting` - Back up setting details of the model.
+	* `backup_region` - Oracle Cloud Infrastructure backup region for the model.
+	* `customer_notification_type` - Customer notification on backup success/failure events.
+	* `is_backup_enabled` - Boolean flag representing whether backup needs to be enabled/disabled for the model.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model's compartment.
 * `created_by` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the model.
 * `custom_metadata_list` - An array of custom metadata details for the model.
@@ -85,8 +93,22 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model.
 * `input_schema` - Input schema file content in String format
+* `lifecycle_details` - Details about the lifecycle state of the model.
+* `model_version_set_id` - The OCID of the model version set that the model is associated to.
+* `model_version_set_name` - The name of the model version set that the model is associated to.
 * `output_schema` - Output schema file content in String format
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the model.
+* `retention_operation_details` - Retention operation details for the model.
+	* `archive_state` - The archival status of model.
+	* `archive_state_details` - The archival state details of the model.
+	* `delete_state` - The deletion status of the archived model.
+	* `delete_state_details` - The deletion status details of the archived model.
+	* `time_archival_scheduled` - The estimated archival time of the model based on the provided retention setting.
+	* `time_deletion_scheduled` - The estimated deletion time of the model based on the provided retention setting.
+* `retention_setting` - Retention setting details of the model.
+	* `archive_after_days` - Number of days after which the model will be archived.
+	* `customer_notification_type` - Customer notification options on success/failure of archival, deletion events.
+	* `delete_after_days` - Number of days after which the archived model will be deleted.
 * `state` - The state of the model.
 * `time_created` - The date and time the resource was created in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2019-08-25T21:10:29.41Z 
 

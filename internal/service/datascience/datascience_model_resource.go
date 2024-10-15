@@ -58,6 +58,35 @@ func DatascienceModelResource() *schema.Resource {
 			},
 
 			// Optional
+			"backup_setting": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"backup_region": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+						"is_backup_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+
+						// Optional
+						"customer_notification_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"custom_metadata_list": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -87,8 +116,6 @@ func DatascienceModelResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -98,9 +125,6 @@ func DatascienceModelResource() *schema.Resource {
 				Computed: true,
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
 						"category": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -121,8 +145,6 @@ func DatascienceModelResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
-
-						// Computed
 					},
 				},
 			},
@@ -167,6 +189,34 @@ func DatascienceModelResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"retention_setting": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"archive_after_days": {
+							Type:     schema.TypeInt,
+							Required: true,
+						},
+
+						// Optional
+						"customer_notification_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"delete_after_days": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:             schema.TypeString,
 				Optional:         true,
@@ -179,6 +229,66 @@ func DatascienceModelResource() *schema.Resource {
 			},
 
 			// Computed
+			"backup_operation_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"backup_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"backup_state_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_last_backup": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"model_version_set_name": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"retention_operation_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"archive_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"archive_state_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"delete_state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"delete_state_details": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_archival_scheduled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_deletion_scheduled": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"artifact_content_md5": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -333,6 +443,17 @@ func (s *DatascienceModelResourceCrud) DeletedTarget() []string {
 func (s *DatascienceModelResourceCrud) Create() error {
 	request := oci_datascience.CreateModelRequest{}
 
+	if backupSetting, ok := s.D.GetOkExists("backup_setting"); ok {
+		if tmpList := backupSetting.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_setting", 0)
+			tmp, err := s.mapToBackupSetting(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupSetting = &tmp
+		}
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -409,6 +530,22 @@ func (s *DatascienceModelResourceCrud) Create() error {
 		request.ProjectId = &tmp
 	}
 
+	if retentionSetting, ok := s.D.GetOkExists("retention_setting"); ok {
+		if tmpList := retentionSetting.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "retention_setting", 0)
+			tmp, err := s.mapToRetentionSetting(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RetentionSetting = &tmp
+		}
+	}
+
+	if versionLabel, ok := s.D.GetOkExists("version_label"); ok {
+		tmp := versionLabel.(string)
+		request.VersionLabel = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.CreateModel(context.Background(), request)
@@ -458,6 +595,17 @@ func (s *DatascienceModelResourceCrud) Update() error {
 		}
 	}
 	request := oci_datascience.UpdateModelRequest{}
+
+	if backupSetting, ok := s.D.GetOkExists("backup_setting"); ok {
+		if tmpList := backupSetting.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_setting", 0)
+			tmp, err := s.mapToBackupSetting(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BackupSetting = &tmp
+		}
+	}
 
 	if customMetadataList, ok := s.D.GetOkExists("custom_metadata_list"); ok {
 		interfaces := customMetadataList.([]interface{})
@@ -518,6 +666,27 @@ func (s *DatascienceModelResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.ModelId = &tmp
 
+	if modelVersionSetId, ok := s.D.GetOkExists("model_version_set_id"); ok {
+		tmp := modelVersionSetId.(string)
+		request.ModelVersionSetId = &tmp
+	}
+
+	if retentionSetting, ok := s.D.GetOkExists("retention_setting"); ok {
+		if tmpList := retentionSetting.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "retention_setting", 0)
+			tmp, err := s.mapToRetentionSetting(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.RetentionSetting = &tmp
+		}
+	}
+
+	if versionLabel, ok := s.D.GetOkExists("version_label"); ok {
+		tmp := versionLabel.(string)
+		request.VersionLabel = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "datascience")
 
 	response, err := s.Client.UpdateModel(context.Background(), request)
@@ -542,6 +711,18 @@ func (s *DatascienceModelResourceCrud) Delete() error {
 }
 
 func (s *DatascienceModelResourceCrud) SetData() error {
+	if s.Res.BackupOperationDetails != nil {
+		s.D.Set("backup_operation_details", []interface{}{BackupOperationDetailsToMap(s.Res.BackupOperationDetails)})
+	} else {
+		s.D.Set("backup_operation_details", nil)
+	}
+
+	if s.Res.BackupSetting != nil {
+		s.D.Set("backup_setting", []interface{}{BackupSettingToMap(s.Res.BackupSetting)})
+	} else {
+		s.D.Set("backup_setting", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -580,12 +761,36 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 		s.D.Set("input_schema", *s.Res.InputSchema)
 	}
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.ModelVersionSetId != nil {
+		s.D.Set("model_version_set_id", *s.Res.ModelVersionSetId)
+	}
+
+	if s.Res.ModelVersionSetName != nil {
+		s.D.Set("model_version_set_name", *s.Res.ModelVersionSetName)
+	}
+
 	if s.Res.OutputSchema != nil {
 		s.D.Set("output_schema", *s.Res.OutputSchema)
 	}
 
 	if s.Res.ProjectId != nil {
 		s.D.Set("project_id", *s.Res.ProjectId)
+	}
+
+	if s.Res.RetentionOperationDetails != nil {
+		s.D.Set("retention_operation_details", []interface{}{RetentionOperationDetailsToMap(s.Res.RetentionOperationDetails)})
+	} else {
+		s.D.Set("retention_operation_details", nil)
+	}
+
+	if s.Res.RetentionSetting != nil {
+		s.D.Set("retention_setting", []interface{}{RetentionSettingToMap(s.Res.RetentionSetting)})
+	} else {
+		s.D.Set("retention_setting", nil)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
@@ -595,6 +800,58 @@ func (s *DatascienceModelResourceCrud) SetData() error {
 	}
 
 	return s.SetArtifactData()
+}
+
+func BackupOperationDetailsToMap(obj *oci_datascience.BackupOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["backup_state"] = string(obj.BackupState)
+
+	if obj.BackupStateDetails != nil {
+		result["backup_state_details"] = string(*obj.BackupStateDetails)
+	}
+
+	if obj.TimeLastBackup != nil {
+		result["time_last_backup"] = obj.TimeLastBackup.String()
+	}
+
+	return result
+}
+
+func (s *DatascienceModelResourceCrud) mapToBackupSetting(fieldKeyFormat string) (oci_datascience.BackupSetting, error) {
+	result := oci_datascience.BackupSetting{}
+
+	if backupRegion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "backup_region")); ok {
+		tmp := backupRegion.(string)
+		result.BackupRegion = &tmp
+	}
+
+	if customerNotificationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_notification_type")); ok {
+		result.CustomerNotificationType = oci_datascience.ModelSettingCustomerNotificationTypeEnum(customerNotificationType.(string))
+	}
+
+	if isBackupEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_backup_enabled")); ok {
+		tmp := isBackupEnabled.(bool)
+		result.IsBackupEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func BackupSettingToMap(obj *oci_datascience.BackupSetting) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BackupRegion != nil {
+		result["backup_region"] = string(*obj.BackupRegion)
+	}
+
+	result["customer_notification_type"] = string(obj.CustomerNotificationType)
+
+	if obj.IsBackupEnabled != nil {
+		result["is_backup_enabled"] = bool(*obj.IsBackupEnabled)
+	}
+
+	return result
 }
 
 func (s *DatascienceModelResourceCrud) mapToMetadata(fieldKeyFormat string) (oci_datascience.Metadata, error) {
@@ -659,6 +916,68 @@ func MetadataToMap(obj oci_datascience.Metadata) map[string]interface{} {
 
 	if obj.Value != nil {
 		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func RetentionOperationDetailsToMap(obj *oci_datascience.RetentionOperationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["archive_state"] = string(obj.ArchiveState)
+
+	if obj.ArchiveStateDetails != nil {
+		result["archive_state_details"] = string(*obj.ArchiveStateDetails)
+	}
+
+	result["delete_state"] = string(obj.DeleteState)
+
+	if obj.DeleteStateDetails != nil {
+		result["delete_state_details"] = string(*obj.DeleteStateDetails)
+	}
+
+	if obj.TimeArchivalScheduled != nil {
+		result["time_archival_scheduled"] = obj.TimeArchivalScheduled.String()
+	}
+
+	if obj.TimeDeletionScheduled != nil {
+		result["time_deletion_scheduled"] = obj.TimeDeletionScheduled.String()
+	}
+
+	return result
+}
+
+func (s *DatascienceModelResourceCrud) mapToRetentionSetting(fieldKeyFormat string) (oci_datascience.RetentionSetting, error) {
+	result := oci_datascience.RetentionSetting{}
+
+	if archiveAfterDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "archive_after_days")); ok {
+		tmp := archiveAfterDays.(int)
+		result.ArchiveAfterDays = &tmp
+	}
+
+	if customerNotificationType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "customer_notification_type")); ok {
+		result.CustomerNotificationType = oci_datascience.ModelSettingCustomerNotificationTypeEnum(customerNotificationType.(string))
+	}
+
+	if deleteAfterDays, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "delete_after_days")); ok {
+		tmp := deleteAfterDays.(int)
+		result.DeleteAfterDays = &tmp
+	}
+
+	return result, nil
+}
+
+func RetentionSettingToMap(obj *oci_datascience.RetentionSetting) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ArchiveAfterDays != nil {
+		result["archive_after_days"] = int(*obj.ArchiveAfterDays)
+	}
+
+	result["customer_notification_type"] = string(obj.CustomerNotificationType)
+
+	if obj.DeleteAfterDays != nil {
+		result["delete_after_days"] = int(*obj.DeleteAfterDays)
 	}
 
 	return result
