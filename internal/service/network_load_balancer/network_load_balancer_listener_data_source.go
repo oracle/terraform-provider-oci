@@ -84,6 +84,10 @@ func (s *NetworkLoadBalancerListenerDataSourceCrud) SetData() error {
 		s.D.Set("is_ppv2enabled", *s.Res.IsPpv2Enabled)
 	}
 
+	if s.Res.L3IpIdleTimeout != nil {
+		s.D.Set("l3ip_idle_timeout", *s.Res.L3IpIdleTimeout)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
