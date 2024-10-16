@@ -1,4 +1,4 @@
-## 6.15.0 (Unreleased)
+## 6.15.0 (October 23, 2024)
 
 ### Added
 - Support for FSS Resource Locking
@@ -8,6 +8,7 @@
 - Support for Add DB 23ai support to Globally Distributed Autonomous Database
 - Support for OCI Data Science Model Store Backup and Retention
 - Support for FC Redundancy Project
+
 ### Bug Fix
 - For the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
 - Fixed the timestamp issue to corrected form
