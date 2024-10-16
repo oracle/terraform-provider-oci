@@ -119,6 +119,7 @@ resource "oci_database_autonomous_database" "test_autonomous_database" {
 	}
 	secret_id = oci_vault_secret.test_secret.id
 	secret_version_number = var.autonomous_database_secret_version_number
+	security_attributes = var.autonomous_database_security_attributes
 	source = var.autonomous_database_source
 	source_id = oci_database_source.test_source.id
 	standby_whitelisted_ips = var.autonomous_database_standby_whitelisted_ips
@@ -287,6 +288,7 @@ The following arguments are supported:
 
 	This cannot be used in conjunction with adminPassword. 
 * `secret_version_number` - (Optional) (Updatable) The version of the vault secret. If no version is specified, the latest version will be used.
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `source` - (Optional) The source of the database:
 	* Use `NONE` for creating a new Autonomous Database.
 	* Use `DATABASE` for creating a new Autonomous Database by cloning an existing running Autonomous Database from the latest timestamp, also provide the source database OCID in the `source_id` parameter.
@@ -581,6 +583,7 @@ The following attributes are exported:
 		* `name` - Name of the day of the week.
 	* `scheduled_start_time` - auto start time. value must be of ISO-8601 format "HH:mm"
 	* `scheduled_stop_time` - auto stop time. value must be of ISO-8601 format "HH:mm"
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `service_console_url` - The URL of the Service Console for the Autonomous Database.
 * `source_id` - (Required when source=CLONE_TO_REFRESHABLE | CROSS_REGION_DATAGUARD | DATABASE | CROSS_REGION_DISASTER_RECOVERY) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source Autonomous Database that will be used to create a new standby database for the Data Guard association.
 * `standby_db` - **Deprecated** Autonomous Data Guard standby database details. 

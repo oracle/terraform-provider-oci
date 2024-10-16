@@ -238,6 +238,8 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
