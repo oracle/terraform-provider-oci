@@ -1,4 +1,4 @@
-## 6.14.0 (Unreleased)
+## 6.14.0 (October 16, 2024)
 
 ### Added
 - Support for OIDC Discovery in OKE
