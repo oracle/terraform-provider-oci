@@ -9,15 +9,6 @@
 - Support for DNSSEC
 - Direct API support for OCI BSS
 - Support for Desktop as a Service: Desktop Session Lifecycle Management
-- LBCP ppv2 support
-- Desktop as a Service: Shape Flexibility
-- Support for Operations Insights : Autonomous Database IAM based connections
-- Support for Customer Facing Scalable agent upgrade | ExaCC and ExaCS
-- 9/24- Support for ZPR v1
-- Support for PV Support for Launch w/Multiple Attachments Support for VMs
-- Support for Stack Monitoring Maintenance Windows
-- To Support for Depracate old apps admin user creation with password
-- Support for Desktop as a Service: Private Access
 ### Bug Fix
 Fixed the timestamp issue to corrected form
 
