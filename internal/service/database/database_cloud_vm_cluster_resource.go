@@ -335,6 +335,12 @@ func DatabaseCloudVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"subscription_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -770,6 +776,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
 		request.ScanListenerPortTcpSsl = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1007,6 +1017,10 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
 		request.OcpuCount = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
 		interfaces := sshPublicKeys.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -1200,6 +1214,8 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
 	if s.Res.ScanListenerPortTcpSsl != nil {
 		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)

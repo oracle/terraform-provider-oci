@@ -96,6 +96,7 @@ The following attributes are exported:
 	**Note:** For a single-node DB system, this list is empty. 
 * `scan_listener_port_tcp` - The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The model name of the Exadata hardware running the cloud VM cluster. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `state` - The current state of the cloud VM cluster.
