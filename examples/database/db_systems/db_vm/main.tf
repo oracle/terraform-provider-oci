@@ -345,6 +345,7 @@ resource "oci_database_db_system" "db_system_bkup" {
   db_home {
     db_version = "12.1.0.2"
     database_software_image_id = var.test_database_software_image_ocid
+    is_unified_auditing_enabled = false
     database {
       admin_password = "BEstrO0ng_#11"
       backup_tde_password = "BEstrO0ng_#11"

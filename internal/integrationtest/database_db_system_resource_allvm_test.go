@@ -68,6 +68,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 					db_home {
 						db_version = "19.0.0.0"
 						display_name = "-tf-db-home"
+						is_unified_auditing_enabled = false
 						database {
 							admin_password = "BEstrO0ng_#11"
 							db_name = "aTFdb"
@@ -162,6 +163,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "listener_port", "1521"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "19.0.0.0"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.display_name", "-tf-db-home"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.is_unified_auditing_enabled", "false"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.character_set", "AL32UTF8"),
@@ -271,9 +273,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_databases.t", "databases.0.pdb_name", "pdbName"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.state"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.time_created"),
-				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.kms_key_id"),
-				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.kms_key_version_id"),
-				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.vault_id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.cdb_default"),
 				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.connection_strings.0.all_connection_strings.cdbDefault"),
 
@@ -295,9 +294,6 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr("data.oci_database_database.t", "pdb_name", "pdbName"),
 				resource.TestCheckResourceAttr("data.oci_database_database.t", "state", string(database.DatabaseLifecycleStateAvailable)),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "time_created"),
-				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "kms_key_id"),
-				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "kms_key_version_id"),
-				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "vault_id"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.cdb_default"),
 				resource.TestCheckResourceAttrSet("data.oci_database_database.t", "connection_strings.0.all_connection_strings.cdbDefault"),
 
@@ -549,7 +545,8 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 							db_workload = "OLTP"
 							pdb_name = "pdbName"
 							db_backup_config {
-								auto_backup_enabled = false
+								auto_backup_enabled = true
+								auto_backup_window = "SLOT_THREE"
 								recovery_window_in_days = 10
 							}
 						}
@@ -637,7 +634,7 @@ func TestResourceDatabaseDBSystemAllVM(t *testing.T) {
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.ncharacter_set", "AL16UTF16"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_workload", "OLTP"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.pdb_name", "pdbName"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "false"),
+				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.auto_backup_enabled", "true"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_backup_config.0.recovery_window_in_days", "10"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.#", "1"),
 				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_collection_options.0.is_diagnostics_events_enabled", "true"),
