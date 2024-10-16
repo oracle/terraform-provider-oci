@@ -35,9 +35,9 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_configuration", DataSafeDataSafeConfigurationDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_private_endpoint", DataSafeDataSafePrivateEndpointDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_data_safe_private_endpoints", DataSafeDataSafePrivateEndpointsDataSource())
-
+	tfresource.RegisterDatasource("oci_data_safe_database_security_config", DataSafeDatabaseSecurityConfigDataSource())
+	tfresource.RegisterDatasource("oci_data_safe_database_security_configs", DataSafeDatabaseSecurityConfigsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_discovery_analytic", DataSafeDiscoveryAnalyticDataSource())
-
 	tfresource.RegisterDatasource("oci_data_safe_discovery_analytics", DataSafeDiscoveryAnalyticsDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_discovery_job", DataSafeDiscoveryJobDataSource())
 	tfresource.RegisterDatasource("oci_data_safe_discovery_jobs", DataSafeDiscoveryJobsDataSource())
