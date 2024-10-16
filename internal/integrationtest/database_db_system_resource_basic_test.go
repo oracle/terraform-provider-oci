@@ -5,7 +5,6 @@ package integrationtest
 
 import (
 	"fmt"
-	"regexp"
 	"strings"
 	"testing"
 	"time"
@@ -22,122 +21,219 @@ import (
 )
 
 var (
-	DbSystemResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Optional, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
-		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`}})) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Optional, acctest.Create, CoreRouteTableRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Optional, acctest.Create, CoreInternetGatewayRepresentation)
 
-	DbSystemResourceConfig = DbSystemResourceDependencies + AvailabilityDomainConfig + DefinedTagsDependencies + `
-
-	resource "oci_database_db_system" "test_db_system" {
-		availability_domain = "${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}"
-		compartment_id = "${var.compartment_id}"
-		subnet_id = "${oci_core_subnet.test_subnet.id}"
-		database_edition = "ENTERPRISE_EDITION"
-		disk_redundancy = "NORMAL"
-		shape = "BM.DenseIO2.52"
-		cpu_core_count = "2"
-		ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-		domain = "${oci_core_subnet.test_subnet.subnet_domain_name}"
-		hostname = "myOracleDB"
-		data_storage_size_in_gb = "256"
-		license_model = "LICENSE_INCLUDED"
-		node_count = "1"
-		display_name = "tfDbSystemTest"
-		db_home {
-			db_version = "12.1.0.2"
-			display_name = "dbHome1"
-			database {
-				admin_password = "BEstrO0ng_#11"
-				kms_key_id = "${var.kms_key_id}"
-                vault_id = "${var.vault_id}"
-                kms_key_version_id = "${var.kms_key_version_id}"
-				tde_wallet_password = "BEstrO0ng_#11"
-				db_name = "tfDbName"
-			}
-		}
-	}
-	
-	data "oci_database_db_homes" "t" {
-		compartment_id = "${var.compartment_id}"
-		db_system_id = "${oci_database_db_system.test_db_system.id}"
-		filter {
-			name = "display_name"
-			values = ["dbHome1"]
-		}
-	}`
-
-	ResourceDatabaseBaseConfig = acctest.LegacyTestProviderConfig() + DefinedTagsDependencies + `
-
-	data "oci_identity_availability_domains" "ADs" {
-		compartment_id = "${var.compartment_id}"
+	// Upstream Dependencies Start
+	// Core VCN Resource Representation
+	DbSystemCoreVcnRepresentation = map[string]interface{}{
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfVcn`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.1.0.0/16`},
+		"dns_label":      acctest.Representation{RepType: acctest.Required, Create: `tfvcn`},
 	}
 
-	resource "oci_core_virtual_network" "t" {
-		compartment_id = "${var.compartment_id}"
-		cidr_block = "10.1.0.0/16"
-		display_name = "-tf-vcn"
-		dns_label = "tfvcn"
+	// Core Internet Gateway Resource Representation
+	DbSystemCoreInternetGatewayResourceRepresentation = map[string]interface{}{
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfInternetGateway`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
 	}
 
-	resource "oci_core_route_table" "t" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_virtual_network.t.id}"
-		route_rules {
-			cidr_block = "0.0.0.0/0"
-			network_entity_id = "${oci_core_internet_gateway.t.id}"
-		}
-	}
-	resource "oci_core_internet_gateway" "t" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id = "${oci_core_virtual_network.t.id}"
-		display_name = "-tf-internet-gateway"
+	// Route Table Resource Representation
+	DbSystemRouteTableResourceRepresentation = map[string]interface{}{
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfRouteTable`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"route_rules":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemRouteRulesGroup},
 	}
 
-	resource "oci_core_subnet" "t" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		cidr_block          = "10.1.20.0/24"
-		display_name        = "TFSubnet1"
-		compartment_id      = "${var.compartment_id}"
-		vcn_id              = "${oci_core_virtual_network.t.id}"
-		route_table_id      = "${oci_core_route_table.t.id}"
-		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
-		dns_label           = "tfsubnet"
+	DbSystemRouteRulesGroup = map[string]interface{}{
+		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
+		"description":       acctest.Representation{RepType: acctest.Required, Create: `Internal traffic for OCI Services`},
+		"cidr_block":        acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
 	}
-	resource "oci_core_subnet" "t2" {
-		availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-		cidr_block          = "10.1.21.0/24"
-		display_name        = "TFSubnet2"
-		compartment_id      = "${var.compartment_id}"
-		vcn_id              = "${oci_core_virtual_network.t.id}"
-		route_table_id      = "${oci_core_route_table.t.id}"
-		dhcp_options_id     = "${oci_core_virtual_network.t.default_dhcp_options_id}"
-		security_list_ids   = ["${oci_core_virtual_network.t.default_security_list_id}"]
-		dns_label           = "tfsubnet2"
-	}
-	resource "oci_core_network_security_group" "test_network_security_group" {
-         compartment_id  = "${var.compartment_id}"
-		 vcn_id            = "${oci_core_virtual_network.t.id}"
-         display_name      =  "displayName"
-    }
 
-	resource "oci_core_network_security_group" "test_network_security_group2" {
-		compartment_id = "${var.compartment_id}"
-		vcn_id            = "${oci_core_virtual_network.t.id}"
+	// Subnet Resource Representation
+	DbSystemSubnetResourceRepresentation = map[string]interface{}{
+		"display_name":      acctest.Representation{RepType: acctest.Required, Create: `tfSubnet`},
+		"compartment_id":    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cidr_block":        acctest.Representation{RepType: acctest.Required, Create: `10.1.20.0/24`},
+		"vcn_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+		"route_table_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_route_table.test_route_table.id}`},
+		"security_list_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}},
+		"dhcp_options_id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`},
+		"dns_label":         acctest.Representation{RepType: acctest.Required, Create: `tfsubnet`},
 	}
-    `
 
+	// Network Security Group Resource Representation
+	DbSystemNetworkSecurityGroupResourceRepresentation = map[string]interface{}{
+		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `tfNetworkSecurityGroup`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
+	}
+	// Upstream Dependencies End
+
+	// 1. Main Db System Resource Representation: Start
+	DbSystemResourceRepresentation = map[string]interface{}{
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDbSystem`},
+		"database_edition":        acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`},
+		"disk_redundancy":         acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
+		"cpu_core_count":          acctest.Representation{RepType: acctest.Optional, Create: `2`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Optional, Create: `256`},
+		"license_model":           acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"fault_domains":           acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}},
+		"security_attributes":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
+		"domain":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.subnet_domain_name}`},
+		//"nsg_ids":              acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":               acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
+		"ssh_public_keys":     acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
+		"hostname":            acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"db_home":             acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemDbHomeGroup},
+	}
+
+	DbSystemDbHomeGroup = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemDatabaseGroup},
+	}
+
+	DbSystemDatabaseGroup = map[string]interface{}{
+		"db_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDb`},
+		"pdb_name":           acctest.Representation{RepType: acctest.Optional, Create: `tfPdb`},
+		"character_set":      acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"ncharacter_set":     acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"db_workload":        acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"kms_key_version_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_version_id}`},
+		"vault_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"admin_password":     acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+	}
+
+	// 1. Main Db System Resource Representation: End
+
+	// 2. Source Db System Resource Representation: Start
+	DbSystemSourceResourceRepresentation = map[string]interface{}{
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDbSystemSource`},
+		"database_edition":        acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`},
+		"disk_redundancy":         acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
+		"cpu_core_count":          acctest.Representation{RepType: acctest.Optional, Create: `2`},
+		"domain":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.subnet_domain_name}`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Optional, Create: `256`},
+		"license_model":           acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"fault_domains":           acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-1`}},
+		"security_attributes":     acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
+		"ssh_public_keys":         acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
+		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"db_home":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemSourceDbHomeGroup},
+	}
+
+	DbSystemSourceDbHomeGroup = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemSourceDatabaseGroup},
+	}
+
+	DbSystemSourceDatabaseGroup = map[string]interface{}{
+		"db_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDb`},
+		"pdb_name":           acctest.Representation{RepType: acctest.Optional, Create: `tfPdb`},
+		"kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"vault_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"kms_key_version_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_version_id}`},
+		"character_set":      acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"ncharacter_set":     acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"db_workload":        acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"db_backup_config":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DbSystemSourceDbBackupConfigGroup},
+		"admin_password":     acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+	}
+
+	DbSystemSourceDbBackupConfigGroup = map[string]interface{}{
+		"auto_backup_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"run_immediate_full_backup": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+	}
+	// 2. Source Db System Resource Representation: End
+
+	// 3. FromDatabase Db System Resource Representation: Start
+	DbSystemFromDatabaseResourceRepresentation = map[string]interface{}{
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDbSystemFromDatabase`},
+		"database_edition":        acctest.Representation{RepType: acctest.Optional, Create: `ENTERPRISE_EDITION`},
+		"disk_redundancy":         acctest.Representation{RepType: acctest.Optional, Create: `NORMAL`},
+		"cpu_core_count":          acctest.Representation{RepType: acctest.Optional, Create: `2`},
+		"domain":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.subnet_domain_name}`},
+		"data_storage_size_in_gb": acctest.Representation{RepType: acctest.Optional, Create: `256`},
+		"license_model":           acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                   acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.2`},
+		"ssh_public_keys":         acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin`}},
+		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `tfOracleDb`},
+		"source":                  acctest.Representation{RepType: acctest.Required, Create: `DATABASE`},
+		"db_home":                 acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemFromDatabaseDbHomeGroup},
+	}
+
+	DbSystemFromDatabaseDbHomeGroup = map[string]interface{}{
+		"display_name": acctest.Representation{RepType: acctest.Optional, Create: `tfDbHome`},
+		"db_version":   acctest.Representation{RepType: acctest.Optional, Create: `19.25.0.0`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DbSystemFromDatabaseDatabaseGroup},
+	}
+
+	DbSystemFromDatabaseDatabaseGroup = map[string]interface{}{
+		"db_name":            acctest.Representation{RepType: acctest.Optional, Create: `tfDb`},
+		"kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_id}`},
+		"vault_id":           acctest.Representation{RepType: acctest.Optional, Create: `${var.vault_id}`},
+		"kms_key_version_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.kms_key_version_id}`},
+		"database_id":        acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.test_source_db_system.databases.0.id}`},
+		"admin_password":     acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+	}
+	// 3. FromDatabase End
+
+	DbSystemSourceDatabaseDataSourceRepresentation = map[string]interface{}{
+		"db_home_id":     acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_db_homes.test_source_db_system.db_homes.0.db_home_id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	DbSystemSourceDatabaseDbHomesDataSourceRepresentation = map[string]interface{}{
+		"db_system_id":   acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_source_db_system.id}`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+	}
+
+	// Database Upstream Resource Dependencies Configs
+	DbSystemCoreVcnConfig         = acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, DbSystemCoreVcnRepresentation)
+	DbSystemRouteTableConfig      = acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, DbSystemRouteTableResourceRepresentation)
+	DbSystemInternetGatewayConfig = acctest.GenerateResourceFromRepresentationMap("oci_core_internet_gateway", "test_internet_gateway", acctest.Required, acctest.Create, DbSystemCoreInternetGatewayResourceRepresentation)
+	DbSystemSubnetConfig          = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, DbSystemSubnetResourceRepresentation)
+
+	// Base configuration for Db System - Tags, ADs, Vcn, Route Tables, Internet Gateway, Subnet
+	DbSystemBaseConfig = DefinedTagsDependencies + AvailabilityDomainConfig + DbSystemCoreVcnConfig + DbSystemRouteTableConfig + DbSystemInternetGatewayConfig + DbSystemSubnetConfig
+
+	DbSystemResourceName             = "oci_database_db_system.test_db_system"
+	DbSystemSourceResourceName       = "oci_database_db_system.test_source_db_system"
+	DbSystemFromDatabaseResourceName = "oci_database_db_system.test_db_system_from_database"
+
+	// Downstream dependencies only (Not used in current file)
 	ResourceDatabaseResourceName                   = "oci_database_db_system.t"
+	ResourceDatabaseBaseConfig                     = acctest.LegacyTestProviderConfig() + DbSystemBaseConfig
+	DbSystemResourceConfig                         = acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Required, acctest.Create, DbSystemResourceRepresentation)
+	DbSystemResourceDependencies                   = DbSystemBaseConfig
 	ResourceDatabaseToken, ResourceDatabaseTokenFn = acctest.TokenizeWithHttpReplay("database_db")
 )
 
 // issue-routing-tag: database/default
-func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
+func TestResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	if strings.Contains(utils.GetEnvSettingWithBlankDefault("suppressed_tests"), "DBSystem_basic") {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
+
+	config := acctest.LegacyTestProviderConfig()
 
 	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
 	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
@@ -149,272 +245,59 @@ func TestAccResourceDatabaseDBSystemFromDatabase(t *testing.T) {
 	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
 
 	const dbWaitConditionDuration = time.Duration(6 * time.Minute)
-	const sourceDataBaseSystem = `
-	resource "oci_database_db_system" "src_db_system" {
-		availability_domain = "${oci_core_subnet.t.availability_domain}"
-		compartment_id = "${var.compartment_id}"
-		subnet_id = "${oci_core_subnet.t.id}"
-		database_edition = "ENTERPRISE_EDITION"
-		disk_redundancy = "NORMAL"
-		shape = "BM.DenseIO2.52"
-		cpu_core_count = "2"
-		ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-		domain = "${oci_core_subnet.t.subnet_domain_name}"
-		hostname = "myOracleDB"
-		data_storage_size_in_gb = "256"
-		license_model = "LICENSE_INCLUDED"
-		node_count = "1"
-		display_name = "tfDbSystemTest"
-		db_home {
-			db_version = "12.1.0.2"
-			display_name = "dbHome1"
-			database {
-				admin_password = "BEstrO0ng_#11"
-				kms_key_id = "${var.kms_key_id}"
-                vault_id = "${var.vault_id}"
-                kms_key_version_id = "${var.kms_key_version_id}"
-				db_name = "aTFdb"
-				character_set = "AL32UTF8"
-				ncharacter_set = "AL16UTF16"
-				db_workload = "OLTP"
-				pdb_name = "pdbName"
-				db_backup_config {
-					auto_backup_enabled = true
-				}
-			}
-		}
-	}
-	data "oci_database_db_homes" "t" {
-		compartment_id = "${var.compartment_id}"
-		db_system_id = "${oci_database_db_system.src_db_system.id}"
-		filter {
-			name = "display_name"
-			values = ["dbHome1"]
-		}
-	}`
 
 	var resId string
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// Create
+		// Create Source Db System
 		{
-			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + sourceDataBaseSystem + `
-				data "oci_database_databases" "t" {
-  					compartment_id = "${var.compartment_id}"
-  					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
-				}`,
+			Config: config + DbSystemBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceResourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_homes", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceDatabaseDbHomesDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceDatabaseDataSourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(DbSystemSourceResourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(DbSystemSourceResourceName, "security_attributes.oracle-zpr.maxegresscount.value", "42"),
+				resource.TestCheckResourceAttr(DbSystemSourceResourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
 				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, "data.oci_database_databases.t", "databases.0.id")
+					resId, err = acctest.FromInstanceState(s, "data.oci_database_databases.test_source_db_system", "databases.0.id")
 					return err
 				},
 			),
 		},
-		// wait for backup and Create new db from it
+		// Wait for backup to complete and create a new Db System from the Source Db System's database
 		{
 			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbBackupAvailableWaitCondition, dbWaitConditionDuration,
 				listBackupsFetchOperation, "core", false),
-			Config: ResourceDatabaseBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr + sourceDataBaseSystem + `
-				data "oci_database_databases" "t" {
-  					compartment_id = "${var.compartment_id}"
-  					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
-				}
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "2"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					display_name = "tfDbSystemTestFromBackup"
-					source = "DATABASE"
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-				            kms_key_id = "${var.kms_key_id}"
-                            vault_id = "${var.vault_id}"
-                            kms_key_version_id = "${var.kms_key_version_id}"
-							//backup_tde_password = "BEstrO0ng_#11"
-							database_id = "${data.oci_database_databases.t.databases.0.id}"
-							db_name = "dbarclog"
-						}
-					}
-				}`,
+			Config: config + DbSystemBaseConfig + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceResourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_homes", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceDatabaseDbHomesDataSourceRepresentation) +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_databases", "test_source_db_system", acctest.Optional, acctest.Create, DbSystemSourceDatabaseDataSourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system_from_database", acctest.Optional, acctest.Create, DbSystemFromDatabaseResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.vault_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_version_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.kms_key_id"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.#", "1"),
-				//resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "display_name", "tfDbSystemTestFromBackup"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.display_name"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "dbarclog"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				resource.TestCheckResourceAttrSet("data.oci_database_databases.t", "databases.0.last_backup_timestamp"),
-			),
-		},
-	})
-}
-
-// issue-routing-tag: database/default
-func TestAccResourceDatabaseDBSystemWithPointInTimeRecovery(t *testing.T) {
-	if !strings.Contains(utils.GetEnvSettingWithBlankDefault("enabled_tests"), "timeStampForPointInTimeRecovery") {
-		t.Skip("This test requires a source DB with automatic backups enabled. " +
-			"There should be at least two automatic backups available." +
-			"time_stamp_for_point_in_time_recovery time should be anytime after the start time of the 1st automatic backup and before the start time of the last automatic backup.")
-	}
-
-	const dbWaitConditionDuration = time.Duration(20 * time.Minute)
-	const sourceDataBaseSystem = `
-	resource "oci_database_db_system" "src_db_system" {
-		availability_domain = "${oci_core_subnet.t.availability_domain}"
-		compartment_id = "${var.compartment_id}"
-		subnet_id = "${oci_core_subnet.t.id}"
-		database_edition = "ENTERPRISE_EDITION"
-		disk_redundancy = "NORMAL"
-		shape = "BM.DenseIO2.52"
-		cpu_core_count = "2"
-		ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-		domain = "${oci_core_subnet.t.subnet_domain_name}"
-		hostname = "myOracleDB"
-		data_storage_size_in_gb = "256"
-		license_model = "LICENSE_INCLUDED"
-		node_count = "1"
-		display_name = "tfDbSystemTest"
-		db_home {
-			db_version = "12.1.0.2"
-			display_name = "dbHome1"
-			database {
-				admin_password = "BEstrO0ng_#11"
-				db_name = "aTFdb"
-				character_set = "AL32UTF8"
-				ncharacter_set = "AL16UTF16"
-				db_workload = "OLTP"
-				pdb_name = "pdbName"
-				db_backup_config {
-					auto_backup_enabled = true
-				}
-			}
-		}
-	}
-	data "oci_database_db_homes" "t" {
-		compartment_id = "${var.compartment_id}"
-		db_system_id = "${oci_database_db_system.src_db_system.id}"
-		filter {
-			name = "display_name"
-			values = ["dbHome1"]
-		}
-	}`
-
-	var resId string
-
-	acctest.ResourceTest(t, nil, []resource.TestStep{
-		// Create
-		{
-			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem + `
-				data "oci_database_databases" "db" {
-					compartment_id = "${var.compartment_id}"
-					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, "data.oci_database_databases.db", "databases.0.id")
-					return err
-				},
-			),
-		},
-		// wait for backup and Create new db from it
-		{
-			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, dbAutomaticBackupAvailableWaitCondition, dbWaitConditionDuration,
-				listBackupsFetchOperation, "database", false),
-			Config: ResourceDatabaseBaseConfig + sourceDataBaseSystem +
-				`
-				data "oci_database_databases" "db" {
-  					compartment_id = "${var.compartment_id}"
-  					db_home_id = "${data.oci_database_db_homes.t.db_homes.0.id}"
-				}
-
-				data "oci_database_backups" "test_backups" {
-					database_id = "${data.oci_database_databases.db.databases.0.id}"
-				}
-
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${oci_core_subnet.t.availability_domain}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "2"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myoracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					display_name = "tfDbSystemTestFromBackup"
-					source = "DATABASE"
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							backup_tde_password = "BEstrO0ng_#11"
-							database_id = "${data.oci_database_databases.db.databases.0.id}"
-							db_name = "dbarclog"
-							time_stamp_for_point_in_time_recovery = "${data.oci_database_backups.test_backups.backups.0.time_ended}"
-						}
-					}
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.#", "1"),
-				//resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "ssh_public_keys.0", "ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "display_name", "tfDbSystemTestFromBackup"),
-				//resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.display_name"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "db_home.0.database.0.time_stamp_for_point_in_time_recovery"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				//resource.TestCheckResourceAttrSet("data.oci_database_databases.db", "databases.0.last_backup_timestamp"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "id"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "time_created"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "disk_redundancy", "NORMAL"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "cpu_core_count", "2"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "ssh_public_keys.#", "1"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "display_name", "tfDbSystemFromDatabase"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "hostname"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "data_storage_size_in_gb", "256"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "node_count", "1"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.db_version", "19.25.0.0"),
+				resource.TestCheckResourceAttrSet(DbSystemFromDatabaseResourceName, "db_home.0.display_name"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "db_home.0.database.0.db_name", "tfDb"),
+				resource.TestCheckResourceAttr(DbSystemFromDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
+				resource.TestCheckResourceAttrSet("data.oci_database_databases.test_source_db_system", "databases.0.last_backup_timestamp"),
 			),
 		},
 	})
@@ -442,353 +325,95 @@ func TestResourceDatabaseDBSystemBasic(t *testing.T) {
 		t.Skip("Skipping suppressed DBSystem_basic")
 	}
 
+	config := acctest.LegacyTestProviderConfig()
+	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_id")
+	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
+
+	kmsKeyVersionId := utils.GetEnvSettingWithBlankDefault("kms_key_version_id")
+	kmsKeyVersionIdVariableStr := fmt.Sprintf("variable \"kms_key_version_id\" { default = \"%s\" }\n", kmsKeyVersionId)
+
+	vaultId := utils.GetEnvSettingWithBlankDefault("vault_id")
+	vaultIdVariableStr := fmt.Sprintf("variable \"vault_id\" { default = \"%s\" }\n", vaultId)
+
 	var resId, resId2 string
 
 	acctest.ResourceTest(t, nil, []resource.TestStep{
 		// verify Create
 		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "2"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "BRING_YOUR_OWN_LICENSE"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-        			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							tde_wallet_password = "BEstrO0ng_#11"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + DbSystemBaseConfig +
+				//acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, DbSystemNetworkSecurityGroupResourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Optional, acctest.Create, DbSystemResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "time_created"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "database_edition", "ENTERPRISE_EDITION"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "disk_redundancy", "NORMAL"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "cpu_core_count", "2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "display_name", `tfDbSystem`),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "hostname"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "data_storage_size_in_gb", "256"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "license_model", "LICENSE_INCLUDED"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "node_count", "1"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "db_home.0.db_version"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "db_home.0.display_name"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "db_home.0.database.0.db_name", "tfDb"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.oracle-zpr.maxegresscount.value", "42"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
+				//resource.TestCheckResourceAttr(DbSystemResourceName, "nsg_ids.#", "1"),
 				func(s *terraform.State) (err error) {
-					resId, err = acctest.FromInstanceState(s, "oci_database_db_system.t", "id")
+					resId, err = acctest.FromInstanceState(s, "oci_database_db_system.test_db_system", "id")
 					return err
 				},
 			),
 		},
-		// verify Update without updating nsgIds
+		// Verify Update without updating nsgIds
 		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "4"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-        			nsg_ids = ["${oci_core_network_security_group.test_network_security_group.id}"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							tde_wallet_password = "BEstrO0ng_#11"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
+			Config: config + vaultIdVariableStr + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + DbSystemBaseConfig +
+				//acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, DbSystemNetworkSecurityGroupResourceRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_system", "test_db_system", acctest.Optional, acctest.Update, DbSystemResourceRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "4"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "1"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "availability_domain"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "compartment_id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "time_created"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "database_edition", "ENTERPRISE_EDITION"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "disk_redundancy", "NORMAL"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "shape", "VM.Standard2.2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "cpu_core_count", "2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "display_name", `tfDbSystem`),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "hostname"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "data_storage_size_in_gb", "256"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "node_count", "1"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "db_home.0.db_version"),
+				resource.TestCheckResourceAttrSet(DbSystemResourceName, "db_home.0.display_name"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "db_home.0.database.0.db_name", "tfDb"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.oracle-zpr.maxegresscount.value", "updatedValue"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
+				resource.TestCheckResourceAttr(DbSystemResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, "oci_database_db_system.t", "id")
+					resId2, err = acctest.FromInstanceState(s, "oci_database_db_system.test_db_system", "id")
 					if resId != resId2 {
 						return fmt.Errorf("expected same ocids, got different")
 					}
 					return err
 				},
-			),
-		},
-		// verify removing nsgIds
-		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "4"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							tde_wallet_password = "BEstrO0ng_#11"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "4"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "0"),
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, "oci_database_db_system.t", "id")
-					if resId != resId2 {
-						return fmt.Errorf("expected same ocids, got different")
-					}
-					return err
-				},
-			),
-		},
-		// verify updateing adminPassword and tdeWalletPassword
-		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "4"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#12"
-							tde_wallet_password = "BEstrO0ng_#12"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "4"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#12"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "nsg_ids.#", "0"),
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, "oci_database_db_system.t", "id")
-					if resId != resId2 {
-						return fmt.Errorf("expected same ocids, got different")
-					}
-					return err
-				},
-			),
-		},
-		{
-			Config: ResourceDatabaseBaseConfig,
-		},
-		// verify Create without nsgIds and backupNsgIds
-		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "2"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							tde_wallet_password = "BEstrO0ng_#11"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "2"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
-			),
-		},
-		// verify Update without nsgIds and backupNsgIds
-		{
-			Config: ResourceDatabaseBaseConfig + `
-				resource "oci_database_db_system" "t" {
-					availability_domain = "${data.oci_identity_availability_domains.ADs.availability_domains.0.name}"
-					compartment_id = "${var.compartment_id}"
-					subnet_id = "${oci_core_subnet.t.id}"
-					database_edition = "ENTERPRISE_EDITION"
-					disk_redundancy = "NORMAL"
-					shape = "BM.DenseIO2.52"
-					cpu_core_count = "4"
-					ssh_public_keys = ["ssh-rsa KKKLK3NzaC1yc2EAAAADAQABAAABAQC+UC9MFNA55NIVtKPIBCNw7++ACXhD0hx+Zyj25JfHykjz/QU3Q5FAU3DxDbVXyubgXfb/GJnrKRY8O4QDdvnZZRvQFFEOaApThAmCAM5MuFUIHdFvlqP+0W+ZQnmtDhwVe2NCfcmOrMuaPEgOKO3DOW6I/qOOdO691Xe2S9NgT9HhN0ZfFtEODVgvYulgXuCCXsJs+NUqcHAOxxFUmwkbPvYi0P0e2DT8JKeiOOC8VKUEgvVx+GKmqasm+Y6zHFW7vv3g2GstE1aRs3mttHRoC/JPM86PRyIxeWXEMzyG5wHqUu4XZpDbnWNxi6ugxnAGiL3CrIFdCgRNgHz5qS1l MustWin"]
-					domain = "${oci_core_subnet.t.dns_label}.${oci_core_virtual_network.t.dns_label}.oraclevcn.com"
-					hostname = "myOracleDB"
-					data_storage_size_in_gb = "256"
-					license_model = "LICENSE_INCLUDED"
-					node_count = "1"
-					fault_domains = ["FAULT-DOMAIN-1"]
-					db_home {
-						db_version = "12.1.0.2"
-						database {
-							admin_password = "BEstrO0ng_#11"
-							tde_wallet_password = "BEstrO0ng_#11"
-							db_name = "aTFdb"
-						}
-					}
-				}`,
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				// DB System Resource tests
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "availability_domain"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "compartment_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "subnet_id"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "time_created"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "database_edition", "ENTERPRISE_EDITION"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "disk_redundancy", "NORMAL"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "shape", "BM.DenseIO2.52"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "cpu_core_count", "4"),
-				resource.TestMatchResourceAttr(ResourceDatabaseResourceName, "display_name", regexp.MustCompile(`dbsystem\d+`)),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "domain", "tfsubnet.tfvcn.oraclevcn.com"),
-				resource.TestCheckResourceAttrSet(ResourceDatabaseResourceName, "hostname"), // see comment in SetData fn as to why this is removed
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "data_storage_size_in_gb", "256"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "node_count", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.db_version", "12.1.0.2"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.admin_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.tde_wallet_password", "BEstrO0ng_#11"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "db_home.0.database.0.db_name", "aTFdb"),
-				resource.TestCheckResourceAttr(ResourceDatabaseResourceName, "state", string(database.DatabaseLifecycleStateAvailable)),
 			),
 		},
 	})
