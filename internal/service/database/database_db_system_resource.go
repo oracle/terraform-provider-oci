@@ -362,6 +362,11 @@ func DatabaseDbSystemResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"is_unified_auditing_enabled": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"id": {
@@ -1959,6 +1964,11 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeDetails(fieldKeyFormat s
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
+		tmp := isUnifiedAuditingEnabled.(bool)
+		result.IsUnifiedAuditingEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -1987,6 +1997,10 @@ func CreateDbHomeDetailsToMap(obj *oci_database.CreateDbHomeDetails) map[string]
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.IsUnifiedAuditingEnabled != nil {
+		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
+	}
+
 	return result
 }
 
@@ -2014,6 +2028,15 @@ func (s *DatabaseDbSystemResourceCrud) mapToCreateDbHomeFromBackupDetails(fieldK
 		result.DisplayName = &tmp
 	}
 
+	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
+		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if isUnifiedAuditingEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_unified_auditing_enabled")); ok {
+		tmp := isUnifiedAuditingEnabled.(bool)
+		result.IsUnifiedAuditingEnabled = &tmp
+	}
+
 	return result, nil
 }
 
@@ -2030,6 +2053,12 @@ func CreateDbHomeFromBackupDetailsToMap(obj *oci_database.CreateDbHomeFromBackup
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	result["freeform_tags"] = obj.FreeformTags
+
+	if obj.IsUnifiedAuditingEnabled != nil {
+		result["is_unified_auditing_enabled"] = bool(*obj.IsUnifiedAuditingEnabled)
 	}
 
 	return result
