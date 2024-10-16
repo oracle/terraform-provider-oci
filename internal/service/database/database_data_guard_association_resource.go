@@ -160,6 +160,11 @@ func DatabaseDataGuardAssociationResource() *schema.Resource {
 				ForceNew: true,
 				Elem:     schema.TypeString,
 			},
+			"db_system_security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Elem:     schema.TypeString,
+			},
 			"display_name": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -689,6 +694,9 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
 		}
 		if dbSystemFreeformTags, ok := s.D.GetOkExists("db_system_freeform_tags"); ok {
 			details.DbSystemFreeformTags = tfresource.ObjectMapToStringMap(dbSystemFreeformTags.(map[string]interface{}))
+		}
+		if dbSystemSecurityAttributes, ok := s.D.GetOkExists("db_system_security_attributes"); ok {
+			details.DbSystemSecurityAttributes = tfresource.MapToSecurityAttributes(dbSystemSecurityAttributes.(map[string]interface{}))
 		}
 		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
 			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {

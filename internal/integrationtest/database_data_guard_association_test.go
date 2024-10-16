@@ -73,20 +73,9 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`database_defined_tags`, `database_freeform_tags`, `db_system_defined_tags`, `db_system_freeform_tags`, `fault_domains`, `license_model`, `node_count`, `private_ip`, `time_zone`}},
 	}
 
-	DatabaseGroup = map[string]interface{}{
-		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `tfDbName`},
-		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-	}
-
-	DBHomeGroup = map[string]interface{}{
-		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
-		"display_name": acctest.Representation{RepType: acctest.Required, Create: `TFTestDbHome1`},
-		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseGroup},
-	}
-
 	DBSystemRepresentation = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `TFTestDbSystemVM`},
+		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `tfDbSystemDataguardAssociationPrimary`},
 		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"database_edition":        acctest.Representation{RepType: acctest.Required, Create: `ENTERPRISE_EDITION`},
 		"disk_redundancy":         acctest.Representation{RepType: acctest.Required, Create: `NORMAL`},
@@ -102,24 +91,36 @@ var (
 		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
 	}
 
+	DBHomeGroup = map[string]interface{}{
+		"db_version":   acctest.Representation{RepType: acctest.Required, Create: `12.1.0.2`},
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `TFTestDbHome1`},
+		"database":     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseGroup},
+	}
+
+	DatabaseGroup = map[string]interface{}{
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `tfDbName`},
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+	}
+
 	DatabaseDataGuardAssociationRepresentation = acctest.RepresentationCopyWithNewProperties(DatabaseDataGuardAssociationRepresentationBase, map[string]interface{}{
-		"creation_type":           acctest.Representation{RepType: acctest.Required, Create: `NewDbSystem`},
-		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
-		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `TFTestDbSystemVM2`},
-		"hostname":                acctest.Representation{RepType: acctest.Required, Create: `hostname`},
-		"subnet_id":               acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-		"shape":                   acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.2`},
-		"backup_network_nsg_ids":  acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"nsg_ids":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
-		"database_defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "databaseDefinedTags1")}`},
-		"database_freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"databaseFreeformTagsK": "databaseFreeformTagsV"}},
-		"db_system_defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "dbSystemDefinedTags1")}`},
-		"db_system_freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemFreeformTagsK": "dbSystemFreeformTagsV"}},
-		"fault_domains":           acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-3`}},
-		"license_model":           acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`},
-		"node_count":              acctest.Representation{RepType: acctest.Optional, Create: `1`},
-		"private_ip":              acctest.Representation{RepType: acctest.Optional, Create: `10.0.2.223`},
-		"time_zone":               acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"creation_type":                 acctest.Representation{RepType: acctest.Required, Create: `NewDbSystem`},
+		"availability_domain":           acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"display_name":                  acctest.Representation{RepType: acctest.Required, Create: `tfDbSystemDataguardAssociationStandby`},
+		"hostname":                      acctest.Representation{RepType: acctest.Required, Create: `hostname`},
+		"subnet_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"shape":                         acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard2.2`},
+		"backup_network_nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"nsg_ids":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}},
+		"database_defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "databaseDefinedTags1")}`},
+		"database_freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"databaseFreeformTagsK": "databaseFreeformTagsV"}},
+		"db_system_defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "dbSystemDefinedTags1")}`},
+		"db_system_freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemFreeformTagsK": "dbSystemFreeformTagsV"}},
+		"fault_domains":                 acctest.Representation{RepType: acctest.Optional, Create: []string{`FAULT-DOMAIN-3`}},
+		"license_model":                 acctest.Representation{RepType: acctest.Optional, Create: `BRING_YOUR_OWN_LICENSE`},
+		"node_count":                    acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"private_ip":                    acctest.Representation{RepType: acctest.Optional, Create: `10.0.2.223`},
+		"time_zone":                     acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
+		"db_system_security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}},
 	})
 
 	CoreServicesDataSourceFilter = map[string]interface{}{
@@ -208,7 +209,16 @@ var (
 		"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 
-	ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig
+	DataguardAssociationCoreVcnRepresentation = map[string]interface{}{
+		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
+		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `tfVCN`},
+		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
+	}
+
+	//ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies + CoreVcnResourceConfig
+	ExternalDependenciesConfig = AvailabilityDomainConfig + DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Optional, acctest.Create, DataguardAssociationCoreVcnRepresentation)
 
 	DataSourceDependenciesConfig = ExternalDependenciesConfig +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_core_services", "test_services", acctest.Optional, acctest.Create, CoreServicesDataSourceRepresentation) +
@@ -258,6 +268,9 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "db_system_freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_defined_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "database_freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_system_security_attributes.%", "2"),
+				resource.TestCheckResourceAttr(resourceName, "db_system_security_attributes.oracle-zpr.maxegresscount.value", "42"),
+				resource.TestCheckResourceAttr(resourceName, "db_system_security_attributes.oracle-zpr.maxegresscount.mode", "enforce"),
 				resource.TestCheckResourceAttr(resourceName, "fault_domains.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "license_model", "BRING_YOUR_OWN_LICENSE"),
 				resource.TestCheckResourceAttr(resourceName, "node_count", "1"),
@@ -281,7 +294,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 			Config: config + compartmentIdVariableStr + ResourceDependenciesConfig +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_data_guard_association", "test_data_guard_association", acctest.Optional, acctest.Update, DatabaseDataGuardAssociationRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
+				//resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),

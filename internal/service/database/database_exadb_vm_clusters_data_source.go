@@ -218,6 +218,8 @@ func (s *DatabaseExadbVmClustersDataSourceCrud) SetData() error {
 			exadbVmCluster["scan_listener_port_tcp_ssl"] = *r.ScanListenerPortTcpSsl
 		}
 
+		exadbVmCluster["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.Shape != nil {
 			exadbVmCluster["shape"] = *r.Shape
 		}

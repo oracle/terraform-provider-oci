@@ -78,6 +78,7 @@ resource "oci_database_cloud_vm_cluster" "test_cloud_vm_cluster" {
 	private_zone_id = oci_dns_zone.test_zone.id
 	scan_listener_port_tcp = var.cloud_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.cloud_vm_cluster_scan_listener_port_tcp_ssl
+	security_attributes = var.cloud_vm_cluster_security_attributes
 	subscription_id = var.tenant_subscription_id
 	system_version = var.cloud_vm_cluster_system_version
 	time_zone = var.cloud_vm_cluster_time_zone
@@ -141,6 +142,7 @@ The following arguments are supported:
 * `private_zone_id` - (Optional) The private zone id in which DNS records need to be created.
 * `scan_listener_port_tcp` - (Optional) The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - (Optional) The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the cloud VM cluster. 
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
@@ -218,6 +220,7 @@ The following attributes are exported:
 	**Note:** For a single-node DB system, this list is empty. 
 * `scan_listener_port_tcp` - The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - The TCPS Single Client Access Name (SCAN) port. The default port is 2484.
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The model name of the Exadata hardware running the cloud VM cluster. 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the cloud VM cluster.
 * `state` - The current state of the cloud VM cluster.
