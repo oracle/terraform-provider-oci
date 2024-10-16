@@ -1,0 +1,381 @@
+diff --git a/internal/integrationtest/database_autonomous_database_test.go b/internal/integrationtest/database_autonomous_database_test.go
+index 5914a0957ec..f72c93c9da5 100644
+--- a/internal/integrationtest/database_autonomous_database_test.go
++++ b/internal/integrationtest/database_autonomous_database_test.go
+@@ -80,7 +80,9 @@ var (
+ 		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+ 		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
+ 		"is_preview_version_with_service_terms_accepted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+-		"security_attributes":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		//"security_attributes":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]interface{}{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		//"security_attributes":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}},
+ 		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
+ 		"license_model":              acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+ 		"whitelisted_ips":            acctest.Representation{RepType: acctest.Optional, Create: []string{`1.1.1.1/28`}},
+diff --git a/internal/integrationtest/database_cloud_autonomous_vm_cluster_test.go b/internal/integrationtest/database_cloud_autonomous_vm_cluster_test.go
+index 5f03170c588..76f89dffd5b 100644
+--- a/internal/integrationtest/database_cloud_autonomous_vm_cluster_test.go
++++ b/internal/integrationtest/database_cloud_autonomous_vm_cluster_test.go
+@@ -59,7 +59,7 @@ var (
+ 		"freeform_tags":                         acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+ 		"is_mtls_enabled_vm_cluster":            acctest.Representation{RepType: acctest.Optional, Create: `false`},
+ 		"license_model":                         acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
+-		"security_attributes":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		"security_attributes":                   acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
+ 		"scan_listener_port_non_tls":            acctest.Representation{RepType: acctest.Optional, Create: `2302`},
+ 		"scan_listener_port_tls":                acctest.Representation{RepType: acctest.Optional, Create: `2709`},
+ 		"nsg_ids":                               acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{`${oci_core_network_security_group.test_network_security_group2.id}`}},
+diff --git a/internal/integrationtest/database_cloud_vm_cluster_test.go b/internal/integrationtest/database_cloud_vm_cluster_test.go
+index b390c19314d..8813655fe8c 100644
+--- a/internal/integrationtest/database_cloud_vm_cluster_test.go
++++ b/internal/integrationtest/database_cloud_vm_cluster_test.go
+@@ -51,7 +51,7 @@ var (
+ 	}
+ 
+ 	DatabaseCloudVmClusterRepresentation = map[string]interface{}{
+-		"security_attributes":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		"security_attributes": acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]interface{}{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
+ 		"file_system_configuration_details": []acctest.RepresentationGroup{
+ 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation0},
+ 			{RepType: acctest.Optional, Group: DatabaseCloudVmClusterFileSystemConfigurationDetailsRepresentation1},
+diff --git a/internal/integrationtest/database_exadb_vm_cluster_test.go b/internal/integrationtest/database_exadb_vm_cluster_test.go
+index f6ca4283fca..7cc46367bc6 100644
+--- a/internal/integrationtest/database_exadb_vm_cluster_test.go
++++ b/internal/integrationtest/database_exadb_vm_cluster_test.go
+@@ -56,7 +56,7 @@ var (
+ 		"hostname":                     acctest.Representation{RepType: acctest.Required, Create: `apollo`},
+ 		"shape":                        acctest.Representation{RepType: acctest.Required, Create: `EXADBXS`},
+ 		"ssh_public_keys":              acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
+-		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
++		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]map[string]map[string]string{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}},
+ 		"subnet_id":                    acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadbxs_client_subnet.id}`},
+ 		"backup_subnet_id":             acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.exadbxs_backup_subnet.id}`},
+ 		"node_config":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExadbVmClusterNodeConfigRepresentation},
+diff --git a/internal/service/database/database_autonomous_database_resource.go b/internal/service/database/database_autonomous_database_resource.go
+index aa38afb9d91..ba35a997678 100644
+--- a/internal/service/database/database_autonomous_database_resource.go
++++ b/internal/service/database/database_autonomous_database_resource.go
+@@ -1932,7 +1932,8 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		//request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+@@ -3141,7 +3142,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -3433,7 +3434,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -3725,7 +3726,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -3996,7 +3997,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -4254,7 +4255,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -4510,7 +4511,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			}
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -4794,7 +4795,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -5070,7 +5071,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+@@ -5335,7 +5336,7 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
+ 			details.SecretVersionNumber = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if standbyWhitelistedIps, ok := s.D.GetOkExists("standby_whitelisted_ips"); ok {
+ 			interfaces := standbyWhitelistedIps.([]interface{})
+diff --git a/internal/service/database/database_cloud_autonomous_vm_cluster_resource.go b/internal/service/database/database_cloud_autonomous_vm_cluster_resource.go
+index 551f67e5024..dac1ee93af0 100644
+--- a/internal/service/database/database_cloud_autonomous_vm_cluster_resource.go
++++ b/internal/service/database/database_cloud_autonomous_vm_cluster_resource.go
+@@ -722,7 +722,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
+@@ -858,7 +858,7 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
+@@ -1090,7 +1090,9 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
+ 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
+ 	}
+ 
+-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
++	if s.Res.SecurityAttributes != nil {
++		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
++	}
+ 
+ 	if s.Res.Shape != nil {
+ 		s.D.Set("shape", *s.Res.Shape)
+diff --git a/internal/service/database/database_cloud_vm_cluster_resource.go b/internal/service/database/database_cloud_vm_cluster_resource.go
+index 314ce6b3cbc..a99959a6ff8 100644
+--- a/internal/service/database/database_cloud_vm_cluster_resource.go
++++ b/internal/service/database/database_cloud_vm_cluster_resource.go
+@@ -688,7 +688,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Create() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+@@ -918,7 +918,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) Update() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok {
+@@ -1109,7 +1109,7 @@ func (s *DatabaseCloudVmClusterResourceCrud) SetData() error {
+ 		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
+ 	}
+ 
+-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
++	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+ 
+ 	if s.Res.Shape != nil {
+ 		s.D.Set("shape", *s.Res.Shape)
+diff --git a/internal/service/database/database_data_guard_association_resource.go b/internal/service/database/database_data_guard_association_resource.go
+index 970ed01efb2..6cef00f2775 100644
+--- a/internal/service/database/database_data_guard_association_resource.go
++++ b/internal/service/database/database_data_guard_association_resource.go
+@@ -698,7 +698,8 @@ func (s *DatabaseDataGuardAssociationResourceCrud) populateTopLevelPolymorphicCr
+ 			details.DbSystemFreeformTags = tfresource.ObjectMapToStringMap(dbSystemFreeformTags.(map[string]interface{}))
+ 		}
+ 		if dbSystemSecurityAttributes, ok := s.D.GetOkExists("db_system_security_attributes"); ok {
+-			details.DbSystemSecurityAttributes = tfresource.ObjectMapToStringMap(dbSystemSecurityAttributes.(map[string]interface{}))
++			details.DbSystemSecurityAttributes = tfresource.MapToSecurityAttributes(dbSystemSecurityAttributes.(map[string]interface{}))
++		}
+ 		if dataCollectionOptions, ok := s.D.GetOkExists("data_collection_options"); ok {
+ 			if tmpList := dataCollectionOptions.([]interface{}); len(tmpList) > 0 {
+ 				fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "data_collection_options", 0)
+diff --git a/internal/service/database/database_db_system_resource.go b/internal/service/database/database_db_system_resource.go
+index a775a396e17..44e424c99ed 100644
+--- a/internal/service/database/database_db_system_resource.go
++++ b/internal/service/database/database_db_system_resource.go
+@@ -1228,7 +1228,7 @@ func (s *DatabaseDbSystemResourceCrud) Update() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if shape, ok := s.D.GetOkExists("shape"); ok && s.D.HasChange("shape") {
+@@ -1457,7 +1457,7 @@ func (s *DatabaseDbSystemResourceCrud) SetData() error {
+ 
+ 	s.D.Set("scan_ip_ids", s.Res.ScanIpIds)
+ 
+-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
++	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+ 
+ 	if s.Res.Shape != nil {
+ 		s.D.Set("shape", *s.Res.Shape)
+@@ -2570,7 +2570,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
+ 			details.PrivateIp = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if shape, ok := s.D.GetOkExists("shape"); ok {
+ 			tmp := shape.(string)
+@@ -2754,7 +2754,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
+ 			details.PrivateIp = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if shape, ok := s.D.GetOkExists("shape"); ok {
+ 			tmp := shape.(string)
+@@ -2936,7 +2936,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
+ 			details.PrivateIp = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if shape, ok := s.D.GetOkExists("shape"); ok {
+ 			tmp := shape.(string)
+@@ -3130,7 +3130,7 @@ func (s *DatabaseDbSystemResourceCrud) populateTopLevelPolymorphicLaunchDbSystem
+ 			details.PrivateIp = &tmp
+ 		}
+ 		if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-			details.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++			details.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 		}
+ 		if shape, ok := s.D.GetOkExists("shape"); ok {
+ 			tmp := shape.(string)
+diff --git a/internal/service/database/database_exadb_vm_cluster_resource.go b/internal/service/database/database_exadb_vm_cluster_resource.go
+index 93468e589d0..372f107f14e 100644
+--- a/internal/service/database/database_exadb_vm_cluster_resource.go
++++ b/internal/service/database/database_exadb_vm_cluster_resource.go
+@@ -593,7 +593,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 
+ 	if shape, ok := s.D.GetOkExists("shape"); ok {
+@@ -829,7 +829,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) Update() error {
+ 	}
+ 
+ 	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+-		request.SecurityAttributes = tfresource.ObjectMapToStringMap(securityAttributes.(map[string]interface{}))
++		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+ 	}
+ 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
+ 		updateRequired = true
+@@ -1078,7 +1078,7 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
+ 		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
+ 	}
+ 
+-	s.D.Set("security_attributes", s.Res.SecurityAttributes)
++	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+ 
+ 	if s.Res.Shape != nil {
+ 		s.D.Set("shape", *s.Res.Shape)
+diff --git a/internal/tfresource/crud_helpers.go b/internal/tfresource/crud_helpers.go
+index 995e303d7df..c8bb3da2b7f 100644
+--- a/internal/tfresource/crud_helpers.go
++++ b/internal/tfresource/crud_helpers.go
+@@ -1180,6 +1180,60 @@ func ConvertObjectToJsonString(object interface{}) (string, error) {
+ 	return string(bytes), nil
+ }
+ 
++// unflatten
++func MapToSecurityAttributes(rawMap map[string]interface{}) map[string]map[string]interface{} {
++	result := make(map[string]map[string]interface{})
++	for fullKey, value := range rawMap {
++		keys := strings.Split(fullKey, ".")
++		if len(keys) < 2 {
++			continue
++		}
++		outerKey := keys[0]
++		innerKey := strings.Join(keys[1:], ".")
++		if result[outerKey] == nil {
++			result[outerKey] = make(map[string]interface{})
++		}
++		unflattenHelper(result[outerKey], innerKey, value)
++	}
++
++	return result
++}
++
++func unflattenHelper(currentMap map[string]interface{}, key string, value interface{}) {
++	keys := strings.Split(key, ".")
++	for i, k := range keys {
++		if i == len(keys)-1 {
++			currentMap[k] = value
++		} else {
++			if _, ok := currentMap[k]; !ok {
++				currentMap[k] = make(map[string]interface{})
++			}
++			currentMap = currentMap[k].(map[string]interface{})
++		}
++	}
++}
++
++// flatten
++func SecurityAttributesToMap(rm map[string]map[string]interface{}) map[string]interface{} {
++	result := make(map[string]interface{})
++	for outerKey, innerMap := range rm {
++		flattenHelper(result, outerKey, innerMap)
++	}
++
++	return result
++}
++
++func flattenHelper(flat map[string]interface{}, prefix string, nested map[string]interface{}) {
++	for key, value := range nested {
++		fullKey := prefix + "." + key
++		if reflect.TypeOf(value).Kind() == reflect.Map {
++			flattenHelper(flat, fullKey, value.(map[string]interface{}))
++		} else {
++			flat[fullKey] = value
++		}
++	}
++}
++
+ func ObjectMapToStringMap(rm map[string]interface{}) map[string]string {
+ 	result := map[string]string{}
+ 	for k, v := range rm {

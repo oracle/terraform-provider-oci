@@ -253,6 +253,12 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"system_version": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -586,6 +592,10 @@ func (s *DatabaseExadbVmClusterResourceCrud) Create() error {
 		request.ScanListenerPortTcpSsl = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if shape, ok := s.D.GetOkExists("shape"); ok {
 		tmp := shape.(string)
 		request.Shape = &tmp
@@ -818,6 +828,9 @@ func (s *DatabaseExadbVmClusterResourceCrud) Update() error {
 		}
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
 	if sshPublicKeys, ok := s.D.GetOkExists("ssh_public_keys"); ok && s.D.HasChange("ssh_public_keys") {
 		updateRequired = true
 		interfaces := sshPublicKeys.([]interface{})
@@ -1064,6 +1077,8 @@ func (s *DatabaseExadbVmClusterResourceCrud) SetData() error {
 	if s.Res.ScanListenerPortTcpSsl != nil {
 		s.D.Set("scan_listener_port_tcp_ssl", *s.Res.ScanListenerPortTcpSsl)
 	}
+
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)

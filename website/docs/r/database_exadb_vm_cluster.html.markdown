@@ -61,6 +61,7 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
 	private_zone_id = oci_dns_zone.test_zone.id
 	scan_listener_port_tcp = var.exadb_vm_cluster_scan_listener_port_tcp
 	scan_listener_port_tcp_ssl = var.exadb_vm_cluster_scan_listener_port_tcp_ssl
+	security_attributes = var.exadb_vm_cluster_security_attributes
 	system_version = var.exadb_vm_cluster_system_version
 	time_zone = var.exadb_vm_cluster_time_zone
 }
@@ -84,7 +85,9 @@ The following arguments are supported:
 * `domain` - (Optional) A domain name used for the Exadata VM cluster on Exascale Infrastructure. If the Oracle-provided internet and VCN resolver is enabled for the specified subnet, then the domain name for the subnet is used (do not provide one). Otherwise, provide a valid DNS domain name. Hyphens (-) are not permitted.  Applies to Exadata Database Service on Exascale Infrastructure only. 
 * `exascale_db_storage_vault_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `grid_image_id` - (Required) (Updatable) Grid Setup will be done using this grid image id
+* `grid_image_id` - (Required) (Updatable) Grid Setup will be done using this grid image id.
+
+	The grid image id can be extracted from 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name> 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using  API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name> 
 * `hostname` - (Required) The hostname for the Exadata VM cluster on Exascale Infrastructure. The hostname must begin with an alphabetic character, and  can contain alphanumeric characters and hyphens (-). For Exadata systems, the maximum length of the hostname is 12 characters.
 
 	The maximum length of the combined hostname and domain is 63 characters.
@@ -102,6 +105,7 @@ The following arguments are supported:
 * `private_zone_id` - (Optional) The private zone ID in which you want DNS records to be created. 
 * `scan_listener_port_tcp` - (Optional) The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - (Optional) The Secured Communication (TCPS) protocol Single Client Access Name (SCAN) port. The default port is 2484. 
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - (Required) The shape of the Exadata VM cluster on Exascale Infrastructure resource 
 * `ssh_public_keys` - (Required) (Updatable) The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet associated with the Exadata VM cluster on Exascale Infrastructure. 
@@ -131,7 +135,9 @@ The following attributes are exported:
 * `exascale_db_storage_vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Exadata Database Storage Vault.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `gi_version` - A valid Oracle Grid Infrastructure (GI) software version.
-* `grid_image_id` - Grid Setup will be done using this grid image id
+* `grid_image_id` - Grid Setup will be done using this grid image id.
+
+	The grid image id can be extracted from 1. Obtain the supported major versions using API /20160918/giVersions?compartmentId=<compartmentId>&shape=EXADB_XS&availabilityDomain=<AD name> 2. Replace {version} with one of the supported major versions and obtain the supported minor versions using  API /20160918/giVersions/{version}/minorVersions?compartmentId=<compartmentId>&shapeFamily=EXADB_XS&availabilityDomain=<AD name> 
 * `grid_image_type` - The type of Grid Image
 * `hostname` - The hostname for the Exadata VM cluster on Exascale Infrastructure. The hostname must begin with an alphabetic character, and  can contain alphanumeric characters and hyphens (-). For Exadata systems, the maximum length of the hostname is 12 characters.
 
@@ -173,6 +179,7 @@ The following attributes are exported:
 	**Note:** For a single-node DB system, this list is empty. 
 * `scan_listener_port_tcp` - The TCP Single Client Access Name (SCAN) port. The default port is 1521.
 * `scan_listener_port_tcp_ssl` - The Secured Communication (TCPS) protocol Single Client Access Name (SCAN) port. The default port is 2484. 
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The shape of the Exadata VM cluster on Exascale Infrastructure resource 
 * `ssh_public_keys` - The public key portion of one or more key pairs used for SSH access to the Exadata VM cluster on Exascale Infrastructure.
 * `state` - The current state of the Exadata VM cluster on Exascale Infrastructure.

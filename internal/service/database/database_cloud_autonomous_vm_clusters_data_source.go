@@ -304,6 +304,8 @@ func (s *DatabaseCloudAutonomousVmClustersDataSourceCrud) SetData() error {
 			cloudAutonomousVmCluster["scan_listener_port_tls"] = *r.ScanListenerPortTls
 		}
 
+		cloudAutonomousVmCluster["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.Shape != nil {
 			cloudAutonomousVmCluster["shape"] = *r.Shape
 		}
