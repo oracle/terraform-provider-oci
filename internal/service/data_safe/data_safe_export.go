@@ -4,7 +4,11 @@
 package data_safe
 
 import (
+	"context"
 	"fmt"
+	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
 
@@ -18,6 +22,7 @@ func init() {
 
 	exportDataSafeTargetDatabasePeerTargetDatabaseHints.GetIdFn = getDataSafeTargetDatabasePeerTargetDatabaseId
 	exportDataSafeDiscoveryJobsResultHints.GetIdFn = getDataSafeDiscoveryJobsResultId
+	exportDataSafeAlertPolicyHints.FindResourcesOverrideFn = findAlertPolicies
 
 	tf_export.RegisterCompartmentGraphs("data_safe", dataSafeResourceGraph)
 }
@@ -456,4 +461,78 @@ var dataSafeResourceGraph = tf_export.TerraformResourceGraph{
 			},
 		},
 	},
+}
+
+func findAlertPolicies(ctx *tf_export.ResourceDiscoveryContext, tfMeta *tf_export.TerraformResourceAssociation, parent *tf_export.OCIResource, resourceGraph *tf_export.TerraformResourceGraph) (resources []*tf_export.OCIResource, err error) {
+	results := []*tf_export.OCIResource{}
+	request := oci_data_safe.ListAlertPoliciesRequest{}
+	tmp := true
+	request.IsUserDefined = &tmp
+	request.CompartmentId = &parent.CompartmentId
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "data_safe")
+
+	response, err := ctx.Clients.DataSafeClient().ListAlertPolicies(context.Background(), request)
+	if err != nil {
+		return nil, err
+	}
+
+	request.Page = response.OpcNextPage
+
+	for request.Page != nil {
+		listResponse, err := ctx.Clients.DataSafeClient().ListAlertPolicies(context.Background(), request)
+		if err != nil {
+			return nil, err
+		}
+
+		response.Items = append(response.Items, listResponse.Items...)
+		request.Page = listResponse.OpcNextPage
+	}
+
+	for _, alertPolicy := range response.Items {
+		alertPolicyResource := tf_export.ResourcesMap[tfMeta.ResourceClass]
+
+		d := alertPolicyResource.TestResourceData()
+		d.SetId(*alertPolicy.Id)
+
+		if err := alertPolicyResource.Read(d, ctx.Clients); err != nil {
+			rdError := &tf_export.ResourceDiscoveryError{ResourceType: tfMeta.ResourceClass, ParentResource: parent.TerraformName, Error: err, ResourceGraph: resourceGraph}
+			ctx.AddErrorToList(rdError)
+			continue
+		}
+
+		state := d.Get("state")
+		if state != nil && len(tfMeta.DiscoverableLifecycleStates) > 0 {
+			discoverable := false
+			for _, val := range tfMeta.DiscoverableLifecycleStates {
+				if strings.EqualFold(state.(string), val) {
+					discoverable = true
+					break
+				}
+			}
+			if !discoverable {
+				continue
+			}
+		}
+
+		resource := &tf_export.OCIResource{
+			CompartmentId:    parent.CompartmentId,
+			SourceAttributes: tf_export.ConvertResourceDataToMap(alertPolicyResource.Schema, d),
+			RawResource:      alertPolicy,
+			TerraformResource: tf_export.TerraformResource{
+				Id:             d.Id(),
+				TerraformClass: tfMeta.ResourceClass,
+			},
+			GetHclStringFn: tf_export.GetHclStringFromGenericMap,
+			Parent:         parent,
+		}
+
+		if resource.TerraformName, err = tf_export.GenerateTerraformNameFromResource(resource.SourceAttributes, alertPolicyResource.Schema); err != nil {
+			resource.TerraformName = fmt.Sprintf("%s_%s", parent.Parent.TerraformName, *alertPolicy.DisplayName)
+			resource.TerraformName = tf_export.CheckDuplicateResourceName(resource.TerraformName)
+		}
+
+		results = append(results, resource)
+	}
+
+	return results, nil
 }

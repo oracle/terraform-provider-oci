@@ -123,8 +123,10 @@ func (s *DataSafeAlertPoliciesDataSourceCrud) Get() error {
 		request.DisplayName = &tmp
 	}
 
-	tmp := true
-	request.IsUserDefined = &tmp
+	if isUserDefined, ok := s.D.GetOkExists("is_user_defined"); ok {
+		tmp := isUserDefined.(bool)
+		request.IsUserDefined = &tmp
+	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_data_safe.ListAlertPoliciesLifecycleStateEnum(state.(string))
