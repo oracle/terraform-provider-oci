@@ -85,6 +85,7 @@ resource "oci_database_db_system" "test_db_system" {
 		defined_tags = var.db_system_db_home_defined_tags
 		display_name = var.db_system_db_home_display_name
 		freeform_tags = var.db_system_db_home_freeform_tags
+		is_unified_auditing_enabled = var.db_system_db_home_is_unified_auditing_enabled
 	}
 	hostname = var.db_system_hostname
 	shape = var.db_system_shape
@@ -237,6 +238,7 @@ The following arguments are supported:
 	* `defined_tags` - (Optional) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 	* `display_name` - (Optional) The user-provided name of the Database Home.
 	* `freeform_tags` - (Optional) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+	* `is_unified_auditing_enabled` - (Applicable when source=DATABASE | DB_BACKUP | NONE) Indicates whether unified auditing is enabled or not 
 * `db_system_options` - (Optional) The DB system options.
 	* `storage_management` - (Optional) The storage option used in DB system. ASM - Automatic storage management LVM - Logical Volume management 
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
