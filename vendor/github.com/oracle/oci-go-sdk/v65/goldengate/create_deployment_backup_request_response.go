@@ -78,6 +78,9 @@ type CreateDeploymentBackupResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
+	// The DeploymentBackup instance
+	DeploymentBackup `presentIn:"body"`
+
 	// A unique Oracle-assigned identifier for an asynchronous request. You can use this to query
 	// status of the asynchronous operation.
 	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
@@ -85,6 +88,9 @@ type CreateDeploymentBackupResponse struct {
 	// A unique Oracle-assigned identifier for the request. If you need to contact Oracle about a
 	// particular request, please include the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// For optimistic concurrency control. See `if-match`.
+	Etag *string `presentIn:"header" name:"etag"`
 }
 
 func (response CreateDeploymentBackupResponse) String() string {

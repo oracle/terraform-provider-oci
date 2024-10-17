@@ -65,8 +65,8 @@ The following arguments are supported:
 	* `client_address_conditions` - (Optional) (Updatable) A list of CIDR blocks. The query must come from a client within one of the blocks in order for the rule action to apply. 
 	* `destination_addresses` - (Required) (Updatable) IP addresses to which queries should be forwarded. Currently limited to a single address. 
 	* `qname_cover_conditions` - (Optional) (Updatable) A list of domain names. The query must be covered by one of the domains in order for the rule action to apply. 
-	* `source_endpoint_name` - (Required) (Updatable) Name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
-* `scope` - (Optional) If specified, must be `PRIVATE` when creating private name resolvers. 
+	* `source_endpoint_name` - (Required) (Updatable) Case-insensitive name of an endpoint, that is a sub-resource of the resolver, to use as the forwarding interface. The endpoint must have isForwarding set to true. 
+* `scope` - (Optional) Specifies to operate only on resources that have a matching DNS scope. 
 
 
 ** IMPORTANT **
@@ -138,3 +138,4 @@ Resolvers can be imported using their OCID, e.g.
 ```
 $ terraform import oci_dns_resolver.test_resolver "id"
 ```
+

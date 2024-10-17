@@ -67,6 +67,31 @@ resource "oci_containerengine_cluster" "test_cluster" {
 			pods_cidr = var.cluster_options_kubernetes_network_config_pods_cidr
 			services_cidr = var.cluster_options_kubernetes_network_config_services_cidr
 		}
+		open_id_connect_token_authentication_config {
+			#Required
+			is_open_id_connect_auth_enabled = var.cluster_options_open_id_connect_token_authentication_config_is_open_id_connect_auth_enabled
+
+			#Optional
+			ca_certificate = var.cluster_options_open_id_connect_token_authentication_config_ca_certificate
+			client_id = oci_containerengine_client.test_client.id
+			groups_claim = var.cluster_options_open_id_connect_token_authentication_config_groups_claim
+			groups_prefix = var.cluster_options_open_id_connect_token_authentication_config_groups_prefix
+			issuer_url = var.cluster_options_open_id_connect_token_authentication_config_issuer_url
+			required_claims {
+
+				#Optional
+				key = var.cluster_options_open_id_connect_token_authentication_config_required_claims_key
+				value = var.cluster_options_open_id_connect_token_authentication_config_required_claims_value
+			}
+			signing_algorithms = var.cluster_options_open_id_connect_token_authentication_config_signing_algorithms
+			username_claim = var.cluster_options_open_id_connect_token_authentication_config_username_claim
+			username_prefix = var.cluster_options_open_id_connect_token_authentication_config_username_prefix
+		}					
+		open_id_connect_discovery {
+
+			#Optional
+			is_open_id_connect_discovery_enabled = var.cluster_options_open_id_connect_discovery_is_open_id_connect_discovery_enabled
+		}
 		persistent_volume_config {
 
 			#Optional
@@ -114,6 +139,21 @@ The following arguments are supported:
 	* `kubernetes_network_config` - (Optional) Network configuration for Kubernetes.
 		* `pods_cidr` - (Optional) The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 		* `services_cidr` - (Optional) The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	* `open_id_connect_token_authentication_config` - (Optional) (Updatable) The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
+		* `ca_certificate` - (Optional) (Updatable) A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
+		* `client_id` - (Optional) (Updatable) A client id that all tokens must be issued for. 
+		* `groups_claim` - (Optional) (Updatable) JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
+		* `groups_prefix` - (Optional) (Updatable) Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
+		* `is_open_id_connect_auth_enabled` - (Required) (Updatable) Whether the cluster has OIDC Auth Config enabled. Defaults to false. 
+		* `issuer_url` - (Optional) (Updatable) URL of the provider that allows the API server to discover public signing keys.  Only URLs that use the https:// scheme are accepted. This is typically the provider's discovery URL,  changed to have an empty path. 
+		* `required_claims` - (Optional) (Updatable) A key=value pair that describes a required claim in the ID Token. If set, the claim is verified to be present  in the ID Token with a matching value. Repeat this flag to specify multiple claims. 
+			* `key` - (Optional) (Updatable) The key of the pair.
+			* `value` - (Optional) (Updatable) The value of the pair.
+		* `signing_algorithms` - (Optional) (Updatable) The signing algorithms accepted. Default is ["RS256"]. 
+		* `username_claim` - (Optional) (Updatable) JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. 
+		* `username_prefix` - (Optional) (Updatable) Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing. 
+	* `open_id_connect_discovery` - (Optional) (Updatable) The property that define the status of the OIDC Discovery feature for a cluster. 
+		* `is_open_id_connect_discovery_enabled` - (Optional) (Updatable) Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint. 
 	* `persistent_volume_config` - (Optional) (Updatable) Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
 		* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 
@@ -167,6 +207,7 @@ The following attributes are exported:
 	* `updated_by_user_id` - The user who updated the cluster.
 	* `updated_by_work_request_id` - The OCID of the work request which updated the cluster.
 * `name` - The name of the cluster.
+* `open_id_connect_discovery_endpoint` - The cluster-specific OpenID Connect Discovery endpoint 
 * `options` - Optional attributes for the cluster.
 	* `add_ons` - Configurable cluster add-ons
 		* `is_kubernetes_dashboard_enabled` - Whether or not to enable the Kubernetes Dashboard add-on.
@@ -176,6 +217,21 @@ The following attributes are exported:
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
 		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.
+	* `open_id_connect_token_authentication_config` - The properties that configure OIDC token authentication in kube-apiserver. For more information, see [Configuring the API Server](https://kubernetes.io/docs/reference/access-authn-authz/authentication/#using-flags). 
+		* `ca_certificate` - A Base64 encoded public RSA or ECDSA certificates used to signed your identity provider's web certificate. 
+		* `client_id` - A client id that all tokens must be issued for. 
+		* `groups_claim` - JWT claim to use as the user's group. If the claim is present it must be an array of strings. 
+		* `groups_prefix` - Prefix prepended to group claims to prevent clashes with existing names (such as system:groups). 
+		* `is_open_id_connect_auth_enabled` - Whether the cluster has OIDC Auth Config enabled. Defaults to false. 
+		* `issuer_url` - URL of the provider that allows the API server to discover public signing keys.  Only URLs that use the https:// scheme are accepted. This is typically the provider's discovery URL,  changed to have an empty path. 
+		* `required_claims` - A key=value pair that describes a required claim in the ID Token. If set, the claim is verified to be present  in the ID Token with a matching value. Repeat this flag to specify multiple claims. 
+			* `key` - The key of the pair.
+			* `value` - The value of the pair.
+		* `signing_algorithms` - The signing algorithms accepted. Default is ["RS256"]. 
+		* `username_claim` - JWT claim to use as the user name. By default sub, which is expected to be a unique identifier of the end  user. Admins can choose other claims, such as email or name, depending on their provider. However, claims  other than email will be prefixed with the issuer URL to prevent naming clashes with other plugins. 
+		* `username_prefix` - Prefix prepended to username claims to prevent clashes with existing names (such as system:users).  For example, the value oidc: will create usernames like oidc:jane.doe. If this flag isn't provided and  --oidc-username-claim is a value other than email the prefix defaults to ( Issuer URL )# where  ( Issuer URL ) is the value of --oidc-issuer-url. The value - can be used to disable all prefixing. 
+	* `open_id_connect_discovery` - The property that define the status of the OIDC Discovery feature for a cluster. 
+		* `is_open_id_connect_discovery_enabled` - Whether the cluster has OIDC Discovery enabled. Defaults to false. If set to true, the cluster will be assigned a public OIDC Discovery endpoint. 
 	* `persistent_volume_config` - Configuration to be applied to block volumes created by Kubernetes Persistent Volume Claims (PVC)
 		* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Operations.CostCenter": "42"}` 
 		* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Department": "Finance"}` 

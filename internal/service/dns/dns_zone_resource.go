@@ -58,6 +58,11 @@ func DnsZoneResource() *schema.Resource {
 				DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 				Elem:             schema.TypeString,
 			},
+			"dnssec_state": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"external_downstreams": {
 				Type:     schema.TypeList,
 				Optional: true,
@@ -133,6 +138,170 @@ func DnsZoneResource() *schema.Resource {
 			},
 
 			// Computed
+			"dnssec_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"ksk_dnssec_key_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"ds_data": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"digest_type": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"rdata": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
+									},
+									"key_tag": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"length_in_bytes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"predecessor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"successor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_activated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_expired": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_inactivated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_promoted": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_published": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_unpublished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"zsk_dnssec_key_versions": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"algorithm": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"key_tag": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"length_in_bytes": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"predecessor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"successor_dnssec_key_version_uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_activated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_expired": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_inactivated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_promoted": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_published": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_unpublished": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"uuid": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"is_protected": {
 				Type:     schema.TypeBool,
 				Computed: true,
@@ -285,6 +454,18 @@ func (s *DnsZoneResourceCrud) DeletedTarget() []string {
 	}
 }
 
+func (s *DnsZoneResourceCrud) UpdatedPending() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateUpdating),
+	}
+}
+
+func (s *DnsZoneResourceCrud) UpdatedTarget() []string {
+	return []string{
+		string(oci_dns.ZoneLifecycleStateActive),
+	}
+}
+
 func (s *DnsZoneResourceCrud) Create() error {
 	request := oci_dns.CreateZoneRequest{}
 	createZoneDetailsRequest := oci_dns.CreateZoneDetails{}
@@ -299,6 +480,10 @@ func (s *DnsZoneResourceCrud) Create() error {
 			return err
 		}
 		createZoneDetailsRequest.DefinedTags = convertedDefinedTags
+	}
+
+	if dnssecState, ok := s.D.GetOkExists("dnssec_state"); ok {
+		createZoneDetailsRequest.DnssecState = oci_dns.ZoneDnssecStateEnum(dnssecState.(string))
 	}
 
 	if externalDownstreams, ok := s.D.GetOkExists("external_downstreams"); ok {
@@ -440,6 +625,10 @@ func (s *DnsZoneResourceCrud) Update() error {
 		request.DefinedTags = convertedDefinedTags
 	}
 
+	if dnssecState, ok := s.D.GetOkExists("dnssec_state"); ok {
+		request.DnssecState = oci_dns.ZoneDnssecStateEnum(dnssecState.(string))
+	}
+
 	if externalDownstreams, ok := s.D.GetOkExists("external_downstreams"); ok {
 		interfaces := externalDownstreams.([]interface{})
 		tmp := make([]oci_dns.ExternalDownstream, len(interfaces))
@@ -538,6 +727,14 @@ func (s *DnsZoneResourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.DnssecConfig != nil {
+		s.D.Set("dnssec_config", []interface{}{DnssecConfigToMap(s.Res.DnssecConfig)})
+	} else {
+		s.D.Set("dnssec_config", nil)
+	}
+
+	s.D.Set("dnssec_state", s.Res.DnssecState)
+
 	externalDownstreams := []interface{}{}
 	for _, item := range s.Res.ExternalDownstreams {
 		externalDownstreams = append(externalDownstreams, ExternalDownstreamToMap(item))
@@ -603,6 +800,36 @@ func (s *DnsZoneResourceCrud) SetData() error {
 	s.D.Set("zone_transfer_servers", zoneTransferServers)
 
 	return nil
+}
+
+func DnssecConfigToMap(obj *oci_dns.DnssecConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	kskDnssecKeyVersions := []interface{}{}
+	for _, item := range obj.KskDnssecKeyVersions {
+		kskDnssecKeyVersions = append(kskDnssecKeyVersions, KskDnssecKeyVersionToMap(item))
+	}
+	result["ksk_dnssec_key_versions"] = kskDnssecKeyVersions
+
+	zskDnssecKeyVersions := []interface{}{}
+	for _, item := range obj.ZskDnssecKeyVersions {
+		zskDnssecKeyVersions = append(zskDnssecKeyVersions, ZskDnssecKeyVersionToMap(item))
+	}
+	result["zsk_dnssec_key_versions"] = zskDnssecKeyVersions
+
+	return result
+}
+
+func DnssecKeyVersionDsDataToMap(obj oci_dns.DnssecKeyVersionDsData) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["digest_type"] = string(obj.DigestType)
+
+	if obj.Rdata != nil {
+		result["rdata"] = string(*obj.Rdata)
+	}
+
+	return result
 }
 
 func (s *DnsZoneResourceCrud) mapToExternalDownstream(fieldKeyFormat string) (oci_dns.ExternalDownstream, error) {
@@ -683,6 +910,68 @@ func ExternalMasterToMap(obj oci_dns.ExternalMaster) map[string]interface{} {
 	return result
 }
 
+func KskDnssecKeyVersionToMap(obj oci_dns.KskDnssecKeyVersion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["algorithm"] = string(obj.Algorithm)
+
+	dsData := []interface{}{}
+	for _, item := range obj.DsData {
+		dsData = append(dsData, DnssecKeyVersionDsDataToMap(item))
+	}
+	result["ds_data"] = dsData
+
+	if obj.KeyTag != nil {
+		result["key_tag"] = int(*obj.KeyTag)
+	}
+
+	if obj.LengthInBytes != nil {
+		result["length_in_bytes"] = int(*obj.LengthInBytes)
+	}
+
+	if obj.PredecessorDnssecKeyVersionUuid != nil {
+		result["predecessor_dnssec_key_version_uuid"] = string(*obj.PredecessorDnssecKeyVersionUuid)
+	}
+
+	if obj.SuccessorDnssecKeyVersionUuid != nil {
+		result["successor_dnssec_key_version_uuid"] = string(*obj.SuccessorDnssecKeyVersionUuid)
+	}
+
+	if obj.TimeActivated != nil {
+		result["time_activated"] = obj.TimeActivated.String()
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeExpired != nil {
+		result["time_expired"] = obj.TimeExpired.String()
+	}
+
+	if obj.TimeInactivated != nil {
+		result["time_inactivated"] = obj.TimeInactivated.String()
+	}
+
+	if obj.TimePromoted != nil {
+		result["time_promoted"] = obj.TimePromoted.String()
+	}
+
+	if obj.TimePublished != nil {
+		result["time_published"] = obj.TimePublished.String()
+	}
+
+	if obj.TimeUnpublished != nil {
+		result["time_unpublished"] = obj.TimeUnpublished.String()
+	}
+
+	if obj.Uuid != nil {
+		result["uuid"] = string(*obj.Uuid)
+	}
+
+	return result
+}
+
 func NameserverToMap(obj oci_dns.Nameserver) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -710,6 +999,62 @@ func ZoneTransferServerToMap(obj oci_dns.ZoneTransferServer) map[string]interfac
 
 	if obj.Port != nil {
 		result["port"] = int(*obj.Port)
+	}
+
+	return result
+}
+
+func ZskDnssecKeyVersionToMap(obj oci_dns.ZskDnssecKeyVersion) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["algorithm"] = string(obj.Algorithm)
+
+	if obj.KeyTag != nil {
+		result["key_tag"] = int(*obj.KeyTag)
+	}
+
+	if obj.LengthInBytes != nil {
+		result["length_in_bytes"] = int(*obj.LengthInBytes)
+	}
+
+	if obj.PredecessorDnssecKeyVersionUuid != nil {
+		result["predecessor_dnssec_key_version_uuid"] = string(*obj.PredecessorDnssecKeyVersionUuid)
+	}
+
+	if obj.SuccessorDnssecKeyVersionUuid != nil {
+		result["successor_dnssec_key_version_uuid"] = string(*obj.SuccessorDnssecKeyVersionUuid)
+	}
+
+	if obj.TimeActivated != nil {
+		result["time_activated"] = obj.TimeActivated.String()
+	}
+
+	if obj.TimeCreated != nil {
+		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.TimeExpired != nil {
+		result["time_expired"] = obj.TimeExpired.String()
+	}
+
+	if obj.TimeInactivated != nil {
+		result["time_inactivated"] = obj.TimeInactivated.String()
+	}
+
+	if obj.TimePromoted != nil {
+		result["time_promoted"] = obj.TimePromoted.String()
+	}
+
+	if obj.TimePublished != nil {
+		result["time_published"] = obj.TimePublished.String()
+	}
+
+	if obj.TimeUnpublished != nil {
+		result["time_unpublished"] = obj.TimeUnpublished.String()
+	}
+
+	if obj.Uuid != nil {
+		result["uuid"] = string(*obj.Uuid)
 	}
 
 	return result

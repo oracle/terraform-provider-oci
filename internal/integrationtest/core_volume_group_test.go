@@ -34,13 +34,16 @@ var (
 
 	volumeGroupDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"state":               acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
 		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: volumeGroupDataSourceFilterRepresentation}}
 	volumeGroupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume_group.test_volume_group.id}`}},
+	}
+	CoreIgnoreTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
 	}
 
 	CoreVolumeGroupRepresentation = map[string]interface{}{
@@ -53,11 +56,14 @@ var (
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
 		"volume_ids":                 acctest.Representation{RepType: acctest.Optional, Create: nil, Update: []string{`${oci_core_volume.source_volume_list.*.id[0]}`}},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"xrc_kms_key_id":             acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIgnoreTagsChangesRepresentation},
 	}
 	CoreVolumeGroupSourceDetailsRepresentation = map[string]interface{}{
 		"type":       acctest.Representation{RepType: acctest.Required, Create: `volumeIds`},
 		"volume_ids": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_volume.source_volume_list.*.id}`},
 	}
+
 	CoreVolumeSourceDetailsJumbledVolumeIdsRepresentation = map[string]interface{}{
 		"type":       acctest.Representation{RepType: acctest.Required, Create: `volumeIds`},
 		"volume_ids": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_volume.source_volume_list.*.id[1]}`, `${oci_core_volume.source_volume_list.*.id[0]}`}},
@@ -82,6 +88,8 @@ var (
 	}
 	` +
 		AvailabilityDomainConfig +
+		KeyResourceDependencyConfig +
+
 		utils.VolumeBackupPolicyDependency +
 		CoreVolumeBackupPolicyRequiredOnlyResource
 	VolumeGroupRequiredOnlyResourceDependencies = AvailabilityDomainConfig + SourceVolumeListDependency
@@ -170,6 +178,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "volumeIds"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
 				resource.TestCheckResourceAttr(resourceName, "volume_ids.#", "2"),
 
 				func(s *terraform.State) (err error) {
@@ -287,6 +296,7 @@ func TestCoreVolumeGroupResource_basic(t *testing.T) {
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
 				"backup_policy_id",
+				"xrc_kms_key_id",
 				"cluster_placement_group_id",
 			},
 			ResourceName: resourceName,

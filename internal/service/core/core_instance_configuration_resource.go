@@ -331,6 +331,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 													ValidateFunc:     tfresource.ValidateInt64TypeString,
 													DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 												},
+												"xrc_kms_key_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
 
 												// Computed
 											},
@@ -1325,6 +1331,12 @@ func CoreInstanceConfigurationResource() *schema.Resource {
 																ForceNew:         true,
 																ValidateFunc:     tfresource.ValidateInt64TypeString,
 																DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+															},
+															"xrc_kms_key_id": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
 															},
 
 															// Computed
@@ -3257,6 +3269,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationCreate
 		result.VpusPerGB = &tmpInt64
 	}
 
+	if xrcKmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "xrc_kms_key_id")); ok {
+		tmp := xrcKmsKeyId.(string)
+		result.XrcKmsKeyId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -3323,6 +3340,10 @@ func InstanceConfigurationCreateVolumeDetailsToMap(obj *oci_core.InstanceConfigu
 
 	if obj.VpusPerGB != nil {
 		result["vpus_per_gb"] = strconv.FormatInt(*obj.VpusPerGB, 10)
+	}
+
+	if obj.XrcKmsKeyId != nil {
+		result["xrc_kms_key_id"] = string(*obj.XrcKmsKeyId)
 	}
 
 	return result

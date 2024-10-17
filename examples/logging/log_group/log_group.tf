@@ -18,9 +18,6 @@ variable "freeform_tags_value" {
   }
 }
 
-variable "tag_namespace1_name" {}
-variable "tag2_name" {}
-
 variable "compartment_id" {}
 
 variable "log_group_name" {
@@ -34,9 +31,7 @@ resource "oci_logging_log_group" "test_log_group" {
 
   #Optional
   description = "description"
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag2_name}" = var.defined_tags_value
-  }
+
   freeform_tags      = var.freeform_tags_value
 
   lifecycle {

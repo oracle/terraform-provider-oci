@@ -49,6 +49,7 @@ resource "oci_core_volume" "test_volume" {
 
 		#Optional
 		display_name = var.volume_block_volume_replicas_display_name
+		xrr_kms_key_id = oci_kms_key.test_key.id
 	}
 	cluster_placement_group_id = oci_identity_group.test_group.id
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -60,11 +61,18 @@ resource "oci_core_volume" "test_volume" {
 	size_in_mbs = var.volume_size_in_mbs
 	source_details {
 		#Required
-		id = var.volume_source_details_id
 		type = var.volume_source_details_type
+
+		#Optional
+		change_block_size_in_bytes = var.volume_source_details_change_block_size_in_bytes
+		first_backup_id = oci_database_backup.test_backup.id
+		id = var.volume_source_details_id
+		second_backup_id = oci_database_backup.test_backup.id
 	}
 	vpus_per_gb = var.volume_vpus_per_gb
-    block_volume_replicas_deletion = true
+	xrc_kms_key_id = oci_kms_key.test_key.id
+  block_volume_replicas_deletion = true
+
 }
 ```
 
@@ -81,6 +89,7 @@ The following arguments are supported:
 	* `availability_domain` - (Required) (Updatable) The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `cluster_placement_group_id` - (Optional) The clusterPlacementGroup Id of the volume for volume placement.
+	* `xrr_kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region block volume replicas, which will be used in the destination region to encrypt the block volume replica's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -88,10 +97,13 @@ The following arguments are supported:
 * `is_auto_tune_enabled` - (Optional) (Updatable) Specifies whether the auto-tune performance is enabled for this volume. This field is deprecated. Use the `DetachedVolumeAutotunePolicy` instead to enable the volume for detached autotune. 
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
-* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use `size_in_gbs` instead. 
-* `source_details` - (Optional) 
-	* `id` - (Required) The OCID of the block volume replica.
-	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
+* `size_in_mbs` - (Optional) The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Use sizeInGBs instead. 
+* `source_details` - (Optional) Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
+	* `change_block_size_in_bytes` - (Applicable when type=volumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - (Required when type=volumeBackupDelta) The OCID of the first volume backup.
+	* `id` - (Required when type=blockVolumeReplica | volume | volumeBackup) The OCID of the block volume replica.
+	* `second_backup_id` - (Required when type=volumeBackupDelta) The OCID of the second volume backup.
+	* `type` - (Required) The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
 * `volume_backup_id` - (Optional) The OCID of the volume backup from which the data should be restored on the newly created volume. This field is deprecated. Use the sourceDetails field instead to specify the backup for the volume. 
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
@@ -102,6 +114,7 @@ The following arguments are supported:
 	* `30`-`120`: Represents the Ultra High Performance option.
 
 	For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+* `xrc_kms_key_id` - (Optional) The OCID of the Vault service key which is the master encryption key for the block volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 
 
 ** IMPORTANT **
@@ -120,6 +133,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain of the block volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -130,10 +144,13 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Vault service key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
-* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use `size_in_gbs` instead.
-* `source_details` - 
-	* `id` - The OCID of the block volume replica.
-	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
+* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
+* `source_details` -
+	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - The OCID of the first volume backup.
+    * `id` - The OCID of the block volume replica or volume backup.
+	* `second_backup_id` - The OCID of the second volume backup.
+	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

@@ -259,6 +259,114 @@ func ContainerengineClusterResource() *schema.Resource {
 								},
 							},
 						},
+						"open_id_connect_token_authentication_config": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"is_open_id_connect_auth_enabled": {
+										Type:     schema.TypeBool,
+										Required: true,
+									},
+
+									// Optional
+									"ca_certificate": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"client_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"groups_claim": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"groups_prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"issuer_url": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"required_claims": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"key": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"signing_algorithms": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"username_claim": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"username_prefix": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"open_id_connect_discovery": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"is_open_id_connect_discovery_enabled": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"persistent_volume_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -430,6 +538,10 @@ func ContainerengineClusterResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"open_id_connect_discovery_endpoint": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -1045,6 +1157,10 @@ func (s *ContainerengineClusterResourceCrud) SetData() error {
 		s.D.Set("name", *s.Res.Name)
 	}
 
+	if s.Res.OpenIdConnectDiscoveryEndpoint != nil {
+		s.D.Set("open_id_connect_discovery_endpoint", *s.Res.OpenIdConnectDiscoveryEndpoint)
+	}
+
 	if s.Res.Options != nil {
 		s.D.Set("options", []interface{}{ClusterCreateOptionsToMap(s.Res.Options)})
 	} else {
@@ -1149,6 +1265,28 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 		}
 	}
 
+	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
+		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
+			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
+			}
+			result.OpenIdConnectTokenAuthenticationConfig = &tmp
+		}
+	}
+
+	if openIdConnectDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery")); ok {
+		if tmpList := openIdConnectDiscovery.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery"), 0)
+			tmp, err := s.mapToOpenIdConnectDiscovery(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_discovery, encountered error: %v", err)
+			}
+			result.OpenIdConnectDiscovery = &tmp
+		}
+	}
+
 	if persistentVolumeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "persistent_volume_config")); ok {
 		if tmpList := persistentVolumeConfig.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "persistent_volume_config"), 0)
@@ -1187,6 +1325,67 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 	return result, nil
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
+	result := oci_containerengine.UpdateClusterOptionsDetails{}
+
+	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
+		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
+			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
+			}
+			result.AdmissionControllerOptions = &tmp
+		}
+	}
+
+	if openIdConnectTokenAuthenticationConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config")); ok {
+		if tmpList := openIdConnectTokenAuthenticationConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_token_authentication_config"), 0)
+			tmp, err := s.mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_token_authentication_config, encountered error: %v", err)
+			}
+			result.OpenIdConnectTokenAuthenticationConfig = &tmp
+		}
+	}
+
+	if openIdConnectDiscovery, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery")); ok {
+		if tmpList := openIdConnectDiscovery.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "open_id_connect_discovery"), 0)
+			tmp, err := s.mapToOpenIdConnectDiscovery(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert open_id_connect_discovery, encountered error: %v", err)
+			}
+			result.OpenIdConnectDiscovery = &tmp
+		}
+	}
+
+	if persistentVolumeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "persistent_volume_config")); ok {
+		if tmpList := persistentVolumeConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "persistent_volume_config"), 0)
+			tmp, err := s.mapToPersistentVolumeConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert persistent_volume_config, encountered error: %v", err)
+			}
+			result.PersistentVolumeConfig = &tmp
+		}
+	}
+
+	if serviceLbConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_config")); ok {
+		if tmpList := serviceLbConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "service_lb_config"), 0)
+			tmp, err := s.mapToServiceLbConfigDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert service_lb_config, encountered error: %v", err)
+			}
+			result.ServiceLbConfig = &tmp
+		}
+	}
+
+	return result, nil
+}
+
 func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1200,6 +1399,14 @@ func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) ma
 
 	if obj.KubernetesNetworkConfig != nil {
 		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
+	}
+
+	if obj.OpenIdConnectTokenAuthenticationConfig != nil {
+		result["open_id_connect_token_authentication_config"] = []interface{}{OpenIdConnectTokenAuthenticationConfigToMap(obj.OpenIdConnectTokenAuthenticationConfig)}
+	}
+
+	if obj.OpenIdConnectDiscovery != nil {
+		result["open_id_connect_discovery"] = []interface{}{OpenIdConnectDiscoveryToMap(obj.OpenIdConnectDiscovery)}
 	}
 
 	if obj.PersistentVolumeConfig != nil {
@@ -1526,6 +1733,36 @@ func KeyDetailsToMap(obj oci_containerengine.KeyDetails) map[string]interface{} 
 	return result
 }
 
+func (s *ContainerengineClusterResourceCrud) mapToKeyValue(fieldKeyFormat string) (oci_containerengine.KeyValue, error) {
+	result := oci_containerengine.KeyValue{}
+
+	if key, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key")); ok {
+		tmp := key.(string)
+		result.Key = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func KeyValueToMap(obj oci_containerengine.KeyValue) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Key != nil {
+		result["key"] = string(*obj.Key)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
 func (s *ContainerengineClusterResourceCrud) mapToKubernetesNetworkConfig(fieldKeyFormat string) (oci_containerengine.KubernetesNetworkConfig, error) {
 	result := oci_containerengine.KubernetesNetworkConfig{}
 
@@ -1551,6 +1788,149 @@ func KubernetesNetworkConfigToMap(obj *oci_containerengine.KubernetesNetworkConf
 
 	if obj.ServicesCidr != nil {
 		result["services_cidr"] = string(*obj.ServicesCidr)
+	}
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectTokenAuthenticationConfig(fieldKeyFormat string) (oci_containerengine.OpenIdConnectTokenAuthenticationConfig, error) {
+	result := oci_containerengine.OpenIdConnectTokenAuthenticationConfig{}
+
+	if caCertificate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ca_certificate")); ok {
+		tmp := caCertificate.(string)
+		result.CaCertificate = &tmp
+	}
+
+	if clientId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "client_id")); ok {
+		tmp := clientId.(string)
+		result.ClientId = &tmp
+	}
+
+	if groupsClaim, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "groups_claim")); ok {
+		tmp := groupsClaim.(string)
+		result.GroupsClaim = &tmp
+	}
+
+	if groupsPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "groups_prefix")); ok {
+		tmp := groupsPrefix.(string)
+		result.GroupsPrefix = &tmp
+	}
+
+	if isOpenIdConnectAuthEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_open_id_connect_auth_enabled")); ok {
+		tmp := isOpenIdConnectAuthEnabled.(bool)
+		result.IsOpenIdConnectAuthEnabled = &tmp
+	}
+
+	if issuerUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "issuer_url")); ok {
+		tmp := issuerUrl.(string)
+		result.IssuerUrl = &tmp
+	}
+
+	if requiredClaims, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "required_claims")); ok {
+		interfaces := requiredClaims.([]interface{})
+		tmp := make([]oci_containerengine.KeyValue, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "required_claims"), stateDataIndex)
+			converted, err := s.mapToKeyValue(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "required_claims")) {
+			result.RequiredClaims = tmp
+		}
+	}
+
+	if signingAlgorithms, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "signing_algorithms")); ok {
+		interfaces := signingAlgorithms.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "signing_algorithms")) {
+			result.SigningAlgorithms = tmp
+		}
+	}
+
+	if usernameClaim, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username_claim")); ok {
+		tmp := usernameClaim.(string)
+		result.UsernameClaim = &tmp
+	}
+
+	if usernamePrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "username_prefix")); ok {
+		tmp := usernamePrefix.(string)
+		result.UsernamePrefix = &tmp
+	}
+
+	return result, nil
+}
+
+func OpenIdConnectTokenAuthenticationConfigToMap(obj *oci_containerengine.OpenIdConnectTokenAuthenticationConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CaCertificate != nil {
+		result["ca_certificate"] = string(*obj.CaCertificate)
+	}
+
+	if obj.ClientId != nil {
+		result["client_id"] = string(*obj.ClientId)
+	}
+
+	if obj.GroupsClaim != nil {
+		result["groups_claim"] = string(*obj.GroupsClaim)
+	}
+
+	if obj.GroupsPrefix != nil {
+		result["groups_prefix"] = string(*obj.GroupsPrefix)
+	}
+
+	if obj.IsOpenIdConnectAuthEnabled != nil {
+		result["is_open_id_connect_auth_enabled"] = bool(*obj.IsOpenIdConnectAuthEnabled)
+	}
+
+	if obj.IssuerUrl != nil {
+		result["issuer_url"] = string(*obj.IssuerUrl)
+	}
+
+	requiredClaims := []interface{}{}
+	for _, item := range obj.RequiredClaims {
+		requiredClaims = append(requiredClaims, KeyValueToMap(item))
+	}
+	result["required_claims"] = requiredClaims
+
+	result["signing_algorithms"] = obj.SigningAlgorithms
+
+	if obj.UsernameClaim != nil {
+		result["username_claim"] = string(*obj.UsernameClaim)
+	}
+
+	if obj.UsernamePrefix != nil {
+		result["username_prefix"] = string(*obj.UsernamePrefix)
+	}
+
+	return result
+}
+
+func (s *ContainerengineClusterResourceCrud) mapToOpenIdConnectDiscovery(fieldKeyFormat string) (oci_containerengine.OpenIdConnectDiscovery, error) {
+	result := oci_containerengine.OpenIdConnectDiscovery{}
+
+	if isOpenIdConnectDiscoveryEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_open_id_connect_discovery_enabled")); ok {
+		tmp := isOpenIdConnectDiscoveryEnabled.(bool)
+		result.IsOpenIdConnectDiscoveryEnabled = &tmp
+	}
+
+	return result, nil
+}
+
+func OpenIdConnectDiscoveryToMap(obj *oci_containerengine.OpenIdConnectDiscovery) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsOpenIdConnectDiscoveryEnabled != nil {
+		result["is_open_id_connect_discovery_enabled"] = bool(*obj.IsOpenIdConnectDiscoveryEnabled)
 	}
 
 	return result
@@ -1614,43 +1994,4 @@ func ServiceLbConfigDetailsToMap(obj *oci_containerengine.ServiceLbConfigDetails
 	result["freeform_tags"] = obj.FreeformTags
 
 	return result
-}
-
-func (s *ContainerengineClusterResourceCrud) mapToUpdateClusterOptionsDetails(fieldKeyFormat string) (oci_containerengine.UpdateClusterOptionsDetails, error) {
-	result := oci_containerengine.UpdateClusterOptionsDetails{}
-
-	if admissionControllerOptions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admission_controller_options")); ok {
-		if tmpList := admissionControllerOptions.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "admission_controller_options"), 0)
-			tmp, err := s.mapToAdmissionControllerOptions(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
-			}
-			result.AdmissionControllerOptions = &tmp
-		}
-	}
-
-	if persistentVolumeConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "persistent_volume_config")); ok {
-		if tmpList := persistentVolumeConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "persistent_volume_config"), 0)
-			tmp, err := s.mapToPersistentVolumeConfigDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert persistent_volume_config, encountered error: %v", err)
-			}
-			result.PersistentVolumeConfig = &tmp
-		}
-	}
-
-	if serviceLbConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "service_lb_config")); ok {
-		if tmpList := serviceLbConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "service_lb_config"), 0)
-			tmp, err := s.mapToServiceLbConfigDetails(fieldKeyFormatNextLevel)
-			if err != nil {
-				return result, fmt.Errorf("unable to convert service_lb_config, encountered error: %v", err)
-			}
-			result.ServiceLbConfig = &tmp
-		}
-	}
-
-	return result, nil
 }

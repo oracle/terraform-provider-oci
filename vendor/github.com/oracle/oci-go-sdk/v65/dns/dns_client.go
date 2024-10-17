@@ -2657,6 +2657,141 @@ func (client DnsClient) patchZoneRecords(ctx context.Context, request common.OCI
 	return response, err
 }
 
+// PromoteZoneDnssecKeyVersion Promotes a specified `DnssecKeyVersion` on the zone.
+// If the `DnssecKeyVersion` identified in the request body is a key signing key (KSK) that is replacing
+// another `DnssecKeyVersion`, then the old `DnssecKeyVersion` is scheduled for removal from the zone.
+// For key signing keys (KSKs), you must create the DS record with the new key information **before** promoting
+// the new key to establish a chain of trust. To avoid a service disruption, remove the old DS record as soon
+// as its TTL (time to live) expires.
+// For more information, see DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/PromoteZoneDnssecKeyVersion.go.html to see an example of how to use PromoteZoneDnssecKeyVersion API.
+// A default retry strategy applies to this operation PromoteZoneDnssecKeyVersion()
+func (client DnsClient) PromoteZoneDnssecKeyVersion(ctx context.Context, request PromoteZoneDnssecKeyVersionRequest) (response PromoteZoneDnssecKeyVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.promoteZoneDnssecKeyVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = PromoteZoneDnssecKeyVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = PromoteZoneDnssecKeyVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(PromoteZoneDnssecKeyVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into PromoteZoneDnssecKeyVersionResponse")
+	}
+	return
+}
+
+// promoteZoneDnssecKeyVersion implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) promoteZoneDnssecKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones/{zoneId}/actions/promoteDnssecKeyVersion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response PromoteZoneDnssecKeyVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/PromoteZoneDnssecKeyVersion"
+		err = common.PostProcessServiceError(err, "Dns", "PromoteZoneDnssecKeyVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// StageZoneDnssecKeyVersion Stages a new `DnssecKeyVersion` on the zone. Staging is a process that generates a new "successor" key version
+// that replaces an existing "predecessor" key version.
+// **Note:** A new key-signing key (KSK) version is inert until you update the parent zone DS records.
+// For more information, see the DNSSEC (https://docs.cloud.oracle.com/iaas/Content/DNS/Concepts/dnssec.htm) documentation.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dns/StageZoneDnssecKeyVersion.go.html to see an example of how to use StageZoneDnssecKeyVersion API.
+// A default retry strategy applies to this operation StageZoneDnssecKeyVersion()
+func (client DnsClient) StageZoneDnssecKeyVersion(ctx context.Context, request StageZoneDnssecKeyVersionRequest) (response StageZoneDnssecKeyVersionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.stageZoneDnssecKeyVersion, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = StageZoneDnssecKeyVersionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = StageZoneDnssecKeyVersionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(StageZoneDnssecKeyVersionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into StageZoneDnssecKeyVersionResponse")
+	}
+	return
+}
+
+// stageZoneDnssecKeyVersion implements the OCIOperation interface (enables retrying operations)
+func (client DnsClient) stageZoneDnssecKeyVersion(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/zones/{zoneId}/actions/stageDnssecKeyVersion", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response StageZoneDnssecKeyVersionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/dns/20180115/Zone/StageZoneDnssecKeyVersion"
+		err = common.PostProcessServiceError(err, "Dns", "StageZoneDnssecKeyVersion", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDomainRecords Replaces records in the specified zone at a domain with the records specified in the request body.
 // If a specified record does not exist, it will be created. If the record exists, then it will be updated to
 // represent the record in the body of the request. If a record in the zone does not exist in the request body,

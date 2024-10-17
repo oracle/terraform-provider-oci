@@ -37,17 +37,32 @@ var (
 	BootVolumeResourceConfig = CoreBootVolumeResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Update, CoreBootVolumeRepresentation)
 
+	BootVolumeDeltaRestoreResourceConfig = CoreBootVolumeDeltaRestoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Update, CoreDeltaRestoreBootVolumeRepresentation)
+
+	BootVolumeDeltaRestoredRequiredOnlyResource = CoreBootVolumeDeltaRestoreResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, CoreDeltaRestoreBootVolumeRepresentation)
+
 	CoreCoreBootVolumeSingularDataSourceRepresentation = map[string]interface{}{
 		"boot_volume_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_boot_volume.test_boot_volume.id}`},
+	}
+
+	CoreIgnoreSystemTagsChangesRepresentation = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`, `freeform_tags`}},
 	}
 
 	CoreCoreBootVolumeDataSourceRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
 		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeDataSourceFilterRepresentation}}
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeDataSourceFilterRepresentation},
+	}
 	CoreBootVolumeDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_core_boot_volume.test_boot_volume.id}`}},
+	}
+
+	IgnoreSystemTagsChangesRep = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`, `defined_tags`, `freeform_tags`, `xrc_kms_key_id`}},
 	}
 
 	CoreBootVolumeRepresentation = map[string]interface{}{
@@ -64,10 +79,35 @@ var (
 		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
 		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreBootVolumeAutotunePoliciesRepresentation},
 		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"xrc_kms_key_id":             acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: IgnoreSystemTagsChangesRep},
 	}
+
+	CoreDeltaRestoreBootVolumeRepresentation = map[string]interface{}{
+		"availability_domain":        acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source_details":             acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreBootVolumeSourceDeltaDetailsRepresentation},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `deltaRestoredVolumeName`, Update: `deltaRestoredVolumeName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"kms_key_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"size_in_gbs":                acctest.Representation{RepType: acctest.Optional, Create: `57`, Update: `58`},
+		"vpus_per_gb":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `10`},
+		"autotune_policies":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreBootVolumeAutotunePoliciesRepresentation},
+		"is_auto_tune_enabled":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreIgnoreSystemTagsChangesRepresentation},
+	}
+
 	CoreBootVolumeSourceDetailsRepresentation = map[string]interface{}{
 		"id":   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.boot_volume_id}`},
 		"type": acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
+	}
+	CoreBootVolumeSourceDeltaDetailsRepresentation = map[string]interface{}{
+		"change_block_size_in_bytes": acctest.Representation{RepType: acctest.Optional, Create: `4096`},
+		"first_backup_id":            acctest.Representation{RepType: acctest.Required, Create: `${var.boot_vol_first_backup_id}`},
+		"second_backup_id":           acctest.Representation{RepType: acctest.Required, Create: `${var.boot_vol_second_backup_id}`},
+		"type":                       acctest.Representation{RepType: acctest.Required, Create: `bootVolumeBackupDelta`},
 	}
 	CoreBootVolumeAutotunePoliciesRepresentation = map[string]interface{}{
 		"autotune_type":   acctest.Representation{RepType: acctest.Required, Create: `PERFORMANCE_BASED`, Update: `PERFORMANCE_BASED`},
@@ -76,6 +116,7 @@ var (
 	CoreBootVolumeBootVolumeReplicasRepresentation = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`, Update: `availabilityDomain2`},
 		"display_name":        acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"xrr_kms_key_id":      acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 	}
 
 	CoreBootVolumeResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
@@ -85,6 +126,17 @@ var (
 		utils.VolumeBackupPolicyDependency +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_volume_group", "test_volume_group", acctest.Required, acctest.Create, CoreVolumeGroupRepresentation) +
 		SourceVolumeListDependency +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
+
+	CoreBootVolumeDeltaRestoreResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		utils.OciImageIdsVariable +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		utils.VolumeBackupPolicyDependency +
+		SourceVolumeListDependency +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "source_boot_volume", acctest.Required, acctest.Create, CoreDeltaRestoreBootVolumeRepresentation) +
 		AvailabilityDomainConfig +
 		DefinedTagsDependencies +
 		KeyResourceDependencyConfig + kmsKeyIdCreateVariableStr + kmsKeyIdUpdateVariableStr
@@ -315,6 +367,218 @@ func TestCoreBootVolumeResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:            config + BootVolumeRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"backup_policy_id",
+				"cluster_placement_group_id",
+				"xrc_kms_key_id",
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+// issue-routing-tag: core/blockStorage
+func TestCoreBootVolumeDeltaRestoreResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestCoreBootVolumeDeltaRestoreResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	firstBackupId := utils.GetEnvSettingWithBlankDefault("boot_vol_first_backup_ocid")
+	firstBackupIdVariableStr := fmt.Sprintf("variable \"boot_vol_first_backup_id\" { default = \"%s\" }\n", firstBackupId)
+
+	secondBackupId := utils.GetEnvSettingWithBlankDefault("boot_vol_second_backup_ocid")
+	secondBackupIdVariableStr := fmt.Sprintf("variable \"boot_vol_second_backup_id\" { default = \"%s\" }\n", secondBackupId)
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	resourceName := "oci_core_boot_volume.test_boot_volume"
+	datasourceName := "data.oci_core_boot_volumes.test_boot_volumes"
+	singularDatasourceName := "data.oci_core_boot_volume.test_boot_volume"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+CoreBootVolumeDeltaRestoreResourceDependencies+firstBackupIdVariableStr+secondBackupIdVariableStr+
+		acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Create, CoreDeltaRestoreBootVolumeRepresentation), "core", "bootVolume", t)
+
+	acctest.ResourceTest(t, testAccCheckCoreBootVolumeDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + CoreBootVolumeDeltaRestoreResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Create, CoreDeltaRestoreBootVolumeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckNoResourceAttr(resourceName, "backup_policy_id"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "bootVolumeBackupDelta"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + CoreBootVolumeDeltaRestoreResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + CoreBootVolumeDeltaRestoreResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Create, CoreDeltaRestoreBootVolumeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "20"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "deltaRestoredVolumeName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "57"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "bootVolumeBackupDelta"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.first_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.second_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + CoreBootVolumeDeltaRestoreResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(CoreDeltaRestoreBootVolumeRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "20"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "deltaRestoredVolumeName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "57"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "bootVolumeBackupDelta"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.first_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.second_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			PreConfig: acctest.WaitTillCondition(acctest.TestAccProvider, &resId, bootVolumeWaitCondition, BootVolumeWaitConditionDuration,
+				bootVolumeResponseFetchOperation, "core", false),
+			Config: config + compartmentIdVariableStr + CoreBootVolumeDeltaRestoreResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Update, CoreDeltaRestoreBootVolumeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(resourceName, "autotune_policies.0.max_vpus_per_gb", "30"),
+				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "deltaRestoredVolumeName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "size_in_gbs", "58"),
+				resource.TestCheckResourceAttrSet(resourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "source_details.0.type", "bootVolumeBackupDelta"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.first_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "source_details.0.second_backup_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "vpus_per_gb", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volumes", "test_boot_volumes", acctest.Optional, acctest.Update, CoreCoreBootVolumeDataSourceRepresentation) +
+				compartmentIdVariableStr + CoreDeltaRestoredVolumeResourceDependencies + firstBackupIdVariableStr + secondBackupIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Optional, acctest.Update, CoreDeltaRestoreBootVolumeRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(datasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckNoResourceAttr(datasourceName, "volume_backup_id"),
+				resource.TestCheckNoResourceAttr(datasourceName, "volume_group_id"),
+			),
+		},
+		// verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_core_boot_volume", "test_boot_volume", acctest.Required, acctest.Create, CoreCoreBootVolumeSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + firstBackupIdVariableStr + secondBackupIdVariableStr + BootVolumeDeltaRestoreResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "backup_policy_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "boot_volume_id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "kms_key_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.0.autotune_type", "PERFORMANCE_BASED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "autotune_policies.0.max_vpus_per_gb", "30"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "deltaRestoredVolumeName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_hydrated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "size_in_gbs", "58"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "size_in_mbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "source_details.0.type", "bootVolumeBackupDelta"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "vpus_per_gb", "10"),
+			),
+		},
+		// verify resource import
+		{
+			Config:            config + BootVolumeDeltaRestoredRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
