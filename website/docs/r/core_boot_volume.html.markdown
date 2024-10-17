@@ -24,8 +24,13 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	compartment_id = var.compartment_id
 	source_details {
 		#Required
-		id = var.boot_volume_source_details_id
 		type = var.boot_volume_source_details_type
+
+		#Optional
+		change_block_size_in_bytes = var.boot_volume_source_details_change_block_size_in_bytes
+		first_backup_id = oci_database_backup.test_backup.id
+		id = var.boot_volume_source_details_id
+		second_backup_id = oci_database_backup.test_backup.id
 	}
 
 	#Optional
@@ -44,6 +49,7 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 
 		#Optional
 		display_name = var.boot_volume_boot_volume_replicas_display_name
+		xrr_kms_key_id = oci_kms_key.test_key.id
 	}
 	cluster_placement_group_id = oci_identity_group.test_group.id
 	defined_tags = {"Operations.CostCenter"= "42"}
@@ -53,7 +59,9 @@ resource "oci_core_boot_volume" "test_boot_volume" {
 	kms_key_id = oci_kms_key.test_key.id
 	size_in_gbs = var.boot_volume_size_in_gbs
 	vpus_per_gb = var.boot_volume_vpus_per_gb
-    boot_volume_replicas_deletion = true
+	xrc_kms_key_id = oci_kms_key.test_key.id
+  boot_volume_replicas_deletion = true
+
 }
 ```
 
@@ -69,6 +77,7 @@ The following arguments are supported:
 * `boot_volume_replicas` - (Optional) (Updatable) The list of boot volume replicas to be enabled for this boot volume in the specified destination availability domains. 
 	* `availability_domain` - (Required) (Updatable) The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `xrr_kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key which is the master encryption key for the cross region boot volume replicas, which will be used in the destination region to encrypt the boot volume replica's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `cluster_placement_group_id` - (Optional) The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment that contains the boot volume.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -78,8 +87,11 @@ The following arguments are supported:
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Vault service key to assign as the master encryption key for the boot volume. 
 * `size_in_gbs` - (Optional) (Updatable) The size of the volume in GBs.
 * `source_details` - (Required) 
-	* `id` - (Required) The OCID of the boot volume replica.
-	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeReplica`
+	* `change_block_size_in_bytes` - (Applicable when type=bootVolumeBackupDelta) Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the first boot volume backup.
+	* `id` - (Required when type=bootVolume | bootVolumeBackup | bootVolumeReplica) The OCID of the boot volume replica.
+	* `second_backup_id` - (Required when type=bootVolumeBackupDelta) The OCID of the second boot volume backup.
+	* `type` - (Required) The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
 * `vpus_per_gb` - (Optional) (Updatable) The number of volume performance units (VPUs) that will be applied to this volume per GB, representing the Block Volume service's elastic performance options. See [Block Volume Performance Levels](https://docs.cloud.oracle.com/iaas/Content/Block/Concepts/blockvolumeperformance.htm#perf_levels) for more information.
 
 	Allowed values:
@@ -88,6 +100,7 @@ The following arguments are supported:
 	* `30`-`120`: Represents the Ultra High Performance option.
 
 	For performance autotune enabled volumes, it would be the Default(Minimum) VPUs/GB. 
+* `xrc_kms_key_id` - (Optional) The OCID of the Vault service key which is the master encryption key for the boot volume cross region backups, which will be used in the destination region to encrypt the backup's encryption keys. For more information about the Vault service and encryption keys, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 
 
 ** IMPORTANT **
@@ -106,6 +119,7 @@ The following attributes are exported:
 	* `availability_domain` - The availability domain of the boot volume replica.  Example: `Uocm:PHX-AD-1` 
 	* `boot_volume_replica_id` - The boot volume replica's Oracle ID (OCID).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
 * `compartment_id` - The OCID of the compartment that contains the boot volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
@@ -119,8 +133,11 @@ The following attributes are exported:
 * `size_in_gbs` - The size of the boot volume in GBs.
 * `size_in_mbs` - The size of the volume in MBs. The value must be a multiple of 1024. This field is deprecated. Please use `size_in_gbs`. 
 * `source_details` - 
+	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - The OCID of the first boot volume backup.
 	* `id` - The OCID of the boot volume replica.
-	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeReplica`
+	* `second_backup_id` - The OCID of the second boot volume backup.
+	* `type` - The type can be one of these values: `bootVolume`, `bootVolumeBackup`, `bootVolumeBackupDelta`, `bootVolumeReplica`
 * `state` - The current state of a boot volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the boot volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). 

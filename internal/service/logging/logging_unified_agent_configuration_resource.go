@@ -285,12 +285,12 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 															"is_estimate_current_event": {
 																Type:     schema.TypeBool,
 																Optional: true,
-																Computed: true,
+																Default:  true,
 															},
 															"is_keep_time_key": {
 																Type:     schema.TypeBool,
 																Optional: true,
-																Computed: true,
+																Default:  false,
 															},
 															"is_merge_cri_fields": {
 																Type:     schema.TypeBool,
@@ -300,7 +300,7 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 															"is_null_empty_string": {
 																Type:     schema.TypeBool,
 																Optional: true,
-																Computed: true,
+																Default:  false,
 															},
 															"is_support_colonless_ident": {
 																Type:     schema.TypeBool,
@@ -804,12 +804,12 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 												"is_estimate_current_event": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  true,
 												},
 												"is_keep_time_key": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  false,
 												},
 												"is_merge_cri_fields": {
 													Type:     schema.TypeBool,
@@ -819,7 +819,7 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 												"is_null_empty_string": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  false,
 												},
 												"is_support_colonless_ident": {
 													Type:     schema.TypeBool,
@@ -1257,12 +1257,12 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 												"is_estimate_current_event": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  true,
 												},
 												"is_keep_time_key": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  false,
 												},
 												"is_merge_cri_fields": {
 													Type:             schema.TypeBool,
@@ -1273,7 +1273,7 @@ func LoggingUnifiedAgentConfigurationResource() *schema.Resource {
 												"is_null_empty_string": {
 													Type:     schema.TypeBool,
 													Optional: true,
-													Computed: true,
+													Default:  false,
 												},
 												"is_support_colonless_ident": {
 													Type:     schema.TypeBool,
@@ -3348,7 +3348,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3378,7 +3378,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3408,7 +3408,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3440,6 +3440,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := isEstimateCurrentEvent.(bool)
 			details.IsEstimateCurrentEvent = &tmp
 		}
+
 		if isKeepTimeKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_keep_time_key")); ok {
 			tmp := isKeepTimeKey.(bool)
 			details.IsKeepTimeKey = &tmp
@@ -3452,7 +3453,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3498,7 +3499,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3552,7 +3553,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3597,7 +3598,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3627,7 +3628,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3673,7 +3674,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3731,7 +3732,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3765,7 +3766,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3805,7 +3806,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3843,7 +3844,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3895,7 +3896,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3941,7 +3942,7 @@ func (s *LoggingUnifiedAgentConfigurationResourceCrud) mapToUnifiedAgentParser(f
 			tmp := nullValuePattern.(string)
 			details.NullValuePattern = &tmp
 		}
-		if timeoutInMilliseconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
+		if timeoutInMilliseconds, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "timeout_in_milliseconds")); ok {
 			tmp := timeoutInMilliseconds.(int)
 			details.TimeoutInMilliseconds = &tmp
 		}
@@ -3964,21 +3965,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -3989,21 +3988,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4014,21 +4011,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4039,7 +4034,21 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 		if v.IsMergeCriFields != nil {
 			result["is_merge_cri_fields"] = bool(*v.IsMergeCriFields)
 		}
-
+		if v.IsEstimateCurrentEvent != nil {
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
+		}
+		if v.IsKeepTimeKey != nil {
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
+		}
+		if v.IsNullEmptyString != nil {
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
+		}
+		if v.NullValuePattern != nil {
+			result["null_value_pattern"] = v.NullValuePattern
+		}
+		if v.TimeoutInMilliseconds != nil {
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
+		}
 		if v.NestedParser != nil {
 			result["nested_parser"] = []interface{}{UnifiedJsonParserToMap(v.NestedParser)}
 		}
@@ -4050,21 +4059,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4088,16 +4095,20 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["grok_name_key"] = string(*v.GrokNameKey)
 		}
 
+		if v.IsEstimateCurrentEvent != nil {
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
+		}
+		if v.IsKeepTimeKey != nil {
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
+		}
+		if v.IsNullEmptyString != nil {
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
+		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
-
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
-		}
-
-		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 
 		if v.Types != nil {
@@ -4122,21 +4133,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4152,21 +4161,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4177,21 +4184,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4207,21 +4212,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4249,21 +4252,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4283,21 +4284,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4316,21 +4315,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)
@@ -4361,21 +4358,19 @@ func UnifiedAgentParserToMap(obj *oci_logging.UnifiedAgentParser) map[string]int
 			result["field_time_key"] = v.FieldTimeKey
 		}
 		if v.IsEstimateCurrentEvent != nil {
-			result["is_estimate_current_event"] = v.IsEstimateCurrentEvent
-		} else {
-			result["is_estimate_current_event"] = true
+			result["is_estimate_current_event"] = bool(*v.IsEstimateCurrentEvent)
 		}
 		if v.IsKeepTimeKey != nil {
-			result["is_keep_time_key"] = v.IsKeepTimeKey
+			result["is_keep_time_key"] = bool(*v.IsKeepTimeKey)
 		}
 		if v.IsNullEmptyString != nil {
-			result["is_null_empty_string"] = v.IsNullEmptyString
+			result["is_null_empty_string"] = bool(*v.IsNullEmptyString)
 		}
 		if v.NullValuePattern != nil {
 			result["null_value_pattern"] = v.NullValuePattern
 		}
 		if v.TimeoutInMilliseconds != nil {
-			result["timeout_in_milliseconds"] = v.TimeoutInMilliseconds
+			result["timeout_in_milliseconds"] = int(*v.TimeoutInMilliseconds)
 		}
 		if v.Types != nil {
 			result["types"] = tfresource.StringMapToObjectMap(v.Types)

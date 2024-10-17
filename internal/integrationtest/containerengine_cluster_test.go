@@ -63,16 +63,16 @@ var (
 		"kubernetes_version":          acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, Update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
 		"name":                        acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
 		"vcn_id":                      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterClusterPodNetworkOptionsRepresentation},
+		"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterClusterPodNetworkOptionsRepresentation},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"endpoint_config":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterEndpointConfigRepresentation},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"image_policy_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterImagePolicyConfigRepresentation},
 		"kms_key_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"type":                        acctest.Representation{RepType: acctest.Optional, Create: `BASIC_CLUSTER`, Update: `ENHANCED_CLUSTER`},
+		"type":                        acctest.Representation{RepType: acctest.Optional, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
 		"options":                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsRepresentation},
 	}
-	clusterClusterPodNetworkOptionsRepresentation = map[string]interface{}{
+	ContainerengineClusterClusterPodNetworkOptionsRepresentation = map[string]interface{}{
 		"cni_type": acctest.Representation{RepType: acctest.Required, Create: `OCI_VCN_IP_NATIVE`},
 	}
 	ContainerengineClusterEndpointConfigRepresentation = map[string]interface{}{
@@ -84,11 +84,14 @@ var (
 		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterImagePolicyConfigKeyDetailsRepresentation},
 	}
 	ContainerengineClusterOptionsRepresentation = map[string]interface{}{
-		"add_ons":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsAddOnsRepresentation},
-		"kubernetes_network_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsKubernetesNetworkConfigRepresentation},
-		"persistent_volume_config":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsPersistentVolumeConfigRepresentation},
-		"service_lb_config":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsServiceLbConfigRepresentation},
-		"service_lb_subnet_ids":     acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
+		"add_ons":                                     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsAddOnsRepresentation},
+		"admission_controller_options":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsAdmissionControllerOptionsRepresentation},
+		"kubernetes_network_config":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsKubernetesNetworkConfigRepresentation},
+		"open_id_connect_token_authentication_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsOpenIdConnectTokenAuthenticationConfigRepresentation},
+		"open_id_connect_discovery":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsOpenIdConnectDiscoveryRepresentation},
+		"persistent_volume_config":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsPersistentVolumeConfigRepresentation},
+		"service_lb_config":                           acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsServiceLbConfigRepresentation},
+		"service_lb_subnet_ids":                       acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_subnet.clusterSubnet_1.id}`, `${oci_core_subnet.clusterSubnet_2.id}`}},
 	}
 	ContainerengineClusterImagePolicyConfigKeyDetailsRepresentation = map[string]interface{}{
 		"kms_key_id": acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency_RSA.keys[0], "id")}`},
@@ -97,9 +100,27 @@ var (
 		"is_kubernetes_dashboard_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"is_tiller_enabled":               acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
+	ContainerengineClusterOptionsAdmissionControllerOptionsRepresentation = map[string]interface{}{
+		"is_pod_security_policy_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
 	ContainerengineClusterOptionsKubernetesNetworkConfigRepresentation = map[string]interface{}{
 		"pods_cidr":     acctest.Representation{RepType: acctest.Optional, Create: `10.1.0.0/16`},
 		"services_cidr": acctest.Representation{RepType: acctest.Optional, Create: `10.2.0.0/16`},
+	}
+	ContainerengineClusterOptionsOpenIdConnectTokenAuthenticationConfigRepresentation = map[string]interface{}{
+		"is_open_id_connect_auth_enabled": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `false`},
+		"ca_certificate":                  acctest.Representation{RepType: acctest.Optional, Create: `LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUY5RENDQTl5Z0F3SUJBZ0lVYjZUaGdGNThwZVR0QkQ3Q2dyWlVNbDRXMWZNd0RRWUpLb1pJaHZjTkFRRUwKQlFBd2dZQXhDekFKQmdOVkJBWVRBbGhZTVJJd0VBWURWUVFJREFsVGRHRjBaVTVoYldVeEVUQVBCZ05WQkFjTQpDRU5wZEhsT1lXMWxNUlF3RWdZRFZRUUtEQXREYjIxd1lXNTVUbUZ0WlRFYk1Ca0dBMVVFQ3d3U1EyOXRjR0Z1CmVWTmxZM1JwYjI1T1lXMWxNUmN3RlFZRFZRUUREQTR4TlRBdU1UTTJMak0zTGpJME16QWVGdzB5TkRBME1ETXcKTWpVMU1qQmFGdzB6TkRBME1ERXdNalUxTWpCYU1JR0FNUXN3Q1FZRFZRUUdFd0pZV0RFU01CQUdBMVVFQ0F3SgpVM1JoZEdWT1lXMWxNUkV3RHdZRFZRUUhEQWhEYVhSNVRtRnRaVEVVTUJJR0ExVUVDZ3dMUTI5dGNHRnVlVTVoCmJXVXhHekFaQmdOVkJBc01Fa052YlhCaGJubFRaV04wYVc5dVRtRnRaVEVYTUJVR0ExVUVBd3dPTVRVd0xqRXoKTmk0ek55NHlORE13Z2dJaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQ0R3QXdnZ0lLQW9JQ0FRRFBmWGFUaXE4ZAp3VW1QZjNNWUdZUnRYVlliUzhRblUzeGNUdnpqeExxRTlIZnVPUUgyVFBna0wvbjBQUTVvZnFURnlMRjd3Z1BvCks5Wmx2dG1mUzhNRUlsU1doUFdSWWpuNDRYVXhOVjBhTldUWi80bWFYcUlXOUM1aC9xaEhiVU1IbTAwNzZkQjMKby9GaTBEZnpwN3JDTGhZeTJUaG5oc1BOWXYzcFljVlNDbVFZVVpUNlh6eVR5Ym4vY3IvY2tTYXRWTkZKNEQ3UwpLK2xxdEtzNzF3bkMzTjhQd2xZemFyOWFaMnNlSmNrSXZRWWtKZ3phcktZK0hYTkg3SVZKa0h2N3QyY1NJdGJvClRUVTJHVE5icEJyK05YSFZlaWo0THpsZWdER0dPWkFjYWEwS094YWoxNXNISFlQSVBJYlZ2NXMwVXVodkVyUEIKOFUxRjVhRFU0L0MrbW9Lc3EwTlpEcDZNSkphZ1lBazEvUzduRCtXbEExem5rMzRyYXl0U2FDdDdFK1JTMlR2YQpaRkExQWFNNmlBVXp1eEY3ZWtnejhzZ1lZd0drMnJZTFRzQm9IdHloeUkxM0FwMVBlL3ROSVQxaHlYdmQzVzVICmFtQ09PSnFkYUFkYU1xR2g0V25lemZ6UjZUY2NHNmpaekVqV2N0amEyWXlPVlZaaWlRWWllajA2S1VYazI4U2wKUVlGamNXak53c0s5b1U4OFRFbkJ6U0FPZ29OVXBITkxEeFVzRHhEMDBuQm9aS2U2aExFVmFMckRiSEdzdU5MSgo1TDd3WE1xdUZIQ2RjUUhhTzMxTnp5UllrTGw3UUtiSkRvZjNWNzBQMmRtbXhDdU5ybTkwWFNoZ3o3L2xHK0krCnFiUkRVT21Pcjc1dmxvZEFDODB4SU5tKzZLcEdJcXVGaVFJREFRQUJvMlF3WWpBZEJnTlZIUTRFRmdRVU4zK0gKa3Z5SW9KVFVLSTlFNEFweTFSbEc3bjh3SHdZRFZSMGpCQmd3Rm9BVU4zK0hrdnlJb0pUVUtJOUU0QXB5MVJsRwo3bjh3RHdZRFZSMFRBUUgvQkFVd0F3RUIvekFQQmdOVkhSRUVDREFHaHdTV2lDWHpNQTBHQ1NxR1NJYjNEUUVCCkN3VUFBNElDQVFDQjR4SEljOG81MlpFaHoyYVJoNUl0QTdYeUs4bjdROVRqODJiTjZPaFB1ZDg0MDRNbUFldHIKNFAzTUtadWlJNDRIeUVZQ2tSenFNVXVRNS9yd2JJNU1iUStBN1Z3dEpDdjRMZEZjOEsxRnZKcEo0c2lXaWwzMgpaQ0YyS052elB6Vm1NVVc4QkZFSVFMMnIvdWhrelc2V2FvWHVVZTV0NkE3UDJIL1lYU3JvRUdDZGZDOGQ3TWo5CkppN1Nxc3BYTUM2WlNvZmhQUFZMTUtRWk44REh5SXorUlJHZS8zYkw2S2ZMUXpuZDJ4UzJVcVZ3eGIweERjZ04KK0lrNGRCcjdqS1Z1N3cwTjJvcUo5V2ZmVjgxRFV1OWgwZjROeGcxakc1bWlCZHRTU1dTWEdqNHlLRmdvWnJwTApMZEdGRGdiUFh1QjZLWGVBY3N1M21hRjZrOXBsU29WeFU1cC9zdGRVSXMycFphTmdsdzh2UmJxWFM3cXFKT0V2Ck5RSmZPcEszN2JrMjBCS1lsQ2NXUWxGVjFmejdRdUFJdS9hK0NlUXFwUXhGUVk5SmFsYStNWDFxaDRIYWJUNHgKNGNOaktBNC9pNVhkYkdaTUFJQVhxN2tnNVlSc2xyQmQ5ZFNaM0FMUVVocEppZ01TOFhDY1htQUZrcnR2Tm81YgplWXNjM1AyT0hnRjQ3a3Z1N00rUWdDNU43RkJvNkhSdkNLY1dwRG5oSVprd2JsRkRsVW1iejBicHJLRDVqc01wCi93dDl3OUhaWEFsOTRtU1JLeTFJdmFvMHdndEYzNW9Sait1eXpxRUl2RVdkMmpvc21LTmtGWGlXMU5lbGNrUnUKT1FjdFBNN3BJbHZ6ZWh2U3BENTVWN09NbHhLZHArMTQ0cVMrbDB2UStOUGJSMk91TkNZa1lBPT0KLS0tLS1FTkQgQ0VSVElGSUNBVEUtLS0tLQo=`},
+		"client_id":                       acctest.Representation{RepType: acctest.Optional, Create: `${oci_containerengine_client.test_client.id}`},
+		"groups_claim":                    acctest.Representation{RepType: acctest.Optional, Create: `groupsClaim`},
+		"groups_prefix":                   acctest.Representation{RepType: acctest.Optional, Create: `groupsPrefix`},
+		"issuer_url":                      acctest.Representation{RepType: acctest.Optional, Create: `https://url1.com`},
+		"required_claims":                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsOpenIdConnectTokenAuthenticationConfigRequiredClaimsRepresentation},
+		"signing_algorithms":              acctest.Representation{RepType: acctest.Optional, Create: []string{`RS256`}},
+		"username_claim":                  acctest.Representation{RepType: acctest.Optional, Create: `sub`},
+		"username_prefix":                 acctest.Representation{RepType: acctest.Optional, Create: `oidc:`},
+	}
+	ContainerengineClusterOptionsOpenIdConnectDiscoveryRepresentation = map[string]interface{}{
+		"is_open_id_connect_discovery_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	ContainerengineClusterOptionsPersistentVolumeConfigRepresentation = map[string]interface{}{
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
@@ -108,6 +129,10 @@ var (
 	ContainerengineClusterOptionsServiceLbConfigRepresentation = map[string]interface{}{
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+	}
+	ContainerengineClusterOptionsOpenIdConnectTokenAuthenticationConfigRequiredClaimsRepresentation = map[string]interface{}{
+		"key":   acctest.Representation{RepType: acctest.Optional, Create: `key`},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
 	}
 
 	ContainerengineClusterResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "clusterSubnet_1", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{"availability_domain": acctest.Representation{RepType: acctest.Required, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`}, "cidr_block": acctest.Representation{RepType: acctest.Required, Create: `10.0.20.0/24`}, "dns_label": acctest.Representation{RepType: acctest.Required, Create: `cluster1`}})) +
@@ -184,17 +209,31 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "options.0.open_id_connect_token_authentication_config.0.ca_certificate"),
+				resource.TestCheckResourceAttrSet(resourceName, "options.0.open_id_connect_token_authentication_config.0.client_id"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.groups_claim", "groupsClaim"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.groups_prefix", "groupsPrefix"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.is_open_id_connect_auth_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.issuer_url", "https://url1.com"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.required_claims.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.required_claims.0.key", "key"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.required_claims.0.value", "value"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.signing_algorithms.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.username_claim", "RS256"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.0.username_prefix", "oidc:"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_discovery.0.is_open_id_connect_discovery_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_subnet_ids.#", "2"),
-				resource.TestCheckResourceAttr(resourceName, "type", "BASIC_CLUSTER"),
+				resource.TestCheckResourceAttr(resourceName, "type", "ENHANCED_CLUSTER"),
 				resource.TestCheckResourceAttrSet(resourceName, "vcn_id"),
 
 				func(s *terraform.State) (err error) {
@@ -233,11 +272,13 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.add_ons.0.is_tiller_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_token_authentication_config.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_discovery.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.open_id_connect_discovery.0.is_open_id_connect_discovery_enabled", "true"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "options.0.service_lb_config.#", "1"),
@@ -286,11 +327,25 @@ func TestContainerengineClusterResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_kubernetes_dashboard_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.add_ons.0.is_tiller_enabled", "true"),
-				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.pods_cidr", "10.1.0.0/16"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.kubernetes_network_config.0.services_cidr", "10.2.0.0/16"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.ca_certificate", "caCertificate2"),
+				resource.TestCheckResourceAttrSet(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.client_id"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.groups_claim", "groupsClaim2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.groups_prefix", "groupsPrefix2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.is_open_id_connect_auth_enabled", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.issuer_url", "issuerUrl2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.required_claims.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.required_claims.0.key", "key2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.required_claims.0.value", "value2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.signing_algorithms.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.username_claim", "usernameClaim2"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_token_authentication_config.0.username_prefix", "usernamePrefix2"),
+				resource.TestCheckResourceAttr(resourceName, "options.0.admission_controller_options.0.is_pod_security_policy_enabled", "false"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_discovery.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.open_id_connect_discovery.0.is_open_id_connect_discovery_enabled", "true"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.persistent_volume_config.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "clusters.0.options.0.service_lb_config.#", "1"),

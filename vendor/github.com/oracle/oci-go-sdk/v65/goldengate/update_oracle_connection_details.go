@@ -61,8 +61,8 @@ type UpdateOracleConnectionDetails struct {
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// The wallet contents Oracle GoldenGate uses to make connections to a database.  This
-	// attribute is expected to be base64 encoded.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.
+	// This attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host

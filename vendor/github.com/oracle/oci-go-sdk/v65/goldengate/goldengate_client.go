@@ -2576,6 +2576,64 @@ func (client GoldenGateClient) listDeploymentBackups(ctx context.Context, reques
 	return response, err
 }
 
+// ListDeploymentEnvironments Returns an array of DeploymentEnvironmentDescriptor
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/goldengate/ListDeploymentEnvironments.go.html to see an example of how to use ListDeploymentEnvironments API.
+// A default retry strategy applies to this operation ListDeploymentEnvironments()
+func (client GoldenGateClient) ListDeploymentEnvironments(ctx context.Context, request ListDeploymentEnvironmentsRequest) (response ListDeploymentEnvironmentsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDeploymentEnvironments, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDeploymentEnvironmentsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDeploymentEnvironmentsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDeploymentEnvironmentsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDeploymentEnvironmentsResponse")
+	}
+	return
+}
+
+// listDeploymentEnvironments implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) listDeploymentEnvironments(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deploymentEnvironments", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDeploymentEnvironmentsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentEnvironmentCollection/ListDeploymentEnvironments"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentEnvironments", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDeploymentTypes Returns an array of DeploymentTypeDescriptor
 //
 // # See also

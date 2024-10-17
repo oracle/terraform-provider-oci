@@ -6,7 +6,6 @@ package golden_gate
 import (
 	"context"
 	"fmt"
-	"log"
 	"strconv"
 	"strings"
 	"time"
@@ -28,7 +27,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 		Importer: &schema.ResourceImporter{
 			State: schema.ImportStatePassthrough,
 		},
-		Timeouts: &schema.ResourceTimeout{
+		Timeouts: &schema.ResourceTimeout{ // custom code, do not change
 			Create: tfresource.GetTimeoutDuration("90m"),
 			Update: tfresource.GetTimeoutDuration("60m"),
 			Delete: tfresource.GetTimeoutDuration("30m"),
@@ -84,6 +83,11 @@ func GoldenGateDeploymentResource() *schema.Resource {
 				ForceNew: true,
 			},
 			"description": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"environment_type": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -259,6 +263,41 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"group_to_roles_mapping": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"security_group_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"administrator_group_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"operator_group_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"user_group_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"identity_domain_id": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -273,6 +312,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
+							//	ForceNew: true, Upgrade is handled in different action, not part of the update operation
 						},
 						"password_secret_id": {
 							Type:      schema.TypeString,
@@ -287,6 +327,10 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			},
 
 			// Computed
+			"category": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"deployment_diagnostic_data": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -388,7 +432,7 @@ func GoldenGateDeploymentResource() *schema.Resource {
 			"state": {
 				Type:             schema.TypeString,
 				Computed:         true,
-				Optional:         true,
+				Optional:         true, // custom code, action start and stop are implemented by this
 				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 				ValidateFunc: validation.StringInSlice([]string{
 					string(oci_golden_gate.LifecycleStateInactive),
@@ -630,6 +674,10 @@ func (s *GoldenGateDeploymentResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+		request.EnvironmentType = oci_golden_gate.EnvironmentTypeEnum(environmentType.(string))
+	}
+
 	if fqdn, ok := s.D.GetOkExists("fqdn"); ok {
 		tmp := fqdn.(string)
 		request.Fqdn = &tmp
@@ -747,12 +795,10 @@ func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *
 	actionTypeEnum oci_golden_gate.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
-	deploymentId, err := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+	deploymentId, err := deploymentWaitForWorkRequest(workId, "deployment",
 		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
-		// Try to cancel the work request
-		log.Printf("[DEBUG] operation failed: %v for identifier: %v\n", workId, deploymentId)
 		return err
 	}
 	s.D.SetId(*deploymentId)
@@ -760,7 +806,7 @@ func (s *GoldenGateDeploymentResourceCrud) getDeploymentFromWorkRequest(workId *
 	return s.Get()
 }
 
-func goldenGateDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+func deploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
 	startTime := time.Now()
 	stopTime := startTime.Add(timeout)
 	return func(response oci_common.OCIOperationResponse) bool {
@@ -783,16 +829,17 @@ func goldenGateDeploymentWorkRequestShouldRetryFunc(timeout time.Duration) func(
 	}
 }
 
-func goldenGateDeploymentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
+func deploymentWaitForWorkRequest(wId *string, entityType string, action oci_golden_gate.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_golden_gate.GoldenGateClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "golden_gate")
-	retryPolicy.ShouldRetryOperation = goldenGateDeploymentWorkRequestShouldRetryFunc(timeout)
+	retryPolicy.ShouldRetryOperation = deploymentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_golden_gate.GetWorkRequestResponse{}
 	stateConf := &resource.StateChangeConf{
 		Pending: []string{
 			string(oci_golden_gate.OperationStatusInProgress),
 			string(oci_golden_gate.OperationStatusAccepted),
+			//string(oci_golden_gate.OperationStatusCanceling), //Canceling workrequest is N/A for GGS
 		},
 		Target: []string{
 			string(oci_golden_gate.OperationStatusSucceeded),
@@ -830,13 +877,13 @@ func goldenGateDeploymentWaitForWorkRequest(wId *string, entityType string, acti
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_golden_gate.OperationStatusFailed || response.Status == oci_golden_gate.OperationStatusCanceled {
-		return nil, getErrorFromDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromGoldenGateDeploymentWorkRequest(client, wId, retryPolicy, entityType, action)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromDeploymentWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
+func getErrorFromGoldenGateDeploymentWorkRequest(client *oci_golden_gate.GoldenGateClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_golden_gate.ActionTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_golden_gate.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -912,6 +959,10 @@ func (s *GoldenGateDeploymentResourceCrud) Update() error {
 	if displayName, ok := s.D.GetOkExists("display_name"); ok {
 		tmp := displayName.(string)
 		request.DisplayName = &tmp
+	}
+
+	if environmentType, ok := s.D.GetOkExists("environment_type"); ok {
+		request.EnvironmentType = oci_golden_gate.EnvironmentTypeEnum(environmentType.(string))
 	}
 
 	if fqdn, ok := s.D.GetOkExists("fqdn"); ok {
@@ -1030,12 +1081,14 @@ func (s *GoldenGateDeploymentResourceCrud) Delete() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, delWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+	_, delWorkRequestErr := deploymentWaitForWorkRequest(workId, "deployment",
 		oci_golden_gate.ActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete), s.DisableNotFoundRetries, s.Client)
 	return delWorkRequestErr
 }
 
 func (s *GoldenGateDeploymentResourceCrud) SetData() error {
+	s.D.Set("category", s.Res.Category)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -1071,6 +1124,8 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
+
+	s.D.Set("environment_type", s.Res.EnvironmentType)
 
 	if s.Res.Fqdn != nil {
 		s.D.Set("fqdn", *s.Res.Fqdn)
@@ -1148,10 +1203,10 @@ func (s *GoldenGateDeploymentResourceCrud) SetData() error {
 	for _, item := range s.Res.NsgIds {
 		nsgIds = append(nsgIds, item)
 	}
-	s.D.Set("nsg_ids", nsgIds)
+	s.D.Set("nsg_ids", nsgIds) // custom code, do not change
 
 	if s.Res.OggData != nil {
-		s.D.Set("ogg_data", []interface{}{OggDeploymentToMap(s.Res.OggData, s.D)})
+		s.D.Set("ogg_data", []interface{}{OggDeploymentToMap(s.Res.OggData, s.D)}) // custom code, do not change
 	} else {
 		s.D.Set("ogg_data", nil)
 	}
@@ -1324,8 +1379,8 @@ func MaintenanceConfigurationToMap(obj *oci_golden_gate.MaintenanceConfiguration
 	return result
 }
 
-func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.UpdateMaintenanceWindowDetails, error) {
-	result := oci_golden_gate.UpdateMaintenanceWindowDetails{}
+func (s *GoldenGateDeploymentResourceCrud) mapToCreateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.CreateMaintenanceWindowDetails, error) {
+	result := oci_golden_gate.CreateMaintenanceWindowDetails{}
 
 	if day, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day")); ok {
 		result.Day = oci_golden_gate.DayEnum(day.(string))
@@ -1339,8 +1394,8 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceWindowDetails(f
 	return result, nil
 }
 
-func (s *GoldenGateDeploymentResourceCrud) mapToCreateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.CreateMaintenanceWindowDetails, error) {
-	result := oci_golden_gate.CreateMaintenanceWindowDetails{}
+func (s *GoldenGateDeploymentResourceCrud) mapToUpdateMaintenanceWindowDetails(fieldKeyFormat string) (oci_golden_gate.UpdateMaintenanceWindowDetails, error) {
+	result := oci_golden_gate.UpdateMaintenanceWindowDetails{}
 
 	if day, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "day")); ok {
 		result.Day = oci_golden_gate.DayEnum(day.(string))
@@ -1393,6 +1448,17 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 		result.DeploymentName = &tmp
 	}
 
+	if groupToRolesMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_to_roles_mapping")); ok {
+		if tmpList := groupToRolesMapping.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "group_to_roles_mapping"), 0)
+			tmp, err := s.mapToGroupToRolesMappingDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert group_to_roles_mapping, encountered error: %v", err)
+			}
+			result.GroupToRolesMapping = &tmp
+		}
+	}
+
 	if identityDomainId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "identity_domain_id")); ok {
 		tmp := identityDomainId.(string)
 		result.IdentityDomainId = &tmp
@@ -1419,7 +1485,7 @@ func (s *GoldenGateDeploymentResourceCrud) mapToCreateOggDeploymentDetails(field
 func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(fieldKeyFormat string) (oci_golden_gate.UpdateOggDeploymentDetails, error) {
 	result := oci_golden_gate.UpdateOggDeploymentDetails{}
 
-	adminPasswordKeyFormat := fmt.Sprintf(fieldKeyFormat, "admin_password")
+	adminPasswordKeyFormat := fmt.Sprintf(fieldKeyFormat, "admin_password") // custom code, do not change
 	if adminPassword, ok := s.D.GetOk(adminPasswordKeyFormat); ok && s.D.HasChange(adminPasswordKeyFormat) {
 		tmp := adminPassword.(string)
 		result.AdminPassword = &tmp
@@ -1430,27 +1496,38 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 		result.AdminUsername = &tmp
 	}
 
-	if certificate, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "certificate")); ok {
+	if certificate, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "certificate")); ok { // custom code, do not change
 		tmp := certificate.(string)
 		result.Certificate = &tmp
 	}
 
-	if credentialStore, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok {
+	if credentialStore, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "credential_store")); ok { // custom code, do not change
 		result.CredentialStore = oci_golden_gate.CredentialStoreEnum(credentialStore.(string))
 	}
 
-	if identityDomainId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "identity_domain_id")); ok {
+	if groupToRolesMapping, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_to_roles_mapping")); ok {
+		if tmpList := groupToRolesMapping.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "group_to_roles_mapping"), 0)
+			tmp, err := s.mapToUpdateGroupToRolesMappingDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert group_to_roles_mapping, encountered error: %v", err)
+			}
+			result.GroupToRolesMapping = &tmp
+		}
+	}
+
+	if identityDomainId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "identity_domain_id")); ok { // custom code, do not change
 		tmp := identityDomainId.(string)
 		result.IdentityDomainId = &tmp
 	}
 
-	keyKeyFormat := fmt.Sprintf(fieldKeyFormat, "key")
+	keyKeyFormat := fmt.Sprintf(fieldKeyFormat, "key") // custom code, do not change
 	if key, ok := s.D.GetOk(keyKeyFormat); ok && s.D.HasChange(keyKeyFormat) {
 		tmp := key.(string)
 		result.Key = &tmp
 	}
 
-	if passwordSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok {
+	if passwordSecretId, ok := s.D.GetOk(fmt.Sprintf(fieldKeyFormat, "password_secret_id")); ok { // custom code, do not change
 		tmp := passwordSecretId.(string)
 		result.PasswordSecretId = &tmp
 	}
@@ -1458,7 +1535,7 @@ func (s *GoldenGateDeploymentResourceCrud) mapToUpdateOggDeploymentDetails(field
 	return result, nil
 }
 
-func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema.ResourceData) map[string]interface{} {
+func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema.ResourceData) map[string]interface{} { // custom code, do not change
 	result := map[string]interface{}{}
 
 	if oggData, ok := resourceData.GetOkExists("ogg_data"); ok {
@@ -1488,6 +1565,10 @@ func OggDeploymentToMap(obj *oci_golden_gate.OggDeployment, resourceData *schema
 
 	if obj.DeploymentName != nil {
 		result["deployment_name"] = string(*obj.DeploymentName)
+	}
+
+	if obj.GroupToRolesMapping != nil {
+		result["group_to_roles_mapping"] = []interface{}{GroupToRolesMappingDetailsToMap(obj.GroupToRolesMapping)}
 	}
 
 	if obj.IdentityDomainId != nil {
@@ -1533,8 +1614,10 @@ func DeploymentDiagnosticDataToMap(obj *oci_golden_gate.DeploymentDiagnosticData
 	return result
 }
 
-func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]interface{} {
+func DeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["category"] = string(obj.Category)
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -1561,6 +1644,8 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
 	}
+
+	result["environment_type"] = string(obj.EnvironmentType)
 
 	if obj.Fqdn != nil {
 		result["fqdn"] = string(*obj.Fqdn)
@@ -1647,6 +1732,80 @@ func GoldenGateDeploymentSummaryToMap(obj oci_golden_gate.DeploymentSummary) map
 	return result
 }
 
+func (s *GoldenGateDeploymentResourceCrud) mapToGroupToRolesMappingDetails(fieldKeyFormat string) (oci_golden_gate.GroupToRolesMappingDetails, error) {
+	result := oci_golden_gate.GroupToRolesMappingDetails{}
+
+	if administratorGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "administrator_group_id")); ok {
+		tmp := administratorGroupId.(string)
+		result.AdministratorGroupId = &tmp
+	}
+
+	if operatorGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator_group_id")); ok {
+		tmp := operatorGroupId.(string)
+		result.OperatorGroupId = &tmp
+	}
+
+	if securityGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_group_id")); ok {
+		tmp := securityGroupId.(string)
+		result.SecurityGroupId = &tmp
+	}
+
+	if userGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_group_id")); ok {
+		tmp := userGroupId.(string)
+		result.UserGroupId = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *GoldenGateDeploymentResourceCrud) mapToUpdateGroupToRolesMappingDetails(fieldKeyFormat string) (oci_golden_gate.UpdateGroupToRolesMappingDetails, error) {
+	result := oci_golden_gate.UpdateGroupToRolesMappingDetails{}
+
+	if administratorGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "administrator_group_id")); ok {
+		tmp := administratorGroupId.(string)
+		result.AdministratorGroupId = &tmp
+	}
+
+	if operatorGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "operator_group_id")); ok {
+		tmp := operatorGroupId.(string)
+		result.OperatorGroupId = &tmp
+	}
+
+	if securityGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "security_group_id")); ok {
+		tmp := securityGroupId.(string)
+		result.SecurityGroupId = &tmp
+	}
+
+	if userGroupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user_group_id")); ok {
+		tmp := userGroupId.(string)
+		result.UserGroupId = &tmp
+	}
+
+	return result, nil
+}
+
+func GroupToRolesMappingDetailsToMap(obj *oci_golden_gate.GroupToRolesMappingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdministratorGroupId != nil {
+		result["administrator_group_id"] = string(*obj.AdministratorGroupId)
+	}
+
+	if obj.OperatorGroupId != nil {
+		result["operator_group_id"] = string(*obj.OperatorGroupId)
+	}
+
+	if obj.SecurityGroupId != nil {
+		result["security_group_id"] = string(*obj.SecurityGroupId)
+	}
+
+	if obj.UserGroupId != nil {
+		result["user_group_id"] = string(*obj.UserGroupId)
+	}
+
+	return result
+}
+
 func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interface{}) error {
 	changeCompartmentRequest := oci_golden_gate.ChangeDeploymentCompartmentRequest{}
 
@@ -1670,9 +1829,8 @@ func (s *GoldenGateDeploymentResourceCrud) updateCompartment(compartment interfa
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, changeWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
-		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
-	return changeWorkRequestErr
+	return s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(oggVersion interface{}) error {
@@ -1700,7 +1858,7 @@ func (s *GoldenGateDeploymentResourceCrud) upgradeToSpecificVersion(oggVersion i
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, upgradeWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
+	_, upgradeWorkRequestErr := deploymentWaitForWorkRequest(workId, "deployment",
 		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
 	if upgradeWorkRequestErr != nil {
 		return upgradeWorkRequestErr
@@ -1746,8 +1904,8 @@ func (s *GoldenGateDeploymentResourceCrud) startDeployment() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, startWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
-		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	startWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if startWorkRequestErr != nil {
 		return startWorkRequestErr
 	}
@@ -1775,8 +1933,8 @@ func (s *GoldenGateDeploymentResourceCrud) stopDeployment() error {
 
 	workId := response.OpcWorkRequestId
 	// Wait until it finishes
-	_, stopWorkRequestErr := goldenGateDeploymentWaitForWorkRequest(workId, "deployment",
-		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries, s.Client)
+	stopWorkRequestErr := s.getDeploymentFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "golden_gate"),
+		oci_golden_gate.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 	if stopWorkRequestErr != nil {
 		return stopWorkRequestErr
 	}

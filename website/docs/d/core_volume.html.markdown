@@ -42,6 +42,7 @@ The following attributes are exported:
 	* `block_volume_replica_id` - The block volume replica's Oracle ID (OCID).
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
 * `cluster_placement_group_id` - The clusterPlacementGroup Id of the volume for volume placement.
+	* `kms_key_id` - The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see [Overview of Vault service](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and [Using Keys](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm). 
 * `compartment_id` - The OCID of the compartment that contains the volume.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}` 
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information. 
@@ -51,10 +52,13 @@ The following attributes are exported:
 * `is_hydrated` - Specifies whether the cloned volume's data has finished copying from the source volume or backup. 
 * `kms_key_id` - The OCID of the Vault service key which is the master encryption key for the volume. 
 * `size_in_gbs` - The size of the volume in GBs.
-* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead.
-* `source_details` - 
-	* `id` - The OCID of the block volume replica.
-	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`
+* `size_in_mbs` - The size of the volume in MBs. This field is deprecated. Use sizeInGBs instead. 
+* `source_details` - Specifies the volume source details for a new Block volume. The volume source is either another Block volume in the same Availability Domain or a Block volume backup. This is an optional field. If not specified or set to null, the new Block volume will be empty. When specified, the new Block volume will contain data from the source volume or backup. 
+	* `change_block_size_in_bytes` - Block size in bytes to be considered while performing volume restore. The value must be a power of 2; ranging from 4KB (4096 bytes) to 1MB (1048576 bytes). If omitted, defaults to 4,096 bytes (4 KiB). 
+	* `first_backup_id` - The OCID of the first volume backup.
+    * `id` - The OCID of the block volume replica.
+	* `second_backup_id` - The OCID of the second volume backup.
+	* `type` - The type can be one of these values: `blockVolumeReplica`, `volume`, `volumeBackup`, `volumeBackupDelta`
 * `state` - The current state of a volume.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `time_created` - The date and time the volume was created. Format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).

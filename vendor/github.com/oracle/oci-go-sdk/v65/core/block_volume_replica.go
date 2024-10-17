@@ -78,6 +78,11 @@ type BlockVolumeReplica struct {
 
 	// The OCID of the volume group replica.
 	VolumeGroupReplicaId *string `mandatory:"false" json:"volumeGroupReplicaId"`
+
+	// The OCID of the Vault service key to assign as the master encryption key for the block volume replica, see
+	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
+	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
+	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 }
 
 func (m BlockVolumeReplica) String() string {

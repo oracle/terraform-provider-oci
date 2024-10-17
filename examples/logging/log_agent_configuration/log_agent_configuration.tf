@@ -1,6 +1,7 @@
 // Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
 // Licensed under the Mozilla Public License v2.0
 
+
 variable "compartment_id" {}
 
 variable "unified_agent_configuration_defined_tags_value" {
@@ -174,8 +175,7 @@ variable "unified_agent_configuration_state" {
 variable "log_group_defined_tags_value" {
   default = "value2"
 }
-variable "tag_namespace1_name" {}
-variable "tag1_name" {}
+
 variable "test_log_group_id" {}
 variable "test_log_id" {}
 
@@ -238,10 +238,6 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
     }
   }
 
-  #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description   = var.unified_agent_configuration_description
   display_name  = var.unified_agent_configuration_display_name
   freeform_tags = var.unified_agent_configuration_freeform_tags
@@ -330,9 +326,6 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
   }
 
   #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description   = var.unified_agent_configuration_description
   display_name  = "test_unified_agent_configuration_1"
   freeform_tags = var.unified_agent_configuration_freeform_tags
@@ -374,7 +367,7 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
       source {
         name = "kubernetes_source"
         scrape_targets {
-          k8s_namespace = "kube_system"
+          k8s_namespace = "kube-system"
           resource_group = "tf-test-resource-group"
           resource_type = "PODS"
           service_name = "kubernetes"
@@ -390,9 +383,6 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
   }
 
   #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description   = var.unified_agent_configuration_description
   display_name  = "test_unified_agent_configuration_monitoring_KUBERNETES"
   freeform_tags = var.unified_agent_configuration_freeform_tags
@@ -463,9 +453,6 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
   }
 
   #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description   = var.unified_agent_configuration_description
   display_name  = "test_unified_agent_configuration_monitoring_TAIL"
   freeform_tags = var.unified_agent_configuration_freeform_tags
@@ -510,9 +497,6 @@ resource "oci_logging_unified_agent_configuration" "test_unified_agent_configura
   }
 
   #Optional
-  defined_tags = {
-    "${var.tag_namespace1_name}.${var.tag1_name}" = var.log_group_defined_tags_value
-  }
   description   = var.unified_agent_configuration_description
   display_name  = "test_unified_agent_configuration_monitoring_URL"
   freeform_tags = var.unified_agent_configuration_freeform_tags

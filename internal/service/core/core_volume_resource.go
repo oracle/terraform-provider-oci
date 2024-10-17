@@ -99,9 +99,18 @@ func CoreVolumeResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 						},
+						"xrr_kms_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 
 						// Computed
 						"block_volume_replica_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"kms_key_id": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -171,11 +180,6 @@ func CoreVolumeResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"id": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -185,10 +189,37 @@ func CoreVolumeResource() *schema.Resource {
 								"blockVolumeReplica",
 								"volume",
 								"volumeBackup",
+								"volumeBackupDelta",
 							}, true),
 						},
 
 						// Optional
+						"change_block_size_in_bytes": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         false,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"first_backup_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
+						"second_backup_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: false,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -206,6 +237,12 @@ func CoreVolumeResource() *schema.Resource {
 				Computed:         true,
 				ValidateFunc:     tfresource.ValidateInt64TypeString,
 				DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+			},
+			"xrc_kms_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed
@@ -449,6 +486,11 @@ func (s *CoreVolumeResourceCrud) Create() error {
 			return fmt.Errorf("unable to convert vpusPerGB string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		request.VpusPerGB = &tmpInt64
+	}
+
+	if xrcKmsKeyId, ok := s.D.GetOkExists("xrc_kms_key_id"); ok {
+		tmp := xrcKmsKeyId.(string)
+		request.XrcKmsKeyId = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "core")
@@ -775,6 +817,11 @@ func (s *CoreVolumeResourceCrud) mapToBlockVolumeReplicaDetails(fieldKeyFormat s
 		result.DisplayName = &tmp
 	}
 
+	if xrrKmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "xrr_kms_key_id")); ok {
+		tmp := xrrKmsKeyId.(string)
+		result.XrrKmsKeyId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -791,6 +838,10 @@ func BlockVolumeReplicaInfoToMap(obj oci_core.BlockVolumeReplicaInfo) map[string
 
 	if obj.DisplayName != nil {
 		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.KmsKeyId != nil {
+		result["kms_key_id"] = string(*obj.KmsKeyId)
 	}
 
 	return result
@@ -828,6 +879,25 @@ func (s *CoreVolumeResourceCrud) mapToVolumeSourceDetails(fieldKeyFormat string)
 			details.Id = &tmp
 		}
 		baseObject = details
+	case strings.ToLower("volumeBackupDelta"):
+		details := oci_core.VolumeSourceFromVolumeBackupDeltaDetails{}
+		if changeBlockSizeInBytes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "change_block_size_in_bytes")); ok {
+			tmp := changeBlockSizeInBytes.(string)
+			tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+			if err != nil {
+				return details, fmt.Errorf("unable to convert changeBlockSizeInBytes string: %s to an int64 and encountered error: %v", tmp, err)
+			}
+			details.ChangeBlockSizeInBytes = &tmpInt64
+		}
+		if firstBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "first_backup_id")); ok {
+			tmp := firstBackupId.(string)
+			details.FirstBackupId = &tmp
+		}
+		if secondBackupId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "second_backup_id")); ok {
+			tmp := secondBackupId.(string)
+			details.SecondBackupId = &tmp
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -854,6 +924,20 @@ func VolumeSourceDetailsToMap(obj *oci_core.VolumeSourceDetails) map[string]inte
 
 		if v.Id != nil {
 			result["id"] = string(*v.Id)
+		}
+	case oci_core.VolumeSourceFromVolumeBackupDeltaDetails:
+		result["type"] = "volumeBackupDelta"
+
+		if v.ChangeBlockSizeInBytes != nil {
+			result["change_block_size_in_bytes"] = strconv.FormatInt(*v.ChangeBlockSizeInBytes, 10)
+		}
+
+		if v.FirstBackupId != nil {
+			result["first_backup_id"] = string(*v.FirstBackupId)
+		}
+
+		if v.SecondBackupId != nil {
+			result["second_backup_id"] = string(*v.SecondBackupId)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

@@ -1,3 +1,17 @@
+## 6.14.0 (October 16, 2024)
+
+### Added
+- Support for OIDC Discovery in OKE
+- Support for Support Cross region Backup copy & Replication for volumes encrypted with Customer KMS Keys
+- Support for GenerateOnPremConnectorConfiguration resource in Data Safe
+- Support for OIDC Auth Terraform
+- Support for GoldenGate new deployment creation page and extended connectivity test results
+- Support for DNSSEC
+- Direct API support for OCI BSS
+- Support for Desktop as a Service: Desktop Session Lifecycle Management
+### Bug Fix
+Fixed the timestamp issue to corrected form
+
 ## 6.13.0 (October 09, 2024)
 
 ### Added

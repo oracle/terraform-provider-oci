@@ -39,6 +39,8 @@ type OggDeployment struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the deployment password is stored.
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	GroupToRolesMapping *GroupToRolesMappingDetails `mandatory:"false" json:"groupToRolesMapping"`
 }
 
 func (m OggDeployment) String() string {
