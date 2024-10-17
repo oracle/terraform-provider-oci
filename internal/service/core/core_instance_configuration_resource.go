@@ -3537,6 +3537,11 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 			tmp := imageId.(string)
 			details.ImageId = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
+
 		if instanceSourceImageFilterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details")); ok {
 			if tmpList := instanceSourceImageFilterDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details"), 0)
