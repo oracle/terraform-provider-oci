@@ -73,7 +73,7 @@ The following arguments are supported:
 
 	Example: `example_path_route_set` 
 * `port` - (Required) (Updatable) The communication port for the listener.  Example: `80` 
-* `protocol` - (Required) (Updatable) The protocol on which the listener accepts connection requests. To get a list of valid protocols, use the [ListProtocols](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols) operation.  Example: `HTTP` 
+* `protocol` - (Required) (Updatable) The protocol on which the listener accepts connection requests. The supported protocols are HTTP, HTTP2, TCP, and GRPC. You can also use the [ListProtocols](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/LoadBalancerProtocol/ListProtocols) operation to get a list of valid protocols.  Example: `HTTP` 
 * `routing_policy_name` - (Optional) (Updatable) The name of the routing policy applied to this listener's traffic.  Example: `example_routing_policy` 
 * `rule_set_names` - (Optional) (Updatable) The names of the [rule sets](https://docs.cloud.oracle.com/iaas/api/#/en/loadbalancer/20170115/RuleSet/) to apply to the listener.  Example: ["example_rule_set"] 
 * `ssl_configuration` - (Optional) (Updatable) The load balancer's SSL handling configuration details.
