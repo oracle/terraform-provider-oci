@@ -183,6 +183,10 @@ func (s *IdentityDomainsCustomerSecretKeyDataSourceCrud) SetData() error {
 
 	s.D.Set("schemas", s.Res.Schemas)
 
+	if s.Res.SecretKey != nil {
+		s.D.Set("secret_key", *s.Res.SecretKey)
+	}
+
 	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}
