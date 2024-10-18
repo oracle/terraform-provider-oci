@@ -189,6 +189,10 @@ func (s *IdentityDomainsOAuth2ClientCredentialDataSourceCrud) SetData() error {
 	}
 	s.D.Set("scopes", scopes)
 
+	if s.Res.Secret != nil {
+		s.D.Set("secret", *s.Res.Secret)
+	}
+
 	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}

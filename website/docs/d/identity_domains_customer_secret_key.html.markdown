@@ -360,6 +360,14 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+* `secret_key` - The secret key.
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* type: string
+	* mutability: readOnly
+	* required: false
+	* returned: default
 * `status` - The user's credential status.
 
 	**Added In:** 2109090424

@@ -368,6 +368,10 @@ func IdentityDomainsOAuth2ClientCredentialResource() *schema.Resource {
 					},
 				},
 			},
+			"secret": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"tenancy_ocid": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -732,6 +736,10 @@ func (s *IdentityDomainsOAuth2ClientCredentialResourceCrud) SetData() error {
 	}
 	s.D.Set("scopes", scopes)
 
+	if s.Res.Secret != nil {
+		s.D.Set("secret", *s.Res.Secret)
+	}
+
 	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}
@@ -855,6 +863,10 @@ func OAuth2ClientCredentialToMap(obj oci_identity_domains.OAuth2ClientCredential
 		scopes = append(scopes, OAuth2ClientCredentialScopesToMap(item))
 	}
 	result["scopes"] = scopes
+
+	if obj.Secret != nil {
+		result["secret"] = string(*obj.Secret)
+	}
 
 	result["status"] = string(obj.Status)
 

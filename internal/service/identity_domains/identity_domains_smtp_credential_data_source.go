@@ -173,6 +173,10 @@ func (s *IdentityDomainsSmtpCredentialDataSourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
 	s.D.Set("schemas", s.Res.Schemas)
 
 	s.D.Set("status", s.Res.Status)

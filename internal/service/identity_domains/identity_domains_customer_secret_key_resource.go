@@ -343,6 +343,10 @@ func IdentityDomainsCustomerSecretKeyResource() *schema.Resource {
 					},
 				},
 			},
+			"secret_key": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"tenancy_ocid": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -678,6 +682,10 @@ func (s *IdentityDomainsCustomerSecretKeyResourceCrud) SetData() error {
 
 	s.D.Set("schemas", s.Res.Schemas)
 
+	if s.Res.SecretKey != nil {
+		s.D.Set("secret_key", *s.Res.SecretKey)
+	}
+
 	s.D.Set("status", s.Res.Status)
 
 	tags := []interface{}{}
@@ -784,6 +792,10 @@ func CustomerSecretKeyToMap(obj oci_identity_domains.CustomerSecretKey) map[stri
 	}
 
 	result["schemas"] = obj.Schemas
+
+	if obj.SecretKey != nil {
+		result["secret_key"] = string(*obj.SecretKey)
+	}
 
 	result["status"] = string(obj.Status)
 

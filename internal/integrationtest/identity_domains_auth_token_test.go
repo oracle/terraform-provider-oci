@@ -112,6 +112,7 @@ func TestIdentityDomainsAuthTokenResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "schemas.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "token"),
 			),
 		},
 
@@ -136,6 +137,7 @@ func TestIdentityDomainsAuthTokenResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "user.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "user.0.value"),
+				resource.TestCheckResourceAttrSet(resourceName, "token"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -202,6 +204,7 @@ func TestIdentityDomainsAuthTokenResource_basic(t *testing.T) {
 				"idcs_endpoint",
 				"resource_type_schema_version",
 				"tags",
+				"token",
 			},
 			ResourceName: resourceName,
 		},

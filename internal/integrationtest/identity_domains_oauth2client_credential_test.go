@@ -124,6 +124,7 @@ func TestIdentityDomainsOAuth2ClientCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "scopes.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "scopes.0.audience", "audience"),
 				resource.TestCheckResourceAttr(resourceName, "scopes.0.scope", "scope"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret"),
 			),
 		},
 
@@ -152,6 +153,7 @@ func TestIdentityDomainsOAuth2ClientCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "tags.0.value", "value"),
 				resource.TestCheckResourceAttr(resourceName, "user.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "user.0.value"),
+				resource.TestCheckResourceAttrSet(resourceName, "secret"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -223,6 +225,7 @@ func TestIdentityDomainsOAuth2ClientCredentialResource_basic(t *testing.T) {
 				"resource_type_schema_version",
 				"tags",
 				"is_reset_secret",
+				"secret",
 			},
 			ResourceName: resourceName,
 		},

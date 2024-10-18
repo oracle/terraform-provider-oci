@@ -111,6 +111,7 @@ func TestIdentityDomainsSmtpCredentialResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "idcs_endpoint"),
 				resource.TestCheckResourceAttr(resourceName, "schemas.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "password"),
 			),
 		},
 
@@ -136,6 +137,7 @@ func TestIdentityDomainsSmtpCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "user.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "user.0.value"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "password"),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -201,6 +203,7 @@ func TestIdentityDomainsSmtpCredentialResource_basic(t *testing.T) {
 				"idcs_endpoint",
 				"resource_type_schema_version",
 				"tags",
+				"password",
 			},
 			ResourceName: resourceName,
 		},

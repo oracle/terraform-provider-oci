@@ -405,6 +405,16 @@ The following attributes are exported:
 		* multiValued: false
 		* required: true
 		* returned: default
+* `secret` - Secret
+
+	**SCIM++ Properties:**
+	* caseExact: false
+	* type: string
+	* mutability: readOnly
+	* required: false
+	* returned: default
+	* idcsScimCompliant: false
+	* idcsSensitive: hash_sc
 * `status` - The user's credential status.
 
 	**Added In:** 2109090424
