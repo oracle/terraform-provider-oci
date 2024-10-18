@@ -187,6 +187,10 @@ func (s *IdentityDomainsAuthTokenDataSourceCrud) SetData() error {
 		s.D.Set("tenancy_ocid", *s.Res.TenancyOcid)
 	}
 
+	if s.Res.Token != nil {
+		s.D.Set("token", *s.Res.Token)
+	}
+
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser != nil {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionself_change_user", []interface{}{ExtensionSelfChangeUserToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser)})
 	} else {
