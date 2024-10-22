@@ -49,6 +49,11 @@ type SystemFormatResourceTypeMetadataDetails struct {
 	// supported values can be restricted to be either Linux or Windows.
 	// Example: `{ "osType": ["Linux","Windows","Solaris"]}`
 	ValidPropertyValues map[string][]string `mandatory:"false" json:"validPropertyValues"`
+
+	// List of valid sub-resource types for a composite resource type.
+	// The sub-resource types will be obtained from the valid association pairs corresponding to the composite resource types.
+	// It will be empty for non composite resource types
+	ValidSubResourceTypes []string `mandatory:"false" json:"validSubResourceTypes"`
 }
 
 func (m SystemFormatResourceTypeMetadataDetails) String() string {

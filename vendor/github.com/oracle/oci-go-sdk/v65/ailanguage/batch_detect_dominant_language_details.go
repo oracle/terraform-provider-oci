@@ -23,6 +23,9 @@ type BatchDetectDominantLanguageDetails struct {
 	// List of Documents for detect language.
 	Documents []DominantLanguageDocument `mandatory:"true" json:"documents"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// Specifies whether to consider or ignore transliteration. For example "hi, aap kaise ho? sab kuch teek hai? I will call you tomorrow." would be detected as English when ignore transliteration=true, Hindi when ignoreTransliteration=false.
 	ShouldIgnoreTransliteration *bool `mandatory:"false" json:"shouldIgnoreTransliteration"`
 

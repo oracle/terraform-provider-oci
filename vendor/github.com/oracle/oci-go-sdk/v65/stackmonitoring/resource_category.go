@@ -18,24 +18,27 @@ type ResourceCategoryEnum string
 
 // Set of constants representing the allowable values for ResourceCategoryEnum
 const (
-	ResourceCategoryApplication ResourceCategoryEnum = "APPLICATION"
-	ResourceCategoryDatabase    ResourceCategoryEnum = "DATABASE"
-	ResourceCategoryMiddleware  ResourceCategoryEnum = "MIDDLEWARE"
-	ResourceCategoryUnknown     ResourceCategoryEnum = "UNKNOWN"
+	ResourceCategoryApplication    ResourceCategoryEnum = "APPLICATION"
+	ResourceCategoryDatabase       ResourceCategoryEnum = "DATABASE"
+	ResourceCategoryMiddleware     ResourceCategoryEnum = "MIDDLEWARE"
+	ResourceCategoryInfrastructure ResourceCategoryEnum = "INFRASTRUCTURE"
+	ResourceCategoryUnknown        ResourceCategoryEnum = "UNKNOWN"
 )
 
 var mappingResourceCategoryEnum = map[string]ResourceCategoryEnum{
-	"APPLICATION": ResourceCategoryApplication,
-	"DATABASE":    ResourceCategoryDatabase,
-	"MIDDLEWARE":  ResourceCategoryMiddleware,
-	"UNKNOWN":     ResourceCategoryUnknown,
+	"APPLICATION":    ResourceCategoryApplication,
+	"DATABASE":       ResourceCategoryDatabase,
+	"MIDDLEWARE":     ResourceCategoryMiddleware,
+	"INFRASTRUCTURE": ResourceCategoryInfrastructure,
+	"UNKNOWN":        ResourceCategoryUnknown,
 }
 
 var mappingResourceCategoryEnumLowerCase = map[string]ResourceCategoryEnum{
-	"application": ResourceCategoryApplication,
-	"database":    ResourceCategoryDatabase,
-	"middleware":  ResourceCategoryMiddleware,
-	"unknown":     ResourceCategoryUnknown,
+	"application":    ResourceCategoryApplication,
+	"database":       ResourceCategoryDatabase,
+	"middleware":     ResourceCategoryMiddleware,
+	"infrastructure": ResourceCategoryInfrastructure,
+	"unknown":        ResourceCategoryUnknown,
 }
 
 // GetResourceCategoryEnumValues Enumerates the set of values for ResourceCategoryEnum
@@ -53,6 +56,7 @@ func GetResourceCategoryEnumStringValues() []string {
 		"APPLICATION",
 		"DATABASE",
 		"MIDDLEWARE",
+		"INFRASTRUCTURE",
 		"UNKNOWN",
 	}
 }

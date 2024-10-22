@@ -21,13 +21,14 @@ import (
 	"strings"
 )
 
-// QosMappings List of QosMappings consisting of DSCP values with their respective ClassOfService. Eg {43 - PREMIUM}
+// QosMappings A list of `QosMappings` objects which consist of Differentiated Services Code Point (DSCP) values and a respective `ClassOfService` or priority queue. See the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) documentation.
+// Example: `{43 - PREMIUM}`
 type QosMappings struct {
 
-	// Differentiated Services Code Point(DSCP) Values for QoS. DSCP uses the 6 bits, thereby giving 2^6 = 64 different values (0 to 63)
+	// DSCP values to use with QoS. DSCP uses 6 bits in the IP packet header, thereby giving 2^6 = 64 possible values (0 to 63). See RFC 4594 (https://datatracker.ietf.org/doc/html/rfc4594).
 	DscpValues []int `mandatory:"true" json:"dscpValues"`
 
-	// The type of Class Of Service for each DSCP values. PREMIUM (P1), DEFAULT (P2), BULK (P3), SCAVENGER (P4)
+	// The type of Class Of Service or QoS queue for each DSCP value. `PREMIUM` (P1), `DEFAULT` (P2), `BULK` (P3), `SCAVENGER` (P4)
 	ClassOfService QosMappingsClassOfServiceEnum `mandatory:"true" json:"classOfService"`
 }
 

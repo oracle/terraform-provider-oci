@@ -36,6 +36,9 @@ type CreateResponderRecipeDetails struct {
 	// List of responder rules to override from source responder recipe
 	ResponderRules []UpdateResponderRecipeResponderRule `mandatory:"false" json:"responderRules"`
 
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.

@@ -24,7 +24,7 @@ type Library struct {
 	// The OCID of a compartment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The provision identifier that is immutable on creation.
+	// The OCID of the Compute Cluster.
 	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
 
 	// The Library type.

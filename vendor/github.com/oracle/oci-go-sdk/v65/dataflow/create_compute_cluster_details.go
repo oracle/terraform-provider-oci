@@ -78,7 +78,7 @@ type CreateComputeClusterDetails struct {
 	SparkAdvancedConfigurations map[string]string `mandatory:"false" json:"sparkAdvancedConfigurations"`
 
 	// Optional timeout value in minutes used to auto stop Compute Clusters. A cluster will be auto stopped after inactivity for this amount of time period.
-	// If value not set, the cluster will not be auto stopped.
+	// If this value is not set, the cluster will not be auto stopped.
 	IdleComputeClusterTimeoutInMinutes *int `mandatory:"false" json:"idleComputeClusterTimeoutInMinutes"`
 
 	// WorkspaceKey of the cluster.

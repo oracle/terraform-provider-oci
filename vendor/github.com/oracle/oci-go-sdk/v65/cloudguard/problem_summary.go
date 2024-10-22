@@ -70,6 +70,9 @@ type ProblemSummary struct {
 	// Unique target identifier associated with the problem
 	TargetId *string `mandatory:"false" json:"targetId"`
 
+	// Indicates if problem was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 }
@@ -95,6 +98,9 @@ func (m ProblemSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingDetectorEnumEnum(string(m.DetectorId)); !ok && m.DetectorId != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DetectorId: %s. Supported values are: %s.", m.DetectorId, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

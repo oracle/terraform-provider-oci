@@ -39,6 +39,12 @@ type CreateDetectorRecipeDetails struct {
 	// Detector rules to override from source detector recipe
 	DetectorRules []UpdateDetectorRecipeDetectorRule `mandatory:"false" json:"detectorRules"`
 
+	// Indicates if detector recipe was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
@@ -61,6 +67,9 @@ func (m CreateDetectorRecipeDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDetectorEnumEnum(string(m.Detector)); !ok && m.Detector != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Detector: %s. Supported values are: %s.", m.Detector, strings.Join(GetDetectorEnumEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

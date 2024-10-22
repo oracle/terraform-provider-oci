@@ -3043,7 +3043,8 @@ func (client VirtualNetworkClient) changePublicIpPoolCompartment(ctx context.Con
 	return response, err
 }
 
-// ChangeQosTemplateCompartment Moves a Quality of Service template into a different compartment within the same tenancy. For information | about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes). When provided, If-Match is checked against ETag values of the resource.
+// ChangeQosTemplateCompartment Moves a Quality of Service (QoS) template into a different compartment within the same tenancy. For information about moving resources between compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+// When provided, the `if-match` parameter is checked against ETag values of the resource.
 // A default retry strategy applies to this operation ChangeQosTemplateCompartment()
 func (client VirtualNetworkClient) ChangeQosTemplateCompartment(ctx context.Context, request ChangeQosTemplateCompartmentRequest) (response ChangeQosTemplateCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7589,7 +7590,7 @@ func (client VirtualNetworkClient) createPublicIpPool(ctx context.Context, reque
 	return response, err
 }
 
-// CreateQosTemplate Creates a Quality of Service template. There can be only one Quality of Service template for a tenancy.
+// CreateQosTemplate Creates a Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template. There can be only one QoS template for a tenancy.
 // A default retry strategy applies to this operation CreateQosTemplate()
 func (client VirtualNetworkClient) CreateQosTemplate(ctx context.Context, request CreateQosTemplateRequest) (response CreateQosTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -11610,7 +11611,7 @@ func (client VirtualNetworkClient) deletePublicIpPool(ctx context.Context, reque
 	return response, err
 }
 
-// DeleteQosTemplate A Quality of Service template is deleted and does not appear in the results of a `ListQosTemplates` operation and can't be used in a `GetQosTemplate` operation.
+// DeleteQosTemplate A Quality of Service (QoS) template is deleted and no longer appears in the results of a `ListQosTemplates` operation and can't be used in a `GetQosTemplate` operation.
 func (client VirtualNetworkClient) DeleteQosTemplate(ctx context.Context, request DeleteQosTemplateRequest) (response DeleteQosTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -18510,6 +18511,71 @@ func (client VirtualNetworkClient) getNetworkSecurityGroup(ctx context.Context, 
 	return response, err
 }
 
+// GetNetworkSecurityGroups Get Network Security Groups
+func (client VirtualNetworkClient) GetNetworkSecurityGroups(ctx context.Context, request GetNetworkSecurityGroupsRequest) (response GetNetworkSecurityGroupsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getNetworkSecurityGroups, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetNetworkSecurityGroupsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetNetworkSecurityGroupsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetNetworkSecurityGroupsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetNetworkSecurityGroupsResponse")
+	}
+	return
+}
+
+// getNetworkSecurityGroups implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getNetworkSecurityGroups(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internal/networkSecurityGroups/actions/getNetworkSecurityGroups", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetNetworkSecurityGroupsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroupDetails/GetNetworkSecurityGroups"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetNetworkSecurityGroups", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNetworkingTopology Gets a virtual networking topology for the current region.
 func (client VirtualNetworkClient) GetNetworkingTopology(ctx context.Context, request GetNetworkingTopologyRequest) (response GetNetworkingTopologyResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -19265,7 +19331,7 @@ func (client VirtualNetworkClient) getPublicIpPool(ctx context.Context, request 
 	return response, err
 }
 
-// GetQosTemplate Gets information for a specified Quality of Service template.
+// GetQosTemplate Gets information for a specified QoS template.
 // A default retry strategy applies to this operation GetQosTemplate()
 func (client VirtualNetworkClient) GetQosTemplate(ctx context.Context, request GetQosTemplateRequest) (response GetQosTemplateResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -21168,7 +21234,7 @@ func (client VirtualNetworkClient) getZprNetworkSecurityGroups(ctx context.Conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ZprNetworkSecurityGroupDetails/GetZprNetworkSecurityGroups"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroupDetails/GetZprNetworkSecurityGroups"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetZprNetworkSecurityGroups", apiReferenceLink)
 		return response, err
 	}
@@ -25596,7 +25662,7 @@ func (client VirtualNetworkClient) listPublicIps(ctx context.Context, request co
 	return response, err
 }
 
-// ListQosBandwidthReservationTemplateShapes The operation lists available FastConnect Quality of Service bandwidth reservation template names which can be associated with the virtual circuits. For the compartment ID, provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy (the root compartment).
+// ListQosBandwidthReservationTemplateShapes The operation lists available Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template names which can be associated with virtual circuits. For the compartment ID, you can provide the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of your tenancy's root compartment.
 // A default retry strategy applies to this operation ListQosBandwidthReservationTemplateShapes()
 func (client VirtualNetworkClient) ListQosBandwidthReservationTemplateShapes(ctx context.Context, request ListQosBandwidthReservationTemplateShapesRequest) (response ListQosBandwidthReservationTemplateShapesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25657,7 +25723,7 @@ func (client VirtualNetworkClient) listQosBandwidthReservationTemplateShapes(ctx
 	return response, err
 }
 
-// ListQosTemplates Lists the Quality of Service template in the specified compartment. There will be a single Quality of Service template in a given compartment.
+// ListQosTemplates Lists the Quality of Service (QoS) templates in the specified compartment. There will be a single Quality of Service template in a given root compartment or tenancy.
 // A default retry strategy applies to this operation ListQosTemplates()
 func (client VirtualNetworkClient) ListQosTemplates(ctx context.Context, request ListQosTemplatesRequest) (response ListQosTemplatesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -26639,7 +26705,7 @@ func (client VirtualNetworkClient) listVirtualCircuitBandwidthShapes(ctx context
 	return response, err
 }
 
-// ListVirtualCircuitErrors Lists the identified errors for the specified Virtual Circuit ID.
+// ListVirtualCircuitErrors Lists the identified errors for the specified virtual circuit ID.
 // A default retry strategy applies to this operation ListVirtualCircuitErrors()
 func (client VirtualNetworkClient) ListVirtualCircuitErrors(ctx context.Context, request ListVirtualCircuitErrorsRequest) (response ListVirtualCircuitErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -31378,6 +31444,72 @@ func (client VirtualNetworkClient) updateInternalDnsRecord(ctx context.Context, 
 	return response, err
 }
 
+// UpdateInternalDnsResolverConfig Request to update an internal dns resolver config
+// A default retry strategy applies to this operation UpdateInternalDnsResolverConfig()
+func (client VirtualNetworkClient) UpdateInternalDnsResolverConfig(ctx context.Context, request UpdateInternalDnsResolverConfigRequest) (response UpdateInternalDnsResolverConfigResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalDnsResolverConfig, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalDnsResolverConfigResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalDnsResolverConfigResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalDnsResolverConfigResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalDnsResolverConfigResponse")
+	}
+	return
+}
+
+// updateInternalDnsResolverConfig implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalDnsResolverConfig(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalDnsResolverConfigs/{internalDnsResolverId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateInternalDnsResolverConfigResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalDnsResolverConfig/UpdateInternalDnsResolverConfig"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalDnsResolverConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateInternalDrg Updates the specified DRG's display name or tags. Avoid entering confidential information.
 func (client VirtualNetworkClient) UpdateInternalDrg(ctx context.Context, request UpdateInternalDrgRequest) (response UpdateInternalDrgResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -32920,7 +33052,7 @@ func (client VirtualNetworkClient) updatePublicIpPool(ctx context.Context, reque
 	return response, err
 }
 
-// UpdateQosTemplate Updates the specified QosTemplate's display name or definedTags or freeformTags or qosMappings.Avoid entering confidential information.Note that the qosMappings` object you provide replaces the entire existing set of qosMappings.
+// UpdateQosTemplate Updates the specified `QosTemplate`'s display name, `definedTags`, `freeformTags`, or `qosMappings`. Avoid entering confidential information. Note that the `qosMappings` object you provide replaces the entire existing set of `qosMappings`.
 // A default retry strategy applies to this operation UpdateQosTemplate()
 func (client VirtualNetworkClient) UpdateQosTemplate(ctx context.Context, request UpdateQosTemplateRequest) (response UpdateQosTemplateResponse, err error) {
 	var ociResponse common.OCIResponse

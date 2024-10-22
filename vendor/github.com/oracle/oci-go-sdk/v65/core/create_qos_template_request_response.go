@@ -14,7 +14,7 @@ import (
 // CreateQosTemplateRequest wrapper for the CreateQosTemplate operation
 type CreateQosTemplateRequest struct {
 
-	// Details for creating a Quality of Service template.
+	// Details for creating a QoS template.
 	CreateQosTemplateDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

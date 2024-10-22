@@ -47,6 +47,9 @@ type SecurityZoneSummary struct {
 	// A message describing the current state in more detail. For example, this can be used to provide actionable information for a zone in the `Failed` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.

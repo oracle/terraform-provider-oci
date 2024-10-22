@@ -21,11 +21,11 @@ import (
 	"strings"
 )
 
-// ChangeQosTemplateCompartmentDetails This structure is used when changing Quality of Service template compartment.
+// ChangeQosTemplateCompartmentDetails This structure is used when moving the QoS template to another compartment.
 type ChangeQosTemplateCompartmentDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to move the
-	// Quality of Service template to.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the destination compartment for the
+	// QoS template.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 }
 

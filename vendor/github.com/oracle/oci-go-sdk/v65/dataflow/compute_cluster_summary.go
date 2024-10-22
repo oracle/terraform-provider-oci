@@ -18,7 +18,7 @@ import (
 // ComputeClusterSummary A summary of a Compute Cluster.
 type ComputeClusterSummary struct {
 
-	// The provision identifier that is immutable on creation.
+	// The OCID of the Compute Cluster.
 	Id *string `mandatory:"true" json:"id"`
 
 	// The Compute Cluster name, which can be changed.
@@ -36,8 +36,11 @@ type ComputeClusterSummary struct {
 	// The description of the Compute Cluster.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The username of the user who created the cluster.
+	// The ocid of the user who created the cluster.
 	CreatedBy *string `mandatory:"false" json:"createdBy"`
+
+	// The username of the user who created the cluster.
+	CreatedByName *string `mandatory:"false" json:"createdByName"`
 
 	// The time the Compute Cluster was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -104,7 +107,7 @@ type ComputeClusterSummary struct {
 	SparkAdvancedConfigurations map[string]string `mandatory:"false" json:"sparkAdvancedConfigurations"`
 
 	// Optional timeout value in minutes used to auto stop Compute Clusters. A cluster will be auto stopped after inactivity for this amount of time period.
-	// If value not set, the cluster will not be auto stopped.
+	// If this value is not set, the cluster will not be auto stopped.
 	IdleComputeClusterTimeoutInMinutes *int `mandatory:"false" json:"idleComputeClusterTimeoutInMinutes"`
 }
 

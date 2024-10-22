@@ -158,11 +158,11 @@ type CustomClientConfiguration struct {
 	RealmSpecificServiceEndpointTemplateEnabled *bool
 
 	// Allows user to decide if they want to use dual stack endpoints
-	enableDualStackEndpoints *bool
+	EnableDualStackEndpoints *bool
 
 	// Set on creation of the client, based on the below flag from the service spec
 	// x-obmcs-endpoint-template-options: dualStack: true/false
-	serviceUsesDualStackByDefault *bool
+	ServiceUsesDualStackByDefault *bool
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -219,7 +219,7 @@ func UpdateEndpointTemplateForOptions(client *BaseClient) {
 		// Option case: Dual Stack Endpoints
 		if strings.Contains(option, dualStackOption) {
 			dualStackEnvVarValue := os.Getenv(ociDualStackEndpointEnabledEnvVar)
-			if *client.Configuration.serviceUsesDualStackByDefault {
+			if client.IsServiceDualStackEnabledByDefault() {
 				if !client.IsDualStackEndpointEnabled() || (dualStackEnvVarValue != "" && strings.ToLower(dualStackEnvVarValue) == "false") {
 					optionParam = optionDisabledParam
 				} else {
@@ -239,18 +239,23 @@ func UpdateEndpointTemplateForOptions(client *BaseClient) {
 
 // UseDualStackEndpointsByDefault sets whether dual stack endpoints are used by default
 func (client *BaseClient) UseDualStackEndpointsByDefault(useByDefault bool) {
-	client.Configuration.enableDualStackEndpoints = &useByDefault
-	client.Configuration.serviceUsesDualStackByDefault = &useByDefault
+	client.Configuration.EnableDualStackEndpoints = &useByDefault
+	client.Configuration.ServiceUsesDualStackByDefault = &useByDefault
 }
 
 // EnableDualStackEndpoints sets whether dual stack endpoints should be used for this client
 func (client *BaseClient) EnableDualStackEndpoints(EnableDualStack bool) {
-	client.Configuration.enableDualStackEndpoints = &EnableDualStack
+	client.Configuration.EnableDualStackEndpoints = &EnableDualStack
 }
 
 // IsDualStackEndpointEnabled is used to check if Dual Stack Endpoints are Enabled
 func (client *BaseClient) IsDualStackEndpointEnabled() bool {
-	return *client.Configuration.enableDualStackEndpoints
+	return client.Configuration.EnableDualStackEndpoints != nil && *client.Configuration.EnableDualStackEndpoints
+}
+
+// IsServiceDualStackEnabledByDefault is used to check if Dual Stack Endpoints enabled by default for the service of the client
+func (client *BaseClient) IsServiceDualStackEnabledByDefault() bool {
+	return client.Configuration.ServiceUsesDualStackByDefault != nil && *client.Configuration.ServiceUsesDualStackByDefault
 }
 
 func defaultUserAgent() string {

@@ -51,6 +51,21 @@ type CreateTargetDetails struct {
 
 	TargetDetails CreateTargetAdditionalDetails `mandatory:"false" json:"targetDetails"`
 
+	// Governing tenant ID from governance target
+	GovernanceTenantId *string `mandatory:"false" json:"governanceTenantId"`
+
+	// Target ID from governance target
+	GovernanceTargetId *string `mandatory:"false" json:"governanceTargetId"`
+
+	// Compartment ID from governance target
+	GovernanceTargetCompartmentId *string `mandatory:"false" json:"governanceTargetCompartmentId"`
+
+	// Indicates if target was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
+	// List of locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
@@ -77,6 +92,9 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -86,18 +104,23 @@ func (m CreateTargetDetails) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description              *string                              `json:"description"`
-		TargetDetectorRecipes    []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
-		TargetResponderRecipes   []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
-		LifecycleState           LifecycleStateEnum                   `json:"lifecycleState"`
-		DoesEmitProblemsToEvents *bool                                `json:"doesEmitProblemsToEvents"`
-		TargetDetails            createtargetadditionaldetails        `json:"targetDetails"`
-		FreeformTags             map[string]string                    `json:"freeformTags"`
-		DefinedTags              map[string]map[string]interface{}    `json:"definedTags"`
-		DisplayName              *string                              `json:"displayName"`
-		CompartmentId            *string                              `json:"compartmentId"`
-		TargetResourceType       TargetResourceTypeEnum               `json:"targetResourceType"`
-		TargetResourceId         *string                              `json:"targetResourceId"`
+		Description                   *string                              `json:"description"`
+		TargetDetectorRecipes         []CreateTargetDetectorRecipeDetails  `json:"targetDetectorRecipes"`
+		TargetResponderRecipes        []CreateTargetResponderRecipeDetails `json:"targetResponderRecipes"`
+		LifecycleState                LifecycleStateEnum                   `json:"lifecycleState"`
+		DoesEmitProblemsToEvents      *bool                                `json:"doesEmitProblemsToEvents"`
+		TargetDetails                 createtargetadditionaldetails        `json:"targetDetails"`
+		GovernanceTenantId            *string                              `json:"governanceTenantId"`
+		GovernanceTargetId            *string                              `json:"governanceTargetId"`
+		GovernanceTargetCompartmentId *string                              `json:"governanceTargetCompartmentId"`
+		ManageType                    ManageTypeEnum                       `json:"manageType"`
+		Locks                         []ResourceLock                       `json:"locks"`
+		FreeformTags                  map[string]string                    `json:"freeformTags"`
+		DefinedTags                   map[string]map[string]interface{}    `json:"definedTags"`
+		DisplayName                   *string                              `json:"displayName"`
+		CompartmentId                 *string                              `json:"compartmentId"`
+		TargetResourceType            TargetResourceTypeEnum               `json:"targetResourceType"`
+		TargetResourceId              *string                              `json:"targetResourceId"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -125,6 +148,16 @@ func (m *CreateTargetDetails) UnmarshalJSON(data []byte) (e error) {
 		m.TargetDetails = nil
 	}
 
+	m.GovernanceTenantId = model.GovernanceTenantId
+
+	m.GovernanceTargetId = model.GovernanceTargetId
+
+	m.GovernanceTargetCompartmentId = model.GovernanceTargetCompartmentId
+
+	m.ManageType = model.ManageType
+
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.FreeformTags = model.FreeformTags
 
 	m.DefinedTags = model.DefinedTags

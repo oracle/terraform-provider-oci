@@ -14,10 +14,10 @@ import (
 // ChangeQosTemplateCompartmentRequest wrapper for the ChangeQosTemplateCompartment operation
 type ChangeQosTemplateCompartmentRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service template.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template.
 	QosTemplateId *string `mandatory:"true" contributesTo:"path" name:"qosTemplateId"`
 
-	// Request to change the compartment of a Quality of Service template.
+	// Request to change the compartment of a QoS template.
 	ChangeQosTemplateCompartmentDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

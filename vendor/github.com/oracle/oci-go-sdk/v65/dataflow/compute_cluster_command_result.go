@@ -10,7 +10,6 @@
 package dataflow
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -25,7 +24,8 @@ type ComputeClusterCommandResult struct {
 	// Cause of the error.
 	Cause *string `mandatory:"false" json:"cause"`
 
-	Data ComputeClusterCommandOutputData `mandatory:"false" json:"data"`
+	// Array of output objects
+	Data []CommandOutputData `mandatory:"false" json:"data"`
 }
 
 func (m ComputeClusterCommandResult) String() string {
@@ -42,34 +42,4 @@ func (m ComputeClusterCommandResult) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// UnmarshalJSON unmarshals from json
-func (m *ComputeClusterCommandResult) UnmarshalJSON(data []byte) (e error) {
-	model := struct {
-		Summary *string                         `json:"summary"`
-		Cause   *string                         `json:"cause"`
-		Data    computeclustercommandoutputdata `json:"data"`
-	}{}
-
-	e = json.Unmarshal(data, &model)
-	if e != nil {
-		return
-	}
-	var nn interface{}
-	m.Summary = model.Summary
-
-	m.Cause = model.Cause
-
-	nn, e = model.Data.UnmarshalPolymorphicJSON(model.Data.JsonData)
-	if e != nil {
-		return
-	}
-	if nn != nil {
-		m.Data = nn.(ComputeClusterCommandOutputData)
-	} else {
-		m.Data = nil
-	}
-
-	return
 }

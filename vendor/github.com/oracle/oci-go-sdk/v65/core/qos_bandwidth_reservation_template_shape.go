@@ -21,11 +21,11 @@ import (
 	"strings"
 )
 
-// QosBandwidthReservationTemplateShape An individual FastConnect Quality of Service bandwidth reservation template which can be associated with the virtual circuits.
+// QosBandwidthReservationTemplateShape An individual Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template to associate with virtual circuits.
 type QosBandwidthReservationTemplateShape struct {
 
-	// The name of the FastConnect Quality of Service Bandwidth reservation template.
-	// Template Naming Convention: FC_QoS_<bandwidth premium>_<bandwidth default>_<bandwidth bulk>_<bandwidth scavenger>.
+	// The name of the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation template.
+	// The template naming convention reflects the percentage of bandwidth to allocate to each queue: FC_QoS_\<premium bandwidth\>_\<default bandwidth\>_\<bulk bandwidth\>_\<scavenger bandwidth\>.
 	// Example: `FC_QoS_25_25_25_20`.
 	Name *string `mandatory:"true" json:"name"`
 }

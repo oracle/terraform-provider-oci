@@ -20,27 +20,30 @@ type ResourceTypesEnum string
 
 // Set of constants representing the allowable values for ResourceTypesEnum
 const (
-	ResourceTypesExacc                    ResourceTypesEnum = "EXACC"
-	ResourceTypesExadatainfrastructure    ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
-	ResourceTypesAutonomousvmcluster      ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
-	ResourceTypesCloudautonomousvmcluster ResourceTypesEnum = "CLOUDAUTONOMOUSVMCLUSTER"
-	ResourceTypesCccinfrastructure        ResourceTypesEnum = "CCCINFRASTRUCTURE"
+	ResourceTypesExacc                      ResourceTypesEnum = "EXACC"
+	ResourceTypesExadatainfrastructure      ResourceTypesEnum = "EXADATAINFRASTRUCTURE"
+	ResourceTypesAutonomousvmcluster        ResourceTypesEnum = "AUTONOMOUSVMCLUSTER"
+	ResourceTypesCloudautonomousvmcluster   ResourceTypesEnum = "CLOUDAUTONOMOUSVMCLUSTER"
+	ResourceTypesCccinfrastructure          ResourceTypesEnum = "CCCINFRASTRUCTURE"
+	ResourceTypesCloudexadatainfrastructure ResourceTypesEnum = "CLOUDEXADATAINFRASTRUCTURE"
 )
 
 var mappingResourceTypesEnum = map[string]ResourceTypesEnum{
-	"EXACC":                    ResourceTypesExacc,
-	"EXADATAINFRASTRUCTURE":    ResourceTypesExadatainfrastructure,
-	"AUTONOMOUSVMCLUSTER":      ResourceTypesAutonomousvmcluster,
-	"CLOUDAUTONOMOUSVMCLUSTER": ResourceTypesCloudautonomousvmcluster,
-	"CCCINFRASTRUCTURE":        ResourceTypesCccinfrastructure,
+	"EXACC":                      ResourceTypesExacc,
+	"EXADATAINFRASTRUCTURE":      ResourceTypesExadatainfrastructure,
+	"AUTONOMOUSVMCLUSTER":        ResourceTypesAutonomousvmcluster,
+	"CLOUDAUTONOMOUSVMCLUSTER":   ResourceTypesCloudautonomousvmcluster,
+	"CCCINFRASTRUCTURE":          ResourceTypesCccinfrastructure,
+	"CLOUDEXADATAINFRASTRUCTURE": ResourceTypesCloudexadatainfrastructure,
 }
 
 var mappingResourceTypesEnumLowerCase = map[string]ResourceTypesEnum{
-	"exacc":                    ResourceTypesExacc,
-	"exadatainfrastructure":    ResourceTypesExadatainfrastructure,
-	"autonomousvmcluster":      ResourceTypesAutonomousvmcluster,
-	"cloudautonomousvmcluster": ResourceTypesCloudautonomousvmcluster,
-	"cccinfrastructure":        ResourceTypesCccinfrastructure,
+	"exacc":                      ResourceTypesExacc,
+	"exadatainfrastructure":      ResourceTypesExadatainfrastructure,
+	"autonomousvmcluster":        ResourceTypesAutonomousvmcluster,
+	"cloudautonomousvmcluster":   ResourceTypesCloudautonomousvmcluster,
+	"cccinfrastructure":          ResourceTypesCccinfrastructure,
+	"cloudexadatainfrastructure": ResourceTypesCloudexadatainfrastructure,
 }
 
 // GetResourceTypesEnumValues Enumerates the set of values for ResourceTypesEnum
@@ -60,6 +63,7 @@ func GetResourceTypesEnumStringValues() []string {
 		"AUTONOMOUSVMCLUSTER",
 		"CLOUDAUTONOMOUSVMCLUSTER",
 		"CCCINFRASTRUCTURE",
+		"CLOUDEXADATAINFRASTRUCTURE",
 	}
 }
 

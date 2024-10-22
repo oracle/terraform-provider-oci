@@ -27,6 +27,9 @@ type CreateRepositoryDisasterRecoverySettingsDetails struct {
 	// Setting name (case-sensitive).
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// The List of compartment not included in the Disaster Recovery Plan.
+	ExcludeCompartments []string `mandatory:"false" json:"excludeCompartments"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm). Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
 

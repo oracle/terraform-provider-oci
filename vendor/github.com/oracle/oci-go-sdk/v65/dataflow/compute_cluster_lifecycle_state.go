@@ -18,39 +18,45 @@ type ComputeClusterLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ComputeClusterLifecycleStateEnum
 const (
-	ComputeClusterLifecycleStateAccepted ComputeClusterLifecycleStateEnum = "ACCEPTED"
-	ComputeClusterLifecycleStateCreating ComputeClusterLifecycleStateEnum = "CREATING"
-	ComputeClusterLifecycleStateActive   ComputeClusterLifecycleStateEnum = "ACTIVE"
-	ComputeClusterLifecycleStateDeleting ComputeClusterLifecycleStateEnum = "DELETING"
-	ComputeClusterLifecycleStateDeleted  ComputeClusterLifecycleStateEnum = "DELETED"
-	ComputeClusterLifecycleStateFailed   ComputeClusterLifecycleStateEnum = "FAILED"
-	ComputeClusterLifecycleStateStopping ComputeClusterLifecycleStateEnum = "STOPPING"
-	ComputeClusterLifecycleStateStopped  ComputeClusterLifecycleStateEnum = "STOPPED"
-	ComputeClusterLifecycleStateUpdating ComputeClusterLifecycleStateEnum = "UPDATING"
+	ComputeClusterLifecycleStateAccepted   ComputeClusterLifecycleStateEnum = "ACCEPTED"
+	ComputeClusterLifecycleStateCreating   ComputeClusterLifecycleStateEnum = "CREATING"
+	ComputeClusterLifecycleStateActive     ComputeClusterLifecycleStateEnum = "ACTIVE"
+	ComputeClusterLifecycleStateDeleting   ComputeClusterLifecycleStateEnum = "DELETING"
+	ComputeClusterLifecycleStateDeleted    ComputeClusterLifecycleStateEnum = "DELETED"
+	ComputeClusterLifecycleStateFailed     ComputeClusterLifecycleStateEnum = "FAILED"
+	ComputeClusterLifecycleStateStopping   ComputeClusterLifecycleStateEnum = "STOPPING"
+	ComputeClusterLifecycleStateStopped    ComputeClusterLifecycleStateEnum = "STOPPED"
+	ComputeClusterLifecycleStateUpdating   ComputeClusterLifecycleStateEnum = "UPDATING"
+	ComputeClusterLifecycleStateStarting   ComputeClusterLifecycleStateEnum = "STARTING"
+	ComputeClusterLifecycleStateRestarting ComputeClusterLifecycleStateEnum = "RESTARTING"
 )
 
 var mappingComputeClusterLifecycleStateEnum = map[string]ComputeClusterLifecycleStateEnum{
-	"ACCEPTED": ComputeClusterLifecycleStateAccepted,
-	"CREATING": ComputeClusterLifecycleStateCreating,
-	"ACTIVE":   ComputeClusterLifecycleStateActive,
-	"DELETING": ComputeClusterLifecycleStateDeleting,
-	"DELETED":  ComputeClusterLifecycleStateDeleted,
-	"FAILED":   ComputeClusterLifecycleStateFailed,
-	"STOPPING": ComputeClusterLifecycleStateStopping,
-	"STOPPED":  ComputeClusterLifecycleStateStopped,
-	"UPDATING": ComputeClusterLifecycleStateUpdating,
+	"ACCEPTED":   ComputeClusterLifecycleStateAccepted,
+	"CREATING":   ComputeClusterLifecycleStateCreating,
+	"ACTIVE":     ComputeClusterLifecycleStateActive,
+	"DELETING":   ComputeClusterLifecycleStateDeleting,
+	"DELETED":    ComputeClusterLifecycleStateDeleted,
+	"FAILED":     ComputeClusterLifecycleStateFailed,
+	"STOPPING":   ComputeClusterLifecycleStateStopping,
+	"STOPPED":    ComputeClusterLifecycleStateStopped,
+	"UPDATING":   ComputeClusterLifecycleStateUpdating,
+	"STARTING":   ComputeClusterLifecycleStateStarting,
+	"RESTARTING": ComputeClusterLifecycleStateRestarting,
 }
 
 var mappingComputeClusterLifecycleStateEnumLowerCase = map[string]ComputeClusterLifecycleStateEnum{
-	"accepted": ComputeClusterLifecycleStateAccepted,
-	"creating": ComputeClusterLifecycleStateCreating,
-	"active":   ComputeClusterLifecycleStateActive,
-	"deleting": ComputeClusterLifecycleStateDeleting,
-	"deleted":  ComputeClusterLifecycleStateDeleted,
-	"failed":   ComputeClusterLifecycleStateFailed,
-	"stopping": ComputeClusterLifecycleStateStopping,
-	"stopped":  ComputeClusterLifecycleStateStopped,
-	"updating": ComputeClusterLifecycleStateUpdating,
+	"accepted":   ComputeClusterLifecycleStateAccepted,
+	"creating":   ComputeClusterLifecycleStateCreating,
+	"active":     ComputeClusterLifecycleStateActive,
+	"deleting":   ComputeClusterLifecycleStateDeleting,
+	"deleted":    ComputeClusterLifecycleStateDeleted,
+	"failed":     ComputeClusterLifecycleStateFailed,
+	"stopping":   ComputeClusterLifecycleStateStopping,
+	"stopped":    ComputeClusterLifecycleStateStopped,
+	"updating":   ComputeClusterLifecycleStateUpdating,
+	"starting":   ComputeClusterLifecycleStateStarting,
+	"restarting": ComputeClusterLifecycleStateRestarting,
 }
 
 // GetComputeClusterLifecycleStateEnumValues Enumerates the set of values for ComputeClusterLifecycleStateEnum
@@ -74,6 +80,8 @@ func GetComputeClusterLifecycleStateEnumStringValues() []string {
 		"STOPPING",
 		"STOPPED",
 		"UPDATING",
+		"STARTING",
+		"RESTARTING",
 	}
 }
 

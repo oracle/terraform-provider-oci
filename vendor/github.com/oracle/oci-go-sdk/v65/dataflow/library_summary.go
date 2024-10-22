@@ -21,7 +21,7 @@ type LibrarySummary struct {
 	// The provision identifier for library.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The provision identifier that is immutable on creation.
+	// The OCID of the Compute Cluster.
 	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
 
 	// The Library type.

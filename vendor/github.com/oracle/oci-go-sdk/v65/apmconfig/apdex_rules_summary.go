@@ -51,6 +51,10 @@ type ApdexRulesSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	Rules []Apdex `mandatory:"false" json:"rules"`
 
 	// The name by which a configuration entity is displayed to the end user.
@@ -95,6 +99,11 @@ func (m ApdexRulesSummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m ApdexRulesSummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m ApdexRulesSummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 func (m ApdexRulesSummary) String() string {

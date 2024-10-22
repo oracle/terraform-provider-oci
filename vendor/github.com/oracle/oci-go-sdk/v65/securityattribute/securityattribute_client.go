@@ -4,7 +4,7 @@
 
 // Security Attribute API
 //
-// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Nampespaces (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
+// Use the Security Attributes API to manage security attributes and security attribute namespaces. For more information, see the documentation for Security Attributes (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attributes.htm) and Security Attribute Namespaces (https://docs.cloud.oracle.com/iaas/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 //
 
 package securityattribute
@@ -103,9 +103,9 @@ func (client *SecurityAttributeClient) ConfigurationProvider() *common.Configura
 // When all security attributes have been removed, the state changes to DELETED. You cannot restore a deleted security attribute. After the security attribute state
 // changes to DELETED, you can use the same security attribute name again.
 //
-// After you start this operation, you cannot start either the DeleteSecurityAttribute or the CascadeDeleteSecurityAttributeNamespace operation until this process completes.
+// After you start this operation, you cannot start either the DeleteSecurityAttribute or the CascadingDeleteSecurityAttributeNamespace operation until this process completes.
 //
-// In order to delete security attribute, you must first retire the security attribute. Use UpdateSecurityAttribute
+// In order to delete security attribute, you must first retire the security attribute. Use UpdateSecurityAttributeNamespace
 // to retire a security attribute.
 // A default retry strategy applies to this operation BulkDeleteSecurityAttributes()
 func (client SecurityAttributeClient) BulkDeleteSecurityAttributes(ctx context.Context, request BulkDeleteSecurityAttributesRequest) (response BulkDeleteSecurityAttributesResponse, err error) {
@@ -156,7 +156,7 @@ func (client SecurityAttributeClient) bulkDeleteSecurityAttributes(ctx context.C
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/BulkDeleteSecurityAttributes"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "BulkDeleteSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -223,7 +223,7 @@ func (client SecurityAttributeClient) bulkEditSecurityAttributes(ctx context.Con
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/BulkEditSecurityAttributes"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "BulkEditSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -295,7 +295,7 @@ func (client SecurityAttributeClient) cascadingDeleteSecurityAttributeNamespace(
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/CascadingDeleteSecurityAttributeNamespace"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CascadingDeleteSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -357,7 +357,7 @@ func (client SecurityAttributeClient) changeSecurityAttributeNamespaceCompartmen
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/ChangeSecurityAttributeNamespaceCompartment"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ChangeSecurityAttributeNamespaceCompartment", apiReferenceLink)
 		return response, err
 	}
@@ -428,7 +428,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/CreateSecurityAttribute"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CreateSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -447,7 +447,7 @@ func (client SecurityAttributeClient) createSecurityAttribute(ctx context.Contex
 // If you specify a name that's already in use in the tenancy, a 409 error is returned.
 // You must also specify a *description* for the namespace.
 // It does not have to be unique, and you can change it with
-// SecurityAttributeNamespace.
+// UpdateSecurityAttributeNamespace.
 // A default retry strategy applies to this operation CreateSecurityAttributeNamespace()
 func (client SecurityAttributeClient) CreateSecurityAttributeNamespace(ctx context.Context, request CreateSecurityAttributeNamespaceRequest) (response CreateSecurityAttributeNamespaceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -497,7 +497,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/CreateSecurityAttributeNamespace"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "CreateSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -513,7 +513,7 @@ func (client SecurityAttributeClient) createSecurityAttributeNamespace(ctx conte
 // were tagged as well as the regions in which those resources reside.
 // When all attributes have been removed, the state changes to DELETED. You cannot restore a deleted attribute. Once the deleted attribute
 // changes its state to DELETED, you can use the same security attribute name again.
-// After you start this operation, you cannot start either the BulkDeleteSecurityAttributes or the CascadeDeleteTagNamespace operation until this process completes.
+// After you start this operation, you cannot start either the BulkDeleteSecurityAttributes or the CascadingDeleteSecurityAttributeNamespace operation until this process completes.
 // To delete a security attribute, you must first retire it. Use UpdateSecurityAttribute
 // to retire a security attribute.
 // A default retry strategy applies to this operation DeleteSecurityAttribute()
@@ -565,7 +565,7 @@ func (client SecurityAttributeClient) deleteSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/DeleteSecurityAttribute"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "DeleteSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -626,7 +626,7 @@ func (client SecurityAttributeClient) deleteSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/DeleteSecurityAttributeNamespace"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "DeleteSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -680,7 +680,7 @@ func (client SecurityAttributeClient) getSecurityAttribute(ctx context.Context, 
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/GetSecurityAttribute"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -734,7 +734,7 @@ func (client SecurityAttributeClient) getSecurityAttributeNamespace(ctx context.
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/GetSecurityAttributeNamespace"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}
@@ -789,7 +789,7 @@ func (client SecurityAttributeClient) getSecurityAttributeWorkRequest(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequest/GetSecurityAttributeWorkRequest"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "GetSecurityAttributeWorkRequest", apiReferenceLink)
 		return response, err
 	}
@@ -843,7 +843,7 @@ func (client SecurityAttributeClient) listSecurityAttributeNamespaces(ctx contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespaceSummary/ListSecurityAttributeNamespaces"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeNamespaces", apiReferenceLink)
 		return response, err
 	}
@@ -897,7 +897,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestErrors(ctx
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestErrorSummary/ListSecurityAttributeWorkRequestErrors"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequestErrors", apiReferenceLink)
 		return response, err
 	}
@@ -951,7 +951,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequestLogs(ctx c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestLogSummary/ListSecurityAttributeWorkRequestLogs"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequestLogs", apiReferenceLink)
 		return response, err
 	}
@@ -1005,7 +1005,7 @@ func (client SecurityAttributeClient) listSecurityAttributeWorkRequests(ctx cont
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeWorkRequestSummary/ListSecurityAttributeWorkRequests"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributeWorkRequests", apiReferenceLink)
 		return response, err
 	}
@@ -1059,7 +1059,7 @@ func (client SecurityAttributeClient) listSecurityAttributes(ctx context.Context
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeSummary/ListSecurityAttributes"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "ListSecurityAttributes", apiReferenceLink)
 		return response, err
 	}
@@ -1118,7 +1118,7 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttribute/UpdateSecurityAttribute"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "UpdateSecurityAttribute", apiReferenceLink)
 		return response, err
 	}
@@ -1131,7 +1131,7 @@ func (client SecurityAttributeClient) updateSecurityAttribute(ctx context.Contex
 // Updating `isRetired` to 'true' retires the namespace and all the security attributes in the namespace. Reactivating a
 // namespace (changing `isRetired` from 'true' to 'false') does not reactivate security attributes.
 // To reactivate the security attributes, you must reactivate each one individually *after* you reactivate the namespace,
-// using UpdateTag. For more information about retiring security attribute namespaces, see
+// using UpdateSecurityAttribute. For more information about retiring security attribute namespaces, see
 // Managing Security Attribute Namespaces (https://docs.cloud.oracle.com/Content/zero-trust-packet-routing/managing-security-attribute-namespaces.htm).
 // You can't add a namespace with the same name as a retired namespace in the same tenancy.
 // A default retry strategy applies to this operation UpdateSecurityAttributeNamespace()
@@ -1183,7 +1183,7 @@ func (client SecurityAttributeClient) updateSecurityAttributeNamespace(ctx conte
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := ""
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/security-attribute/20240815/SecurityAttributeNamespace/UpdateSecurityAttributeNamespace"
 		err = common.PostProcessServiceError(err, "SecurityAttribute", "UpdateSecurityAttributeNamespace", apiReferenceLink)
 		return response, err
 	}

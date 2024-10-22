@@ -74,17 +74,17 @@ type ComputeHost struct {
 	InstanceId *string `mandatory:"false" json:"instanceId"`
 
 	// Additional data that can be exposed to the customer.  Will include raw fault codes for strategic customers
-	AdditionalData *interface{} `mandatory:"false" json:"additionalData"`
+	AdditionalData map[string]interface{} `mandatory:"false" json:"additionalData"`
 
 	// A free-form description detailing why the host is in its current state.
-	LifecycleDetails *interface{} `mandatory:"false" json:"lifecycleDetails"`
+	LifecycleDetails map[string]interface{} `mandatory:"false" json:"lifecycleDetails"`
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the Capacity Reserver that is currently on host
 	CapacityReservationId *string `mandatory:"false" json:"capacityReservationId"`
 
 	// A list that contains impacted components related to an unhealthy host. An impacted component will be a
 	// free-form structure of key values pairs that will provide more or less details based on data tiering
-	ImpactedComponentDetails *interface{} `mandatory:"false" json:"impactedComponentDetails"`
+	ImpactedComponentDetails map[string]interface{} `mandatory:"false" json:"impactedComponentDetails"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
 	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).

@@ -21,22 +21,22 @@ import (
 	"strings"
 )
 
-// QosTemplate Quality of Service template to map DSCP values to respective Class of Services; PREMIUM (P1), DEFAULT (P2), BULK (P3), SCAVENGER (P4).
+// QosTemplate Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template used to map DSCP values to respective QoS queues: `PREMIUM` (P1), `DEFAULT` (P2), `BULK` (P3), or `SCAVENGER` (P4).
 type QosTemplate struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the Quality of Service template.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the QoS template.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The Oracle ID of Quality of Service template (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
+	// The Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) of the QoS template.
 	Id *string `mandatory:"true" json:"id"`
 
-	// The Tenancy's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for which Quality of Service template is applicable.
+	// The Tenancy's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) for which the QoS template is applicable.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// The current state of Quality of Service template.
+	// The current state of the QoS template.
 	LifecycleState QosTemplateLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
-	// List of QosMappings consisting of DSCP values with their respective ClassOfService. Eg {43 - PREMIUM}
+	// List of `QosMappings` which consist of DSCP values and a respective `ClassOfService` or QoS queue. Example: `{43 - PREMIUM}`
 	QosMappings []QosMappings `mandatory:"true" json:"qosMappings"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a
@@ -57,7 +57,7 @@ type QosTemplate struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// The date and time the Quality of Service template was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// The date and time the QoS template was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 }

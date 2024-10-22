@@ -18,7 +18,7 @@ import (
 // LibrarySetDetails The library set info required to patch libraries
 type LibrarySetDetails struct {
 
-	// The provision identifier that is immutable on creation.
+	// The OCID of the Compute Cluster.
 	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
 
 	// The OCID of a compartment.

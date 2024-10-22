@@ -18,7 +18,7 @@ import (
 // ProtectedBranch Holds information used to restrict certain actions on branches
 type ProtectedBranch struct {
 
-	// Branch name inside a repository.
+	// The branchName can either be exact branch name or branch pattern.
 	BranchName *string `mandatory:"true" json:"branchName"`
 
 	// Protection levels to be added on the branch.

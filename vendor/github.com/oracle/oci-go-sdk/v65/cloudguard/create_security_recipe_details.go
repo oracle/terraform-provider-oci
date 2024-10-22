@@ -32,6 +32,9 @@ type CreateSecurityRecipeDetails struct {
 	// The recipe's description
 	Description *string `mandatory:"false" json:"description"`
 
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.

@@ -21,10 +21,10 @@ import (
 	"strings"
 )
 
-// UpdateQosTemplateDetails Updates the specified QosTemplate's display name or definedTags or freeformTags or qosMappings.Avoid entering confidential information.Note that the qosMappings` object you provide replaces the entire existing set of qosMappings.
+// UpdateQosTemplateDetails Updates the specified `QosTemplate`'s display name, `definedTags`, `freeformTags`,  or `qosMappings`. Avoid entering confidential information. Note that the `qosMappings` object you provide replaces the entire existing set of `qosMappings`.
 type UpdateQosTemplateDetails struct {
 
-	// List of QosMappings consisting of DSCP values with their respective ClassOfService. Eg {43 - PREMIUM}
+	// List of `QosMappings` which consist of DSCP values and a respective `ClassOfService` or QoS queue. Example: `{43 - PREMIUM}`
 	QosMappings []QosMappings `mandatory:"false" json:"qosMappings"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

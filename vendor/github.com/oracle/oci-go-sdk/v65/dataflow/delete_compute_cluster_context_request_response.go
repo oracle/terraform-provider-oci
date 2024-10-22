@@ -29,6 +29,9 @@ type DeleteComputeClusterContextRequest struct {
 	// The resource will be updated or deleted only if the etag you provide matches the resource's current etag value.
 	IfMatch *string `mandatory:"false" contributesTo:"header" name:"if-match"`
 
+	// DH User Principal details.
+	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

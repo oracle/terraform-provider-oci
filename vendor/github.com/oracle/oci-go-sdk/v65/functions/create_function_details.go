@@ -51,6 +51,11 @@ type CreateFunctionDetails struct {
 
 	ProvisionedConcurrencyConfig FunctionProvisionedConcurrencyConfig `mandatory:"false" json:"provisionedConcurrencyConfig"`
 
+	// Timeout for detached function invocations. Value in seconds.
+	DetachedModeTimeoutInSeconds *int `mandatory:"false" json:"detachedModeTimeoutInSeconds"`
+
+	FailureDestination FailureDestinationDetails `mandatory:"false" json:"failureDestination"`
+
 	TraceConfig *FunctionTraceConfig `mandatory:"false" json:"traceConfig"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -88,6 +93,8 @@ func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		Config                       map[string]string                    `json:"config"`
 		TimeoutInSeconds             *int                                 `json:"timeoutInSeconds"`
 		ProvisionedConcurrencyConfig functionprovisionedconcurrencyconfig `json:"provisionedConcurrencyConfig"`
+		DetachedModeTimeoutInSeconds *int                                 `json:"detachedModeTimeoutInSeconds"`
+		FailureDestination           failuredestinationdetails            `json:"failureDestination"`
 		TraceConfig                  *FunctionTraceConfig                 `json:"traceConfig"`
 		FreeformTags                 map[string]string                    `json:"freeformTags"`
 		DefinedTags                  map[string]map[string]interface{}    `json:"definedTags"`
@@ -127,6 +134,18 @@ func (m *CreateFunctionDetails) UnmarshalJSON(data []byte) (e error) {
 		m.ProvisionedConcurrencyConfig = nn.(FunctionProvisionedConcurrencyConfig)
 	} else {
 		m.ProvisionedConcurrencyConfig = nil
+	}
+
+	m.DetachedModeTimeoutInSeconds = model.DetachedModeTimeoutInSeconds
+
+	nn, e = model.FailureDestination.UnmarshalPolymorphicJSON(model.FailureDestination.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.FailureDestination = nn.(FailureDestinationDetails)
+	} else {
+		m.FailureDestination = nil
 	}
 
 	m.TraceConfig = model.TraceConfig

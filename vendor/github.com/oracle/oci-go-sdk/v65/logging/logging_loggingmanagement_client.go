@@ -72,7 +72,7 @@ func newLoggingManagementClientFromBaseClient(baseClient common.BaseClient, conf
 
 // SetRegion overrides the region of this client.
 func (client *LoggingManagementClient) SetRegion(region string) {
-	client.Host = common.StringToRegion(region).EndpointForTemplate("logging", "https://logging.{region}.oci.{secondLevelDomain}")
+	client.Host, _ = common.StringToRegion(region).EndpointForTemplateDottedRegion("logging", client.getEndpointTemplatePerRealm(region), "logging")
 	client.parseEndpointTemplatePerRealm()
 }
 

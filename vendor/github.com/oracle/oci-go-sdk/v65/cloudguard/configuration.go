@@ -26,6 +26,9 @@ type Configuration struct {
 	// Status of the Cloud Guard tenant
 	Status CloudGuardStatusEnum `mandatory:"false" json:"status,omitempty"`
 
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// List of service configurations for this tenant
 	ServiceConfigurations []ServiceConfiguration `mandatory:"false" json:"serviceConfigurations"`
 
@@ -56,6 +59,7 @@ func (m Configuration) ValidateEnumValue() (bool, error) {
 func (m *Configuration) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Status                CloudGuardStatusEnum   `json:"status"`
+		Locks                 []ResourceLock         `json:"locks"`
 		ServiceConfigurations []serviceconfiguration `json:"serviceConfigurations"`
 		SelfManageResources   *bool                  `json:"selfManageResources"`
 		ReportingRegion       *string                `json:"reportingRegion"`
@@ -68,6 +72,8 @@ func (m *Configuration) UnmarshalJSON(data []byte) (e error) {
 	var nn interface{}
 	m.Status = model.Status
 
+	m.Locks = make([]ResourceLock, len(model.Locks))
+	copy(m.Locks, model.Locks)
 	m.ServiceConfigurations = make([]ServiceConfiguration, len(model.ServiceConfigurations))
 	for i, n := range model.ServiceConfigurations {
 		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)

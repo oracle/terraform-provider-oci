@@ -99,6 +99,9 @@ type ListProblemsRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Indicates if resource was created by current tenancy or governing tenancy.
+	ManageType ListProblemsManageTypeEnum `mandatory:"false" contributesTo:"query" name:"manageType" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -155,6 +158,9 @@ func (request ListProblemsRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListProblemsSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListProblemsSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListProblemsManageTypeEnum(string(request.ManageType)); !ok && request.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", request.ManageType, strings.Join(GetListProblemsManageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -517,5 +523,47 @@ func GetListProblemsSortByEnumStringValues() []string {
 // GetMappingListProblemsSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListProblemsSortByEnum(val string) (ListProblemsSortByEnum, bool) {
 	enum, ok := mappingListProblemsSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListProblemsManageTypeEnum Enum with underlying type: string
+type ListProblemsManageTypeEnum string
+
+// Set of constants representing the allowable values for ListProblemsManageTypeEnum
+const (
+	ListProblemsManageTypeLocal      ListProblemsManageTypeEnum = "LOCAL"
+	ListProblemsManageTypeGovernance ListProblemsManageTypeEnum = "GOVERNANCE"
+)
+
+var mappingListProblemsManageTypeEnum = map[string]ListProblemsManageTypeEnum{
+	"LOCAL":      ListProblemsManageTypeLocal,
+	"GOVERNANCE": ListProblemsManageTypeGovernance,
+}
+
+var mappingListProblemsManageTypeEnumLowerCase = map[string]ListProblemsManageTypeEnum{
+	"local":      ListProblemsManageTypeLocal,
+	"governance": ListProblemsManageTypeGovernance,
+}
+
+// GetListProblemsManageTypeEnumValues Enumerates the set of values for ListProblemsManageTypeEnum
+func GetListProblemsManageTypeEnumValues() []ListProblemsManageTypeEnum {
+	values := make([]ListProblemsManageTypeEnum, 0)
+	for _, v := range mappingListProblemsManageTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListProblemsManageTypeEnumStringValues Enumerates the set of values in String for ListProblemsManageTypeEnum
+func GetListProblemsManageTypeEnumStringValues() []string {
+	return []string{
+		"LOCAL",
+		"GOVERNANCE",
+	}
+}
+
+// GetMappingListProblemsManageTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListProblemsManageTypeEnum(val string) (ListProblemsManageTypeEnum, bool) {
+	enum, ok := mappingListProblemsManageTypeEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

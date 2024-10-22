@@ -14,7 +14,7 @@ import (
 // DeleteQosTemplateRequest wrapper for the DeleteQosTemplate operation
 type DeleteQosTemplateRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service template.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template.
 	QosTemplateId *string `mandatory:"true" contributesTo:"path" name:"qosTemplateId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call for a resource, set the `if-match`

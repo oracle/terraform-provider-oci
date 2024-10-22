@@ -21,13 +21,14 @@ import (
 	"strings"
 )
 
-// CreateQosTemplateDetails The details for creating a Quality of Service template for a tenancy.
+// CreateQosTemplateDetails The details for creating a Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) template for a tenancy.
 type CreateQosTemplateDetails struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the Quality of Service template.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment to contain the QoS template.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// List of QosMappings consisting of DSCP values with their respective ClassOfService. Eg {43 - PREMIUM}
+	// List of `QosMappings` consisting of DSCP values with their respective ClassOfService.
+	// Example: `{43 - PREMIUM}`
 	QosMappings []QosMappings `mandatory:"true" json:"qosMappings"`
 
 	// Defined tags for this resource. Each key is predefined and scoped to a

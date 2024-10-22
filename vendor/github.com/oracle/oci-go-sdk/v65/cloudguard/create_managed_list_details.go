@@ -42,6 +42,12 @@ type CreateManagedListDetails struct {
 	// Managed list type group
 	Group *string `mandatory:"false" json:"group"`
 
+	// Indicates if managed list was created by current tenancy or governing tenancy.
+	ManageType ManageTypeEnum `mandatory:"false" json:"manageType,omitempty"`
+
+	// Locks associated with this resource
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	// Avoid entering confidential information.
@@ -64,6 +70,9 @@ func (m CreateManagedListDetails) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingManagedListTypeEnum(string(m.ListType)); !ok && m.ListType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ListType: %s. Supported values are: %s.", m.ListType, strings.Join(GetManagedListTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManageTypeEnum(string(m.ManageType)); !ok && m.ManageType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManageType: %s. Supported values are: %s.", m.ManageType, strings.Join(GetManageTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

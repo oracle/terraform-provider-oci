@@ -137,6 +137,7 @@ const (
 	ListMonitoredResourcesStatusCreating ListMonitoredResourcesStatusEnum = "CREATING"
 	ListMonitoredResourcesStatusUpdating ListMonitoredResourcesStatusEnum = "UPDATING"
 	ListMonitoredResourcesStatusActive   ListMonitoredResourcesStatusEnum = "ACTIVE"
+	ListMonitoredResourcesStatusInactive ListMonitoredResourcesStatusEnum = "INACTIVE"
 	ListMonitoredResourcesStatusDeleting ListMonitoredResourcesStatusEnum = "DELETING"
 	ListMonitoredResourcesStatusDeleted  ListMonitoredResourcesStatusEnum = "DELETED"
 	ListMonitoredResourcesStatusFailed   ListMonitoredResourcesStatusEnum = "FAILED"
@@ -146,6 +147,7 @@ var mappingListMonitoredResourcesStatusEnum = map[string]ListMonitoredResourcesS
 	"CREATING": ListMonitoredResourcesStatusCreating,
 	"UPDATING": ListMonitoredResourcesStatusUpdating,
 	"ACTIVE":   ListMonitoredResourcesStatusActive,
+	"INACTIVE": ListMonitoredResourcesStatusInactive,
 	"DELETING": ListMonitoredResourcesStatusDeleting,
 	"DELETED":  ListMonitoredResourcesStatusDeleted,
 	"FAILED":   ListMonitoredResourcesStatusFailed,
@@ -155,6 +157,7 @@ var mappingListMonitoredResourcesStatusEnumLowerCase = map[string]ListMonitoredR
 	"creating": ListMonitoredResourcesStatusCreating,
 	"updating": ListMonitoredResourcesStatusUpdating,
 	"active":   ListMonitoredResourcesStatusActive,
+	"inactive": ListMonitoredResourcesStatusInactive,
 	"deleting": ListMonitoredResourcesStatusDeleting,
 	"deleted":  ListMonitoredResourcesStatusDeleted,
 	"failed":   ListMonitoredResourcesStatusFailed,
@@ -175,6 +178,7 @@ func GetListMonitoredResourcesStatusEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

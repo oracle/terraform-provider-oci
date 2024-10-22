@@ -137,39 +137,45 @@ type ListComputeClustersLifecycleStateEnum string
 
 // Set of constants representing the allowable values for ListComputeClustersLifecycleStateEnum
 const (
-	ListComputeClustersLifecycleStateAccepted ListComputeClustersLifecycleStateEnum = "ACCEPTED"
-	ListComputeClustersLifecycleStateCreating ListComputeClustersLifecycleStateEnum = "CREATING"
-	ListComputeClustersLifecycleStateActive   ListComputeClustersLifecycleStateEnum = "ACTIVE"
-	ListComputeClustersLifecycleStateDeleting ListComputeClustersLifecycleStateEnum = "DELETING"
-	ListComputeClustersLifecycleStateDeleted  ListComputeClustersLifecycleStateEnum = "DELETED"
-	ListComputeClustersLifecycleStateFailed   ListComputeClustersLifecycleStateEnum = "FAILED"
-	ListComputeClustersLifecycleStateStopping ListComputeClustersLifecycleStateEnum = "STOPPING"
-	ListComputeClustersLifecycleStateStopped  ListComputeClustersLifecycleStateEnum = "STOPPED"
-	ListComputeClustersLifecycleStateUpdating ListComputeClustersLifecycleStateEnum = "UPDATING"
+	ListComputeClustersLifecycleStateAccepted   ListComputeClustersLifecycleStateEnum = "ACCEPTED"
+	ListComputeClustersLifecycleStateCreating   ListComputeClustersLifecycleStateEnum = "CREATING"
+	ListComputeClustersLifecycleStateActive     ListComputeClustersLifecycleStateEnum = "ACTIVE"
+	ListComputeClustersLifecycleStateDeleting   ListComputeClustersLifecycleStateEnum = "DELETING"
+	ListComputeClustersLifecycleStateDeleted    ListComputeClustersLifecycleStateEnum = "DELETED"
+	ListComputeClustersLifecycleStateFailed     ListComputeClustersLifecycleStateEnum = "FAILED"
+	ListComputeClustersLifecycleStateStopping   ListComputeClustersLifecycleStateEnum = "STOPPING"
+	ListComputeClustersLifecycleStateStopped    ListComputeClustersLifecycleStateEnum = "STOPPED"
+	ListComputeClustersLifecycleStateUpdating   ListComputeClustersLifecycleStateEnum = "UPDATING"
+	ListComputeClustersLifecycleStateStarting   ListComputeClustersLifecycleStateEnum = "STARTING"
+	ListComputeClustersLifecycleStateRestarting ListComputeClustersLifecycleStateEnum = "RESTARTING"
 )
 
 var mappingListComputeClustersLifecycleStateEnum = map[string]ListComputeClustersLifecycleStateEnum{
-	"ACCEPTED": ListComputeClustersLifecycleStateAccepted,
-	"CREATING": ListComputeClustersLifecycleStateCreating,
-	"ACTIVE":   ListComputeClustersLifecycleStateActive,
-	"DELETING": ListComputeClustersLifecycleStateDeleting,
-	"DELETED":  ListComputeClustersLifecycleStateDeleted,
-	"FAILED":   ListComputeClustersLifecycleStateFailed,
-	"STOPPING": ListComputeClustersLifecycleStateStopping,
-	"STOPPED":  ListComputeClustersLifecycleStateStopped,
-	"UPDATING": ListComputeClustersLifecycleStateUpdating,
+	"ACCEPTED":   ListComputeClustersLifecycleStateAccepted,
+	"CREATING":   ListComputeClustersLifecycleStateCreating,
+	"ACTIVE":     ListComputeClustersLifecycleStateActive,
+	"DELETING":   ListComputeClustersLifecycleStateDeleting,
+	"DELETED":    ListComputeClustersLifecycleStateDeleted,
+	"FAILED":     ListComputeClustersLifecycleStateFailed,
+	"STOPPING":   ListComputeClustersLifecycleStateStopping,
+	"STOPPED":    ListComputeClustersLifecycleStateStopped,
+	"UPDATING":   ListComputeClustersLifecycleStateUpdating,
+	"STARTING":   ListComputeClustersLifecycleStateStarting,
+	"RESTARTING": ListComputeClustersLifecycleStateRestarting,
 }
 
 var mappingListComputeClustersLifecycleStateEnumLowerCase = map[string]ListComputeClustersLifecycleStateEnum{
-	"accepted": ListComputeClustersLifecycleStateAccepted,
-	"creating": ListComputeClustersLifecycleStateCreating,
-	"active":   ListComputeClustersLifecycleStateActive,
-	"deleting": ListComputeClustersLifecycleStateDeleting,
-	"deleted":  ListComputeClustersLifecycleStateDeleted,
-	"failed":   ListComputeClustersLifecycleStateFailed,
-	"stopping": ListComputeClustersLifecycleStateStopping,
-	"stopped":  ListComputeClustersLifecycleStateStopped,
-	"updating": ListComputeClustersLifecycleStateUpdating,
+	"accepted":   ListComputeClustersLifecycleStateAccepted,
+	"creating":   ListComputeClustersLifecycleStateCreating,
+	"active":     ListComputeClustersLifecycleStateActive,
+	"deleting":   ListComputeClustersLifecycleStateDeleting,
+	"deleted":    ListComputeClustersLifecycleStateDeleted,
+	"failed":     ListComputeClustersLifecycleStateFailed,
+	"stopping":   ListComputeClustersLifecycleStateStopping,
+	"stopped":    ListComputeClustersLifecycleStateStopped,
+	"updating":   ListComputeClustersLifecycleStateUpdating,
+	"starting":   ListComputeClustersLifecycleStateStarting,
+	"restarting": ListComputeClustersLifecycleStateRestarting,
 }
 
 // GetListComputeClustersLifecycleStateEnumValues Enumerates the set of values for ListComputeClustersLifecycleStateEnum
@@ -193,6 +199,8 @@ func GetListComputeClustersLifecycleStateEnumStringValues() []string {
 		"STOPPING",
 		"STOPPED",
 		"UPDATING",
+		"STARTING",
+		"RESTARTING",
 	}
 }
 

@@ -23,6 +23,15 @@ type BatchLanguageTranslationDetails struct {
 	// List of documents for translation.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// Unique name to identify an endpoint to be used for inferencing
+	Alias *string `mandatory:"false" json:"alias"`
+
+	// The endpoint that has to be used for inferencing.
+	EndpointId *string `mandatory:"false" json:"endpointId"`
+
+	// List of words not to be translated
+	NoTranslate []string `mandatory:"false" json:"noTranslate"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
