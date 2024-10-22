@@ -49,7 +49,7 @@ The following attributes are exported:
 		* `peer_key` - peer identifier
 		* `role` - Peer role
 		* `state` - The current state of the peer.
-* `compute_shape` - Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
+* `compute_shape` - Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM or DIGITAL_ASSETS_MEDIUM or DIGITAL_ASSETS_LARGE or DIGITAL_ASSETS_EXTRA_LARGE
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - Platform Instance Description
 * `display_name` - Platform Instance Display name, can be renamed
