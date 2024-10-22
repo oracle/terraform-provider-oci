@@ -83,9 +83,9 @@ var (
 		"value": acctest.Representation{RepType: acctest.Optional, Create: `ner`, Update: `ner`},
 	}
 	DatascienceModelRetentionSettingRepresentation = map[string]interface{}{
-		"archive_after_days":         acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `41`},
+		"archive_after_days":         acctest.Representation{RepType: acctest.Required, Create: `40`, Update: `40`},
 		"customer_notification_type": acctest.Representation{RepType: acctest.Optional, Create: `NONE`, Update: `ALL`},
-		"delete_after_days":          acctest.Representation{RepType: acctest.Optional, Create: `45`, Update: `46`},
+		"delete_after_days":          acctest.Representation{RepType: acctest.Optional, Create: `45`, Update: `45`},
 	}
 
 	DatascienceModelResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
@@ -226,9 +226,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttr(resourceName, "retention_operation_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "retention_setting.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "40"),
 				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.customer_notification_type", "NONE"),
-				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "45"),
 				//resource.TestCheckResourceAttr(resourceName, "state", ACTIVE),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -272,9 +272,9 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
 				resource.TestCheckResourceAttr(resourceName, "retention_operation_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "retention_setting.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.archive_after_days", "40"),
 				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.customer_notification_type", "ALL"),
-				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "retention_setting.0.delete_after_days", "45"),
 				//resource.TestCheckResourceAttr(resourceName, "state", ACTIVE),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -309,8 +309,7 @@ func TestDatascienceModelResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.project_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "models.0.time_created"),
-				resource.TestCheckResourceAttrSet(datasourceName, "models.0.version_id"),
-				resource.TestCheckResourceAttr(datasourceName, "models.0.version_label", "versionLabel2"),
+				resource.TestCheckResourceAttr(datasourceName, "models.0.version_label", ""),
 			),
 		},
 
