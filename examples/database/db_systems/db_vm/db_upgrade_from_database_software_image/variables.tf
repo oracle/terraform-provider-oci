@@ -1,20 +1,20 @@
 # $Header$
 #
 # Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-#
 #    NAME
-#      variables.tf
+#      variables.tf - Shepherd Data Source file
 #
 #    USAGE
-#      Use the following path for the Example & Backward Compatibility tests: database/db_systems/db_vm/db_upgrade_from_database_software_image
-#    NOTES
-#      Terraform Integration Test: TestDatabaseDatabaseUpgradeResource_DbSoftwareImage
+#      Use the following path for Example Test & Backward Compatibility Test: database/db_systems/db_vm/db_upgrade_from_database_software_image
 #
-#    FILE(S)
-#      database_database_upgrade_resource_test.go
+#    NOTES
+#      Terraform Example: TestDatabaseDatabaseUpgradeResource_DbSoftwareImage
+#    FILES
+#
+#    DESCRIPTION
 #
 #    MODIFIED   MM/DD/YY
-#    escabrer   12/16/2024 - Created
+#    escabrer   10/23/2024 - Created
 
 
 variable "tenancy_ocid" {
@@ -26,7 +26,7 @@ variable "region" {
 }
 
 variable defined_tag_namespace_name {
-  default = ""
+  type = string
 }
 
 variable "compartment_id" {
@@ -40,3 +40,4 @@ variable "ssh_public_key" {
 variable "database_software_image_id" {
   type = string
 }
+

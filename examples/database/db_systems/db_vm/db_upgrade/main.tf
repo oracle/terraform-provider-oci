@@ -1,20 +1,20 @@
 # $Header$
 #
 # Copyright (c) 2024, Oracle and/or its affiliates. All rights reserved.
-#
 #    NAME
-#      main.tf
+#      main.tf - DB System Upgrade Resources
 #
 #    USAGE
-#      Use the following path for the Example & Backward Compatibility tests: database/db_systems/db_vm/db_upgrade
-#    NOTES
-#      Terraform Integration Test: TestDatabaseDatabaseUpgradeResource_basic
+#      Use the following path for Example Test & Backward Compatibility Test: database/db_systems/db_vm/db_upgrade
 #
-#    FILE(S)
-#      database_database_upgrade_test.go
+#    NOTES
+#      Terraform Example: TestDatabaseDatabaseUpgradeResource_basic
+#    FILES
+#
+#    DESCRIPTION
 #
 #    MODIFIED   MM/DD/YY
-#    escabrer   12/13/2024 - Created
+#    escabrer   10/23/2024 - Created
 
 
 
@@ -25,7 +25,7 @@ resource "oci_database_db_system" "test_db_system_for_upgrade" {
   database_edition = "ENTERPRISE_EDITION"
   db_home {
     database {
-      admin_password = var.admin_password
+      admin_password = "BEstrO0ng_#11"
       character_set = "AL32UTF8"
       db_name = "tfDb"
       db_workload = "OLTP"
@@ -42,7 +42,7 @@ resource "oci_database_db_system" "test_db_system_for_upgrade" {
   display_name = "tfDbSystemForUpgradeExample"
   domain = oci_core_subnet.test_subnet.subnet_domain_name
   fault_domains = ["FAULT-DOMAIN-1"]
-  hostname = "tf-db-host"
+  hostname = "tfOracleDb"
   license_model = "LICENSE_INCLUDED"
   lifecycle {
     ignore_changes = [db_home[0].db_version, defined_tags]
