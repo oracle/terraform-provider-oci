@@ -5,17 +5,10 @@ package database
 
 import (
 	"context"
-	"time"
-<<<<<<< ours
-
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
-	oci_database "github.com/oracle/oci-go-sdk/v65/database"
-=======
->>>>>>> theirs
-
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
@@ -93,7 +86,7 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	request := oci_database.ListBackupsRequest{}
 
 	if backupDestinationType, ok := s.D.GetOkExists("backup_destination_type"); ok {
-		tmp := oci_database.ListBackupsBackupDestinationTypeEnum(backupDestinationType.(string))
+		tmp := backupDestinationType.(string)
 		request.BackupDestinationType = &tmp
 	}
 
@@ -132,7 +125,7 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
-		tmp := oci_database.ListBackupsTypeEnum(type_.(string))
+		tmp := type_.(string)
 		request.Type = &tmp
 	}
 
