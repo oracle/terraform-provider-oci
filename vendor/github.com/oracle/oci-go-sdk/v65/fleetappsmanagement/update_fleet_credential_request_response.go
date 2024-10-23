@@ -21,10 +21,10 @@ type UpdateFleetCredentialRequest struct {
 	// unique FleetCredential identifier
 	FleetCredentialId *string `mandatory:"true" contributesTo:"path" name:"fleetCredentialId"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// The information to be updated.
+	// The credential information to be updated.
 	UpdateFleetCredentialDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

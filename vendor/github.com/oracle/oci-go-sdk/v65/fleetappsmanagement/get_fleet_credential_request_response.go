@@ -21,7 +21,7 @@ type GetFleetCredentialRequest struct {
 	// unique FleetCredential identifier
 	FleetCredentialId *string `mandatory:"true" contributesTo:"path" name:"fleetCredentialId"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

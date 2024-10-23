@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetComplianceReport.go.html to see an example of how to use GetComplianceReportRequest.
 type GetComplianceReportRequest struct {
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
-	// compliance report identifier
+	// compliance report identifier.
 	ComplianceReportId *string `mandatory:"true" contributesTo:"path" name:"complianceReportId"`
 
 	// The client request ID for tracing.

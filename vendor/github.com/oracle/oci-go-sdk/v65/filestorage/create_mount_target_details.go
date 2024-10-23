@@ -83,6 +83,9 @@ type CreateMountTargetDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Throughput for mount target in Gbps. Currently only 1 Gbps of requestedThroughput is supported during create MountTarget.
 	// Available shapes and corresponding throughput are listed at Mount Target Performance (https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance).
 	RequestedThroughput *int64 `mandatory:"false" json:"requestedThroughput"`

@@ -45,6 +45,9 @@ type OutboundConnector interface {
 	// Example: `Uocm:PHX-AD-1`
 	GetAvailabilityDomain() *string
 
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -60,6 +63,7 @@ type OutboundConnector interface {
 type outboundconnector struct {
 	JsonData           []byte
 	AvailabilityDomain *string                             `mandatory:"false" json:"availabilityDomain"`
+	Locks              []ResourceLock                      `mandatory:"false" json:"locks"`
 	FreeformTags       map[string]string                   `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{}   `mandatory:"false" json:"definedTags"`
 	CompartmentId      *string                             `mandatory:"true" json:"compartmentId"`
@@ -87,6 +91,7 @@ func (m *outboundconnector) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.TimeCreated = s.Model.TimeCreated
 	m.AvailabilityDomain = s.Model.AvailabilityDomain
+	m.Locks = s.Model.Locks
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.ConnectorType = s.Model.ConnectorType
@@ -116,6 +121,11 @@ func (m *outboundconnector) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 // GetAvailabilityDomain returns AvailabilityDomain
 func (m outboundconnector) GetAvailabilityDomain() *string {
 	return m.AvailabilityDomain
+}
+
+// GetLocks returns Locks
+func (m outboundconnector) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetFreeformTags returns FreeformTags
