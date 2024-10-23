@@ -18,19 +18,19 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetTargets.go.html to see an example of how to use ListFleetTargetsRequest.
 type ListFleetTargetsRequest struct {
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Product Name
+	// Product Name.
 	Product *string `mandatory:"false" contributesTo:"query" name:"product"`
 
 	// Resource Identifier
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// Resource Display Name
+	// Resource Display Name.
 	ResourceDisplayName *string `mandatory:"false" contributesTo:"query" name:"resourceDisplayName"`
 
 	// The maximum number of items to return.

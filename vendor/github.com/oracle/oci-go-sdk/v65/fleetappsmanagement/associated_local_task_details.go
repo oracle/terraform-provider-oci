@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -17,7 +16,8 @@ import (
 	"strings"
 )
 
-// AssociatedLocalTaskDetails The details of the task.
+// AssociatedLocalTaskDetails The details of the local task.
+// The local tasks are specific to a single runbook.
 type AssociatedLocalTaskDetails struct {
 	ExecutionDetails ExecutionDetails `mandatory:"true" json:"executionDetails"`
 
@@ -31,6 +31,12 @@ type AssociatedLocalTaskDetails struct {
 	IsCopyToLibraryEnabled *bool `mandatory:"false" json:"isCopyToLibraryEnabled"`
 
 	Properties *Properties `mandatory:"false" json:"properties"`
+
+	// Is this a discovery output task?
+	IsDiscoveryOutputTask *bool `mandatory:"false" json:"isDiscoveryOutputTask"`
+
+	// Is this an Apply Subject Task? Ex. Patch Execution Task
+	IsApplySubjectTask *bool `mandatory:"false" json:"isApplySubjectTask"`
 
 	// The name of the task
 	Name *string `mandatory:"false" json:"name"`
@@ -79,6 +85,8 @@ func (m *AssociatedLocalTaskDetails) UnmarshalJSON(data []byte) (e error) {
 		Platform               *string          `json:"platform"`
 		IsCopyToLibraryEnabled *bool            `json:"isCopyToLibraryEnabled"`
 		Properties             *Properties      `json:"properties"`
+		IsDiscoveryOutputTask  *bool            `json:"isDiscoveryOutputTask"`
+		IsApplySubjectTask     *bool            `json:"isApplySubjectTask"`
 		Name                   *string          `json:"name"`
 		ExecutionDetails       executiondetails `json:"executionDetails"`
 		OsType                 OsTypeEnum       `json:"osType"`
@@ -96,6 +104,10 @@ func (m *AssociatedLocalTaskDetails) UnmarshalJSON(data []byte) (e error) {
 	m.IsCopyToLibraryEnabled = model.IsCopyToLibraryEnabled
 
 	m.Properties = model.Properties
+
+	m.IsDiscoveryOutputTask = model.IsDiscoveryOutputTask
+
+	m.IsApplySubjectTask = model.IsApplySubjectTask
 
 	m.Name = model.Name
 

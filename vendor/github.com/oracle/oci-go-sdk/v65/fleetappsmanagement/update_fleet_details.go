@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -32,7 +31,8 @@ type UpdateFleetDetails struct {
 
 	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
 
-	// A value which represents if auto confirming of the targets can be enabled
+	// A value that represents if auto-confirming of the targets can be enabled.
+	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

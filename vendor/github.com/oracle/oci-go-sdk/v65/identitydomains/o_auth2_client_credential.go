@@ -214,6 +214,17 @@ type OAuth2ClientCredential struct {
 	//  - uniqueness: none
 	IsResetSecret *bool `mandatory:"false" json:"isResetSecret"`
 
+	// Secret
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - idcsScimCompliant: false
+	//  - idcsSensitive: hash_sc
+	Secret *string `mandatory:"false" json:"secret"`
+
 	User *OAuth2ClientCredentialUser `mandatory:"false" json:"user"`
 
 	UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser *ExtensionSelfChangeUser `mandatory:"false" json:"urn:ietf:params:scim:schemas:oracle:idcs:extension:selfChange:User"`
