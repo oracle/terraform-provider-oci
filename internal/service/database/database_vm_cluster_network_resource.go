@@ -1058,9 +1058,6 @@ func nodesHashCodeForSets(v interface{}) int {
 	if ip, ok := m["ip"]; ok && ip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", ip))
 	}
-	if state, ok := m["state"]; ok && state != "" {
-		buf.WriteString(fmt.Sprintf("%v-", state))
-	}
 	if vip, ok := m["vip"]; ok && vip != "" {
 		buf.WriteString(fmt.Sprintf("%v-", vip))
 	}
