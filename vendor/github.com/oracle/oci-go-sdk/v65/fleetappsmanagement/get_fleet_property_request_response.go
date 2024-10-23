@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/GetFleetProperty.go.html to see an example of how to use GetFleetPropertyRequest.
 type GetFleetPropertyRequest struct {
 
-	// unique FleetProperty identifier
+	// unique FleetProperty identifier.
 	FleetPropertyId *string `mandatory:"true" contributesTo:"path" name:"fleetPropertyId"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

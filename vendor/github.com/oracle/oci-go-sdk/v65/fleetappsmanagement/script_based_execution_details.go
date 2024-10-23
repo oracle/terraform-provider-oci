@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -17,14 +16,18 @@ import (
 	"strings"
 )
 
-// ScriptBasedExecutionDetails Details for script based execution
+// ScriptBasedExecutionDetails Details for script-based execution.
 type ScriptBasedExecutionDetails struct {
 	Variables *TaskVariable `mandatory:"false" json:"variables"`
 
 	Content ContentDetails `mandatory:"false" json:"content"`
 
-	// Optional Command to execute the content.
+	// Optional command to execute the content.
+	// You can provide any commands/arguments that can't be part of the script.
 	Command *string `mandatory:"false" json:"command"`
+
+	// Credentials required for executing the task.
+	Credentials []ConfigAssociationDetails `mandatory:"false" json:"credentials"`
 }
 
 func (m ScriptBasedExecutionDetails) String() string {
@@ -60,9 +63,10 @@ func (m ScriptBasedExecutionDetails) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Variables *TaskVariable  `json:"variables"`
-		Content   contentdetails `json:"content"`
-		Command   *string        `json:"command"`
+		Variables   *TaskVariable              `json:"variables"`
+		Content     contentdetails             `json:"content"`
+		Command     *string                    `json:"command"`
+		Credentials []ConfigAssociationDetails `json:"credentials"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -84,5 +88,7 @@ func (m *ScriptBasedExecutionDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.Command = model.Command
 
+	m.Credentials = make([]ConfigAssociationDetails, len(model.Credentials))
+	copy(m.Credentials, model.Credentials)
 	return
 }

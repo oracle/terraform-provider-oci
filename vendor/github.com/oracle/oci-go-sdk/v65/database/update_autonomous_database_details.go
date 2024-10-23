@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -271,6 +272,8 @@ type UpdateAutonomousDatabaseDetails struct {
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
+
+	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -308,6 +311,183 @@ func (m UpdateAutonomousDatabaseDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		BackupRetentionPeriodInDays          *int                                               `json:"backupRetentionPeriodInDays"`
+		ComputeModel                         UpdateAutonomousDatabaseDetailsComputeModelEnum    `json:"computeModel"`
+		InMemoryPercentage                   *int                                               `json:"inMemoryPercentage"`
+		LocalAdgAutoFailoverMaxDataLossLimit *int                                               `json:"localAdgAutoFailoverMaxDataLossLimit"`
+		CpuCoreCount                         *int                                               `json:"cpuCoreCount"`
+		LongTermBackupSchedule               *LongTermBackUpScheduleDetails                     `json:"longTermBackupSchedule"`
+		IsDevTier                            *bool                                              `json:"isDevTier"`
+		ComputeCount                         *float32                                           `json:"computeCount"`
+		OcpuCount                            *float32                                           `json:"ocpuCount"`
+		DataStorageSizeInTBs                 *int                                               `json:"dataStorageSizeInTBs"`
+		DataStorageSizeInGBs                 *int                                               `json:"dataStorageSizeInGBs"`
+		DisplayName                          *string                                            `json:"displayName"`
+		IsFreeTier                           *bool                                              `json:"isFreeTier"`
+		AdminPassword                        *string                                            `json:"adminPassword"`
+		DbName                               *string                                            `json:"dbName"`
+		FreeformTags                         map[string]string                                  `json:"freeformTags"`
+		DefinedTags                          map[string]map[string]interface{}                  `json:"definedTags"`
+		SecurityAttributes                   map[string]map[string]interface{}                  `json:"securityAttributes"`
+		DbWorkload                           UpdateAutonomousDatabaseDetailsDbWorkloadEnum      `json:"dbWorkload"`
+		LicenseModel                         UpdateAutonomousDatabaseDetailsLicenseModelEnum    `json:"licenseModel"`
+		ByolComputeCountLimit                *float32                                           `json:"byolComputeCountLimit"`
+		IsAccessControlEnabled               *bool                                              `json:"isAccessControlEnabled"`
+		WhitelistedIps                       []string                                           `json:"whitelistedIps"`
+		ArePrimaryWhitelistedIpsUsed         *bool                                              `json:"arePrimaryWhitelistedIpsUsed"`
+		StandbyWhitelistedIps                []string                                           `json:"standbyWhitelistedIps"`
+		IsAutoScalingEnabled                 *bool                                              `json:"isAutoScalingEnabled"`
+		IsRefreshableClone                   *bool                                              `json:"isRefreshableClone"`
+		RefreshableMode                      UpdateAutonomousDatabaseDetailsRefreshableModeEnum `json:"refreshableMode"`
+		IsLocalDataGuardEnabled              *bool                                              `json:"isLocalDataGuardEnabled"`
+		IsDataGuardEnabled                   *bool                                              `json:"isDataGuardEnabled"`
+		PeerDbId                             *string                                            `json:"peerDbId"`
+		DbVersion                            *string                                            `json:"dbVersion"`
+		OpenMode                             UpdateAutonomousDatabaseDetailsOpenModeEnum        `json:"openMode"`
+		PermissionLevel                      UpdateAutonomousDatabaseDetailsPermissionLevelEnum `json:"permissionLevel"`
+		SubnetId                             *string                                            `json:"subnetId"`
+		PrivateEndpointLabel                 *string                                            `json:"privateEndpointLabel"`
+		PrivateEndpointIp                    *string                                            `json:"privateEndpointIp"`
+		NsgIds                               []string                                           `json:"nsgIds"`
+		AutoRefreshFrequencyInSeconds        *int                                               `json:"autoRefreshFrequencyInSeconds"`
+		AutoRefreshPointLagInSeconds         *int                                               `json:"autoRefreshPointLagInSeconds"`
+		TimeOfAutoRefreshStart               *common.SDKTime                                    `json:"timeOfAutoRefreshStart"`
+		CustomerContacts                     []CustomerContact                                  `json:"customerContacts"`
+		IsMtlsConnectionRequired             *bool                                              `json:"isMtlsConnectionRequired"`
+		ResourcePoolLeaderId                 *string                                            `json:"resourcePoolLeaderId"`
+		ResourcePoolSummary                  *ResourcePoolSummary                               `json:"resourcePoolSummary"`
+		ScheduledOperations                  []ScheduledOperationDetails                        `json:"scheduledOperations"`
+		IsAutoScalingForStorageEnabled       *bool                                              `json:"isAutoScalingForStorageEnabled"`
+		DatabaseEdition                      AutonomousDatabaseSummaryDatabaseEditionEnum       `json:"databaseEdition"`
+		DbToolsDetails                       []DatabaseTool                                     `json:"dbToolsDetails"`
+		SecretId                             *string                                            `json:"secretId"`
+		SecretVersionNumber                  *int                                               `json:"secretVersionNumber"`
+		EncryptionKey                        autonomousdatabaseencryptionkeydetails             `json:"encryptionKey"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.BackupRetentionPeriodInDays = model.BackupRetentionPeriodInDays
+
+	m.ComputeModel = model.ComputeModel
+
+	m.InMemoryPercentage = model.InMemoryPercentage
+
+	m.LocalAdgAutoFailoverMaxDataLossLimit = model.LocalAdgAutoFailoverMaxDataLossLimit
+
+	m.CpuCoreCount = model.CpuCoreCount
+
+	m.LongTermBackupSchedule = model.LongTermBackupSchedule
+
+	m.IsDevTier = model.IsDevTier
+
+	m.ComputeCount = model.ComputeCount
+
+	m.OcpuCount = model.OcpuCount
+
+	m.DataStorageSizeInTBs = model.DataStorageSizeInTBs
+
+	m.DataStorageSizeInGBs = model.DataStorageSizeInGBs
+
+	m.DisplayName = model.DisplayName
+
+	m.IsFreeTier = model.IsFreeTier
+
+	m.AdminPassword = model.AdminPassword
+
+	m.DbName = model.DbName
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SecurityAttributes = model.SecurityAttributes
+
+	m.DbWorkload = model.DbWorkload
+
+	m.LicenseModel = model.LicenseModel
+
+	m.ByolComputeCountLimit = model.ByolComputeCountLimit
+
+	m.IsAccessControlEnabled = model.IsAccessControlEnabled
+
+	m.WhitelistedIps = make([]string, len(model.WhitelistedIps))
+	copy(m.WhitelistedIps, model.WhitelistedIps)
+	m.ArePrimaryWhitelistedIpsUsed = model.ArePrimaryWhitelistedIpsUsed
+
+	m.StandbyWhitelistedIps = make([]string, len(model.StandbyWhitelistedIps))
+	copy(m.StandbyWhitelistedIps, model.StandbyWhitelistedIps)
+	m.IsAutoScalingEnabled = model.IsAutoScalingEnabled
+
+	m.IsRefreshableClone = model.IsRefreshableClone
+
+	m.RefreshableMode = model.RefreshableMode
+
+	m.IsLocalDataGuardEnabled = model.IsLocalDataGuardEnabled
+
+	m.IsDataGuardEnabled = model.IsDataGuardEnabled
+
+	m.PeerDbId = model.PeerDbId
+
+	m.DbVersion = model.DbVersion
+
+	m.OpenMode = model.OpenMode
+
+	m.PermissionLevel = model.PermissionLevel
+
+	m.SubnetId = model.SubnetId
+
+	m.PrivateEndpointLabel = model.PrivateEndpointLabel
+
+	m.PrivateEndpointIp = model.PrivateEndpointIp
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
+	m.AutoRefreshFrequencyInSeconds = model.AutoRefreshFrequencyInSeconds
+
+	m.AutoRefreshPointLagInSeconds = model.AutoRefreshPointLagInSeconds
+
+	m.TimeOfAutoRefreshStart = model.TimeOfAutoRefreshStart
+
+	m.CustomerContacts = make([]CustomerContact, len(model.CustomerContacts))
+	copy(m.CustomerContacts, model.CustomerContacts)
+	m.IsMtlsConnectionRequired = model.IsMtlsConnectionRequired
+
+	m.ResourcePoolLeaderId = model.ResourcePoolLeaderId
+
+	m.ResourcePoolSummary = model.ResourcePoolSummary
+
+	m.ScheduledOperations = make([]ScheduledOperationDetails, len(model.ScheduledOperations))
+	copy(m.ScheduledOperations, model.ScheduledOperations)
+	m.IsAutoScalingForStorageEnabled = model.IsAutoScalingForStorageEnabled
+
+	m.DatabaseEdition = model.DatabaseEdition
+
+	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
+	copy(m.DbToolsDetails, model.DbToolsDetails)
+	m.SecretId = model.SecretId
+
+	m.SecretVersionNumber = model.SecretVersionNumber
+
+	nn, e = model.EncryptionKey.UnmarshalPolymorphicJSON(model.EncryptionKey.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKey = nn.(AutonomousDatabaseEncryptionKeyDetails)
+	} else {
+		m.EncryptionKey = nil
+	}
+
+	return
 }
 
 // UpdateAutonomousDatabaseDetailsComputeModelEnum Enum with underlying type: string

@@ -84,6 +84,10 @@ func (m *hostresourcestatistics) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := HostMemoryStatistics{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_IO_STATISTICS":
+		mm := HostIoStatistics{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_CPU_STATISTICS":
 		mm := HostCpuStatistics{}
 		err = json.Unmarshal(data, &mm)
@@ -139,6 +143,7 @@ const (
 	HostResourceStatisticsResourceNameMemoryStatistics  HostResourceStatisticsResourceNameEnum = "HOST_MEMORY_STATISTICS"
 	HostResourceStatisticsResourceNameStorageStatistics HostResourceStatisticsResourceNameEnum = "HOST_STORAGE_STATISTICS"
 	HostResourceStatisticsResourceNameNetworkStatistics HostResourceStatisticsResourceNameEnum = "HOST_NETWORK_STATISTICS"
+	HostResourceStatisticsResourceNameIoStatistics      HostResourceStatisticsResourceNameEnum = "HOST_IO_STATISTICS"
 )
 
 var mappingHostResourceStatisticsResourceNameEnum = map[string]HostResourceStatisticsResourceNameEnum{
@@ -146,6 +151,7 @@ var mappingHostResourceStatisticsResourceNameEnum = map[string]HostResourceStati
 	"HOST_MEMORY_STATISTICS":  HostResourceStatisticsResourceNameMemoryStatistics,
 	"HOST_STORAGE_STATISTICS": HostResourceStatisticsResourceNameStorageStatistics,
 	"HOST_NETWORK_STATISTICS": HostResourceStatisticsResourceNameNetworkStatistics,
+	"HOST_IO_STATISTICS":      HostResourceStatisticsResourceNameIoStatistics,
 }
 
 var mappingHostResourceStatisticsResourceNameEnumLowerCase = map[string]HostResourceStatisticsResourceNameEnum{
@@ -153,6 +159,7 @@ var mappingHostResourceStatisticsResourceNameEnumLowerCase = map[string]HostReso
 	"host_memory_statistics":  HostResourceStatisticsResourceNameMemoryStatistics,
 	"host_storage_statistics": HostResourceStatisticsResourceNameStorageStatistics,
 	"host_network_statistics": HostResourceStatisticsResourceNameNetworkStatistics,
+	"host_io_statistics":      HostResourceStatisticsResourceNameIoStatistics,
 }
 
 // GetHostResourceStatisticsResourceNameEnumValues Enumerates the set of values for HostResourceStatisticsResourceNameEnum
@@ -171,6 +178,7 @@ func GetHostResourceStatisticsResourceNameEnumStringValues() []string {
 		"HOST_MEMORY_STATISTICS",
 		"HOST_STORAGE_STATISTICS",
 		"HOST_NETWORK_STATISTICS",
+		"HOST_IO_STATISTICS",
 	}
 }
 

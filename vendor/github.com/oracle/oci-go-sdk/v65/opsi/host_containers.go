@@ -34,6 +34,12 @@ type HostContainers struct {
 	// Container Image
 	ContainerImage *string `mandatory:"false" json:"containerImage"`
 
+	// Container Image Tag (version)
+	ContainerImageTag *string `mandatory:"false" json:"containerImageTag"`
+
+	// Container Image Digest
+	ContainerImageDigest *string `mandatory:"false" json:"containerImageDigest"`
+
 	// Container open ports
 	ContainerPorts *string `mandatory:"false" json:"containerPorts"`
 }

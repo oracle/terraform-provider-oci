@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -20,7 +19,7 @@ import (
 // StringInputArgument The details of the String Input argument.
 type StringInputArgument struct {
 
-	// The name of the argument
+	// The name of the argument.
 	Name *string `mandatory:"true" json:"name"`
 
 	// The description of the argument.
