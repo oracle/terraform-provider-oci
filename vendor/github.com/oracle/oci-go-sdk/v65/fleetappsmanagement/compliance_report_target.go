@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,19 +15,19 @@ import (
 	"strings"
 )
 
-// ComplianceReportTarget Details of the Patch.
+// ComplianceReportTarget Details of the target and patches.
 type ComplianceReportTarget struct {
 
-	// Target Identifier.
+	// Target Identifier.Can be the target name if a separate ID is not available.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Target Name.
 	TargetName *string `mandatory:"true" json:"targetName"`
 
-	// Last known compliance state of target.
+	// The last known compliance state of the target.
 	ComplianceState ComplianceStateEnum `mandatory:"true" json:"complianceState"`
 
-	// Current version.
+	// Current version of the target.
 	Version *string `mandatory:"false" json:"version"`
 
 	// Installed Patches for the Target.

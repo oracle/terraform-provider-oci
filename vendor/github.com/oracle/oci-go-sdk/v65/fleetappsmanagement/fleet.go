@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// Fleet Description of Fleet.
+// Fleet A fleet is a collection or grouping of resources based on criteria.
 type Fleet struct {
 
 	// The OCID of the resource.
@@ -34,6 +33,10 @@ type Fleet struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Type of the Fleet.
+	// PRODUCT - A fleet of product-specific resources for a product type.
+	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
+	// GROUP - A fleet of a fleet of either environment or product fleets.
+	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
 	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
 
 	// The lifecycle state of the Fleet.
@@ -57,35 +60,40 @@ type Fleet struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Products associated with the Fleet
+	// Products associated with the Fleet.
 	Products []string `mandatory:"false" json:"products"`
 
-	// Application Type associated with the Fleet.Applicable for ENVIRONMENT fleet types.
+	// Product stack associated with the Fleet.
+	// Applicable for ENVIRONMENT fleet types.
 	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
-	// Environment Type associated with the Fleet.Applicable for ENVIRONMENT fleet types.
+	// Environment Type associated with the Fleet.
+	// Applicable for ENVIRONMENT fleet types.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
-	// Group Type associated with Group Fleet.Applicable for GROUP fleet types.
+	// Group Type associated with Group Fleet.
+	// Applicable for GROUP fleet types.
 	GroupType FleetGroupTypeEnum `mandatory:"false" json:"groupType,omitempty"`
 
-	// Type of resource selection in a fleet.
+	// Type of resource selection in a Fleet.
+	// Select resources manually or select resources based on rules.
 	ResourceSelectionType FleetResourceSelectionTypeEnum `mandatory:"false" json:"resourceSelectionType,omitempty"`
 
 	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
 
 	NotificationPreferences *NotificationPreferences `mandatory:"false" json:"notificationPreferences"`
 
-	// Resources to be added during fleet creation when Resource selection type is Manual.
+	// Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	Resources []AssociatedFleetResourceDetails `mandatory:"false" json:"resources"`
 
-	// Properties to be added during fleet creation.
+	// Properties associated with the Fleet.
 	Properties []AssociatedFleetPropertyDetails `mandatory:"false" json:"properties"`
 
-	// Credentials to be added during fleet creation.
+	// Credentials associated with the Fleet.
 	Credentials []AssociatedFleetCredentialDetails `mandatory:"false" json:"credentials"`
 
-	// A value which represents if auto confirming of the targets can be enabled
+	// A value that represents if auto-confirming of the targets can be enabled.
+	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

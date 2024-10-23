@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/DeleteFleet.go.html to see an example of how to use DeleteFleetRequest.
 type DeleteFleetRequest struct {
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

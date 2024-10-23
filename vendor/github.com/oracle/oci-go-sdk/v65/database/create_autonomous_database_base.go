@@ -97,6 +97,8 @@ type CreateAutonomousDatabaseBase interface {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure vault (https://docs.cloud.oracle.com/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 	GetVaultId() *string
 
+	GetEncryptionKey() AutonomousDatabaseEncryptionKeyDetails
+
 	// **Important** The `adminPassword` or `secretId` must be specified for all Autonomous Databases except for refreshable clones. The password must be between 12 and 30 characters long, and must contain at least 1 uppercase, 1 lowercase, and 1 numeric character. It cannot contain the double quote symbol (") or the username "admin", regardless of casing.
 	// This cannot be used in conjunction with with OCI vault secrets (secretId).
 	GetAdminPassword() *string
@@ -279,6 +281,7 @@ type createautonomousdatabasebase struct {
 	IsFreeTier                               *bool                                                             `mandatory:"false" json:"isFreeTier"`
 	KmsKeyId                                 *string                                                           `mandatory:"false" json:"kmsKeyId"`
 	VaultId                                  *string                                                           `mandatory:"false" json:"vaultId"`
+	EncryptionKey                            autonomousdatabaseencryptionkeydetails                            `mandatory:"false" json:"encryptionKey"`
 	AdminPassword                            *string                                                           `mandatory:"false" json:"adminPassword"`
 	DisplayName                              *string                                                           `mandatory:"false" json:"displayName"`
 	LicenseModel                             CreateAutonomousDatabaseBaseLicenseModelEnum                      `mandatory:"false" json:"licenseModel,omitempty"`
@@ -345,6 +348,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsFreeTier = s.Model.IsFreeTier
 	m.KmsKeyId = s.Model.KmsKeyId
 	m.VaultId = s.Model.VaultId
+	m.EncryptionKey = s.Model.EncryptionKey
 	m.AdminPassword = s.Model.AdminPassword
 	m.DisplayName = s.Model.DisplayName
 	m.LicenseModel = s.Model.LicenseModel
@@ -509,6 +513,11 @@ func (m createautonomousdatabasebase) GetKmsKeyId() *string {
 // GetVaultId returns VaultId
 func (m createautonomousdatabasebase) GetVaultId() *string {
 	return m.VaultId
+}
+
+// GetEncryptionKey returns EncryptionKey
+func (m createautonomousdatabasebase) GetEncryptionKey() autonomousdatabaseencryptionkeydetails {
+	return m.EncryptionKey
 }
 
 // GetAdminPassword returns AdminPassword

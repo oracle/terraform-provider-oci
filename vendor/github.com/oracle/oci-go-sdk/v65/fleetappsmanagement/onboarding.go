@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,8 @@ import (
 	"strings"
 )
 
-// Onboarding FleetAppManagementService onboarding resource.
+// Onboarding Fleet Application Management onboarding resource.
+// The onboarding process lets Fleet Application Management create a few required policies that you need to start using it and its features.
 type Onboarding struct {
 
 	// The unique id of the resource.
@@ -37,14 +37,21 @@ type Onboarding struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// A value determining FAMS tag is enabled or not
+	// A value determining if the Fleet Application Management tagging is enabled or not.
+	// Allow Fleet Application Management to tag resources with fleet name using "Oracle$FAMS-Tags.FleetName" tag.
 	IsFamsTagEnabled *bool `mandatory:"false" json:"isFamsTagEnabled"`
 
-	// Version of FAMS the tenant is onboarded to.
+	// The version of Fleet Application Management that the tenant is onboarded to.
 	Version *string `mandatory:"false" json:"version"`
 
-	// A value determining if cost tracking tag is enabled or not
+	// A value determining if the cost tracking tag is enabled or not.
+	// Allow Fleet Application Management to tag resources with cost tracking tag using "Oracle$FAMS-Tags.FAMSManaged" tag.
 	IsCostTrackingTagEnabled *bool `mandatory:"false" json:"isCostTrackingTagEnabled"`
+
+	AppliedPolicies *OnboardingPolicySummary `mandatory:"false" json:"appliedPolicies"`
+
+	// Provide discovery frequency.
+	DiscoveryFrequency *string `mandatory:"false" json:"discoveryFrequency"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`

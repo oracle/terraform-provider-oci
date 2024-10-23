@@ -18,22 +18,28 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetCredentials.go.html to see an example of how to use ListFleetCredentialsRequest.
 type ListFleetCredentialsRequest struct {
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState FleetCredentialLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// Credential Level.
+	// Resource Identifier
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
+
+	// A filter to return only resources whose target matches the given target name.
+	Target *string `mandatory:"false" contributesTo:"query" name:"target"`
+
+	// A filter to return only resources whose credentialLevel matches the given credentialLevel.
 	CredentialLevel CredentialEntitySpecificDetailsCredentialLevelEnum `mandatory:"false" contributesTo:"query" name:"credentialLevel" omitEmpty:"true"`
 
-	// unique FleetCredential identifier
+	// A filter to return only resources whose credential identifier matches the given identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

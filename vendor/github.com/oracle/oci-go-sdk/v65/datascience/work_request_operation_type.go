@@ -42,6 +42,7 @@ const (
 	WorkRequestOperationTypePrivateEndpointDelete     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 	WorkRequestOperationTypePrivateEndpointMove       WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
 	WorkRequestOperationTypePrivateEndpointUpdate     WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_UPDATE"
+	WorkRequestOperationTypeRestoreArchivedModel      WorkRequestOperationTypeEnum = "RESTORE_ARCHIVED_MODEL"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -69,6 +70,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"PRIVATE_ENDPOINT_DELETE":     WorkRequestOperationTypePrivateEndpointDelete,
 	"PRIVATE_ENDPOINT_MOVE":       WorkRequestOperationTypePrivateEndpointMove,
 	"PRIVATE_ENDPOINT_UPDATE":     WorkRequestOperationTypePrivateEndpointUpdate,
+	"RESTORE_ARCHIVED_MODEL":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -96,6 +98,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"private_endpoint_delete":     WorkRequestOperationTypePrivateEndpointDelete,
 	"private_endpoint_move":       WorkRequestOperationTypePrivateEndpointMove,
 	"private_endpoint_update":     WorkRequestOperationTypePrivateEndpointUpdate,
+	"restore_archived_model":      WorkRequestOperationTypeRestoreArchivedModel,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -134,6 +137,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"PRIVATE_ENDPOINT_DELETE",
 		"PRIVATE_ENDPOINT_MOVE",
 		"PRIVATE_ENDPOINT_UPDATE",
+		"RESTORE_ARCHIVED_MODEL",
 	}
 }
 

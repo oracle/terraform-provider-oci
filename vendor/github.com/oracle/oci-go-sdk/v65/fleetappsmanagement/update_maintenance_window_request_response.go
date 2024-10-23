@@ -21,7 +21,7 @@ type UpdateMaintenanceWindowRequest struct {
 	// unique MaintenanceWindow identifier
 	MaintenanceWindowId *string `mandatory:"true" contributesTo:"path" name:"maintenanceWindowId"`
 
-	// The information to be updated.
+	// The information to be updated for the maintenance window.
 	UpdateMaintenanceWindowDetails `contributesTo:"body"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

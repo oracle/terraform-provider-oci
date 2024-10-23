@@ -32,6 +32,9 @@ type DeleteFileSystemRequest struct {
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// If the value is set to true, then the file system will be deleted by detaching its child file system, turning
 	// the child file system into an independent File System.
 	CanDetachChildFileSystem *bool `mandatory:"false" contributesTo:"query" name:"canDetachChildFileSystem"`

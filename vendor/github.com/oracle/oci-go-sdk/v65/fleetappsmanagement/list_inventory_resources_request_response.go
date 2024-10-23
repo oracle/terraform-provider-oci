@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListInventoryResources.go.html to see an example of how to use ListInventoryResourcesRequest.
 type ListInventoryResourcesRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// A filter to return only resources whose base Compartment ID(TenancyId) matches the given base Compartment ID.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Resource Compartment ID
+	// A filter to return only resources whose resource Compartment ID matches the given resource Compartment ID.
 	ResourceCompartmentId *string `mandatory:"true" contributesTo:"query" name:"resourceCompartmentId"`
 
 	// A filter to return only resources their lifecycleState matches the given lifecycleState.
@@ -37,6 +37,7 @@ type ListInventoryResourcesRequest struct {
 	// Each item in the list has the format "{namespace}.{tagName}={value}".  All inputs are case-insensitive.
 	// Multiple values for the same key (i.e. same namespace and tag name) are interpreted as "OR".
 	// Values for different keys (i.e. different namespaces, different tag names, or both) are interpreted as "AND".
+	// Example: Identification.Development=Yes
 	DefinedTagEquals []string `contributesTo:"query" name:"definedTagEquals" collectionFormat:"multi"`
 
 	// A list of tag filters to apply.  Only resources with a freeform tag matching the value will be returned.
@@ -46,9 +47,11 @@ type ListInventoryResourcesRequest struct {
 
 	// A list of inventory properties filters to apply.
 	// The key for each inventory property and value for each resource type is "{resourceType}.{inventoryProperty}={value}".
+	// Example: Instance.displayName=TEST_INSTANCE
 	InventoryProperties []string `contributesTo:"query" name:"inventoryProperties" collectionFormat:"multi"`
 
-	// Fetch resources matching matching ANY or ALL criteria passed as params in "tags" and "inventoryProperties"
+	// Fetch resources matching ANY or ALL criteria passed as params in "tags" and "inventoryProperties".
+	// Example: matchingCriteria=ANY
 	MatchingCriteria *string `mandatory:"false" contributesTo:"query" name:"matchingCriteria"`
 
 	// The maximum number of items to return.

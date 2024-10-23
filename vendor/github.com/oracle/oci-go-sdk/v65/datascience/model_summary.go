@@ -52,6 +52,9 @@ type ModelSummary struct {
 	// The version label can add an additional description of the lifecycle state of the model or the application using and training the model.
 	VersionLabel *string `mandatory:"true" json:"versionLabel"`
 
+	// Details about the lifecycle state of the model.
+	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

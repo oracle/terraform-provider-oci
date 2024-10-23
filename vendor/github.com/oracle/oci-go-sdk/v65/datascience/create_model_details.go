@@ -56,6 +56,10 @@ type CreateModelDetails struct {
 
 	// The version label can add an additional description of the lifecycle state of the model or the application using/training the model.
 	VersionLabel *string `mandatory:"false" json:"versionLabel"`
+
+	RetentionSetting *RetentionSetting `mandatory:"false" json:"retentionSetting"`
+
+	BackupSetting *BackupSetting `mandatory:"false" json:"backupSetting"`
 }
 
 func (m CreateModelDetails) String() string {
