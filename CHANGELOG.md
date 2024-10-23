@@ -1,3 +1,17 @@
+## 6.15.0 (Unreleased)
+
+### Added
+- Support for FSS Resource Locking
+- Support for Cloud Migrations service support for AWS EC2 instances migration
+- Support for ADB-S: Customer Managed Keys via Azure Key Vault and AWS KMS
+- Compute support for ZPR
+nlb-cp zpr support
+- Support for Add DB 23ai support to Globally Distributed Autonomous Database
+Support for OCI Data Science Model Store Backup and Retention
+- Support for FC Redundancy Project
+### Bug Fix
+for the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
+
 ## 6.12.0 (Unreleased)
 
 ### Added
