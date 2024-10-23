@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -22,8 +21,12 @@ type ActivityResourceTarget struct {
 	// Target Name.
 	TargetName *string `mandatory:"true" json:"targetName"`
 
-	// Status of the Job at Resource Target Level.
+	// Status of the Job at target Level.
 	Status JobStatusEnum `mandatory:"false" json:"status,omitempty"`
+
+	// Description of the Execution status.
+	// If there are any errors, this can also include a short error message.
+	Description *string `mandatory:"false" json:"description"`
 }
 
 func (m ActivityResourceTarget) String() string {

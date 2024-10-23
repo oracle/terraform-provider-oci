@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -22,7 +21,11 @@ type CreateFleetDetails struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of the Fleet
+	// Type of the Fleet.
+	// PRODUCT - A fleet of product-specific resources for a product type.
+	// ENVIRONMENT - A fleet of environment-specific resources for a product stack.
+	// GROUP - A fleet of a fleet of either environment or product fleets.
+	// GENERIC - A fleet of resources selected dynamically or manually for reporting purposes
 	FleetType FleetFleetTypeEnum `mandatory:"true" json:"fleetType"`
 
 	// A user-friendly name. Does not have to be unique, and it's changeable.
@@ -34,29 +37,36 @@ type CreateFleetDetails struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Products associated with the Fleet
+	// Products associated with the Fleet.
 	Products []string `mandatory:"false" json:"products"`
 
-	// Application Type associated with the Fleet.Applicable for Environment fleet types.
+	// Product stack associated with the Fleet.
+	// Applicable for ENVIRONMENT fleet types.
 	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
-	// Environment Type associated with the Fleet.Applicable for Environment fleet types.
+	// Environment Type associated with the Fleet.
+	// Applicable for ENVIRONMENT fleet types.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
-	// Group Type associated with Group Fleet.Applicable for Group fleet types.
+	// Group Type associated with Group Fleet.
 	GroupType FleetGroupTypeEnum `mandatory:"false" json:"groupType,omitempty"`
 
-	// Type of resource selection in a fleet
+	// Type of resource selection in a Fleet.
+	// Select resources manually or select resources based on rules.
 	ResourceSelectionType FleetResourceSelectionTypeEnum `mandatory:"false" json:"resourceSelectionType,omitempty"`
 
 	RuleSelectionCriteria *SelectionCriteria `mandatory:"false" json:"ruleSelectionCriteria"`
 
 	NotificationPreferences *NotificationPreferences `mandatory:"false" json:"notificationPreferences"`
 
-	// Resources to be added during fleet creation when Resource selection type is Manual.
+	// Resources associated with the Fleet if resourceSelectionType is MANUAL.
 	Resources []AssociatedFleetResourceDetails `mandatory:"false" json:"resources"`
 
-	// A value which represents if auto confirming of the targets can be enabled
+	// Credentials associated with the Fleet.
+	Credentials []AssociatedFleetCredentialDetails `mandatory:"false" json:"credentials"`
+
+	// A value that represents if auto-confirming of the targets can be enabled.
+	// This will allow targets to be auto-confirmed in the fleet without manual intervention.
 	IsTargetAutoConfirm *bool `mandatory:"false" json:"isTargetAutoConfirm"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

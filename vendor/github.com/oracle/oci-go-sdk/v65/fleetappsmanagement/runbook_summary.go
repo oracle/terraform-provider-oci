@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -33,7 +32,7 @@ type RunbookSummary struct {
 	// Type of runbook structure.
 	RunbookRelevance RunbookRunbookRelevanceEnum `mandatory:"true" json:"runbookRelevance"`
 
-	// The lifecycle operation performed by the task.
+	// The lifecycle operation performed by the runbook.
 	Operation *string `mandatory:"true" json:"operation"`
 
 	// The OS type for the runbook.
@@ -43,6 +42,7 @@ type RunbookSummary struct {
 	Platform *string `mandatory:"true" json:"platform"`
 
 	// Is the runbook default?
+	// Sets this runbook as the default for the chosen product/product stack for the specified lifecycle operation.
 	IsDefault *bool `mandatory:"true" json:"isDefault"`
 
 	// The current state of the Runbook.
@@ -61,7 +61,7 @@ type RunbookSummary struct {
 	// Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
-	// Estimated time to successfully complete the runbook execution
+	// Estimated time to successfully complete the runbook execution.
 	EstimatedTime *string `mandatory:"false" json:"estimatedTime"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

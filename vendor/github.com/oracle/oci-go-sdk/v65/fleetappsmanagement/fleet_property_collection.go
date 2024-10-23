@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,10 +15,10 @@ import (
 	"strings"
 )
 
-// FleetPropertyCollection Results of a fleetProperty search. Contains boh FleetPropertySummary items and other information, such as metadata.
+// FleetPropertyCollection Results of a fleetProperty search. Contains both FleetPropertySummary items and other information, such as metadata.
 type FleetPropertyCollection struct {
 
-	// List of fleetPropertys.
+	// List of fleet properties in Fleet Application Management.
 	Items []FleetPropertySummary `mandatory:"true" json:"items"`
 }
 

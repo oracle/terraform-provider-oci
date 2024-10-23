@@ -21,7 +21,7 @@ type GetFleetResourceRequest struct {
 	// unique FleetResource identifier
 	FleetResourceId *string `mandatory:"true" contributesTo:"path" name:"fleetResourceId"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The client request ID for tracing.

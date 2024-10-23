@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -18,7 +17,7 @@ import (
 )
 
 // ObjectStorageBucketContentDetails Details about Object Storage Bucket source.
-// Restricted to the region this is called
+// Restricted to the region this is called.
 type ObjectStorageBucketContentDetails struct {
 
 	// Namespace.
@@ -30,7 +29,7 @@ type ObjectStorageBucketContentDetails struct {
 	// Object Name.
 	ObjectName *string `mandatory:"true" json:"objectName"`
 
-	// SHA256 checksum of the artifact.
+	// md5 checksum of the artifact.
 	Checksum *string `mandatory:"true" json:"checksum"`
 }
 

@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,16 +15,16 @@ import (
 	"strings"
 )
 
-// CheckResourceTaggingDetails Request to check resource tagging
+// CheckResourceTaggingDetails Request to check resource tagging.
 type CheckResourceTaggingDetails struct {
 
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Resource OCIDS that need to be verified if tag can be enabled
+	// Resource OCIDS that need to be verified if a tag can be enabled for them.
 	ResourceIds []string `mandatory:"true" json:"resourceIds"`
 
-	// Fleet Name
+	// Fleet Display Name.
 	FleetDisplayName *string `mandatory:"false" json:"fleetDisplayName"`
 }
 
