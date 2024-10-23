@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -20,7 +19,7 @@ import (
 // WorkflowGroup Workflow Group Layout.
 type WorkflowGroup struct {
 
-	// Provide the name of the group.
+	// Name of the group.
 	GroupName *string `mandatory:"true" json:"groupName"`
 
 	// Workflow Group  Details.

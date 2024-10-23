@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -92,7 +91,7 @@ func (client *FleetAppsManagementMaintenanceWindowClient) ConfigurationProvider(
 	return client.config
 }
 
-// CreateMaintenanceWindow Creates a new MaintenanceWindow.
+// CreateMaintenanceWindow Create a maintenance window in Fleet Application Management.
 //
 // # See also
 //
@@ -155,7 +154,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) createMaintenanceWindow
 	return response, err
 }
 
-// DeleteMaintenanceWindow Deletes a MaintenanceWindow resource by identifier
+// DeleteMaintenanceWindow Delete a maintenance window in Fleet Application Management.
 //
 // # See also
 //
@@ -213,7 +212,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) deleteMaintenanceWindow
 	return response, err
 }
 
-// GetMaintenanceWindow Gets a MaintenanceWindow by identifier
+// GetMaintenanceWindow Get the details for a maintenance window in Fleet Application Management.
 //
 // # See also
 //
@@ -271,7 +270,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) getMaintenanceWindow(ct
 	return response, err
 }
 
-// ListMaintenanceWindows Returns a list of MaintenanceWindows in the specified Tenancy.
+// ListMaintenanceWindows List maintenance windows for a specified tenancy in Fleet Application Management.
 //
 // # See also
 //
@@ -329,7 +328,7 @@ func (client FleetAppsManagementMaintenanceWindowClient) listMaintenanceWindows(
 	return response, err
 }
 
-// UpdateMaintenanceWindow Updates the MaintenanceWindow
+// UpdateMaintenanceWindow Update a maintenance window in Fleet Application Management.
 //
 // # See also
 //

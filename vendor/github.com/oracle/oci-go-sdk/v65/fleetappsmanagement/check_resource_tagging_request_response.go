@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/CheckResourceTagging.go.html to see an example of how to use CheckResourceTaggingRequest.
 type CheckResourceTaggingRequest struct {
 
-	// Details for Checking if FAMS tags can be added for the resources
+	// Details for checking if Fleet Application Management tags can be added to the resources.
 	CheckResourceTaggingDetails `contributesTo:"body"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

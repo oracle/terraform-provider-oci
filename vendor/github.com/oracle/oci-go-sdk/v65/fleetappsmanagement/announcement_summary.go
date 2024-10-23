@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// AnnouncementSummary An summary of announcements for Fleet Application Management Service
+// AnnouncementSummary A summary of announcements for Fleet Application Management.
 type AnnouncementSummary struct {
 
 	// The OCID of the resource.
@@ -25,16 +24,16 @@ type AnnouncementSummary struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// Type of announcement
+	// Type of announcement.
 	Type *string `mandatory:"true" json:"type"`
 
-	// Summary of the announcement
+	// Summary of the announcement.
 	Summary *string `mandatory:"true" json:"summary"`
 
-	// Date to start displaying announcement to user
+	// Announcement start date.
 	AnnouncementStart *common.SDKTime `mandatory:"true" json:"announcementStart"`
 
-	// Date to end displaying annonucement to user
+	// Announcement end date
 	AnnouncementEnd *common.SDKTime `mandatory:"true" json:"announcementEnd"`
 
 	// Associated region
@@ -55,10 +54,10 @@ type AnnouncementSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Details of the announcement
+	// Announcement Details.
 	Details *string `mandatory:"false" json:"details"`
 
-	// URL to the announcement
+	// URL to the announcement.
 	Url *string `mandatory:"false" json:"url"`
 
 	// The lifecycle state of the announcement.

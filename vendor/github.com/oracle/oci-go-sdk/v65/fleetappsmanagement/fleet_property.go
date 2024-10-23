@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// FleetProperty Property associated with a Fleet.
+// FleetProperty Property to manage fleet metadata details in Fleet Application Management.
 type FleetProperty struct {
 
 	// The unique id of the resource.
@@ -33,10 +32,10 @@ type FleetProperty struct {
 	// The time this resource was created. An RFC3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
-	// Text selection of the category
+	// Text selection of the property.
 	SelectionType SelectionEnum `mandatory:"true" json:"selectionType"`
 
-	// Format of the value
+	// Format of the value.
 	ValueType ValueTypeEnum `mandatory:"true" json:"valueType"`
 
 	// The current state of the FleetProperty.
@@ -45,13 +44,13 @@ type FleetProperty struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Value of the Property
+	// Value of the Property.
 	Value *string `mandatory:"false" json:"value"`
 
-	// Property Id Ocid.
+	// OCID referring to global level metadata property.
 	PropertyId *string `mandatory:"false" json:"propertyId"`
 
-	// Values of the category (must be a single value if selection = 'single choice')
+	// Values of the property (must be a single value if selectionType = 'SINGLE_CHOICE').
 	AllowedValues []string `mandatory:"false" json:"allowedValues"`
 
 	// System tags for this resource. Each key is predefined and scoped to a namespace.

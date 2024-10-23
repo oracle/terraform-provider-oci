@@ -21,7 +21,7 @@ type DeleteFleetCredentialRequest struct {
 	// unique FleetCredential identifier
 	FleetCredentialId *string `mandatory:"true" contributesTo:"path" name:"fleetCredentialId"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// For optimistic concurrency control. In the PUT or DELETE call

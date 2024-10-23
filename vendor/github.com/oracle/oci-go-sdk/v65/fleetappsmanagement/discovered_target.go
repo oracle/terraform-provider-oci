@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -19,7 +18,7 @@ import (
 // DiscoveredTarget A target that is discovered by the Software discovery process.
 type DiscoveredTarget struct {
 
-	// OCID of the Target.
+	// ID of the Target. Can be the target name if a separate ID is not available.
 	TargetId *string `mandatory:"true" json:"targetId"`
 
 	// Target Name.
@@ -28,10 +27,10 @@ type DiscoveredTarget struct {
 	// Product that the target belongs to.
 	Product *string `mandatory:"true" json:"product"`
 
-	// Unique key that identify the resource that target belongs to.
+	// Unique key that identifies the resource that the target belongs to.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// Current version of Target
+	// Current version of the target.
 	Version *string `mandatory:"false" json:"version"`
 }
 

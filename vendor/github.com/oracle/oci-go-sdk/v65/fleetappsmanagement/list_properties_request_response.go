@@ -21,16 +21,16 @@ type ListPropertiesRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState PropertyLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique Property identifier
+	// A filter to return only resources whose Property identifier matches the given identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// A filter to return only resources their scope matches the given lifecycleState.
+	// A filter to return only resources their scope matches the given scope.
 	Scope ListPropertiesScopeEnum `mandatory:"false" contributesTo:"query" name:"scope" omitEmpty:"true"`
 
 	// The maximum number of items to return.

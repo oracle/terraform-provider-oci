@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListAnnouncements.go.html to see an example of how to use ListAnnouncementsRequest.
 type ListAnnouncementsRequest struct {
 
-	// Filter the list with summary contains the given value.
+	// Filter the list of announcements that contains the given summary value.
 	SummaryContains *string `mandatory:"false" contributesTo:"query" name:"summaryContains"`
 
 	// A filter to return only resources that match the entire display name given.
@@ -33,8 +33,8 @@ type ListAnnouncementsRequest struct {
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListAnnouncementsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
-	// The field to sort AnnouncementSummary by.  Only one sort order may be provided.
-	// If no value is specified _timeReleased_ is default.
+	// The field to sort AnnouncementSummary by. Only one sort order may be provided.
+	// If no value is specified timeReleased is default.
 	SortBy ListAnnouncementsSortByEnum `mandatory:"false" contributesTo:"query" name:"sortBy" omitEmpty:"true"`
 
 	// The client request ID for tracing.

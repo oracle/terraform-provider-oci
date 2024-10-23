@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// FleetTargetSummary Summary of the FleetTarget.
+// FleetTargetSummary Summary of a confirmed target within a fleet.
 type FleetTargetSummary struct {
 
 	// The OCID of the resource.
@@ -30,7 +29,7 @@ type FleetTargetSummary struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
-	// Current version of Target
+	// Current version of target.
 	Version *string `mandatory:"false" json:"version"`
 
 	// Product to which the target belongs to.
@@ -38,8 +37,17 @@ type FleetTargetSummary struct {
 
 	Resource *TargetResource `mandatory:"false" json:"resource"`
 
-	// Last known compliance state of Target.
+	// The last known compliance state of the target.
 	ComplianceState ComplianceStateEnum `mandatory:"false" json:"complianceState,omitempty"`
+
+	// The time when the last successful discovery was made.
+	TimeOfLastSuccessfulDiscovery *common.SDKTime `mandatory:"false" json:"timeOfLastSuccessfulDiscovery"`
+
+	// The time when last discovery was attempted.
+	TimeOfLastDiscoveryAttempt *common.SDKTime `mandatory:"false" json:"timeOfLastDiscoveryAttempt"`
+
+	// A boolean flag that represents whether the last discovery attempt was successful.
+	IsLastDiscoveryAttemptSuccessful *bool `mandatory:"false" json:"isLastDiscoveryAttemptSuccessful"`
 
 	// The current state of the FleetTarget.
 	LifecycleState FleetTargetLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`

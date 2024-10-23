@@ -18,7 +18,7 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleetProducts.go.html to see an example of how to use ListFleetProductsRequest.
 type ListFleetProductsRequest struct {
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// The ID of the compartment in which to list resources.
@@ -27,7 +27,7 @@ type ListFleetProductsRequest struct {
 	// Resource Identifier
 	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
-	// Resource Display Name
+	// Resource Display Name.
 	ResourceDisplayName *string `mandatory:"false" contributesTo:"query" name:"resourceDisplayName"`
 
 	// A filter to return only resources that match the entire display name given.

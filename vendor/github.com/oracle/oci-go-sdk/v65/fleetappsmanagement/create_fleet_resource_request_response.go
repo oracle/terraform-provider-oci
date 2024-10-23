@@ -21,7 +21,7 @@ type CreateFleetResourceRequest struct {
 	// Details for the new FleetResource.
 	CreateFleetResourceDetails `contributesTo:"body"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

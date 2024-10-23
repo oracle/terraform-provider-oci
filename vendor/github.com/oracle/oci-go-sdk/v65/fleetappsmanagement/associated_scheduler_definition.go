@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// AssociatedSchedulerDefinition Associated SchedulerDefinition with the job.
+// AssociatedSchedulerDefinition SchedulerDefinition  associated with the job.
 type AssociatedSchedulerDefinition struct {
 
 	// The OCID of the resource.
@@ -30,7 +29,7 @@ type AssociatedSchedulerDefinition struct {
 	// OCID of the tenancy to which the resource belongs to.
 	TenancyId *string `mandatory:"true" json:"tenancyId"`
 
-	// Is this recurring schedule?
+	// Is this a recurring schedule?
 	IsRecurring *bool `mandatory:"true" json:"isRecurring"`
 }
 

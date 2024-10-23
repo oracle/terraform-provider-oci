@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// ComplianceReport Summary of a compliance report.
+// ComplianceReport Compliance details for a fleet in Fleet Application Management.
 type ComplianceReport struct {
 
 	// Compliance Report Identifier
@@ -25,10 +24,10 @@ type ComplianceReport struct {
 	// The fleet OCID.
 	FleetId *string `mandatory:"true" json:"fleetId"`
 
-	// Last known compliance state of fleet.
+	// The last known compliance state of the fleet.
 	ComplianceState ComplianceStateEnum `mandatory:"true" json:"complianceState"`
 
-	// Resources assocaited with the Fleet.
+	// Resources associated with the Fleet.
 	Resources []ComplianceReportResource `mandatory:"false" json:"resources"`
 }
 

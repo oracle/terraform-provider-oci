@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,7 +49,7 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	BackupRetentionPeriodInDays *int `mandatory:"false" json:"backupRetentionPeriodInDays"`
 
 	// The compute amount (CPUs) available to the database. Minimum and maximum values depend on the compute model and whether the database is an Autonomous Database Serverless instance or an Autonomous Database on Dedicated Exadata Infrastructure.
-	// The 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
+	// For an Autonomous Database Serverless instance, the 'ECPU' compute model requires a minimum value of one, for databases in the elastic resource pool and minimum value of two, otherwise. Required when using the `computeModel` parameter. When using `cpuCoreCount` parameter, it is an error to specify computeCount to a non-null value. Providing `computeModel` and `computeCount` is the preferred method for both OCPU and ECPU.
 	ComputeCount *float32 `mandatory:"false" json:"computeCount"`
 
 	// The number of OCPU cores to be made available to the database.
@@ -226,9 +226,6 @@ type CreateRefreshableAutonomousDatabaseCloneDetails struct {
 	// The list of database tools details.
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	DbToolsDetails []DatabaseTool `mandatory:"false" json:"dbToolsDetails"`
-
-	// True if the Autonomous Database is backup retention locked.
-	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
 
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
 	// This cannot be used in conjunction with adminPassword.
@@ -529,11 +526,6 @@ func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetDbToolsDetails() []D
 	return m.DbToolsDetails
 }
 
-// GetIsBackupRetentionLocked returns IsBackupRetentionLocked
-func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetIsBackupRetentionLocked() *bool {
-	return m.IsBackupRetentionLocked
-}
-
 // GetSecretId returns SecretId
 func (m CreateRefreshableAutonomousDatabaseCloneDetails) GetSecretId() *string {
 	return m.SecretId
@@ -647,7 +639,6 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 		IsAutoScalingForStorageEnabled           *bool                                                              `json:"isAutoScalingForStorageEnabled"`
 		DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                       `json:"databaseEdition"`
 		DbToolsDetails                           []DatabaseTool                                                     `json:"dbToolsDetails"`
-		IsBackupRetentionLocked                  *bool                                                              `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                            `json:"secretId"`
 		SecretVersionNumber                      *int                                                               `json:"secretVersionNumber"`
 		RefreshableMode                          CreateRefreshableAutonomousDatabaseCloneDetailsRefreshableModeEnum `json:"refreshableMode"`
@@ -770,8 +761,6 @@ func (m *CreateRefreshableAutonomousDatabaseCloneDetails) UnmarshalJSON(data []b
 
 	m.DbToolsDetails = make([]DatabaseTool, len(model.DbToolsDetails))
 	copy(m.DbToolsDetails, model.DbToolsDetails)
-	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
-
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber

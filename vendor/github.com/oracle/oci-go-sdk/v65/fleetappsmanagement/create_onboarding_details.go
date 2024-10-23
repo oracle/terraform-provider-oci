@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -22,10 +21,12 @@ type CreateOnboardingDetails struct {
 	// Tenancy OCID
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// A value determining FAMS tag is enabled or not
+	// A value determining if the Fleet Application Management tagging is enabled or not.
+	// Allow Fleet Application Management to tag resources with fleet name using "Oracle$FAMS-Tags.FleetName" tag.
 	IsFamsTagEnabled *bool `mandatory:"false" json:"isFamsTagEnabled"`
 
-	// A value determining if cost tracking tag is enabled or not
+	// A value determining if the cost tracking tag is enabled or not.
+	// Allow Fleet Application Management to tag resources with cost tracking tag using "Oracle$FAMS-Tags.FAMSManaged" tag.
 	IsCostTrackingTagEnabled *bool `mandatory:"false" json:"isCostTrackingTagEnabled"`
 }
 

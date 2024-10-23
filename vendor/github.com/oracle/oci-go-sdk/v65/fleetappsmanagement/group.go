@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,13 +15,16 @@ import (
 	"strings"
 )
 
-// Group The group of the runbook
+// Group The group of the runbook.
 type Group struct {
 
-	// The type of the group
+	// The type of the group.
+	// PARALLEL_TASK_GROUP : Helps to execute tasks parallelly inside a resource.
+	// PARALLEL_RESOURCE_GROUP : Executes tasks across resources parallelly.
+	// ROLLING_RESOURCE_GROUP : Executes tasks across resources in a rolling order.
 	Type GroupTypeEnum `mandatory:"true" json:"type"`
 
-	// The name of the group
+	// The name of the group.
 	Name *string `mandatory:"true" json:"name"`
 
 	Properties *ComponentProperties `mandatory:"false" json:"properties"`

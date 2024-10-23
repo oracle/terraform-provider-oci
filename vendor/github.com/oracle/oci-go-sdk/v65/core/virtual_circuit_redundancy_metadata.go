@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -21,16 +21,16 @@ import (
 	"strings"
 )
 
-// VirtualCircuitRedundancyMetadata This resource provides redundancy level details for the virtual circuit. For more about redundancy, see FastConnect Redundancy Best Practices (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/fastconnectresiliency.htm).
+// VirtualCircuitRedundancyMetadata Redundancy level details of the virtual circuit
 type VirtualCircuitRedundancyMetadata struct {
 
-	// The configured redundancy level of the virtual circuit.
+	// The configured redundancy level of the virtual circuit
 	ConfiguredRedundancyLevel VirtualCircuitRedundancyMetadataConfiguredRedundancyLevelEnum `mandatory:"false" json:"configuredRedundancyLevel,omitempty"`
 
-	// Indicates if the configured level is met for IPv4 BGP redundancy.
+	// IPV4 BGP redundancy status indicates if the configured redundancy level is met
 	Ipv4bgpSessionRedundancyStatus VirtualCircuitRedundancyMetadataIpv4bgpSessionRedundancyStatusEnum `mandatory:"false" json:"ipv4bgpSessionRedundancyStatus,omitempty"`
 
-	// Indicates if the configured level is met for IPv6 BGP redundancy.
+	// IPV6 BGP redundancy status indicates if the configured redundancy level is met
 	Ipv6bgpSessionRedundancyStatus VirtualCircuitRedundancyMetadataIpv6bgpSessionRedundancyStatusEnum `mandatory:"false" json:"ipv6bgpSessionRedundancyStatus,omitempty"`
 }
 

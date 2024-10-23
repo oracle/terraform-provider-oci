@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -30,6 +29,7 @@ const (
 	JobStatusNotApplicable JobStatusEnum = "NOT_APPLICABLE"
 	JobStatusAborted       JobStatusEnum = "ABORTED"
 	JobStatusTimedOut      JobStatusEnum = "TIMED_OUT"
+	JobStatusPaused        JobStatusEnum = "PAUSED"
 )
 
 var mappingJobStatusEnum = map[string]JobStatusEnum{
@@ -44,6 +44,7 @@ var mappingJobStatusEnum = map[string]JobStatusEnum{
 	"NOT_APPLICABLE": JobStatusNotApplicable,
 	"ABORTED":        JobStatusAborted,
 	"TIMED_OUT":      JobStatusTimedOut,
+	"PAUSED":         JobStatusPaused,
 }
 
 var mappingJobStatusEnumLowerCase = map[string]JobStatusEnum{
@@ -58,6 +59,7 @@ var mappingJobStatusEnumLowerCase = map[string]JobStatusEnum{
 	"not_applicable": JobStatusNotApplicable,
 	"aborted":        JobStatusAborted,
 	"timed_out":      JobStatusTimedOut,
+	"paused":         JobStatusPaused,
 }
 
 // GetJobStatusEnumValues Enumerates the set of values for JobStatusEnum
@@ -83,6 +85,7 @@ func GetJobStatusEnumStringValues() []string {
 		"NOT_APPLICABLE",
 		"ABORTED",
 		"TIMED_OUT",
+		"PAUSED",
 	}
 }
 

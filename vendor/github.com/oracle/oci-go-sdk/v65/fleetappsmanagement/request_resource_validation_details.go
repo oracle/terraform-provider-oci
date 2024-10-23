@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,13 +15,13 @@ import (
 	"strings"
 )
 
-// RequestResourceValidationDetails Request to initiate resource validation
+// RequestResourceValidationDetails Request to initiate resource validation.
 type RequestResourceValidationDetails struct {
 
-	// A boolean flag which decides if all resources within the fleet should be part of vaidation.
+	// A boolean flag that decides if all resources within the fleet should be part of the validation.
 	IsApplicableToAllResources *bool `mandatory:"false" json:"isApplicableToAllResources"`
 
-	// Resource OCIDS that need to be included for validation.
+	// Resource OCIDS to be included for validation.
 	ResourceIds []string `mandatory:"false" json:"resourceIds"`
 }
 

@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -17,7 +16,7 @@ import (
 	"strings"
 )
 
-// CredentialEntitySpecificDetails Credential Details
+// CredentialEntitySpecificDetails Credential specific Details.
 type CredentialEntitySpecificDetails interface {
 }
 
@@ -55,6 +54,14 @@ func (m *credentialentityspecificdetails) UnmarshalPolymorphicJSON(data []byte) 
 		mm := TargetCredentialEntitySpecificDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "FLEET":
+		mm := FleetCredentialEntitySpecificDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "RESOURCE":
+		mm := ResourceCredentialEntitySpecificDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for CredentialEntitySpecificDetails: %s.", m.CredentialLevel)
 		return *m, nil
@@ -82,15 +89,21 @@ type CredentialEntitySpecificDetailsCredentialLevelEnum string
 
 // Set of constants representing the allowable values for CredentialEntitySpecificDetailsCredentialLevelEnum
 const (
-	CredentialEntitySpecificDetailsCredentialLevelTarget CredentialEntitySpecificDetailsCredentialLevelEnum = "TARGET"
+	CredentialEntitySpecificDetailsCredentialLevelFleet    CredentialEntitySpecificDetailsCredentialLevelEnum = "FLEET"
+	CredentialEntitySpecificDetailsCredentialLevelResource CredentialEntitySpecificDetailsCredentialLevelEnum = "RESOURCE"
+	CredentialEntitySpecificDetailsCredentialLevelTarget   CredentialEntitySpecificDetailsCredentialLevelEnum = "TARGET"
 )
 
 var mappingCredentialEntitySpecificDetailsCredentialLevelEnum = map[string]CredentialEntitySpecificDetailsCredentialLevelEnum{
-	"TARGET": CredentialEntitySpecificDetailsCredentialLevelTarget,
+	"FLEET":    CredentialEntitySpecificDetailsCredentialLevelFleet,
+	"RESOURCE": CredentialEntitySpecificDetailsCredentialLevelResource,
+	"TARGET":   CredentialEntitySpecificDetailsCredentialLevelTarget,
 }
 
 var mappingCredentialEntitySpecificDetailsCredentialLevelEnumLowerCase = map[string]CredentialEntitySpecificDetailsCredentialLevelEnum{
-	"target": CredentialEntitySpecificDetailsCredentialLevelTarget,
+	"fleet":    CredentialEntitySpecificDetailsCredentialLevelFleet,
+	"resource": CredentialEntitySpecificDetailsCredentialLevelResource,
+	"target":   CredentialEntitySpecificDetailsCredentialLevelTarget,
 }
 
 // GetCredentialEntitySpecificDetailsCredentialLevelEnumValues Enumerates the set of values for CredentialEntitySpecificDetailsCredentialLevelEnum
@@ -105,6 +118,8 @@ func GetCredentialEntitySpecificDetailsCredentialLevelEnumValues() []CredentialE
 // GetCredentialEntitySpecificDetailsCredentialLevelEnumStringValues Enumerates the set of values in String for CredentialEntitySpecificDetailsCredentialLevelEnum
 func GetCredentialEntitySpecificDetailsCredentialLevelEnumStringValues() []string {
 	return []string{
+		"FLEET",
+		"RESOURCE",
 		"TARGET",
 	}
 }
