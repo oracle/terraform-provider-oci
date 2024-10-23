@@ -15,6 +15,13 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_database "github.com/oracle/oci-go-sdk/v65/database"
+<<<<<<< ours
+	oci_work_requests "github.com/oracle/oci-go-sdk/v65/workrequests"
+
+	"github.com/oracle/terraform-provider-oci/internal/client"
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+=======
+>>>>>>> theirs
 )
 
 func DatabaseBackupResource() *schema.Resource {
@@ -29,6 +36,7 @@ func DatabaseBackupResource() *schema.Resource {
 		},
 		Create: createDatabaseBackup,
 		Read:   readDatabaseBackup,
+		Update: updateDatabaseBackup,
 		Delete: deleteDatabaseBackup,
 		Schema: map[string]*schema.Schema{
 			// Required
@@ -44,9 +52,23 @@ func DatabaseBackupResource() *schema.Resource {
 			},
 
 			// Optional
+			"retention_period_in_days": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
+			"retention_period_in_years": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 
 			// Computed
 			"availability_domain": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"backup_destination_type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -60,6 +82,10 @@ func DatabaseBackupResource() *schema.Resource {
 			},
 			"database_size_in_gbs": {
 				Type:     schema.TypeFloat,
+				Computed: true,
+			},
+			"is_using_oracle_managed_keys": {
+				Type:     schema.TypeBool,
 				Computed: true,
 			},
 			"key_store_id": {
@@ -82,6 +108,13 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"secondary_kms_key_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -91,6 +124,10 @@ func DatabaseBackupResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_ended": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_expiry_scheduled": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -131,11 +168,21 @@ func readDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	return tfresource.ReadResource(sync)
 }
 
+func updateDatabaseBackup(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseBackupResourceCrud{}
+	sync.D = d
+	sync.Client = m.(*client.OracleClients).DatabaseClient()
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
+
+	return tfresource.UpdateResource(d, sync)
+}
+
 func deleteDatabaseBackup(d *schema.ResourceData, m interface{}) error {
 	sync := &DatabaseBackupResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 	sync.DisableNotFoundRetries = true
+	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	return tfresource.DeleteResource(d, sync)
 }
@@ -146,6 +193,7 @@ type DatabaseBackupResourceCrud struct {
 	Res                    *oci_database.Backup
 	WorkRequestClient      *oci_work_requests.WorkRequestClient
 	DisableNotFoundRetries bool
+	WorkRequestClient      *oci_work_requests.WorkRequestClient
 }
 
 func (s *DatabaseBackupResourceCrud) ID() string {
@@ -190,6 +238,16 @@ func (s *DatabaseBackupResourceCrud) Create() error {
 		request.DisplayName = &tmp
 	}
 
+	if retentionPeriodInDays, ok := s.D.GetOkExists("retention_period_in_days"); ok {
+		tmp := retentionPeriodInDays.(int)
+		request.RetentionPeriodInDays = &tmp
+	}
+
+	if retentionPeriodInYears, ok := s.D.GetOkExists("retention_period_in_years"); ok {
+		tmp := retentionPeriodInYears.(int)
+		request.RetentionPeriodInYears = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	response, err := s.Client.CreateBackup(context.Background(), request)
@@ -226,6 +284,39 @@ func (s *DatabaseBackupResourceCrud) Get() error {
 	return nil
 }
 
+func (s *DatabaseBackupResourceCrud) Update() error {
+	request := oci_database.UpdateBackupRequest{}
+
+	tmp := s.D.Id()
+	request.BackupId = &tmp
+
+	if retentionPeriodInDays, ok := s.D.GetOkExists("retention_period_in_days"); ok {
+		tmp := retentionPeriodInDays.(int)
+		request.RetentionPeriodInDays = &tmp
+	}
+
+	if retentionPeriodInYears, ok := s.D.GetOkExists("retention_period_in_years"); ok {
+		tmp := retentionPeriodInYears.(int)
+		request.RetentionPeriodInYears = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	response, err := s.Client.UpdateBackup(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	workId := response.OpcWorkRequestId
+	if workId != nil {
+		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "backup", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+		if err != nil {
+			return err
+		}
+	}
+	return s.Get()
+}
+
 func (s *DatabaseBackupResourceCrud) Delete() error {
 	request := oci_database.DeleteBackupRequest{}
 
@@ -243,6 +334,8 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
 
+	s.D.Set("backup_destination_type", s.Res.BackupDestinationType)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -259,6 +352,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.IsUsingOracleManagedKeys != nil {
+		s.D.Set("is_using_oracle_managed_keys", *s.Res.IsUsingOracleManagedKeys)
 	}
 
 	if s.Res.KeyStoreId != nil {
@@ -281,6 +378,16 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
 
+	if s.Res.RetentionPeriodInDays != nil {
+		s.D.Set("retention_period_in_days", *s.Res.RetentionPeriodInDays)
+	}
+
+	if s.Res.RetentionPeriodInYears != nil {
+		s.D.Set("retention_period_in_years", *s.Res.RetentionPeriodInYears)
+	}
+
+	s.D.Set("secondary_kms_key_ids", s.Res.SecondaryKmsKeyIds)
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -289,6 +396,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.TimeEnded != nil {
 		s.D.Set("time_ended", s.Res.TimeEnded.Format(time.RFC3339Nano))
+	}
+
+	if s.Res.TimeExpiryScheduled != nil {
+		s.D.Set("time_expiry_scheduled", s.Res.TimeExpiryScheduled.String())
 	}
 
 	if s.Res.TimeStarted != nil {
