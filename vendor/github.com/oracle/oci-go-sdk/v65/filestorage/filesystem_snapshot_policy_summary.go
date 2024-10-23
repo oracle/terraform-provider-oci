@@ -42,6 +42,9 @@ type FilesystemSnapshotPolicySummary struct {
 	// Example: `My Filesystem Snapshot Policy`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// The prefix to apply to all snapshots created by this policy.
 	// Example: `acme`
 	PolicyPrefix *string `mandatory:"false" json:"policyPrefix"`

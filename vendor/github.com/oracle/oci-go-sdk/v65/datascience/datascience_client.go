@@ -4858,6 +4858,69 @@ func (client DataScienceClient) listWorkRequests(ctx context.Context, request co
 	return response, err
 }
 
+// RestoreArchivedModelArtifact Restore archived model artifact
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/datascience/RestoreArchivedModelArtifact.go.html to see an example of how to use RestoreArchivedModelArtifact API.
+// A default retry strategy applies to this operation RestoreArchivedModelArtifact()
+func (client DataScienceClient) RestoreArchivedModelArtifact(ctx context.Context, request RestoreArchivedModelArtifactRequest) (response RestoreArchivedModelArtifactResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.restoreArchivedModelArtifact, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RestoreArchivedModelArtifactResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RestoreArchivedModelArtifactResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RestoreArchivedModelArtifactResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RestoreArchivedModelArtifactResponse")
+	}
+	return
+}
+
+// restoreArchivedModelArtifact implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) restoreArchivedModelArtifact(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/models/{modelId}/actions/restore", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RestoreArchivedModelArtifactResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/Model/RestoreArchivedModelArtifact"
+		err = common.PostProcessServiceError(err, "DataScience", "RestoreArchivedModelArtifact", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateDataSciencePrivateEndpoint Updates a private endpoint using a `privateEndpointId`.  If changes to a private endpoint match
 // a previously defined private endpoint, then a 409 status code is returned.  This indicates
 // that a conflict has been detected.

@@ -21,7 +21,7 @@ type ListSchedulerJobsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only resources whose lifecycleState matches the given lifecycleState.
 	LifecycleState SchedulerJobLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// unique Fleet identifier
@@ -35,6 +35,9 @@ type ListSchedulerJobsRequest struct {
 
 	// Fetch next remediation Job
 	IsRemediationJobNeeded *bool `mandatory:"false" contributesTo:"query" name:"isRemediationJobNeeded"`
+
+	// A filter to return only resources their subState matches the given subState.
+	SubState *string `mandatory:"false" contributesTo:"query" name:"subState"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`

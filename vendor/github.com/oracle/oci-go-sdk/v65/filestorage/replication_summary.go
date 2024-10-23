@@ -43,6 +43,9 @@ type ReplicationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that contains the replication.
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Duration in minutes between replication snapshots.
 	ReplicationInterval *int64 `mandatory:"false" json:"replicationInterval"`
 

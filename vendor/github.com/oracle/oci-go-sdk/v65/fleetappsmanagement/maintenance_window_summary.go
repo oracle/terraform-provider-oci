@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -34,15 +33,18 @@ type MaintenanceWindowSummary struct {
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
 	// Does the maintenenace window cause outage?
+	// An outage indicates whether a maintenance window can consider operations that require downtime.
+	// It means a period when the application is not accessible.
 	IsOutage *bool `mandatory:"true" json:"isOutage"`
 
-	// Duration if schedule type is Custom
+	// Duration of the maintenance window.
+	// Specify how long the maintenance window remains open.
 	Duration *string `mandatory:"true" json:"duration"`
 
-	// Is this is a recurring maintenance window
+	// Is this a recurring maintenance window?
 	IsRecurring *bool `mandatory:"true" json:"isRecurring"`
 
-	// Task initiation cutoff
+	// Task initiation cutoff time for the maintenance window.
 	TaskInitiationCutoff *int `mandatory:"true" json:"taskInitiationCutoff"`
 
 	// The current state of the MaintenanceWindow.
@@ -69,10 +71,11 @@ type MaintenanceWindowSummary struct {
 	// Type of the MaintenanceWindow.
 	MaintenanceWindowType MaintenanceWindowTypeEnum `mandatory:"false" json:"maintenanceWindowType,omitempty"`
 
-	// Start time of schedule
+	// Specify the date and time of the day that the maintenance window starts.
 	TimeScheduleStart *common.SDKTime `mandatory:"false" json:"timeScheduleStart"`
 
-	// Recurrence rule specification if recurring
+	// Recurrence rule specification if maintenance window recurring.
+	// Specify the frequency of running the maintenance window.
 	Recurrences *string `mandatory:"false" json:"recurrences"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

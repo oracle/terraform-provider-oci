@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -19,13 +18,16 @@ import (
 // Condition Rule condition
 type Condition struct {
 
-	// Attribute Group.
+	// Attribute Group. Provide a Tag namespace if the rule is based on a tag.
+	// Provide resource type if the rule is based on a resource property.
 	AttrGroup *string `mandatory:"true" json:"attrGroup"`
 
-	// Attribute Key.
+	// Attribute Key.Provide Tag key if the rule is based on a tag.
+	// Provide resource property name if the rule is based on a resource property.
 	AttrKey *string `mandatory:"true" json:"attrKey"`
 
-	// Attribute Value.
+	// Attribute Value.Provide Tag value if the rule is based on a tag.
+	// Provide resource property value if the rule is based on a resource property.
 	AttrValue *string `mandatory:"true" json:"attrValue"`
 }
 
