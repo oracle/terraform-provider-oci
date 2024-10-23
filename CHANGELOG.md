@@ -1,32 +1,35 @@
-## 6.16.0 (Unreleased)
-
-### Added
-- Support for ESP & ICMP traffic support in NLB
-- override_existing flag for container_engine.addon resource
-- Support for Extending LBaaS to send traffic to gRPC backends
-- Support to return the generated secret in response
-- Support for 	Model Version Set - DataScience BugFix
-- pdated resource scheduler public documentation
-### Bug Fix
-- Updated oci_core_instance_pool resource to allow unordered attach/detach operationsupdating tests to generate reports for Acceptance and Backward compatibility
-- Fix Audit and SQL Firewall bugs - DataSafe
-
-## 6.15.0 (October 23, 2024)
+## 6.15.0 (Unreleased)
 
 ### Added
 - Support for FSS Resource Locking
 - Support for ADB-S: Customer Managed Keys via Azure Key Vault and AWS KMS
 - Compute support for ZPR
-- nlb-cp zpr support
+nlb-cp zpr support
 - Support for Add DB 23ai support to Globally Distributed Autonomous Database
-- Support for OCI Data Science Model Store Backup and Retention
+Support for OCI Data Science Model Store Backup and Retention
 - Support for FC Redundancy Project
-
+- Support for OIDC Discovery in OKE
+- Support for Support Cross region Backup copy & Replication for volumes encrypted with Customer KMS Keys
+- Support for GenerateOnPremConnectorConfiguration resource in Data Safe
+- Support for OIDC Auth Terraform
+- Support for GoldenGate new deployment creation page and extended connectivity test results
+- Support for DNSSEC
+- Direct API support for OCI BSS
+- Support for Desktop as a Service: Desktop Session Lifecycle Management
+- LBCP ppv2 support
+- Desktop as a Service: Shape Flexibility
+- Support for Operations Insights : Autonomous Database IAM based connections
+- Support for Customer Facing Scalable agent upgrade | ExaCC and ExaCS
+- 9/24- Support for ZPR v1
+- Support for PV Support for Launch w/Multiple Attachments Support for VMs
+- Support for Stack Monitoring Maintenance Windows
+- To Support for Depracate old apps admin user creation with password
+- Support for Desktop as a Service: Private Access
 ### Bug Fix
-- For the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
-- Fixed the timestamp issue to corrected form
+for the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
+Fixed the timestamp issue to corrected form
 
-## 6.14.0 (October 16, 2024)
+## 6.14.0 (Unreleased)
 
 ### Added
 - Support for OIDC Discovery in OKE
@@ -37,6 +40,15 @@
 - Support for DNSSEC
 - Direct API support for OCI BSS
 - Support for Desktop as a Service: Desktop Session Lifecycle Management
+- LBCP ppv2 support
+- Desktop as a Service: Shape Flexibility
+- Support for Operations Insights : Autonomous Database IAM based connections
+- Support for Customer Facing Scalable agent upgrade | ExaCC and ExaCS
+- 9/24- Support for ZPR v1
+- Support for PV Support for Launch w/Multiple Attachments Support for VMs
+- Support for Stack Monitoring Maintenance Windows
+- To Support for Depracate old apps admin user creation with password
+- Support for Desktop as a Service: Private Access
 ### Bug Fix
 Fixed the timestamp issue to corrected form
 
