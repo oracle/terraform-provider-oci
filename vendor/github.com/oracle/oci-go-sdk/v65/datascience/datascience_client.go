@@ -5312,6 +5312,60 @@ func (client DataScienceClient) listComputeTargets(ctx context.Context, request 
 	return response, err
 }
 
+// ListContainers List containers.
+// A default retry strategy applies to this operation ListContainers()
+func (client DataScienceClient) ListContainers(ctx context.Context, request ListContainersRequest) (response ListContainersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listContainers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListContainersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListContainersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListContainersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListContainersResponse")
+	}
+	return
+}
+
+// listContainers implements the OCIOperation interface (enables retrying operations)
+func (client DataScienceClient) listContainers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/containers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListContainersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-science/20190101/ContainerSummary/ListContainers"
+		err = common.PostProcessServiceError(err, "DataScience", "ListContainers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDataSciencePrivateEndpoints Lists all Data Science private endpoints in the specified compartment. The query must include compartmentId. The query can also include one other parameter. If the query doesn't include compartmentId, or includes compartmentId with two or more other parameters, then an error is returned.
 // A default retry strategy applies to this operation ListDataSciencePrivateEndpoints()
 func (client DataScienceClient) ListDataSciencePrivateEndpoints(ctx context.Context, request ListDataSciencePrivateEndpointsRequest) (response ListDataSciencePrivateEndpointsResponse, err error) {

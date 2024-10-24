@@ -3343,7 +3343,8 @@ func (client GoldenGateClient) listRecipes(ctx context.Context, request common.O
 	return response, err
 }
 
-// ListTrailFiles Lists the TrailFiles for a deployment. Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
+// ListTrailFiles Lists the TrailFiles for a deployment.
+// Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
 // A default retry strategy applies to this operation ListTrailFiles()
 func (client GoldenGateClient) ListTrailFiles(ctx context.Context, request ListTrailFilesRequest) (response ListTrailFilesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -3397,7 +3398,8 @@ func (client GoldenGateClient) listTrailFiles(ctx context.Context, request commo
 	return response, err
 }
 
-// ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment. Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
+// ListTrailSequences Lists the Trail Sequences for a TrailFile in a given deployment.
+// Deprecated: Please access trail file management functions directly on OGG console which are available since version Oracle GoldenGate 23c.
 // A default retry strategy applies to this operation ListTrailSequences()
 func (client GoldenGateClient) ListTrailSequences(ctx context.Context, request ListTrailSequencesRequest) (response ListTrailSequencesResponse, err error) {
 	var ociResponse common.OCIResponse

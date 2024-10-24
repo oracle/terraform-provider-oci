@@ -23,6 +23,9 @@ type LogPipelineFunctionDrop struct {
 
 	// Field of log event.
 	Field *string `mandatory:"true" json:"field"`
+
+	// The regular expression
+	Preserve *string `mandatory:"false" json:"preserve"`
 }
 
 func (m LogPipelineFunctionDrop) String() string {

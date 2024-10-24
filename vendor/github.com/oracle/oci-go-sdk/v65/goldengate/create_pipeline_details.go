@@ -19,6 +19,9 @@ import (
 // CreatePipelineDetails Details with which to create a pipeline.
 type CreatePipelineDetails interface {
 
+	// An object's Display Name.
+	GetDisplayName() *string
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	GetCompartmentId() *string
 
@@ -28,9 +31,6 @@ type CreatePipelineDetails interface {
 	GetSourceConnectionDetails() *SourcePipelineConnectionDetails
 
 	GetTargetConnectionDetails() *TargetPipelineConnectionDetails
-
-	// An object's Display Name.
-	GetDisplayName() *string
 
 	// Metadata about this specific object.
 	GetDescription() *string
@@ -50,11 +50,11 @@ type CreatePipelineDetails interface {
 
 type createpipelinedetails struct {
 	JsonData                []byte
-	DisplayName             *string                           `mandatory:"false" json:"displayName"`
 	Description             *string                           `mandatory:"false" json:"description"`
 	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 	Locks                   []ResourceLock                    `mandatory:"false" json:"locks"`
+	DisplayName             *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
 	LicenseModel            LicenseModelEnum                  `mandatory:"true" json:"licenseModel"`
 	SourceConnectionDetails *SourcePipelineConnectionDetails  `mandatory:"true" json:"sourceConnectionDetails"`
@@ -73,11 +73,11 @@ func (m *createpipelinedetails) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.DisplayName = s.Model.DisplayName
 	m.CompartmentId = s.Model.CompartmentId
 	m.LicenseModel = s.Model.LicenseModel
 	m.SourceConnectionDetails = s.Model.SourceConnectionDetails
 	m.TargetConnectionDetails = s.Model.TargetConnectionDetails
-	m.DisplayName = s.Model.DisplayName
 	m.Description = s.Model.Description
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
@@ -106,11 +106,6 @@ func (m *createpipelinedetails) UnmarshalPolymorphicJSON(data []byte) (interface
 	}
 }
 
-// GetDisplayName returns DisplayName
-func (m createpipelinedetails) GetDisplayName() *string {
-	return m.DisplayName
-}
-
 // GetDescription returns Description
 func (m createpipelinedetails) GetDescription() *string {
 	return m.Description
@@ -129,6 +124,11 @@ func (m createpipelinedetails) GetDefinedTags() map[string]map[string]interface{
 // GetLocks returns Locks
 func (m createpipelinedetails) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDisplayName returns DisplayName
+func (m createpipelinedetails) GetDisplayName() *string {
+	return m.DisplayName
 }
 
 // GetCompartmentId returns CompartmentId

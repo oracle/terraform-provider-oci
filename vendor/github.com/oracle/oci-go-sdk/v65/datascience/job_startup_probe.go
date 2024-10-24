@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JobStartupProbe The probe indicates whether the application/code within the Job container is started
+// JobStartupProbe The probe indicates whether the application/code within the job container is started
 type JobStartupProbe struct {
 
 	// The commands to run in the target container to perform the startup probe
@@ -24,7 +24,7 @@ type JobStartupProbe struct {
 	// Number of seconds how often the container should perform a startup probe
 	PeriodInSeconds *int `mandatory:"false" json:"periodInSeconds"`
 
-	// How many times the Job will try before giving up when a probe fails.
+	// How many times the job will try before giving up when a probe fails.
 	FailureThreshold *int `mandatory:"false" json:"failureThreshold"`
 
 	// Number of seconds after the container has started before a startup probe is initiated.

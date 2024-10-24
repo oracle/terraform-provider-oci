@@ -56,6 +56,10 @@ func (m *logpipelinefunction) UnmarshalPolymorphicJSON(data []byte) (interface{}
 		mm := LogPipelineFunctionFilter{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "REGEXP":
+		mm := LogPipelineFunctionRegExp{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "RENAME":
 		mm := LogPipelineFunctionRename{}
 		err = json.Unmarshal(data, &mm)

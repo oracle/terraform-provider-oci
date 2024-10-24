@@ -22,16 +22,19 @@ type LogPipelineDestinationTypesEnum string
 const (
 	LogPipelineDestinationTypesLogging       LogPipelineDestinationTypesEnum = "LOGGING"
 	LogPipelineDestinationTypesObjectStorage LogPipelineDestinationTypesEnum = "OBJECT_STORAGE"
+	LogPipelineDestinationTypesLoggingSearch LogPipelineDestinationTypesEnum = "LOGGING_SEARCH"
 )
 
 var mappingLogPipelineDestinationTypesEnum = map[string]LogPipelineDestinationTypesEnum{
 	"LOGGING":        LogPipelineDestinationTypesLogging,
 	"OBJECT_STORAGE": LogPipelineDestinationTypesObjectStorage,
+	"LOGGING_SEARCH": LogPipelineDestinationTypesLoggingSearch,
 }
 
 var mappingLogPipelineDestinationTypesEnumLowerCase = map[string]LogPipelineDestinationTypesEnum{
 	"logging":        LogPipelineDestinationTypesLogging,
 	"object_storage": LogPipelineDestinationTypesObjectStorage,
+	"logging_search": LogPipelineDestinationTypesLoggingSearch,
 }
 
 // GetLogPipelineDestinationTypesEnumValues Enumerates the set of values for LogPipelineDestinationTypesEnum
@@ -48,6 +51,7 @@ func GetLogPipelineDestinationTypesEnumStringValues() []string {
 	return []string{
 		"LOGGING",
 		"OBJECT_STORAGE",
+		"LOGGING_SEARCH",
 	}
 }
 

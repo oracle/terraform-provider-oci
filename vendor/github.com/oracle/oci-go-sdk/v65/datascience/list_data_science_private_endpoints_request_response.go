@@ -281,14 +281,17 @@ type ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum string
 // Set of constants representing the allowable values for ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum
 const (
 	ListDataSciencePrivateEndpointsDataScienceResourceTypeNotebookSession ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum = "NOTEBOOK_SESSION"
+	ListDataSciencePrivateEndpointsDataScienceResourceTypeModelDeployment ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum = "MODEL_DEPLOYMENT"
 )
 
 var mappingListDataSciencePrivateEndpointsDataScienceResourceTypeEnum = map[string]ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum{
 	"NOTEBOOK_SESSION": ListDataSciencePrivateEndpointsDataScienceResourceTypeNotebookSession,
+	"MODEL_DEPLOYMENT": ListDataSciencePrivateEndpointsDataScienceResourceTypeModelDeployment,
 }
 
 var mappingListDataSciencePrivateEndpointsDataScienceResourceTypeEnumLowerCase = map[string]ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum{
 	"notebook_session": ListDataSciencePrivateEndpointsDataScienceResourceTypeNotebookSession,
+	"model_deployment": ListDataSciencePrivateEndpointsDataScienceResourceTypeModelDeployment,
 }
 
 // GetListDataSciencePrivateEndpointsDataScienceResourceTypeEnumValues Enumerates the set of values for ListDataSciencePrivateEndpointsDataScienceResourceTypeEnum
@@ -304,6 +307,7 @@ func GetListDataSciencePrivateEndpointsDataScienceResourceTypeEnumValues() []Lis
 func GetListDataSciencePrivateEndpointsDataScienceResourceTypeEnumStringValues() []string {
 	return []string{
 		"NOTEBOOK_SESSION",
+		"MODEL_DEPLOYMENT",
 	}
 }
 

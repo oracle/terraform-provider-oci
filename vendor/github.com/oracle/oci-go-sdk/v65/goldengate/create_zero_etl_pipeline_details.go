@@ -19,15 +19,15 @@ import (
 // CreateZeroEtlPipelineDetails Creation details for a new ZeroETL pipeline.
 type CreateZeroEtlPipelineDetails struct {
 
+	// An object's Display Name.
+	DisplayName *string `mandatory:"true" json:"displayName"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
 	SourceConnectionDetails *SourcePipelineConnectionDetails `mandatory:"true" json:"sourceConnectionDetails"`
 
 	TargetConnectionDetails *TargetPipelineConnectionDetails `mandatory:"true" json:"targetConnectionDetails"`
-
-	// An object's Display Name.
-	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
