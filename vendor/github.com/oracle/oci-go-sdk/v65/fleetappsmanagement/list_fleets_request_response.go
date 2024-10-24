@@ -18,28 +18,28 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/ListFleets.go.html to see an example of how to use ListFleetsRequest.
 type ListFleetsRequest struct {
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return fleets whose lifecycleState matches the given lifecycleState.
 	LifecycleState FleetLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their fleetType matches the given fleetType.
+	// A filter to return fleets whose fleetType matches the given fleetType.
 	FleetType FleetFleetTypeEnum `mandatory:"false" contributesTo:"query" name:"fleetType" omitEmpty:"true"`
 
-	// A filter to return only resources that match the Application Type given.
+	// A filter to return resources that match the Application Type/Product Stack given..
 	ApplicationType *string `mandatory:"false" contributesTo:"query" name:"applicationType"`
 
-	// A filter to return only resources that match the Product Type given.
+	// A filter to return resources that match the Product given.
 	Product *string `mandatory:"false" contributesTo:"query" name:"product"`
 
-	// A filter to return only resources that match the Environment Type given.
+	// A filter to return resources that match the Environment Type given.
 	EnvironmentType *string `mandatory:"false" contributesTo:"query" name:"environmentType"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// unique Fleet identifier
+	// A filter to return fleets whose id matches the given Fleet identifier
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
 	// The maximum number of items to return.

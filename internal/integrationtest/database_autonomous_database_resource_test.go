@@ -4482,6 +4482,7 @@ func TestDatabaseAutonomousDatabaseResource_DeveloperDatabases(t *testing.T) {
 }
 
 func TestDatabaseAutonomousDatabaseResource_scheduledOperations(t *testing.T) {
+
 	httpreplay.SetScenario("TestDatabaseAutonomousDatabaseResource_scheduledOperations")
 	defer httpreplay.SaveScenario()
 

@@ -1,5 +1,5 @@
 // Copyright (c) 2017, 2023, Oracle and/or its affiliates. All rights reserved.
-// Licensed under the Mozilla Public License v2.0 frf
+// Licensed under the Mozilla Public License v2.0
 
 package globally_distributed_database
 
@@ -412,9 +412,41 @@ func GloballyDistributedDatabaseShardedDatabaseResource() *schema.Resource {
 					},
 				},
 			},
+			"replication_factor": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"replication_method": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"replication_unit": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 			"configure_gsms_trigger": {
 				Type:     schema.TypeInt,
-				Computed: true,
+				Optional: true,
+			},
+			"configure_gsms_trigger_old_gsm_names": {
+				Type:     schema.TypeList,
+				Optional: true,
+				MaxItems: 50,
+				MinItems: 0,
+				//Set:      tfresource.LiteralTypeHashCodeForSets,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"configure_gsms_trigger_is_latest_gsm_image": {
+				Type:     schema.TypeBool,
+				Optional: true,
 			},
 			"configure_sharding_trigger": {
 				Type:     schema.TypeInt,
@@ -430,7 +462,12 @@ func GloballyDistributedDatabaseShardedDatabaseResource() *schema.Resource {
 			},
 			"generate_wallet_trigger": {
 				Type:     schema.TypeInt,
-				Computed: true,
+				Optional: true,
+			},
+			"generate_wallet_password": {
+				Type:      schema.TypeString,
+				Optional:  true,
+				Sensitive: true,
 			},
 			"get_connection_string_trigger": {
 				Type:     schema.TypeInt,
@@ -451,7 +488,11 @@ func GloballyDistributedDatabaseShardedDatabaseResource() *schema.Resource {
 			},
 			"upload_signed_certificate_and_generate_wallet_trigger": {
 				Type:     schema.TypeInt,
-				Computed: true,
+				Optional: true,
+			},
+			"ca_signed_certificate": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"validate_network_trigger": {
 				Type:     schema.TypeInt,
@@ -1283,6 +1324,22 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) SetData() error
 			s.D.Set("private_endpoint", *v.PrivateEndpoint)
 		}
 
+		if v.ReplicationFactor != nil {
+			s.D.Set("replication_factor", *v.ReplicationFactor)
+		}
+
+		s.D.Set("replication_method", v.ReplicationMethod)
+
+		if v.ReplicationUnit != nil {
+			s.D.Set("replication_unit", *v.ReplicationUnit)
+		}
+
+		//shardDetails := []interface{}{}
+		/*for _, item := range v.ShardDetails {
+			shardDetails = append(shardDetails, DedicatedShardDetailsToMap(item))
+		}
+		s.D.Set("shard_details", shardDetails)*/
+
 		s.D.Set("sharding_method", v.ShardingMethod)
 
 		if v.TimeZone != nil {
@@ -1441,6 +1498,11 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) DownloadGsmCert
 
 func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) GenerateGsmCertificateSigningRequest() error {
 	request := oci_globally_distributed_database.GenerateGsmCertificateSigningRequestRequest{}
+
+	if caBundleId, ok := s.D.GetOkExists("ca_bundle_id"); ok {
+		tmp := caBundleId.(string)
+		request.CaBundleId = &tmp
+	}
 
 	idTmp := s.D.Id()
 	request.ShardedDatabaseId = &idTmp
@@ -2627,6 +2689,16 @@ func ShardedDatabaseSummaryToMap(obj oci_globally_distributed_database.ShardedDa
 			result["prefix"] = string(*v.Prefix)
 		}
 
+		if v.ReplicationFactor != nil {
+			result["replication_factor"] = int(*v.ReplicationFactor)
+		}
+
+		result["replication_method"] = string(v.ReplicationMethod)
+
+		if v.ReplicationUnit != nil {
+			result["replication_unit"] = int(*v.ReplicationUnit)
+		}
+
 		result["sharding_method"] = string(v.ShardingMethod)
 
 		if v.TotalCpuCount != nil {
@@ -2728,6 +2800,17 @@ func (s *GloballyDistributedDatabaseShardedDatabaseResourceCrud) populateTopLeve
 		if prefix, ok := s.D.GetOkExists("prefix"); ok {
 			tmp := prefix.(string)
 			details.Prefix = &tmp
+		}
+		if replicationFactor, ok := s.D.GetOkExists("replication_factor"); ok {
+			tmp := replicationFactor.(int)
+			details.ReplicationFactor = &tmp
+		}
+		if replicationMethod, ok := s.D.GetOkExists("replication_method"); ok {
+			details.ReplicationMethod = oci_globally_distributed_database.DedicatedShardedDatabaseReplicationMethodEnum(replicationMethod.(string))
+		}
+		if replicationUnit, ok := s.D.GetOkExists("replication_unit"); ok {
+			tmp := replicationUnit.(int)
+			details.ReplicationUnit = &tmp
 		}
 		if shardDetails, ok := s.D.GetOkExists("shard_details"); ok {
 			interfaces := shardDetails.([]interface{})

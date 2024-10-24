@@ -157,6 +157,12 @@ func (s *FileStorageMountTargetsDataSourceCrud) SetData() error {
 			mountTarget["id"] = *r.Id
 		}
 
+		locks := []interface{}{}
+		for _, item := range r.Locks {
+			locks = append(locks, MountTargetResourceLockToMap(item))
+		}
+		mountTarget["locks"] = locks
+
 		mountTarget["nsg_ids"] = r.NsgIds
 
 		if r.ObservedThroughput != nil {

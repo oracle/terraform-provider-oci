@@ -216,7 +216,11 @@ var (
 	DatabaseAutonomousDatabaseLongTermBackupDelete = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
-
+	DatabaseAutonomousDatabaseEncryptionKeyRepresentation = map[string]interface{}{
+		"kms_key_id":                   acctest.Representation{RepType: acctest.Required, Update: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
+		"vault_id":                     acctest.Representation{RepType: acctest.Required, Update: kmsVaultId},
+		"autonomous_database_provider": acctest.Representation{RepType: acctest.Required, Update: `OCI`},
+	}
 	DatabaseAutonomousDatabaseResourcePoolSummaryRepresentation = map[string]interface{}{
 		"is_disabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"pool_size":   acctest.Representation{RepType: acctest.Optional, Create: `128`, Update: `256`},
@@ -286,8 +290,16 @@ var (
 			"source_id":  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_autonomous_database.test_autonomous_database_source.id}`},
 		})
 
-	autonomousDatabaseRepresentationForScheduledOperations = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{})
-
+	autonomousDatabaseRepresentationForScheduledOperations = acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+		"scheduled_operations": []acctest.RepresentationGroup{
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationMonday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationTuesday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationWednesday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationThursday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationFriday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSaturday},
+			{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseScheduledOperationsRepresentationSunday}},
+	})
 	DatabaseAutonomousDatabaseRepresentationDeveloper = map[string]interface{}{
 		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"compute_count":           acctest.Representation{RepType: acctest.Required, Create: `4`},
@@ -1611,6 +1623,50 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					if resId == resId2 {
 						return fmt.Errorf("Resource updated when it was supposed to be re-created.")
 					}
+					return err
+				},
+			),
+		},
+		//36. Remove any previously created resources
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies,
+		},
+		//37. Create ADB using default Oracle Managed key
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseAutonomousDatabaseRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
+				// verify computed field db_workload to be defaulted to OLTP
+				resource.TestCheckResourceAttr(resourceName, "db_workload", "OLTP"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.autonomous_database_provider", "ORACLE_MANAGED"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+		//38. Update ADB using encryptionKey
+		{
+			Config: config + compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Update,
+					acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(DatabaseAutonomousDatabaseRepresentation, map[string]interface{}{
+						"encryption_key": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseAutonomousDatabaseEncryptionKeyRepresentation},
+					}), []string{"admin_password"})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "encryption_key.0.autonomous_database_provider", "OCI"),
+				resource.TestCheckResourceAttrSet(resourceName, "encryption_key.0.kms_key_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "encryption_key.0.vault_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Println(resId)
 					return err
 				},
 			),

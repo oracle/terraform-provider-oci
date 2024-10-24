@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -32,21 +31,25 @@ type UpdateMaintenanceWindowDetails struct {
 	MaintenanceWindowType MaintenanceWindowTypeEnum `mandatory:"false" json:"maintenanceWindowType,omitempty"`
 
 	// Does the maintenenace window cause outage?
+	// An outage indicates whether a maintenance window can consider operations that require downtime.
+	// It means a period when the application is not accessible.
 	IsOutage *bool `mandatory:"false" json:"isOutage"`
 
-	// Start time of schedule
+	// Specify the date and time of the day that the maintenance window starts.
 	TimeScheduleStart *common.SDKTime `mandatory:"false" json:"timeScheduleStart"`
 
-	// Duration if schedule type is Custom
+	// Duration of the maintenance window.
+	// Specify how long the maintenance window remains open.
 	Duration *string `mandatory:"false" json:"duration"`
 
-	// Is this is a recurring maintenance window
+	// Is this a recurring maintenance window?
 	IsRecurring *bool `mandatory:"false" json:"isRecurring"`
 
-	// Recurrence rule specification if recurring
+	// Recurrence rule specification if maintenance window recurring.
+	// Specify the frequency of running the maintenance window.
 	Recurrences *string `mandatory:"false" json:"recurrences"`
 
-	// Task initiation cutoff
+	// Task initiation cutoff time for the maintenance window.
 	TaskInitiationCutoff *int `mandatory:"false" json:"taskInitiationCutoff"`
 
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.

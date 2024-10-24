@@ -47,6 +47,9 @@ type LdapBindAccountSummary struct {
 	// Example: `Uocm:PHX-AD-1`
 	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair
 	//  with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
@@ -90,6 +93,11 @@ func (m LdapBindAccountSummary) GetDisplayName() *string {
 // GetTimeCreated returns TimeCreated
 func (m LdapBindAccountSummary) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+// GetLocks returns Locks
+func (m LdapBindAccountSummary) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetFreeformTags returns FreeformTags

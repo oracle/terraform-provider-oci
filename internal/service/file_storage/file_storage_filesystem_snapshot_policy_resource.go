@@ -62,6 +62,50 @@ func FileStorageFilesystemSnapshotPolicyResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"locks": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"message": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"related_resource_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"time_created": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							DiffSuppressFunc: tfresource.TimeDiffSuppressFunction,
+						},
+
+						// Computed
+					},
+				},
+			},
+			"is_lock_override": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"policy_prefix": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -290,6 +334,23 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if locks, ok := s.D.GetOkExists("locks"); ok {
+		interfaces := locks.([]interface{})
+		tmp := make([]oci_file_storage.ResourceLock, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "locks", stateDataIndex)
+			converted, err := s.mapToResourceLock(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("locks") {
+			request.Locks = tmp
+		}
+	}
+
 	if policyPrefix, ok := s.D.GetOkExists("policy_prefix"); ok {
 		tmp := policyPrefix.(string)
 		request.PolicyPrefix = &tmp
@@ -372,6 +433,11 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	if policyPrefix, ok := s.D.GetOkExists("policy_prefix"); ok {
 		tmp := policyPrefix.(string)
 		request.PolicyPrefix = &tmp
@@ -411,6 +477,11 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) Delete() error {
 	tmp := s.D.Id()
 	request.FilesystemSnapshotPolicyId = &tmp
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.DeleteFilesystemSnapshotPolicy(context.Background(), request)
@@ -435,6 +506,12 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	locks := []interface{}{}
+	for _, item := range s.Res.Locks {
+		locks = append(locks, ResourceLockToMap(item))
+	}
+	s.D.Set("locks", locks)
 
 	if s.Res.PolicyPrefix != nil {
 		s.D.Set("policy_prefix", *s.Res.PolicyPrefix)
@@ -461,6 +538,11 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) StartFilesystemSnapsho
 	idTmp := s.D.Id()
 	request.FilesystemSnapshotPolicyId = &idTmp
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.UnpauseFilesystemSnapshotPolicy(context.Background(), request)
@@ -480,6 +562,11 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) StopFilesystemSnapshot
 	idTmp := s.D.Id()
 	request.FilesystemSnapshotPolicyId = &idTmp
 
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		request.IsLockOverride = &tmp
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 
 	_, err := s.Client.PauseFilesystemSnapshotPolicy(context.Background(), request)
@@ -491,6 +578,34 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) StopFilesystemSnapshot
 		return s.Res.LifecycleState == oci_file_storage.FilesystemSnapshotPolicyLifecycleStateInactive
 	}
 	return tfresource.WaitForResourceCondition(s, retentionPolicyFunc, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) mapToResourceLock(fieldKeyFormat string) (oci_file_storage.ResourceLock, error) {
+	result := oci_file_storage.ResourceLock{}
+
+	if message, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "message")); ok {
+		tmp := message.(string)
+		result.Message = &tmp
+	}
+
+	if relatedResourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "related_resource_id")); ok {
+		tmp := relatedResourceId.(string)
+		result.RelatedResourceId = &tmp
+	}
+
+	if timeCreated, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_created")); ok {
+		tmp, err := time.Parse(time.RFC3339, timeCreated.(string))
+		if err != nil {
+			return result, err
+		}
+		result.TimeCreated = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type")); ok {
+		result.Type = oci_file_storage.ResourceLockTypeEnum(type_.(string))
+	}
+
+	return result, nil
 }
 
 func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) mapToSnapshotSchedule(fieldKeyFormat string) (oci_file_storage.SnapshotSchedule, error) {
@@ -597,6 +712,11 @@ func (s *FileStorageFilesystemSnapshotPolicyResourceCrud) updateCompartment(comp
 
 	idTmp := s.D.Id()
 	changeCompartmentRequest.FilesystemSnapshotPolicyId = &idTmp
+
+	if isLockOverride, ok := s.D.GetOkExists("is_lock_override"); ok {
+		tmp := isLockOverride.(bool)
+		changeCompartmentRequest.IsLockOverride = &tmp
+	}
 
 	changeCompartmentRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "file_storage")
 

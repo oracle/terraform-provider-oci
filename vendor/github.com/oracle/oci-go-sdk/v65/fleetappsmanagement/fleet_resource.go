@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,7 +15,7 @@ import (
 	"strings"
 )
 
-// FleetResource Resource added to a Fleet.
+// FleetResource Resource added to a fleet in Fleet Application Management.
 type FleetResource struct {
 
 	// The unique id of the resource.
@@ -51,28 +50,31 @@ type FleetResource struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Resource Compartment
+	// Resource Compartment name.
 	Compartment *string `mandatory:"false" json:"compartment"`
 
-	// Compliance State of the Resource
+	// Compliance State of the Resource.
 	ComplianceState ComplianceStateEnum `mandatory:"false" json:"complianceState,omitempty"`
 
-	// Resource Tenancy Name
+	// Resource Tenancy Name.
 	TenancyName *string `mandatory:"false" json:"tenancyName"`
 
 	// Count of products within the resource.
 	ProductCount *int `mandatory:"false" json:"productCount"`
 
-	// Count of targets  within the resource.
+	// Count of targets within the resource.
 	TargetCount *int `mandatory:"false" json:"targetCount"`
 
-	// Product associated with the resource when resource type is fleet.Will only be returned for PRODUCT fleets that are part of a GROUP Fleet
+	// Product associated with the resource when the resource type is fleet.
+	// Will only be returned for PRODUCT fleets that are part of a GROUP Fleet.
 	Product *string `mandatory:"false" json:"product"`
 
-	// Application Type associated with the resource when resource type is fleet.Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.
+	// Application Type associated with the resource when the resource type is fleet.
+	// Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.
 	ApplicationType *string `mandatory:"false" json:"applicationType"`
 
-	// Environment Type associated with the Fleet when resource type is fleet.Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.
+	// Environment Type associated with the Fleet when the resource type is fleet.
+	// Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.
 	EnvironmentType *string `mandatory:"false" json:"environmentType"`
 
 	// A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.

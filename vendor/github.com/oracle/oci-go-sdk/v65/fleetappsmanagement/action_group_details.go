@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,14 +15,14 @@ import (
 	"strings"
 )
 
-// ActionGroupDetails Action Group.
+// ActionGroupDetails Action Group details.
 type ActionGroupDetails struct {
 
-	// The ID of the ActionGroup resource .
+	// The ID of the ActionGroup resource.
 	// Ex:fleetId.
 	ResourceId *string `mandatory:"true" json:"resourceId"`
 
-	// ID of the runbook
+	// OCID of the runbook.
 	RunbookId *string `mandatory:"true" json:"runbookId"`
 
 	// Name of the ActionGroup.
@@ -40,19 +39,19 @@ type ActionGroupDetails struct {
 	// Only applicable if actionGroup type is PRODUCT.
 	Product *string `mandatory:"false" json:"product"`
 
-	// LifeCycle Operation
+	// LifeCycle Operation.
 	LifecycleOperation *string `mandatory:"false" json:"lifecycleOperation"`
 
 	// Unique producer Id at Action Group Level
 	ActivityId *string `mandatory:"false" json:"activityId"`
 
-	// Status of the Job at Action Group Level
+	// Status of the Job at Action Group Level.
 	Status JobStatusEnum `mandatory:"false" json:"status,omitempty"`
 
-	// The time the the Scheduler Job started. An RFC3339 formatted datetime string
+	// The time the Scheduler Job started. An RFC3339 formatted datetime string.
 	TimeStarted *common.SDKTime `mandatory:"false" json:"timeStarted"`
 
-	// The time the Scheduler Job ended. An RFC3339 formatted datetime string
+	// The time the Scheduler Job ended. An RFC3339 formatted datetime string.
 	TimeEnded *common.SDKTime `mandatory:"false" json:"timeEnded"`
 }
 

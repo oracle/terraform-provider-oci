@@ -328,6 +328,22 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 			autonomousDatabase["display_name"] = *r.DisplayName
 		}
 
+		if r.EncryptionKey != nil {
+			encryptionKeyArray := []interface{}{}
+			if encryptionKeyMap := AutonomousDatabaseEncryptionKeyDetailsToMap(&r.EncryptionKey); encryptionKeyMap != nil {
+				encryptionKeyArray = append(encryptionKeyArray, encryptionKeyMap)
+			}
+			autonomousDatabase["encryption_key"] = encryptionKeyArray
+		} else {
+			autonomousDatabase["encryption_key"] = nil
+		}
+
+		encryptionKeyHistoryEntry := []interface{}{}
+		for _, item := range r.EncryptionKeyHistoryEntry {
+			encryptionKeyHistoryEntry = append(encryptionKeyHistoryEntry, AutonomousDatabaseEncryptionKeyHistoryEntryToMap(item))
+		}
+		autonomousDatabase["encryption_key_history_entry"] = encryptionKeyHistoryEntry
+
 		if r.FailedDataRecoveryInSeconds != nil {
 			autonomousDatabase["failed_data_recovery_in_seconds"] = *r.FailedDataRecoveryInSeconds
 		}

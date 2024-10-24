@@ -49,12 +49,11 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":   acctest.Representation{RepType: acctest.Required, Create: `pe0001`, Update: `displayName2`},
 		"subnet_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
-		//"vcn_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.vcn_id}`},
-		//"nsg1_ids": acctest.Representation{RepType: acctest.Required, Create: `${var.nsg1_ids}`},
-		//"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
-		//"nsg_ids":        acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}, Update: []string{`nsgIds2`}},
+		//"nsg_ids":                          acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}, Update: []string{`nsgIds2`}},
+		//"reinstate_proxy_instance_trigger": acctest.Representation{RepType: acctest.Optional, Create: `0`, Update: `1`},
 	}
 
 	GloballyDistributedDatabasePrivateEndpointResourceDependencies = "" /*acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
@@ -233,6 +232,7 @@ func TestGloballyDistributedDatabasePrivateEndpointResource_basic(t *testing.T) 
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "private_ip"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "proxy_compute_instance_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "sharded_databases.#", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
