@@ -435,9 +435,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"number_of_kafka_nodes": {
-							Type:         schema.TypeInt,
-							Required:     true,
-							ValidateFunc: validation.IntAtLeast(3),
+							Type:     schema.TypeInt,
+							Required: true,
 						},
 
 						"shape_config": {

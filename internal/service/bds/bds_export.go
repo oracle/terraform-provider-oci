@@ -10,7 +10,7 @@ import (
 
 func init() {
 	exportBdsBdsInstanceApiKeyHints.GetIdFn = getBdsBdsInstanceApiKeyId
-	exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
+	//exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
 	exportBdsBdsInstanceResourcePrincipalConfigurationHints.GetIdFn = getBdsBdsInstanceResourcePrincipalConfigurationId
 	exportBdsBdsInstanceApiKeyHints.ProcessDiscoveredResourcesFn = processBdsInstanceApiKeys
 	exportBdsBdsInstanceMetastoreConfigHints.ProcessDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
@@ -49,6 +49,7 @@ func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) 
 	return GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
 
+/*
 func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string, error) {
 
 	bdsInstanceId := resource.Parent.Id
@@ -58,6 +59,7 @@ func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string
 	}
 	return GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId), nil
 }
+*/
 
 func getBdsBdsInstanceResourcePrincipalConfigurationId(resource *tf_export.OCIResource) (string, error) {
 
