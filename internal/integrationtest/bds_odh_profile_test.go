@@ -5,12 +5,11 @@ package integrationtest
 
 import (
 	"fmt"
-	"strconv"
-	"testing"
-
 	"github.com/oracle/terraform-provider-oci/internal/acctest"
 	"github.com/oracle/terraform-provider-oci/internal/resourcediscovery"
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+	"strconv"
+	"testing"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
@@ -53,7 +52,12 @@ var (
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `3`},
-		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesWorkerShapeConfigRepresentation},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeWorkerShapeConfigRepresentation},
+	}
+
+	bdsInstanceNodeWorkerShapeConfigRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `96`, Update: `96`},
+		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`, Update: `8`},
 	}
 
 	bdsInstanceResourceConfig = acctest.GenerateResourceFromRepresentationMap(
@@ -150,7 +154,7 @@ func TestBdsOdhProfile(t *testing.T) {
 		"bds", "bdsInstanceOdh", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
-		// verify Create with optionals
+		// verify Create
 		{
 			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr +
 				bootstrapScriptUrlVariableStr + bdsInstanceResourceConfig,
@@ -329,86 +333,3 @@ func TestBdsOdhProfile(t *testing.T) {
 		},
 	})
 }
-
-func init() {
-	if acctest.DependencyGraph == nil {
-		acctest.InitDependencyGraph()
-	}
-	if !acctest.InSweeperExcludeList("BdsBdsInstance") {
-		resource.AddTestSweepers("BdsBdsInstance", &resource.Sweeper{
-			Name:         "BdsBdsInstance",
-			Dependencies: acctest.DependencyGraph["bdsInstance"],
-			F:            sweepBdsBdsInstanceResource,
-		})
-	}
-}
-
-/*
-func sweepBdsBdsInstanceResource(compartment string) error {
-	bdsClient := acctest.GetTestClients(&schema.ResourceData{}).BdsClient()
-	bdsInstanceIds, err := getBdsInstanceIds(compartment)
-	if err != nil {
-		return err
-	}
-	for _, bdsInstanceId := range bdsInstanceIds {
-		if ok := acctest.SweeperDefaultResourceId[bdsInstanceId]; !ok {
-			deleteBdsInstanceRequest := oci_bds.DeleteBdsInstanceRequest{}
-
-			deleteBdsInstanceRequest.BdsInstanceId = &bdsInstanceId
-
-			deleteBdsInstanceRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(true, "bds")
-			_, error := bdsClient.DeleteBdsInstance(context.Background(), deleteBdsInstanceRequest)
-			if error != nil {
-				fmt.Printf("Error deleting BdsInstance %s %s, It is possible that the resource is already deleted. Please verify manually \n", bdsInstanceId, error)
-				continue
-			}
-			acctest.WaitTillCondition(acctest.TestAccProvider, &bdsInstanceId, bdsInstanceSweepWaitCondition, time.Duration(3*time.Minute),
-				bdsInstanceSweepResponseFetchOperation, "bds", true)
-		}
-	}
-	return nil
-}
-
-func getBdsInstanceIds(compartment string) ([]string, error) {
-	ids := acctest.GetResourceIdsToSweep(compartment, "BdsInstanceId")
-	if ids != nil {
-		return ids, nil
-	}
-	var resourceIds []string
-	compartmentId := compartment
-	bdsClient := acctest.GetTestClients(&schema.ResourceData{}).BdsClient()
-
-	listBdsInstancesRequest := oci_bds.ListBdsInstancesRequest{}
-	listBdsInstancesRequest.CompartmentId = &compartmentId
-	listBdsInstancesRequest.LifecycleState = oci_bds.BdsInstanceLifecycleStateActive
-	listBdsInstancesResponse, err := bdsClient.ListBdsInstances(context.Background(), listBdsInstancesRequest)
-
-	if err != nil {
-		return resourceIds, fmt.Errorf("Error getting BdsInstance list for compartment id : %s , %s \n", compartmentId, err)
-	}
-	for _, bdsInstance := range listBdsInstancesResponse.Items {
-		id := *bdsInstance.Id
-		resourceIds = append(resourceIds, id)
-		acctest.AddResourceIdToSweeperResourceIdMap(compartmentId, "BdsInstanceId", id)
-	}
-	return resourceIds, nil
-}
-
-func bdsInstanceSweepWaitCondition(response common.OCIOperationResponse) bool {
-	// Only stop if the resource is available beyond 3 mins. As there could be an issue for the sweeper to delete the resource and manual intervention required.
-	if bdsInstanceResponse, ok := response.Response.(oci_bds.GetBdsInstanceResponse); ok {
-		return bdsInstanceResponse.LifecycleState != oci_bds.BdsInstanceLifecycleStateDeleted
-	}
-	return false
-}
-
-func bdsInstanceSweepResponseFetchOperation(client *tf_client.OracleClients, resourceId *string, retryPolicy *common.RetryPolicy) error {
-	_, err := client.BdsClient().GetBdsInstance(context.Background(), oci_bds.GetBdsInstanceRequest{
-		BdsInstanceId: resourceId,
-		RequestMetadata: common.RequestMetadata{
-			RetryPolicy: retryPolicy,
-		},
-	})
-	return err
-}
-*/
