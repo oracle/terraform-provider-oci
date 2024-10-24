@@ -289,9 +289,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"block_volume_size_in_gbs": {
-							Type:     schema.TypeString,
-							Optional: true,
-							//ForceNew:         true,
+							Type:             schema.TypeString,
+							Optional:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -362,9 +361,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"block_volume_size_in_gbs": {
-							Type:     schema.TypeString,
-							Optional: true,
-							//ForceNew:         true,
+							Type:             schema.TypeString,
+							Optional:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -424,7 +422,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							//ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {

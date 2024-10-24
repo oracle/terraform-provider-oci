@@ -10,7 +10,6 @@ import (
 
 func init() {
 	exportBdsBdsInstanceApiKeyHints.GetIdFn = getBdsBdsInstanceApiKeyId
-	//exportBdsBdsInstanceMetastoreConfigHints.GetIdFn = getBdsBdsInstanceMetastoreConfigId
 	exportBdsBdsInstanceResourcePrincipalConfigurationHints.GetIdFn = getBdsBdsInstanceResourcePrincipalConfigurationId
 	exportBdsBdsInstanceApiKeyHints.ProcessDiscoveredResourcesFn = processBdsInstanceApiKeys
 	exportBdsBdsInstanceMetastoreConfigHints.ProcessDiscoveredResourcesFn = processBdsInstanceMetastoreConfigs
@@ -48,18 +47,6 @@ func getBdsBdsInstanceApiKeyId(resource *tf_export.OCIResource) (string, error) 
 	bdsInstanceId := resource.Parent.Id
 	return GetBdsInstanceApiKeyCompositeId(apiKeyId, bdsInstanceId), nil
 }
-
-/*
-func getBdsBdsInstanceMetastoreConfigId(resource *tf_export.OCIResource) (string, error) {
-
-	bdsInstanceId := resource.Parent.Id
-	metastoreConfigId, ok := resource.SourceAttributes["metastore_config_id"].(string)
-	if !ok {
-		return "", fmt.Errorf("[ERROR] unable to find metastoreConfigId for Bds BdsInstanceMetastoreConfig")
-	}
-	return GetBdsInstanceMetastoreConfigCompositeId(bdsInstanceId, metastoreConfigId), nil
-}
-*/
 
 func getBdsBdsInstanceResourcePrincipalConfigurationId(resource *tf_export.OCIResource) (string, error) {
 
