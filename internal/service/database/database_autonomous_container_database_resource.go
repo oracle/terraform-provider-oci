@@ -798,218 +798,218 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) UpdatedTarget() []stri
 }
 
 func (s *DatabaseAutonomousContainerDatabaseResourceCrud) Create() error {
-	request := oci_database.CreateAutonomousContainerDatabaseRequest{}
-
-	if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
-		tmp := autonomousExadataInfrastructureId.(string)
-		request.AutonomousExadataInfrastructureId = &tmp
-	}
-
-	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
-		tmp := autonomousVmClusterId.(string)
-		request.AutonomousVmClusterId = &tmp
-	}
-
-	if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
-		if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
-			tmp, err := s.mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.BackupConfig = &tmp
-		}
-	}
-
-	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
-		tmp := cloudAutonomousVmClusterId.(string)
-		request.CloudAutonomousVmClusterId = &tmp
-	}
-
-	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
-		tmp := compartmentId.(string)
-		request.CompartmentId = &tmp
-	}
-
-	if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
-		tmp := databaseSoftwareImageId.(string)
-		request.DatabaseSoftwareImageId = &tmp
-	}
-
-	if dbName, ok := s.D.GetOkExists("db_name"); ok {
-		tmp := dbName.(string)
-		request.DbName = &tmp
-	}
-
-	if dbSplitThreshold, ok := s.D.GetOkExists("db_split_threshold"); ok {
-		tmp := dbSplitThreshold.(int)
-		request.DbSplitThreshold = &tmp
-	}
-
-	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
-		tmp := dbUniqueName.(string)
-		request.DbUniqueName = &tmp
-	}
-
-	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
-		tmp := dbVersion.(string)
-		request.DbVersion = &tmp
-	}
-
-	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
-		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
-		if err != nil {
-			return err
-		}
-		request.DefinedTags = convertedDefinedTags
-	}
-
-	if displayName, ok := s.D.GetOkExists("display_name"); ok {
-		tmp := displayName.(string)
-		request.DisplayName = &tmp
-	}
-
-	if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
-		request.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseDetailsDistributionAffinityEnum(distributionAffinity.(string))
-	}
-
-	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
-		tmp := fastStartFailOverLagLimitInSeconds.(int)
-		request.FastStartFailOverLagLimitInSeconds = &tmp
-	}
-
-	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
-		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
-	}
-
-	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
-		tmp := isAutomaticFailoverEnabled.(bool)
-		request.IsAutomaticFailoverEnabled = &tmp
-	}
-
-	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
-		tmp := isDstFileUpdateEnabled.(bool)
-		request.IsDstFileUpdateEnabled = &tmp
-	}
-
-	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
-		tmp := keyStoreId.(string)
-		request.KeyStoreId = &tmp
-	}
-
-	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
-		tmp := kmsKeyId.(string)
-		request.KmsKeyId = &tmp
-	}
-
-	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
-		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
-			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.MaintenanceWindowDetails = &tmp
-		}
-	}
-
-	if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
-		request.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseDetailsNetServicesArchitectureEnum(netServicesArchitecture.(string))
-	}
-
-	if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
-		request.PatchModel = oci_database.CreateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
-	}
-
-	if peerAutonomousContainerDatabaseBackupConfig, ok := s.D.GetOkExists("peer_autonomous_container_database_backup_config"); ok {
-		if tmpList := peerAutonomousContainerDatabaseBackupConfig.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_autonomous_container_database_backup_config", 0)
-			tmp, err := s.mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
-			if err != nil {
-				return err
-			}
-			request.PeerAutonomousContainerDatabaseBackupConfig = &tmp
-		}
-	}
-
-	if peerAutonomousContainerDatabaseCompartmentId, ok := s.D.GetOkExists("peer_autonomous_container_database_compartment_id"); ok {
-		tmp := peerAutonomousContainerDatabaseCompartmentId.(string)
-		request.PeerAutonomousContainerDatabaseCompartmentId = &tmp
-	}
-
-	if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
-		tmp := peerAutonomousContainerDatabaseDisplayName.(string)
-		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
-	}
-
-	if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
-		tmp := peerAutonomousExadataInfrastructureId.(string)
-		request.PeerAutonomousExadataInfrastructureId = &tmp
-	}
-
-	if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
-		tmp := peerCloudAutonomousVmClusterId.(string)
-		request.PeerCloudAutonomousVmClusterId = &tmp
-	}
-
-	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
-		tmp := peerAutonomousVmClusterId.(string)
-		request.PeerAutonomousVmClusterId = &tmp
-	}
-
-	if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
-		tmp := peerDbUniqueName.(string)
-		request.PeerDbUniqueName = &tmp
-	}
-
-	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
-		request.ProtectionMode = oci_database.CreateAutonomousContainerDatabaseDetailsProtectionModeEnum(protectionMode.(string))
-	}
-
-	if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
-		request.ServiceLevelAgreementType = oci_database.CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum(serviceLevelAgreementType.(string))
-	}
-
-	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
-		tmp := vaultId.(string)
-		request.VaultId = &tmp
-	}
-
-	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
-		request.VersionPreference = oci_database.CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
-	}
-
-	if vmFailoverReservation, ok := s.D.GetOkExists("vm_failover_reservation"); ok {
-		tmp := vmFailoverReservation.(int)
-		request.VmFailoverReservation = &tmp
-	}
-
-	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
-		tmp := standbyMaintenanceBufferInDays.(int)
-		request.StandbyMaintenanceBufferInDays = &tmp
-	}
-
-	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-
-	response, err := s.Client.CreateAutonomousContainerDatabase(context.Background(), request)
-	if err != nil {
-		return err
-	}
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		var identifier *string
-		var err error
-		identifier = response.Id
-		if identifier != nil {
-			s.D.SetId(*identifier)
-		}
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
-		if err != nil {
-			return err
-		}
-	}
-
-	s.Res = &response.AutonomousContainerDatabase
+	//	request := oci_database.CreateAutonomousContainerDatabaseRequest{}
+	//
+	//	if autonomousExadataInfrastructureId, ok := s.D.GetOkExists("autonomous_exadata_infrastructure_id"); ok {
+	//		tmp := autonomousExadataInfrastructureId.(string)
+	//		request.AutonomousExadataInfrastructureId = &tmp
+	//	}
+	//
+	//	if autonomousVmClusterId, ok := s.D.GetOkExists("autonomous_vm_cluster_id"); ok {
+	//		tmp := autonomousVmClusterId.(string)
+	//		request.AutonomousVmClusterId = &tmp
+	//	}
+	//
+	//	if backupConfig, ok := s.D.GetOkExists("backup_config"); ok {
+	//		if tmpList := backupConfig.([]interface{}); len(tmpList) > 0 {
+	//			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_config", 0)
+	//			tmp, err := s.mapToAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+	//			if err != nil {
+	//				return err
+	//			}
+	//			request.BackupConfig = &tmp
+	//		}
+	//	}
+	//
+	//	if cloudAutonomousVmClusterId, ok := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); ok {
+	//		tmp := cloudAutonomousVmClusterId.(string)
+	//		request.CloudAutonomousVmClusterId = &tmp
+	//	}
+	//
+	//	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
+	//		tmp := compartmentId.(string)
+	//		request.CompartmentId = &tmp
+	//	}
+	//
+	//	if databaseSoftwareImageId, ok := s.D.GetOkExists("database_software_image_id"); ok {
+	//		tmp := databaseSoftwareImageId.(string)
+	//		request.DatabaseSoftwareImageId = &tmp
+	//	}
+	//
+	//	if dbName, ok := s.D.GetOkExists("db_name"); ok {
+	//		tmp := dbName.(string)
+	//		request.DbName = &tmp
+	//	}
+	//
+	//	if dbSplitThreshold, ok := s.D.GetOkExists("db_split_threshold"); ok {
+	//		tmp := dbSplitThreshold.(int)
+	//		request.DbSplitThreshold = &tmp
+	//	}
+	//
+	//	if dbUniqueName, ok := s.D.GetOkExists("db_unique_name"); ok {
+	//		tmp := dbUniqueName.(string)
+	//		request.DbUniqueName = &tmp
+	//	}
+	//
+	//	if dbVersion, ok := s.D.GetOkExists("db_version"); ok {
+	//		tmp := dbVersion.(string)
+	//		request.DbVersion = &tmp
+	//	}
+	//
+	//	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
+	//		convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
+	//		if err != nil {
+	//			return err
+	//		}
+	//		request.DefinedTags = convertedDefinedTags
+	//	}
+	//
+	//	if displayName, ok := s.D.GetOkExists("display_name"); ok {
+	//		tmp := displayName.(string)
+	//		request.DisplayName = &tmp
+	//	}
+	//
+	//	if distributionAffinity, ok := s.D.GetOkExists("distribution_affinity"); ok {
+	//		request.DistributionAffinity = oci_database.CreateAutonomousContainerDatabaseDetailsDistributionAffinityEnum(distributionAffinity.(string))
+	//	}
+	//
+	//	if fastStartFailOverLagLimitInSeconds, ok := s.D.GetOkExists("fast_start_fail_over_lag_limit_in_seconds"); ok && s.D.HasChange("fast_start_fail_over_lag_limit_in_seconds") {
+	//		tmp := fastStartFailOverLagLimitInSeconds.(int)
+	//		request.FastStartFailOverLagLimitInSeconds = &tmp
+	//	}
+	//
+	//	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
+	//		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	//	}
+	//
+	//	if isAutomaticFailoverEnabled, ok := s.D.GetOkExists("is_automatic_failover_enabled"); ok {
+	//		tmp := isAutomaticFailoverEnabled.(bool)
+	//		request.IsAutomaticFailoverEnabled = &tmp
+	//	}
+	//
+	//	if isDstFileUpdateEnabled, ok := s.D.GetOkExists("is_dst_file_update_enabled"); ok {
+	//		tmp := isDstFileUpdateEnabled.(bool)
+	//		request.IsDstFileUpdateEnabled = &tmp
+	//	}
+	//
+	//	if keyStoreId, ok := s.D.GetOkExists("key_store_id"); ok {
+	//		tmp := keyStoreId.(string)
+	//		request.KeyStoreId = &tmp
+	//	}
+	//
+	//	if kmsKeyId, ok := s.D.GetOkExists("kms_key_id"); ok {
+	//		tmp := kmsKeyId.(string)
+	//		request.KmsKeyId = &tmp
+	//	}
+	//
+	//	if maintenanceWindowDetails, ok := s.D.GetOkExists("maintenance_window_details"); ok {
+	//		if tmpList := maintenanceWindowDetails.([]interface{}); len(tmpList) > 0 {
+	//			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_window_details", 0)
+	//			tmp, err := s.mapToMaintenanceWindow(fieldKeyFormat)
+	//			if err != nil {
+	//				return err
+	//			}
+	//			request.MaintenanceWindowDetails = &tmp
+	//		}
+	//	}
+	//
+	//	if netServicesArchitecture, ok := s.D.GetOkExists("net_services_architecture"); ok {
+	//		request.NetServicesArchitecture = oci_database.CreateAutonomousContainerDatabaseDetailsNetServicesArchitectureEnum(netServicesArchitecture.(string))
+	//	}
+	//
+	//	if patchModel, ok := s.D.GetOkExists("patch_model"); ok {
+	//		request.PatchModel = oci_database.CreateAutonomousContainerDatabaseDetailsPatchModelEnum(patchModel.(string))
+	//	}
+	//
+	//	if peerAutonomousContainerDatabaseBackupConfig, ok := s.D.GetOkExists("peer_autonomous_container_database_backup_config"); ok {
+	//		if tmpList := peerAutonomousContainerDatabaseBackupConfig.([]interface{}); len(tmpList) > 0 {
+	//			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "peer_autonomous_container_database_backup_config", 0)
+	//			tmp, err := s.mapToPeerAutonomousContainerDatabaseBackupConfig(fieldKeyFormat)
+	//			if err != nil {
+	//				return err
+	//			}
+	//			request.PeerAutonomousContainerDatabaseBackupConfig = &tmp
+	//		}
+	//	}
+	//
+	//	if peerAutonomousContainerDatabaseCompartmentId, ok := s.D.GetOkExists("peer_autonomous_container_database_compartment_id"); ok {
+	//		tmp := peerAutonomousContainerDatabaseCompartmentId.(string)
+	//		request.PeerAutonomousContainerDatabaseCompartmentId = &tmp
+	//	}
+	//
+	//	if peerAutonomousContainerDatabaseDisplayName, ok := s.D.GetOkExists("peer_autonomous_container_database_display_name"); ok {
+	//		tmp := peerAutonomousContainerDatabaseDisplayName.(string)
+	//		request.PeerAutonomousContainerDatabaseDisplayName = &tmp
+	//	}
+	//
+	//	if peerAutonomousExadataInfrastructureId, ok := s.D.GetOkExists("peer_autonomous_exadata_infrastructure_id"); ok {
+	//		tmp := peerAutonomousExadataInfrastructureId.(string)
+	//		request.PeerAutonomousExadataInfrastructureId = &tmp
+	//	}
+	//
+	//	if peerCloudAutonomousVmClusterId, ok := s.D.GetOkExists("peer_cloud_autonomous_vm_cluster_id"); ok {
+	//		tmp := peerCloudAutonomousVmClusterId.(string)
+	//		request.PeerCloudAutonomousVmClusterId = &tmp
+	//	}
+	//
+	//	if peerAutonomousVmClusterId, ok := s.D.GetOkExists("peer_autonomous_vm_cluster_id"); ok {
+	//		tmp := peerAutonomousVmClusterId.(string)
+	//		request.PeerAutonomousVmClusterId = &tmp
+	//	}
+	//
+	//	if peerDbUniqueName, ok := s.D.GetOkExists("peer_db_unique_name"); ok {
+	//		tmp := peerDbUniqueName.(string)
+	//		request.PeerDbUniqueName = &tmp
+	//	}
+	//
+	//	if protectionMode, ok := s.D.GetOkExists("protection_mode"); ok {
+	//		request.ProtectionMode = oci_database.CreateAutonomousContainerDatabaseDetailsProtectionModeEnum(protectionMode.(string))
+	//	}
+	//
+	//	if serviceLevelAgreementType, ok := s.D.GetOkExists("service_level_agreement_type"); ok {
+	//		request.ServiceLevelAgreementType = oci_database.CreateAutonomousContainerDatabaseDetailsServiceLevelAgreementTypeEnum(serviceLevelAgreementType.(string))
+	//	}
+	//
+	//	if vaultId, ok := s.D.GetOkExists("vault_id"); ok {
+	//		tmp := vaultId.(string)
+	//		request.VaultId = &tmp
+	//	}
+	//
+	//	if versionPreference, ok := s.D.GetOkExists("version_preference"); ok {
+	//		request.VersionPreference = oci_database.CreateAutonomousContainerDatabaseDetailsVersionPreferenceEnum(versionPreference.(string))
+	//	}
+	//
+	//	if vmFailoverReservation, ok := s.D.GetOkExists("vm_failover_reservation"); ok {
+	//		tmp := vmFailoverReservation.(int)
+	//		request.VmFailoverReservation = &tmp
+	//	}
+	//
+	//	if standbyMaintenanceBufferInDays, ok := s.D.GetOkExists("standby_maintenance_buffer_in_days"); ok {
+	//		tmp := standbyMaintenanceBufferInDays.(int)
+	//		request.StandbyMaintenanceBufferInDays = &tmp
+	//	}
+	//
+	//	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+	//
+	//	response, err := s.Client.CreateAutonomousContainerDatabase(context.Background(), request)
+	//	if err != nil {
+	//		return err
+	//	}
+	//	workId := response.OpcWorkRequestId
+	//	if workId != nil {
+	//		var identifier *string
+	//		var err error
+	//		identifier = response.Id
+	//		if identifier != nil {
+	//			s.D.SetId(*identifier)
+	//		}
+	//		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeCreated, s.D.Timeout(schema.TimeoutCreate), s.DisableNotFoundRetries)
+	//		if err != nil {
+	//			return err
+	//		}
+	//	}
+	//
+	//	s.Res = &response.AutonomousContainerDatabase
 	return nil
 }
 
