@@ -94,6 +94,10 @@ func (s *GloballyDistributedDatabasePrivateEndpointDataSourceCrud) SetData() err
 		s.D.Set("private_ip", *s.Res.PrivateIp)
 	}
 
+	if s.Res.ProxyComputeInstanceId != nil {
+		s.D.Set("proxy_compute_instance_id", *s.Res.ProxyComputeInstanceId)
+	}
+
 	s.D.Set("sharded_databases", s.Res.ShardedDatabases)
 
 	s.D.Set("state", s.Res.LifecycleState)

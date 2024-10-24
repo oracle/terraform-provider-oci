@@ -60,6 +60,7 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 	hostname_label = var.mount_target_hostname_label
 	idmap_type = var.mount_target_idmap_type
 	ip_address = var.mount_target_ip_address
+	is_lock_override = var.mount_target_is_lock_override
 	kerberos {
 		#Required
 		kerberos_realm = var.mount_target_kerberos_kerberos_realm
@@ -81,6 +82,15 @@ resource "oci_file_storage_mount_target" "test_mount_target" {
 		outbound_connector2id = oci_file_storage_outbound_connector2.test_outbound_connector2.id
 		schema_type = var.mount_target_ldap_idmap_schema_type
 		user_search_base = var.mount_target_ldap_idmap_user_search_base
+	}
+	locks {
+		#Required
+		type = var.mount_target_locks_type
+
+		#Optional
+		message = var.mount_target_locks_message
+		related_resource_id = oci_cloud_guard_resource.test_resource.id
+		time_created = var.mount_target_locks_time_created
 	}
 	nsg_ids = var.mount_target_nsg_ids
 	requested_throughput = var.mount_target_requested_throughput
@@ -105,6 +115,7 @@ The following arguments are supported:
 	Example: `files-1` 
 * `idmap_type` - (Optional) (Updatable) The method used to map a Unix UID to secondary groups, if any.
 * `ip_address` - (Optional) A private IP address of your choice. Must be an available IP address within the subnet's CIDR. If you don't specify a value, Oracle automatically assigns a private IP address from the subnet.  Example: `10.0.3.3` 
+* `is_lock_override` - (Optional) (Updatable) Whether to override locks (if any exist).
 * `kerberos` - (Optional) (Updatable) Kerberos details needed to create configuration. 
 	* `backup_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use as a backup.
 	* `current_key_tab_secret_version` - (Optional) (Updatable) Version of the keytab Secret in the Vault to use.
@@ -120,6 +131,11 @@ The following arguments are supported:
 	* `outbound_connector2id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the second connector to use to communicate with the LDAP server.
 	* `schema_type` - (Optional) (Updatable) Schema type of the LDAP account.
 	* `user_search_base` - (Optional) (Updatable) All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
+* `locks` - (Optional) Locks associated with this resource.
+	* `message` - (Optional) A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - (Optional) The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - (Optional) When the lock was created.
+	* `type` - (Required) Type of the lock.
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `requested_throughput` - (Optional) (Updatable) Throughput for mount target in Gbps. Currently only 1 Gbps of requestedThroughput is supported during create MountTarget. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet in which to create the mount target. 
@@ -156,6 +172,11 @@ The following attributes are exported:
 	* `schema_type` - Schema type of the LDAP account.
 	* `user_search_base` - All LDAP searches are recursive starting at this user.  Example: `CN=User,DC=domain,DC=com` 
 * `lifecycle_details` - Additional information about the current 'lifecycleState'.
+* `locks` - Locks associated with this resource.
+	* `message` - A message added by the creator of the lock. This is typically used to give an indication of why the resource is locked. 
+	* `related_resource_id` - The ID of the resource that is locking this resource. Indicates that deleting this resource will remove the lock. 
+	* `time_created` - When the lock was created.
+	* `type` - Type of the lock.
 * `nsg_ids` - A list of Network Security Group [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this mount target. A maximum of 5 is allowed. Setting this to an empty array after the list is created removes the mount target from all NSGs. For more information about NSGs, see [Security Rules](https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/securityrules.htm). 
 * `observed_throughput` - Current billed throughput for mount target in Gbps. This corresponds to shape of mount target. Available shapes and corresponding throughput are listed at [Mount Target Performance](https://docs.oracle.com/iaas/Content/File/Tasks/managingmounttargets.htm#performance). 
 * `private_ip_ids` - The OCIDs of the private IP addresses associated with this mount target.

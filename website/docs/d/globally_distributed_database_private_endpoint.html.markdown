@@ -42,6 +42,7 @@ The following attributes are exported:
 * `lifecycle_state_details` - Detailed message for the lifecycle state.
 * `nsg_ids` - The OCIDs of the network security groups that the private endpoint belongs to. 
 * `private_ip` - IP address of the Private Endpoint.
+* `proxy_compute_instance_id` - The identifier of the proxy compute instance.
 * `sharded_databases` - The OCIDs of sharded databases that consumes the given private endpoint.
 * `state` - Lifecycle states for private endpoint.
 * `subnet_id` - Identifier of the subnet in which private endpoint exists.

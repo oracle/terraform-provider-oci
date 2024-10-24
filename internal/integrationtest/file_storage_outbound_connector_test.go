@@ -60,9 +60,47 @@ var (
 		"password_secret_version": acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
 	}
+	FileStorageOutboundConnectorRepresentationWithFullLock = map[string]interface{}{
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"bind_distinguished_name": acctest.Representation{RepType: acctest.Required, Create: `bindDistinguishedName`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connector_type":          acctest.Representation{RepType: acctest.Required, Create: `LDAPBIND`},
+		"endpoints":               acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageOutboundConnectorEndpointsRepresentation},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `outbound-connector-4`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageOutboundConnectoFullLocksRepresentation},
+		"is_lock_override":        acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"password_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
+		"password_secret_version": acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+	}
+	FileStorageOutboundConnectorRepresentationWithDeleteLock = map[string]interface{}{
+		"availability_domain":     acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"bind_distinguished_name": acctest.Representation{RepType: acctest.Required, Create: `bindDistinguishedName`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"connector_type":          acctest.Representation{RepType: acctest.Required, Create: `LDAPBIND`},
+		"endpoints":               acctest.RepresentationGroup{RepType: acctest.Required, Group: FileStorageOutboundConnectorEndpointsRepresentation},
+		"defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":            acctest.Representation{RepType: acctest.Optional, Create: `outbound-connector-4`, Update: `displayName2`},
+		"freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageOutboundConnectorDeleteLocksRepresentation},
+		"is_lock_override":        acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"password_secret_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_vault_secret.test_obc_pwd_secret.id}`},
+		"password_secret_version": acctest.Representation{RepType: acctest.Required, Create: `1`},
+		"lifecycle":               acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
+	}
 	FileStorageOutboundConnectorEndpointsRepresentation = map[string]interface{}{
 		"hostname": acctest.Representation{RepType: acctest.Required, Create: `hostname`},
 		"port":     acctest.Representation{RepType: acctest.Required, Create: `10`},
+	}
+	FileStorageOutboundConnectoFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+	FileStorageOutboundConnectorDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
 	}
 
 	FileStorageOutboundConnectorResourceDependencies = AvailabilityDomainConfig + DefinedTagsDependencies +
@@ -134,7 +172,7 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + FileStorageOutboundConnectorResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector", acctest.Optional, acctest.Create, FileStorageOutboundConnectorRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector", acctest.Optional, acctest.Create, FileStorageOutboundConnectorRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "bind_distinguished_name", "bindDistinguishedName"),
@@ -146,6 +184,10 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoints.0.port", "10"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttrSet(resourceName, "password_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -181,6 +223,10 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "endpoints.0.port", "10"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttrSet(resourceName, "password_secret_id"),
 				resource.TestCheckResourceAttr(resourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -248,6 +294,10 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "outbound_connectors.0.endpoints.0.port", "10"),
 				resource.TestCheckResourceAttr(datasourceName, "outbound_connectors.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "outbound_connectors.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "outbound_connectors.0.locks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "outbound_connectors.0.locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(datasourceName, "outbound_connectors.0.locks.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "outbound_connectors.0.locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "outbound_connectors.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "outbound_connectors.0.time_created"),
 			),
@@ -270,9 +320,34 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "endpoints.0.port", "10"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "password_secret_version", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+			),
+		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageOutboundConnectorResourceDependencies,
+		},
+		// 		verify Create with FULL lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageOutboundConnectorResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_outbound_connector", "test_outbound_connector", acctest.Optional, acctest.Create, FileStorageOutboundConnectorRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
 			),
 		},
 		// verify resource import
@@ -280,7 +355,7 @@ func TestFileStorageOutboundConnectorResource_basic(t *testing.T) {
 			Config:                  config + FileStorageOutboundConnectorRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

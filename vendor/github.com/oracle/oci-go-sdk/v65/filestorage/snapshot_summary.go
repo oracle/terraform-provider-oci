@@ -38,6 +38,9 @@ type SnapshotSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"true" json:"timeCreated"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Specifies the generation type of the snapshot.
 	SnapshotType SnapshotSummarySnapshotTypeEnum `mandatory:"false" json:"snapshotType,omitempty"`
 

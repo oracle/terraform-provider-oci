@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -47,28 +46,30 @@ type SchedulerJobSummary struct {
 	// The time this resource was last updated. An RFC3339 formatted datetime string.
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// Scheduled date for the Job.Provide only the date
+	// The scheduled date and time for the Job.
 	TimeScheduled *common.SDKTime `mandatory:"false" json:"timeScheduled"`
 
-	// Count of ActionGroups affected by the Schedule.
+	// Count of Action Groups affected by the Schedule.
+	// An action group is a group of entities grouped for a lifecycle activity.
+	// Example - A Fleet will be considered an Action Group for any lifecycle activity.
 	CountOfAffectedActionGroups *int `mandatory:"false" json:"countOfAffectedActionGroups"`
 
-	// Count of Resources affected by the Schedule
+	// Count of resources affected by the schedule.
 	CountOfAffectedResources *int `mandatory:"false" json:"countOfAffectedResources"`
 
-	// Count of Targets affected by the Schedule
+	// Count of targets affected by the schedule.
 	CountOfAffectedTargets *int `mandatory:"false" json:"countOfAffectedTargets"`
 
-	// All ActionGroup Types part of the schedule.
+	// All Action Group types are part of the schedule.
 	ActionGroupTypes []LifeCycleActionGroupTypeEnum `mandatory:"false" json:"actionGroupTypes,omitempty"`
 
-	// All application types part of the schedule for ENVIRONMENT ActionGroup Type.
+	// All application types that are part of the schedule for an ENVIRONMENT action group Type.
 	ApplicationTypes []string `mandatory:"false" json:"applicationTypes"`
 
-	// All products part of the schedule for PRODUCT ActionGroup Type.
+	// All products that are part of the schedule for a PRODUCT action group type.
 	Products []string `mandatory:"false" json:"products"`
 
-	// All LifeCycle Operations part of the schedule
+	// All LifeCycle Operations that are part of the schedule.
 	LifecycleOperations []string `mandatory:"false" json:"lifecycleOperations"`
 
 	// Action Groups associated with the Schedule.

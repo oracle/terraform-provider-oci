@@ -70,6 +70,10 @@ func (m *hostconfigurationmetricgroup) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := HostFilesystemConfiguration{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HOST_CONTAINERS":
+		mm := HostContainers{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "HOST_NETWORK_CONFIGURATION":
 		mm := HostNetworkConfiguration{}
 		err = json.Unmarshal(data, &mm)
@@ -135,6 +139,7 @@ const (
 	HostConfigurationMetricGroupMetricNameEntites                  HostConfigurationMetricGroupMetricNameEnum = "HOST_ENTITES"
 	HostConfigurationMetricGroupMetricNameFilesystemConfiguration  HostConfigurationMetricGroupMetricNameEnum = "HOST_FILESYSTEM_CONFIGURATION"
 	HostConfigurationMetricGroupMetricNameGpuConfiguration         HostConfigurationMetricGroupMetricNameEnum = "HOST_GPU_CONFIGURATION"
+	HostConfigurationMetricGroupMetricNameContainers               HostConfigurationMetricGroupMetricNameEnum = "HOST_CONTAINERS"
 )
 
 var mappingHostConfigurationMetricGroupMetricNameEnum = map[string]HostConfigurationMetricGroupMetricNameEnum{
@@ -147,6 +152,7 @@ var mappingHostConfigurationMetricGroupMetricNameEnum = map[string]HostConfigura
 	"HOST_ENTITES":                    HostConfigurationMetricGroupMetricNameEntites,
 	"HOST_FILESYSTEM_CONFIGURATION":   HostConfigurationMetricGroupMetricNameFilesystemConfiguration,
 	"HOST_GPU_CONFIGURATION":          HostConfigurationMetricGroupMetricNameGpuConfiguration,
+	"HOST_CONTAINERS":                 HostConfigurationMetricGroupMetricNameContainers,
 }
 
 var mappingHostConfigurationMetricGroupMetricNameEnumLowerCase = map[string]HostConfigurationMetricGroupMetricNameEnum{
@@ -159,6 +165,7 @@ var mappingHostConfigurationMetricGroupMetricNameEnumLowerCase = map[string]Host
 	"host_entites":                    HostConfigurationMetricGroupMetricNameEntites,
 	"host_filesystem_configuration":   HostConfigurationMetricGroupMetricNameFilesystemConfiguration,
 	"host_gpu_configuration":          HostConfigurationMetricGroupMetricNameGpuConfiguration,
+	"host_containers":                 HostConfigurationMetricGroupMetricNameContainers,
 }
 
 // GetHostConfigurationMetricGroupMetricNameEnumValues Enumerates the set of values for HostConfigurationMetricGroupMetricNameEnum
@@ -182,6 +189,7 @@ func GetHostConfigurationMetricGroupMetricNameEnumStringValues() []string {
 		"HOST_ENTITES",
 		"HOST_FILESYSTEM_CONFIGURATION",
 		"HOST_GPU_CONFIGURATION",
+		"HOST_CONTAINERS",
 	}
 }
 

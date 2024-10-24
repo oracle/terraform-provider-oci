@@ -43,6 +43,9 @@ type CreateOutboundConnectorDetails interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
+
+	// Locks associated with this resource.
+	GetLocks() []ResourceLock
 }
 
 type createoutboundconnectordetails struct {
@@ -50,6 +53,7 @@ type createoutboundconnectordetails struct {
 	DisplayName        *string                           `mandatory:"false" json:"displayName"`
 	FreeformTags       map[string]string                 `mandatory:"false" json:"freeformTags"`
 	DefinedTags        map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	Locks              []ResourceLock                    `mandatory:"false" json:"locks"`
 	AvailabilityDomain *string                           `mandatory:"true" json:"availabilityDomain"`
 	CompartmentId      *string                           `mandatory:"true" json:"compartmentId"`
 	ConnectorType      string                            `json:"connectorType"`
@@ -71,6 +75,7 @@ func (m *createoutboundconnectordetails) UnmarshalJSON(data []byte) error {
 	m.DisplayName = s.Model.DisplayName
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.Locks = s.Model.Locks
 	m.ConnectorType = s.Model.ConnectorType
 
 	return err
@@ -108,6 +113,11 @@ func (m createoutboundconnectordetails) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m createoutboundconnectordetails) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetLocks returns Locks
+func (m createoutboundconnectordetails) GetLocks() []ResourceLock {
+	return m.Locks
 }
 
 // GetAvailabilityDomain returns AvailabilityDomain

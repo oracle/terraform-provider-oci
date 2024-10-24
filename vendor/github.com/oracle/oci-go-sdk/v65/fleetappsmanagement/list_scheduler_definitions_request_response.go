@@ -21,20 +21,23 @@ type ListSchedulerDefinitionsRequest struct {
 	// The ID of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
 
-	// A filter to return only resources their lifecycleState matches the given lifecycleState.
+	// A filter to return only scheduleDefinitions whose lifecycleState matches the given lifecycleState.
 	LifecycleState SchedulerDefinitionLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 
 	// A filter to return only resources that match the entire display name given.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 
-	// A filter to return only Scheduler Definitions whose assocaited product matches the given product
+	// A filter to return only dchedule definitions whose assocaited product matches the given product
 	Product *string `mandatory:"false" contributesTo:"query" name:"product"`
 
-	// unique SchedulerDefinition identifier
+	// A filter to return only schedule definitions whose identifier matches the given identifier.
 	Id *string `mandatory:"false" contributesTo:"query" name:"id"`
 
-	// unique MaintenanceWindow identifier
+	// A filter to return only schedule definitions whose associated maintenanceWindowId matches the given maintenanceWindowId.
 	MaintenanceWindowId *string `mandatory:"false" contributesTo:"query" name:"maintenanceWindowId"`
+
+	// A filter to return only schedule definitions whose associated runbookId matches the given runbookId.
+	RunbookId *string `mandatory:"false" contributesTo:"query" name:"runbookId"`
 
 	// unique Fleet identifier
 	FleetId *string `mandatory:"false" contributesTo:"query" name:"fleetId"`

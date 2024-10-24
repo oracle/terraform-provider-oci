@@ -654,6 +654,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "virtual_circuits.0.time_created"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.state", "PROVISIONED"),
 				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.type", "PRIVATE"),
+				resource.TestCheckResourceAttr(datasourceName, "virtual_circuits.0.virtual_circuit_redundancy_metadata.#", "0"),
 			),
 		},
 		// verify singular datasource
@@ -690,6 +691,7 @@ func TestCoreVirtualCircuitResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "PROVISIONED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "type", "PRIVATE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "virtual_circuit_redundancy_metadata.#"),
 			),
 		},
 		// verify resource import

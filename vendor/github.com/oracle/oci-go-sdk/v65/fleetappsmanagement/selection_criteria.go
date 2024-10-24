@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,10 +15,12 @@ import (
 	"strings"
 )
 
-// SelectionCriteria Rule Selection Criteria
+// SelectionCriteria Rule Selection Criteria for DYNAMIC resource selection for a GENERIC fleet.
+// Rules define what resources are members of this fleet. All resources that meet the criteria are added automatically.
 type SelectionCriteria struct {
 
-	// Rule selection match condition.
+	// Match condition for the rule selection.
+	// Include resources that match all rules or any of the rules.
 	MatchCondition SelectionCriteriaMatchConditionEnum `mandatory:"true" json:"matchCondition"`
 
 	// Rules.

@@ -38,6 +38,9 @@ type DeleteReplicationRequest struct {
 	// - `FINISH_CYCLE_IF_APPLYING` Before deleting, finish applying. If cycle is idle or capturing, delete immediately. Fastest option.
 	DeleteMode DeleteReplicationDeleteModeEnum `mandatory:"false" contributesTo:"query" name:"deleteMode" omitEmpty:"true"`
 
+	// Whether to override locks (if any exist).
+	IsLockOverride *bool `mandatory:"false" contributesTo:"query" name:"isLockOverride"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

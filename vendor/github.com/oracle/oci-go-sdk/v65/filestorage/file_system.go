@@ -90,6 +90,9 @@ type FileSystem struct {
 	// Specifies whether the file system is attached to its parent file system.
 	CloneAttachStatus FileSystemCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
 
+	// Locks associated with this resource.
+	Locks []ResourceLock `mandatory:"false" json:"locks"`
+
 	// Additional information about the current 'lifecycleState'.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 

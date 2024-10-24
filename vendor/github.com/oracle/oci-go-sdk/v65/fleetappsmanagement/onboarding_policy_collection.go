@@ -4,8 +4,7 @@
 
 // Fleet Application Management Service API
 //
-// Fleet Application Management Service API. Use this API to for all FAMS related activities.
-// To manage fleets,view complaince report for the Fleet,scedule patches and other lifecycle activities
+// Fleet Application Management provides a centralized platform to help you automate resource management tasks, validate patch compliance, and enhance operational efficiency across an enterprise.
 //
 
 package fleetappsmanagement
@@ -16,10 +15,10 @@ import (
 	"strings"
 )
 
-// OnboardingPolicyCollection List of FleetAppManagementService Onboard policies.
+// OnboardingPolicyCollection List of Fleet Application Management Onboard policies.
 type OnboardingPolicyCollection struct {
 
-	// List of FleetAppManagementService Onboard policies.
+	// List of Fleet Application Management Onboard policies.
 	Items []OnboardingPolicySummary `mandatory:"true" json:"items"`
 }
 

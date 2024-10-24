@@ -18,10 +18,10 @@ import (
 // Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/fleetappsmanagement/RequestTargetDiscovery.go.html to see an example of how to use RequestTargetDiscoveryRequest.
 type RequestTargetDiscoveryRequest struct {
 
-	// Details for requesting target discovery
+	// Details for requesting target discovery.
 	RequestTargetDiscoveryDetails `contributesTo:"body"`
 
-	// unique Fleet identifier
+	// Unique Fleet identifier.
 	FleetId *string `mandatory:"true" contributesTo:"path" name:"fleetId"`
 
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or

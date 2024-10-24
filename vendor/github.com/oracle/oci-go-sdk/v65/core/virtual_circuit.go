@@ -164,6 +164,8 @@ type VirtualCircuit struct {
 
 	// The layer 3 IP MTU to use on this virtual circuit.
 	IpMtu VirtualCircuitIpMtuEnum `mandatory:"false" json:"ipMtu,omitempty"`
+
+	VirtualCircuitRedundancyMetadata *VirtualCircuitRedundancyMetadata `mandatory:"false" json:"virtualCircuitRedundancyMetadata"`
 }
 
 func (m VirtualCircuit) String() string {

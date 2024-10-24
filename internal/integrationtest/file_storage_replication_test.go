@@ -57,6 +57,42 @@ var (
 		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
 	}
 
+	FileStorageReplicationRepresentationWithFullLock = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system_source.id}`},
+		"target_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system_target.id}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `replication-policy-1`, Update: `displayName2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageReplicationFullLocksRepresentation},
+		"is_lock_override":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"replication_interval": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `16`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageReplicationRepresentationWithDeleteLock = map[string]interface{}{
+		"compartment_id":       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"source_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system_source.id}`},
+		"target_id":            acctest.Representation{RepType: acctest.Required, Create: `${oci_file_storage_file_system.test_file_system_target.id}`},
+		"defined_tags":         acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"display_name":         acctest.Representation{RepType: acctest.Optional, Create: `replication-policy-1`, Update: `displayName2`},
+		"freeform_tags":        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"locks":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: FileStorageReplicationDeleteLocksRepresentation},
+		"is_lock_override":     acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"replication_interval": acctest.Representation{RepType: acctest.Optional, Create: `15`, Update: `16`},
+		"lifecycle":            acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsDifferencesRepresentation},
+	}
+
+	FileStorageReplicationFullLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `FULL`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
+	FileStorageReplicationDeleteLocksRepresentation = map[string]interface{}{
+		"type":    acctest.Representation{RepType: acctest.Required, Create: `DELETE`},
+		"message": acctest.Representation{RepType: acctest.Optional, Create: `message`},
+	}
+
 	FileStorageReplicationResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_source", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system_target", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
 		AvailabilityDomainConfig +
@@ -112,12 +148,16 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + FileStorageReplicationResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_replication", "test_replication", acctest.Optional, acctest.Create, FileStorageReplicationRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_replication", "test_replication", acctest.Optional, acctest.Create, FileStorageReplicationRepresentationWithDeleteLock),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "replication-policy-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "replication_interval", "15"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
@@ -141,7 +181,7 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + FileStorageReplicationResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_replication", "test_replication", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(FileStorageReplicationRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(FileStorageReplicationRepresentationWithDeleteLock, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
@@ -149,6 +189,10 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "replication-policy-1"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "replication_interval", "15"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
@@ -175,6 +219,10 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttr(resourceName, "replication_interval", "16"),
 				resource.TestCheckResourceAttrSet(resourceName, "replication_target_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "source_id"),
@@ -211,6 +259,10 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "replications.0.display_name", "displayName2"),
 				resource.TestCheckResourceAttr(datasourceName, "replications.0.freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replications.0.id"),
+				resource.TestCheckResourceAttr(datasourceName, "replications.0.locks.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "replications.0.locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(datasourceName, "replications.0.locks.0.time_created"),
+				resource.TestCheckResourceAttr(datasourceName, "replications.0.locks.0.type", "DELETE"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replications.0.recovery_point_time"),
 				resource.TestCheckResourceAttr(datasourceName, "replications.0.replication_interval", "16"),
 				resource.TestCheckResourceAttrSet(datasourceName, "replications.0.state"),
@@ -244,12 +296,38 @@ func TestFileStorageReplicationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "target_id"),
 			),
 		},
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + FileStorageReplicationResourceDependencies,
+		},
+		// verify Create with optionals and FULL lock
+		{
+			Config: config + compartmentIdVariableStr + FileStorageReplicationResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_file_storage_replication", "test_replication", acctest.Optional, acctest.Create, FileStorageReplicationRepresentationWithFullLock),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "locks.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.message", "message"),
+				resource.TestCheckResourceAttrSet(resourceName, "locks.0.time_created"),
+				resource.TestCheckResourceAttr(resourceName, "locks.0.type", "FULL"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
 		// verify resource import
 		{
 			Config:                  config + FileStorageReplicationRequiredOnlyResource,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{},
+			ImportStateVerifyIgnore: []string{"is_lock_override"},
 			ResourceName:            resourceName,
 		},
 	})

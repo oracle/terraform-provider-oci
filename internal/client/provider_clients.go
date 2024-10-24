@@ -5,9 +5,10 @@ package client
 
 import (
 	"fmt"
-	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 	"strconv"
 	"strings"
+
+	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
 	oci_identity_domains "github.com/oracle/oci-go-sdk/v65/identitydomains"
