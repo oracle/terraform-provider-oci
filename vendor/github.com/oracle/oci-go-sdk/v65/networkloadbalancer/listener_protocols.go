@@ -22,6 +22,7 @@ const (
 	ListenerProtocolsTcp       ListenerProtocolsEnum = "TCP"
 	ListenerProtocolsUdp       ListenerProtocolsEnum = "UDP"
 	ListenerProtocolsTcpAndUdp ListenerProtocolsEnum = "TCP_AND_UDP"
+	ListenerProtocolsL3Ip      ListenerProtocolsEnum = "L3IP"
 )
 
 var mappingListenerProtocolsEnum = map[string]ListenerProtocolsEnum{
@@ -29,6 +30,7 @@ var mappingListenerProtocolsEnum = map[string]ListenerProtocolsEnum{
 	"TCP":         ListenerProtocolsTcp,
 	"UDP":         ListenerProtocolsUdp,
 	"TCP_AND_UDP": ListenerProtocolsTcpAndUdp,
+	"L3IP":        ListenerProtocolsL3Ip,
 }
 
 var mappingListenerProtocolsEnumLowerCase = map[string]ListenerProtocolsEnum{
@@ -36,6 +38,7 @@ var mappingListenerProtocolsEnumLowerCase = map[string]ListenerProtocolsEnum{
 	"tcp":         ListenerProtocolsTcp,
 	"udp":         ListenerProtocolsUdp,
 	"tcp_and_udp": ListenerProtocolsTcpAndUdp,
+	"l3ip":        ListenerProtocolsL3Ip,
 }
 
 // GetListenerProtocolsEnumValues Enumerates the set of values for ListenerProtocolsEnum
@@ -54,6 +57,7 @@ func GetListenerProtocolsEnumStringValues() []string {
 		"TCP",
 		"UDP",
 		"TCP_AND_UDP",
+		"L3IP",
 	}
 }
 
