@@ -28,6 +28,9 @@ type InstallAddonDetails struct {
 
 	// Addon configuration details.
 	Configurations []AddonConfiguration `mandatory:"false" json:"configurations"`
+
+	// Whether or not to override an existing addon installation. Defaults to false. If set to true, any existing addon installation would be overridden as per new installation details.
+	IsOverrideExisting *bool `mandatory:"false" json:"isOverrideExisting"`
 }
 
 func (m InstallAddonDetails) String() string {
