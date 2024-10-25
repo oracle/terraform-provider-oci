@@ -52,6 +52,10 @@ type Listener struct {
 	// The duration for UDP idle timeout in seconds.
 	// Example: `120`
 	UdpIdleTimeout *int `mandatory:"false" json:"udpIdleTimeout"`
+
+	// The duration for L3IP idle timeout in seconds.
+	// Example: `200`
+	L3IpIdleTimeout *int `mandatory:"false" json:"l3IpIdleTimeout"`
 }
 
 func (m Listener) String() string {
