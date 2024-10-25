@@ -23,5 +23,4 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_cloud_bridge_environments", CloudBridgeEnvironmentsDataSource())
 	tfresource.RegisterDatasource("oci_cloud_bridge_inventories", CloudBridgeInventoriesDataSource())
 	tfresource.RegisterDatasource("oci_cloud_bridge_inventory", CloudBridgeInventoryDataSource())
-	tfresource.RegisterDatasource("oci_cloud_bridge_supported_cloud_regions", CloudBridgeSupportedCloudRegionsDataSource())
 }
