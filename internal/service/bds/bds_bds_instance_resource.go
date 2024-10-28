@@ -1396,6 +1396,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) Update() error {
+	isKafkaBrokerAdded := false
 	if cloudSqlConfigured, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok && s.D.HasChange("is_cloud_sql_configured") {
 		oldRaw, newRaw := s.D.GetChange("is_cloud_sql_configured")
 		if newRaw != "" && oldRaw != "" {
@@ -1468,6 +1469,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 						return fmt.Errorf("kafka broker node definition is missing")
 					}
 					err := s.AddKafka()
+					isKafkaBrokerAdded = true
 					if err != nil {
 						return err
 					}
@@ -1486,11 +1488,18 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					}
 				}
 				err := s.RemoveKafka()
+				isKafkaBrokerAdded = true
 				if err != nil {
 					return err
 				}
 			}
 		}
+	} else {
+		isKafkaBrokerAdded1, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
+		if kafkaBrokerErr != nil {
+			return kafkaBrokerErr
+		}
+		isKafkaBrokerAdded = isKafkaBrokerAdded1
 	}
 
 	err := s.ExecuteBootstrapScript()
@@ -1676,12 +1685,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	isEdgeAdded, edgeErr := s.updateEdgeIfRequired()
 	if edgeErr != nil {
 		return edgeErr
-	}
-
-	// kafka
-	isKafkaBrokerAdded, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
-	if kafkaBrokerErr != nil {
-		return kafkaBrokerErr
 	}
 
 	result := oci_bds.ChangeShapeNodes{}
