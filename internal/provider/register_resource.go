@@ -61,6 +61,7 @@ import (
 	tf_functions "github.com/oracle/terraform-provider-oci/internal/service/functions"
 	tf_fusion_apps "github.com/oracle/terraform-provider-oci/internal/service/fusion_apps"
 	tf_generative_ai "github.com/oracle/terraform-provider-oci/internal/service/generative_ai"
+	tf_generative_ai_agent "github.com/oracle/terraform-provider-oci/internal/service/generative_ai_agent"
 	tf_generic_artifacts_content "github.com/oracle/terraform-provider-oci/internal/service/generic_artifacts_content"
 	tf_globally_distributed_database "github.com/oracle/terraform-provider-oci/internal/service/globally_distributed_database"
 	tf_golden_gate "github.com/oracle/terraform-provider-oci/internal/service/golden_gate"
@@ -299,6 +300,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("generativeai") {
 		tf_generative_ai.RegisterResource()
+	}
+	if common.CheckForEnabledServices("generativeaiagent") {
+		tf_generative_ai_agent.RegisterResource()
 	}
 	if common.CheckForEnabledServices("genericartifactscontent") {
 		tf_generic_artifacts_content.RegisterResource()
