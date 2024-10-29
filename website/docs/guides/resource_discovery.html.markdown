@@ -170,6 +170,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
+    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
     * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
@@ -781,6 +782,14 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
+
+generative_ai_agent
+    
+* oci\_generative\_ai\_agent\_data\_source
+* oci\_generative\_ai\_agent\_agent
+* oci\_generative\_ai\_agent\_data\_ingestion\_job
+* oci\_generative\_ai\_agent\_knowledge\_base
+* oci\_generative\_ai\_agent\_agent\_endpoint
 
 globally_distributed_database
     
