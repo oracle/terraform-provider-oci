@@ -73,7 +73,13 @@ The following attributes are exported:
 * `fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}`
 * `id` - The OCID of the cluster.
+* `inbound_cluster_ids` - List of inbound clusters for which this cluster is an outbound cluster
 * `lifecycle_details` - Additional information about the current lifecycle state of the cluster.
+* `maintenance_details` - Details for the maintenance activity.
+	* `end_time` - End time of the maintenance activity
+	* `notification_email_ids` - The Email Ids given the by customer to get notified about maintenance activities
+	* `start_time` - Start time of the maintenance activity
+	* `state` - State of the maintenance activity
 * `master_node_count` - The number of master nodes configured for the cluster.
 * `master_node_host_bare_metal_shape` - The bare metal shape for the cluster's master nodes.
 * `master_node_host_memory_gb` - The amount of memory in GB, for the cluster's master nodes.
@@ -86,6 +92,18 @@ The following attributes are exported:
 * `opendashboard_private_ip` - The private IP address for the cluster's OpenSearch Dashboard.
 * `opensearch_fqdn` - The fully qualified domain name (FQDN) for the cluster's API endpoint.
 * `opensearch_private_ip` - The cluster's private IP address.
+* `outbound_cluster_config` - This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster) 
+	* `is_enabled` - Flag to indicate whether outbound cluster configuration is enabled
+	* `outbound_clusters` - List of outbound clusters to be connected to the inbound cluster
+		* `display_name` - Name of the Outbound cluster. Avoid entering confidential information.
+		* `is_skip_unavailable` - Flag to indicate whether to skip the Outbound cluster during cross cluster search, if it is unavailable
+		* `mode` - Mode for the cross cluster connection
+		* `ping_schedule` - Sets the time interval between regular application-level ping messages that are sent to try and keep outbound cluster connections alive. If set to -1, application-level ping messages to this outbound cluster are not sent. If unset, application-level ping messages are sent according to the global transport.ping_schedule setting, which defaults to -1 meaning that pings are not sent.
+		* `seed_cluster_id` - OCID of the Outbound cluster
+* `reverse_connection_endpoint_customer_ips` - The customer IP addresses of the endpoint in customer VCN
+* `reverse_connection_endpoints` - The list of reverse connection endpoints.
+	* `customer_ip` - The IP addresses of the endpoint in customer VCN
+	* `nat_ip` - The NAT IP addresses of the endpoint in service VCN
 * `security_master_user_name` - The name of the master user that are used to manage security config
 * `security_master_user_password_hash` - The password hash of the master user that are used to manage security config
 * `security_mode` - The security mode of the cluster.
