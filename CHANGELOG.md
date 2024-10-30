@@ -1,3 +1,16 @@
+## 6.16.0 (October 30, 2024)
+
+### Added
+- Support for ESP & ICMP traffic support in NLB
+- override_existing flag for container_engine.addon resource
+- Support for Extending LBaaS to send traffic to gRPC backends
+- Support to return the generated secret in response
+- Support for 	Model Version Set - DataScience BugFix
+- pdated resource scheduler public documentation
+### Bug Fix
+- Updated oci_core_instance_pool resource to allow unordered attach/detach operationsupdating tests to generate reports for Acceptance and Backward compatibility
+- Fix Audit and SQL Firewall bugs - DataSafe
+
 ## 6.15.0 (October 23, 2024)
 
 ### Added

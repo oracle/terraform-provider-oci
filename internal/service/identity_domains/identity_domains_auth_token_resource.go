@@ -337,6 +337,10 @@ func IdentityDomainsAuthTokenResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"token": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 		},
 	}
 }
@@ -667,6 +671,10 @@ func (s *IdentityDomainsAuthTokenResourceCrud) SetData() error {
 		s.D.Set("tenancy_ocid", *s.Res.TenancyOcid)
 	}
 
+	if s.Res.Token != nil {
+		s.D.Set("token", *s.Res.Token)
+	}
+
 	if s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser != nil {
 		s.D.Set("urnietfparamsscimschemasoracleidcsextensionself_change_user", []interface{}{ExtensionSelfChangeUserToMap(s.Res.UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser)})
 	} else {
@@ -764,6 +772,10 @@ func AuthTokenToMap(obj oci_identity_domains.AuthToken) map[string]interface{} {
 
 	if obj.TenancyOcid != nil {
 		result["tenancy_ocid"] = string(*obj.TenancyOcid)
+	}
+
+	if obj.Token != nil {
+		result["token"] = string(*obj.Token)
 	}
 
 	if obj.UrnIetfParamsScimSchemasOracleIdcsExtensionSelfChangeUser != nil {

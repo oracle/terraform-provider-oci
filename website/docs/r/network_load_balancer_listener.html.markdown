@@ -26,6 +26,7 @@ resource "oci_network_load_balancer_listener" "test_listener" {
 	#Optional
 	ip_version = var.listener_ip_version
 	is_ppv2enabled = var.listener_is_ppv2enabled
+	l3ip_idle_timeout = var.listener_l3ip_idle_timeout
 	tcp_idle_timeout = var.listener_tcp_idle_timeout
 	udp_idle_timeout = var.listener_udp_idle_timeout
 }
@@ -38,6 +39,7 @@ The following arguments are supported:
 * `default_backend_set_name` - (Required) (Updatable) The name of the associated backend set.  Example: `example_backend_set`
 * `ip_version` - (Optional) (Updatable) IP version associated with the listener.
 * `is_ppv2enabled` - (Optional) (Updatable) Property to enable/disable PPv2 feature for this listener.
+* `l3ip_idle_timeout` - (Optional) (Updatable) The duration for L3IP idle timeout in seconds. Example: `200` 
 * `name` - (Required) A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener`
 * `network_load_balancer_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the network load balancer to update.
 * `port` - (Required) (Updatable) The communication port for the listener.  Example: `80` 
@@ -56,6 +58,7 @@ The following attributes are exported:
 * `default_backend_set_name` - The name of the associated backend set.  Example: `example_backend_set` 
 * `ip_version` - IP version associated with the listener.
 * `is_ppv2enabled` - Property to enable/disable PPv2 feature for this listener.
+* `l3ip_idle_timeout` - The duration for L3IP idle timeout in seconds. Example: `200` 
 * `name` - A friendly name for the listener. It must be unique and it cannot be changed.  Example: `example_listener` 
 * `port` - The communication port for the listener.  Example: `80` 
 * `protocol` - The protocol on which the listener accepts connection requests. For public network load balancers, ANY protocol refers to TCP/UDP with the wildcard port. For private network load balancers, ANY protocol refers to TCP/UDP/ICMP (note that ICMP requires isPreserveSourceDestination to be set to true). "ListNetworkLoadBalancersProtocols" API is deprecated and it will not return the updated values. Use the allowed values for the protocol instead.  Example: `TCP` 

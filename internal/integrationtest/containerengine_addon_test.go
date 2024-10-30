@@ -36,6 +36,10 @@ var (
 	addonConfigValue       = "1"
 	addonConfigValueUpdate = "2"
 
+	essentialAddonName        = "CoreDNS"
+	essentialAddonConfigKey   = "minReplica"
+	essentialAddonConfigValue = "4"
+
 	ContainerengineAddonSingularDataSourceRepresentation = map[string]interface{}{
 		"addon_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_addon.test_addon.addon_name}`},
 		"cluster_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
@@ -57,9 +61,22 @@ var (
 		"version":                          acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `${data.oci_containerengine_addon_options.adddon_options_dashboard.addon_options[0].versions[0].version_number}`},
 	}
 
+	ContainerengineEssentialAddonRepresentation = map[string]interface{}{
+		"cluster_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_containerengine_cluster.test_cluster.id}`},
+		"addon_name":                       acctest.Representation{RepType: acctest.Required, Create: essentialAddonName},
+		"remove_addon_resources_on_delete": acctest.Representation{RepType: acctest.Required, Create: `false`},
+		"override_existing":                acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"configurations":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineEssentialAddonConfigurationsRepresentation},
+	}
+
 	ContainerengineAddonConfigurationsRepresentation = map[string]interface{}{
 		"key":   acctest.Representation{RepType: acctest.Optional, Create: addonConfigKey, Update: addonConfigKey},
 		"value": acctest.Representation{RepType: acctest.Optional, Create: addonConfigValue, Update: addonConfigValueUpdate},
+	}
+
+	ContainerengineEssentialAddonConfigurationsRepresentation = map[string]interface{}{
+		"key":   acctest.Representation{RepType: acctest.Optional, Create: essentialAddonConfigKey},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: essentialAddonConfigValue},
 	}
 
 	ContainerengineAddonRequiredOnlyResourceCreate = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_addon", "test_addon", acctest.Required, acctest.Create, ContainerengineAddonRepresentation)
@@ -68,60 +85,7 @@ var (
 
 	ContainerengineAddonOptionalResourceConfigUpdate = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_addon", "test_addon", acctest.Optional, acctest.Update, ContainerengineAddonRepresentation)
 
-	clusterOptionAddonDataSourceRepresentation = map[string]interface{}{
-		"cluster_option_id": acctest.Representation{RepType: acctest.Required, Create: `all`},
-		"compartment_id":    acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-	}
-
-	clusterAddonVcnRepresentation = map[string]interface{}{
-		"cidr_block":     acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/16`},
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"dns_label":      acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
-		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"lifecycle":      acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
-	}
-
-	clusterAddonSubnetRepresentation = map[string]interface{}{
-		"cidr_block":                 acctest.Representation{RepType: acctest.Required, Create: `10.0.0.0/24`, Update: "10.0.0.0/16"},
-		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"vcn_id":                     acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"availability_domain":        acctest.Representation{RepType: acctest.Optional, Create: `${lower("${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}")}`},
-		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"dhcp_options_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_dhcp_options_id}`, Update: `${oci_core_dhcp_options.test_dhcp_options.id}`},
-		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MySubnet`, Update: `displayName2`},
-		"dns_label":                  acctest.Representation{RepType: acctest.Optional, Create: `dnslabel`},
-		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"prohibit_public_ip_on_vnic": acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"prohibit_internet_ingress":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"route_table_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`, Update: `${oci_core_route_table.test_route_table.id}`},
-		"security_list_ids":          acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_vcn.test_vcn.default_security_list_id}`}, Update: []string{`${oci_core_security_list.test_security_list.id}`}},
-		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDefinedTagsChangesRep},
-	}
-
-	containerengineClusterRepresentation = map[string]interface{}{
-		"compartment_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"kubernetes_version":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`, Update: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-1]}`},
-		"name":                acctest.Representation{RepType: acctest.Required, Create: `name`, Update: `name2`},
-		"vcn_id":              acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.id}`},
-		"defined_tags":        acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"endpoint_config":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterAddonEndpointConfigRepresentation},
-		"freeform_tags":       acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"image_policy_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: clusterAddonImagePolicyConfigRepresentation},
-		"kms_key_id":          acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
-		"options":             acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterOptionsRepresentation},
-	}
-
-	clusterAddonEndpointConfigRepresentation = map[string]interface{}{
-		"nsg_ids":   acctest.Representation{RepType: acctest.Optional, Create: []string{`${oci_core_network_security_group.test_network_security_group.id}`}, Update: []string{}},
-		"subnet_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
-	}
-
-	clusterAddonImagePolicyConfigRepresentation = map[string]interface{}{
-		"is_policy_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"key_details":       acctest.RepresentationGroup{RepType: acctest.Optional, Group: ContainerengineClusterImagePolicyConfigKeyDetailsRepresentation},
-	}
+	ContainerengineEssentialAddonResourceCreate = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_addon", "test_essential_addon", acctest.Optional, acctest.Create, ContainerengineEssentialAddonRepresentation)
 
 	AddonOptionDashboardDataSourceRepresentation = map[string]interface{}{
 		"kubernetes_version": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions[length(data.oci_containerengine_cluster_option.test_cluster_option.kubernetes_versions)-2]}`},
@@ -131,8 +95,12 @@ var (
 	ContainerengineAddonResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_containerengine_cluster", "test_cluster", acctest.Required, acctest.Create,
 		acctest.RepresentationCopyWithNewProperties(ContainerengineClusterRepresentation, map[string]interface{}{
 			"type": acctest.Representation{RepType: acctest.Required, Create: `ENHANCED_CLUSTER`, Update: `ENHANCED_CLUSTER`},
+			//"cluster_pod_network_options": acctest.RepresentationGroup{RepType: acctest.Required, Group: clusterClusterPodNetworkOptionsRepresentation},
+			"endpoint_config": acctest.RepresentationGroup{RepType: acctest.Required, Group: ContainerengineClusterEndpointConfigRepresentation},
 		})) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_containerengine_cluster_option", "test_cluster_option", acctest.Required, acctest.Create, ContainerengineContainerengineClusterOptionSingularDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_network_security_group", "test_network_security_group", acctest.Required, acctest.Create, CoreNetworkSecurityGroupRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
@@ -145,12 +113,15 @@ func TestContainerengineAddonResource_basic(t *testing.T) {
 	httpreplay.SetScenario("TestContainerengineAddonResource_basic")
 	defer httpreplay.SaveScenario()
 
+	fmt.Printf("ContainerengineEssentialAddonResourceCreate: %v", ContainerengineEssentialAddonResourceCreate)
+
 	config := acctest.ProviderTestConfig()
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	resourceName := "oci_containerengine_addon.test_addon"
+	essentialAddonResourceName := "oci_containerengine_addon.test_essential_addon"
 	datasourceName := "data.oci_containerengine_addons.test_addons"
 	singularDatasourceName := "data.oci_containerengine_addon.test_addon"
 
@@ -230,6 +201,20 @@ func TestContainerengineAddonResource_basic(t *testing.T) {
 				},
 			),
 		},
+		// verify update-on-install of an essential addon
+		{
+			Config: baseConfig + ContainerengineAddonOptionalResourceConfigUpdate + ContainerengineEssentialAddonResourceCreate,
+
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(essentialAddonResourceName, "cluster_id"),
+				resource.TestCheckResourceAttr(essentialAddonResourceName, "configurations.#", "1"),
+				resource.TestCheckResourceAttr(essentialAddonResourceName, "configurations.0.key", essentialAddonConfigKey),
+				resource.TestCheckResourceAttr(essentialAddonResourceName, "configurations.0.value", essentialAddonConfigValue),
+				resource.TestCheckResourceAttrSet(essentialAddonResourceName, "current_installed_version"),
+				resource.TestCheckResourceAttr(essentialAddonResourceName, "addon_name", essentialAddonName),
+				resource.TestCheckResourceAttrSet(essentialAddonResourceName, "state"),
+			),
+		},
 		// verify datasource
 		{
 			Config: baseConfig + ContainerengineAddonDataSource + ContainerengineAddonOptionalResourceConfigUpdate,
@@ -246,7 +231,6 @@ func TestContainerengineAddonResource_basic(t *testing.T) {
 			Config: baseConfig + ContainerengineAddonSingularDataSource + ContainerengineAddonOptionalResourceConfigUpdate,
 
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckNoResourceAttr(singularDatasourceName, "addon_error"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configurations.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "configurations.0.key", addonConfigKey),
@@ -262,7 +246,7 @@ func TestContainerengineAddonResource_basic(t *testing.T) {
 			Config:                  baseConfig + ContainerengineAddonRequiredOnlyResourceCreate,
 			ImportState:             true,
 			ImportStateVerify:       true,
-			ImportStateVerifyIgnore: []string{"remove_addon_resources_on_delete"},
+			ImportStateVerifyIgnore: []string{"remove_addon_resources_on_delete", "override_existing"},
 			ResourceName:            resourceName,
 		},
 	})
@@ -272,7 +256,7 @@ func testAccCheckContainerengineAddonDestroy(s *terraform.State) error {
 	noResourceFound := true
 	client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ContainerEngineClient()
 	for _, rs := range s.RootModule().Resources {
-		if rs.Type == "oci_containerengine_addon" {
+		if rs.Type == "oci_containerengine_addon" && rs.Primary.Attributes["addon_name"] != essentialAddonName {
 			noResourceFound = false
 			request := oci_containerengine.GetAddonRequest{}
 

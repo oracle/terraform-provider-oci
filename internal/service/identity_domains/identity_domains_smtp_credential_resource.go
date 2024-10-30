@@ -333,6 +333,10 @@ func IdentityDomainsSmtpCredentialResource() *schema.Resource {
 					},
 				},
 			},
+			"password": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"tenancy_ocid": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -658,6 +662,10 @@ func (s *IdentityDomainsSmtpCredentialResourceCrud) SetData() error {
 		s.D.Set("ocid", *s.Res.Ocid)
 	}
 
+	if s.Res.Password != nil {
+		s.D.Set("password", *s.Res.Password)
+	}
+
 	s.D.Set("schemas", s.Res.Schemas)
 
 	s.D.Set("status", s.Res.Status)
@@ -770,6 +778,10 @@ func SmtpCredentialToMap(obj oci_identity_domains.SmtpCredential) map[string]int
 
 	if obj.Ocid != nil {
 		result["ocid"] = string(*obj.Ocid)
+	}
+
+	if obj.Password != nil {
+		result["password"] = string(*obj.Password)
 	}
 
 	result["schemas"] = obj.Schemas

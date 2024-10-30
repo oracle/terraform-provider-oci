@@ -403,6 +403,17 @@ The following attributes are exported:
 	* returned: default
 	* type: string
 	* uniqueness: none
+* `token` - token
+
+	**Added In:** 2010242156
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* type: string
+	* mutability: readOnly
+	* required: false
+	* returned: default
+	* idcsSensitive: hash_sc
 * `urnietfparamsscimschemasoracleidcsextensionself_change_user` - Controls whether a user can update themselves or not via User related APIs
 	* `allow_self_change` - If true, allows requesting user to update themselves. If false, requesting user can't update themself (default).
 

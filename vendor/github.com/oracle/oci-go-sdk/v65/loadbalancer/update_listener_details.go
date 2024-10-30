@@ -27,9 +27,8 @@ type UpdateListenerDetails struct {
 	// Example: `80`
 	Port *int `mandatory:"true" json:"port"`
 
-	// The protocol on which the listener accepts connection requests.
-	// To get a list of valid protocols, use the ListProtocols
-	// operation.
+	// The protocol on which the listener accepts connection requests. The supported protocols are HTTP, HTTP2, TCP, and GRPC.
+	// You can also use the ListProtocols operation to get a list of valid protocols.
 	// Example: `HTTP`
 	Protocol *string `mandatory:"true" json:"protocol"`
 
