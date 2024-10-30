@@ -109,8 +109,16 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("inbound_cluster_ids", s.Res.InboundClusterIds)
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MaintenanceDetails != nil {
+		s.D.Set("maintenance_details", []interface{}{MaintenanceDetailsToMap(s.Res.MaintenanceDetails)})
+	} else {
+		s.D.Set("maintenance_details", nil)
 	}
 
 	if s.Res.MasterNodeCount != nil {
@@ -158,6 +166,20 @@ func (s *OpensearchOpensearchClusterDataSourceCrud) SetData() error {
 	if s.Res.OpensearchPrivateIp != nil {
 		s.D.Set("opensearch_private_ip", *s.Res.OpensearchPrivateIp)
 	}
+
+	if s.Res.OutboundClusterConfig != nil {
+		s.D.Set("outbound_cluster_config", []interface{}{OutboundClusterConfigToMap(s.Res.OutboundClusterConfig)})
+	} else {
+		s.D.Set("outbound_cluster_config", nil)
+	}
+
+	s.D.Set("reverse_connection_endpoint_customer_ips", s.Res.ReverseConnectionEndpointCustomerIps)
+
+	reverseConnectionEndpoints := []interface{}{}
+	for _, item := range s.Res.ReverseConnectionEndpoints {
+		reverseConnectionEndpoints = append(reverseConnectionEndpoints, ReverseConnectionEndpointToMap(item))
+	}
+	s.D.Set("reverse_connection_endpoints", reverseConnectionEndpoints)
 
 	if s.Res.SecurityMasterUserName != nil {
 		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
