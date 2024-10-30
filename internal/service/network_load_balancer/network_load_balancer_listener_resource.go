@@ -69,6 +69,11 @@ func NetworkLoadBalancerListenerResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"l3ip_idle_timeout": {
+				Type:     schema.TypeInt,
+				Optional: true,
+				Computed: true,
+			},
 			"tcp_idle_timeout": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -143,6 +148,11 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Create() error {
 	if isPpv2Enabled, ok := s.D.GetOkExists("is_ppv2enabled"); ok {
 		tmp := isPpv2Enabled.(bool)
 		request.IsPpv2Enabled = &tmp
+	}
+
+	if l3IpIdleTimeout, ok := s.D.GetOkExists("l3ip_idle_timeout"); ok {
+		tmp := l3IpIdleTimeout.(int)
+		request.L3IpIdleTimeout = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {
@@ -351,6 +361,11 @@ func (s *NetworkLoadBalancerListenerResourceCrud) Update() error {
 		request.IsPpv2Enabled = &tmp
 	}
 
+	if l3IpIdleTimeout, ok := s.D.GetOkExists("l3ip_idle_timeout"); ok {
+		tmp := l3IpIdleTimeout.(int)
+		request.L3IpIdleTimeout = &tmp
+	}
+
 	if listenerName, ok := s.D.GetOkExists("name"); ok {
 		tmp := listenerName.(string)
 		request.ListenerName = &tmp
@@ -437,6 +452,10 @@ func (s *NetworkLoadBalancerListenerResourceCrud) SetData() error {
 		s.D.Set("is_ppv2enabled", *s.Res.IsPpv2Enabled)
 	}
 
+	if s.Res.L3IpIdleTimeout != nil {
+		s.D.Set("l3ip_idle_timeout", *s.Res.L3IpIdleTimeout)
+	}
+
 	if s.Res.Name != nil {
 		s.D.Set("name", *s.Res.Name)
 	}
@@ -488,6 +507,10 @@ func NlbListenerSummaryToMap(obj oci_network_load_balancer.ListenerSummary) map[
 
 	if obj.IsPpv2Enabled != nil {
 		result["is_ppv2enabled"] = bool(*obj.IsPpv2Enabled)
+	}
+
+	if obj.L3IpIdleTimeout != nil {
+		result["l3ip_idle_timeout"] = int(*obj.L3IpIdleTimeout)
 	}
 
 	if obj.Name != nil {

@@ -15,7 +15,10 @@ import (
 	"strings"
 )
 
-// BackendSetSummary The representation of BackendSetSummary
+// BackendSetSummary The configuration of a network load balancer backend set.
+// For more information about backend set configuration, see
+// Managing Backend Sets (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendsets.htm).
+// **Caution:** Oracle recommends that you avoid using any confidential information when you supply string values using the API.
 type BackendSetSummary struct {
 
 	// A user-friendly name for the backend set that must be unique and cannot be changed.
@@ -31,7 +34,6 @@ type BackendSetSummary struct {
 	// An array of backends.
 	Backends []Backend `mandatory:"true" json:"backends"`
 
-	// The health check policy configuration.
 	HealthChecker *HealthChecker `mandatory:"true" json:"healthChecker"`
 
 	// If this parameter is enabled, the network load balancer preserves the source IP of the packet forwarded to the backend servers.

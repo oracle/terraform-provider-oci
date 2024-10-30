@@ -6,10 +6,12 @@ package datascience
 import (
 	"context"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_datascience "github.com/oracle/oci-go-sdk/v65/datascience"
+
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 )
 
 func DatascienceModelsDataSource() *schema.Resource {
@@ -23,11 +25,15 @@ func DatascienceModelsDataSource() *schema.Resource {
 			},
 			"model_version_set_name": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
+			},
+			"model_version_set_id": {
+				Type:     schema.TypeString,
+				Optional: true,
 			},
 			"version_label": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"created_by": {
 				Type:     schema.TypeString,
@@ -176,16 +182,16 @@ func (s *DatascienceModelsDataSourceCrud) SetData() error {
 			model["lifecycle_details"] = *r.LifecycleDetails
 		}
 
-		if r.ModelVersionSetId != nil {
-			model["model_version_set_id"] = *r.ModelVersionSetId
-		}
-
 		if r.ProjectId != nil {
 			model["project_id"] = *r.ProjectId
 		}
 
 		if r.ModelVersionSetName != nil {
 			model["model_version_set_name"] = *r.ModelVersionSetName
+		}
+
+		if r.ModelVersionSetId != nil {
+			model["model_version_set_id"] = *r.ModelVersionSetId
 		}
 
 		if r.VersionLabel != nil {

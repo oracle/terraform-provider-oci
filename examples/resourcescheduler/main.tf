@@ -29,11 +29,11 @@ variable "schedule_freeform_tags" {
 }
 
 variable "schedule_recurrence_details" {
-  default = "recurrenceDetails"
+  default = "FREQ=DAILY;INTERVAL=1"
 }
 
 variable "schedule_recurrence_type" {
-  default = "CRON"
+  default = "ICAL"
 }
 
 variable "schedule_resource_filters_attribute" {
@@ -69,17 +69,16 @@ variable "schedule_resources_metadata" {
 }
 
 variable "schedule_state" {
-  default = "AVAILABLE"
+  default = "ACTIVE"
 }
 
 variable "schedule_time_ends" {
-  default = "timeEnds"
+  default = "2024-07-23T17:45:44.408Z"
 }
 
 variable "schedule_time_starts" {
-  default = "timeStarts"
+  default = "2024-07-13T17:45:44.408Z"
 }
-
 
 
 provider "oci" {
@@ -97,33 +96,38 @@ resource "oci_resource_scheduler_schedule" "test_schedule" {
   recurrence_details = var.schedule_recurrence_details
   recurrence_type    = var.schedule_recurrence_type
 
+  resource_filters {
+    # Required
+    attribute = "DEFINED_TAGS"
+    value {
+      namespace="ResourceSchedulerCanary"
+      tag_key="ScheduleTagFilterTestKey"
+      value="foo"
+    }
+  }
+  resource_filters {
+    # Required
+    attribute = "LIFECYCLE_STATE"
+    value {
+      value="running"
+    }
+    value {
+      value="stopped"
+    }
+  }
+  resource_filters {
+    # Required
+    attribute = "COMPARTMENT_ID"
+    value {
+      value=var.compartment_id
+    }
+  }
+
   #Optional
   defined_tags  = map(oci_identity_tag_namespace.tag-namespace1.name.oci_identity_tag.tag1.name, var.schedule_defined_tags_value)
   description   = var.schedule_description
   display_name  = var.schedule_display_name
   freeform_tags = var.schedule_freeform_tags
-  resource_filters {
-    #Required
-    attribute = var.schedule_resource_filters_attribute
-
-    #Optional
-    condition                         = var.schedule_resource_filters_condition
-    should_include_child_compartments = var.schedule_resource_filters_should_include_child_compartments
-    value {
-
-      #Optional
-      namespace = var.schedule_resource_filters_value_namespace
-      tag_key   = var.schedule_resource_filters_value_tag_key
-      value     = var.schedule_resource_filters_value_value
-    }
-  }
-  resources {
-    #Required
-    id = var.schedule_resources_id
-
-    #Optional
-    metadata = var.schedule_resources_metadata
-  }
   time_ends   = var.schedule_time_ends
   time_starts = var.schedule_time_starts
 }

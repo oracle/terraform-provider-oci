@@ -27,7 +27,6 @@ type BackendSet struct {
 	// Example: `example_backend_set`
 	Name *string `mandatory:"true" json:"name"`
 
-	// The health check policy configuration.
 	HealthChecker *HealthChecker `mandatory:"true" json:"healthChecker"`
 
 	// The network load balancer policy for the backend set.

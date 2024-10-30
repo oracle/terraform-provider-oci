@@ -171,6 +171,13 @@ var (
 		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
 	}
 
+	CoreInstancePoolLoadBalancers3Representation = map[string]interface{}{
+		"backend_set_name": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_backend_set.test_backend_set3.name}`},
+		"load_balancer_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_load_balancer_load_balancer.test_load_balancer3.id}`},
+		"port":             acctest.Representation{RepType: acctest.Required, Create: `10`},
+		"vnic_selection":   acctest.Representation{RepType: acctest.Required, Create: `PrimaryVnic`},
+	}
+
 	CoreInstancePoolConfigurationPoolRepresentation = map[string]interface{}{
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"instance_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstancePoolInstanceConfigurationInstanceDetailsPoolRepresentation},
@@ -240,9 +247,11 @@ var (
 		DefinedTagsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set", acctest.Required, acctest.Create, backendSetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set2", acctest.Required, acctest.Create, backendSet2Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_backend_set", "test_backend_set3", acctest.Required, acctest.Create, backendSet3Representation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_certificate", "test_certificate", acctest.Required, acctest.Create, certificateRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer", acctest.Required, acctest.Create, loadBalancerRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer2", acctest.Required, acctest.Create, loadBalancer2Representation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_load_balancer_load_balancer", "test_load_balancer3", acctest.Required, acctest.Create, loadBalancer3Representation) +
 		LoadBalancerSubnetDependencies
 
 	CoreInstancePoolResourceDependenciesIpv6 = utils.OciImageIdsVariable +
@@ -438,6 +447,93 @@ func TestCoreInstancePoolResource_basic(t *testing.T) {
 			),
 		},
 		// verify attach
+		{
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreInstancePoolRepresentation, map[string]interface{}{
+					"load_balancers": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation}, {RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancers2Representation}},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "2"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// verify unordered attach
+		{
+			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreInstancePoolRepresentation, map[string]interface{}{
+					"load_balancers": []acctest.RepresentationGroup{{RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancersRepresentation}, {RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancers3Representation}, {RepType: acctest.Optional, Group: CoreInstancePoolLoadBalancers2Representation}},
+				})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "instance_configuration_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.#", "3"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.0.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.0.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.1.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.1.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.2.backend_set_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.2.id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.2.instance_pool_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.2.load_balancer_id"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.2.port", "10"),
+				resource.TestCheckResourceAttrSet(resourceName, "load_balancers.2.state"),
+				resource.TestCheckResourceAttr(resourceName, "load_balancers.2.vnic_selection", "PrimaryVnic"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "placement_configurations.0.fault_domains.#", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "placement_configurations.0.primary_subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "size", "3"),
+				resource.TestCheckResourceAttr(resourceName, "state", "RUNNING"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+			),
+		},
+		// verify unordered detach
 		{
 			Config: config + compartmentIdVariableStr + CoreInstancePoolResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_pool", "test_instance_pool", acctest.Optional, acctest.Update, acctest.RepresentationCopyWithNewProperties(CoreInstancePoolRepresentation, map[string]interface{}{
