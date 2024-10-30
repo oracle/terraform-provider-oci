@@ -1,4 +1,4 @@
-## 6.16.0 (Unreleased)
+## 6.16.0 (October 30, 2024)
 
 ### Added
 - Support for ESP & ICMP traffic support in NLB
