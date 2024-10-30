@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud Bridge API
+// OpenSearch Service API
 //
-// API for Oracle Cloud Bridge service.
+// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
 //
 
-package cloudbridge
+package opensearch
 
 import (
 	"fmt"
@@ -15,24 +15,24 @@ import (
 	"strings"
 )
 
-// InstanceState Describes the current state of an instance.
-type InstanceState struct {
+// OutboundClusterConfig This configuration is used for passing request details to connect outbound cluster(s) to the inbound cluster (coordinating cluster)
+type OutboundClusterConfig struct {
 
-	// The state of the instance as a 16-bit unsigned integer.
-	Code *int `mandatory:"false" json:"code"`
+	// Flag to indicate whether outbound cluster configuration is enabled
+	IsEnabled *bool `mandatory:"true" json:"isEnabled"`
 
-	// The current state of the instance.
-	Name *string `mandatory:"false" json:"name"`
+	// List of outbound clusters to be connected to the inbound cluster
+	OutboundClusters []OutboundClusterSummary `mandatory:"true" json:"outboundClusters"`
 }
 
-func (m InstanceState) String() string {
+func (m OutboundClusterConfig) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m InstanceState) ValidateEnumValue() (bool, error) {
+func (m OutboundClusterConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

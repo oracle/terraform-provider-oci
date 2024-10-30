@@ -67,7 +67,7 @@ type OpensearchClusterSummary struct {
 
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
-	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
+	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 }
 
 func (m OpensearchClusterSummary) String() string {

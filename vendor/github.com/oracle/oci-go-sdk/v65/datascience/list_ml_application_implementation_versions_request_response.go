@@ -15,7 +15,7 @@ import (
 type ListMlApplicationImplementationVersionsRequest struct {
 
 	// unique MlApplicationImplementation identifier
-	MlApplicationImplementationId *string `mandatory:"false" contributesTo:"query" name:"mlApplicationImplementationId"`
+	MlApplicationImplementationId *string `mandatory:"true" contributesTo:"query" name:"mlApplicationImplementationId"`
 
 	// A filter to return only resources matching the given lifecycleState.
 	LifecycleState MlApplicationImplementationVersionLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`

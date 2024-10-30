@@ -158,13 +158,17 @@ const (
 	ListWorkRequestsOperationTypeMlApplicationPackageUpload        ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_PACKAGE_UPLOAD"
 	ListWorkRequestsOperationTypeMlApplicationTriggerStart         ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_TRIGGER_START"
 	ListWorkRequestsOperationTypeMlApplicationImplementationDelete ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_DELETE"
+	ListWorkRequestsOperationTypeMlApplicationImplementationUpdate ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_UPDATE"
+	ListWorkRequestsOperationTypeMlApplicationImplementationMove   ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_MOVE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceCreate       ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_CREATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceUpdate       ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_UPDATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceDelete       ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_DELETE"
+	ListWorkRequestsOperationTypeMlApplicationInstanceMove         ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_MOVE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate   ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_CREATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate   ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPDATE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete   ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_DELETE"
 	ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade  ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPGRADE"
+	ListWorkRequestsOperationTypeMlApplicationInstanceViewMove     ListWorkRequestsOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_MOVE"
 	ListWorkRequestsOperationTypePrivateEndpointCreate             ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
 	ListWorkRequestsOperationTypePrivateEndpointDelete             ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 	ListWorkRequestsOperationTypePrivateEndpointMove               ListWorkRequestsOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
@@ -202,13 +206,17 @@ var mappingListWorkRequestsOperationTypeEnum = map[string]ListWorkRequestsOperat
 	"ML_APPLICATION_PACKAGE_UPLOAD":        ListWorkRequestsOperationTypeMlApplicationPackageUpload,
 	"ML_APPLICATION_TRIGGER_START":         ListWorkRequestsOperationTypeMlApplicationTriggerStart,
 	"ML_APPLICATION_IMPLEMENTATION_DELETE": ListWorkRequestsOperationTypeMlApplicationImplementationDelete,
+	"ML_APPLICATION_IMPLEMENTATION_UPDATE": ListWorkRequestsOperationTypeMlApplicationImplementationUpdate,
+	"ML_APPLICATION_IMPLEMENTATION_MOVE":   ListWorkRequestsOperationTypeMlApplicationImplementationMove,
 	"ML_APPLICATION_INSTANCE_CREATE":       ListWorkRequestsOperationTypeMlApplicationInstanceCreate,
 	"ML_APPLICATION_INSTANCE_UPDATE":       ListWorkRequestsOperationTypeMlApplicationInstanceUpdate,
 	"ML_APPLICATION_INSTANCE_DELETE":       ListWorkRequestsOperationTypeMlApplicationInstanceDelete,
+	"ML_APPLICATION_INSTANCE_MOVE":         ListWorkRequestsOperationTypeMlApplicationInstanceMove,
 	"ML_APPLICATION_INSTANCE_VIEW_CREATE":  ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate,
 	"ML_APPLICATION_INSTANCE_VIEW_UPDATE":  ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate,
 	"ML_APPLICATION_INSTANCE_VIEW_DELETE":  ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete,
 	"ML_APPLICATION_INSTANCE_VIEW_UPGRADE": ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade,
+	"ML_APPLICATION_INSTANCE_VIEW_MOVE":    ListWorkRequestsOperationTypeMlApplicationInstanceViewMove,
 	"PRIVATE_ENDPOINT_CREATE":              ListWorkRequestsOperationTypePrivateEndpointCreate,
 	"PRIVATE_ENDPOINT_DELETE":              ListWorkRequestsOperationTypePrivateEndpointDelete,
 	"PRIVATE_ENDPOINT_MOVE":                ListWorkRequestsOperationTypePrivateEndpointMove,
@@ -246,13 +254,17 @@ var mappingListWorkRequestsOperationTypeEnumLowerCase = map[string]ListWorkReque
 	"ml_application_package_upload":        ListWorkRequestsOperationTypeMlApplicationPackageUpload,
 	"ml_application_trigger_start":         ListWorkRequestsOperationTypeMlApplicationTriggerStart,
 	"ml_application_implementation_delete": ListWorkRequestsOperationTypeMlApplicationImplementationDelete,
+	"ml_application_implementation_update": ListWorkRequestsOperationTypeMlApplicationImplementationUpdate,
+	"ml_application_implementation_move":   ListWorkRequestsOperationTypeMlApplicationImplementationMove,
 	"ml_application_instance_create":       ListWorkRequestsOperationTypeMlApplicationInstanceCreate,
 	"ml_application_instance_update":       ListWorkRequestsOperationTypeMlApplicationInstanceUpdate,
 	"ml_application_instance_delete":       ListWorkRequestsOperationTypeMlApplicationInstanceDelete,
+	"ml_application_instance_move":         ListWorkRequestsOperationTypeMlApplicationInstanceMove,
 	"ml_application_instance_view_create":  ListWorkRequestsOperationTypeMlApplicationInstanceViewCreate,
 	"ml_application_instance_view_update":  ListWorkRequestsOperationTypeMlApplicationInstanceViewUpdate,
 	"ml_application_instance_view_delete":  ListWorkRequestsOperationTypeMlApplicationInstanceViewDelete,
 	"ml_application_instance_view_upgrade": ListWorkRequestsOperationTypeMlApplicationInstanceViewUpgrade,
+	"ml_application_instance_view_move":    ListWorkRequestsOperationTypeMlApplicationInstanceViewMove,
 	"private_endpoint_create":              ListWorkRequestsOperationTypePrivateEndpointCreate,
 	"private_endpoint_delete":              ListWorkRequestsOperationTypePrivateEndpointDelete,
 	"private_endpoint_move":                ListWorkRequestsOperationTypePrivateEndpointMove,
@@ -301,13 +313,17 @@ func GetListWorkRequestsOperationTypeEnumStringValues() []string {
 		"ML_APPLICATION_PACKAGE_UPLOAD",
 		"ML_APPLICATION_TRIGGER_START",
 		"ML_APPLICATION_IMPLEMENTATION_DELETE",
+		"ML_APPLICATION_IMPLEMENTATION_UPDATE",
+		"ML_APPLICATION_IMPLEMENTATION_MOVE",
 		"ML_APPLICATION_INSTANCE_CREATE",
 		"ML_APPLICATION_INSTANCE_UPDATE",
 		"ML_APPLICATION_INSTANCE_DELETE",
+		"ML_APPLICATION_INSTANCE_MOVE",
 		"ML_APPLICATION_INSTANCE_VIEW_CREATE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPDATE",
 		"ML_APPLICATION_INSTANCE_VIEW_DELETE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPGRADE",
+		"ML_APPLICATION_INSTANCE_VIEW_MOVE",
 		"PRIVATE_ENDPOINT_CREATE",
 		"PRIVATE_ENDPOINT_DELETE",
 		"PRIVATE_ENDPOINT_MOVE",

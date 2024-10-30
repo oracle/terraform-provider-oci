@@ -149,8 +149,8 @@ func (client OpensearchClusterClient) backupOpensearchCluster(ctx context.Contex
 	return response, err
 }
 
-// ConfigureRemoteCluster Configure the cluster to work remotely.
-func (client OpensearchClusterClient) ConfigureRemoteCluster(ctx context.Context, request ConfigureRemoteClusterRequest) (response ConfigureRemoteClusterResponse, err error) {
+// ConfigureOutboundCluster Configure Outbound cluster for cross-cluster operations
+func (client OpensearchClusterClient) ConfigureOutboundCluster(ctx context.Context, request ConfigureOutboundClusterRequest) (response ConfigureOutboundClusterResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
 	if client.RetryPolicy() != nil {
@@ -164,42 +164,42 @@ func (client OpensearchClusterClient) ConfigureRemoteCluster(ctx context.Context
 		request.OpcRetryToken = common.String(common.RetryToken())
 	}
 
-	ociResponse, err = common.Retry(ctx, request, client.configureRemoteCluster, policy)
+	ociResponse, err = common.Retry(ctx, request, client.configureOutboundCluster, policy)
 	if err != nil {
 		if ociResponse != nil {
 			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
 				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ConfigureRemoteClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+				response = ConfigureOutboundClusterResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
 			} else {
-				response = ConfigureRemoteClusterResponse{}
+				response = ConfigureOutboundClusterResponse{}
 			}
 		}
 		return
 	}
-	if convertedResponse, ok := ociResponse.(ConfigureRemoteClusterResponse); ok {
+	if convertedResponse, ok := ociResponse.(ConfigureOutboundClusterResponse); ok {
 		response = convertedResponse
 	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ConfigureRemoteClusterResponse")
+		err = fmt.Errorf("failed to convert OCIResponse into ConfigureOutboundClusterResponse")
 	}
 	return
 }
 
-// configureRemoteCluster implements the OCIOperation interface (enables retrying operations)
-func (client OpensearchClusterClient) configureRemoteCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+// configureOutboundCluster implements the OCIOperation interface (enables retrying operations)
+func (client OpensearchClusterClient) configureOutboundCluster(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/configureRemote", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/opensearchClusters/{opensearchClusterId}/actions/configureOutboundCluster", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
 
-	var response ConfigureRemoteClusterResponse
+	var response ConfigureOutboundClusterResponse
 	var httpResponse *http.Response
 	httpResponse, err = client.Call(ctx, &httpRequest)
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ConfigureRemoteCluster"
-		err = common.PostProcessServiceError(err, "OpensearchCluster", "ConfigureRemoteCluster", apiReferenceLink)
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/opensearch/20180828/OpensearchCluster/ConfigureOutboundCluster"
+		err = common.PostProcessServiceError(err, "OpensearchCluster", "ConfigureOutboundCluster", apiReferenceLink)
 		return response, err
 	}
 

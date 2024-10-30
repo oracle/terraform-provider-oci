@@ -2,12 +2,14 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud Bridge API
+// Kubernetes Engine API
 //
-// API for Oracle Cloud Bridge service.
+// API for the Kubernetes Engine service (also known as the Container Engine for Kubernetes service). Use this API to build, deploy,
+// and manage cloud-native applications. For more information, see
+// Overview of Kubernetes Engine (https://docs.cloud.oracle.com/iaas/Content/ContEng/Concepts/contengoverview.htm).
 //
 
-package cloudbridge
+package containerengine
 
 import (
 	"fmt"
@@ -15,24 +17,19 @@ import (
 	"strings"
 )
 
-// Tag Describes a tag.
-type Tag struct {
-
-	// The key of the tag.
-	Key *string `mandatory:"false" json:"key"`
-
-	// The value of the tag.
-	Value *string `mandatory:"false" json:"value"`
+// ReplaceBootVolumeClusterNodeDetails The properties that define a node boot volume replacement action.
+type ReplaceBootVolumeClusterNodeDetails struct {
+	NodeEvictionSettings *NodeEvictionSettings `mandatory:"false" json:"nodeEvictionSettings"`
 }
 
-func (m Tag) String() string {
+func (m ReplaceBootVolumeClusterNodeDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m Tag) ValidateEnumValue() (bool, error) {
+func (m ReplaceBootVolumeClusterNodeDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

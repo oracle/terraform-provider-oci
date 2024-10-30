@@ -21,7 +21,7 @@ import (
 
 // Model You can create a custom model by using your dataset to fine-tune an out-of-the-box text generation base model. Have your dataset ready before you create a custom model. See Training Data Requirements (https://docs.cloud.oracle.com/iaas/Content/generative-ai/training-data-requirements.htm).
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives OCI resource access to users. See
-// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and Getting Access to Generative AI Resouces (https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
+// Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and Getting Access to Generative AI Resources (https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
 type Model struct {
 
 	// An ID that uniquely identifies a pretrained or fine-tuned model.

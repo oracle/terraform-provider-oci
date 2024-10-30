@@ -71,6 +71,8 @@ type MlApplicationImplementation struct {
 	// List of ML Application Implementation OCIDs for which migration from this implementation is allowed. Migration means that if consumers change implementation for their instances to implementation with OCID from this list, instance components will be updated in place otherwise new instance components are created based on the new implementation and old instance components are removed.
 	AllowedMigrationDestinations []string `mandatory:"false" json:"allowedMigrationDestinations"`
 
+	Logging *ImplementationLogging `mandatory:"false" json:"logging"`
+
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
@@ -104,6 +106,7 @@ func (m *MlApplicationImplementation) UnmarshalJSON(data []byte) (e error) {
 		ConfigurationSchema           []ConfigurationPropertySchema                 `json:"configurationSchema"`
 		MlApplicationPackageArguments *MlApplicationPackageArguments                `json:"mlApplicationPackageArguments"`
 		AllowedMigrationDestinations  []string                                      `json:"allowedMigrationDestinations"`
+		Logging                       *ImplementationLogging                        `json:"logging"`
 		SystemTags                    map[string]map[string]interface{}             `json:"systemTags"`
 		Id                            *string                                       `json:"id"`
 		Name                          *string                                       `json:"name"`
@@ -145,6 +148,8 @@ func (m *MlApplicationImplementation) UnmarshalJSON(data []byte) (e error) {
 
 	m.AllowedMigrationDestinations = make([]string, len(model.AllowedMigrationDestinations))
 	copy(m.AllowedMigrationDestinations, model.AllowedMigrationDestinations)
+	m.Logging = model.Logging
+
 	m.SystemTags = model.SystemTags
 
 	m.Id = model.Id

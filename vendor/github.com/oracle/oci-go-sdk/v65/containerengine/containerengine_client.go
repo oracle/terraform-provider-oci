@@ -1130,73 +1130,6 @@ func (client ContainerEngineClient) createWorkloadMapping(ctx context.Context, r
 	return response, err
 }
 
-// CycleClusterNode perform cycle action to node in cluster
-// A default retry strategy applies to this operation CycleClusterNode()
-func (client ContainerEngineClient) CycleClusterNode(ctx context.Context, request CycleClusterNodeRequest) (response CycleClusterNodeResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.cycleClusterNode, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CycleClusterNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CycleClusterNodeResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CycleClusterNodeResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CycleClusterNodeResponse")
-	}
-	return
-}
-
-// cycleClusterNode implements the OCIOperation interface (enables retrying operations)
-func (client ContainerEngineClient) cycleClusterNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/nodes/{nodeId}/actions/cycle", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	request.(CycleClusterNodeRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response CycleClusterNodeResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/CycleClusterNode"
-		err = common.PostProcessServiceError(err, "ContainerEngine", "CycleClusterNode", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeleteCluster Delete a cluster.
 // A default retry strategy applies to this operation DeleteCluster()
 func (client ContainerEngineClient) DeleteCluster(ctx context.Context, request DeleteClusterRequest) (response DeleteClusterResponse, err error) {
@@ -3866,6 +3799,73 @@ func (client ContainerEngineClient) rebootClusterNode(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/RebootClusterNode"
 		err = common.PostProcessServiceError(err, "ContainerEngine", "RebootClusterNode", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReplaceBootVolumeClusterNode perform cycle action to node in cluster
+// A default retry strategy applies to this operation ReplaceBootVolumeClusterNode()
+func (client ContainerEngineClient) ReplaceBootVolumeClusterNode(ctx context.Context, request ReplaceBootVolumeClusterNodeRequest) (response ReplaceBootVolumeClusterNodeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.replaceBootVolumeClusterNode, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReplaceBootVolumeClusterNodeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReplaceBootVolumeClusterNodeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReplaceBootVolumeClusterNodeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReplaceBootVolumeClusterNodeResponse")
+	}
+	return
+}
+
+// replaceBootVolumeClusterNode implements the OCIOperation interface (enables retrying operations)
+func (client ContainerEngineClient) replaceBootVolumeClusterNode(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/clusters/{clusterId}/nodes/{nodeId}/actions/replaceBootVolume", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	request.(ReplaceBootVolumeClusterNodeRequest).ReplaceMandatoryParamInPath(&client.BaseClient, client.requiredParamsInEndpoint)
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ReplaceBootVolumeClusterNodeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/containerengine/20180222/Cluster/ReplaceBootVolumeClusterNode"
+		err = common.PostProcessServiceError(err, "ContainerEngine", "ReplaceBootVolumeClusterNode", apiReferenceLink)
 		return response, err
 	}
 

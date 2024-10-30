@@ -80,10 +80,6 @@ func (m *applicationcomponent) UnmarshalPolymorphicJSON(data []byte) (interface{
 		mm := DataScienceModelApplicationComponent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DATA_SCIENCE_SCHEDULE":
-		mm := DataScienceScheduleApplicationComponent{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for ApplicationComponent: %s.", m.Type)
 		return *m, nil
@@ -125,7 +121,6 @@ const (
 	ApplicationComponentTypeDataScienceJob      ApplicationComponentTypeEnum = "DATA_SCIENCE_JOB"
 	ApplicationComponentTypeDataScienceModel    ApplicationComponentTypeEnum = "DATA_SCIENCE_MODEL"
 	ApplicationComponentTypeDataFlowApplication ApplicationComponentTypeEnum = "DATA_FLOW_APPLICATION"
-	ApplicationComponentTypeDataScienceSchedule ApplicationComponentTypeEnum = "DATA_SCIENCE_SCHEDULE"
 	ApplicationComponentTypeGenericOciResource  ApplicationComponentTypeEnum = "GENERIC_OCI_RESOURCE"
 )
 
@@ -134,7 +129,6 @@ var mappingApplicationComponentTypeEnum = map[string]ApplicationComponentTypeEnu
 	"DATA_SCIENCE_JOB":      ApplicationComponentTypeDataScienceJob,
 	"DATA_SCIENCE_MODEL":    ApplicationComponentTypeDataScienceModel,
 	"DATA_FLOW_APPLICATION": ApplicationComponentTypeDataFlowApplication,
-	"DATA_SCIENCE_SCHEDULE": ApplicationComponentTypeDataScienceSchedule,
 	"GENERIC_OCI_RESOURCE":  ApplicationComponentTypeGenericOciResource,
 }
 
@@ -143,7 +137,6 @@ var mappingApplicationComponentTypeEnumLowerCase = map[string]ApplicationCompone
 	"data_science_job":      ApplicationComponentTypeDataScienceJob,
 	"data_science_model":    ApplicationComponentTypeDataScienceModel,
 	"data_flow_application": ApplicationComponentTypeDataFlowApplication,
-	"data_science_schedule": ApplicationComponentTypeDataScienceSchedule,
 	"generic_oci_resource":  ApplicationComponentTypeGenericOciResource,
 }
 
@@ -163,7 +156,6 @@ func GetApplicationComponentTypeEnumStringValues() []string {
 		"DATA_SCIENCE_JOB",
 		"DATA_SCIENCE_MODEL",
 		"DATA_FLOW_APPLICATION",
-		"DATA_SCIENCE_SCHEDULE",
 		"GENERIC_OCI_RESOURCE",
 	}
 }

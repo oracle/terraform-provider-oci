@@ -35,7 +35,8 @@ type UpdateOutboundConnectorDetails struct {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
-	// Not used by File Systems but required for SPLAT tag integration.
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 

@@ -2,9 +2,9 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Application Performance Monitoring Synthetic Monitoring API
+// APM Availability Monitoring API
 //
-// Use the Application Performance Monitoring Synthetic Monitoring API to query synthetic scripts and monitors. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
+// Use the APM Availability Monitoring API to query Scripts, Monitors, Dedicated Vantage Points and On-Premise Vantage Points resources. For more information, see Application Performance Monitoring (https://docs.oracle.com/iaas/application-performance-monitoring/index.html).
 //
 
 package apmsynthetics
@@ -24,7 +24,7 @@ type FtpMonitorConfiguration struct {
 
 	DnsConfiguration *DnsConfiguration `mandatory:"false" json:"dnsConfiguration"`
 
-	// If enabled, Active mode will be used for the FTP connection.
+	// If enabled, Active mode will be used for the FTP connection. Not supported for SFTP protocol.
 	IsActiveMode *bool `mandatory:"false" json:"isActiveMode"`
 
 	FtpBasicAuthenticationDetails *BasicAuthenticationDetails `mandatory:"false" json:"ftpBasicAuthenticationDetails"`

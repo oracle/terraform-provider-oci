@@ -72,6 +72,10 @@ func (m *instancecomponent) UnmarshalPolymorphicJSON(data []byte) (interface{}, 
 		mm := MlApplicationInstanceInternalTrigger{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "DATA_SCIENCE_SCHEDULE":
+		mm := DataScienceScheduleInstanceComponent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "OBJECT_STORAGE_OBJECT":
 		mm := ObjectStorageObjectInstanceComponent{}
 		err = json.Unmarshal(data, &mm)
@@ -121,6 +125,7 @@ const (
 	InstanceComponentTypeObjectStorageBucket                  InstanceComponentTypeEnum = "OBJECT_STORAGE_BUCKET"
 	InstanceComponentTypeObjectStorageObject                  InstanceComponentTypeEnum = "OBJECT_STORAGE_OBJECT"
 	InstanceComponentTypeMlApplicationInstanceInternalTrigger InstanceComponentTypeEnum = "ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER"
+	InstanceComponentTypeDataScienceSchedule                  InstanceComponentTypeEnum = "DATA_SCIENCE_SCHEDULE"
 	InstanceComponentTypeGenericOciResource                   InstanceComponentTypeEnum = "GENERIC_OCI_RESOURCE"
 )
 
@@ -129,6 +134,7 @@ var mappingInstanceComponentTypeEnum = map[string]InstanceComponentTypeEnum{
 	"OBJECT_STORAGE_BUCKET":                    InstanceComponentTypeObjectStorageBucket,
 	"OBJECT_STORAGE_OBJECT":                    InstanceComponentTypeObjectStorageObject,
 	"ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER": InstanceComponentTypeMlApplicationInstanceInternalTrigger,
+	"DATA_SCIENCE_SCHEDULE":                    InstanceComponentTypeDataScienceSchedule,
 	"GENERIC_OCI_RESOURCE":                     InstanceComponentTypeGenericOciResource,
 }
 
@@ -137,6 +143,7 @@ var mappingInstanceComponentTypeEnumLowerCase = map[string]InstanceComponentType
 	"object_storage_bucket":                    InstanceComponentTypeObjectStorageBucket,
 	"object_storage_object":                    InstanceComponentTypeObjectStorageObject,
 	"ml_application_instance_internal_trigger": InstanceComponentTypeMlApplicationInstanceInternalTrigger,
+	"data_science_schedule":                    InstanceComponentTypeDataScienceSchedule,
 	"generic_oci_resource":                     InstanceComponentTypeGenericOciResource,
 }
 
@@ -156,6 +163,7 @@ func GetInstanceComponentTypeEnumStringValues() []string {
 		"OBJECT_STORAGE_BUCKET",
 		"OBJECT_STORAGE_OBJECT",
 		"ML_APPLICATION_INSTANCE_INTERNAL_TRIGGER",
+		"DATA_SCIENCE_SCHEDULE",
 		"GENERIC_OCI_RESOURCE",
 	}
 }

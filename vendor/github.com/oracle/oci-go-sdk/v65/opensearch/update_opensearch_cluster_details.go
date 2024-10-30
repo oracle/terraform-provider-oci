@@ -40,7 +40,7 @@ type UpdateOpensearchClusterDetails struct {
 	// The customer IP addresses of the endpoint in customer VCN
 	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
 
-	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
+	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
 	MaintenanceDetails *UpdateMaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
 

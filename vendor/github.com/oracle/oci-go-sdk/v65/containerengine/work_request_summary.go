@@ -110,8 +110,8 @@ const (
 	WorkRequestSummaryOperationTypeUpdateClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestSummaryOperationTypeDeleteClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestSummaryOperationTypeMoveClusterNamespaceProfileVersion   WorkRequestOperationTypeEnum = "MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION"
-	WorkRequestSummaryOperationTypeClusterNodeCycle                     WorkRequestOperationTypeEnum = "CLUSTER_NODE_CYCLE"
 	WorkRequestSummaryOperationTypeClusterNodeReboot                    WorkRequestOperationTypeEnum = "CLUSTER_NODE_REBOOT"
+	WorkRequestSummaryOperationTypeClusterNodeReplaceBootVolume         WorkRequestOperationTypeEnum = "CLUSTER_NODE_REPLACE_BOOT_VOLUME"
 )
 
 // GetWorkRequestSummaryOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum

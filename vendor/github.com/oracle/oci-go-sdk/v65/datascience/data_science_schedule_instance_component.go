@@ -16,10 +16,10 @@ import (
 	"strings"
 )
 
-// DataScienceScheduleApplicationComponent Data Science Schedule application component
-type DataScienceScheduleApplicationComponent struct {
+// DataScienceScheduleInstanceComponent Data Science Schedule instance component
+type DataScienceScheduleInstanceComponent struct {
 
-	// Name of application component
+	// Name of instance component
 	ComponentName *string `mandatory:"true" json:"componentName"`
 
 	// OCID of Data Science Schedule
@@ -30,23 +30,23 @@ type DataScienceScheduleApplicationComponent struct {
 }
 
 // GetName returns Name
-func (m DataScienceScheduleApplicationComponent) GetName() *string {
+func (m DataScienceScheduleInstanceComponent) GetName() *string {
 	return m.Name
 }
 
 // GetComponentName returns ComponentName
-func (m DataScienceScheduleApplicationComponent) GetComponentName() *string {
+func (m DataScienceScheduleInstanceComponent) GetComponentName() *string {
 	return m.ComponentName
 }
 
-func (m DataScienceScheduleApplicationComponent) String() string {
+func (m DataScienceScheduleInstanceComponent) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DataScienceScheduleApplicationComponent) ValidateEnumValue() (bool, error) {
+func (m DataScienceScheduleInstanceComponent) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
@@ -56,14 +56,14 @@ func (m DataScienceScheduleApplicationComponent) ValidateEnumValue() (bool, erro
 }
 
 // MarshalJSON marshals to json representation
-func (m DataScienceScheduleApplicationComponent) MarshalJSON() (buff []byte, e error) {
-	type MarshalTypeDataScienceScheduleApplicationComponent DataScienceScheduleApplicationComponent
+func (m DataScienceScheduleInstanceComponent) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeDataScienceScheduleInstanceComponent DataScienceScheduleInstanceComponent
 	s := struct {
 		DiscriminatorParam string `json:"type"`
-		MarshalTypeDataScienceScheduleApplicationComponent
+		MarshalTypeDataScienceScheduleInstanceComponent
 	}{
 		"DATA_SCIENCE_SCHEDULE",
-		(MarshalTypeDataScienceScheduleApplicationComponent)(m),
+		(MarshalTypeDataScienceScheduleInstanceComponent)(m),
 	}
 
 	return json.Marshal(&s)

@@ -18,21 +18,15 @@ type AssetSourceTypeEnum string
 
 // Set of constants representing the allowable values for AssetSourceTypeEnum
 const (
-	AssetSourceTypeVmware   AssetSourceTypeEnum = "VMWARE"
-	AssetSourceTypeAws      AssetSourceTypeEnum = "AWS"
-	AssetSourceTypeOracleDb AssetSourceTypeEnum = "ORACLE_DB"
+	AssetSourceTypeVmware AssetSourceTypeEnum = "VMWARE"
 )
 
 var mappingAssetSourceTypeEnum = map[string]AssetSourceTypeEnum{
-	"VMWARE":    AssetSourceTypeVmware,
-	"AWS":       AssetSourceTypeAws,
-	"ORACLE_DB": AssetSourceTypeOracleDb,
+	"VMWARE": AssetSourceTypeVmware,
 }
 
 var mappingAssetSourceTypeEnumLowerCase = map[string]AssetSourceTypeEnum{
-	"vmware":    AssetSourceTypeVmware,
-	"aws":       AssetSourceTypeAws,
-	"oracle_db": AssetSourceTypeOracleDb,
+	"vmware": AssetSourceTypeVmware,
 }
 
 // GetAssetSourceTypeEnumValues Enumerates the set of values for AssetSourceTypeEnum
@@ -48,8 +42,6 @@ func GetAssetSourceTypeEnumValues() []AssetSourceTypeEnum {
 func GetAssetSourceTypeEnumStringValues() []string {
 	return []string{
 		"VMWARE",
-		"AWS",
-		"ORACLE_DB",
 	}
 }
 

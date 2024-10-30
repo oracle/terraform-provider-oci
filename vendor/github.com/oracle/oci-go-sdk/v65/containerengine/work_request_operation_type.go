@@ -55,8 +55,8 @@ const (
 	WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion WorkRequestOperationTypeEnum = "DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION"
 	WorkRequestOperationTypeMoveClusterNamespaceProfileVersion   WorkRequestOperationTypeEnum = "MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION"
-	WorkRequestOperationTypeClusterNodeCycle                     WorkRequestOperationTypeEnum = "CLUSTER_NODE_CYCLE"
 	WorkRequestOperationTypeClusterNodeReboot                    WorkRequestOperationTypeEnum = "CLUSTER_NODE_REBOOT"
+	WorkRequestOperationTypeClusterNodeReplaceBootVolume         WorkRequestOperationTypeEnum = "CLUSTER_NODE_REPLACE_BOOT_VOLUME"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -95,8 +95,8 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION": WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion,
 	"DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION": WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion,
 	"MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION":   WorkRequestOperationTypeMoveClusterNamespaceProfileVersion,
-	"CLUSTER_NODE_CYCLE":                       WorkRequestOperationTypeClusterNodeCycle,
 	"CLUSTER_NODE_REBOOT":                      WorkRequestOperationTypeClusterNodeReboot,
+	"CLUSTER_NODE_REPLACE_BOOT_VOLUME":         WorkRequestOperationTypeClusterNodeReplaceBootVolume,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -135,8 +135,8 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"update_cluster_namespace_profile_version": WorkRequestOperationTypeUpdateClusterNamespaceProfileVersion,
 	"delete_cluster_namespace_profile_version": WorkRequestOperationTypeDeleteClusterNamespaceProfileVersion,
 	"move_cluster_namespace_profile_version":   WorkRequestOperationTypeMoveClusterNamespaceProfileVersion,
-	"cluster_node_cycle":                       WorkRequestOperationTypeClusterNodeCycle,
 	"cluster_node_reboot":                      WorkRequestOperationTypeClusterNodeReboot,
+	"cluster_node_replace_boot_volume":         WorkRequestOperationTypeClusterNodeReplaceBootVolume,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -186,8 +186,8 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"UPDATE_CLUSTER_NAMESPACE_PROFILE_VERSION",
 		"DELETE_CLUSTER_NAMESPACE_PROFILE_VERSION",
 		"MOVE_CLUSTER_NAMESPACE_PROFILE_VERSION",
-		"CLUSTER_NODE_CYCLE",
 		"CLUSTER_NODE_REBOOT",
+		"CLUSTER_NODE_REPLACE_BOOT_VOLUME",
 	}
 }
 

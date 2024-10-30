@@ -20,6 +20,9 @@ type CopyConfigurationRequest struct {
 	// The APM Domain ID the request is intended for.
 	ApmDomainId *string `mandatory:"true" contributesTo:"query" name:"apmDomainId"`
 
+	// The Target APM Domain ID the request is intended for.
+	ApmTargetDomainId *string `mandatory:"true" contributesTo:"query" name:"apmTargetDomainId"`
+
 	// A token that uniquely identifies a request so it can be retried in case of a timeout or
 	// server error without risk of executing that same action again. Retry tokens expire after 24
 	// hours, but can be invalidated before then due to conflicting operations. For example, if a resource

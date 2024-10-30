@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud Bridge API
+// Data Science API
 //
-// API for Oracle Cloud Bridge service.
+// Use the Data Science API to organize your data science work, access data and computing resources, and build, train, deploy and manage models and model deployments. For more information, see Data Science (https://docs.oracle.com/iaas/data-science/using/data-science.htm).
 //
 
-package cloudbridge
+package datascience
 
 import (
 	"fmt"
@@ -15,24 +15,23 @@ import (
 	"strings"
 )
 
-// MonthlyCostSummary Cost information for monthly maintenance.
-type MonthlyCostSummary struct {
+// ImplementationLogging Configuration of Logging for ML Application Implementation.
+type ImplementationLogging struct {
+	ImplementationLog *ImplementationLogDetails `mandatory:"false" json:"implementationLog"`
 
-	// Monthly costs for maintenance of this asset.
-	Amount *float64 `mandatory:"true" json:"amount"`
+	AggregatedInstanceViewLog *ImplementationLogDetails `mandatory:"false" json:"aggregatedInstanceViewLog"`
 
-	// Currency code as defined by ISO-4217.
-	CurrencyCode *string `mandatory:"true" json:"currencyCode"`
+	TriggerLog *ImplementationLogDetails `mandatory:"false" json:"triggerLog"`
 }
 
-func (m MonthlyCostSummary) String() string {
+func (m ImplementationLogging) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m MonthlyCostSummary) ValidateEnumValue() (bool, error) {
+func (m ImplementationLogging) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

@@ -19,7 +19,7 @@ import (
 type StartClusterShapeConfigs struct {
 
 	// Shape configurations for each node type.
-	NodeTypeShapeConfigs []NodeTypeShapeConfig `mandatory:"false" json:"nodeTypeShapeConfigs"`
+	NodeTypeShapeConfigs []NodeTypeShapeConfig `mandatory:"true" json:"nodeTypeShapeConfigs"`
 }
 
 func (m StartClusterShapeConfigs) String() string {

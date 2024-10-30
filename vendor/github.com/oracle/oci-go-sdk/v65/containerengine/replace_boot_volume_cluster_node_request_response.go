@@ -11,8 +11,8 @@ import (
 	"strings"
 )
 
-// CycleClusterNodeRequest wrapper for the CycleClusterNode operation
-type CycleClusterNodeRequest struct {
+// ReplaceBootVolumeClusterNodeRequest wrapper for the ReplaceBootVolumeClusterNode operation
+type ReplaceBootVolumeClusterNodeRequest struct {
 
 	// The OCID of the cluster.
 	ClusterId *string `mandatory:"true" contributesTo:"path" name:"clusterId"`
@@ -20,8 +20,8 @@ type CycleClusterNodeRequest struct {
 	// The OCID of the compute instance.
 	NodeId *string `mandatory:"true" contributesTo:"path" name:"nodeId"`
 
-	// The fields to cycle a node.
-	CycleClusterNodeDetails `contributesTo:"body"`
+	// The fields to replace boot volume of a node.
+	ReplaceBootVolumeClusterNodeDetails `contributesTo:"body"`
 
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
@@ -40,12 +40,12 @@ type CycleClusterNodeRequest struct {
 	RequestMetadata common.RequestMetadata
 }
 
-func (request CycleClusterNodeRequest) String() string {
+func (request ReplaceBootVolumeClusterNodeRequest) String() string {
 	return common.PointerString(request)
 }
 
 // HTTPRequest implements the OCIRequest interface
-func (request CycleClusterNodeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
+func (request ReplaceBootVolumeClusterNodeRequest) HTTPRequest(method, path string, binaryRequestBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (http.Request, error) {
 
 	_, err := request.ValidateEnumValue()
 	if err != nil {
@@ -55,7 +55,7 @@ func (request CycleClusterNodeRequest) HTTPRequest(method, path string, binaryRe
 }
 
 // BinaryRequestBody implements the OCIRequest interface
-func (request CycleClusterNodeRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
+func (request ReplaceBootVolumeClusterNodeRequest) BinaryRequestBody() (*common.OCIReadSeekCloser, bool) {
 
 	return nil, false
 
@@ -63,7 +63,7 @@ func (request CycleClusterNodeRequest) BinaryRequestBody() (*common.OCIReadSeekC
 
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
-func (request CycleClusterNodeRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
+func (request ReplaceBootVolumeClusterNodeRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
 	if mandatoryParamMap["clusterId"] != nil {
 		templateParam := mandatoryParamMap["clusterId"]
 		for _, template := range templateParam {
@@ -87,14 +87,14 @@ func (request CycleClusterNodeRequest) ReplaceMandatoryParamInPath(client *commo
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.
-func (request CycleClusterNodeRequest) RetryPolicy() *common.RetryPolicy {
+func (request ReplaceBootVolumeClusterNodeRequest) RetryPolicy() *common.RetryPolicy {
 	return request.RequestMetadata.RetryPolicy
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (request CycleClusterNodeRequest) ValidateEnumValue() (bool, error) {
+func (request ReplaceBootVolumeClusterNodeRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -102,8 +102,8 @@ func (request CycleClusterNodeRequest) ValidateEnumValue() (bool, error) {
 	return false, nil
 }
 
-// CycleClusterNodeResponse wrapper for the CycleClusterNode operation
-type CycleClusterNodeResponse struct {
+// ReplaceBootVolumeClusterNodeResponse wrapper for the ReplaceBootVolumeClusterNode operation
+type ReplaceBootVolumeClusterNodeResponse struct {
 
 	// The underlying http response
 	RawResponse *http.Response
@@ -115,11 +115,11 @@ type CycleClusterNodeResponse struct {
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
 }
 
-func (response CycleClusterNodeResponse) String() string {
+func (response ReplaceBootVolumeClusterNodeResponse) String() string {
 	return common.PointerString(response)
 }
 
 // HTTPResponse implements the OCIResponse interface
-func (response CycleClusterNodeResponse) HTTPResponse() *http.Response {
+func (response ReplaceBootVolumeClusterNodeResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
 }

@@ -44,7 +44,8 @@ type CreateOutboundConnectorDetails interface {
 	// Example: `{"Operations": {"CostCenter": "42"}}`
 	GetDefinedTags() map[string]map[string]interface{}
 
-	// Not used by File Systems but required for SPLAT tag integration.
+	// System tags for this resource.
+	// System tags are applied to resources by internal OCI services.
 	GetSystemTags() map[string]map[string]interface{}
 
 	// Locks associated with this resource.

@@ -41,13 +41,17 @@ const (
 	WorkRequestOperationTypeMlApplicationPackageUpload        WorkRequestOperationTypeEnum = "ML_APPLICATION_PACKAGE_UPLOAD"
 	WorkRequestOperationTypeMlApplicationTriggerStart         WorkRequestOperationTypeEnum = "ML_APPLICATION_TRIGGER_START"
 	WorkRequestOperationTypeMlApplicationImplementationDelete WorkRequestOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_DELETE"
+	WorkRequestOperationTypeMlApplicationImplementationUpdate WorkRequestOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_UPDATE"
+	WorkRequestOperationTypeMlApplicationImplementationMove   WorkRequestOperationTypeEnum = "ML_APPLICATION_IMPLEMENTATION_MOVE"
 	WorkRequestOperationTypeMlApplicationInstanceCreate       WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_CREATE"
 	WorkRequestOperationTypeMlApplicationInstanceUpdate       WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_UPDATE"
 	WorkRequestOperationTypeMlApplicationInstanceDelete       WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_DELETE"
+	WorkRequestOperationTypeMlApplicationInstanceMove         WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_MOVE"
 	WorkRequestOperationTypeMlApplicationInstanceViewCreate   WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_CREATE"
 	WorkRequestOperationTypeMlApplicationInstanceViewUpdate   WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPDATE"
 	WorkRequestOperationTypeMlApplicationInstanceViewDelete   WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_DELETE"
 	WorkRequestOperationTypeMlApplicationInstanceViewUpgrade  WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_UPGRADE"
+	WorkRequestOperationTypeMlApplicationInstanceViewMove     WorkRequestOperationTypeEnum = "ML_APPLICATION_INSTANCE_VIEW_MOVE"
 	WorkRequestOperationTypePrivateEndpointCreate             WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_CREATE"
 	WorkRequestOperationTypePrivateEndpointDelete             WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_DELETE"
 	WorkRequestOperationTypePrivateEndpointMove               WorkRequestOperationTypeEnum = "PRIVATE_ENDPOINT_MOVE"
@@ -85,13 +89,17 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"ML_APPLICATION_PACKAGE_UPLOAD":        WorkRequestOperationTypeMlApplicationPackageUpload,
 	"ML_APPLICATION_TRIGGER_START":         WorkRequestOperationTypeMlApplicationTriggerStart,
 	"ML_APPLICATION_IMPLEMENTATION_DELETE": WorkRequestOperationTypeMlApplicationImplementationDelete,
+	"ML_APPLICATION_IMPLEMENTATION_UPDATE": WorkRequestOperationTypeMlApplicationImplementationUpdate,
+	"ML_APPLICATION_IMPLEMENTATION_MOVE":   WorkRequestOperationTypeMlApplicationImplementationMove,
 	"ML_APPLICATION_INSTANCE_CREATE":       WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ML_APPLICATION_INSTANCE_UPDATE":       WorkRequestOperationTypeMlApplicationInstanceUpdate,
 	"ML_APPLICATION_INSTANCE_DELETE":       WorkRequestOperationTypeMlApplicationInstanceDelete,
+	"ML_APPLICATION_INSTANCE_MOVE":         WorkRequestOperationTypeMlApplicationInstanceMove,
 	"ML_APPLICATION_INSTANCE_VIEW_CREATE":  WorkRequestOperationTypeMlApplicationInstanceViewCreate,
 	"ML_APPLICATION_INSTANCE_VIEW_UPDATE":  WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ML_APPLICATION_INSTANCE_VIEW_DELETE":  WorkRequestOperationTypeMlApplicationInstanceViewDelete,
 	"ML_APPLICATION_INSTANCE_VIEW_UPGRADE": WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
+	"ML_APPLICATION_INSTANCE_VIEW_MOVE":    WorkRequestOperationTypeMlApplicationInstanceViewMove,
 	"PRIVATE_ENDPOINT_CREATE":              WorkRequestOperationTypePrivateEndpointCreate,
 	"PRIVATE_ENDPOINT_DELETE":              WorkRequestOperationTypePrivateEndpointDelete,
 	"PRIVATE_ENDPOINT_MOVE":                WorkRequestOperationTypePrivateEndpointMove,
@@ -129,13 +137,17 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"ml_application_package_upload":        WorkRequestOperationTypeMlApplicationPackageUpload,
 	"ml_application_trigger_start":         WorkRequestOperationTypeMlApplicationTriggerStart,
 	"ml_application_implementation_delete": WorkRequestOperationTypeMlApplicationImplementationDelete,
+	"ml_application_implementation_update": WorkRequestOperationTypeMlApplicationImplementationUpdate,
+	"ml_application_implementation_move":   WorkRequestOperationTypeMlApplicationImplementationMove,
 	"ml_application_instance_create":       WorkRequestOperationTypeMlApplicationInstanceCreate,
 	"ml_application_instance_update":       WorkRequestOperationTypeMlApplicationInstanceUpdate,
 	"ml_application_instance_delete":       WorkRequestOperationTypeMlApplicationInstanceDelete,
+	"ml_application_instance_move":         WorkRequestOperationTypeMlApplicationInstanceMove,
 	"ml_application_instance_view_create":  WorkRequestOperationTypeMlApplicationInstanceViewCreate,
 	"ml_application_instance_view_update":  WorkRequestOperationTypeMlApplicationInstanceViewUpdate,
 	"ml_application_instance_view_delete":  WorkRequestOperationTypeMlApplicationInstanceViewDelete,
 	"ml_application_instance_view_upgrade": WorkRequestOperationTypeMlApplicationInstanceViewUpgrade,
+	"ml_application_instance_view_move":    WorkRequestOperationTypeMlApplicationInstanceViewMove,
 	"private_endpoint_create":              WorkRequestOperationTypePrivateEndpointCreate,
 	"private_endpoint_delete":              WorkRequestOperationTypePrivateEndpointDelete,
 	"private_endpoint_move":                WorkRequestOperationTypePrivateEndpointMove,
@@ -184,13 +196,17 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"ML_APPLICATION_PACKAGE_UPLOAD",
 		"ML_APPLICATION_TRIGGER_START",
 		"ML_APPLICATION_IMPLEMENTATION_DELETE",
+		"ML_APPLICATION_IMPLEMENTATION_UPDATE",
+		"ML_APPLICATION_IMPLEMENTATION_MOVE",
 		"ML_APPLICATION_INSTANCE_CREATE",
 		"ML_APPLICATION_INSTANCE_UPDATE",
 		"ML_APPLICATION_INSTANCE_DELETE",
+		"ML_APPLICATION_INSTANCE_MOVE",
 		"ML_APPLICATION_INSTANCE_VIEW_CREATE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPDATE",
 		"ML_APPLICATION_INSTANCE_VIEW_DELETE",
 		"ML_APPLICATION_INSTANCE_VIEW_UPGRADE",
+		"ML_APPLICATION_INSTANCE_VIEW_MOVE",
 		"PRIVATE_ENDPOINT_CREATE",
 		"PRIVATE_ENDPOINT_DELETE",
 		"PRIVATE_ENDPOINT_MOVE",

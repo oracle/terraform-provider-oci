@@ -97,10 +97,10 @@ type CreateOpensearchClusterDetails struct {
 	// The customer IP addresses of the endpoint in customer VCN
 	ReverseConnectionEndpointCustomerIps []string `mandatory:"false" json:"reverseConnectionEndpointCustomerIps"`
 
-	// List of source clusters from where cluster will be queried using cross cluster search.
-	SourceClusterIds []string `mandatory:"false" json:"sourceClusterIds"`
+	// List of inbound clusters that will be queried using cross cluster search
+	InboundClusterIds []string `mandatory:"false" json:"inboundClusterIds"`
 
-	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
+	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
 	MaintenanceDetails *CreateMaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
 

@@ -152,10 +152,10 @@ type OpensearchCluster struct {
 	// The list of reverse connection endpoints.
 	ReverseConnectionEndpoints []ReverseConnectionEndpoint `mandatory:"false" json:"reverseConnectionEndpoints"`
 
-	RemoteClusterConfig *RemoteClusterConfig `mandatory:"false" json:"remoteClusterConfig"`
+	OutboundClusterConfig *OutboundClusterConfig `mandatory:"false" json:"outboundClusterConfig"`
 
-	// The list of source clusters for which the cluster is remote
-	SourceClusterIds []string `mandatory:"false" json:"sourceClusterIds"`
+	// List of inbound clusters for which this cluster is an outbound cluster
+	InboundClusterIds []string `mandatory:"false" json:"inboundClusterIds"`
 
 	MaintenanceDetails *MaintenanceDetails `mandatory:"false" json:"maintenanceDetails"`
 }

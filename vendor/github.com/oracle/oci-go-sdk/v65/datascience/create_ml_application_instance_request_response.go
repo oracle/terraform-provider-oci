@@ -71,13 +71,25 @@ type CreateMlApplicationInstanceResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
-	// with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
+	// The MlApplicationInstance instance
+	MlApplicationInstance `presentIn:"body"`
+
+	// For optimistic concurrency control. See ETags for Optimistic Concurrency Control (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#eleven).
+	Etag *string `presentIn:"header" name:"etag"`
+
+	// The URI that identifies the entity described in the response body.
+	Location *string `presentIn:"header" name:"location"`
+
+	// The URI that identifies the entity described in the response body.
+	ContentLocation *string `presentIn:"header" name:"content-location"`
 
 	// Unique Oracle assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, then provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/identifiers.htm) of the work request. Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/20160918/WorkRequest/GetWorkRequest)
+	// with this ID to track the status of the request.
+	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response CreateMlApplicationInstanceResponse) String() string {

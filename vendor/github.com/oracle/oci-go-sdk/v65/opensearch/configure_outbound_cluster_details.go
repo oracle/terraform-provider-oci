@@ -2,12 +2,12 @@
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud Bridge API
+// OpenSearch Service API
 //
-// API for Oracle Cloud Bridge service.
+// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
 //
 
-package cloudbridge
+package opensearch
 
 import (
 	"fmt"
@@ -15,21 +15,21 @@ import (
 	"strings"
 )
 
-// RelationCollection List of relations.
-type RelationCollection struct {
+// ConfigureOutboundClusterDetails Details for configuring the cluster to work as an Outbound cluster
+type ConfigureOutboundClusterDetails struct {
 
-	// List of relations.
-	Items []RelationSummary `mandatory:"true" json:"items"`
+	// List of inbound clusters that will be queried using cross cluster search
+	InboundClusterIds []string `mandatory:"true" json:"inboundClusterIds"`
 }
 
-func (m RelationCollection) String() string {
+func (m ConfigureOutboundClusterDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m RelationCollection) ValidateEnumValue() (bool, error) {
+func (m ConfigureOutboundClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

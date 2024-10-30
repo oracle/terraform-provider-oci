@@ -18,12 +18,12 @@ import (
 // NodeTypeShapeConfig Shape configuration at node type level. Start cluster will start all nodes as is if no config is specified.
 type NodeTypeShapeConfig struct {
 
-	// All node types that exist in the cluster
-	NodeType NodeTypeShapeConfigNodeTypeEnum `mandatory:"false" json:"nodeType,omitempty"`
+	// The Big Data Service cluster node type.
+	NodeType NodeNodeTypeEnum `mandatory:"true" json:"nodeType"`
 
 	// Shape of the node. This has to be specified when starting the cluster. Defaults to wn0 for homogeneous clusters and remains empty for heterogeneous clusters.
 	// If provided, all nodes in the node type will adopt the specified shape; otherwise, nodes retain their original shapes.
-	Shape *string `mandatory:"false" json:"shape"`
+	Shape *string `mandatory:"true" json:"shape"`
 }
 
 func (m NodeTypeShapeConfig) String() string {
@@ -35,70 +35,12 @@ func (m NodeTypeShapeConfig) String() string {
 // Not recommended for calling this function directly
 func (m NodeTypeShapeConfig) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	if _, ok := GetMappingNodeTypeShapeConfigNodeTypeEnum(string(m.NodeType)); !ok && m.NodeType != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NodeType: %s. Supported values are: %s.", m.NodeType, strings.Join(GetNodeTypeShapeConfigNodeTypeEnumStringValues(), ",")))
+	if _, ok := GetMappingNodeNodeTypeEnum(string(m.NodeType)); !ok && m.NodeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for NodeType: %s. Supported values are: %s.", m.NodeType, strings.Join(GetNodeNodeTypeEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// NodeTypeShapeConfigNodeTypeEnum Enum with underlying type: string
-type NodeTypeShapeConfigNodeTypeEnum string
-
-// Set of constants representing the allowable values for NodeTypeShapeConfigNodeTypeEnum
-const (
-	NodeTypeShapeConfigNodeTypeWorker            NodeTypeShapeConfigNodeTypeEnum = "WORKER"
-	NodeTypeShapeConfigNodeTypeComputeOnlyWorker NodeTypeShapeConfigNodeTypeEnum = "COMPUTE_ONLY_WORKER"
-	NodeTypeShapeConfigNodeTypeEdge              NodeTypeShapeConfigNodeTypeEnum = "EDGE"
-	NodeTypeShapeConfigNodeTypeKafkaBroker       NodeTypeShapeConfigNodeTypeEnum = "KAFKA_BROKER"
-	NodeTypeShapeConfigNodeTypeMaster            NodeTypeShapeConfigNodeTypeEnum = "MASTER"
-	NodeTypeShapeConfigNodeTypeUtility           NodeTypeShapeConfigNodeTypeEnum = "UTILITY"
-)
-
-var mappingNodeTypeShapeConfigNodeTypeEnum = map[string]NodeTypeShapeConfigNodeTypeEnum{
-	"WORKER":              NodeTypeShapeConfigNodeTypeWorker,
-	"COMPUTE_ONLY_WORKER": NodeTypeShapeConfigNodeTypeComputeOnlyWorker,
-	"EDGE":                NodeTypeShapeConfigNodeTypeEdge,
-	"KAFKA_BROKER":        NodeTypeShapeConfigNodeTypeKafkaBroker,
-	"MASTER":              NodeTypeShapeConfigNodeTypeMaster,
-	"UTILITY":             NodeTypeShapeConfigNodeTypeUtility,
-}
-
-var mappingNodeTypeShapeConfigNodeTypeEnumLowerCase = map[string]NodeTypeShapeConfigNodeTypeEnum{
-	"worker":              NodeTypeShapeConfigNodeTypeWorker,
-	"compute_only_worker": NodeTypeShapeConfigNodeTypeComputeOnlyWorker,
-	"edge":                NodeTypeShapeConfigNodeTypeEdge,
-	"kafka_broker":        NodeTypeShapeConfigNodeTypeKafkaBroker,
-	"master":              NodeTypeShapeConfigNodeTypeMaster,
-	"utility":             NodeTypeShapeConfigNodeTypeUtility,
-}
-
-// GetNodeTypeShapeConfigNodeTypeEnumValues Enumerates the set of values for NodeTypeShapeConfigNodeTypeEnum
-func GetNodeTypeShapeConfigNodeTypeEnumValues() []NodeTypeShapeConfigNodeTypeEnum {
-	values := make([]NodeTypeShapeConfigNodeTypeEnum, 0)
-	for _, v := range mappingNodeTypeShapeConfigNodeTypeEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetNodeTypeShapeConfigNodeTypeEnumStringValues Enumerates the set of values in String for NodeTypeShapeConfigNodeTypeEnum
-func GetNodeTypeShapeConfigNodeTypeEnumStringValues() []string {
-	return []string{
-		"WORKER",
-		"COMPUTE_ONLY_WORKER",
-		"EDGE",
-		"KAFKA_BROKER",
-		"MASTER",
-		"UTILITY",
-	}
-}
-
-// GetMappingNodeTypeShapeConfigNodeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingNodeTypeShapeConfigNodeTypeEnum(val string) (NodeTypeShapeConfigNodeTypeEnum, bool) {
-	enum, ok := mappingNodeTypeShapeConfigNodeTypeEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }
