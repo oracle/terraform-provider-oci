@@ -1,3 +1,11 @@
+## 6.17.0 (Unreleased)
+
+### Added
+- Support for ZPR (DBaaS)
+- Support for ZPR (DBaaS)
+- Support for MFA Enablement v2 - Prevent customers from opting out of MFA Policy
+- Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-D
+
 ## 6.15.0 (Unreleased)
 
 ### Added
