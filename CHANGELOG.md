@@ -1,3 +1,25 @@
+## 6.17.0 (Unreleased)
+
+### Added
+- Support to start/stop/update Data Flow SQL Endpoint
+- Support for ZPR (DBaaS)
+- Support for ZPR (DBaaS)
+- Support for MFA Enablement v2 - Prevent customers from opting out of MFA Policy
+- Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-D
+- Support for ESP & ICMP traffic support in NLB
+- override_existing flag for container_engine.addon resource
+- Support for Extending LBaaS to send traffic to gRPC backends
+- Support to return the generated secret in response
+- Support for FSS Resource Locking
+- Support for ADB-S: Customer Managed Keys via Azure Key Vault and AWS KMS
+- Compute support for ZPR
+nlb-cp zpr support
+- Support for Add DB 23ai support to Globally Distributed Autonomous Database
+Support for OCI Data Science Model Store Backup and Retention
+- Support for FC Redundancy Project
+### Bug Fix
+for the ACD Version selection using env variable and vmNetwork should not consider state for calculating hash
+
 ## 6.16.0 (October 30, 2024)
 
 ### Added
