@@ -26,7 +26,6 @@ var (
 		"display_name":            acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName`},
 		"is_high_availability":    acctest.Representation{RepType: acctest.Required, Create: `true`},
 		"is_secure":               acctest.Representation{RepType: acctest.Required, Create: `true`},
-		"cluster_profile":         acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`},
 		"kerberos_realm_name":     acctest.Representation{RepType: acctest.Optional, Create: `BDSCLOUDSERVICE.ORACLE.COM`},
 		"master_node":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeGenericShapeRepresentation},
 		"util_node":               acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeGenericShapeRepresentation},
@@ -37,7 +36,7 @@ var (
 		//"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}, Update: map[string]string{"Department": "Accounting"}},
 		"network_config":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: bdsInstanceOdhNetworkConfigRepresentation},
-		"ignore_existing_nodes_shape": acctest.Representation{RepType: acctest.Optional, Create: []string{`worker`, `master`, `utility`, `compute_only_worker`, `edge`, `kafka_broker`}, Update: []string{`worker`, `master`, `utility`, `compute_only_worker`, `edge`, `kafka_broker`}},
+		"ignore_existing_nodes_shape": acctest.Representation{RepType: acctest.Optional, Create: []string{`worker`, `master`, `utility`, `compute_only_worker`, `edge`}, Update: []string{`worker`, `master`, `utility`, `compute_only_worker`, `edge`}},
 	}
 
 	bdsInstanceNodeGenericShapeRepresentation = map[string]interface{}{
@@ -53,12 +52,15 @@ var (
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
 		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `3`, Update: `3`},
-		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodeWorkerShapeConfigRepresentation},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
 
-	bdsInstanceNodeWorkerShapeConfigRepresentation = map[string]interface{}{
-		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `96`, Update: `96`},
-		"ocpus":         acctest.Representation{RepType: acctest.Required, Create: `8`, Update: `8`},
+	bdsInstanceEdgeNodeRepresentation = map[string]interface{}{
+		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`, Update: `VM.Standard.Generic`},
+		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
+		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
+		"number_of_nodes":          acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `1`},
+		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
 
 	bdsInstanceResourceConfig = acctest.GenerateResourceFromRepresentationMap(
@@ -66,14 +68,8 @@ var (
 		"test_bds_instance",
 		acctest.Optional,
 		acctest.Create,
-		bdsInstanceRepresentation)
-
-	BdsInstanceWithAddKafkaResourceConfig = acctest.GenerateResourceFromRepresentationMap(
-		"oci_bds_bds_instance",
-		"test_bds_instance",
-		acctest.Optional,
-		acctest.Update,
-		bdsInstanceWithAddKafkaRepresentation)
+		bdsInstanceRepresentation,
+	)
 
 	BdsGenerateDataSourceConfig = acctest.GenerateDataSourceFromRepresentationMap(
 		"oci_bds_bds_instances",
@@ -89,32 +85,27 @@ var (
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceOdhDataSourceFilterRepresentation},
 	}
 
-	BdsSingularDataSourceConfig = acctest.GenerateDataSourceFromRepresentationMap(
-		"oci_bds_bds_instance",
-		"test_bds_instance",
-		acctest.Required,
-		acctest.Create,
-		bdsInstanceSingularDataSourceRepresentation)
-
 	bdsInstanceSingularDataSourceRepresentation = map[string]interface{}{
 		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
 	}
-
-	bdsInstanceWithAddKafkaRepresentation = acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation,
-		map[string]interface{}{
-			"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
-			"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
-			"display_name":        acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName`},
-			"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
-		})
 
 	kafkaBrokerNodeGenericShapeRepresentation = map[string]interface{}{
 		"shape":                    acctest.Representation{RepType: acctest.Required, Create: `VM.Standard.Generic`},
 		"subnet_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.subnet_id}`},
 		"block_volume_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `150`},
-		"number_of_kafka_nodes":    acctest.Representation{RepType: acctest.Required, Create: `3`},
+		"number_of_kafka_nodes":    acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"shape_config":             acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceNodesShapeConfigRepresentation},
 	}
+
+	createKafkaProfileRepresentation = acctest.RepresentationCopyWithNewProperties(kafkaBrokerNodeGenericShapeRepresentation,
+		map[string]interface{}{
+			"number_of_kafka_nodes": acctest.Representation{RepType: acctest.Required, Create: `3`},
+		})
+
+	addBrokerRepresentation = acctest.RepresentationCopyWithNewProperties(kafkaBrokerNodeGenericShapeRepresentation,
+		map[string]interface{}{
+			"number_of_kafka_nodes": acctest.Representation{RepType: acctest.Required, Create: `4`},
+		})
 )
 
 // issue-routing-tag: bds/default
@@ -133,12 +124,6 @@ func TestBdsOdhProfile(t *testing.T) {
 	subnetId := utils.GetEnvSettingWithBlankDefault("subnet_ocid")
 	subnetIdVariableStr := fmt.Sprintf("variable \"subnet_id\" { default = \"%s\" }\n", subnetId)
 
-	kmsKeyId := utils.GetEnvSettingWithBlankDefault("kms_key_ocid")
-	kmsKeyIdVariableStr := fmt.Sprintf("variable \"kms_key_id\" { default = \"%s\" }\n", kmsKeyId)
-
-	kmsKeyIdU := utils.GetEnvSettingWithBlankDefault("kms_key_id_for_update")
-	kmsKeyIdUVariableStr := fmt.Sprintf("variable \"kms_key_id_for_update\" { default = \"%s\" }\n", kmsKeyIdU)
-
 	bootstrapScriptUrl := utils.GetEnvSettingWithBlankDefault("bootstrap_script_url")
 	bootstrapScriptUrlVariableStr := fmt.Sprintf("variable \"bootstrap_script_url\" { default = \"%s\" }\n", bootstrapScriptUrl)
 
@@ -151,14 +136,212 @@ func TestBdsOdhProfile(t *testing.T) {
 
 	var resId string
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
-	acctest.SaveConfigContent(config+compartmentIdVariableStr+kmsKeyIdVariableStr+bdsInstanceResourceConfig,
-		"bds", "bdsInstanceOdh", t)
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+bootstrapScriptUrlVariableStr+subnetIdVariableStr+
+		bdsInstanceResourceConfig, "bds", "bdsInstanceOdh", t)
 
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceOdhDestroy, []resource.TestStep{
-		// verify Create
+
+		// Verify Create HBase Profile Cluster
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr +
-				bootstrapScriptUrlVariableStr + bdsInstanceResourceConfig,
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_bds_bds_instance",
+					"test_bds_instance",
+					acctest.Optional,
+					acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+						"cluster_profile": acctest.Representation{RepType: acctest.Optional, Create: `HBASE`, Update: `HBASE`},
+					}),
+				),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "bootstrap_script_url", bootstrapScriptUrl),
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_profile", "HBASE"),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "is_cloud_sql_configured"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "kerberos_realm_name", "BDSCLOUDSERVICE.ORACLE.COM"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.cidr_block", "111.112.0.0/16"),
+				resource.TestCheckResourceAttr(resourceName, "network_config.0.is_nat_gateway_required", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.availability_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.display_name"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.fault_domain"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.instance_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.state"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// Add Edge node
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile": acctest.Representation{RepType: acctest.Optional, Create: `HBASE`, Update: `HBASE`},
+					"edge_node":       acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceEdgeNodeRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Add Kafka to cluster
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HBASE`, Update: `HBASE`},
+					"edge_node":           acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceEdgeNodeRepresentation},
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.node_type"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.shape"),
+				resource.TestCheckResourceAttrSet(resourceName, "nodes.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Remove Kafka from cluster
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HBASE`, Update: `HBASE`},
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `false`},
+					"edge_node":           acctest.RepresentationGroup{RepType: acctest.Required, Group: bdsInstanceEdgeNodeRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "false"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr,
+		},
+
+		// Create Kafka profile cluster
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Create,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `KAFKA`, Update: `KAFKA`},
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: createKafkaProfileRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Add broker to Kafka profile cluster
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `KAFKA`, Update: `KAFKA`},
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: addBrokerRepresentation},
+				}),
+			),
+			Check: resource.ComposeAggregateTestCheckFunc(
+				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
+				resource.TestCheckResourceAttr(resourceName, "cluster_version", "ODH1"),
+				resource.TestCheckResourceAttr(resourceName, "is_high_availability", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_secure", "true"),
+				resource.TestCheckResourceAttr(resourceName, "is_kafka_configured", "true"),
+				resource.TestCheckResourceAttr(resourceName, "state", "ACTIVE"),
+			),
+		},
+
+		// Delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr,
+		},
+
+		// Verify Create Hadoop Profile Cluster
+		{
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + subnetIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_bds_bds_instance",
+					"test_bds_instance",
+					acctest.Optional,
+					acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+						"cluster_profile": acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
+					}),
+				),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "bootstrap_script_url", bootstrapScriptUrl),
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
@@ -201,9 +384,18 @@ func TestBdsOdhProfile(t *testing.T) {
 
 		// Add Kafka to cluster
 		{
-			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + kmsKeyIdVariableStr +
-				subnetIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
-				kmsKeyIdUVariableStr + BdsInstanceWithAddKafkaResourceConfig,
+			Config: config + compartmentIdVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
+				compartmentIdUVariableStr + subnetIdVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
+				}),
+			),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(resourceName, "cluster_admin_password", "T3JhY2xlVGVhbVVTQSExMjM="),
 				resource.TestCheckResourceAttrSet(resourceName, "cluster_public_key"),
@@ -220,9 +412,19 @@ func TestBdsOdhProfile(t *testing.T) {
 
 		// verify datasource
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdUVariableStr + subnetIdVariableStr +
-				bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr + BdsInstanceWithAddKafkaResourceConfig +
-				BdsGenerateDataSourceConfig,
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr +
+				bootstrapScriptUrlUVariableStr + BdsGenerateDataSourceConfig +
+				acctest.GenerateResourceFromRepresentationMap(
+					"oci_bds_bds_instance",
+					"test_bds_instance",
+					acctest.Optional,
+					acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+						"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+						"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
+						"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
+					}),
+				),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
@@ -248,9 +450,24 @@ func TestBdsOdhProfile(t *testing.T) {
 
 		// verify singular datasource
 		{
-			Config: config + compartmentIdVariableStr + kmsKeyIdVariableStr + subnetIdVariableStr +
-				kmsKeyIdUVariableStr + bootstrapScriptUrlVariableStr + bootstrapScriptUrlUVariableStr +
-				BdsInstanceWithAddKafkaResourceConfig + BdsSingularDataSourceConfig,
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + bootstrapScriptUrlVariableStr +
+				bootstrapScriptUrlUVariableStr + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
+				})) +
+				acctest.GenerateDataSourceFromRepresentationMap(
+					"oci_bds_bds_instance",
+					"test_bds_instance",
+					acctest.Required,
+					acctest.Create,
+					bdsInstanceSingularDataSourceRepresentation,
+				),
 			Check: resource.ComposeAggregateTestCheckFunc(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "cloud_sql_details.#", "0"),
@@ -301,7 +518,17 @@ func TestBdsOdhProfile(t *testing.T) {
 
 		// verify resource import
 		{
-			Config:            config + BdsInstanceWithAddKafkaResourceConfig,
+			Config: config + acctest.GenerateResourceFromRepresentationMap(
+				"oci_bds_bds_instance",
+				"test_bds_instance",
+				acctest.Optional,
+				acctest.Update,
+				acctest.RepresentationCopyWithNewProperties(bdsInstanceRepresentation, map[string]interface{}{
+					"is_kafka_configured": acctest.Representation{RepType: acctest.Required, Create: `false`, Update: `true`},
+					"kafka_broker_node":   acctest.RepresentationGroup{RepType: acctest.Required, Group: kafkaBrokerNodeGenericShapeRepresentation},
+					"cluster_profile":     acctest.Representation{RepType: acctest.Optional, Create: `HADOOP`, Update: `HADOOP`},
+				}),
+			),
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
