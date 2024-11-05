@@ -135,7 +135,8 @@ func TestBdsOdhProfile(t *testing.T) {
 	singularDatasourceName := "data.oci_bds_bds_instance.test_bds_instance"
 
 	var resId string
-	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
+	// Save TF content to Create resource with optional properties.
+	// This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+bootstrapScriptUrlVariableStr+subnetIdVariableStr+
 		bdsInstanceResourceConfig, "bds", "bdsInstanceOdh", t)
 
