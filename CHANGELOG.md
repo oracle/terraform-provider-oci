@@ -1,4 +1,4 @@
-## 6.17.0 (Unreleased)
+## 6.17.0 (November 06, 2024)
 
 ### Added
 - Support to start/stop/update Data Flow SQL Endpoint
