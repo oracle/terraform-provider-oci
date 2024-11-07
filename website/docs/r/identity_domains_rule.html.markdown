@@ -10,7 +10,7 @@ description: |-
 # oci_identity_domains_rule
 This resource provides the Rule resource in Oracle Cloud Infrastructure Identity Domains service.
 
-Create a Rule
+Create a Rule.
 
 ## Example Usage
 
@@ -144,7 +144,7 @@ The following arguments are supported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `value` - (Optional) (Updatable) Condition or ConditionGroup identifier
+	* `value` - (Optional) (Updatable) Condition or ConditionGroup identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -554,6 +554,7 @@ The following arguments are supported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite
@@ -680,7 +681,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `value` - Condition or ConditionGroup identifier
+	* `value` - Condition or ConditionGroup identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -1088,6 +1089,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite

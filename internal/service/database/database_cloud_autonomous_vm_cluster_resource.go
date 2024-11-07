@@ -244,6 +244,12 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"security_attributes": {
+				Type:     schema.TypeMap,
+				Optional: true,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"total_container_databases": {
 				Type:     schema.TypeInt,
 				Optional: true,
@@ -464,6 +470,14 @@ func DatabaseCloudAutonomousVmClusterResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_created": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_database_ssl_certificate_expires": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"time_ords_certificate_expires": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -715,6 +729,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Create() error {
 		request.ScanListenerPortTls = &tmp
 	}
 
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
+	}
+
 	if subnetId, ok := s.D.GetOkExists("subnet_id"); ok {
 		tmp := subnetId.(string)
 		request.SubnetId = &tmp
@@ -845,6 +863,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) Update() error {
 		if len(tmp) != 0 || s.D.HasChange("nsg_ids") {
 			request.NsgIds = tmp
 		}
+	}
+
+	if securityAttributes, ok := s.D.GetOkExists("security_attributes"); ok {
+		request.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
 	if totalContainerDatabases, ok := s.D.GetOkExists("total_container_databases"); ok {
@@ -1076,6 +1098,10 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
+	if s.Res.SecurityAttributes != nil {
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+	}
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -1088,6 +1114,14 @@ func (s *DatabaseCloudAutonomousVmClusterResourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDatabaseSslCertificateExpires != nil {
+		s.D.Set("time_database_ssl_certificate_expires", s.Res.TimeDatabaseSslCertificateExpires.String())
+	}
+
+	if s.Res.TimeOrdsCertificateExpires != nil {
+		s.D.Set("time_ords_certificate_expires", s.Res.TimeOrdsCertificateExpires.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

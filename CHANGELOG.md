@@ -1,3 +1,12 @@
+## 6.17.0 (November 06, 2024)
+
+### Added
+- Support to start/stop/update Data Flow SQL Endpoint
+- Support for ZPR (DBaaS)
+- Support for ZPR (DBaaS)
+- Support for MFA Enablement v2 - Prevent customers from opting out of MFA Policy
+- Support for TLS & ORDS BYO Certificates (Phase 2) | ADB-D
+
 ## 6.16.0 (October 30, 2024)
 
 ### Added

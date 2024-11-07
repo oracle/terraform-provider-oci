@@ -962,6 +962,11 @@ func DatabaseAutonomousDatabasesClonesDataSource() *schema.Resource {
 								},
 							},
 						},
+						"security_attributes": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"service_console_url": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1559,6 +1564,8 @@ func (s *DatabaseAutonomousDatabasesClonesDataSourceCrud) SetData() error {
 			scheduledOperations = append(scheduledOperations, ScheduledOperationDetailsToMap(item))
 		}
 		autonomousDatabasesClone["scheduled_operations"] = scheduledOperations
+
+		autonomousDatabasesClone["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
 
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabasesClone["service_console_url"] = *r.ServiceConsoleUrl

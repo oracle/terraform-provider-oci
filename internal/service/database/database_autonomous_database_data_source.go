@@ -423,6 +423,8 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 	}
 	s.D.Set("scheduled_operations", scheduledOperations)
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.ServiceConsoleUrl != nil {
 		s.D.Set("service_console_url", *s.Res.ServiceConsoleUrl)
 	}

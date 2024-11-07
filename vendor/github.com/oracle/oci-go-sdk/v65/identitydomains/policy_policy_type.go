@@ -28,7 +28,7 @@ import (
 //   - uniqueness: none
 type PolicyPolicyType struct {
 
-	// PolicyType identifier
+	// PolicyType identifier.
 	// **SCIM++ Properties:**
 	//  - caseExact: true
 	//  - idcsSearchable: true
