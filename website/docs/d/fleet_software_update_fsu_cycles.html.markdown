@@ -79,11 +79,13 @@ The following attributes are exported:
 * `is_ignore_patches` - Ignore all patches between the source and target homes during patching. 
 * `is_keep_placement` - Ensure that services of administrator-managed Oracle RAC or Oracle RAC One databases are running on the same instances before and after the move operation. 
 * `last_completed_action` - The latest Action type that was completed in the Exadata Fleet Update Cycle. No value would indicate that the Cycle has not completed any Action yet. 
+* `last_completed_action_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the latest Action  in the Exadata Fleet Update Cycle. 
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state. 
 * `max_drain_timeout_in_seconds` - Service drain timeout specified in seconds. 
 * `next_action_to_execute` - In this array all the possible actions will be listed. The first element is the suggested Action. 
 	* `time_to_start` - The date and time the Exadata Fleet Update Action is expected to start. Null if no Action has been scheduled. [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 	* `type` - Type of Exadata Fleet Update Action 
+* `rollback_cycle_state` - Current rollback cycle state if rollback maintenance cycle action has been attempted. No value would indicate that the Cycle has not run a rollback maintenance cycle action before. 
 * `stage_action_schedule` - Scheduling related details for the Exadata Fleet Update Action. The specified time should not conflict with existing Exadata Infrastructure maintenance windows. Null scheduleDetails would execute the Exadata Fleet Update Action as soon as possible. 
 	* `time_to_start` - The date and time the Exadata Fleet Update Action is expected to start. [RFC 3339](https://tools.ietf.org/rfc/rfc3339), section 14.29. 
 	* `type` - Type of scheduling strategy to use for Fleet Patching Update Action execution. 
