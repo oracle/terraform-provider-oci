@@ -627,6 +627,7 @@ func TestFleetSoftwareUpdateFsuCycleResource_DB_ImageIdDetails(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "is_keep_placement", "true"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "max_drain_timeout_in_seconds", "11"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "next_action_to_execute.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "rollback_cycle_state", ""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
