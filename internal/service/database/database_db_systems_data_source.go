@@ -258,6 +258,8 @@ func (s *DatabaseDbSystemsDataSourceCrud) SetData() error {
 
 		dbSystem["scan_ip_ids"] = r.ScanIpIds
 
+		dbSystem["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.Shape != nil {
 			dbSystem["shape"] = *r.Shape
 		}

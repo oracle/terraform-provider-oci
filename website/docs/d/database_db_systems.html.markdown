@@ -114,6 +114,7 @@ The following attributes are exported:
 * `scan_ip_ids` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Single Client Access Name (SCAN) IP addresses associated with the DB system. SCAN IP addresses are typically used for load balancing and are not assigned to any interface. Oracle Clusterware directs the requests to the appropriate nodes in the cluster.
 
 	**Note:** For a single-node DB system, this list is empty. 
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The shape of the DB system. The shape determines resources to allocate to the DB system.
 	* For virtual machine shapes, the number of CPU cores and memory
 	* For bare metal and Exadata shapes, the number of CPU cores, storage, and memory 

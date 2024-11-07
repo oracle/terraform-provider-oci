@@ -59,6 +59,7 @@ resource "oci_database_cloud_autonomous_vm_cluster" "test_cloud_autonomous_vm_cl
 	nsg_ids = var.cloud_autonomous_vm_cluster_nsg_ids
 	scan_listener_port_non_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_non_tls
 	scan_listener_port_tls = var.cloud_autonomous_vm_cluster_scan_listener_port_tls
+	security_attributes = var.cloud_autonomous_vm_cluster_security_attributes
 	total_container_databases = var.cloud_autonomous_vm_cluster_total_container_databases
 }
 ```
@@ -105,6 +106,7 @@ The following arguments are supported:
     * A network security group (NSG) is optional for Autonomous Databases with private access. The nsgIds list can be empty. 
 * `scan_listener_port_non_tls` - (Optional) The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - (Optional) The SCAN Listener TLS port. Default is 2484.
+* `security_attributes` - (Optional) (Updatable) Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with. 
 * `total_container_databases` - (Optional) (Updatable) The total number of Autonomous Container Databases that can be created.
 
@@ -183,6 +185,7 @@ The following attributes are exported:
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous VM Cluster.
 * `scan_listener_port_non_tls` - The SCAN Listener Non TLS port. Default is 1521.
 * `scan_listener_port_tls` - The SCAN Listenenr TLS port. Default is 2484.
+* `security_attributes` - Security Attributes for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). Example: `{"Oracle-ZPR": {"MaxEgressCount": {"value": "42", "mode": "audit"}}}` 
 * `shape` - The model name of the Exadata hardware running the cloud Autonomous VM cluster. 
 * `state` - The current state of the cloud Autonomous VM cluster.
 * `subnet_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subnet the cloud Autonomous VM Cluster is associated with.
@@ -192,6 +195,8 @@ The following attributes are exported:
 
   These subnets are used by the Oracle Clusterware private interconnect on the database instance. Specifying an overlapping subnet will cause the private interconnect to malfunction. This restriction applies to both the client subnet and backup subnet.
 * `time_created` - The date and time that the cloud Autonomous VM cluster was created.
+* `time_database_ssl_certificate_expires` - The date and time of Database SSL certificate expiration.
+* `time_ords_certificate_expires` - The date and time of ORDS certificate expiration.
 * `time_updated` - The last date and time that the cloud Autonomous VM cluster was updated.
 * `total_autonomous_data_storage_in_tbs` - The total data disk group size for Autonomous Databases, in TBs.
 * `total_container_databases` - The total number of Autonomous Container Databases that can be created with the allocated local storage.

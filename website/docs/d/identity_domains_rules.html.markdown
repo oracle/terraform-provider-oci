@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_rules
 This data source provides the list of Rules in Oracle Cloud Infrastructure Identity Domains service.
 
-Search Rules
+Search Rules.
 
 ## Example Usage
 
@@ -131,7 +131,7 @@ The following attributes are exported:
 		* returned: default
 		* type: string
 		* uniqueness: none
-	* `value` - Condition or ConditionGroup identifier
+	* `value` - Condition or ConditionGroup identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -539,6 +539,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite

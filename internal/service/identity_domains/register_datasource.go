@@ -88,6 +88,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_identity_domains_oauth_client_certificates", IdentityDomainsOAuthClientCertificatesDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_oauth_partner_certificate", IdentityDomainsOAuthPartnerCertificateDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_oauth_partner_certificates", IdentityDomainsOAuthPartnerCertificatesDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_oci_console_sign_on_policy_consent", IdentityDomainsOciConsoleSignOnPolicyConsentDataSource())
+	tfresource.RegisterDatasource("oci_identity_domains_oci_console_sign_on_policy_consents", IdentityDomainsOciConsoleSignOnPolicyConsentsDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_password_policies", IdentityDomainsPasswordPoliciesDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_password_policy", IdentityDomainsPasswordPolicyDataSource())
 	tfresource.RegisterDatasource("oci_identity_domains_policies", IdentityDomainsPoliciesDataSource())

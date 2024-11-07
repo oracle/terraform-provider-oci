@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_identity_domains_policies
 This data source provides the list of Policies in Oracle Cloud Infrastructure Identity Domains service.
 
-Search Policies
+Search Policies.
 
 ## Example Usage
 
@@ -395,7 +395,7 @@ The following attributes are exported:
 		* returned: default
 		* type: reference
 		* uniqueness: none
-	* `value` - PolicyType identifier
+	* `value` - PolicyType identifier.
 
 		**SCIM++ Properties:**
 		* caseExact: true
@@ -477,6 +477,7 @@ The following attributes are exported:
 
 	**SCIM++ Properties:**
 	* idcsCompositeKey: [key, value]
+	* idcsCsvAttributeNameMappings: [[columnHeaderName:Tag Key, mapsTo:tags.key], [columnHeaderName:Tag Value, mapsTo:tags.value]]
 	* idcsSearchable: true
 	* multiValued: true
 	* mutability: readWrite

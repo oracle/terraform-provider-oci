@@ -238,6 +238,8 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 		s.D.Set("scan_listener_port_tls", *s.Res.ScanListenerPortTls)
 	}
 
+	s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
+
 	if s.Res.Shape != nil {
 		s.D.Set("shape", *s.Res.Shape)
 	}
@@ -250,6 +252,14 @@ func (s *DatabaseCloudAutonomousVmClusterDataSourceCrud) SetData() error {
 
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
+	}
+
+	if s.Res.TimeDatabaseSslCertificateExpires != nil {
+		s.D.Set("time_database_ssl_certificate_expires", s.Res.TimeDatabaseSslCertificateExpires.String())
+	}
+
+	if s.Res.TimeOrdsCertificateExpires != nil {
+		s.D.Set("time_ords_certificate_expires", s.Res.TimeOrdsCertificateExpires.String())
 	}
 
 	if s.Res.TimeUpdated != nil {

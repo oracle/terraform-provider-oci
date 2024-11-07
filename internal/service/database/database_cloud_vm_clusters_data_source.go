@@ -256,6 +256,8 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["scan_listener_port_tcp_ssl"] = *r.ScanListenerPortTcpSsl
 		}
 
+		cloudVmCluster["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.Shape != nil {
 			cloudVmCluster["shape"] = *r.Shape
 		}

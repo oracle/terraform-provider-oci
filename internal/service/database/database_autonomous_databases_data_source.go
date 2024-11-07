@@ -546,6 +546,8 @@ func (s *DatabaseAutonomousDatabasesDataSourceCrud) SetData() error {
 		}
 		autonomousDatabase["scheduled_operations"] = scheduledOperations
 
+		autonomousDatabase["security_attributes"] = tfresource.SecurityAttributesToMap(r.SecurityAttributes)
+
 		if r.ServiceConsoleUrl != nil {
 			autonomousDatabase["service_console_url"] = *r.ServiceConsoleUrl
 		}
