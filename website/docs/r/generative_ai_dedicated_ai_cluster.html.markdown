@@ -52,11 +52,14 @@ The following arguments are supported:
 	* LARGE_COHERE_V2
 	* SMALL_COHERE
 	* SMALL_COHERE_V2
+	* SMALL_COHERE_4
 	* EMBED_COHERE
 	* LLAMA2_70
 	* LARGE_GENERIC
 	* LARGE_COHERE_V2_2
-	* LARGE_GENERIC_4 
+	* LARGE_GENERIC_4
+	* SMALL_GENERIC_V2
+	* LARGE_GENERIC_2 
 
 
 ** IMPORTANT **
@@ -79,7 +82,7 @@ The following attributes are exported:
 * `lifecycle_details` - A message describing the current state with detail that can provide actionable information.
 * `previous_state` - Dedicated AI clusters are compute resources that you can use for fine-tuning custom models or for hosting endpoints for custom models. The clusters are dedicated to your models and not shared with users in other tenancies.
 
-	To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives Oracle Cloud Infrastructure resource access to users. See [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and [Getting Access to Generative AI Resouces](https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm). 
+To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator who gives Oracle Cloud Infrastructure resource access to users. See [Getting Started with Policies](https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm) and [Getting Access to Generative AI Resouces](https://docs.cloud.oracle.com/iaas/Content/generative-ai/iam-policies.htm).
 * `state` - The current state of the dedicated AI cluster.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the dedicated AI cluster was created, in the format defined by RFC 3339
