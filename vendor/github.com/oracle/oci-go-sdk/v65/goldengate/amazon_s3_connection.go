@@ -85,6 +85,13 @@ type AmazonS3Connection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
+	// Note: When provided, 'secretAccessKey' field must not be provided.
+	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
+
 	// The Amazon S3 technology type.
 	TechnologyType AmazonS3ConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -186,6 +193,11 @@ func (m AmazonS3Connection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AmazonS3Connection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m AmazonS3Connection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m AmazonS3Connection) String() string {

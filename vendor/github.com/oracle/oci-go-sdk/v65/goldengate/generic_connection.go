@@ -87,6 +87,9 @@ type GenericConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The Generic technology type.
 	TechnologyType GenericConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -188,6 +191,11 @@ func (m GenericConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m GenericConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m GenericConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m GenericConnection) String() string {
