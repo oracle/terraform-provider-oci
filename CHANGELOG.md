@@ -1,3 +1,9 @@
+## 6.18.0 (Unreleased)
+
+### Added
+- Support for Add secretIds for sensitive connection attributes
+- Support for Oracle Cloud AI Service Generative AI Agent Service
+
 ## 6.17.0 (November 06, 2024)
 
 ### Added
