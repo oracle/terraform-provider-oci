@@ -291,6 +291,7 @@ const (
 	DedicatedAiClusterUnitShapeLargeGeneric4  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_4"
 	DedicatedAiClusterUnitShapeSmallGenericV2 DedicatedAiClusterUnitShapeEnum = "SMALL_GENERIC_V2"
 	DedicatedAiClusterUnitShapeLargeGeneric2  DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_2"
+	DedicatedAiClusterUnitShapeLargeGenericV2 DedicatedAiClusterUnitShapeEnum = "LARGE_GENERIC_V2"
 )
 
 var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -306,6 +307,7 @@ var mappingDedicatedAiClusterUnitShapeEnum = map[string]DedicatedAiClusterUnitSh
 	"LARGE_GENERIC_4":   DedicatedAiClusterUnitShapeLargeGeneric4,
 	"SMALL_GENERIC_V2":  DedicatedAiClusterUnitShapeSmallGenericV2,
 	"LARGE_GENERIC_2":   DedicatedAiClusterUnitShapeLargeGeneric2,
+	"LARGE_GENERIC_V2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 }
 
 var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClusterUnitShapeEnum{
@@ -321,6 +323,7 @@ var mappingDedicatedAiClusterUnitShapeEnumLowerCase = map[string]DedicatedAiClus
 	"large_generic_4":   DedicatedAiClusterUnitShapeLargeGeneric4,
 	"small_generic_v2":  DedicatedAiClusterUnitShapeSmallGenericV2,
 	"large_generic_2":   DedicatedAiClusterUnitShapeLargeGeneric2,
+	"large_generic_v2":  DedicatedAiClusterUnitShapeLargeGenericV2,
 }
 
 // GetDedicatedAiClusterUnitShapeEnumValues Enumerates the set of values for DedicatedAiClusterUnitShapeEnum
@@ -347,6 +350,7 @@ func GetDedicatedAiClusterUnitShapeEnumStringValues() []string {
 		"LARGE_GENERIC_4",
 		"SMALL_GENERIC_V2",
 		"LARGE_GENERIC_2",
+		"LARGE_GENERIC_V2",
 	}
 }
 

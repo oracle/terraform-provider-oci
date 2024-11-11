@@ -14,7 +14,7 @@ import (
 // ListDatabaseToolsConnectionsRequest wrapper for the ListDatabaseToolsConnections operation
 type ListDatabaseToolsConnectionsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources their `lifecycleState` matches the specified `lifecycleState`.
@@ -26,10 +26,13 @@ type ListDatabaseToolsConnectionsRequest struct {
 	// A filter to return only resources their type matches the specified type.
 	Type []ConnectionTypeEnum `contributesTo:"query" name:"type" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources with one of the specified runtimeSupport values.
+	// A filter to return only resources with one of the specified type values.
 	RuntimeSupport []RuntimeSupportEnum `contributesTo:"query" name:"runtimeSupport" omitEmpty:"true" collectionFormat:"multi"`
 
-	// A filter to return only resources associated to the related resource identifier OCID passed in the query string.
+	// A filter to return only resources with one of the specified runtimeIdentity values.
+	RuntimeIdentity []RuntimeIdentityEnum `contributesTo:"query" name:"runtimeIdentity" omitEmpty:"true" collectionFormat:"multi"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the related resource.
 	RelatedResourceIdentifier *string `mandatory:"false" contributesTo:"query" name:"relatedResourceIdentifier"`
 
 	// The maximum number of items to return.
@@ -95,6 +98,12 @@ func (request ListDatabaseToolsConnectionsRequest) ValidateEnumValue() (bool, er
 	for _, val := range request.RuntimeSupport {
 		if _, ok := GetMappingRuntimeSupportEnum(string(val)); !ok && val != "" {
 			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", val, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.RuntimeIdentity {
+		if _, ok := GetMappingRuntimeIdentityEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", val, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 		}
 	}
 

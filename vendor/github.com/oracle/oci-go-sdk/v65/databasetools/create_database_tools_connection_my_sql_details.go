@@ -28,7 +28,7 @@ type CreateDatabaseToolsConnectionMySqlDetails struct {
 	// The connection string used to connect to the MySQL Server.
 	ConnectionString *string `mandatory:"true" json:"connectionString"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"true" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"true" json:"userPassword"`
@@ -58,6 +58,9 @@ type CreateDatabaseToolsConnectionMySqlDetails struct {
 
 	// Specifies whether this connection is supported by the Database Tools Runtime.
 	RuntimeSupport RuntimeSupportEnum `mandatory:"false" json:"runtimeSupport,omitempty"`
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -90,6 +93,11 @@ func (m CreateDatabaseToolsConnectionMySqlDetails) GetRuntimeSupport() RuntimeSu
 	return m.RuntimeSupport
 }
 
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m CreateDatabaseToolsConnectionMySqlDetails) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 func (m CreateDatabaseToolsConnectionMySqlDetails) String() string {
 	return common.PointerString(m)
 }
@@ -102,6 +110,9 @@ func (m CreateDatabaseToolsConnectionMySqlDetails) ValidateEnumValue() (bool, er
 
 	if _, ok := GetMappingRuntimeSupportEnum(string(m.RuntimeSupport)); !ok && m.RuntimeSupport != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeSupport: %s. Supported values are: %s.", m.RuntimeSupport, strings.Join(GetRuntimeSupportEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -130,6 +141,7 @@ func (m *CreateDatabaseToolsConnectionMySqlDetails) UnmarshalJSON(data []byte) (
 		FreeformTags       map[string]string                               `json:"freeformTags"`
 		Locks              []ResourceLock                                  `json:"locks"`
 		RuntimeSupport     RuntimeSupportEnum                              `json:"runtimeSupport"`
+		RuntimeIdentity    RuntimeIdentityEnum                             `json:"runtimeIdentity"`
 		RelatedResource    *CreateDatabaseToolsRelatedResourceMySqlDetails `json:"relatedResource"`
 		AdvancedProperties map[string]string                               `json:"advancedProperties"`
 		KeyStores          []DatabaseToolsKeyStoreMySqlDetails             `json:"keyStores"`
@@ -153,6 +165,8 @@ func (m *CreateDatabaseToolsConnectionMySqlDetails) UnmarshalJSON(data []byte) (
 	m.Locks = make([]ResourceLock, len(model.Locks))
 	copy(m.Locks, model.Locks)
 	m.RuntimeSupport = model.RuntimeSupport
+
+	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.RelatedResource = model.RelatedResource
 

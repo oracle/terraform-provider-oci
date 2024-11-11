@@ -20,6 +20,7 @@ type KeyStoreTypeEnum string
 const (
 	KeyStoreTypeJavaKeyStore   KeyStoreTypeEnum = "JAVA_KEY_STORE"
 	KeyStoreTypeJavaTrustStore KeyStoreTypeEnum = "JAVA_TRUST_STORE"
+	KeyStoreTypePem            KeyStoreTypeEnum = "PEM"
 	KeyStoreTypePkcs12         KeyStoreTypeEnum = "PKCS12"
 	KeyStoreTypeSso            KeyStoreTypeEnum = "SSO"
 )
@@ -27,6 +28,7 @@ const (
 var mappingKeyStoreTypeEnum = map[string]KeyStoreTypeEnum{
 	"JAVA_KEY_STORE":   KeyStoreTypeJavaKeyStore,
 	"JAVA_TRUST_STORE": KeyStoreTypeJavaTrustStore,
+	"PEM":              KeyStoreTypePem,
 	"PKCS12":           KeyStoreTypePkcs12,
 	"SSO":              KeyStoreTypeSso,
 }
@@ -34,6 +36,7 @@ var mappingKeyStoreTypeEnum = map[string]KeyStoreTypeEnum{
 var mappingKeyStoreTypeEnumLowerCase = map[string]KeyStoreTypeEnum{
 	"java_key_store":   KeyStoreTypeJavaKeyStore,
 	"java_trust_store": KeyStoreTypeJavaTrustStore,
+	"pem":              KeyStoreTypePem,
 	"pkcs12":           KeyStoreTypePkcs12,
 	"sso":              KeyStoreTypeSso,
 }
@@ -52,6 +55,7 @@ func GetKeyStoreTypeEnumStringValues() []string {
 	return []string{
 		"JAVA_KEY_STORE",
 		"JAVA_TRUST_STORE",
+		"PEM",
 		"PKCS12",
 		"SSO",
 	}

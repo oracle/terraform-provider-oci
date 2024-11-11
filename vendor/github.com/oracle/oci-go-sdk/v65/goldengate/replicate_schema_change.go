@@ -22,10 +22,10 @@ type ReplicateSchemaChange struct {
 	CanReplicateSchemaChange ReplicateSchemaChangeCanReplicateSchemaChangeEnum `mandatory:"true" json:"canReplicateSchemaChange"`
 
 	// Action upon DDL Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true
-	ActionOnDdLError ReplicateDdlErrorActionEnum `mandatory:"false" json:"actionOnDdLError,omitempty"`
+	ActionOnDdlError ReplicateDdlErrorActionEnum `mandatory:"false" json:"actionOnDdlError,omitempty"`
 
 	// Action upon DML Error (active only if 'Replicate schema changes (DDL)' is selected) i.e canReplicateSchemaChange=true
-	ActionOnDmLError ReplicateDmlErrorActionEnum `mandatory:"false" json:"actionOnDmLError,omitempty"`
+	ActionOnDmlError ReplicateDmlErrorActionEnum `mandatory:"false" json:"actionOnDmlError,omitempty"`
 }
 
 func (m ReplicateSchemaChange) String() string {
@@ -41,11 +41,11 @@ func (m ReplicateSchemaChange) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CanReplicateSchemaChange: %s. Supported values are: %s.", m.CanReplicateSchemaChange, strings.Join(GetReplicateSchemaChangeCanReplicateSchemaChangeEnumStringValues(), ",")))
 	}
 
-	if _, ok := GetMappingReplicateDdlErrorActionEnum(string(m.ActionOnDdLError)); !ok && m.ActionOnDdLError != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionOnDdLError: %s. Supported values are: %s.", m.ActionOnDdLError, strings.Join(GetReplicateDdlErrorActionEnumStringValues(), ",")))
+	if _, ok := GetMappingReplicateDdlErrorActionEnum(string(m.ActionOnDdlError)); !ok && m.ActionOnDdlError != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionOnDdlError: %s. Supported values are: %s.", m.ActionOnDdlError, strings.Join(GetReplicateDdlErrorActionEnumStringValues(), ",")))
 	}
-	if _, ok := GetMappingReplicateDmlErrorActionEnum(string(m.ActionOnDmLError)); !ok && m.ActionOnDmLError != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionOnDmLError: %s. Supported values are: %s.", m.ActionOnDmLError, strings.Join(GetReplicateDmlErrorActionEnumStringValues(), ",")))
+	if _, ok := GetMappingReplicateDmlErrorActionEnum(string(m.ActionOnDmlError)); !ok && m.ActionOnDmlError != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ActionOnDmlError: %s. Supported values are: %s.", m.ActionOnDmlError, strings.Join(GetReplicateDmlErrorActionEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

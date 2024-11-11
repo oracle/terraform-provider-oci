@@ -95,7 +95,7 @@ type CreateMysqlConnectionDetails struct {
 	// containing the client public key (for 2-way SSL).
 	SslCert *string `mandatory:"false" json:"sslCert"`
 
-	// Client Key – The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).
+	// Client Key - The base64 encoded content of a .pem or .crt file containing the client private key (for 2-way SSL).
 	SslKey *string `mandatory:"false" json:"sslKey"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the Client Key

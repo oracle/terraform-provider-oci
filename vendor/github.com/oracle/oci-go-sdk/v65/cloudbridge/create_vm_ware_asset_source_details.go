@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// CreateVmWareAssetSourceDetails Description of an asset source.
+// CreateVmWareAssetSourceDetails VMware asset source creation request.
 type CreateVmWareAssetSourceDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment for the resource.

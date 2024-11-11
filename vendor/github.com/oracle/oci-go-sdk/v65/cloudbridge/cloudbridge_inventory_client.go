@@ -264,6 +264,65 @@ func (client InventoryClient) changeAssetTags(ctx context.Context, request commo
 	return response, err
 }
 
+// ChangeRelationCompartment Moves an relation resource from one compartment to another. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeRelationCompartment()
+func (client InventoryClient) ChangeRelationCompartment(ctx context.Context, request ChangeRelationCompartmentRequest) (response ChangeRelationCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeRelationCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeRelationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeRelationCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeRelationCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeRelationCompartmentResponse")
+	}
+	return
+}
+
+// changeRelationCompartment implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) changeRelationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/relations/{relationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeRelationCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Relation/ChangeRelationCompartment"
+		err = common.PostProcessServiceError(err, "Inventory", "ChangeRelationCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateAsset Creates an asset.
 // A default retry strategy applies to this operation CreateAsset()
 func (client InventoryClient) CreateAsset(ctx context.Context, request CreateAssetRequest) (response CreateAssetResponse, err error) {
@@ -382,6 +441,65 @@ func (client InventoryClient) createInventory(ctx context.Context, request commo
 	return response, err
 }
 
+// CreateRelation Creates an Relation.
+// A default retry strategy applies to this operation CreateRelation()
+func (client InventoryClient) CreateRelation(ctx context.Context, request CreateRelationRequest) (response CreateRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateRelationResponse")
+	}
+	return
+}
+
+// createRelation implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) createRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/relations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Relation/CreateRelation"
+		err = common.PostProcessServiceError(err, "Inventory", "CreateRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteAsset Deletes an asset resource by identifier.
 // A default retry strategy applies to this operation DeleteAsset()
 func (client InventoryClient) DeleteAsset(ctx context.Context, request DeleteAssetRequest) (response DeleteAssetResponse, err error) {
@@ -490,6 +608,60 @@ func (client InventoryClient) deleteInventory(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteRelation Delete a relation between two resources
+// A default retry strategy applies to this operation DeleteRelation()
+func (client InventoryClient) DeleteRelation(ctx context.Context, request DeleteRelationRequest) (response DeleteRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteRelationResponse")
+	}
+	return
+}
+
+// deleteRelation implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) deleteRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/relations/{relationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Relation/DeleteRelation"
+		err = common.PostProcessServiceError(err, "Inventory", "DeleteRelation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetAsset Gets an asset by identifier.
 // A default retry strategy applies to this operation GetAsset()
 func (client InventoryClient) GetAsset(ctx context.Context, request GetAssetRequest) (response GetAssetResponse, err error) {
@@ -591,6 +763,60 @@ func (client InventoryClient) getInventory(ctx context.Context, request common.O
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/GetInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "GetInventory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetRelation Gets an relation by identifier.
+// A default retry strategy applies to this operation GetRelation()
+func (client InventoryClient) GetRelation(ctx context.Context, request GetRelationRequest) (response GetRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetRelationResponse")
+	}
+	return
+}
+
+// getRelation implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) getRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/relations/{relationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Relation/GetRelation"
+		err = common.PostProcessServiceError(err, "Inventory", "GetRelation", apiReferenceLink)
 		return response, err
 	}
 
@@ -819,6 +1045,60 @@ func (client InventoryClient) listInventories(ctx context.Context, request commo
 	return response, err
 }
 
+// ListRelations Returns a list of relations
+// A default retry strategy applies to this operation ListRelations()
+func (client InventoryClient) ListRelations(ctx context.Context, request ListRelationsRequest) (response ListRelationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listRelations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListRelationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListRelationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListRelationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListRelationsResponse")
+	}
+	return
+}
+
+// listRelations implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) listRelations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/relations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListRelationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/RelationCollection/ListRelations"
+		err = common.PostProcessServiceError(err, "Inventory", "ListRelations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SubmitHistoricalMetrics Creates or updates all metrics related to the asset.
 // A default retry strategy applies to this operation SubmitHistoricalMetrics()
 func (client InventoryClient) SubmitHistoricalMetrics(ctx context.Context, request SubmitHistoricalMetricsRequest) (response SubmitHistoricalMetricsResponse, err error) {
@@ -974,6 +1254,60 @@ func (client InventoryClient) updateInventory(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Inventory/UpdateInventory"
 		err = common.PostProcessServiceError(err, "Inventory", "UpdateInventory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateRelation Updates the relation.
+// A default retry strategy applies to this operation UpdateRelation()
+func (client InventoryClient) UpdateRelation(ctx context.Context, request UpdateRelationRequest) (response UpdateRelationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateRelation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateRelationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateRelationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateRelationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateRelationResponse")
+	}
+	return
+}
+
+// updateRelation implements the OCIOperation interface (enables retrying operations)
+func (client InventoryClient) updateRelation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/relations/{relationId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateRelationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/OCB/20220509/Relation/UpdateRelation"
+		err = common.PostProcessServiceError(err, "Inventory", "UpdateRelation", apiReferenceLink)
 		return response, err
 	}
 

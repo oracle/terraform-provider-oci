@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// VmWareAssetSource Description of an asset source.
+// VmWareAssetSource VMware asset source. Used for discovery of virtual machines (VMs) registered in the VMware vCenter installation.
 type VmWareAssetSource struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the resource.

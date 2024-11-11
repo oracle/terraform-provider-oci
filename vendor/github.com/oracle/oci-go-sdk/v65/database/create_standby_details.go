@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -43,6 +44,8 @@ type CreateStandbyDetails struct {
 	// **IMPORTANT** - The only transport type currently supported by the Database service is ASYNC.
 	TransportType CreateStandbyDetailsTransportTypeEnum `mandatory:"true" json:"transportType"`
 
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
@@ -73,6 +76,54 @@ func (m CreateStandbyDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateStandbyDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails           `json:"sourceEncryptionKeyLocationDetails"`
+		IsActiveDataGuardEnabled           *bool                                  `json:"isActiveDataGuardEnabled"`
+		DbUniqueName                       *string                                `json:"dbUniqueName"`
+		SidPrefix                          *string                                `json:"sidPrefix"`
+		SourceDatabaseId                   *string                                `json:"sourceDatabaseId"`
+		DatabaseAdminPassword              *string                                `json:"databaseAdminPassword"`
+		SourceTdeWalletPassword            *string                                `json:"sourceTdeWalletPassword"`
+		ProtectionMode                     CreateStandbyDetailsProtectionModeEnum `json:"protectionMode"`
+		TransportType                      CreateStandbyDetailsTransportTypeEnum  `json:"transportType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.SidPrefix = model.SidPrefix
+
+	m.SourceDatabaseId = model.SourceDatabaseId
+
+	m.DatabaseAdminPassword = model.DatabaseAdminPassword
+
+	m.SourceTdeWalletPassword = model.SourceTdeWalletPassword
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.TransportType = model.TransportType
+
+	return
 }
 
 // CreateStandbyDetailsProtectionModeEnum Enum with underlying type: string

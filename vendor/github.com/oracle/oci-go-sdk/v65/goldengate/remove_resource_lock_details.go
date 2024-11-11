@@ -23,9 +23,6 @@ type RemoveResourceLockDetails struct {
 
 	// Type of the lock.
 	Type RemoveResourceLockDetailsTypeEnum `mandatory:"true" json:"type"`
-
-	// The compartment ID of the lock.
-	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 }
 
 func (m RemoveResourceLockDetails) String() string {

@@ -65,6 +65,12 @@ type AssetSummary struct {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{orcl-cloud: {free-tier-retain: true}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	// The name of the asset class.
+	AssetClassName *string `mandatory:"false" json:"assetClassName"`
+
+	// The version of the asset class.
+	AssetClassVersion *string `mandatory:"false" json:"assetClassVersion"`
 }
 
 func (m AssetSummary) String() string {

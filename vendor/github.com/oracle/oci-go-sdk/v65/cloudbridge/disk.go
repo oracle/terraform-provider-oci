@@ -38,6 +38,9 @@ type Disk struct {
 
 	// The disk persistent mode.
 	PersistentMode *string `mandatory:"false" json:"persistentMode"`
+
+	// Indicates that CBT (change disk tracking) is enabled for this virtual disk.
+	IsCbtEnabled *bool `mandatory:"false" json:"isCbtEnabled"`
 }
 
 func (m Disk) String() string {

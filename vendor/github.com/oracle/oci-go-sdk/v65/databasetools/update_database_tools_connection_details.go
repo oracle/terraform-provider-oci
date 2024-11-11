@@ -29,14 +29,18 @@ type UpdateDatabaseToolsConnectionDetails interface {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	GetRuntimeIdentity() RuntimeIdentityEnum
 }
 
 type updatedatabasetoolsconnectiondetails struct {
-	JsonData     []byte
-	DisplayName  *string                           `mandatory:"false" json:"displayName"`
-	DefinedTags  map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	FreeformTags map[string]string                 `mandatory:"false" json:"freeformTags"`
-	Type         string                            `json:"type"`
+	JsonData        []byte
+	DisplayName     *string                           `mandatory:"false" json:"displayName"`
+	DefinedTags     map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	FreeformTags    map[string]string                 `mandatory:"false" json:"freeformTags"`
+	RuntimeIdentity RuntimeIdentityEnum               `mandatory:"false" json:"runtimeIdentity,omitempty"`
+	Type            string                            `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -53,6 +57,7 @@ func (m *updatedatabasetoolsconnectiondetails) UnmarshalJSON(data []byte) error 
 	m.DisplayName = s.Model.DisplayName
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
+	m.RuntimeIdentity = s.Model.RuntimeIdentity
 	m.Type = s.Model.Type
 
 	return err
@@ -104,6 +109,11 @@ func (m updatedatabasetoolsconnectiondetails) GetFreeformTags() map[string]strin
 	return m.FreeformTags
 }
 
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m updatedatabasetoolsconnectiondetails) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 func (m updatedatabasetoolsconnectiondetails) String() string {
 	return common.PointerString(m)
 }
@@ -114,6 +124,9 @@ func (m updatedatabasetoolsconnectiondetails) String() string {
 func (m updatedatabasetoolsconnectiondetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

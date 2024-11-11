@@ -32,6 +32,9 @@ type ListProtectedDatabasesRequest struct {
 	// The recovery service subnet OCID.
 	RecoveryServiceSubnetId *string `mandatory:"false" contributesTo:"query" name:"recoveryServiceSubnetId"`
 
+	// Filter for cloud location of protected database.
+	BackupCloudLocation ListProtectedDatabasesBackupCloudLocationEnum `mandatory:"false" contributesTo:"query" name:"backupCloudLocation" omitEmpty:"true"`
+
 	// The maximum number of items to return per page.
 	Limit *int `mandatory:"false" contributesTo:"query" name:"limit"`
 
@@ -91,6 +94,9 @@ func (request ListProtectedDatabasesRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 	if _, ok := GetMappingListProtectedDatabasesLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetListProtectedDatabasesLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListProtectedDatabasesBackupCloudLocationEnum(string(request.BackupCloudLocation)); !ok && request.BackupCloudLocation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupCloudLocation: %s. Supported values are: %s.", request.BackupCloudLocation, strings.Join(GetListProtectedDatabasesBackupCloudLocationEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingListProtectedDatabasesSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListProtectedDatabasesSortOrderEnumStringValues(), ",")))
@@ -191,6 +197,56 @@ func GetListProtectedDatabasesLifecycleStateEnumStringValues() []string {
 // GetMappingListProtectedDatabasesLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListProtectedDatabasesLifecycleStateEnum(val string) (ListProtectedDatabasesLifecycleStateEnum, bool) {
 	enum, ok := mappingListProtectedDatabasesLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListProtectedDatabasesBackupCloudLocationEnum Enum with underlying type: string
+type ListProtectedDatabasesBackupCloudLocationEnum string
+
+// Set of constants representing the allowable values for ListProtectedDatabasesBackupCloudLocationEnum
+const (
+	ListProtectedDatabasesBackupCloudLocationAzure ListProtectedDatabasesBackupCloudLocationEnum = "AZURE"
+	ListProtectedDatabasesBackupCloudLocationOci   ListProtectedDatabasesBackupCloudLocationEnum = "OCI"
+	ListProtectedDatabasesBackupCloudLocationGcp   ListProtectedDatabasesBackupCloudLocationEnum = "GCP"
+	ListProtectedDatabasesBackupCloudLocationAws   ListProtectedDatabasesBackupCloudLocationEnum = "AWS"
+)
+
+var mappingListProtectedDatabasesBackupCloudLocationEnum = map[string]ListProtectedDatabasesBackupCloudLocationEnum{
+	"AZURE": ListProtectedDatabasesBackupCloudLocationAzure,
+	"OCI":   ListProtectedDatabasesBackupCloudLocationOci,
+	"GCP":   ListProtectedDatabasesBackupCloudLocationGcp,
+	"AWS":   ListProtectedDatabasesBackupCloudLocationAws,
+}
+
+var mappingListProtectedDatabasesBackupCloudLocationEnumLowerCase = map[string]ListProtectedDatabasesBackupCloudLocationEnum{
+	"azure": ListProtectedDatabasesBackupCloudLocationAzure,
+	"oci":   ListProtectedDatabasesBackupCloudLocationOci,
+	"gcp":   ListProtectedDatabasesBackupCloudLocationGcp,
+	"aws":   ListProtectedDatabasesBackupCloudLocationAws,
+}
+
+// GetListProtectedDatabasesBackupCloudLocationEnumValues Enumerates the set of values for ListProtectedDatabasesBackupCloudLocationEnum
+func GetListProtectedDatabasesBackupCloudLocationEnumValues() []ListProtectedDatabasesBackupCloudLocationEnum {
+	values := make([]ListProtectedDatabasesBackupCloudLocationEnum, 0)
+	for _, v := range mappingListProtectedDatabasesBackupCloudLocationEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListProtectedDatabasesBackupCloudLocationEnumStringValues Enumerates the set of values in String for ListProtectedDatabasesBackupCloudLocationEnum
+func GetListProtectedDatabasesBackupCloudLocationEnumStringValues() []string {
+	return []string{
+		"AZURE",
+		"OCI",
+		"GCP",
+		"AWS",
+	}
+}
+
+// GetMappingListProtectedDatabasesBackupCloudLocationEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListProtectedDatabasesBackupCloudLocationEnum(val string) (ListProtectedDatabasesBackupCloudLocationEnum, bool) {
+	enum, ok := mappingListProtectedDatabasesBackupCloudLocationEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
 

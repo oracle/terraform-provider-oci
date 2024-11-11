@@ -30,6 +30,10 @@ const (
 	OperationTypeUpdateRecoveryServiceSubnet OperationTypeEnum = "UPDATE_RECOVERY_SERVICE_SUBNET"
 	OperationTypeDeleteRecoveryServiceSubnet OperationTypeEnum = "DELETE_RECOVERY_SERVICE_SUBNET"
 	OperationTypeMoveRecoveryServiceSubnet   OperationTypeEnum = "MOVE_RECOVERY_SERVICE_SUBNET"
+	OperationTypeCreateLongTermBackup        OperationTypeEnum = "CREATE_LONG_TERM_BACKUP"
+	OperationTypeDeleteLongTermBackup        OperationTypeEnum = "DELETE_LONG_TERM_BACKUP"
+	OperationTypeUpdateLongTermBackup        OperationTypeEnum = "UPDATE_LONG_TERM_BACKUP"
+	OperationTypeCancelLongTermBackup        OperationTypeEnum = "CANCEL_LONG_TERM_BACKUP"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -45,6 +49,10 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"UPDATE_RECOVERY_SERVICE_SUBNET": OperationTypeUpdateRecoveryServiceSubnet,
 	"DELETE_RECOVERY_SERVICE_SUBNET": OperationTypeDeleteRecoveryServiceSubnet,
 	"MOVE_RECOVERY_SERVICE_SUBNET":   OperationTypeMoveRecoveryServiceSubnet,
+	"CREATE_LONG_TERM_BACKUP":        OperationTypeCreateLongTermBackup,
+	"DELETE_LONG_TERM_BACKUP":        OperationTypeDeleteLongTermBackup,
+	"UPDATE_LONG_TERM_BACKUP":        OperationTypeUpdateLongTermBackup,
+	"CANCEL_LONG_TERM_BACKUP":        OperationTypeCancelLongTermBackup,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -60,6 +68,10 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"update_recovery_service_subnet": OperationTypeUpdateRecoveryServiceSubnet,
 	"delete_recovery_service_subnet": OperationTypeDeleteRecoveryServiceSubnet,
 	"move_recovery_service_subnet":   OperationTypeMoveRecoveryServiceSubnet,
+	"create_long_term_backup":        OperationTypeCreateLongTermBackup,
+	"delete_long_term_backup":        OperationTypeDeleteLongTermBackup,
+	"update_long_term_backup":        OperationTypeUpdateLongTermBackup,
+	"cancel_long_term_backup":        OperationTypeCancelLongTermBackup,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -86,6 +98,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"UPDATE_RECOVERY_SERVICE_SUBNET",
 		"DELETE_RECOVERY_SERVICE_SUBNET",
 		"MOVE_RECOVERY_SERVICE_SUBNET",
+		"CREATE_LONG_TERM_BACKUP",
+		"DELETE_LONG_TERM_BACKUP",
+		"UPDATE_LONG_TERM_BACKUP",
+		"CANCEL_LONG_TERM_BACKUP",
 	}
 }
 

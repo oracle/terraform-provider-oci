@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -101,6 +102,8 @@ type Backup struct {
 
 	// Type of the backup destination.
 	BackupDestinationType BackupBackupDestinationTypeEnum `mandatory:"false" json:"backupDestinationType,omitempty"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m Backup) String() string {
@@ -129,6 +132,114 @@ func (m Backup) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Backup) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Id                           *string                         `json:"id"`
+		CompartmentId                *string                         `json:"compartmentId"`
+		DatabaseId                   *string                         `json:"databaseId"`
+		DisplayName                  *string                         `json:"displayName"`
+		Type                         BackupTypeEnum                  `json:"type"`
+		TimeStarted                  *common.SDKTime                 `json:"timeStarted"`
+		TimeEnded                    *common.SDKTime                 `json:"timeEnded"`
+		LifecycleDetails             *string                         `json:"lifecycleDetails"`
+		AvailabilityDomain           *string                         `json:"availabilityDomain"`
+		LifecycleState               BackupLifecycleStateEnum        `json:"lifecycleState"`
+		DatabaseEdition              BackupDatabaseEditionEnum       `json:"databaseEdition"`
+		DatabaseSizeInGBs            *float64                        `json:"databaseSizeInGBs"`
+		SourceDbRegion               *string                         `json:"sourceDbRegion"`
+		SourceDbName                 *string                         `json:"sourceDbName"`
+		SourceDbSystemName           *string                         `json:"sourceDbSystemName"`
+		Shape                        *string                         `json:"shape"`
+		Version                      *string                         `json:"version"`
+		KmsKeyId                     *string                         `json:"kmsKeyId"`
+		KmsKeyVersionId              *string                         `json:"kmsKeyVersionId"`
+		VaultId                      *string                         `json:"vaultId"`
+		KeyStoreId                   *string                         `json:"keyStoreId"`
+		KeyStoreWalletName           *string                         `json:"keyStoreWalletName"`
+		SecondaryKmsKeyIds           []string                        `json:"secondaryKmsKeyIds"`
+		RetentionPeriodInDays        *int                            `json:"retentionPeriodInDays"`
+		RetentionPeriodInYears       *int                            `json:"retentionPeriodInYears"`
+		TimeExpiryScheduled          *common.SDKTime                 `json:"timeExpiryScheduled"`
+		IsUsingOracleManagedKeys     *bool                           `json:"isUsingOracleManagedKeys"`
+		BackupDestinationType        BackupBackupDestinationTypeEnum `json:"backupDestinationType"`
+		EncryptionKeyLocationDetails encryptionkeylocationdetails    `json:"encryptionKeyLocationDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DatabaseId = model.DatabaseId
+
+	m.DisplayName = model.DisplayName
+
+	m.Type = model.Type
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeEnded = model.TimeEnded
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.LifecycleState = model.LifecycleState
+
+	m.DatabaseEdition = model.DatabaseEdition
+
+	m.DatabaseSizeInGBs = model.DatabaseSizeInGBs
+
+	m.SourceDbRegion = model.SourceDbRegion
+
+	m.SourceDbName = model.SourceDbName
+
+	m.SourceDbSystemName = model.SourceDbSystemName
+
+	m.Shape = model.Shape
+
+	m.Version = model.Version
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.SecondaryKmsKeyIds = make([]string, len(model.SecondaryKmsKeyIds))
+	copy(m.SecondaryKmsKeyIds, model.SecondaryKmsKeyIds)
+	m.RetentionPeriodInDays = model.RetentionPeriodInDays
+
+	m.RetentionPeriodInYears = model.RetentionPeriodInYears
+
+	m.TimeExpiryScheduled = model.TimeExpiryScheduled
+
+	m.IsUsingOracleManagedKeys = model.IsUsingOracleManagedKeys
+
+	m.BackupDestinationType = model.BackupDestinationType
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	return
 }
 
 // BackupTypeEnum Enum with underlying type: string

@@ -35,7 +35,7 @@ type UpdateDatabaseToolsConnectionPostgresqlDetails struct {
 	// The connection string used to connect to the PostgreSQL Server.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
-	// The user name.
+	// The database user name.
 	UserName *string `mandatory:"false" json:"userName"`
 
 	UserPassword DatabaseToolsUserPasswordDetails `mandatory:"false" json:"userPassword"`
@@ -49,6 +49,9 @@ type UpdateDatabaseToolsConnectionPostgresqlDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the DatabaseToolsPrivateEndpoint used to access the database in the Customer VCN.
 	PrivateEndpointId *string `mandatory:"false" json:"privateEndpointId"`
+
+	// Specifies the identity used by the Database Tools service to issue requests to other OCI services (e.g., Secrets in Vault).
+	RuntimeIdentity RuntimeIdentityEnum `mandatory:"false" json:"runtimeIdentity,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -66,6 +69,11 @@ func (m UpdateDatabaseToolsConnectionPostgresqlDetails) GetFreeformTags() map[st
 	return m.FreeformTags
 }
 
+// GetRuntimeIdentity returns RuntimeIdentity
+func (m UpdateDatabaseToolsConnectionPostgresqlDetails) GetRuntimeIdentity() RuntimeIdentityEnum {
+	return m.RuntimeIdentity
+}
+
 func (m UpdateDatabaseToolsConnectionPostgresqlDetails) String() string {
 	return common.PointerString(m)
 }
@@ -76,6 +84,9 @@ func (m UpdateDatabaseToolsConnectionPostgresqlDetails) String() string {
 func (m UpdateDatabaseToolsConnectionPostgresqlDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRuntimeIdentityEnum(string(m.RuntimeIdentity)); !ok && m.RuntimeIdentity != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RuntimeIdentity: %s. Supported values are: %s.", m.RuntimeIdentity, strings.Join(GetRuntimeIdentityEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -102,6 +113,7 @@ func (m *UpdateDatabaseToolsConnectionPostgresqlDetails) UnmarshalJSON(data []by
 		DisplayName        *string                                              `json:"displayName"`
 		DefinedTags        map[string]map[string]interface{}                    `json:"definedTags"`
 		FreeformTags       map[string]string                                    `json:"freeformTags"`
+		RuntimeIdentity    RuntimeIdentityEnum                                  `json:"runtimeIdentity"`
 		RelatedResource    *UpdateDatabaseToolsRelatedResourcePostgresqlDetails `json:"relatedResource"`
 		ConnectionString   *string                                              `json:"connectionString"`
 		UserName           *string                                              `json:"userName"`
@@ -121,6 +133,8 @@ func (m *UpdateDatabaseToolsConnectionPostgresqlDetails) UnmarshalJSON(data []by
 	m.DefinedTags = model.DefinedTags
 
 	m.FreeformTags = model.FreeformTags
+
+	m.RuntimeIdentity = model.RuntimeIdentity
 
 	m.RelatedResource = model.RelatedResource
 

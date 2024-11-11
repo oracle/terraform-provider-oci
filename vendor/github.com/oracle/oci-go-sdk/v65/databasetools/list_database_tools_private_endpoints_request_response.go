@@ -14,7 +14,7 @@ import (
 // ListDatabaseToolsPrivateEndpointsRequest wrapper for the ListDatabaseToolsPrivateEndpoints operation
 type ListDatabaseToolsPrivateEndpointsRequest struct {
 
-	// The ID of the compartment in which to list resources.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
 	// A filter to return only resources their `subnetId` matches the specified `subnetId`.

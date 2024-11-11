@@ -19,7 +19,7 @@ import (
 type UpdatePluginDetails struct {
 
 	// State to which the customer wants the plugin to move to.
-	DesiredState PluginDesiredStateEnum `mandatory:"false" json:"desiredState,omitempty"`
+	DesiredState PluginDesiredStateEnum `mandatory:"true" json:"desiredState"`
 }
 
 func (m UpdatePluginDetails) String() string {
@@ -31,10 +31,10 @@ func (m UpdatePluginDetails) String() string {
 // Not recommended for calling this function directly
 func (m UpdatePluginDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
 	if _, ok := GetMappingPluginDesiredStateEnum(string(m.DesiredState)); !ok && m.DesiredState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DesiredState: %s. Supported values are: %s.", m.DesiredState, strings.Join(GetPluginDesiredStateEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

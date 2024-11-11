@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// DatabaseToolsUserPasswordDetails The user password.
+// DatabaseToolsUserPasswordDetails The database user password.
 type DatabaseToolsUserPasswordDetails interface {
 }
 

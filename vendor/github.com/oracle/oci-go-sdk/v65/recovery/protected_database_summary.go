@@ -79,6 +79,9 @@ type ProtectedDatabaseSummary struct {
 
 	Metrics *MetricsSummary `mandatory:"false" json:"metrics"`
 
+	// Indicates the cloud service environment where the protected database is provisioned. For example, Oracle Cloud or Microsoft Azure.
+	BackupCloudLocation BackupCloudLocationEnum `mandatory:"false" json:"backupCloudLocation,omitempty"`
+
 	// The OCID of the cloud service subscription to which the protected database is linked.
 	SubscriptionId *string `mandatory:"false" json:"subscriptionId"`
 
@@ -113,6 +116,9 @@ func (m ProtectedDatabaseSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingHealthEnum(string(m.Health)); !ok && m.Health != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Health: %s. Supported values are: %s.", m.Health, strings.Join(GetHealthEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingBackupCloudLocationEnum(string(m.BackupCloudLocation)); !ok && m.BackupCloudLocation != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupCloudLocation: %s. Supported values are: %s.", m.BackupCloudLocation, strings.Join(GetBackupCloudLocationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

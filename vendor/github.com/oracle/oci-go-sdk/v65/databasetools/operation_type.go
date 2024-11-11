@@ -18,39 +18,51 @@ type OperationTypeEnum string
 
 // Set of constants representing the allowable values for OperationTypeEnum
 const (
-	OperationTypeCreateDatabaseToolsConnection      OperationTypeEnum = "CREATE_DATABASE_TOOLS_CONNECTION"
-	OperationTypeUpdateDatabaseToolsConnection      OperationTypeEnum = "UPDATE_DATABASE_TOOLS_CONNECTION"
-	OperationTypeDeleteDatabaseToolsConnection      OperationTypeEnum = "DELETE_DATABASE_TOOLS_CONNECTION"
-	OperationTypeCreateDatabaseToolsServiceInstance OperationTypeEnum = "CREATE_DATABASE_TOOLS_SERVICE_INSTANCE"
-	OperationTypeUpdateDatabaseToolsServiceInstance OperationTypeEnum = "UPDATE_DATABASE_TOOLS_SERVICE_INSTANCE"
-	OperationTypeDeleteDatabaseToolsServiceInstance OperationTypeEnum = "DELETE_DATABASE_TOOLS_SERVICE_INSTANCE"
-	OperationTypeCreateDatabaseToolsPrivateEndpoint OperationTypeEnum = "CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
-	OperationTypeUpdateDatabaseToolsPrivateEndpoint OperationTypeEnum = "UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
-	OperationTypeDeleteDatabaseToolsPrivateEndpoint OperationTypeEnum = "DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
+	OperationTypeCreateDatabaseToolsConnection          OperationTypeEnum = "CREATE_DATABASE_TOOLS_CONNECTION"
+	OperationTypeUpdateDatabaseToolsConnection          OperationTypeEnum = "UPDATE_DATABASE_TOOLS_CONNECTION"
+	OperationTypeDeleteDatabaseToolsConnection          OperationTypeEnum = "DELETE_DATABASE_TOOLS_CONNECTION"
+	OperationTypeCreateDatabaseToolsServiceInstance     OperationTypeEnum = "CREATE_DATABASE_TOOLS_SERVICE_INSTANCE"
+	OperationTypeUpdateDatabaseToolsServiceInstance     OperationTypeEnum = "UPDATE_DATABASE_TOOLS_SERVICE_INSTANCE"
+	OperationTypeDeleteDatabaseToolsServiceInstance     OperationTypeEnum = "DELETE_DATABASE_TOOLS_SERVICE_INSTANCE"
+	OperationTypeCreateDatabaseToolsPrivateEndpoint     OperationTypeEnum = "CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
+	OperationTypeUpdateDatabaseToolsPrivateEndpoint     OperationTypeEnum = "UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
+	OperationTypeDeleteDatabaseToolsPrivateEndpoint     OperationTypeEnum = "DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT"
+	OperationTypeCreateDatabaseToolsIdentity            OperationTypeEnum = "CREATE_DATABASE_TOOLS_IDENTITY"
+	OperationTypeDeleteDatabaseToolsIdentity            OperationTypeEnum = "DELETE_DATABASE_TOOLS_IDENTITY"
+	OperationTypeUpdateDatabaseToolsIdentity            OperationTypeEnum = "UPDATE_DATABASE_TOOLS_IDENTITY"
+	OperationTypeRefreshDatabaseToolsIdentityCredential OperationTypeEnum = "REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
-	"CREATE_DATABASE_TOOLS_CONNECTION":       OperationTypeCreateDatabaseToolsConnection,
-	"UPDATE_DATABASE_TOOLS_CONNECTION":       OperationTypeUpdateDatabaseToolsConnection,
-	"DELETE_DATABASE_TOOLS_CONNECTION":       OperationTypeDeleteDatabaseToolsConnection,
-	"CREATE_DATABASE_TOOLS_SERVICE_INSTANCE": OperationTypeCreateDatabaseToolsServiceInstance,
-	"UPDATE_DATABASE_TOOLS_SERVICE_INSTANCE": OperationTypeUpdateDatabaseToolsServiceInstance,
-	"DELETE_DATABASE_TOOLS_SERVICE_INSTANCE": OperationTypeDeleteDatabaseToolsServiceInstance,
-	"CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT": OperationTypeCreateDatabaseToolsPrivateEndpoint,
-	"UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT": OperationTypeUpdateDatabaseToolsPrivateEndpoint,
-	"DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT": OperationTypeDeleteDatabaseToolsPrivateEndpoint,
+	"CREATE_DATABASE_TOOLS_CONNECTION":           OperationTypeCreateDatabaseToolsConnection,
+	"UPDATE_DATABASE_TOOLS_CONNECTION":           OperationTypeUpdateDatabaseToolsConnection,
+	"DELETE_DATABASE_TOOLS_CONNECTION":           OperationTypeDeleteDatabaseToolsConnection,
+	"CREATE_DATABASE_TOOLS_SERVICE_INSTANCE":     OperationTypeCreateDatabaseToolsServiceInstance,
+	"UPDATE_DATABASE_TOOLS_SERVICE_INSTANCE":     OperationTypeUpdateDatabaseToolsServiceInstance,
+	"DELETE_DATABASE_TOOLS_SERVICE_INSTANCE":     OperationTypeDeleteDatabaseToolsServiceInstance,
+	"CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT":     OperationTypeCreateDatabaseToolsPrivateEndpoint,
+	"UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT":     OperationTypeUpdateDatabaseToolsPrivateEndpoint,
+	"DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT":     OperationTypeDeleteDatabaseToolsPrivateEndpoint,
+	"CREATE_DATABASE_TOOLS_IDENTITY":             OperationTypeCreateDatabaseToolsIdentity,
+	"DELETE_DATABASE_TOOLS_IDENTITY":             OperationTypeDeleteDatabaseToolsIdentity,
+	"UPDATE_DATABASE_TOOLS_IDENTITY":             OperationTypeUpdateDatabaseToolsIdentity,
+	"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL": OperationTypeRefreshDatabaseToolsIdentityCredential,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
-	"create_database_tools_connection":       OperationTypeCreateDatabaseToolsConnection,
-	"update_database_tools_connection":       OperationTypeUpdateDatabaseToolsConnection,
-	"delete_database_tools_connection":       OperationTypeDeleteDatabaseToolsConnection,
-	"create_database_tools_service_instance": OperationTypeCreateDatabaseToolsServiceInstance,
-	"update_database_tools_service_instance": OperationTypeUpdateDatabaseToolsServiceInstance,
-	"delete_database_tools_service_instance": OperationTypeDeleteDatabaseToolsServiceInstance,
-	"create_database_tools_private_endpoint": OperationTypeCreateDatabaseToolsPrivateEndpoint,
-	"update_database_tools_private_endpoint": OperationTypeUpdateDatabaseToolsPrivateEndpoint,
-	"delete_database_tools_private_endpoint": OperationTypeDeleteDatabaseToolsPrivateEndpoint,
+	"create_database_tools_connection":           OperationTypeCreateDatabaseToolsConnection,
+	"update_database_tools_connection":           OperationTypeUpdateDatabaseToolsConnection,
+	"delete_database_tools_connection":           OperationTypeDeleteDatabaseToolsConnection,
+	"create_database_tools_service_instance":     OperationTypeCreateDatabaseToolsServiceInstance,
+	"update_database_tools_service_instance":     OperationTypeUpdateDatabaseToolsServiceInstance,
+	"delete_database_tools_service_instance":     OperationTypeDeleteDatabaseToolsServiceInstance,
+	"create_database_tools_private_endpoint":     OperationTypeCreateDatabaseToolsPrivateEndpoint,
+	"update_database_tools_private_endpoint":     OperationTypeUpdateDatabaseToolsPrivateEndpoint,
+	"delete_database_tools_private_endpoint":     OperationTypeDeleteDatabaseToolsPrivateEndpoint,
+	"create_database_tools_identity":             OperationTypeCreateDatabaseToolsIdentity,
+	"delete_database_tools_identity":             OperationTypeDeleteDatabaseToolsIdentity,
+	"update_database_tools_identity":             OperationTypeUpdateDatabaseToolsIdentity,
+	"refresh_database_tools_identity_credential": OperationTypeRefreshDatabaseToolsIdentityCredential,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -74,6 +86,10 @@ func GetOperationTypeEnumStringValues() []string {
 		"CREATE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
 		"UPDATE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
 		"DELETE_DATABASE_TOOLS_PRIVATE_ENDPOINT",
+		"CREATE_DATABASE_TOOLS_IDENTITY",
+		"DELETE_DATABASE_TOOLS_IDENTITY",
+		"UPDATE_DATABASE_TOOLS_IDENTITY",
+		"REFRESH_DATABASE_TOOLS_IDENTITY_CREDENTIAL",
 	}
 }
 
