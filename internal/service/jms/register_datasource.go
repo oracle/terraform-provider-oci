@@ -16,6 +16,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_jms_fleet_diagnoses", JmsFleetDiagnosesDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_drs_file", JmsFleetDrsFileDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_drs_files", JmsFleetDrsFilesDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_error_analytics", JmsFleetErrorAnalyticsDataSource())
+	tfresource.RegisterDatasource("oci_jms_fleet_errors", JmsFleetErrorsDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_export_setting", JmsFleetExportSettingDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_export_status", JmsFleetExportStatusDataSource())
 	tfresource.RegisterDatasource("oci_jms_fleet_installation_site", JmsFleetInstallationSiteDataSource())
@@ -31,6 +33,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_jms_java_releases", JmsJavaReleasesDataSource())
 	tfresource.RegisterDatasource("oci_jms_jms_plugin", JmsJmsPluginDataSource())
 	tfresource.RegisterDatasource("oci_jms_jms_plugins", JmsJmsPluginsDataSource())
+	tfresource.RegisterDatasource("oci_jms_plugin_error_analytics", JmsPluginErrorAnalyticsDataSource())
+	tfresource.RegisterDatasource("oci_jms_plugin_errors", JmsPluginErrorsDataSource())
 	tfresource.RegisterDatasource("oci_jms_list_jre_usage", JmsListJreUsageDataSource())
 	tfresource.RegisterDatasource("oci_jms_summarize_resource_inventory", JmsSummarizeResourceInventoryDataSource())
 }

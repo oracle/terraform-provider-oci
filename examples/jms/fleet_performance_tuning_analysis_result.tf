@@ -10,7 +10,8 @@ data "oci_jms_fleet_performance_tuning_analysis_results" "test_jms_fleet_perform
 	fleet_id = var.fleet_ocid
 
 	#Optional
-  application_id = var.application_id
+    application_id = var.application_id
+	application_name    = var.application.name
 	managed_instance_id = var.managed_instance_ocid
 	host_name = var.host_name
 	time_start = var.time_start

@@ -19,6 +19,7 @@ data "oci_jms_jms_plugins" "test_jms_plugins" {
 
 	#Optional
 	agent_id = var.jms_plugin_agent_id
+	agent_type = var.jms_plugin_agent_type
 	availability_status = var.jms_plugin_availability_status
 	compartment_id = var.compartment_id
 	compartment_id_in_subtree = var.jms_plugin_compartment_id_in_subtree
@@ -36,6 +37,7 @@ data "oci_jms_jms_plugins" "test_jms_plugins" {
 The following arguments are supported:
 
 * `agent_id` - (Optional) The ManagementAgent (OMA) or Instance (OCA) [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) that identifies the Agent.
+* `agent_type` - (Optional) Filter JmsPlugin with agent type.
 * `availability_status` - (Optional) Filter JmsPlugin with its availability status.
 * `compartment_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment in which to list resources. 
 * `compartment_id_in_subtree` - (Optional) Flag to determine whether the info should be gathered only in the compartment or in the compartment and its subcompartments. 

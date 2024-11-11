@@ -21,6 +21,7 @@ data "oci_jms_fleet_performance_tuning_analysis_results" "test_fleet_performance
 
 	#Optional
 	application_id = var.fleet_performance_tuning_analysis_result_application_id
+	application_name = var.fleet_performance_tuning_analysis_result_application_name
 	host_name = var.fleet_performance_tuning_analysis_result_host_name
 	managed_instance_id = var.fleet_performance_tuning_analysis_result_managed_instance_id
 	time_end = var.fleet_performance_tuning_analysis_result_time_end
@@ -33,6 +34,7 @@ data "oci_jms_fleet_performance_tuning_analysis_results" "test_fleet_performance
 The following arguments are supported:
 
 * `application_id` - (Optional) The Fleet-unique identifier of the related application.
+* `application_name` - (Optional) The name of the application.
 * `fleet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Fleet.
 * `host_name` - (Optional) The host [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the managed instance.
 * `managed_instance_id` - (Optional) The Fleet-unique identifier of the related managed instance.
