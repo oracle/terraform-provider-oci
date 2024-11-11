@@ -1,8 +1,10 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Generative AI Agents Management API
+//
+// **Generative AI Agents API**
 //
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
@@ -19,7 +21,8 @@ import (
 	"strings"
 )
 
-// WorkRequestErrorCollection A list of work request errors. Can contain both errors and other information, such as metadata.
+// WorkRequestErrorCollection **WorkRequestErrorCollection**
+// A list of work request errors. Can contain both errors and other information, such as metadata.
 type WorkRequestErrorCollection struct {
 
 	// A list of work request errors.

@@ -1,8 +1,10 @@
-// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
 // Generative AI Agents Management API
+//
+// **Generative AI Agents API**
 //
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
@@ -20,17 +22,14 @@ import (
 	"strings"
 )
 
-// DataSourceConfig The details of data source.
+// DataSourceConfig **DataSourceConfig**
+// The details of data source.
 type DataSourceConfig interface {
-
-	// Flag to enable or disable multi modality such as image processing while ingestion of data. True enable the processing and false exclude the multi modality contents during ingestion.
-	GetShouldEnableMultiModality() *bool
 }
 
 type datasourceconfig struct {
-	JsonData                  []byte
-	ShouldEnableMultiModality *bool  `mandatory:"false" json:"shouldEnableMultiModality"`
-	DataSourceConfigType      string `json:"dataSourceConfigType"`
+	JsonData             []byte
+	DataSourceConfigType string `json:"dataSourceConfigType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -44,7 +43,6 @@ func (m *datasourceconfig) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
-	m.ShouldEnableMultiModality = s.Model.ShouldEnableMultiModality
 	m.DataSourceConfigType = s.Model.DataSourceConfigType
 
 	return err
@@ -67,11 +65,6 @@ func (m *datasourceconfig) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		common.Logf("Recieved unsupported enum value for DataSourceConfig: %s.", m.DataSourceConfigType)
 		return *m, nil
 	}
-}
-
-// GetShouldEnableMultiModality returns ShouldEnableMultiModality
-func (m datasourceconfig) GetShouldEnableMultiModality() *bool {
-	return m.ShouldEnableMultiModality
 }
 
 func (m datasourceconfig) String() string {

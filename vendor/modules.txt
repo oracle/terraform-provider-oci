@@ -286,6 +286,7 @@ github.com/oracle/oci-go-sdk/v65/fleetsoftwareupdate
 github.com/oracle/oci-go-sdk/v65/functions
 github.com/oracle/oci-go-sdk/v65/fusionapps
 github.com/oracle/oci-go-sdk/v65/generativeai
+github.com/oracle/oci-go-sdk/v65/generativeaiagent
 github.com/oracle/oci-go-sdk/v65/genericartifactscontent
 github.com/oracle/oci-go-sdk/v65/globallydistributeddatabase
 github.com/oracle/oci-go-sdk/v65/goldengate
