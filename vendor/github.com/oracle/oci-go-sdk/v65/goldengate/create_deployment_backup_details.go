@@ -45,6 +45,9 @@ type CreateDeploymentBackupDetails struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Parameter to allow users to create backup without trails
+	IsMetadataOnly *bool `mandatory:"false" json:"isMetadataOnly"`
+
 	// Locks associated with this resource.
 	Locks []AddResourceLockDetails `mandatory:"false" json:"locks"`
 }

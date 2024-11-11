@@ -89,6 +89,9 @@ type ConnectionSummary interface {
 
 	// Locks associated with this resource.
 	GetLocks() []ResourceLock
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	GetDoesUseSecretIds() *bool
 }
 
 type connectionsummary struct {
@@ -105,6 +108,7 @@ type connectionsummary struct {
 	SubnetId         *string                           `mandatory:"false" json:"subnetId"`
 	RoutingMethod    RoutingMethodEnum                 `mandatory:"false" json:"routingMethod,omitempty"`
 	Locks            []ResourceLock                    `mandatory:"false" json:"locks"`
+	DoesUseSecretIds *bool                             `mandatory:"false" json:"doesUseSecretIds"`
 	Id               *string                           `mandatory:"true" json:"id"`
 	DisplayName      *string                           `mandatory:"true" json:"displayName"`
 	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
@@ -143,6 +147,7 @@ func (m *connectionsummary) UnmarshalJSON(data []byte) error {
 	m.SubnetId = s.Model.SubnetId
 	m.RoutingMethod = s.Model.RoutingMethod
 	m.Locks = s.Model.Locks
+	m.DoesUseSecretIds = s.Model.DoesUseSecretIds
 	m.ConnectionType = s.Model.ConnectionType
 
 	return err
@@ -317,6 +322,11 @@ func (m connectionsummary) GetRoutingMethod() RoutingMethodEnum {
 // GetLocks returns Locks
 func (m connectionsummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m connectionsummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 // GetId returns Id

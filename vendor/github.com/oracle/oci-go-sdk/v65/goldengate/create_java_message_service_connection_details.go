@@ -58,6 +58,9 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The Connection Factory can be looked up using this name.
 	// e.g.: 'ConnectionFactory'
 	JndiConnectionFactory *string `mandatory:"false" json:"jndiConnectionFactory"`
@@ -78,6 +81,10 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// The password associated to the principal.
 	JndiSecurityCredentials *string `mandatory:"false" json:"jndiSecurityCredentials"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
+	// Note: When provided, 'jndiSecurityCredentials' field must not be provided.
+	JndiSecurityCredentialsSecretId *string `mandatory:"false" json:"jndiSecurityCredentialsSecretId"`
+
 	// Connectin URL of the Java Message Service, specifying the protocol, host, and port.
 	// e.g.: 'mq://myjms.host.domain:7676'
 	ConnectionUrl *string `mandatory:"false" json:"connectionUrl"`
@@ -94,21 +101,47 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	// The password Oracle GoldenGate uses to connect the associated Java Message Service.
 	Password *string `mandatory:"false" json:"password"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// that Oracle GoldenGate uses to connect the associated Java Message Service.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// The base64 encoded content of the TrustStore file.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
+	// Note: When provided, 'trustStore' field must not be provided.
+	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
 	// The TrustStore password.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
+	// Note: When provided, 'trustStorePassword' field must not be provided.
+	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
+
 	// The base64 encoded content of the KeyStore file.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
+	// Note: When provided, 'keyStore' field must not be provided.
+	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
 	// The KeyStore password.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
+	// Note: When provided, 'keyStorePassword' field must not be provided.
+	KeyStorePasswordSecretId *string `mandatory:"false" json:"keyStorePasswordSecretId"`
+
 	// The password for the cert inside of the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.
+	// In case it differs from the KeyStore password, it should be provided.
+	// Note: When provided, 'sslKeyPassword' field must not be provided.
+	SslKeyPasswordSecretId *string `mandatory:"false" json:"sslKeyPasswordSecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -190,6 +223,11 @@ func (m CreateJavaMessageServiceConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateJavaMessageServiceConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateJavaMessageServiceConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateJavaMessageServiceConnectionDetails) String() string {
