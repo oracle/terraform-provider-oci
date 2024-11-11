@@ -24,6 +24,10 @@ func JmsFleetPerformanceTuningAnalysisResultsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"application_name": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"fleet_id": {
 				Type:     schema.TypeString,
 				Required: true,
@@ -161,6 +165,11 @@ func (s *JmsFleetPerformanceTuningAnalysisResultsDataSourceCrud) Get() error {
 	if applicationId, ok := s.D.GetOkExists("application_id"); ok {
 		tmp := applicationId.(string)
 		request.ApplicationId = &tmp
+	}
+
+	if applicationName, ok := s.D.GetOkExists("application_name"); ok {
+		tmp := applicationName.(string)
+		request.ApplicationName = &tmp
 	}
 
 	if fleetId, ok := s.D.GetOkExists("fleet_id"); ok {
