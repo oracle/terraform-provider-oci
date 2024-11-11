@@ -55,6 +55,9 @@ type CreateGoldenGateConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the deployment being referenced.
 	DeploymentId *string `mandatory:"false" json:"deploymentId"`
 
@@ -69,6 +72,11 @@ type CreateGoldenGateConnectionDetails struct {
 
 	// The password used to connect to the Oracle GoldenGate accessed trough this connection.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// which is used to connect to the Oracle GoldenGate accessed trough this connection.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -142,6 +150,11 @@ func (m CreateGoldenGateConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateGoldenGateConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateGoldenGateConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateGoldenGateConnectionDetails) String() string {

@@ -84,6 +84,9 @@ type AzureDataLakeStorageConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
 	AzureTenantId *string `mandatory:"false" json:"azureTenantId"`
@@ -95,6 +98,18 @@ type AzureDataLakeStorageConnection struct {
 	// Azure Storage service endpoint.
 	// e.g: https://test.blob.core.windows.net
 	Endpoint *string `mandatory:"false" json:"endpoint"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
+	// Note: When provided, 'accountKey' field must not be provided.
+	AccountKeySecretId *string `mandatory:"false" json:"accountKeySecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored.
+	// Note: When provided, 'sasToken' field must not be provided.
+	SasTokenSecretId *string `mandatory:"false" json:"sasTokenSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
+	// Note: When provided, 'clientSecret' field must not be provided.
+	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
 
 	// The Azure Data Lake Storage technology type.
 	TechnologyType AzureDataLakeStorageConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -200,6 +215,11 @@ func (m AzureDataLakeStorageConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AzureDataLakeStorageConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m AzureDataLakeStorageConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m AzureDataLakeStorageConnection) String() string {
