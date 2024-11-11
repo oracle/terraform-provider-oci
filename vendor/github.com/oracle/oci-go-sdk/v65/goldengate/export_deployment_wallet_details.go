@@ -30,6 +30,9 @@ type ExportDeploymentWalletDetails struct {
 	// Name of the secret with which secret is shown in vault
 	SecretName *string `mandatory:"true" json:"secretName"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment, where the secret will be created in.
+	SecretCompartmentId *string `mandatory:"false" json:"secretCompartmentId"`
+
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 }

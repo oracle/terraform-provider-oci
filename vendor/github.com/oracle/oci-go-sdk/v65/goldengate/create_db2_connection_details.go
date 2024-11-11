@@ -38,9 +38,6 @@ type CreateDb2ConnectionDetails struct {
 	// This username must already exist and be available by the DB2 to be connected to.
 	Username *string `mandatory:"true" json:"username"`
 
-	// The password Oracle GoldenGate uses to connect the associated DB2 database.
-	Password *string `mandatory:"true" json:"password"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -71,6 +68,17 @@ type CreateDb2ConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The password Oracle GoldenGate uses to connect the associated DB2 database.
+	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
+	// that Oracle GoldenGate uses to connect the associated DB2 database.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
@@ -78,8 +86,18 @@ type CreateDb2ConnectionDetails struct {
 	// The base64 encoded keystore file created at the client containing the server certificate / CA root certificate.
 	SslClientKeystoredb *string `mandatory:"false" json:"sslClientKeystoredb"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,
+	// which created at the client containing the server certificate / CA root certificate.
+	// Note: When provided, 'sslClientKeystoredb' field must not be provided.
+	SslClientKeystoredbSecretId *string `mandatory:"false" json:"sslClientKeystoredbSecretId"`
+
 	// The base64 encoded keystash file which contains the encrypted password to the key database file.
 	SslClientKeystash *string `mandatory:"false" json:"sslClientKeystash"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,
+	// which contains the encrypted password to the key database file.
+	// Note: When provided, 'sslClientKeystash' field must not be provided.
+	SslClientKeystashSecretId *string `mandatory:"false" json:"sslClientKeystashSecretId"`
 
 	// The base64 encoded file which contains the self-signed server certificate / Certificate Authority (CA) certificate.
 	SslServerCertificate *string `mandatory:"false" json:"sslServerCertificate"`
@@ -150,6 +168,11 @@ func (m CreateDb2ConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateDb2ConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateDb2ConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateDb2ConnectionDetails) String() string {

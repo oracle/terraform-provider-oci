@@ -29,10 +29,6 @@ type CreateAmazonS3ConnectionDetails struct {
 	// e.g.: "this-is-not-the-secret"
 	AccessKeyId *string `mandatory:"true" json:"accessKeyId"`
 
-	// Secret access key to access the Amazon S3 bucket.
-	// e.g.: "this-is-not-the-secret"
-	SecretAccessKey *string `mandatory:"true" json:"secretAccessKey"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -62,6 +58,17 @@ type CreateAmazonS3ConnectionDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
+
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// Secret access key to access the Amazon S3 bucket.
+	// e.g.: "this-is-not-the-secret"
+	SecretAccessKey *string `mandatory:"false" json:"secretAccessKey"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the Secret Access Key is stored.
+	// Note: When provided, 'secretAccessKey' field must not be provided.
+	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
@@ -126,6 +133,11 @@ func (m CreateAmazonS3ConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateAmazonS3ConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateAmazonS3ConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateAmazonS3ConnectionDetails) String() string {

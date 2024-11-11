@@ -55,6 +55,9 @@ type CreateMongoDbConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// MongoDB connection string.
 	// e.g.: 'mongodb://mongodb0.example.com:27017/recordsrecords'
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
@@ -65,6 +68,10 @@ type CreateMongoDbConnectionDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated database.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated database.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Autonomous Json Database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
@@ -132,6 +139,11 @@ func (m CreateMongoDbConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateMongoDbConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateMongoDbConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateMongoDbConnectionDetails) String() string {

@@ -90,6 +90,16 @@ type AmazonRedshiftConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// The Amazon Redshift technology type.
 	TechnologyType AmazonRedshiftConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -191,6 +201,11 @@ func (m AmazonRedshiftConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AmazonRedshiftConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m AmazonRedshiftConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m AmazonRedshiftConnection) String() string {

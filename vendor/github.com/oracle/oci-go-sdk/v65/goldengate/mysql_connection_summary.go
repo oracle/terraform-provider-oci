@@ -86,6 +86,9 @@ type MysqlConnectionSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The name or address of a host.
 	Host *string `mandatory:"false" json:"host"`
 
@@ -110,6 +113,18 @@ type MysqlConnectionSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database system being referenced.
 	DbSystemId *string `mandatory:"false" json:"dbSystemId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the Client Key
+	// - The content of a .pem or .crt file containing the client private key (for 2-way SSL).
+	// Note: When provided, 'sslKey' field must not be provided.
+	SslKeySecretId *string `mandatory:"false" json:"sslKeySecretId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -218,6 +233,11 @@ func (m MysqlConnectionSummary) GetRoutingMethod() RoutingMethodEnum {
 // GetLocks returns Locks
 func (m MysqlConnectionSummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m MysqlConnectionSummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m MysqlConnectionSummary) String() string {

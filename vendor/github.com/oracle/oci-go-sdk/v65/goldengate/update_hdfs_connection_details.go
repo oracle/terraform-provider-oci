@@ -49,6 +49,9 @@ type UpdateHdfsConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The base64 encoded content of the Hadoop Distributed File System configuration file (core-site.xml).
 	CoreSiteXml *string `mandatory:"false" json:"coreSiteXml"`
 
@@ -102,6 +105,11 @@ func (m UpdateHdfsConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m UpdateHdfsConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m UpdateHdfsConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m UpdateHdfsConnectionDetails) String() string {

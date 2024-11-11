@@ -30,10 +30,6 @@ type CreateOracleConnectionDetails struct {
 	// and must conform to the case sensitivty requirments defined in it.
 	Username *string `mandatory:"true" json:"username"`
 
-	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
-	// It must conform to the specific security requirements including length, case sensitivity, and so on.
-	Password *string `mandatory:"true" json:"password"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -64,12 +60,31 @@ type CreateOracleConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
 	// The wallet contents Oracle GoldenGate uses to make connections to a database.
 	// This attribute is expected to be base64 encoded.
 	Wallet *string `mandatory:"false" json:"wallet"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.
+	// Note: When provided, 'wallet' field must not be provided.
+	WalletSecretId *string `mandatory:"false" json:"walletSecretId"`
 
 	// Deprecated: this field will be removed in future versions. Either specify the private IP in the connectionString or host
 	// field, or make sure the host name is resolvable in the target VCN.
@@ -156,6 +171,11 @@ func (m CreateOracleConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateOracleConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateOracleConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateOracleConnectionDetails) String() string {

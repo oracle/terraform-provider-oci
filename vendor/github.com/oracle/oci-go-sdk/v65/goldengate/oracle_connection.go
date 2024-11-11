@@ -86,6 +86,9 @@ type OracleConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// Connect descriptor or Easy Connect Naming method used to connect to a database.
 	ConnectionString *string `mandatory:"false" json:"connectionString"`
 
@@ -100,6 +103,18 @@ type OracleConnection struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the database being referenced.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
+	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
+	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// If secretId is used plaintext field must not be provided.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the wallet file is stored.
+	// The wallet contents Oracle GoldenGate uses to make connections to a database.
+	// Note: When provided, 'wallet' field must not be provided.
+	WalletSecretId *string `mandatory:"false" json:"walletSecretId"`
 
 	// The Oracle technology type.
 	TechnologyType OracleConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
@@ -212,6 +227,11 @@ func (m OracleConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m OracleConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m OracleConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m OracleConnection) String() string {

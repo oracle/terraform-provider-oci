@@ -94,6 +94,9 @@ type MicrosoftSqlserverConnectionSummary struct {
 	// Locks associated with this resource.
 	Locks []ResourceLock `mandatory:"false" json:"locks"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
@@ -113,6 +116,10 @@ type MicrosoftSqlserverConnectionSummary struct {
 	// In case the privateIp (and the subnetId) is not provided it is assumed the datasource is publicly accessible.
 	// In case the connection is accessible only privately, the lack of privateIp will result in not being able to access the connection.
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated Microsoft SQL Server.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// Possible lifecycle states for connection.
 	LifecycleState ConnectionLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
@@ -218,6 +225,11 @@ func (m MicrosoftSqlserverConnectionSummary) GetRoutingMethod() RoutingMethodEnu
 // GetLocks returns Locks
 func (m MicrosoftSqlserverConnectionSummary) GetLocks() []ResourceLock {
 	return m.Locks
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m MicrosoftSqlserverConnectionSummary) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m MicrosoftSqlserverConnectionSummary) String() string {
