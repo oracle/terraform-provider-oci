@@ -39,7 +39,7 @@ resource "oci_stack_monitoring_monitored_resource_type" "test_monitored_resource
   }
   lifecycle  {
     ignore_changes = [
-      freeform_tags, defined_tags, system_tags, compartment_id,
+      freeform_tags, defined_tags, system_tags, id, name, state, time_created, time_updated, metadata
     ]
 
   }

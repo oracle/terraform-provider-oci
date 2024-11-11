@@ -46,16 +46,6 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 				Elem: &schema.Resource{
 					Schema: map[string]*schema.Schema{
 						// Required
-						"namespace": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
-						"source": {
-							Type:     schema.TypeString,
-							Required: true,
-							ForceNew: true,
-						},
 						"type": {
 							Type:             schema.TypeString,
 							Required:         true,
@@ -63,10 +53,18 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
 								"IMPORT_OCI_TELEMETRY_RESOURCES",
+								"UPDATE_AGENT_RECEIVER",
+								"UPDATE_RESOURCE_TYPE_CONFIGS",
 							}, true),
 						},
 
 						// Optional
+						"agent_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"availability_proxy_metric_collection_interval": {
 							Type:     schema.TypeInt,
 							Optional: true,
@@ -92,12 +90,53 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"handler_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"is_enable": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"lifecycle_status_mappings_for_up_status": {
 							Type:     schema.TypeList,
 							Optional: true,
 							ForceNew: true,
 							Elem: &schema.Schema{
 								Type: schema.TypeString,
+							},
+						},
+						"namespace": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"receiver_properties": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"listener_port": {
+										Type:     schema.TypeInt,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
 							},
 						},
 						"resource_group": {
@@ -126,6 +165,274 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 							Optional: true,
 							ForceNew: true,
 						},
+						"resource_types_configuration": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+									"availability_metrics_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"collection_interval_in_seconds": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"metrics": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+
+												// Computed
+											},
+										},
+									},
+									"handler_config": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										MaxItems: 1,
+										MinItems: 1,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"collectd_resource_name_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"exclude_properties": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"include_properties": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"suffix": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"collector_types": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Schema{
+														Type: schema.TypeString,
+													},
+												},
+												"handler_properties": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"value": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"metric_mappings": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"collector_metric_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_skip_upload": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"metric_upload_interval_in_seconds": {
+																Type:     schema.TypeInt,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"telemetry_metric_name": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"metric_name_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"exclude_pattern_on_prefix": {
+																Type:     schema.TypeString,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+															"is_prefix_with_collector_type": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"metric_upload_interval_in_seconds": {
+													Type:     schema.TypeInt,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"telegraf_resource_name_config": {
+													Type:     schema.TypeList,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+													MaxItems: 1,
+													MinItems: 1,
+													Elem: &schema.Resource{
+														Schema: map[string]*schema.Schema{
+															// Required
+
+															// Optional
+															"exclude_tags": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"include_tags": {
+																Type:     schema.TypeList,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+																Elem: &schema.Schema{
+																	Type: schema.TypeString,
+																},
+															},
+															"is_use_tags_only": {
+																Type:     schema.TypeBool,
+																Optional: true,
+																Computed: true,
+																ForceNew: true,
+															},
+
+															// Computed
+														},
+													},
+												},
+												"telemetry_resource_group": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+									"resource_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 						"service_base_url": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -133,6 +440,12 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 						},
 						"should_use_metrics_flow_for_status": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"source": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
@@ -183,6 +496,10 @@ func StackMonitoringMonitoredResourceTaskResource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"type": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -524,9 +841,249 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.Type != nil {
+		s.D.Set("type", *s.Res.Type)
+	}
+
 	s.D.Set("work_request_ids", s.Res.WorkRequestIds)
 
 	return nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToAgentExtensionHandlerConfiguration(fieldKeyFormat string) (oci_stack_monitoring.AgentExtensionHandlerConfiguration, error) {
+	result := oci_stack_monitoring.AgentExtensionHandlerConfiguration{}
+
+	if collectdResourceNameConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collectd_resource_name_config")); ok {
+		if tmpList := collectdResourceNameConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "collectd_resource_name_config"), 0)
+			tmp, err := s.mapToCollectdResourceNameConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert collectd_resource_name_config, encountered error: %v", err)
+			}
+			result.CollectdResourceNameConfig = &tmp
+		}
+	}
+
+	if collectorTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collector_types")); ok {
+		interfaces := collectorTypes.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "collector_types")) {
+			result.CollectorTypes = tmp
+		}
+	}
+
+	if handlerProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "handler_properties")); ok {
+		interfaces := handlerProperties.([]interface{})
+		tmp := make([]oci_stack_monitoring.AgentExtensionHandlerConfigurationProperty, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "handler_properties"), stateDataIndex)
+			converted, err := s.mapToAgentExtensionHandlerConfigurationProperty(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "handler_properties")) {
+			result.HandlerProperties = tmp
+		}
+	}
+
+	if metricMappings, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_mappings")); ok {
+		interfaces := metricMappings.([]interface{})
+		tmp := make([]oci_stack_monitoring.AgentExtensionHandlerMetricMappingDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric_mappings"), stateDataIndex)
+			converted, err := s.mapToAgentExtensionHandlerMetricMappingDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "metric_mappings")) {
+			result.MetricMappings = tmp
+		}
+	}
+
+	if metricNameConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_name_config")); ok {
+		if tmpList := metricNameConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "metric_name_config"), 0)
+			tmp, err := s.mapToMetricNameConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert metric_name_config, encountered error: %v", err)
+			}
+			result.MetricNameConfig = &tmp
+		}
+	}
+
+	if metricUploadIntervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_upload_interval_in_seconds")); ok {
+		tmp := metricUploadIntervalInSeconds.(int)
+		result.MetricUploadIntervalInSeconds = &tmp
+	}
+
+	if telegrafResourceNameConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "telegraf_resource_name_config")); ok {
+		if tmpList := telegrafResourceNameConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "telegraf_resource_name_config"), 0)
+			tmp, err := s.mapToTelegrafResourceNameConfigurationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert telegraf_resource_name_config, encountered error: %v", err)
+			}
+			result.TelegrafResourceNameConfig = &tmp
+		}
+	}
+
+	if telemetryResourceGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "telemetry_resource_group")); ok {
+		tmp := telemetryResourceGroup.(string)
+		result.TelemetryResourceGroup = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToAgentExtensionHandlerConfigurationProperty(fieldKeyFormat string) (oci_stack_monitoring.AgentExtensionHandlerConfigurationProperty, error) {
+	result := oci_stack_monitoring.AgentExtensionHandlerConfigurationProperty{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToAgentExtensionHandlerMetricMappingDetails(fieldKeyFormat string) (oci_stack_monitoring.AgentExtensionHandlerMetricMappingDetails, error) {
+	result := oci_stack_monitoring.AgentExtensionHandlerMetricMappingDetails{}
+
+	if collectorMetricName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collector_metric_name")); ok {
+		tmp := collectorMetricName.(string)
+		result.CollectorMetricName = &tmp
+	}
+
+	if isSkipUpload, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_skip_upload")); ok {
+		tmp := isSkipUpload.(bool)
+		result.IsSkipUpload = &tmp
+	}
+
+	if metricUploadIntervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metric_upload_interval_in_seconds")); ok {
+		tmp := metricUploadIntervalInSeconds.(int)
+		result.MetricUploadIntervalInSeconds = &tmp
+	}
+
+	if telemetryMetricName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "telemetry_metric_name")); ok {
+		tmp := telemetryMetricName.(string)
+		result.TelemetryMetricName = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToAgentReceiverProperties(fieldKeyFormat string) (oci_stack_monitoring.AgentReceiverProperties, error) {
+	result := oci_stack_monitoring.AgentReceiverProperties{}
+
+	if listenerPort, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "listener_port")); ok {
+		tmp := listenerPort.(int)
+		result.ListenerPort = &tmp
+	}
+
+	return result, nil
+}
+
+func AgentReceiverPropertiesToMap(obj *oci_stack_monitoring.AgentReceiverProperties) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ListenerPort != nil {
+		result["listener_port"] = int(*obj.ListenerPort)
+	}
+
+	return result
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToAvailabilityMetricsDetails(fieldKeyFormat string) (oci_stack_monitoring.AvailabilityMetricsDetails, error) {
+	result := oci_stack_monitoring.AvailabilityMetricsDetails{}
+
+	if collectionIntervalInSeconds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collection_interval_in_seconds")); ok {
+		tmp := collectionIntervalInSeconds.(int)
+		result.CollectionIntervalInSeconds = &tmp
+	}
+
+	if metrics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "metrics")); ok {
+		interfaces := metrics.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "metrics")) {
+			result.Metrics = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToCollectdResourceNameConfigurationDetails(fieldKeyFormat string) (oci_stack_monitoring.CollectdResourceNameConfigurationDetails, error) {
+	result := oci_stack_monitoring.CollectdResourceNameConfigurationDetails{}
+
+	if excludeProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_properties")); ok {
+		interfaces := excludeProperties.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_properties")) {
+			result.ExcludeProperties = tmp
+		}
+	}
+
+	if includeProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include_properties")); ok {
+		interfaces := includeProperties.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "include_properties")) {
+			result.IncludeProperties = tmp
+		}
+	}
+
+	if suffix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "suffix")); ok {
+		tmp := suffix.(string)
+		result.Suffix = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToMetricNameConfigurationDetails(fieldKeyFormat string) (oci_stack_monitoring.MetricNameConfigurationDetails, error) {
+	result := oci_stack_monitoring.MetricNameConfigurationDetails{}
+
+	if excludePatternOnPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_pattern_on_prefix")); ok {
+		tmp := excludePatternOnPrefix.(string)
+		result.ExcludePatternOnPrefix = &tmp
+	}
+
+	if isPrefixWithCollectorType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_prefix_with_collector_type")); ok {
+		tmp := isPrefixWithCollectorType.(bool)
+		result.IsPrefixWithCollectorType = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToMonitoredResourceTaskDetails(fieldKeyFormat string) (oci_stack_monitoring.MonitoredResourceTaskDetails, error) {
@@ -614,6 +1171,52 @@ func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToMonitoredResourc
 			details.Source = oci_stack_monitoring.ImportOciTelemetryResourcesTaskDetailsSourceEnum(source.(string))
 		}
 		baseObject = details
+	case strings.ToLower("UPDATE_AGENT_RECEIVER"):
+		details := oci_stack_monitoring.UpdateAgentReceiverTaskDetails{}
+		if agentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "agent_id")); ok {
+			tmp := agentId.(string)
+			details.AgentId = &tmp
+		}
+		if handlerType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "handler_type")); ok {
+			details.HandlerType = oci_stack_monitoring.HandlerTypeEnum(handlerType.(string))
+		}
+		if isEnable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enable")); ok {
+			tmp := isEnable.(bool)
+			details.IsEnable = &tmp
+		}
+		if receiverProperties, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "receiver_properties")); ok {
+			if tmpList := receiverProperties.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "receiver_properties"), 0)
+				tmp, err := s.mapToAgentReceiverProperties(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert receiver_properties, encountered error: %v", err)
+				}
+				details.ReceiverProperties = &tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("UPDATE_RESOURCE_TYPE_CONFIGS"):
+		details := oci_stack_monitoring.UpdateResourceTypeConfigTaskDetails{}
+		if handlerType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "handler_type")); ok {
+			details.HandlerType = oci_stack_monitoring.HandlerTypeEnum(handlerType.(string))
+		}
+		if resourceTypesConfiguration, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_types_configuration")); ok {
+			interfaces := resourceTypesConfiguration.([]interface{})
+			tmp := make([]oci_stack_monitoring.ResourceTypeConfigDetails, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "resource_types_configuration"), stateDataIndex)
+				converted, err := s.mapToResourceTypeConfigDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "resource_types_configuration")) {
+				details.ResourceTypesConfiguration = tmp
+			}
+		}
+		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
 	}
@@ -675,6 +1278,32 @@ func MonitoredResourceTaskDetailsToMap(obj *oci_stack_monitoring.MonitoredResour
 		}
 
 		result["source"] = string(v.Source)
+	case oci_stack_monitoring.UpdateAgentReceiverTaskDetails:
+		result["type"] = "UPDATE_AGENT_RECEIVER"
+
+		if v.AgentId != nil {
+			result["agent_id"] = string(*v.AgentId)
+		}
+
+		result["handler_type"] = string(v.HandlerType)
+
+		if v.IsEnable != nil {
+			result["is_enable"] = bool(*v.IsEnable)
+		}
+
+		if v.ReceiverProperties != nil {
+			result["receiver_properties"] = []interface{}{AgentReceiverPropertiesToMap(v.ReceiverProperties)}
+		}
+	case oci_stack_monitoring.UpdateResourceTypeConfigTaskDetails:
+		result["type"] = "UPDATE_RESOURCE_TYPE_CONFIGS"
+
+		result["handler_type"] = string(v.HandlerType)
+
+		resourceTypesConfiguration := []interface{}{}
+		for _, item := range v.ResourceTypesConfiguration {
+			resourceTypesConfiguration = append(resourceTypesConfiguration, ResourceTypeConfigDetailsToMap(item))
+		}
+		result["resource_types_configuration"] = resourceTypesConfiguration
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)
 		return nil
@@ -722,9 +1351,101 @@ func MonitoredResourceTaskSummaryToMap(obj oci_stack_monitoring.MonitoredResourc
 		result["time_updated"] = obj.TimeUpdated.String()
 	}
 
+	if obj.Type != nil {
+		result["type"] = string(*obj.Type)
+	}
+
 	result["work_request_ids"] = obj.WorkRequestIds
 
 	return result
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToResourceTypeConfigDetails(fieldKeyFormat string) (oci_stack_monitoring.ResourceTypeConfigDetails, error) {
+	result := oci_stack_monitoring.ResourceTypeConfigDetails{}
+
+	if availabilityMetricsConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "availability_metrics_config")); ok {
+		if tmpList := availabilityMetricsConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "availability_metrics_config"), 0)
+			tmp, err := s.mapToAvailabilityMetricsDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert availability_metrics_config, encountered error: %v", err)
+			}
+			result.AvailabilityMetricsConfig = &tmp
+		}
+	}
+
+	if handlerConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "handler_config")); ok {
+		if tmpList := handlerConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "handler_config"), 0)
+			tmp, err := s.mapToAgentExtensionHandlerConfiguration(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert handler_config, encountered error: %v", err)
+			}
+			result.HandlerConfig = &tmp
+		}
+	}
+
+	if resourceType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_type")); ok {
+		tmp := resourceType.(string)
+		result.ResourceType = &tmp
+	}
+
+	return result, nil
+}
+
+func ResourceTypeConfigDetailsToMap(obj oci_stack_monitoring.ResourceTypeConfigDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AvailabilityMetricsConfig != nil {
+		result["availability_metrics_config"] = []interface{}{AvailabilityMetricsDetailsToMap(obj.AvailabilityMetricsConfig)}
+	}
+
+	if obj.HandlerConfig != nil {
+		result["handler_config"] = []interface{}{AgentExtensionHandlerConfigurationToMap(obj.HandlerConfig)}
+	}
+
+	if obj.ResourceType != nil {
+		result["resource_type"] = string(*obj.ResourceType)
+	}
+
+	return result
+}
+
+func (s *StackMonitoringMonitoredResourceTaskResourceCrud) mapToTelegrafResourceNameConfigurationDetails(fieldKeyFormat string) (oci_stack_monitoring.TelegrafResourceNameConfigurationDetails, error) {
+	result := oci_stack_monitoring.TelegrafResourceNameConfigurationDetails{}
+
+	if excludeTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "exclude_tags")); ok {
+		interfaces := excludeTags.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "exclude_tags")) {
+			result.ExcludeTags = tmp
+		}
+	}
+
+	if includeTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "include_tags")); ok {
+		interfaces := includeTags.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "include_tags")) {
+			result.IncludeTags = tmp
+		}
+	}
+
+	if isUseTagsOnly, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_use_tags_only")); ok {
+		tmp := isUseTagsOnly.(bool)
+		result.IsUseTagsOnly = &tmp
+	}
+
+	return result, nil
 }
 
 func (s *StackMonitoringMonitoredResourceTaskResourceCrud) updateCompartment(compartment interface{}) error {

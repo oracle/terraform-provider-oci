@@ -175,6 +175,195 @@ func StackMonitoringMonitoredResourceTypeResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"availability_metrics_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"collection_interval_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"metrics": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+					},
+				},
+			},
+			"handler_config": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"collectd_resource_name_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"exclude_properties": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"include_properties": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"suffix": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"collector_types": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"handler_properties": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"metric_mappings": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"collector_metric_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_skip_upload": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+									"metric_upload_interval_in_seconds": {
+										Type:     schema.TypeInt,
+										Computed: true,
+									},
+									"telemetry_metric_name": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"metric_name_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"exclude_pattern_on_prefix": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"is_prefix_with_collector_type": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"metric_upload_interval_in_seconds": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"telegraf_resource_name_config": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"exclude_tags": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"include_tags": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"is_use_tags_only": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"telemetry_resource_group": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"is_system_defined": {
+				Type:     schema.TypeBool,
+				Computed: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -183,6 +372,10 @@ func StackMonitoringMonitoredResourceTypeResource() *schema.Resource {
 				Type:     schema.TypeMap,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"tenancy_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -429,6 +622,12 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) Delete() error {
 func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 	s.D.Set("additional_namespace_map", s.Res.AdditionalNamespaceMap)
 
+	if s.Res.AvailabilityMetricsConfig != nil {
+		s.D.Set("availability_metrics_config", []interface{}{AvailabilityMetricsDetailsToMap(s.Res.AvailabilityMetricsConfig)})
+	} else {
+		s.D.Set("availability_metrics_config", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -446,6 +645,16 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.HandlerConfig != nil {
+		s.D.Set("handler_config", []interface{}{AgentExtensionHandlerConfigurationToMap(s.Res.HandlerConfig)})
+	} else {
+		s.D.Set("handler_config", nil)
+	}
+
+	if s.Res.IsSystemDefined != nil {
+		s.D.Set("is_system_defined", *s.Res.IsSystemDefined)
+	}
 
 	if s.Res.Metadata != nil {
 		metadataArray := []interface{}{}
@@ -475,6 +684,10 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
 
+	if s.Res.TenancyId != nil {
+		s.D.Set("tenancy_id", *s.Res.TenancyId)
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -486,10 +699,130 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 	return nil
 }
 
+func AgentExtensionHandlerConfigurationToMap(obj *oci_stack_monitoring.AgentExtensionHandlerConfiguration) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CollectdResourceNameConfig != nil {
+		result["collectd_resource_name_config"] = []interface{}{CollectdResourceNameConfigurationDetailsToMap(obj.CollectdResourceNameConfig)}
+	}
+
+	result["collector_types"] = obj.CollectorTypes
+
+	handlerProperties := []interface{}{}
+	for _, item := range obj.HandlerProperties {
+		handlerProperties = append(handlerProperties, AgentExtensionHandlerConfigurationPropertyToMap(item))
+	}
+	result["handler_properties"] = handlerProperties
+
+	metricMappings := []interface{}{}
+	for _, item := range obj.MetricMappings {
+		metricMappings = append(metricMappings, AgentExtensionHandlerMetricMappingDetailsToMap(item))
+	}
+	result["metric_mappings"] = metricMappings
+
+	if obj.MetricNameConfig != nil {
+		result["metric_name_config"] = []interface{}{MetricNameConfigurationDetailsToMap(obj.MetricNameConfig)}
+	}
+
+	if obj.MetricUploadIntervalInSeconds != nil {
+		result["metric_upload_interval_in_seconds"] = int(*obj.MetricUploadIntervalInSeconds)
+	}
+
+	if obj.TelegrafResourceNameConfig != nil {
+		result["telegraf_resource_name_config"] = []interface{}{TelegrafResourceNameConfigurationDetailsToMap(obj.TelegrafResourceNameConfig)}
+	}
+
+	if obj.TelemetryResourceGroup != nil {
+		result["telemetry_resource_group"] = string(*obj.TelemetryResourceGroup)
+	}
+
+	return result
+}
+
+func AgentExtensionHandlerConfigurationPropertyToMap(obj oci_stack_monitoring.AgentExtensionHandlerConfigurationProperty) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
+	}
+
+	return result
+}
+
+func AgentExtensionHandlerMetricMappingDetailsToMap(obj oci_stack_monitoring.AgentExtensionHandlerMetricMappingDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CollectorMetricName != nil {
+		result["collector_metric_name"] = string(*obj.CollectorMetricName)
+	}
+
+	if obj.IsSkipUpload != nil {
+		result["is_skip_upload"] = bool(*obj.IsSkipUpload)
+	}
+
+	if obj.MetricUploadIntervalInSeconds != nil {
+		result["metric_upload_interval_in_seconds"] = int(*obj.MetricUploadIntervalInSeconds)
+	}
+
+	if obj.TelemetryMetricName != nil {
+		result["telemetry_metric_name"] = string(*obj.TelemetryMetricName)
+	}
+
+	return result
+}
+
+func AvailabilityMetricsDetailsToMap(obj *oci_stack_monitoring.AvailabilityMetricsDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CollectionIntervalInSeconds != nil {
+		result["collection_interval_in_seconds"] = int(*obj.CollectionIntervalInSeconds)
+	}
+
+	result["metrics"] = obj.Metrics
+
+	return result
+}
+
+func CollectdResourceNameConfigurationDetailsToMap(obj *oci_stack_monitoring.CollectdResourceNameConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["exclude_properties"] = obj.ExcludeProperties
+
+	result["include_properties"] = obj.IncludeProperties
+
+	if obj.Suffix != nil {
+		result["suffix"] = string(*obj.Suffix)
+	}
+
+	return result
+}
+
+func MetricNameConfigurationDetailsToMap(obj *oci_stack_monitoring.MetricNameConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.ExcludePatternOnPrefix != nil {
+		result["exclude_pattern_on_prefix"] = string(*obj.ExcludePatternOnPrefix)
+	}
+
+	if obj.IsPrefixWithCollectorType != nil {
+		result["is_prefix_with_collector_type"] = bool(*obj.IsPrefixWithCollectorType)
+	}
+
+	return result
+}
+
 func MonitoredResourceTypeSummaryToMap(obj oci_stack_monitoring.MonitoredResourceTypeSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	result["additional_namespace_map"] = obj.AdditionalNamespaceMap
+
+	if obj.AvailabilityMetricsConfig != nil {
+		result["availability_metrics_config"] = []interface{}{AvailabilityMetricsDetailsToMap(obj.AvailabilityMetricsConfig)}
+	}
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -509,8 +842,16 @@ func MonitoredResourceTypeSummaryToMap(obj oci_stack_monitoring.MonitoredResourc
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.HandlerConfig != nil {
+		result["handler_config"] = []interface{}{AgentExtensionHandlerConfigurationToMap(obj.HandlerConfig)}
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
+	}
+
+	if obj.IsSystemDefined != nil {
+		result["is_system_defined"] = bool(*obj.IsSystemDefined)
 	}
 
 	if obj.Metadata != nil {
@@ -676,6 +1017,20 @@ func ResourceTypeMetadataDetailsToMap(obj *oci_stack_monitoring.ResourceTypeMeta
 	default:
 		log.Printf("[WARN] Received 'format' of unknown type %v", *obj)
 		return nil
+	}
+
+	return result
+}
+
+func TelegrafResourceNameConfigurationDetailsToMap(obj *oci_stack_monitoring.TelegrafResourceNameConfigurationDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	result["exclude_tags"] = obj.ExcludeTags
+
+	result["include_tags"] = obj.IncludeTags
+
+	if obj.IsUseTagsOnly != nil {
+		result["is_use_tags_only"] = bool(*obj.IsUseTagsOnly)
 	}
 
 	return result
