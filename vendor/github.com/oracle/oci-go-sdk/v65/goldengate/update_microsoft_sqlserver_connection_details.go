@@ -49,6 +49,9 @@ type UpdateMicrosoftSqlserverConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// The name of the database.
 	DatabaseName *string `mandatory:"false" json:"databaseName"`
 
@@ -64,6 +67,10 @@ type UpdateMicrosoftSqlserverConnectionDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated Microsoft SQL Server.
 	Password *string `mandatory:"false" json:"password"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password Oracle GoldenGate uses to connect the associated Microsoft SQL Server.
+	// Note: When provided, 'password' field must not be provided.
+	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// An array of name-value pair attribute entries.
 	// Used as additional parameters in connection string.
@@ -138,6 +145,11 @@ func (m UpdateMicrosoftSqlserverConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m UpdateMicrosoftSqlserverConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m UpdateMicrosoftSqlserverConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m UpdateMicrosoftSqlserverConnectionDetails) String() string {
