@@ -108,6 +108,10 @@ func (s *StackMonitoringMonitoredResourceTaskDataSourceCrud) SetData() error {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
 	}
 
+	if s.Res.Type != nil {
+		s.D.Set("type", *s.Res.Type)
+	}
+
 	s.D.Set("work_request_ids", s.Res.WorkRequestIds)
 
 	return nil
