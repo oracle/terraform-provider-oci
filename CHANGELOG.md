@@ -1,20 +1,8 @@
-## 6.19.0 (November 21, 2024)
-
-### Added
-- README.md of service examples with magic button
-- Release for v6.18.0
-- Support for Add secretIds for sensitive connection attributes
-- Support for Oracle Cloud AI Service Generative AI Agent Service
-
-## 6.18.0 (November 13, 2024)
+## 6.18.0 (Unreleased)
 
 ### Added
 - Support for Add secretIds for sensitive connection attributes
 - Support for Oracle Cloud AI Service Generative AI Agent Service
-### Bug Fix
-- Update `security_attributes` example values for Instance resources
-- updating instance_reservation_configs field in oci_core_compute_capacity_reservation to typeSet
-- Added - Support for Documentation Update of BSS Direct API
 
 ## 6.17.0 (November 06, 2024)
 
