@@ -84,6 +84,13 @@ type AmazonKinesisConnection struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the secret access key is stored.
+	// Note: When provided, 'secretAccessKey' field must not be provided.
+	SecretAccessKeySecretId *string `mandatory:"false" json:"secretAccessKeySecretId"`
+
 	// The Amazon Kinesis technology type.
 	TechnologyType AmazonKinesisConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
 
@@ -185,6 +192,11 @@ func (m AmazonKinesisConnection) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m AmazonKinesisConnection) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m AmazonKinesisConnection) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m AmazonKinesisConnection) String() string {

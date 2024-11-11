@@ -58,14 +58,25 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the target subnet of the dedicated connection.
 	SubnetId *string `mandatory:"false" json:"subnetId"`
 
+	// Indicates that sensitive attributes are provided via Secrets.
+	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
+
 	// Azure storage account key. This property is required when 'authenticationType' is set to 'SHARED_KEY'.
 	// e.g.: pa3WbhVATzj56xD4DH1VjOUhApRGEGHvOo58eQJVWIzX+j8j4CUVFcTjpIqDSRaSa1Wo2LbWY5at+AStEgLOIQ==
 	AccountKey *string `mandatory:"false" json:"accountKey"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the account key is stored.
+	// Note: When provided, 'accountKey' field must not be provided.
+	AccountKeySecretId *string `mandatory:"false" json:"accountKeySecretId"`
 
 	// Credential that uses a shared access signature (SAS) to authenticate to an Azure Service. This property is
 	// required when 'authenticationType' is set to 'SHARED_ACCESS_SIGNATURE'.
 	// e.g.: ?sv=2020-06-08&ss=bfqt&srt=sco&sp=rwdlacupyx&se=2020-09-10T20:27:28Z&st=2022-08-05T12:27:28Z&spr=https&sig=C1IgHsiLBmTSStYkXXGLTP8it0xBrArcgCqOsZbXwIQ%3D
 	SasToken *string `mandatory:"false" json:"sasToken"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the sas token is stored.
+	// Note: When provided, 'sasToken' field must not be provided.
+	SasTokenSecretId *string `mandatory:"false" json:"sasTokenSecretId"`
 
 	// Azure tenant ID of the application. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: 14593954-d337-4a61-a364-9f758c64f97f
@@ -78,6 +89,10 @@ type CreateAzureDataLakeStorageConnectionDetails struct {
 	// Azure client secret (aka application password) for authentication. This property is required when 'authenticationType' is set to 'AZURE_ACTIVE_DIRECTORY'.
 	// e.g.: dO29Q~F5-VwnA.lZdd11xFF_t5NAXCaGwDl9NbT1
 	ClientSecret *string `mandatory:"false" json:"clientSecret"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.
+	// Note: When provided, 'clientSecret' field must not be provided.
+	ClientSecretSecretId *string `mandatory:"false" json:"clientSecretSecretId"`
 
 	// Azure Storage service endpoint.
 	// e.g: https://test.blob.core.windows.net
@@ -149,6 +164,11 @@ func (m CreateAzureDataLakeStorageConnectionDetails) GetSubnetId() *string {
 // GetRoutingMethod returns RoutingMethod
 func (m CreateAzureDataLakeStorageConnectionDetails) GetRoutingMethod() RoutingMethodEnum {
 	return m.RoutingMethod
+}
+
+// GetDoesUseSecretIds returns DoesUseSecretIds
+func (m CreateAzureDataLakeStorageConnectionDetails) GetDoesUseSecretIds() *bool {
+	return m.DoesUseSecretIds
 }
 
 func (m CreateAzureDataLakeStorageConnectionDetails) String() string {
