@@ -104,6 +104,19 @@ var exportGoldenGateDeploymentCertificateHints = &tf_export.TerraformResourceHin
 	},
 }
 
+var exportGoldenGatePipelineHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_golden_gate_pipeline",
+	DatasourceClass:        "oci_golden_gate_pipelines",
+	DatasourceItemsAttr:    "pipeline_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "pipeline",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_golden_gate.PipelineLifecycleStateActive),
+		string(oci_golden_gate.PipelineLifecycleStateNeedsAttention),
+	},
+}
+
 var goldenGateResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportGoldenGateDatabaseRegistrationHints},
@@ -111,6 +124,7 @@ var goldenGateResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportGoldenGateDeploymentBackupHints},
 		{TerraformResourceHints: exportGoldenGateConnectionAssignmentHints},
 		{TerraformResourceHints: exportGoldenGateConnectionHints},
+		{TerraformResourceHints: exportGoldenGatePipelineHints},
 	},
 	"oci_golden_gate_deployment": {
 		{
