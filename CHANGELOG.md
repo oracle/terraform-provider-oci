@@ -3,6 +3,10 @@
 ### Added
 - Support for Add secretIds for sensitive connection attributes
 - Support for Oracle Cloud AI Service Generative AI Agent Service
+### Bug Fix
+- Update `security_attributes` example values for Instance resources
+- updating instance_reservation_configs field in oci_core_compute_capacity_reservation to typeSet
+- Added - Support for Documentation Update of BSS Direct API
 
 ## 6.17.0 (November 06, 2024)
 
