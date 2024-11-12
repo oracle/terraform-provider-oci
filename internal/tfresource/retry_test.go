@@ -4,6 +4,7 @@
 package tfresource
 
 import (
+	"errors"
 	"fmt"
 	"net"
 	"net/http"
@@ -839,5 +840,55 @@ func TestUnitDefaultExpectedRetryDuration(t *testing.T) {
 			t.Errorf("Output %s not equal to expected %s", res, test.output)
 		}
 
+	}
+}
+
+// Unit test for IsNetworkError function.
+func TestUnit_IsNetworkError(t *testing.T) {
+	// Create a timeout error using net package.
+	timeoutErr := &net.OpError{
+		Op:  "dial",
+		Net: "tcp",
+		Err: &net.DNSError{
+			IsTimeout: true,
+		},
+	}
+
+	// Create a non-timeout error using net package.
+	nonTimeoutErr := &net.OpError{
+		Op:  "read",
+		Net: "tcp",
+		Err: errors.New("connection reset by peer"),
+	}
+
+	tests := []struct {
+		name     string
+		inputErr error
+		expected bool
+	}{
+		{
+			name:     "Network timeout error",
+			inputErr: timeoutErr,
+			expected: true,
+		},
+		{
+			name:     "Non-timeout network error",
+			inputErr: nonTimeoutErr,
+			expected: false,
+		},
+		{
+			name:     "Nil error",
+			inputErr: nil,
+			expected: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			result := IsNetworkError(tt.inputErr)
+			if result != tt.expected {
+				t.Errorf("IsNetworkTimeoutError(%v) = %v; expected %v", tt.inputErr, result, tt.expected)
+			}
+		})
 	}
 }

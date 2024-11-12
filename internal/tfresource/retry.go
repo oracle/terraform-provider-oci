@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"log"
 	"math/rand"
+	"net"
 	"strconv"
 	"strings"
 	"time"
@@ -122,7 +123,7 @@ func getExpectedRetryDuration(response oci_common.OCIOperationResponse, disableN
 func GetDefaultExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool) time.Duration {
 	defaultRetryTime := ShortRetryTime
 
-	if oci_common.IsNetworkError(response.Error) {
+	if IsNetworkError(response.Error) {
 		log.Printf("[DEBUG] Retrying for network error...")
 		return defaultRetryTime
 	}
@@ -215,7 +216,7 @@ func getRemainingEventualConsistencyDuration(r oci_common.OCIOperationResponse) 
 
 func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
-	if oci_common.IsNetworkError(response.Error) {
+	if IsNetworkError(response.Error) {
 		return defaultRetryTime
 	}
 
@@ -251,7 +252,7 @@ func getIdentityExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 
 func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
-	if oci_common.IsNetworkError(response.Error) {
+	if IsNetworkError(response.Error) {
 		return defaultRetryTime
 	}
 
@@ -283,7 +284,7 @@ func getDatabaseExpectedRetryDuration(response oci_common.OCIOperationResponse, 
 
 func getObjectstorageServiceExpectedRetryDuration(response oci_common.OCIOperationResponse, disableNotFoundRetries bool, optionals ...interface{}) time.Duration {
 	defaultRetryTime := GetDefaultExpectedRetryDuration(response, disableNotFoundRetries)
-	if oci_common.IsNetworkError(response.Error) {
+	if IsNetworkError(response.Error) {
 		return defaultRetryTime
 	}
 
@@ -509,4 +510,14 @@ func GetDbHomeRetryDurationFunction(retryTimeout time.Duration) expectedRetryDur
 		}
 		return defaultRetryTime
 	}
+}
+
+// IsNetworkError checks if the given error is a network-related timeout error.
+// It returns true if the error is of type *net.OpError and indicates a timeout, or if the error message contains "i/o timeout".
+func IsNetworkError(err error) bool {
+	if opErr, ok := err.(*net.OpError); ok && (opErr.Timeout() || strings.Contains(err.Error(), "i/o timeout")) {
+		return true
+	}
+	// // IsNetworkError validates if an error is a net.Error and check if it's temporary or timeout
+	return oci_common.IsNetworkError(err)
 }
