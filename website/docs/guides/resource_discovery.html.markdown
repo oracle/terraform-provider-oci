@@ -782,6 +782,7 @@ golden_gate
 * oci\_golden\_gate\_connection\_assignment
 * oci\_golden\_gate\_connection
 * oci\_golden\_gate\_deployment\_certificate
+* oci\_golden\_gate\_pipeline
 
 health_checks
     
