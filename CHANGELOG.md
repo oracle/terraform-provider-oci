@@ -1,4 +1,4 @@
-## 6.18.0 (Unreleased)
+## 6.18.0 (November 13, 2024)
 
 ### Added
 - Support for Add secretIds for sensitive connection attributes
