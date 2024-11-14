@@ -49,6 +49,8 @@ resource "oci_disaster_recovery_dr_plan" "test_dr_plan" {
   display_name           = var.dr_plan_display_name
   dr_protection_group_id = data.oci_disaster_recovery_dr_protection_groups.test_dr_protection_groups.dr_protection_group_collection.0.items.0.id
   type                   = var.dr_plan_type
+  refresh_trigger        = 0
+  verify_trigger         = 0
 
   lifecycle {
     ignore_changes = [defined_tags]
