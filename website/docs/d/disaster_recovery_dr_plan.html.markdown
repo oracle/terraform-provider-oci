@@ -39,12 +39,14 @@ The following attributes are exported:
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the DR plan.  Example: `ocid1.drplan.oc1..uniqueID` 
 * `life_cycle_details` - A message describing the DR plan's current state in more detail. 
+* `lifecycle_sub_state` - The current state of the DR plan. 
 * `peer_dr_protection_group_id` - The OCID of the peer DR protection group associated with this plan's DR protection group.  Example: `ocid1.drprotectiongroup.oc1..uniqueID` 
 * `peer_region` - The region of the peer DR protection group associated with this plan's DR protection group.  Example: `us-ashburn-1` 
 * `plan_groups` - The list of groups in this DR plan. 
 	* `display_name` - The display name of the group.  Example: `DATABASE_SWITCHOVER` 
 	* `id` - The unique id of the group. Must not be modified by user.  Example: `sgid1.group..uniqueID` 
 	* `is_pause_enabled` - A flag indicating whether this group should be enabled for execution. This flag is only applicable to the `USER_DEFINED_PAUSE` group. The flag should be null for the remaining group types.  Example: `true` 
+	* `refresh_status` - The DR plan group refresh status.  Example: `GROUP_MODIFIED` 
 	* `steps` - The list of steps in the group. 
 		* `display_name` - The display name of the group.  Example: `DATABASE_SWITCHOVER` 
 		* `error_mode` - The error mode for this step. 
@@ -52,6 +54,7 @@ The following attributes are exported:
 		* `id` - The unique id of the step. Must not be modified by the user.  Example: `sgid1.step..uniqueID` 
 		* `is_enabled` - A flag indicating whether this step should be enabled for execution.  Example: `true` 
 		* `member_id` - The OCID of the member associated with this step.  Example: `ocid1.database.oc1..uniqueID` 
+		* `refresh_status` - The DR plan step refresh status.  Example: `STEP_ADDED` 
 		* `timeout` - The timeout in seconds for executing this step.  Example: `600` 
 		* `type` - The plan step type. 
 		* `user_defined_step` - The details for a user-defined step in a DR plan.
@@ -86,6 +89,7 @@ The following attributes are exported:
 
 				**INVOKE_FUNCTION** - A step which invokes an Oracle Cloud Infrastructure function. See https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm. 
 	* `type` - The group type.  Example: `BUILT_IN` 
+* `source_plan_id` - If this is a cloned DR plan, the OCID of the source DR plan that was used to clone this DR plan. If this DR plan was not cloned, then the value for this will be `null`.  Example: `ocid1.drplan.oc1..uniqueID` 
 * `state` - The current state of the DR plan. 
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the DR plan was created. An RFC3339 formatted datetime string.  Example: `2019-03-29T09:36:42Z` 
