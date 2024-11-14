@@ -30,6 +30,9 @@ type UpdateMonitoringTemplateDetails struct {
 	// User can create the out of box alarm only for multiple resourceTypes not for individual resource instances and groups for specified compartment.
 	IsAlarmsEnabled *bool `mandatory:"false" json:"isAlarmsEnabled"`
 
+	// Whether the alarm notification is enabled or disabled, it will be Enabled by default.
+	IsSplitNotificationEnabled *bool `mandatory:"false" json:"isSplitNotificationEnabled"`
+
 	// List of members of this monitoring template.
 	Members []MemberReference `mandatory:"false" json:"members"`
 

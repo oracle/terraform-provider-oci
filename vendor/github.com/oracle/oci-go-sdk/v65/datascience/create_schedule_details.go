@@ -35,6 +35,8 @@ type CreateScheduleDetails struct {
 	// A short description of the schedule.
 	Description *string `mandatory:"false" json:"description"`
 
+	LogDetails *ScheduleLogDetails `mandatory:"false" json:"logDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -64,6 +66,7 @@ func (m CreateScheduleDetails) ValidateEnumValue() (bool, error) {
 func (m *CreateScheduleDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
 		Description   *string                           `json:"description"`
+		LogDetails    *ScheduleLogDetails               `json:"logDetails"`
 		FreeformTags  map[string]string                 `json:"freeformTags"`
 		DefinedTags   map[string]map[string]interface{} `json:"definedTags"`
 		DisplayName   *string                           `json:"displayName"`
@@ -79,6 +82,8 @@ func (m *CreateScheduleDetails) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.LogDetails = model.LogDetails
 
 	m.FreeformTags = model.FreeformTags
 

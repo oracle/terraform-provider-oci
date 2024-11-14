@@ -17,6 +17,9 @@ type ListSchedulesRequest struct {
 	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
+	// <b>Filter</b> results by the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project.
+	ProjectId *string `mandatory:"false" contributesTo:"query" name:"projectId"`
+
 	// A filter to return only resources their lifecycleState matches the given lifecycleState.
 	LifecycleState ListSchedulesLifecycleStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleState" omitEmpty:"true"`
 

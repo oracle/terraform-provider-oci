@@ -17,9 +17,6 @@ type ListSystemVersionsRequest struct {
 	// The compartment OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm).
 	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
 
-	// Specifies shape query parameter.
-	Shape *string `mandatory:"true" contributesTo:"query" name:"shape"`
-
 	// Specifies gi version query parameter.
 	GiVersion *string `mandatory:"true" contributesTo:"query" name:"giVersion"`
 
@@ -34,6 +31,15 @@ type ListSystemVersionsRequest struct {
 
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
+
+	// If provided, filters the results for the given shape.
+	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
+
+	// If provided, return highest versions from each major version family.
+	IsLatest *bool `mandatory:"false" contributesTo:"query" name:"isLatest"`
+
+	// If provided, filters the results for the specified resource Id.
+	ResourceId *string `mandatory:"false" contributesTo:"query" name:"resourceId"`
 
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.

@@ -74,6 +74,8 @@ type Schedule struct {
 	// Example: `Invoked ML Application trigger.`
 	LastScheduleRunDetails *string `mandatory:"false" json:"lastScheduleRunDetails"`
 
+	LogDetails *ScheduleLogDetails `mandatory:"false" json:"logDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -115,6 +117,7 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 		TimeUpdated            *common.SDKTime                   `json:"timeUpdated"`
 		LifecycleDetails       *string                           `json:"lifecycleDetails"`
 		LastScheduleRunDetails *string                           `json:"lastScheduleRunDetails"`
+		LogDetails             *ScheduleLogDetails               `json:"logDetails"`
 		FreeformTags           map[string]string                 `json:"freeformTags"`
 		DefinedTags            map[string]map[string]interface{} `json:"definedTags"`
 		SystemTags             map[string]map[string]interface{} `json:"systemTags"`
@@ -145,6 +148,8 @@ func (m *Schedule) UnmarshalJSON(data []byte) (e error) {
 	m.LifecycleDetails = model.LifecycleDetails
 
 	m.LastScheduleRunDetails = model.LastScheduleRunDetails
+
+	m.LogDetails = model.LogDetails
 
 	m.FreeformTags = model.FreeformTags
 

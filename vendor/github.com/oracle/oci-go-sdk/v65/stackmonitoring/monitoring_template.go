@@ -60,6 +60,9 @@ type MonitoringTemplate struct {
 	// Whether the alarm is enabled or disabled. Default value is enabled.
 	IsAlarmsEnabled *bool `mandatory:"false" json:"isAlarmsEnabled"`
 
+	// Whether the alarm notification is enabled or disabled, it will be Enabled by default.
+	IsSplitNotificationEnabled *bool `mandatory:"false" json:"isSplitNotificationEnabled"`
+
 	// The frequency for re-submitting alarm notifications, if the alarm keeps firing without interruption. Format defined by ISO 8601. For example, PT4H indicates four hours. Minimum- PT1M. Maximum - P30D.
 	RepeatNotificationDuration *string `mandatory:"false" json:"repeatNotificationDuration"`
 

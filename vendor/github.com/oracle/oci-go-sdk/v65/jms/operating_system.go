@@ -30,6 +30,9 @@ type OperatingSystem struct {
 	// The architecture of the operating system as provided by the Java system property os.arch.
 	Architecture *string `mandatory:"true" json:"architecture"`
 
+	// The name of the Operating System distribution, such as Oracle Linux 9, Windows 10, or macOS X.
+	Distribution *string `mandatory:"false" json:"distribution"`
+
 	// Number of instances running the operating system.
 	ManagedInstanceCount *int `mandatory:"false" json:"managedInstanceCount"`
 }

@@ -29,6 +29,8 @@ type UpdateScheduleDetails struct {
 
 	Action ScheduleAction `mandatory:"false" json:"action"`
 
+	LogDetails *ScheduleLogDetails `mandatory:"false" json:"logDetails"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. See Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -61,6 +63,7 @@ func (m *UpdateScheduleDetails) UnmarshalJSON(data []byte) (e error) {
 		Description  *string                           `json:"description"`
 		Trigger      scheduletrigger                   `json:"trigger"`
 		Action       scheduleaction                    `json:"action"`
+		LogDetails   *ScheduleLogDetails               `json:"logDetails"`
 		FreeformTags map[string]string                 `json:"freeformTags"`
 		DefinedTags  map[string]map[string]interface{} `json:"definedTags"`
 	}{}
@@ -93,6 +96,8 @@ func (m *UpdateScheduleDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Action = nil
 	}
+
+	m.LogDetails = model.LogDetails
 
 	m.FreeformTags = model.FreeformTags
 

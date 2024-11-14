@@ -10,6 +10,7 @@
 package datascience
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -29,6 +30,8 @@ type ScheduleSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project associated with the schedule.
 	ProjectId *string `mandatory:"true" json:"projectId"`
+
+	Trigger ScheduleTrigger `mandatory:"true" json:"trigger"`
 
 	// The date and time the schedule was created.
 	// Format is defined by RFC3339.
@@ -77,4 +80,61 @@ func (m ScheduleSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *ScheduleSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeUpdated    *common.SDKTime                   `json:"timeUpdated"`
+		FreeformTags   map[string]string                 `json:"freeformTags"`
+		DefinedTags    map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags     map[string]map[string]interface{} `json:"systemTags"`
+		Id             *string                           `json:"id"`
+		DisplayName    *string                           `json:"displayName"`
+		CompartmentId  *string                           `json:"compartmentId"`
+		ProjectId      *string                           `json:"projectId"`
+		Trigger        scheduletrigger                   `json:"trigger"`
+		TimeCreated    *common.SDKTime                   `json:"timeCreated"`
+		CreatedBy      *string                           `json:"createdBy"`
+		LifecycleState ScheduleLifecycleStateEnum        `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeUpdated = model.TimeUpdated
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.ProjectId = model.ProjectId
+
+	nn, e = model.Trigger.UnmarshalPolymorphicJSON(model.Trigger.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.Trigger = nn.(ScheduleTrigger)
+	} else {
+		m.Trigger = nil
+	}
+
+	m.TimeCreated = model.TimeCreated
+
+	m.CreatedBy = model.CreatedBy
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }

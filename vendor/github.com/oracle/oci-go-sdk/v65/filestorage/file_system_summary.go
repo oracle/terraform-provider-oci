@@ -87,6 +87,9 @@ type FileSystemSummary struct {
 
 	// Specifies whether the file system is attached to its parent file system.
 	CloneAttachStatus FileSystemSummaryCloneAttachStatusEnum `mandatory:"false" json:"cloneAttachStatus,omitempty"`
+
+	// Displays the state of enforcement of quota rules on the file system.
+	QuotaEnforcementState FileSystemSummaryQuotaEnforcementStateEnum `mandatory:"false" json:"quotaEnforcementState,omitempty"`
 }
 
 func (m FileSystemSummary) String() string {
@@ -104,6 +107,9 @@ func (m FileSystemSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingFileSystemSummaryCloneAttachStatusEnum(string(m.CloneAttachStatus)); !ok && m.CloneAttachStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CloneAttachStatus: %s. Supported values are: %s.", m.CloneAttachStatus, strings.Join(GetFileSystemSummaryCloneAttachStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingFileSystemSummaryQuotaEnforcementStateEnum(string(m.QuotaEnforcementState)); !ok && m.QuotaEnforcementState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for QuotaEnforcementState: %s. Supported values are: %s.", m.QuotaEnforcementState, strings.Join(GetFileSystemSummaryQuotaEnforcementStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -212,5 +218,63 @@ func GetFileSystemSummaryCloneAttachStatusEnumStringValues() []string {
 // GetMappingFileSystemSummaryCloneAttachStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingFileSystemSummaryCloneAttachStatusEnum(val string) (FileSystemSummaryCloneAttachStatusEnum, bool) {
 	enum, ok := mappingFileSystemSummaryCloneAttachStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// FileSystemSummaryQuotaEnforcementStateEnum Enum with underlying type: string
+type FileSystemSummaryQuotaEnforcementStateEnum string
+
+// Set of constants representing the allowable values for FileSystemSummaryQuotaEnforcementStateEnum
+const (
+	FileSystemSummaryQuotaEnforcementStateEnabling  FileSystemSummaryQuotaEnforcementStateEnum = "ENABLING"
+	FileSystemSummaryQuotaEnforcementStateEnabled   FileSystemSummaryQuotaEnforcementStateEnum = "ENABLED"
+	FileSystemSummaryQuotaEnforcementStateDisabling FileSystemSummaryQuotaEnforcementStateEnum = "DISABLING"
+	FileSystemSummaryQuotaEnforcementStateDisabled  FileSystemSummaryQuotaEnforcementStateEnum = "DISABLED"
+	FileSystemSummaryQuotaEnforcementStateSyncing   FileSystemSummaryQuotaEnforcementStateEnum = "SYNCING"
+	FileSystemSummaryQuotaEnforcementStateFailed    FileSystemSummaryQuotaEnforcementStateEnum = "FAILED"
+)
+
+var mappingFileSystemSummaryQuotaEnforcementStateEnum = map[string]FileSystemSummaryQuotaEnforcementStateEnum{
+	"ENABLING":  FileSystemSummaryQuotaEnforcementStateEnabling,
+	"ENABLED":   FileSystemSummaryQuotaEnforcementStateEnabled,
+	"DISABLING": FileSystemSummaryQuotaEnforcementStateDisabling,
+	"DISABLED":  FileSystemSummaryQuotaEnforcementStateDisabled,
+	"SYNCING":   FileSystemSummaryQuotaEnforcementStateSyncing,
+	"FAILED":    FileSystemSummaryQuotaEnforcementStateFailed,
+}
+
+var mappingFileSystemSummaryQuotaEnforcementStateEnumLowerCase = map[string]FileSystemSummaryQuotaEnforcementStateEnum{
+	"enabling":  FileSystemSummaryQuotaEnforcementStateEnabling,
+	"enabled":   FileSystemSummaryQuotaEnforcementStateEnabled,
+	"disabling": FileSystemSummaryQuotaEnforcementStateDisabling,
+	"disabled":  FileSystemSummaryQuotaEnforcementStateDisabled,
+	"syncing":   FileSystemSummaryQuotaEnforcementStateSyncing,
+	"failed":    FileSystemSummaryQuotaEnforcementStateFailed,
+}
+
+// GetFileSystemSummaryQuotaEnforcementStateEnumValues Enumerates the set of values for FileSystemSummaryQuotaEnforcementStateEnum
+func GetFileSystemSummaryQuotaEnforcementStateEnumValues() []FileSystemSummaryQuotaEnforcementStateEnum {
+	values := make([]FileSystemSummaryQuotaEnforcementStateEnum, 0)
+	for _, v := range mappingFileSystemSummaryQuotaEnforcementStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetFileSystemSummaryQuotaEnforcementStateEnumStringValues Enumerates the set of values in String for FileSystemSummaryQuotaEnforcementStateEnum
+func GetFileSystemSummaryQuotaEnforcementStateEnumStringValues() []string {
+	return []string{
+		"ENABLING",
+		"ENABLED",
+		"DISABLING",
+		"DISABLED",
+		"SYNCING",
+		"FAILED",
+	}
+}
+
+// GetMappingFileSystemSummaryQuotaEnforcementStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingFileSystemSummaryQuotaEnforcementStateEnum(val string) (FileSystemSummaryQuotaEnforcementStateEnum, bool) {
+	enum, ok := mappingFileSystemSummaryQuotaEnforcementStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

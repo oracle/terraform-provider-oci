@@ -7,9 +7,9 @@ import (
 	"bytes"
 	"crypto/rsa"
 	"fmt"
+	"math/rand"
 	"net/http"
 	"os"
-	"strings"
 	"time"
 
 	"github.com/oracle/oci-go-sdk/v65/common"
@@ -18,7 +18,6 @@ import (
 const (
 	defaultMetadataBaseURL      = `http://169.254.169.254/opc/v2`
 	metadataBaseURLEnvVar       = `OCI_METADATA_BASE_URL`
-	metadataFallbackURL         = `http://169.254.169.254/opc/v1`
 	regionPath                  = `/instance/region`
 	leafCertificatePath         = `/identity/cert.pem`
 	leafCertificateKeyPath      = `/identity/key.pem`
@@ -108,7 +107,7 @@ func newInstancePrincipalKeyProvider(modifier func(common.HTTPRequestDispatcher)
 func getRegionForFederationClient(dispatcher common.HTTPRequestDispatcher, url string) (r common.Region, err error) {
 	var body bytes.Buffer
 	var statusCode int
-	MaxRetriesFederationClient := 3
+	MaxRetriesFederationClient := 8
 
 	for currTry := 0; currTry < MaxRetriesFederationClient; currTry++ {
 		body, statusCode, err = httpGet(dispatcher, url)
@@ -116,12 +115,9 @@ func getRegionForFederationClient(dispatcher common.HTTPRequestDispatcher, url s
 			return common.StringToRegion(body.String()), nil
 		}
 		common.Logf("Error in getting region from url: %s, Status code: %v, Error: %s", url, statusCode, err.Error())
-		if statusCode == 404 && strings.Compare(url, getMetadataBaseURL()+regionPath) == 0 {
-			common.Logf("Falling back to http://169.254.169.254/opc/v1 to try again...\n")
-			updateX509CertRetrieverURLParas(metadataFallbackURL)
-			url = regionURL
-		}
-		time.Sleep(1 * time.Second)
+		nextDuration := time.Duration(1000.0*(float64(int(1)<<currTry))+rand.Float64()) * time.Millisecond
+		common.Logf("Retrying for getRegionForFederationClinet function, current retry count is:%v, sleep after %v", currTry+1, nextDuration)
+		time.Sleep(nextDuration)
 	}
 	return
 }

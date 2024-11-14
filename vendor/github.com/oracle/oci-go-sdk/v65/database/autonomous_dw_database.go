@@ -495,6 +495,9 @@ type AutonomousDwDatabase struct {
 
 	// The Autonomous Database clone type.
 	CloneType AutonomousDwDatabaseCloneTypeEnum `mandatory:"false" json:"cloneType,omitempty"`
+
+	// The FDI(FAW) Instance ID that provisioned the ADB
+	FawInstanceId *string `mandatory:"false" json:"fawInstanceId"`
 }
 
 func (m AutonomousDwDatabase) String() string {
@@ -707,6 +710,7 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 		ClusterPlacementGroupId                 *string                                                   `json:"clusterPlacementGroupId"`
 		CloneTableSpaceList                     []int                                                     `json:"cloneTableSpaceList"`
 		CloneType                               AutonomousDwDatabaseCloneTypeEnum                         `json:"cloneType"`
+		FawInstanceId                           *string                                                   `json:"fawInstanceId"`
 		Id                                      *string                                                   `json:"id"`
 		CompartmentId                           *string                                                   `json:"compartmentId"`
 		LifecycleState                          AutonomousDwDatabaseLifecycleStateEnum                    `json:"lifecycleState"`
@@ -981,6 +985,8 @@ func (m *AutonomousDwDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)
 	m.CloneType = model.CloneType
+
+	m.FawInstanceId = model.FawInstanceId
 
 	m.Id = model.Id
 
