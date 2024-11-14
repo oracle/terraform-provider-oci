@@ -61,6 +61,20 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"source_plan_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
+			"refresh_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
+			"verify_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -68,6 +82,10 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 				Computed: true,
 			},
 			"life_cycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"lifecycle_sub_state": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -101,6 +119,10 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 							Type:     schema.TypeBool,
 							Computed: true,
 						},
+						"refresh_status": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"steps": {
 							Type:     schema.TypeList,
 							Computed: true,
@@ -132,6 +154,10 @@ func DisasterRecoveryDrPlanResource() *schema.Resource {
 										Computed: true,
 									},
 									"member_id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"refresh_status": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -265,7 +291,30 @@ func updateDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DisasterRecoveryClient()
 
-	return tfresource.UpdateResource(d, sync)
+	if _, ok := sync.D.GetOkExists("refresh_trigger"); ok && sync.D.HasChange("refresh_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("refresh_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			return sync.RefreshDrPlan()
+		} else {
+			sync.D.Set("refresh_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+
+	} else if _, ok := sync.D.GetOkExists("verify_trigger"); ok && sync.D.HasChange("verify_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("verify_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			return sync.VerifyDrPlan()
+		} else {
+			sync.D.Set("verify_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	} else {
+		return tfresource.UpdateResource(d, sync)
+	}
 }
 
 func deleteDisasterRecoveryDrPlan(d *schema.ResourceData, m interface{}) error {
@@ -336,6 +385,11 @@ func (s *DisasterRecoveryDrPlanResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if sourcePlanId, ok := s.D.GetOkExists("source_plan_id"); ok {
+		tmp := sourcePlanId.(string)
+		request.SourcePlanId = &tmp
 	}
 
 	if type_, ok := s.D.GetOkExists("type"); ok {
@@ -588,6 +642,8 @@ func (s *DisasterRecoveryDrPlanResourceCrud) SetData() error {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	if s.Res.PeerDrProtectionGroupId != nil {
 		s.D.Set("peer_dr_protection_group_id", *s.Res.PeerDrProtectionGroupId)
 	}
@@ -601,6 +657,10 @@ func (s *DisasterRecoveryDrPlanResourceCrud) SetData() error {
 		planGroups = append(planGroups, DrPlanGroupToMap(item))
 	}
 	s.D.Set("plan_groups", planGroups)
+
+	if s.Res.SourcePlanId != nil {
+		s.D.Set("source_plan_id", *s.Res.SourcePlanId)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
@@ -619,6 +679,67 @@ func (s *DisasterRecoveryDrPlanResourceCrud) SetData() error {
 	s.D.Set("type", s.Res.Type)
 
 	return nil
+}
+
+func (s *DisasterRecoveryDrPlanResourceCrud) RefreshDrPlan() error {
+	request := oci_disaster_recovery.RefreshDrPlanRequest{}
+	err := s.populateTopLevelPolymorphicRefreshDrPlanRequest(&request)
+	if err != nil {
+		return err
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
+
+	response, err := s.Client.RefreshDrPlan(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("refresh_trigger")
+	if val != nil {
+		err := s.D.Set("refresh_trigger", val)
+		if err != nil {
+			return err
+		}
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *DisasterRecoveryDrPlanResourceCrud) VerifyDrPlan() error {
+	request := oci_disaster_recovery.VerifyDrPlanRequest{}
+
+	err := s.populateTopLevelPolymorphicVerifyDrPlanRequest(&request)
+	if err != nil {
+		return err
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery")
+
+	response, err := s.Client.VerifyDrPlan(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("verify_trigger")
+	if val != nil {
+		err := s.D.Set("verify_trigger", val)
+		if err != nil {
+			return err
+		}
+	}
+
+	workId := response.OpcWorkRequestId
+	return s.getDrPlanFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "disaster_recovery"), oci_disaster_recovery.ActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *DisasterRecoveryDrPlanResourceCrud) mapToDrPlanGroup(fieldKeyFormat string) (oci_disaster_recovery.DrPlanGroup, error) {
@@ -757,6 +878,8 @@ func DrPlanGroupToMap(obj oci_disaster_recovery.DrPlanGroup) map[string]interfac
 		result["is_pause_enabled"] = bool(*obj.IsPauseEnabled)
 	}
 
+	result["refresh_status"] = string(obj.RefreshStatus)
+
 	steps := []interface{}{}
 	for _, item := range obj.Steps {
 		steps = append(steps, DrPlanStepToMap(item))
@@ -834,6 +957,8 @@ func DrPlanStepToMap(obj oci_disaster_recovery.DrPlanStep) map[string]interface{
 		result["member_id"] = string(*obj.MemberId)
 	}
 
+	result["refresh_status"] = string(obj.RefreshStatus)
+
 	if obj.Timeout != nil {
 		result["timeout"] = int(*obj.Timeout)
 	}
@@ -879,6 +1004,8 @@ func DrPlanSummaryToMap(obj oci_disaster_recovery.DrPlanSummary) map[string]inte
 	if obj.LifeCycleDetails != nil {
 		result["life_cycle_details"] = string(*obj.LifeCycleDetails)
 	}
+
+	result["lifecycle_sub_state"] = string(obj.LifecycleSubState)
 
 	if obj.PeerDrProtectionGroupId != nil {
 		result["peer_dr_protection_group_id"] = string(*obj.PeerDrProtectionGroupId)
@@ -1172,4 +1299,66 @@ func UpdateObjectStorageScriptLocationDetailsToMap(obj *oci_disaster_recovery.Up
 	}
 
 	return result
+}
+
+func (s *DisasterRecoveryDrPlanResourceCrud) populateTopLevelPolymorphicRefreshDrPlanRequest(request *oci_disaster_recovery.RefreshDrPlanRequest) error {
+	//typeRaw, ok := s.D.GetOkExists("type")
+	//var type_ string
+	//if ok {
+	//	type_ = typeRaw.(string)
+	//} else {
+	//	type_ = "" // default value
+	//}
+
+	details := oci_disaster_recovery.RefreshDrPlanDefaultDetails{}
+	tmp := s.D.Id()
+	request.DrPlanId = &tmp
+	request.RefreshDrPlanDetails = details
+
+	//switch strings.ToLower(type_) {
+	//case strings.ToLower("DEFAULT"):
+	//	details := oci_disaster_recovery.RefreshDrPlanDefaultDetails{}
+	//
+	//	tmp := s.D.Id()
+	//	request.DrPlanId = &tmp
+	//
+	//	request.RefreshDrPlanDetails = details
+
+	//default:
+	//	return fmt.Errorf("unknown type '%v' was specified", type_)
+	//}
+
+	return nil
+}
+
+func (s *DisasterRecoveryDrPlanResourceCrud) populateTopLevelPolymorphicVerifyDrPlanRequest(request *oci_disaster_recovery.VerifyDrPlanRequest) error {
+	//typeRaw, ok := s.D.GetOkExists("type")
+	//var type_ string
+	//if ok {
+	//	type_ = typeRaw.(string)
+	//} else {
+	//	type_ = "" // default value
+	//}
+
+	details := oci_disaster_recovery.VerifyDrPlanDefaultDetails{}
+
+	tmp := s.D.Id()
+	request.DrPlanId = &tmp
+
+	request.VerifyDrPlanDetails = details
+
+	//switch strings.ToLower(type_) {
+	//case strings.ToLower("DEFAULT"):
+	//	details := oci_disaster_recovery.VerifyDrPlanDefaultDetails{}
+	//
+	//	tmp := s.D.Id()
+	//	request.DrPlanId = &tmp
+	//
+	//	request.VerifyDrPlanDetails = details
+	//
+	//default:
+	//	return fmt.Errorf("unknown type '%v' was specified", type_)
+	//}
+
+	return nil
 }
