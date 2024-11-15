@@ -1,3 +1,11 @@
+## 6.19.0 (Unreleased)
+
+### Added
+- README.md of service examples with magic button
+- Release for v6.18.0
+- Support for Add secretIds for sensitive connection attributes
+- Support for Oracle Cloud AI Service Generative AI Agent Service
+
 ## 6.18.0 (November 13, 2024)
 
 ### Added
