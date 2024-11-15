@@ -1,3 +1,15 @@
+## 6.19.0 (Unreleased)
+
+### Added
+- Support for SDK/CLI/Terraform only - Allow selection of N-3 GI minor version during the VM cluster provisioning
+- Support Single Read Only (RO) endpoint for the Read Replica
+- Support for BDS Kafka bugs in public provider v6.13.0
+- Support for Long-term backup retention Phase 1 | ExaDB-D
+### Bug Fix
+- sync terraform test resource repo
+- sync terraform test resource repo
+- sync terraform test resource repo
+
 ## 6.18.0 (Unreleased)
 
 ### Added
