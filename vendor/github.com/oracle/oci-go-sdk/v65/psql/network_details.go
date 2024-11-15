@@ -28,6 +28,9 @@ type NetworkDetails struct {
 
 	// List of customer Network Security Group OCIDs (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) associated with the database system.
 	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
+	// Specifies if the reader endpoint is enabled on the dbSystem.
+	IsReaderEndpointEnabled *bool `mandatory:"false" json:"isReaderEndpointEnabled"`
 }
 
 func (m NetworkDetails) String() string {
