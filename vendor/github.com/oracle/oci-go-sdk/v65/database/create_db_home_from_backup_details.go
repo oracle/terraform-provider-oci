@@ -23,6 +23,9 @@ type CreateDbHomeFromBackupDetails struct {
 	// The user-provided name of the Database Home.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Indicates whether unified auditing is enabled or not
+	IsUnifiedAuditingEnabled *bool `mandatory:"false" json:"isUnifiedAuditingEnabled"`
+
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the image to be used to restore a database.
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 

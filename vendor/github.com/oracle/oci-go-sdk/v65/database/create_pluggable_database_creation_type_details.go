@@ -20,13 +20,13 @@ import (
 // Use `LOCAL_CLONE_PDB` for creating a new PDB using Local Clone on Source Pluggable Database. This will Clone and starts a
 // pluggable database (PDB) in the same database (CDB) as the source PDB. The source PDB must be in the `READ_WRITE` openMode to
 // perform the clone operation.
-// isThinClone options are supported only for Exadata VM cluster on Exascale Infrastructure.
+// isThinClone options are supported for Exadata VM cluster on Exascale Infrastructure, Exadata Cloud@Customer VM Cluster on Exadata Cloud@Customer infrastructure, and Exadata Cloud VM cluster on cloud Exadata infrastructure
 // Use `REMOTE_CLONE_PDB` for creating a new PDB using Remote Clone on Source Pluggable Database. This will Clone a pluggable
 // database (PDB) to a different database from the source PDB. The cloned PDB will be started upon completion of the clone
 // operation. The source PDB must be in the `READ_WRITE` openMode when performing the clone.
 // For Exadata Cloud@Customer instances, the source pluggable database (PDB) must be on the same Exadata Infrastructure as the
 // target container database (CDB) to create a remote clone.
-// isThinClone options are supported only for Exadata VM cluster on Exascale Infrastructure.
+// isThinClone options are supported for Exadata VM cluster on Exascale Infrastructure, Exadata Cloud@Customer VM Cluster on Exadata Cloud@Customer infrastructure, and Exadata Cloud VM cluster on cloud Exadata infrastructure.
 // Use `RELOCATE_PDB` for relocating the Pluggable Database from Source CDB and creating it in target CDB. This will relocate a
 // pluggable database (PDB) to a different database from the source PDB. The source PDB must be in the `READ_WRITE` openMode when
 // performing the relocate.
