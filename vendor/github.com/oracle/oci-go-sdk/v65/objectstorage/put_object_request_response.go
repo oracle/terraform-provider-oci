@@ -60,6 +60,34 @@ type PutObjectRequest struct {
 	// "The computed MD5 of the request body (ACTUAL_MD5) does not match the Content-MD5 header (HEADER_MD5)"
 	ContentMD5 *string `mandatory:"false" contributesTo:"header" name:"Content-MD5"`
 
+	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
+	// in addition to the default MD5 checksum.
+	OpcChecksumAlgorithm PutObjectOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
+
+	// Applicable only if CRC32C is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the body. If the optional opc-content-crc32c header
+	// is present, Object Storage performs an integrity check on the body of the HTTP request by computing the CRC32C checksum for the body and comparing
+	// it to the CRC32C checksum supplied in the header. If the two checksums do not match, the object is rejected and an HTTP-400 Unmatched Content CRC32C error
+	// is returned with the message:
+	// "The computed CRC32C of the request body (ACTUAL_CRC32C) does not match the opc-content-crc32c header (HEADER_CRC32C)"
+	OpcContentCrc32c *string `mandatory:"false" contributesTo:"header" name:"opc-content-crc32c"`
+
+	// Applicable only if SHA256 is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded SHA256 hash of the body. If the optional opc-content-sha256 header is present, Object
+	// Storage performs an integrity check on the body of the HTTP request by computing the SHA256 hash for the body and comparing it to the
+	// SHA256 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA256 error
+	// is returned with the message:
+	// "The computed SHA256 of the request body (ACTUAL_SHA256) does not match the opc-content-sha256 header (HEADER_SHA256)"
+	OpcContentSha256 *string `mandatory:"false" contributesTo:"header" name:"opc-content-sha256"`
+
+	// Applicable only if SHA384 is specified in the opc-checksum-algorithm request header.
+	// The optional header that defines the base64-encoded SHA384 hash of the body. If the optional opc-content-sha384 header is present, Object
+	// Storage performs an integrity check on the body of the HTTP request by computing the SHA384 hash for the body and comparing it to the
+	// SHA384 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA384 error
+	// is returned with the message:
+	// "The computed SHA384 of the request body (ACTUAL_SHA384) does not match the opc-content-sha384 header (HEADER_SHA384)"
+	OpcContentSha384 *string `mandatory:"false" contributesTo:"header" name:"opc-content-sha384"`
+
 	// The optional Content-Type header that defines the standard MIME type format of the object. Content type defaults to
 	// 'application/octet-stream' if not specified in the PutObject call. Specifying values for this header has no effect
 	// on Object Storage behavior. Programs that read the object determine what to do based on the value provided. For example,
@@ -189,6 +217,9 @@ func (request PutObjectRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request PutObjectRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingPutObjectOpcChecksumAlgorithmEnum(string(request.OpcChecksumAlgorithm)); !ok && request.OpcChecksumAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpcChecksumAlgorithm: %s. Supported values are: %s.", request.OpcChecksumAlgorithm, strings.Join(GetPutObjectOpcChecksumAlgorithmEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingPutObjectStorageTierEnum(string(request.StorageTier)); !ok && request.StorageTier != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageTier: %s. Supported values are: %s.", request.StorageTier, strings.Join(GetPutObjectStorageTierEnumStringValues(), ",")))
 	}
@@ -214,6 +245,15 @@ type PutObjectResponse struct {
 	// The base64-encoded MD5 hash of the request body as computed by the server.
 	OpcContentMd5 *string `presentIn:"header" name:"opc-content-md5"`
 
+	// The base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the request body as computed by the server. Applicable only if CRC32C was specified in opc-checksum-algorithm request header during upload.
+	OpcContentCrc32c *string `presentIn:"header" name:"opc-content-crc32c"`
+
+	// The base64-encoded SHA256 hash of the request body as computed by the server. Applicable only if SHA256 was specified in opc-checksum-algorithm request header during upload.
+	OpcContentSha256 *string `presentIn:"header" name:"opc-content-sha256"`
+
+	// The base64-encoded SHA384 hash of the request body as computed by the server. Applicable only if SHA384 was specified in opc-checksum-algorithm request header during upload.
+	OpcContentSha384 *string `presentIn:"header" name:"opc-content-sha384"`
+
 	// The entity tag (ETag) for the object.
 	ETag *string `presentIn:"header" name:"etag"`
 
@@ -231,6 +271,52 @@ func (response PutObjectResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response PutObjectResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// PutObjectOpcChecksumAlgorithmEnum Enum with underlying type: string
+type PutObjectOpcChecksumAlgorithmEnum string
+
+// Set of constants representing the allowable values for PutObjectOpcChecksumAlgorithmEnum
+const (
+	PutObjectOpcChecksumAlgorithmCrc32c PutObjectOpcChecksumAlgorithmEnum = "CRC32C"
+	PutObjectOpcChecksumAlgorithmSha256 PutObjectOpcChecksumAlgorithmEnum = "SHA256"
+	PutObjectOpcChecksumAlgorithmSha384 PutObjectOpcChecksumAlgorithmEnum = "SHA384"
+)
+
+var mappingPutObjectOpcChecksumAlgorithmEnum = map[string]PutObjectOpcChecksumAlgorithmEnum{
+	"CRC32C": PutObjectOpcChecksumAlgorithmCrc32c,
+	"SHA256": PutObjectOpcChecksumAlgorithmSha256,
+	"SHA384": PutObjectOpcChecksumAlgorithmSha384,
+}
+
+var mappingPutObjectOpcChecksumAlgorithmEnumLowerCase = map[string]PutObjectOpcChecksumAlgorithmEnum{
+	"crc32c": PutObjectOpcChecksumAlgorithmCrc32c,
+	"sha256": PutObjectOpcChecksumAlgorithmSha256,
+	"sha384": PutObjectOpcChecksumAlgorithmSha384,
+}
+
+// GetPutObjectOpcChecksumAlgorithmEnumValues Enumerates the set of values for PutObjectOpcChecksumAlgorithmEnum
+func GetPutObjectOpcChecksumAlgorithmEnumValues() []PutObjectOpcChecksumAlgorithmEnum {
+	values := make([]PutObjectOpcChecksumAlgorithmEnum, 0)
+	for _, v := range mappingPutObjectOpcChecksumAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetPutObjectOpcChecksumAlgorithmEnumStringValues Enumerates the set of values in String for PutObjectOpcChecksumAlgorithmEnum
+func GetPutObjectOpcChecksumAlgorithmEnumStringValues() []string {
+	return []string{
+		"CRC32C",
+		"SHA256",
+		"SHA384",
+	}
+}
+
+// GetMappingPutObjectOpcChecksumAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingPutObjectOpcChecksumAlgorithmEnum(val string) (PutObjectOpcChecksumAlgorithmEnum, bool) {
+	enum, ok := mappingPutObjectOpcChecksumAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
 
 // PutObjectStorageTierEnum Enum with underlying type: string
