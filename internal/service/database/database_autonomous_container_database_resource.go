@@ -632,6 +632,10 @@ func DatabaseAutonomousContainerDatabaseResource() *schema.Resource {
 				Type:     schema.TypeInt,
 				Computed: true,
 			},
+			"key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"next_maintenance_run_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -723,6 +727,13 @@ func updateDatabaseAutonomousContainerDatabase(d *schema.ResourceData, m interfa
 	sync.WorkRequestClient = m.(*client.OracleClients).WorkRequestClient
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
+		err := sync.RotateContainerDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("key_version_id"); ok && sync.D.HasChange("key_version_id") {
 		err := sync.RotateContainerDatabaseEncryptionKey()
 		if err != nil {
 			return err
@@ -1629,6 +1640,11 @@ func (s *DatabaseAutonomousContainerDatabaseResourceCrud) RotateContainerDatabas
 
 	if _, isDedicated := s.D.GetOkExists("cloud_autonomous_vm_cluster_id"); !isDedicated {
 		return fmt.Errorf("Container database is not dedicated")
+	}
+
+	if keyVersionId, ok := s.D.GetOkExists("key_version_id"); ok {
+		tmp := keyVersionId.(string)
+		request.KeyVersionId = &tmp
 	}
 
 	tmp := s.D.Id()
