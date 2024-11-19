@@ -365,6 +365,48 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				},
 			),
 		},
+		//verify rotate key
+		{
+			Config: config + compartmentIdVariableStr + ATPDAutonomousContainerDatabaseResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_autonomous_container_database", "test_autonomous_container_database", acctest.Optional, acctest.Update,
+					acctest.RepresentationCopyWithNewProperties(AutonomousContainerDatabaseDedicatedRepresentation, map[string]interface{}{
+						"rotate_key_trigger": acctest.Representation{RepType: acctest.Optional, Create: `true`},
+						"key_version_id":     acctest.Representation{RepType: acctest.Optional, Create: `1`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "cloud_autonomous_vm_cluster_id"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "backup_config.0.recovery_window_in_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "db_split_threshold", "12"),
+				resource.TestCheckResourceAttr(resourceName, "distribution_affinity", "MINIMUM_DISTRIBUTION"),
+				resource.TestCheckResourceAttrSet(resourceName, "db_version"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "is_automatic_failover_enabled", "false"),
+				resource.TestCheckResourceAttr(resourceName, "is_dst_file_update_enabled", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "kms_key_id"),
+				resource.TestCheckResourceAttr(resourceName, "net_services_architecture", "DEDICATED"),
+				resource.TestCheckResourceAttr(resourceName, "patch_model", "RELEASE_UPDATE_REVISIONS"),
+				resource.TestCheckResourceAttr(resourceName, "service_level_agreement_type", "STANDARD"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttrSet(resourceName, "vault_id"),
+				resource.TestCheckResourceAttr(resourceName, "version_preference", "NEXT_RELEASE_UPDATE"),
+				resource.TestCheckResourceAttr(resourceName, "vm_failover_reservation", "25"),
+				resource.TestCheckResourceAttr(resourceName, "db_name", "DBNAME"),
+				resource.TestCheckResourceAttr(resourceName, "key_version_id", "1"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+
 		//verify datasource
 		{
 			Config: config +
@@ -521,6 +563,7 @@ func TestDatabaseAutonomousContainerDatabaseResource_basic(t *testing.T) {
 				"database_software_image_id",
 				"is_automatic_failover_enabled",
 				"rotate_key_trigger",
+				"key_version_id",
 				"maintenance_window_details",
 				"peer_autonomous_container_database_backup_config",
 				"peer_autonomous_container_database_compartment_id",
