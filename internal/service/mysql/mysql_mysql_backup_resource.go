@@ -11,7 +11,6 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
-	"github.com/oracle/terraform-provider-oci/internal/utils"
 
 	oci_mysql "github.com/oracle/oci-go-sdk/v65/mysql"
 )
@@ -522,7 +521,6 @@ func deleteMysqlMysqlBackup(d *schema.ResourceData, m interface{}) error {
 type MysqlMysqlBackupResourceCrud struct {
 	tfresource.BaseCrud
 	Client                 *oci_mysql.DbBackupsClient
-	DestRegionClient       *oci_mysql.DbBackupsClient
 	Res                    *oci_mysql.Backup
 	DisableNotFoundRetries bool
 }
@@ -681,7 +679,7 @@ func (s *MysqlMysqlBackupResourceCrud) createMysqlBackupCopy() error {
 		return err
 	}
 
-	response, err := s.DestRegionClient.CopyBackup(context.Background(), copyMysqlBackupRequest)
+	response, err := s.Client.CopyBackup(context.Background(), copyMysqlBackupRequest)
 	if err != nil {
 		return err
 	}
@@ -766,11 +764,6 @@ func (s *MysqlMysqlBackupResourceCrud) Delete() error {
 
 	tmp := s.D.Id()
 	request.BackupId = &tmp
-
-	if s.isBackupCopy() {
-		destinationRegion := utils.GetEnvSettingWithBlankDefault("destination_region")
-		s.Client.SetRegion(destinationRegion)
-	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "mysql")
 
