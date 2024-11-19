@@ -115,7 +115,10 @@ func getRegionForFederationClient(dispatcher common.HTTPRequestDispatcher, url s
 			return common.StringToRegion(body.String()), nil
 		}
 		common.Logf("Error in getting region from url: %s, Status code: %v, Error: %s", url, statusCode, err.Error())
-		nextDuration := time.Duration(1000.0*(float64(int(1)<<currTry))+rand.Float64()) * time.Millisecond
+		nextDuration := time.Duration(float64(int(1)<<currTry)+rand.Float64()) * time.Second
+		if nextDuration > 30*time.Second {
+			nextDuration = 30*time.Second + time.Duration(rand.Float64())*time.Second
+		}
 		common.Logf("Retrying for getRegionForFederationClinet function, current retry count is:%v, sleep after %v", currTry+1, nextDuration)
 		time.Sleep(nextDuration)
 	}
