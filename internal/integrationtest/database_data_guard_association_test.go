@@ -40,34 +40,9 @@ var (
 		"protection_mode":                  acctest.Representation{RepType: acctest.Required, Create: `MAXIMUM_PERFORMANCE`},
 		"transport_type":                   acctest.Representation{RepType: acctest.Required, Create: `ASYNC`},
 		"cpu_core_count":                   acctest.Representation{RepType: acctest.Optional, Create: `10`},
-<<<<<<< ours
-		"data_collection_options":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDataGuardAssociationDataCollectionOptionsRepresentation},
-		"database_defined_tags":            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"databaseDefinedTags": "databaseDefinedTags"}, Update: map[string]string{"databaseDefinedTags2": "databaseDefinedTags2"}},
-		"database_freeform_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"databaseFreeformTags": "databaseFreeformTags"}, Update: map[string]string{"databaseFreeformTags2": "databaseFreeformTags2"}},
-		"database_software_image_id":       acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_database_software_image.test_database_software_image.id}`},
-		"db_system_defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemDefinedTags": "dbSystemDefinedTags"}, Update: map[string]string{"dbSystemDefinedTags2": "dbSystemDefinedTags2"}},
-		"db_system_freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemFreeformTags": "dbSystemFreeformTags"}, Update: map[string]string{"dbSystemFreeformTags2": "dbSystemFreeformTags2"}},
-		"db_system_security_attributes":    acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dbSystemSecurityAttributes": "dbSystemSecurityAttributes"}, Update: map[string]string{"dbSystemSecurityAttributes2": "dbSystemSecurityAttributes2"}},
-		"display_name":                     acctest.Representation{RepType: acctest.Optional, Create: `displayName`},
-		"domain":                           acctest.Representation{RepType: acctest.Optional, Create: `domain`},
-		"fault_domains":                    acctest.Representation{RepType: acctest.Optional, Create: []string{`faultDomains`}},
-		"hostname":                         acctest.Representation{RepType: acctest.Optional, Create: `hostname`},
-		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
-		"license_model":                    acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
-		"node_count":                       acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"nsg_ids":                          acctest.Representation{RepType: acctest.Optional, Create: []string{`nsgIds`}},
-		"peer_db_home_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_home.test_db_home.id}`},
-		"peer_db_system_id":                acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_db_system.test_db_system.id}`},
-		"peer_db_unique_name":              acctest.Representation{RepType: acctest.Optional, Create: `peerDbUniqueName`},
-		"peer_sid_prefix":                  acctest.Representation{RepType: acctest.Optional, Create: `peerSidPrefix`},
-		"peer_vm_cluster_id":               acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
-		"private_ip":                       acctest.Representation{RepType: acctest.Optional, Create: `privateIp`},
-		"shape":                            acctest.Representation{RepType: acctest.Optional, Create: `shape`},
-=======
 		"domain":                           acctest.Representation{RepType: acctest.Optional, Create: `tftestsubnet.dnslabel.oraclevcn.com`},
 		"data_collection_options":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: dataGuardAssociationDataCollectionOptionsRepresentation},
 		"is_active_data_guard_enabled":     acctest.Representation{RepType: acctest.Optional, Create: `false`},
->>>>>>> theirs
 		"storage_volume_performance_mode":  acctest.Representation{RepType: acctest.Optional, Create: `BALANCED`},
 	}
 
@@ -305,23 +280,6 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_diagnostics_events_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_health_monitoring_enabled", "false"),
 				resource.TestCheckResourceAttr(resourceName, "data_collection_options.0.is_incident_logs_enabled", "false"),
-<<<<<<< ours
-				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "<var>&lt;password&gt;</var>"),
-				resource.TestCheckResourceAttr(resourceName, "database_defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "database_freeform_tags.%", "1"),
-				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_security_attributes.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "delete_standby_db_home_on_delete", "deleteStandbyDbHomeOnDelete"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "domain", "domain"),
-				resource.TestCheckResourceAttr(resourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-=======
->>>>>>> theirs
 				resource.TestCheckResourceAttr(resourceName, "is_active_data_guard_enabled", "false"),
 
 				func(s *terraform.State) (err error) {
@@ -339,24 +297,7 @@ func TestDatabaseDataGuardAssociationResource_basic(t *testing.T) {
 				//resource.TestCheckResourceAttr(resourceName, "creation_type", "NewDbSystem"),
 				resource.TestCheckResourceAttr(resourceName, "database_admin_password", "BEstrO0ng_#11"),
 				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-<<<<<<< ours
-				resource.TestCheckResourceAttrSet(resourceName, "database_software_image_id"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_defined_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_freeform_tags.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "db_system_security_attributes.%", "1"),
-				resource.TestCheckResourceAttr(resourceName, "delete_standby_db_home_on_delete", "deleteStandbyDbHomeOnDelete"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
-				resource.TestCheckResourceAttr(resourceName, "domain", "domain"),
-				resource.TestCheckResourceAttr(resourceName, "fault_domains.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "hostname", "hostname"),
-				resource.TestCheckResourceAttrSet(resourceName, "id"),
-				resource.TestCheckResourceAttr(resourceName, "is_active_data_guard_enabled", "true"),
-				resource.TestCheckResourceAttr(resourceName, "license_model", "LICENSE_INCLUDED"),
-				resource.TestCheckResourceAttr(resourceName, "node_count", "10"),
-				resource.TestCheckResourceAttrSet(resourceName, "peer_db_home_id"),
-=======
 				resource.TestCheckResourceAttr(resourceName, "nsg_ids.#", "1"),
->>>>>>> theirs
 				resource.TestCheckResourceAttrSet(resourceName, "peer_db_system_id"),
 				resource.TestCheckResourceAttr(resourceName, "protection_mode", "MAXIMUM_PERFORMANCE"),
 				resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.2"),
