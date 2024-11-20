@@ -26,6 +26,22 @@ import (
 )
 
 var (
+<<<<<<< ours
+	DatabaseBackupRequiredOnlyResource = DatabaseBackupResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation)
+
+	DatabaseBackupDataSourceRepresentation = map[string]interface{}{
+		"backup_destination_type": acctest.Representation{RepType: acctest.Optional, Create: `backupDestinationType`},
+		"compartment_id":          acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"database_id":             acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"shape_family":            acctest.Representation{RepType: acctest.Optional, Create: `SINGLENODE`},
+		"state":                   acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"time_expiry_scheduled_greater_than_or_equal_to": acctest.Representation{RepType: acctest.Optional, Create: `timeExpiryScheduledGreaterThanOrEqualTo`},
+		"time_expiry_scheduled_less_than":                acctest.Representation{RepType: acctest.Optional, Create: `timeExpiryScheduledLessThan`},
+		"type":                                           acctest.Representation{RepType: acctest.Optional, Create: `type`},
+		"version":                                        acctest.Representation{RepType: acctest.Optional, Create: `version`},
+		"filter":                                         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDataSourceFilterRepresentation}}
+=======
 	BackupRequiredOnlyResource = acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation)
 
 	DatabaseBackupFilterByShapeDataSourceRepresentation = map[string]interface{}{
@@ -36,6 +52,7 @@ var (
 	DatabaseDatabaseBackupDataSourceRepresentation = map[string]interface{}{
 		"database_id": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_database_databases.db.databases.0.id}`},
 		"filter":      acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseBackupDataSourceFilterRepresentation}}
+>>>>>>> theirs
 	DatabaseBackupDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_database_backup.test_backup.id}`}},
@@ -132,10 +149,17 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	resourceName := "oci_database_backup.test_backup"
 	datasourceName := "data.oci_database_backups.test_backups"
 
-	var resId, resId2, compId string
+<<<<<<< ours
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseBackupResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Create, DatabaseBackupRepresentation), "database", "backup", t)
+=======
+	var resId, compId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseBackupResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation), "database", "backup", t)
+>>>>>>> theirs
 
 	acctest.ResourceTest(t, testAccCheckDatabaseBackupDestroy, []resource.TestStep{
 		// verify Create
@@ -148,7 +172,31 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+<<<<<<< ours
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Create, DatabaseBackupRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
+				resource.TestCheckResourceAttr(resourceName, "retention_period_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "retention_period_in_years", "10"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+=======
 					compId = "oci_database_backup:" + resId
+>>>>>>> theirs
 					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
 						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&compId, &compartmentId, resourceName); errExport != nil {
 							return errExport
@@ -185,6 +233,11 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseDatabaseBackupResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, DatabaseBackupRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+<<<<<<< ours
+				resource.TestCheckResourceAttr(datasourceName, "backup_destination_type", "backupDestinationType"),
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+=======
+>>>>>>> theirs
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "shape_family", "SINGLENODE"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -202,6 +255,12 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_size_in_gbs"),
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.display_name", "Monthly Backup"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
+<<<<<<< ours
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.is_using_oracle_managed_keys"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.key_store_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.key_store_wallet_name"),
+=======
+>>>>>>> theirs
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_version_id"),
 				resource.TestCheckResourceAttr(datasourceName, "backups.0.retention_period_in_days", "11"),
@@ -219,6 +278,13 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 		},
 		// verify resource import
 		{
+<<<<<<< ours
+			Config:                  config + DatabaseBackupRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+=======
 			Config:            config + BackupRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
@@ -270,6 +336,7 @@ func TestDatabaseBackupListByShapeFamily_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.version"),
 			),
+>>>>>>> theirs
 		},
 	})
 }
