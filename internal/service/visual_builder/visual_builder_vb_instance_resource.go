@@ -6,6 +6,7 @@ package visual_builder
 import (
 	"context"
 	"fmt"
+	"log"
 	"strings"
 	"time"
 
@@ -14,6 +15,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_visual_builder "github.com/oracle/oci-go-sdk/v65/visualbuilder"
@@ -131,74 +133,51 @@ func VisualBuilderVbInstanceResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"network_endpoint_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"network_endpoint_type": {
+							Type:             schema.TypeString,
+							Required:         true,
+							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+							ValidateFunc: validation.StringInSlice([]string{
+								"PRIVATE",
+							}, true),
+						},
+						"subnet_id": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"network_security_group_ids": {
+							Type:     schema.TypeSet,
+							Optional: true,
+							Computed: true,
+							Set:      tfresource.LiteralTypeHashCodeForSets,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"private_endpoint_ip": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 
 			// Computed
-			"attachments": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"is_implicit": {
-							Type:     schema.TypeBool,
-							Computed: true,
-						},
-						"target_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"target_instance_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"target_role": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"target_service_type": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
-			"idcs_info": {
-				Type:     schema.TypeList,
-				Computed: true,
-				Elem: &schema.Resource{
-					Schema: map[string]*schema.Schema{
-						// Required
-
-						// Optional
-
-						// Computed
-						"idcs_app_display_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"idcs_app_id": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"idcs_app_location_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"idcs_app_name": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-						"instance_primary_audience_url": {
-							Type:     schema.TypeString,
-							Computed: true,
-						},
-					},
-				},
-			},
 			"instance_url": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -377,6 +356,17 @@ func (s *VisualBuilderVbInstanceResourceCrud) Create() error {
 	if isVisualBuilderEnabled, ok := s.D.GetOkExists("is_visual_builder_enabled"); ok {
 		tmp := isVisualBuilderEnabled.(bool)
 		request.IsVisualBuilderEnabled = &tmp
+	}
+
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok {
+		if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+			tmp, err := s.mapToNetworkEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkEndpointDetails = tmp
+		}
 	}
 
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
@@ -613,6 +603,17 @@ func (s *VisualBuilderVbInstanceResourceCrud) Update() error {
 		request.IsVisualBuilderEnabled = &tmp
 	}
 
+	if networkEndpointDetails, ok := s.D.GetOkExists("network_endpoint_details"); ok {
+		if tmpList := networkEndpointDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_endpoint_details", 0)
+			tmp, err := s.mapToUpdateNetworkEndpointDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkEndpointDetails = tmp
+		}
+	}
+
 	if nodeCount, ok := s.D.GetOkExists("node_count"); ok {
 		tmp := nodeCount.(int)
 		request.NodeCount = &tmp
@@ -708,6 +709,16 @@ func (s *VisualBuilderVbInstanceResourceCrud) SetData() error {
 
 	if s.Res.ManagementVcnId != nil {
 		s.D.Set("management_vcn_id", *s.Res.ManagementVcnId)
+	}
+
+	if s.Res.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails, false); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
+	} else {
+		s.D.Set("network_endpoint_details", nil)
 	}
 
 	if s.Res.NodeCount != nil {
@@ -817,27 +828,119 @@ func VbCustomEndpointDetailsToMap(obj *oci_visual_builder.CustomEndpointDetails)
 	return result
 }
 
-func IdcsInfoDetailsToMap(obj *oci_visual_builder.IdcsInfoDetails) map[string]interface{} {
+func (s *VisualBuilderVbInstanceResourceCrud) mapToNetworkEndpointDetails(fieldKeyFormat string) (oci_visual_builder.NetworkEndpointDetails, error) {
+	var baseObject oci_visual_builder.NetworkEndpointDetails
+	//discriminator
+	networkEndpointTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_endpoint_type"))
+	var networkEndpointType string
+	if ok {
+		networkEndpointType = networkEndpointTypeRaw.(string)
+	} else {
+		networkEndpointType = "" // default value
+	}
+	switch strings.ToLower(networkEndpointType) {
+	case strings.ToLower("PRIVATE"):
+		details := oci_visual_builder.PrivateEndpointDetails{}
+		if networkSecurityGroupIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")); ok {
+			set := networkSecurityGroupIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")) {
+				details.NetworkSecurityGroupIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
+	}
+	return baseObject, nil
+}
+
+func (s *VisualBuilderVbInstanceResourceCrud) mapToUpdateNetworkEndpointDetails(fieldKeyFormat string) (oci_visual_builder.UpdateNetworkEndpointDetails, error) {
+	var baseObject oci_visual_builder.UpdateNetworkEndpointDetails
+	//discriminator
+	networkEndpointTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_endpoint_type"))
+	var networkEndpointType string
+	if ok {
+		networkEndpointType = networkEndpointTypeRaw.(string)
+	} else {
+		networkEndpointType = "" // default value
+	}
+	switch strings.ToLower(networkEndpointType) {
+	case strings.ToLower("PRIVATE"):
+		details := oci_visual_builder.UpdatePrivateEndpointDetails{}
+		if networkSecurityGroupIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")); ok {
+			set := networkSecurityGroupIds.(*schema.Set)
+			interfaces := set.List()
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "network_security_group_ids")) {
+				details.NetworkSecurityGroupIds = tmp
+			}
+		}
+		if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
+			tmp := subnetId.(string)
+			details.SubnetId = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown network_endpoint_type '%v' was specified", networkEndpointType)
+	}
+	return baseObject, nil
+}
+
+func NetworkEndpointDetailsToMap(obj *oci_visual_builder.NetworkEndpointDetails, datasource bool) map[string]interface{} {
 	result := map[string]interface{}{}
+	log.Printf("Here => datasource = %t", datasource)
+	switch v := (*obj).(type) {
+	case oci_visual_builder.PrivateEndpointDetails:
+		result["network_endpoint_type"] = "PRIVATE"
 
-	if obj.IdcsAppDisplayName != nil {
-		result["idcs_app_display_name"] = string(*obj.IdcsAppDisplayName)
-	}
+		networkSecurityGroupIds := []interface{}{}
+		for _, item := range v.NetworkSecurityGroupIds {
+			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+		}
+		result["network_security_group_ids"] = networkSecurityGroupIds
+		log.Printf("Here => %s", result)
 
-	if obj.IdcsAppId != nil {
-		result["idcs_app_id"] = string(*obj.IdcsAppId)
-	}
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+		if v.PrivateEndpointIp != nil {
+			result["private_endpoint_ip"] = string(*v.PrivateEndpointIp)
+		}
+	case oci_visual_builder.UpdatePrivateEndpointDetails:
+		result["network_endpoint_type"] = "PRIVATE"
 
-	if obj.IdcsAppLocationUrl != nil {
-		result["idcs_app_location_url"] = string(*obj.IdcsAppLocationUrl)
-	}
+		networkSecurityGroupIds := []interface{}{}
+		for _, item := range v.NetworkSecurityGroupIds {
+			networkSecurityGroupIds = append(networkSecurityGroupIds, item)
+		}
+		if datasource {
+			result["network_security_group_ids"] = networkSecurityGroupIds
+		} else {
+			result["network_security_group_ids"] = schema.NewSet(tfresource.LiteralTypeHashCodeForSets, networkSecurityGroupIds)
+		}
 
-	if obj.IdcsAppName != nil {
-		result["idcs_app_name"] = string(*obj.IdcsAppName)
-	}
-
-	if obj.InstancePrimaryAudienceUrl != nil {
-		result["instance_primary_audience_url"] = string(*obj.InstancePrimaryAudienceUrl)
+		if v.SubnetId != nil {
+			result["subnet_id"] = string(*v.SubnetId)
+		}
+	default:
+		log.Printf("[WARN] Received 'network_endpoint_type' of unknown type %v", *obj)
+		return nil
 	}
 
 	return result
@@ -882,6 +985,14 @@ func VbInstanceSummaryToMap(obj oci_visual_builder.VbInstanceSummary) map[string
 
 	if obj.IsVisualBuilderEnabled != nil {
 		result["is_visual_builder_enabled"] = bool(*obj.IsVisualBuilderEnabled)
+	}
+
+	if obj.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&obj.NetworkEndpointDetails, false); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		result["network_endpoint_details"] = networkEndpointDetailsArray
 	}
 
 	if obj.NodeCount != nil {
