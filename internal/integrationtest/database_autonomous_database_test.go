@@ -63,6 +63,43 @@ var (
 	adbMemberName                    = utils.RandomString(1, utils.CharsetWithoutDigits) + utils.RandomString(13, utils.Charset)
 
 	DatabaseAutonomousDatabaseRepresentation = map[string]interface{}{
+<<<<<<< ours
+		"compartment_id":                                 acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"admin_password":                                 acctest.Representation{RepType: acctest.Optional, Create: `BEstrO0ng_#11`, Update: `BEstrO0ng_#12`},
+		"are_primary_whitelisted_ips_used":               acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"auto_refresh_frequency_in_seconds":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"auto_refresh_point_lag_in_seconds":              acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"autonomous_maintenance_schedule_type":           acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
+		"backup_retention_period_in_days":                acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"byol_compute_count_limit":                       acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"character_set":                                  acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"clone_type":                                     acctest.Representation{RepType: acctest.Optional, Create: `FULL`},
+		"compute_count":                                  acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"compute_model":                                  acctest.Representation{RepType: acctest.Optional, Create: `ECPU`, Update: `OCPU`},
+		"cpu_core_count":                                 acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"customer_contacts":                              acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
+		"data_safe_status":                               acctest.Representation{RepType: acctest.Optional, Create: `NOT_REGISTERED`},
+		"data_storage_size_in_gb":                        acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"data_storage_size_in_tbs":                       acctest.Representation{RepType: acctest.Optional, Create: `1`},
+		"database_edition":                               acctest.Representation{RepType: acctest.Optional, Create: `STANDARD_EDITION`, Update: `ENTERPRISE_EDITION`},
+		"db_name":                                        acctest.Representation{RepType: acctest.Optional, Create: `adbName`, Update: `dbName2`},
+		"db_tools_details":                               acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseDbToolsDetailsRepresentation},
+		"db_workload":                                    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`, Update: `DW`},
+		"defined_tags":                                   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"disaster_recovery_type":                         acctest.Representation{RepType: acctest.Optional, Create: `ADG`},
+		"display_name":                                   acctest.Representation{RepType: acctest.Optional, Create: `example_autonomous_database`, Update: `displayName2`},
+		"encryption_key":                                 acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseEncryptionKeyRepresentation},
+		"freeform_tags":                                  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"in_memory_percentage":                           acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"is_access_control_enabled":                      acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_auto_scaling_enabled":                        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_auto_scaling_for_storage_enabled":            acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_data_guard_enabled":                          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_dedicated":                                   acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_dev_tier":                                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_local_data_guard_enabled":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+		"is_mtls_connection_required":                    acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
+=======
 		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"cpu_core_count":                       acctest.Representation{RepType: acctest.Required, Create: `1`},
 		"data_storage_size_in_tbs":             acctest.Representation{RepType: acctest.Required, Create: `1`},
@@ -79,6 +116,7 @@ var (
 		"is_dedicated":                         acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"is_mtls_connection_required":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 		"autonomous_maintenance_schedule_type": acctest.Representation{RepType: acctest.Optional, Create: `REGULAR`},
+>>>>>>> theirs
 		"is_preview_version_with_service_terms_accepted": acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"customer_contacts":          acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseAutonomousDatabaseCustomerContactsRepresentation},
 		"license_model":              acctest.Representation{RepType: acctest.Optional, Create: `LICENSE_INCLUDED`},
@@ -1261,7 +1299,19 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"is_auto_scaling_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+<<<<<<< ours
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "false"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "byol_compute_count_limit", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
+=======
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+>>>>>>> theirs
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
@@ -1298,8 +1348,23 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 						"is_auto_scaling_for_storage_enabled": acctest.Representation{RepType: acctest.Optional, Update: `true`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+<<<<<<< ours
+				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "false"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "10"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "10"),
+				resource.TestCheckResourceAttr(resourceName, "byol_compute_count_limit", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttr(resourceName, "compute_count", "1.0"),
+				resource.TestCheckResourceAttr(resourceName, "compute_model", "ECPU"),
+=======
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+>>>>>>> theirs
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_storage_size_in_tbs", "1"),
 				resource.TestCheckResourceAttr(resourceName, "db_name", adbName),
@@ -1337,6 +1402,17 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "admin_password", "BEstrO0ng_#12"),
+<<<<<<< ours
+				resource.TestCheckResourceAttr(resourceName, "are_primary_whitelisted_ips_used", "true"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_frequency_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "auto_refresh_point_lag_in_seconds", "11"),
+				resource.TestCheckResourceAttr(resourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
+				resource.TestCheckResourceAttr(resourceName, "backup_retention_period_in_days", "11"),
+				resource.TestCheckResourceAttr(resourceName, "byol_compute_count_limit", "1.1"),
+				resource.TestCheckResourceAttr(resourceName, "character_set", "AL32UTF8"),
+				resource.TestCheckResourceAttr(resourceName, "clone_type", "FULL"),
+=======
+>>>>>>> theirs
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "cpu_core_count", "1"),
 				resource.TestCheckResourceAttr(resourceName, "data_safe_status", "NOT_REGISTERED"),
@@ -1378,7 +1454,14 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.actual_used_data_storage_size_in_tbs"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.allocated_storage_size_in_tbs"),
+<<<<<<< ours
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.apex_details.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.are_primary_whitelisted_ips_used", "true"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.auto_refresh_frequency_in_seconds", "11"),
+				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.auto_refresh_point_lag_in_seconds", "11"),
+=======
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.apex_details.#"),
+>>>>>>> theirs
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.autonomous_maintenance_schedule_type", "REGULAR"),
 				resource.TestCheckResourceAttrSet(datasourceName, "autonomous_databases.0.availability_domain"),
 				resource.TestCheckResourceAttr(datasourceName, "autonomous_databases.0.backup_config.#", "1"),
@@ -1464,7 +1547,17 @@ func TestDatabaseAutonomousDatabaseResource_basic(t *testing.T) {
 				acctest.GenerateDataSourceFromRepresentationMap("oci_database_autonomous_database", "test_autonomous_database", acctest.Required, acctest.Create, DatabaseDatabaseAutonomousDatabaseSingularDataSourceRepresentation) +
 				compartmentIdVariableStr + DatabaseAutonomousDatabaseResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+<<<<<<< ours
+
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "actual_used_data_storage_size_in_tbs"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "allocated_storage_size_in_tbs"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "apex_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "are_primary_whitelisted_ips_used", "true"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "auto_refresh_frequency_in_seconds", "11"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "auto_refresh_point_lag_in_seconds", "11"),
+=======
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "autonomous_database_id"),
+>>>>>>> theirs
 				resource.TestCheckResourceAttr(singularDatasourceName, "autonomous_maintenance_schedule_type", "REGULAR"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_config.#", "1"),
