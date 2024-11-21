@@ -52,6 +52,8 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
   storage_backup_policy_id = var.desktop_pool_backup_policy_id
   storage_size_in_gbs      = var.desktop_pool_storage_size_in_gbs
 
+  are_volumes_preserved = var.desktop_pool_are_volumes_preserved
+
   shape_name   = var.desktop_pool_shape_name
   standby_size = var.desktop_pool_standby_size
   maximum_size = var.desktop_pool_maximum_size
