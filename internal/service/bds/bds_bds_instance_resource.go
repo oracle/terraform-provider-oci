@@ -291,7 +291,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
-							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -364,7 +363,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"block_volume_size_in_gbs": {
 							Type:             schema.TypeString,
 							Optional:         true,
-							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
@@ -424,7 +422,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 						"subnet_id": {
 							Type:     schema.TypeString,
 							Required: true,
-							ForceNew: true,
 						},
 
 						"block_volume_size_in_gbs": {
@@ -435,9 +432,8 @@ func BdsBdsInstanceResource() *schema.Resource {
 						},
 
 						"number_of_kafka_nodes": {
-							Type:         schema.TypeInt,
-							Required:     true,
-							ValidateFunc: validation.IntAtLeast(3),
+							Type:     schema.TypeInt,
+							Required: true,
 						},
 
 						"shape_config": {
@@ -1400,6 +1396,7 @@ func (s *BdsBdsInstanceResourceCrud) Get() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) Update() error {
+	isKafkaBrokerAdded := false
 	if cloudSqlConfigured, ok := s.D.GetOkExists("is_cloud_sql_configured"); ok && s.D.HasChange("is_cloud_sql_configured") {
 		oldRaw, newRaw := s.D.GetChange("is_cloud_sql_configured")
 		if newRaw != "" && oldRaw != "" {
@@ -1472,6 +1469,7 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 						return fmt.Errorf("kafka broker node definition is missing")
 					}
 					err := s.AddKafka()
+					isKafkaBrokerAdded = true
 					if err != nil {
 						return err
 					}
@@ -1490,11 +1488,18 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 					}
 				}
 				err := s.RemoveKafka()
+				isKafkaBrokerAdded = true
 				if err != nil {
 					return err
 				}
 			}
 		}
+	} else {
+		isKafkaBrokerAdded1, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
+		if kafkaBrokerErr != nil {
+			return kafkaBrokerErr
+		}
+		isKafkaBrokerAdded = isKafkaBrokerAdded1
 	}
 
 	err := s.ExecuteBootstrapScript()
@@ -1680,12 +1685,6 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 	isEdgeAdded, edgeErr := s.updateEdgeIfRequired()
 	if edgeErr != nil {
 		return edgeErr
-	}
-
-	// kafka
-	isKafkaBrokerAdded, kafkaBrokerErr := s.updateKafkaBrokerIfRequired()
-	if kafkaBrokerErr != nil {
-		return kafkaBrokerErr
 	}
 
 	result := oci_bds.ChangeShapeNodes{}
@@ -2226,7 +2225,7 @@ func (s *BdsBdsInstanceResourceCrud) AddKafka() error {
 				}
 			}
 
-			if numberOfKafkaNodes, ok := s.D.GetOkExists("number_of_kafka_nodes"); ok {
+			if numberOfKafkaNodes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "number_of_kafka_nodes")); ok {
 				tmp := numberOfKafkaNodes.(int)
 				request.NumberOfKafkaNodes = &tmp
 			}
@@ -2895,7 +2894,7 @@ func ShapeChangeDiffSuppressFunction(nodeType string, d *schema.ResourceData) bo
 	} else if nodeType == "edge" && ignoreEdgeShape == true {
 		addNode = d.HasChange("edge_node.0.number_of_nodes")
 	} else if nodeType == "kafka_broker" && ignoreKafkaBrokerShape == true {
-		addNode = d.HasChange("kafka_broker_node.0.number_of_nodes")
+		addNode = d.HasChange("kafka_broker_node.0.number_of_kafka_nodes")
 	} else {
 		addNode = true
 	}

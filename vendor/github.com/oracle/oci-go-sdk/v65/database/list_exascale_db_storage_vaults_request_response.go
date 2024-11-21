@@ -42,6 +42,9 @@ type ListExascaleDbStorageVaultsRequest struct {
 	// Unique identifier for the request.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only list of Vaults that are linked to the exadata infrastructure Id.
+	ExadataInfrastructureId *string `mandatory:"false" contributesTo:"query" name:"exadataInfrastructureId"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

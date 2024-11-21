@@ -55,6 +55,7 @@ func TestPsqlDbSystemConnectionDetailResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "ca_certificate"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_endpoints.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "primary_db_endpoint.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "reader_endpoint.#", "1"),
 			),
 		},
 	})

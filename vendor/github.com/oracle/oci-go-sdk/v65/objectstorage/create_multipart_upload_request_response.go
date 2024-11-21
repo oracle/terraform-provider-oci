@@ -58,6 +58,10 @@ type CreateMultipartUploadRequest struct {
 	// Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 	OpcSseKmsKeyId *string `mandatory:"false" contributesTo:"header" name:"opc-sse-kms-key-id"`
 
+	// The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads),
+	// in addition to the default MD5 checksum.
+	OpcChecksumAlgorithm CreateMultipartUploadOpcChecksumAlgorithmEnum `mandatory:"false" contributesTo:"header" name:"opc-checksum-algorithm"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -119,6 +123,9 @@ func (request CreateMultipartUploadRequest) RetryPolicy() *common.RetryPolicy {
 // Not recommended for calling this function directly
 func (request CreateMultipartUploadRequest) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
+	if _, ok := GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum(string(request.OpcChecksumAlgorithm)); !ok && request.OpcChecksumAlgorithm != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for OpcChecksumAlgorithm: %s. Supported values are: %s.", request.OpcChecksumAlgorithm, strings.Join(GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -152,4 +159,50 @@ func (response CreateMultipartUploadResponse) String() string {
 // HTTPResponse implements the OCIResponse interface
 func (response CreateMultipartUploadResponse) HTTPResponse() *http.Response {
 	return response.RawResponse
+}
+
+// CreateMultipartUploadOpcChecksumAlgorithmEnum Enum with underlying type: string
+type CreateMultipartUploadOpcChecksumAlgorithmEnum string
+
+// Set of constants representing the allowable values for CreateMultipartUploadOpcChecksumAlgorithmEnum
+const (
+	CreateMultipartUploadOpcChecksumAlgorithmCrc32c CreateMultipartUploadOpcChecksumAlgorithmEnum = "CRC32C"
+	CreateMultipartUploadOpcChecksumAlgorithmSha256 CreateMultipartUploadOpcChecksumAlgorithmEnum = "SHA256"
+	CreateMultipartUploadOpcChecksumAlgorithmSha384 CreateMultipartUploadOpcChecksumAlgorithmEnum = "SHA384"
+)
+
+var mappingCreateMultipartUploadOpcChecksumAlgorithmEnum = map[string]CreateMultipartUploadOpcChecksumAlgorithmEnum{
+	"CRC32C": CreateMultipartUploadOpcChecksumAlgorithmCrc32c,
+	"SHA256": CreateMultipartUploadOpcChecksumAlgorithmSha256,
+	"SHA384": CreateMultipartUploadOpcChecksumAlgorithmSha384,
+}
+
+var mappingCreateMultipartUploadOpcChecksumAlgorithmEnumLowerCase = map[string]CreateMultipartUploadOpcChecksumAlgorithmEnum{
+	"crc32c": CreateMultipartUploadOpcChecksumAlgorithmCrc32c,
+	"sha256": CreateMultipartUploadOpcChecksumAlgorithmSha256,
+	"sha384": CreateMultipartUploadOpcChecksumAlgorithmSha384,
+}
+
+// GetCreateMultipartUploadOpcChecksumAlgorithmEnumValues Enumerates the set of values for CreateMultipartUploadOpcChecksumAlgorithmEnum
+func GetCreateMultipartUploadOpcChecksumAlgorithmEnumValues() []CreateMultipartUploadOpcChecksumAlgorithmEnum {
+	values := make([]CreateMultipartUploadOpcChecksumAlgorithmEnum, 0)
+	for _, v := range mappingCreateMultipartUploadOpcChecksumAlgorithmEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues Enumerates the set of values in String for CreateMultipartUploadOpcChecksumAlgorithmEnum
+func GetCreateMultipartUploadOpcChecksumAlgorithmEnumStringValues() []string {
+	return []string{
+		"CRC32C",
+		"SHA256",
+		"SHA384",
+	}
+}
+
+// GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCreateMultipartUploadOpcChecksumAlgorithmEnum(val string) (CreateMultipartUploadOpcChecksumAlgorithmEnum, bool) {
+	enum, ok := mappingCreateMultipartUploadOpcChecksumAlgorithmEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }
