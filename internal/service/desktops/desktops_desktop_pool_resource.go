@@ -247,6 +247,11 @@ func DesktopsDesktopPoolResource() *schema.Resource {
 				ForceNew: true,
 			},
 
+			"are_volumes_preserved": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+
 			// Optional
 			"defined_tags": {
 				Type:             schema.TypeMap,
