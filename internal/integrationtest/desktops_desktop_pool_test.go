@@ -63,6 +63,7 @@ var (
 		"standby_size":              acctest.Representation{RepType: acctest.Required, Create: `2`, Update: `3`},
 		"storage_backup_policy_id":  acctest.Representation{RepType: acctest.Required, Create: `${var.test_storage_backup_policy_id}`},
 		"storage_size_in_gbs":       acctest.Representation{RepType: acctest.Required, Create: `50`},
+		"are_volumes_preserved":     acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `false`},
 		"description":               acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"freeform_tags":             acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"nsg_ids":                   acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.test_nsg_id}`}},
@@ -392,6 +393,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "standby_size", "2"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_backup_policy_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "are_volumes_preserved"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "use_dedicated_vm_host"),
@@ -526,6 +528,7 @@ func TestDesktopsDesktopPoolResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "storage_backup_policy_id"),
 				resource.TestCheckResourceAttr(resourceName, "storage_size_in_gbs", "50"),
+				resource.TestCheckResourceAttrSet(resourceName, "are_volumes_preserved"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "use_dedicated_vm_host"),
 
