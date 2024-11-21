@@ -67,6 +67,7 @@ resource "oci_desktops_desktop_pool" "test_desktop_pool" {
 	storage_size_in_gbs = var.desktop_pool_storage_size_in_gbs
 
 	#Optional
+	are_volumes_preserved = var.desktop_pool_are_volumes_preserved
 	defined_tags = {"Operations.CostCenter"= "42"}
 	description = var.desktop_pool_description
 	freeform_tags = {"Department"= "Finance"}
@@ -116,7 +117,7 @@ The following arguments are supported:
 
 * `are_privileged_users` - (Required) Indicates whether desktop pool users have administrative privileges on their desktop.
 * `availability_domain` - (Required) The availability domain of the desktop pool.
-* `availability_policy` - (Required) (Updatable) Provides the start and stop schedule information for desktop availability of the desktop pool.
+* `availability_policy` - (Required) (Updatable) Provides the start and stop schedule information for desktop availability of the desktop pool. Use `availability_policy { }` to not set a schedule.
 	* `start_schedule` - (Optional) (Updatable) Provides the schedule information for a desktop.
 		* `cron_expression` - (Required) (Updatable) A cron expression describing the desktop's schedule.
 		* `timezone` - (Required) (Updatable) The timezone of the desktop's schedule.
@@ -159,11 +160,11 @@ The following arguments are supported:
 	* `private_ip` - (Optional) The IPv4 address from the provided Oracle Cloud Infrastructure subnet which needs to be assigned to the VNIC. If not provided, it will be auto-assigned with an available IPv4 address from the subnet. 
 	* `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the private subnet in the customer VCN where the connectivity will be established.
 * `session_lifecycle_actions` - (Optional) The details of action to be triggered in case of inactivity or disconnect
-	* `disconnect` - (Optional) (Updatable) Action and grace period for disconnect
-		* `action` - (Required) (Updatable) a disconnect action to be triggered
+	* `disconnect` - (Optional) (Updatable) Action and grace period for disconnect. Session disconnect can not be used together with an `availability_policy` schedule. 
+		* `action` - (Required) (Updatable) a disconnect action to be triggered. Could be set to NONE or STOP
 		* `grace_period_in_minutes` - (Optional) (Updatable) The period of time (in minutes) after disconnect before any action occurs. If the value is not provided, a default value is used. 
 	* `inactivity` - (Optional) (Updatable) Action and grace period for inactivity
-		* `action` - (Required) (Updatable) an inactivity action to be triggered
+		* `action` - (Required) (Updatable) an inactivity action to be triggered. Could be set to NONE or DISCONNECT.
 		* `grace_period_in_minutes` - (Optional) (Updatable) The period of time (in minutes) during which the session must remain inactive before any action occurs. If the value is not provided, a default value is used.
 * `shape_name` - (Required) The shape of the desktop pool.
 * `standby_size` - (Required) (Updatable) The maximum number of standby desktops available in the desktop pool.
@@ -172,6 +173,7 @@ The following arguments are supported:
 * `time_start_scheduled` - (Optional) (Updatable) The start time of the desktop pool.
 * `time_stop_scheduled` - (Optional) (Updatable) The stop time of the desktop pool.
 * `use_dedicated_vm_host` - (Optional) Indicates whether the desktop pool uses dedicated virtual machine hosts.
+* `are_volumes_preserved` - (Optional) (Updatable) Indicates whether the volumes are preserved when a desktop pool is deleted. Default value is false.
 
 
 ** IMPORTANT **
