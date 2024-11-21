@@ -1,4 +1,4 @@
-## 6.19.0 (Unreleased)
+## 6.19.0 (November 21, 2024)
 
 ### Added
 - README.md of service examples with magic button
