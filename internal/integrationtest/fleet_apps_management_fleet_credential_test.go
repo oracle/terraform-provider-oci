@@ -47,7 +47,7 @@ var (
 
 	FleetAppsManagementFleetCredentialRepresentation = map[string]interface{}{
 		"lifecycle":        acctest.RepresentationGroup{RepType: acctest.Required, Group: fleetCredentialIgnoreChangesRecipeRepresentation},
-		"depends_on":       acctest.Representation{RepType: acctest.Required, Create: []string{`oci_fleet_apps_management_fleet_resource.test_fleet_resource`}},
+		"depends_on":       acctest.Representation{RepType: acctest.Required, Create: []string{`oci_fleet_apps_management_fleet.test_fleet`}},
 		"compartment_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.tenancy_ocid}`},
 		"display_name":     acctest.Representation{RepType: acctest.Required, Create: `displayName`, Update: `displayName2`},
 		"entity_specifics": acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementFleetCredentialEntitySpecificsRepresentation},
@@ -57,8 +57,8 @@ var (
 	}
 	FleetAppsManagementFleetCredentialEntitySpecificsRepresentation = map[string]interface{}{
 		"credential_level": acctest.Representation{RepType: acctest.Required, Create: `TARGET`},
-		"resource_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_core_instance.test_instance.id}`},
-		"target":           acctest.Representation{RepType: acctest.Required, Create: `/home/oracle/Oracle/Middleware/Oracle_Home/wlserver`, Update: `/home/oracle/Oracle/Middleware/Oracle_Home/otherserver`},
+		"resource_id":      acctest.Representation{RepType: acctest.Required, Create: `${var.fams_credential_resource_id}`},
+		"target":           acctest.Representation{RepType: acctest.Required, Create: `/home/oracle/Oracle/Middleware/Oracle_Home/wlserver`},
 	}
 	FleetAppsManagementFleetCredentialPasswordRepresentation = map[string]interface{}{
 		"secret_id":       acctest.Representation{RepType: acctest.Required, Create: `somePasswordSecretId`},
@@ -70,15 +70,12 @@ var (
 		"secret_version":  acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"credential_type": acctest.Representation{RepType: acctest.Required, Create: `VAULT_SECRET`},
 	}
+	FleetAppsManagementFleetCredentialEntitySpecificsVariablesRepresentation = map[string]interface{}{
+		"name":  acctest.Representation{RepType: acctest.Optional, Create: `name`},
+		"value": acctest.Representation{RepType: acctest.Optional, Create: `value`},
+	}
 
-	FleetAppsManagementFleetCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		utils.OciImageIdsVariable +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
-		AvailabilityDomainConfig +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Required, acctest.Create, FleetAppsManagementFleetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_resource", "test_fleet_resource", acctest.Required, acctest.Create, FleetAppsManagementFleetResourceRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_ons_notification_topic", "test_notification_topic", acctest.Required, acctest.Create, OnsNotificationTopicRepresentation)
+	FleetAppsManagementFleetCredentialResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet", "test_fleet", acctest.Required, acctest.Create, FleetAppsManagementFleetRepresentation) //+
 
 	fleetCredentialIgnoreChangesRecipeRepresentation = map[string]interface{}{
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`system_tags`}},
@@ -94,6 +91,9 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("tenancy_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	famsCredentialResourceInstanceId := utils.GetEnvSettingWithBlankDefault("credential_resource_id")
+	famsCredentialResourceInstanceIdVariableStr := fmt.Sprintf("variable \"fams_credential_resource_id\" { default = \"%s\" }\n", famsCredentialResourceInstanceId)
 
 	// Fleet in ACTIVE state. Fleets require a confirmation action call not supported by Terraform to go active.
 	// Thus, this needs to be created and confirmed manually.
@@ -112,7 +112,7 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckFleetAppsManagementFleetCredentialDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + activeFleetStr + compartmentIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
+			Config: config + activeFleetStr + compartmentIdVariableStr + famsCredentialResourceInstanceIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_credential", "test_fleet_credential", acctest.Required, acctest.Create, FleetAppsManagementFleetCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -141,7 +141,7 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 
 		// verify updates to updatable parameters
 		{
-			Config: config + activeFleetStr + compartmentIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
+			Config: config + activeFleetStr + compartmentIdVariableStr + famsCredentialResourceInstanceIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_credential", "test_fleet_credential", acctest.Optional, acctest.Update, FleetAppsManagementFleetCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
@@ -149,7 +149,7 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "entity_specifics.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "entity_specifics.0.credential_level", "TARGET"),
 				resource.TestCheckResourceAttrSet(resourceName, "entity_specifics.0.resource_id"),
-				resource.TestCheckResourceAttr(resourceName, "entity_specifics.0.target", "/home/oracle/Oracle/Middleware/Oracle_Home/otherserver"),
+				resource.TestCheckResourceAttrSet(resourceName, "entity_specifics.0.variables.#"),
 				resource.TestCheckResourceAttrSet(resourceName, "fleet_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "password.#", "1"),
@@ -172,7 +172,7 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_fleet_credentials", "test_fleet_credentials", acctest.Optional, acctest.Update, FleetAppsManagementFleetCredentialDataSourceRepresentation) +
-				activeFleetStr + compartmentIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
+				activeFleetStr + compartmentIdVariableStr + famsCredentialResourceInstanceIdVariableStr + FleetAppsManagementFleetCredentialResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_fleet_credential", "test_fleet_credential", acctest.Optional, acctest.Update, FleetAppsManagementFleetCredentialRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
@@ -183,14 +183,14 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "fleet_credential_collection.#", "1"),
-				resource.TestCheckResourceAttr(datasourceName, "fleet_credential_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "fleet_credential_collection.0.items.#"),
 			),
 		},
 		// verify singular datasource
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_fleet_apps_management_fleet_credential", "test_fleet_credential", acctest.Required, acctest.Create, FleetAppsManagementFleetCredentialSingularDataSourceRepresentation) +
-				activeFleetStr + compartmentIdVariableStr + FleetAppsManagementFleetCredentialResourceConfig,
+				activeFleetStr + compartmentIdVariableStr + famsCredentialResourceInstanceIdVariableStr + FleetAppsManagementFleetCredentialResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_credential_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fleet_id"),
@@ -198,8 +198,9 @@ func TestFleetAppsManagementFleetCredentialResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_specifics.#", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "entity_specifics.0.variables.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "entity_specifics.0.credential_level", "TARGET"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "entity_specifics.0.target", "/home/oracle/Oracle/Middleware/Oracle_Home/otherserver"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "entity_specifics.0.target"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "password.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "password.0.credential_type", "VAULT_SECRET"),

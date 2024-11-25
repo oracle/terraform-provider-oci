@@ -54,19 +54,47 @@ func FleetAppsManagementFleetCredentialResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"FLEET",
+								"RESOURCE",
 								"TARGET",
 							}, true),
 						},
+
+						// Optional
 						"resource_id": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+							Computed: true,
 						},
 						"target": {
 							Type:     schema.TypeString,
-							Required: true,
+							Optional: true,
+							Computed: true,
 						},
+						"variables": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
 
-						// Optional
+									// Optional
+									"name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
 
 						// Computed
 					},
@@ -769,6 +797,32 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) mapToCredentialEntitySp
 		credentialLevel = "" // default value
 	}
 	switch strings.ToLower(credentialLevel) {
+	case strings.ToLower("FLEET"):
+		details := oci_fleet_apps_management.FleetCredentialEntitySpecificDetails{}
+		if variables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "variables")); ok {
+			interfaces := variables.([]interface{})
+			tmp := make([]oci_fleet_apps_management.Variable, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "variables"), stateDataIndex)
+				converted, err := s.mapToVariable(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "variables")) {
+				details.Variables = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE"):
+		details := oci_fleet_apps_management.ResourceCredentialEntitySpecificDetails{}
+		if resourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_id")); ok {
+			tmp := resourceId.(string)
+			details.ResourceId = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("TARGET"):
 		details := oci_fleet_apps_management.TargetCredentialEntitySpecificDetails{}
 		if resourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_id")); ok {
@@ -789,6 +843,20 @@ func (s *FleetAppsManagementFleetCredentialResourceCrud) mapToCredentialEntitySp
 func CredentialEntitySpecificDetailsToMap(obj *oci_fleet_apps_management.CredentialEntitySpecificDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_fleet_apps_management.FleetCredentialEntitySpecificDetails:
+		result["credential_level"] = "FLEET"
+
+		variables := []interface{}{}
+		for _, item := range v.Variables {
+			variables = append(variables, VariableToMap(item))
+		}
+		result["variables"] = variables
+	case oci_fleet_apps_management.ResourceCredentialEntitySpecificDetails:
+		result["credential_level"] = "RESOURCE"
+
+		if v.ResourceId != nil {
+			result["resource_id"] = string(*v.ResourceId)
+		}
 	case oci_fleet_apps_management.TargetCredentialEntitySpecificDetails:
 		result["credential_level"] = "TARGET"
 
@@ -862,6 +930,36 @@ func FleetCredentialSummaryToMap(obj oci_fleet_apps_management.FleetCredentialSu
 			userArray = append(userArray, userMap)
 		}
 		result["user"] = userArray
+	}
+
+	return result
+}
+
+func (s *FleetAppsManagementFleetCredentialResourceCrud) mapToVariable(fieldKeyFormat string) (oci_fleet_apps_management.Variable, error) {
+	result := oci_fleet_apps_management.Variable{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
+}
+
+func VariableToMap(obj oci_fleet_apps_management.Variable) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	if obj.Value != nil {
+		result["value"] = string(*obj.Value)
 	}
 
 	return result
