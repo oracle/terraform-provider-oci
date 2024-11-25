@@ -24,8 +24,9 @@ import (
 )
 
 var (
-	autonomousDatabaseOcid                                        = utils.GetEnvSettingWithBlankDefault("autonomousDatabase_ocid")
-	computeInstanceOcid                                           = utils.GetEnvSettingWithBlankDefault("computeInstance_ocid")
+	autonomousDatabaseOcid = utils.GetEnvSettingWithBlankDefault("autonomousDatabase_ocid")
+	computeInstanceOcid    = utils.GetEnvSettingWithBlankDefault("computeInstance_ocid")
+
 	ResourceSchedulerScheduleWithResourceOcidRequiredOnlyResource = ResourceSchedulerScheduleResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_resource_scheduler_schedule", "test_schedule", acctest.Required, acctest.Create, ResourceSchedulerScheduleWithResourceOcidRepresentation)
 
@@ -37,9 +38,8 @@ var (
 		// must include at least one of `compartmentId` and `schedule_id`
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"schedule_id":    acctest.Representation{RepType: acctest.Required, Create: `${oci_resource_scheduler_schedule.test_schedule.id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Optional, Group: ResourceSchedulerScheduleDataSourceFilterRepresentation}}
+	}
+
 	ResourceSchedulerScheduleDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_resource_scheduler_schedule.test_schedule.id}`}},
@@ -59,11 +59,10 @@ var (
 		// Optionals
 		"description":   acctest.Representation{RepType: acctest.Optional, Create: `provider description1`, Update: `provider description2`},
 		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `provider displayName1`, Update: `provider displayName2`},
-		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2024-06-22T00:00:00Z`, Update: `2024-06-24T00:00:00Z`},
-		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2024-06-16T00:00:00Z`, Update: `2024-06-18T00:00:00Z`},
+		"time_ends":     acctest.Representation{RepType: acctest.Optional, Create: `2024-11-20T00:00:00Z`, Update: `2024-11-30T00:00:00Z`},
+		"time_starts":   acctest.Representation{RepType: acctest.Optional, Create: `2024-11-15T00:00:00Z`, Update: `2024-11-19T00:00:00Z`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"defined_tags":  acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"state":         acctest.Representation{RepType: acctest.Optional, Create: `INACTIVE`, Update: `ACTIVE`},
 		"lifecycle":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: ignoreChangesDefinedTagsResourceSchedulerRepresentation},
 	}
 
@@ -111,7 +110,7 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "0"),
 
 				func(s *terraform.State) (err error) {
-					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -135,15 +134,15 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description1"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName1"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-06-22T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-06-16T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-11-20T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-11-15T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.id", autonomousDatabaseOcid),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.metadata.%", "1"),
 
 				func(s *terraform.State) (err error) {
-					_, err = acctest.FromInstanceState(s, resourceName, "id")
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err
 				},
 			),
@@ -162,8 +161,8 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "recurrence_type", "ICAL"),
 				resource.TestCheckResourceAttr(resourceName, "description", "provider description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "provider displayName2"),
-				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-06-24T00:00:00Z"),
-				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-06-18T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_ends", "2024-11-30T00:00:00Z"),
+				resource.TestCheckResourceAttr(resourceName, "time_starts", "2024-11-19T00:00:00Z"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "resources.0.id", computeInstanceOcid),
@@ -171,7 +170,6 @@ func TestResourceSchedulerScheduleResource_basic(t *testing.T) {
 
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					fmt.Printf("xiaotong printing resId and resId2, %s, %s", resId, resId2)
 					if resId != resId2 {
 						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
 					}

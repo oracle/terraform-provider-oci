@@ -73,11 +73,11 @@ variable "schedule_state" {
 }
 
 variable "schedule_time_ends" {
-  default = "2024-07-23T17:45:44.408Z"
+  default = "2024-12-20T00:00:00Z"
 }
 
 variable "schedule_time_starts" {
-  default = "2024-07-13T17:45:44.408Z"
+  default = "2024-12-01T00:00:00Z"
 }
 
 
