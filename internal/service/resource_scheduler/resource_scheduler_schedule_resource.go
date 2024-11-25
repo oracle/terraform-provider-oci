@@ -436,15 +436,15 @@ func (s *ResourceSchedulerScheduleResourceCrud) Create() error {
 	if identifier != nil {
 		s.D.SetId(*identifier)
 	}
-	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_scheduler"), oci_resource_scheduler.ActionTypeRelated, s.D.Timeout(schema.TimeoutCreate))
+	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_scheduler"), []oci_resource_scheduler.ActionTypeEnum{oci_resource_scheduler.ActionTypeRelated, oci_resource_scheduler.ActionTypeCreated}, s.D.Timeout(schema.TimeoutCreate))
 }
 
 func (s *ResourceSchedulerScheduleResourceCrud) getScheduleFromWorkRequest(workId *string, retryPolicy *oci_common.RetryPolicy,
-	actionTypeEnum oci_resource_scheduler.ActionTypeEnum, timeout time.Duration) error {
+	actions []oci_resource_scheduler.ActionTypeEnum, timeout time.Duration) error {
 
 	// Wait until it finishes
 	scheduleId, err := scheduleWaitForWorkRequest(workId, "resourceschedule",
-		actionTypeEnum, timeout, s.DisableNotFoundRetries, s.Client)
+		actions, timeout, s.DisableNotFoundRetries, s.Client)
 
 	if err != nil {
 		// Try to cancel the work request
@@ -489,7 +489,7 @@ func scheduleWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci
 	}
 }
 
-func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_resource_scheduler.ActionTypeEnum,
+func scheduleWaitForWorkRequest(wId *string, entityType string, actions []oci_resource_scheduler.ActionTypeEnum,
 	timeout time.Duration, disableFoundRetries bool, client *oci_resource_scheduler.ScheduleClient) (*string, error) {
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "resource_scheduler")
 	retryPolicy.ShouldRetryOperation = scheduleWorkRequestShouldRetryFunc(timeout)
@@ -528,7 +528,7 @@ func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_resou
 	// The work request response contains an array of objects that finished the operation
 	for _, res := range response.Resources {
 		if strings.Contains(strings.ToLower(*res.EntityType), entityType) {
-			if res.ActionType == action {
+			if isActionTypeInList(res.ActionType, actions) {
 				identifier = res.Identifier
 				break
 			}
@@ -537,13 +537,23 @@ func scheduleWaitForWorkRequest(wId *string, entityType string, action oci_resou
 
 	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
 	if identifier == nil || response.Status == oci_resource_scheduler.OperationStatusFailed || response.Status == oci_resource_scheduler.OperationStatusCanceled {
-		return nil, getErrorFromResourceSchedulerScheduleWorkRequest(client, wId, retryPolicy, entityType, action)
+		return nil, getErrorFromResourceSchedulerScheduleWorkRequest(client, wId, retryPolicy, entityType, response.OperationType)
 	}
 
 	return identifier, nil
 }
 
-func getErrorFromResourceSchedulerScheduleWorkRequest(client *oci_resource_scheduler.ScheduleClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, action oci_resource_scheduler.ActionTypeEnum) error {
+// Helper function to check if an action type is in the list
+func isActionTypeInList(action oci_resource_scheduler.ActionTypeEnum, actions []oci_resource_scheduler.ActionTypeEnum) bool {
+	for _, a := range actions {
+		if action == a {
+			return true
+		}
+	}
+	return false
+}
+
+func getErrorFromResourceSchedulerScheduleWorkRequest(client *oci_resource_scheduler.ScheduleClient, workId *string, retryPolicy *oci_common.RetryPolicy, entityType string, operation oci_resource_scheduler.OperationTypeEnum) error {
 	response, err := client.ListWorkRequestErrors(context.Background(),
 		oci_resource_scheduler.ListWorkRequestErrorsRequest{
 			WorkRequestId: workId,
@@ -561,7 +571,7 @@ func getErrorFromResourceSchedulerScheduleWorkRequest(client *oci_resource_sched
 	}
 	errorMessage := strings.Join(allErrs, "\n")
 
-	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s", *workId, entityType, action, errorMessage)
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, operation: %s. Message: %s", *workId, entityType, operation, errorMessage)
 
 	return workRequestErr
 }
@@ -682,7 +692,7 @@ func (s *ResourceSchedulerScheduleResourceCrud) Update() error {
 	}
 
 	workId := response.OpcWorkRequestId
-	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_scheduler"), oci_resource_scheduler.ActionTypeRelated, s.D.Timeout(schema.TimeoutUpdate))
+	return s.getScheduleFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "resource_scheduler"), []oci_resource_scheduler.ActionTypeEnum{oci_resource_scheduler.ActionTypeRelated, oci_resource_scheduler.ActionTypeUpdated}, s.D.Timeout(schema.TimeoutUpdate))
 }
 
 func (s *ResourceSchedulerScheduleResourceCrud) Delete() error {
