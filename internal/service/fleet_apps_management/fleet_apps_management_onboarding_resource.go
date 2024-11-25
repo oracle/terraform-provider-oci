@@ -48,6 +48,144 @@ func FleetAppsManagementOnboardingResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+
+			// Computed
+			"applied_policies": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"statements": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
+			"discovery_frequency": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"items": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"applied_policies": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+
+									// Optional
+
+									// Computed
+									"id": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"statements": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
+									"system_tags": {
+										Type:     schema.TypeMap,
+										Computed: true,
+										Elem:     schema.TypeString,
+									},
+									"time_created": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+								},
+							},
+						},
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"discovery_frequency": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"is_cost_tracking_tag_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"is_fams_tag_enabled": {
+							Type:     schema.TypeBool,
+							Computed: true,
+						},
+						"resource_region": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
+						"time_created": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_updated": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"resource_region": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -335,10 +473,20 @@ func onboardingSummaryToOnboarding(obj oci_fleet_apps_management.OnboardingSumma
 }
 
 func (s *FleetAppsManagementOnboardingResourceCrud) SetData() error {
+	if s.Res.AppliedPolicies != nil {
+		s.D.Set("applied_policies", []interface{}{OnboardingPolicySummaryToMap(s.Res.AppliedPolicies)})
+	} else {
+		s.D.Set("applied_policies", nil)
+	}
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	} else {
 		s.D.Set("compartment_id", nil)
+	}
+
+	if s.Res.DiscoveryFrequency != nil {
+		s.D.Set("discovery_frequency", *s.Res.DiscoveryFrequency)
 	}
 
 	if s.Res.IsCostTrackingTagEnabled != nil {
@@ -381,8 +529,16 @@ func (s *FleetAppsManagementOnboardingResourceCrud) SetData() error {
 func OnboardingSummaryToMap(obj oci_fleet_apps_management.OnboardingSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AppliedPolicies != nil {
+		result["applied_policies"] = []interface{}{OnboardingPolicySummaryToMap(obj.AppliedPolicies)}
+	}
+
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
+	}
+
+	if obj.DiscoveryFrequency != nil {
+		result["discovery_frequency"] = string(*obj.DiscoveryFrequency)
 	}
 
 	if obj.Id != nil {
