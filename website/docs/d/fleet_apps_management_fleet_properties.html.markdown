@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_properties
 This data source provides the list of Fleet Properties in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of FleetProperties.
+List fleet properties in Fleet Application Management.
 
 
 ## Example Usage
@@ -34,9 +34,9 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `fleet_id` - (Required) unique Fleet identifier
-* `id` - (Optional) unique FleetProperty identifier
-* `state` - (Optional) A filter to return only resources their lifecycleState matches the given lifecycleState.
+* `fleet_id` - (Required) Unique Fleet identifier.
+* `id` - (Optional) A filter to return only resources whose fleetProperty identifier matches the given identifier.
+* `state` - (Optional) A filter to return only resources whose lifecycleState matches the given lifecycleState.
 
 
 ## Attributes Reference
@@ -49,16 +49,16 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `allowed_values` - Values of the category (must be a single value if selection = 'single choice')
+* `allowed_values` - Values of the property (must be a single value if selectionType = 'SINGLE_CHOICE').
 * `compartment_id` - Tenancy OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 * `id` - The unique id of the resource.
-* `property_id` - Property Id Ocid.
-* `selection_type` - Text selection of the category
+* `property_id` - OCID referring to global level metadata property.
+* `selection_type` - Text selection of the property.
 * `state` - The current state of the FleetProperty.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
-* `value` - Value of the Property
-* `value_type` - Format of the value
+* `value` - Value of the Property.
+* `value_type` - Format of the value.
 

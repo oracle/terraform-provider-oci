@@ -74,6 +74,10 @@ func FleetAppsManagementFleetTargetsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"is_last_discovery_attempt_successful": {
+										Type:     schema.TypeBool,
+										Computed: true,
+									},
 									"product": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -107,6 +111,14 @@ func FleetAppsManagementFleetTargetsDataSource() *schema.Resource {
 										Type:     schema.TypeMap,
 										Computed: true,
 										Elem:     schema.TypeString,
+									},
+									"time_of_last_discovery_attempt": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"time_of_last_successful_discovery": {
+										Type:     schema.TypeString,
+										Computed: true,
 									},
 									"version": {
 										Type:     schema.TypeString,
@@ -236,6 +248,10 @@ func FleetTargetSummaryToMap(obj oci_fleet_apps_management.FleetTargetSummary) m
 		result["id"] = string(*obj.Id)
 	}
 
+	if obj.IsLastDiscoveryAttemptSuccessful != nil {
+		result["is_last_discovery_attempt_successful"] = bool(*obj.IsLastDiscoveryAttemptSuccessful)
+	}
+
 	if obj.Product != nil {
 		result["product"] = string(*obj.Product)
 	}
@@ -248,6 +264,14 @@ func FleetTargetSummaryToMap(obj oci_fleet_apps_management.FleetTargetSummary) m
 
 	if obj.SystemTags != nil {
 		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
+
+	if obj.TimeOfLastDiscoveryAttempt != nil {
+		result["time_of_last_discovery_attempt"] = obj.TimeOfLastDiscoveryAttempt.String()
+	}
+
+	if obj.TimeOfLastSuccessfulDiscovery != nil {
+		result["time_of_last_successful_discovery"] = obj.TimeOfLastSuccessfulDiscovery.String()
 	}
 
 	if obj.Version != nil {

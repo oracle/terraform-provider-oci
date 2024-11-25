@@ -10,7 +10,7 @@ description: |-
 # oci_fleet_apps_management_fleet_resource
 This resource provides the Fleet Resource resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Creates a new FleetResource.
+Add resource to a fleet in Fleet Application Management.
 
 
 ## Example Usage
@@ -34,7 +34,7 @@ resource "oci_fleet_apps_management_fleet_resource" "test_fleet_resource" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) OCID of the compartment to which the resource belongs to.
-* `fleet_id` - (Required) unique Fleet identifier
+* `fleet_id` - (Required) Unique Fleet identifier.
 * `resource_id` - (Required) The OCID of the resource.
 * `resource_region` - (Optional) Associated region
 * `resource_type` - (Optional) Type of the Resource.
@@ -48,24 +48,24 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
-* `application_type` - Application Type associated with the resource when resource type is fleet.Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.  
-* `compartment` - Resource Compartment
+* `application_type` - Application Type associated with the resource when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet.  
+* `compartment` - Resource Compartment name.
 * `compartment_id` - OCID of the compartment to which the resource belongs to.
-* `compliance_state` - Compliance State of the Resource
+* `compliance_state` - Compliance State of the Resource.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-* `environment_type` - Environment Type associated with the Fleet when resource type is fleet.Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet. 
+* `environment_type` - Environment Type associated with the Fleet when the resource type is fleet. Will only be returned for ENVIRONMENT fleets that are part of a GROUP Fleet. 
 * `id` - The unique id of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `product` - Product associated with the resource when resource type is fleet.Will only be returned for PRODUCT fleets that are part of a GROUP Fleet
+* `product` - Product associated with the resource when the resource type is fleet. Will only be returned for PRODUCT fleets that are part of a GROUP Fleet. 
 * `product_count` - Count of products within the resource.
 * `resource_id` - The OCID of the resource.
 * `resource_region` - Associated region
 * `resource_type` - Type of the Resource.
 * `state` - The current state of the FleetResource.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-* `target_count` - Count of targets  within the resource.
+* `target_count` - Count of targets within the resource.
 * `tenancy_id` - OCID of the tenancy to which the resource belongs to.
-* `tenancy_name` - Resource Tenancy Name
+* `tenancy_name` - Resource Tenancy Name.
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
 
