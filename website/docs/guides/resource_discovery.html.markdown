@@ -754,10 +754,15 @@ file_storage
 
 fleet_apps_management
     
+* oci\_fleet\_apps\_management\_task\_record
 * oci\_fleet\_apps\_management\_maintenance\_window
 * oci\_fleet\_apps\_management\_fleet
 * oci\_fleet\_apps\_management\_scheduler\_definition
 * oci\_fleet\_apps\_management\_property
+* oci\_fleet\_apps\_management\_runbook
+* oci\_fleet\_apps\_management\_platform\_configuration
+* oci\_fleet\_apps\_management\_compliance\_policy\_rule
+* oci\_fleet\_apps\_management\_patch
 
 functions
     
