@@ -37,10 +37,9 @@ var (
 
 	FleetAppsManagementSchedulerDefinitionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.tenancy_ocid}`},
-		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":          acctest.Representation{RepType: acctest.Optional, Create: `TerraProviderTestSchedDef`, Update: `TerraProviderTestSchedDef2`},
 		"fleet_id":              acctest.Representation{RepType: acctest.Optional, Create: `${var.test_active_fleet}`},
 		"maintenance_window_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_maintenance_window.test_maintenance_window.id}`},
-		"product":               acctest.Representation{RepType: acctest.Optional, Create: `WEBLOGIC/JAVA`},
 		"state":                 acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementSchedulerDefinitionDataSourceFilterRepresentation}}
 	FleetAppsManagementSchedulerDefinitionDataSourceFilterRepresentation = map[string]interface{}{
@@ -55,7 +54,7 @@ var (
 		"activity_initiation_cut_off": acctest.Representation{RepType: acctest.Required, Create: `1`, Update: `2`},
 		"defined_tags":                acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                 acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `TerraProviderTestSchedDef`, Update: `TerraProviderTestSchedDef2`},
 		"freeform_tags":               acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"bar-key": "value"}},
 		"run_books":                   acctest.RepresentationGroup{RepType: acctest.Required, Group: FleetAppsManagementSchedulerDefinitionRunBooksRepresentation},
 	}
@@ -63,14 +62,14 @@ var (
 		"resource_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.test_active_fleet}`},
 		"runbook_id":          acctest.Representation{RepType: acctest.Required, Create: `${var.test_runbook_ocid}`},
 		"lifecycle_operation": acctest.Representation{RepType: acctest.Required, Create: `PATCH`},
-		"product":             acctest.Representation{RepType: acctest.Required, Create: `WEBLOGIC/JAVA`},
+		"product":             acctest.Representation{RepType: acctest.Required, Create: `Oracle Linux`},
 		"type":                acctest.Representation{RepType: acctest.Required, Create: `PRODUCT`},
 	}
 	FleetAppsManagementSchedulerDefinitionScheduleRepresentation = map[string]interface{}{
-		"execution_startdate":   acctest.Representation{RepType: acctest.Required, Create: `2024-08-31T00:00:00.000Z`, Update: `2024-09-30T00:00:00.000Z`},
+		"execution_startdate":   acctest.Representation{RepType: acctest.Required, Create: `2026-08-31T00:00:00.111Z`, Update: `2026-09-30T00:00:00.111Z`},
 		"type":                  acctest.Representation{RepType: acctest.Required, Create: `CUSTOM`, Update: `MAINTENANCE_WINDOW`},
 		"duration":              acctest.Representation{RepType: acctest.Required, Create: `PT2H`, Update: `PT3H`},
-		"maintenance_window_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_fleet_apps_management_maintenance_window.test_maintenance_window.id}`},
+		"maintenance_window_id": acctest.Representation{RepType: acctest.Optional, Create: nil, Update: `${oci_fleet_apps_management_maintenance_window.test_maintenance_window.id}`},
 	}
 	FleetAppsManagementSchedulerDefinitionRunBooksRepresentation = map[string]interface{}{
 		"id":               acctest.Representation{RepType: acctest.Required, Create: `${var.test_runbook_ocid}`},
@@ -148,14 +147,14 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "action_groups.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "action_groups.0.lifecycle_operation", "PATCH"),
-				resource.TestCheckResourceAttr(resourceName, "action_groups.0.product", "WEBLOGIC/JAVA"),
+				resource.TestCheckResourceAttr(resourceName, "action_groups.0.product", "Oracle Linux"),
 				resource.TestCheckResourceAttrSet(resourceName, "action_groups.0.resource_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "action_groups.0.runbook_id"),
 				resource.TestCheckResourceAttr(resourceName, "action_groups.0.type", "PRODUCT"),
 				resource.TestCheckResourceAttr(resourceName, "activity_initiation_cut_off", "1"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TerraProviderTestSchedDef"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "run_books.#", "1"),
@@ -167,7 +166,6 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "run_books.0.input_parameters.0.step_name", "stepName"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.0.duration", "PT2H"),
-				resource.TestCheckResourceAttrSet(resourceName, "schedule.0.maintenance_window_id"),
 				resource.TestCheckResourceAttr(resourceName, "schedule.0.type", "CUSTOM"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -191,14 +189,14 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "action_groups.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "action_groups.0.lifecycle_operation", "PATCH"),
-				resource.TestCheckResourceAttr(resourceName, "action_groups.0.product", "WEBLOGIC/JAVA"),
+				resource.TestCheckResourceAttr(resourceName, "action_groups.0.product", "Oracle Linux"),
 				resource.TestCheckResourceAttrSet(resourceName, "action_groups.0.resource_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "action_groups.0.runbook_id"),
 				resource.TestCheckResourceAttr(resourceName, "action_groups.0.type", "PRODUCT"),
 				resource.TestCheckResourceAttr(resourceName, "activity_initiation_cut_off", "2"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TerraProviderTestSchedDef2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "run_books.#", "1"),
@@ -232,10 +230,9 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_fleet_apps_management_scheduler_definition", "test_scheduler_definition", acctest.Optional, acctest.Update, FleetAppsManagementSchedulerDefinitionRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TerraProviderTestSchedDef2"),
 				resource.TestCheckResourceAttrSet(datasourceName, "fleet_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "maintenance_window_id"),
-				resource.TestCheckResourceAttr(datasourceName, "product", "WEBLOGIC/JAVA"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "scheduler_definition_collection.#", "1"),
@@ -253,7 +250,7 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "action_group_types.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "action_groups.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "action_groups.0.lifecycle_operation", "PATCH"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "action_groups.0.product", "WEBLOGIC/JAVA"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "action_groups.0.product", "Oracle Linux"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "action_groups.0.type", "PRODUCT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "activity_initiation_cut_off", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "application_types.#", "1"),
@@ -262,7 +259,7 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "count_of_affected_resources"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "count_of_affected_targets"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TerraProviderTestSchedDef2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_operations.#", "1"),
@@ -281,7 +278,6 @@ func TestFleetAppsManagementSchedulerDefinitionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "schedule.0.type", "MAINTENANCE_WINDOW"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
-				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_of_next_run"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
 		},

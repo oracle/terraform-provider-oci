@@ -10,7 +10,7 @@ description: |-
 # oci_fleet_apps_management_fleet_credential
 This resource provides the Fleet Credential resource in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Creates a new FleetCredential.
+Add credentials to a fleet in Fleet Application Management.
 
 
 ## Example Usage
@@ -23,8 +23,16 @@ resource "oci_fleet_apps_management_fleet_credential" "test_fleet_credential" {
 	entity_specifics {
 		#Required
 		credential_level = var.fleet_credential_entity_specifics_credential_level
+
+		#Optional
 		resource_id = oci_cloud_guard_resource.test_resource.id
 		target = var.fleet_credential_entity_specifics_target
+		variables {
+
+			#Optional
+			name = var.fleet_credential_entity_specifics_variables_name
+			value = var.fleet_credential_entity_specifics_variables_value
+		}
 	}
 	fleet_id = oci_fleet_apps_management_fleet.test_fleet.id
 	password {
@@ -60,27 +68,30 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) Tenancy OCID
 * `display_name` - (Required) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-* `entity_specifics` - (Required) (Updatable) Credential Details
-	* `credential_level` - (Required) (Updatable) Credential Level.
-	* `resource_id` - (Required) (Updatable) OCID of the resource associated with the target for which credential is created
-	* `target` - (Required) (Updatable) Target associated with the Credential
-* `fleet_id` - (Required) unique Fleet identifier
-* `password` - (Required) (Updatable) Credential Details
-	* `credential_type` - (Required) (Updatable) Credential Type
+* `entity_specifics` - (Required) (Updatable) Credential specific Details.
+	* `credential_level` - (Required) (Updatable) At what level the credential is provided?
+	* `resource_id` - (Required when credential_level=RESOURCE | TARGET) (Updatable) OCID of the resource associated with the target for which the credential is created.
+	* `target` - (Required when credential_level=TARGET) (Updatable) Target name for which the credential is provided.
+	* `variables` - (Applicable when credential_level=FLEET) (Updatable) List of fleet credential variables.
+		* `name` - (Applicable when credential_level=FLEET) (Updatable) Name of the variable.
+		* `value` - (Applicable when credential_level=FLEET) (Updatable) The value corresponding to the variable name.
+* `fleet_id` - (Required) Unique Fleet identifier.
+* `password` - (Required) (Updatable) Credential Details.
+	* `credential_type` - (Required) (Updatable) Credential Type.
 	* `key_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault Key that will be used to encrypt/decrypt the value given.
 	* `key_version` - (Applicable when credential_type=KEY_ENCRYPTION) (Updatable) The Vault Key version.
 	* `secret_id` - (Required when credential_type=VAULT_SECRET) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret.
 	* `secret_version` - (Applicable when credential_type=VAULT_SECRET) (Updatable) The secret version.
-	* `value` - (Required when credential_type=KEY_ENCRYPTION | PLAIN_TEXT) (Updatable) The value corresponding to the credential
-	* `vault_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault that will be used to fetch key to encrypt/decrypt the value given.
-* `user` - (Required) (Updatable) Credential Details
-	* `credential_type` - (Required) (Updatable) Credential Type
+	* `value` - (Required when credential_type=KEY_ENCRYPTION | PLAIN_TEXT) (Updatable) The value corresponding to the credential.
+	* `vault_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault that will be used to fetch the key to encrypt/decrypt the value given.
+* `user` - (Required) (Updatable) Credential Details.
+	* `credential_type` - (Required) (Updatable) Credential Type.
 	* `key_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault Key that will be used to encrypt/decrypt the value given.
 	* `key_version` - (Applicable when credential_type=KEY_ENCRYPTION) (Updatable) The Vault Key version.
 	* `secret_id` - (Required when credential_type=VAULT_SECRET) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret.
 	* `secret_version` - (Applicable when credential_type=VAULT_SECRET) (Updatable) The secret version.
-	* `value` - (Required when credential_type=KEY_ENCRYPTION | PLAIN_TEXT) (Updatable) The value corresponding to the credential
-	* `vault_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault that will be used to fetch key to encrypt/decrypt the value given.
+	* `value` - (Required when credential_type=KEY_ENCRYPTION | PLAIN_TEXT) (Updatable) The value corresponding to the credential.
+	* `vault_id` - (Required when credential_type=KEY_ENCRYPTION) (Updatable) OCID for the Vault that will be used to fetch the key to encrypt/decrypt the value given.
 
 
 ** IMPORTANT **
@@ -92,32 +103,35 @@ The following attributes are exported:
 
 * `compartment_id` - Tenancy OCID
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-* `entity_specifics` - Credential Details
-	* `credential_level` - Credential Level.
-	* `resource_id` - OCID of the resource associated with the target for which credential is created
-	* `target` - Target associated with the Credential
+* `entity_specifics` - Credential specific Details.
+	* `credential_level` - At what level the credential is provided?
+	* `resource_id` - OCID of the resource associated with the target for which the credential is created.
+	* `target` - Target name for which the credential is provided.
+	* `variables` - List of fleet credential variables.
+		* `name` - Name of the variable.
+		* `value` - The value corresponding to the variable name.
 * `id` - The unique id of the resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
-* `password` - Credential Details
-	* `credential_type` - Credential Type
+* `password` - Credential Details.
+	* `credential_type` - Credential Type.
 	* `key_id` - OCID for the Vault Key that will be used to encrypt/decrypt the value given.
 	* `key_version` - The Vault Key version.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret.
 	* `secret_version` - The secret version.
-	* `value` - The value corresponding to the credential
-	* `vault_id` - OCID for the Vault that will be used to fetch key to encrypt/decrypt the value given.
+	* `value` - The value corresponding to the credential.
+	* `vault_id` - OCID for the Vault that will be used to fetch the key to encrypt/decrypt the value given.
 * `state` - The current state of the FleetCredential.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 * `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
-* `user` - Credential Details
-	* `credential_type` - Credential Type
+* `user` - Credential Details.
+	* `credential_type` - Credential Type.
 	* `key_id` - OCID for the Vault Key that will be used to encrypt/decrypt the value given.
 	* `key_version` - The Vault Key version.
 	* `secret_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the secret.
 	* `secret_version` - The secret version.
-	* `value` - The value corresponding to the credential
-	* `vault_id` - OCID for the Vault that will be used to fetch key to encrypt/decrypt the value given.
+	* `value` - The value corresponding to the credential.
+	* `vault_id` - OCID for the Vault that will be used to fetch the key to encrypt/decrypt the value given.
 
 ## Timeouts
 
