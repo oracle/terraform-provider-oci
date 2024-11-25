@@ -38,7 +38,15 @@ func FleetAppsManagementFleetCredentialsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"target": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -105,8 +113,18 @@ func (s *FleetAppsManagementFleetCredentialsDataSourceCrud) Get() error {
 		request.Id = &tmp
 	}
 
+	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+		tmp := resourceId.(string)
+		request.ResourceId = &tmp
+	}
+
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.FleetCredentialLifecycleStateEnum(state.(string))
+	}
+
+	if target, ok := s.D.GetOkExists("target"); ok {
+		tmp := target.(string)
+		request.Target = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")
