@@ -207,6 +207,10 @@ func (s *FileStorageFileSystemsDataSourceCrud) SetData() error {
 
 		fileSystem["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			fileSystem["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			fileSystem["time_created"] = r.TimeCreated.String()
 		}
