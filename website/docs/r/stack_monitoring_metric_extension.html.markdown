@@ -57,9 +57,12 @@ resource "oci_stack_monitoring_metric_extension" "test_metric_extension" {
 		out_param_details {
 
 			#Optional
+			out_param_name = var.metric_extension_query_properties_out_param_details_out_param_name
 			out_param_position = var.metric_extension_query_properties_out_param_details_out_param_position
 			out_param_type = var.metric_extension_query_properties_out_param_details_out_param_type
 		}
+		protocol_type = var.metric_extension_query_properties_protocol_type
+		response_content_type = var.metric_extension_query_properties_response_content_type
 		script_details {
 
 			#Optional
@@ -74,6 +77,7 @@ resource "oci_stack_monitoring_metric_extension" "test_metric_extension" {
 		}
 		sql_type = var.metric_extension_query_properties_sql_type
 		starts_with = var.metric_extension_query_properties_starts_with
+		url = var.metric_extension_query_properties_url
 	}
 	resource_type = var.metric_extension_resource_type
 
@@ -114,16 +118,20 @@ The following arguments are supported:
 	* `jmx_attributes` - (Required when collection_method=JMX) (Updatable) List of JMX attributes or Metric Service Table columns separated by semi-colon
 	* `managed_bean_query` - (Required when collection_method=JMX) (Updatable) JMX Managed Bean Query or Metric Service Table name
 	* `out_param_details` - (Applicable when collection_method=SQL) (Updatable) Position and SQL Type of PL/SQL OUT parameter
-		* `out_param_position` - (Required when collection_method=SQL) (Updatable) Position of PL/SQL procedure OUT parameter
-		* `out_param_type` - (Required when collection_method=SQL) (Updatable) SQL Type of PL/SQL procedure OUT parameter
-	* `script_details` - (Applicable when collection_method=OS_COMMAND) (Updatable) Script details applicable to any OS Command based Metric Extension which needs to run a script to collect data
-		* `content` - (Required when collection_method=OS_COMMAND) (Updatable) Content of the script file as base64 encoded string
-		* `name` - (Required when collection_method=OS_COMMAND) (Updatable) Name of the script file
+		* `out_param_name` - (Applicable when collection_method=SQL) (Updatable) Name of the Out Parameter
+		* `out_param_position` - (Required when collection_method=SQL) (Updatable) Position of PL/SQL procedure OUT parameter. The value of this property is ignored during update, if "outParamType" is set to NO_OUT_PARAM value.
+		* `out_param_type` - (Required when collection_method=SQL) (Updatable) SQL Type of PL/SQL procedure OUT parameter. During the update, to completely remove the out parameter, use the value NO_OUT_PARAM. In that case, the value of "outParamPosition" will be ignored.
+	* `protocol_type` - (Applicable when collection_method=HTTP) (Updatable) Supported protocol of resources to be associated with this metric extension. This is optional and defaults to HTTPS, which uses secure connection to the URL
+	* `response_content_type` - (Required when collection_method=HTTP) (Updatable) Type of content response given by the http(s) URL
+	* `script_details` - (Required when collection_method=HTTP | OS_COMMAND) (Updatable) Script details applicable to any OS Command/HTTP based Metric Extension which needs to run a script to collect data. For removing it during OS Command based Metric Extension update, set its "content" property to an empty string. In that case, "name" property value is ignored.
+		* `content` - (Required when collection_method=HTTP | OS_COMMAND) (Updatable) Content of the script/JavaScript file as base64 encoded string
+		* `name` - (Required when collection_method=HTTP | OS_COMMAND) (Updatable) Name of the script file
 	* `sql_details` - (Required when collection_method=SQL) (Updatable) Details of Sql content which needs to execute to collect Metric Extension data
 		* `content` - (Required when collection_method=SQL) (Updatable) Sql statement or script file content as base64 encoded string
 		* `script_file_name` - (Applicable when collection_method=SQL) (Updatable) If a script needs to be executed, then provide file name of the script
 	* `sql_type` - (Required when collection_method=SQL) (Updatable) Type of SQL data collection method i.e. either a Statement or SQL Script File
 	* `starts_with` - (Applicable when collection_method=OS_COMMAND) (Updatable) String prefix used to identify metric output of the OS Command
+	* `url` - (Required when collection_method=HTTP) (Updatable) Http(s) end point URL
 * `resource_type` - (Required) Resource type to which Metric Extension applies
 * `publish_trigger` - (Optional) (Updatable) An optional property when set to `true` triggers Publish of a metric extension. Once set to `true`, it cannot be changed back to `false`. Update of publish_trigger cannot be combined with other updates in the same request. A metric extension cannot be tested and its definition cannot be updated once it is marked published or publish_trigger is updated to `true`.
 
@@ -170,16 +178,20 @@ The following attributes are exported:
 	* `jmx_attributes` - List of JMX attributes or Metric Service Table columns separated by semi-colon
 	* `managed_bean_query` - JMX Managed Bean Query or Metric Service Table name
 	* `out_param_details` - Position and SQL Type of PL/SQL OUT parameter
-		* `out_param_position` - Position of PL/SQL procedure OUT parameter
-		* `out_param_type` - SQL Type of PL/SQL procedure OUT parameter
-	* `script_details` - Script details applicable to any OS Command based Metric Extension which needs to run a script to collect data
-		* `content` - Content of the script file as base64 encoded string
+		* `out_param_name` - Name of the Out Parameter
+		* `out_param_position` - Position of PL/SQL procedure OUT parameter. The value of this property is ignored during update, if "outParamType" is set to NO_OUT_PARAM value.
+		* `out_param_type` - SQL Type of PL/SQL procedure OUT parameter. During the update, to completely remove the out parameter, use the value NO_OUT_PARAM. In that case, the value of "outParamPosition" will be ignored.
+	* `protocol_type` - Supported protocol of resources to be associated with this metric extension. This is optional and defaults to HTTPS, which uses secure connection to the URL
+	* `response_content_type` - Type of content response given by the http(s) URL
+	* `script_details` - Script details applicable to any OS Command/HTTP based Metric Extension which needs to run a script to collect data. For removing it during OS Command based Metric Extension update, set its "content" property to an empty string. In that case, "name" property value is ignored.
+		* `content` - Content of the script/JavaScript file as base64 encoded string
 		* `name` - Name of the script file
 	* `sql_details` - Details of Sql content which needs to execute to collect Metric Extension data
 		* `content` - Sql statement or script file content as base64 encoded string
 		* `script_file_name` - If a script needs to be executed, then provide file name of the script
 	* `sql_type` - Type of SQL data collection method i.e. either a Statement or SQL Script File
 	* `starts_with` - String prefix used to identify metric output of the OS Command
+	* `url` - Http(s) end point URL
 * `resource_type` - Resource type to which Metric Extension applies
 * `resource_uri` - The URI path that the user can do a GET on to access the metric extension metadata
 * `state` - The current lifecycle state of the metric extension

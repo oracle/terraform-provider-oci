@@ -30,19 +30,21 @@ var (
 		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Required, acctest.Create, StackMonitoringMetricExtensionRepresentation)
 
 	StackMonitoringMetricExtensionResourceConfig = StackMonitoringMetricExtensionResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionInParamRepresentation)
 
 	StackMonitoringMetricExtensionSingularDataSourceRepresentation = map[string]interface{}{
 		"metric_extension_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_stack_monitoring_metric_extension.test_metric_extension.id}`},
 	}
 
 	StackMonitoringMetricExtensionDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"name":           acctest.Representation{RepType: acctest.Optional, Create: `ME_CountOfRunningInstances`},
-		"resource_type":  acctest.Representation{RepType: acctest.Optional, Create: `ebs_instance`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		"status":         acctest.Representation{RepType: acctest.Optional, Create: `DRAFT`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionDataSourceFilterRepresentation}}
+		"compartment_id":      acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
+		"metric_extension_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_stack_monitoring_metric_extension.test_metric_extension.id}`},
+		"name":                acctest.Representation{RepType: acctest.Optional, Create: `ME_CountOfRunningInstances`},
+		"resource_type":       acctest.Representation{RepType: acctest.Optional, Create: `ebs_instance`},
+		"state":               acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"status":              acctest.Representation{RepType: acctest.Optional, Create: `DRAFT`},
+		"filter":              acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionDataSourceFilterRepresentation},
+	}
 
 	StackMonitoringMetricExtensionDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -60,6 +62,7 @@ var (
 		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Collects count of instances in 'UP' status in staging compartments from monitoring table`, Update: `Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table`},
 		"publish_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 	}
+
 	StackMonitoringMetricExtensionMetricListRepresentation = map[string]interface{}{
 		"data_type":          acctest.Representation{RepType: acctest.Required, Create: `NUMBER`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `CountOfRunningInstances`, Update: `AllServerStatus`},
@@ -70,6 +73,7 @@ var (
 		"metric_category":    acctest.Representation{RepType: acctest.Optional, Create: `AVAILABILITY`, Update: `UTILIZATION`},
 		"unit":               acctest.Representation{RepType: acctest.Optional, Create: `count`, Update: ` `},
 	}
+
 	StackMonitoringMetricExtensionQueryPropertiesRepresentation = map[string]interface{}{
 		"collection_method": acctest.Representation{RepType: acctest.Required, Create: `SQL`},
 		"in_param_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMetricExtensionQueryPropertiesInParamDetailsRepresentation},
@@ -77,17 +81,45 @@ var (
 		"sql_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionQueryPropertiesSqlDetailsRepresentation},
 		"sql_type":          acctest.Representation{RepType: acctest.Required, Create: `STATEMENT`, Update: `STATEMENT`},
 	}
+
 	StackMonitoringMetricExtensionQueryPropertiesInParamDetailsRepresentation = map[string]interface{}{
 		"in_param_position": acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `2`},
 		"in_param_value":    acctest.Representation{RepType: acctest.Optional, Create: `staging`, Update: `production`},
 	}
+
 	StackMonitoringMetricExtensionQueryPropertiesOutParamDetailsRepresentation = map[string]interface{}{
+		"out_param_name":     acctest.Representation{RepType: acctest.Optional, Create: `outParamName`, Update: `outParamName2`},
 		"out_param_position": acctest.Representation{RepType: acctest.Optional, Create: `2`, Update: `3`},
 		"out_param_type":     acctest.Representation{RepType: acctest.Optional, Create: `SQL_CURSOR`, Update: `ARRAY`},
 	}
 
 	StackMonitoringMetricExtensionQueryPropertiesSqlDetailsRepresentation = map[string]interface{}{
-		"content":          acctest.Representation{RepType: acctest.Required, Create: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDox`, Update: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDoy`},
+		"content":          acctest.Representation{RepType: acctest.Required, Create: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJw==`, Update: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJw==`},
+		"script_file_name": acctest.Representation{RepType: acctest.Optional, Create: `No-File`, Update: ` `},
+	}
+
+	StackMonitoringMetricExtensionInParamRepresentation = map[string]interface{}{
+		"collection_recurrences": acctest.Representation{RepType: acctest.Required, Create: `FREQ=MINUTELY;INTERVAL=10`, Update: `FREQ=MINUTELY;INTERVAL=5`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `Count of Running Instances`, Update: `All Server Instances Running Factor`},
+		"metric_list":            acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionMetricListRepresentation},
+		"name":                   acctest.Representation{RepType: acctest.Required, Create: `ME_CountOfRunningInstances`},
+		"query_properties":       acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionQueryPropertiesInParamRepresentation},
+		"resource_type":          acctest.Representation{RepType: acctest.Required, Create: `ebs_instance`},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Collects count of instances in 'UP' status in staging compartments from monitoring table`, Update: `Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table`},
+		"publish_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
+
+	StackMonitoringMetricExtensionQueryPropertiesInParamRepresentation = map[string]interface{}{
+		"collection_method": acctest.Representation{RepType: acctest.Required, Create: `SQL`},
+		"in_param_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMetricExtensionQueryPropertiesInParamDetailsRepresentation},
+		"out_param_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: StackMonitoringMetricExtensionQueryPropertiesOutParamDetailsRepresentation},
+		"sql_details":       acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionQueryPropertiesSqlDetailsInParamRepresentation},
+		"sql_type":          acctest.Representation{RepType: acctest.Required, Create: `STATEMENT`, Update: `STATEMENT`},
+	}
+
+	StackMonitoringMetricExtensionQueryPropertiesSqlDetailsInParamRepresentation = map[string]interface{}{
+		"content":          acctest.Representation{RepType: acctest.Required, Create: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDoyIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjE=`, Update: `U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDozIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjI=`},
 		"script_file_name": acctest.Representation{RepType: acctest.Optional, Create: `No-File`, Update: ` `},
 	}
 
@@ -146,6 +178,7 @@ var (
 		"metric_category":    acctest.Representation{RepType: acctest.Optional, Create: `UTILIZATION`},
 		"unit":               acctest.Representation{RepType: acctest.Optional, Create: `percent`},
 	}
+
 	StackMonitoringMetricExtensionQueryPropertiesForPublishRepresentation = map[string]interface{}{
 		"collection_method": acctest.Representation{RepType: acctest.Required, Create: `OS_COMMAND`},
 		"command":           acctest.Representation{RepType: acctest.Optional, Create: `/bin/bash`},
@@ -173,12 +206,14 @@ var (
 		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Collects TotalPhysicalMemoryInGB for server named PIA in Giga bytes`, Update: `Collects TotalPhysicalMemoryInGB for server named PIA in GBs`},
 		"publish_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 	}
+
 	StackMonitoringMetricExtensionJmxMetricList0Representation = map[string]interface{}{
 		"data_type":    acctest.Representation{RepType: acctest.Required, Create: `NUMBER`},
 		"name":         acctest.Representation{RepType: acctest.Required, Create: `TotalPhysicalMemorySize`, Update: `TotalPhysicalMemorySizeInBytes`},
 		"is_dimension": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_hidden":    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
 	}
+
 	StackMonitoringMetricExtensionJmxMetricList1Representation = map[string]interface{}{
 		"data_type":          acctest.Representation{RepType: acctest.Required, Create: `NUMBER`},
 		"name":               acctest.Representation{RepType: acctest.Required, Create: `TotalPhysicalMemorySizeGigaBytes`, Update: `TotalPhysicalMemorySizeGB`},
@@ -187,11 +222,56 @@ var (
 		"is_dimension":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 		"is_hidden":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
 	}
+
 	StackMonitoringMetricExtensionJmxQueryPropertiesRepresentation = map[string]interface{}{
 		"collection_method":  acctest.Representation{RepType: acctest.Required, Create: `JMX`},
 		"managed_bean_query": acctest.Representation{RepType: acctest.Required, Create: `java.lang:type=OperatingSystem,Location=PIA`},
 		"jmx_attributes":     acctest.Representation{RepType: acctest.Required, Create: `TotalPhysicalMemorySize`},
 		"auto_row_prefix":    acctest.Representation{RepType: acctest.Optional, Create: `PseudoKey`},
+	}
+
+	StackMonitoringMetricExtensionHttpRequiredOnlyResource = StackMonitoringMetricExtensionResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension_http", acctest.Required, acctest.Create, StackMonitoringMetricExtensionHttpRepresentation)
+
+	StackMonitoringMetricExtensionHttpRepresentation = map[string]interface{}{
+		"collection_recurrences": acctest.Representation{RepType: acctest.Required, Create: `FREQ=MINUTELY;INTERVAL=10`, Update: `FREQ=MINUTELY;INTERVAL=5`},
+		"compartment_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"display_name":           acctest.Representation{RepType: acctest.Required, Create: `IO Performance`, Update: `IO Process Performance`},
+		"metric_list":            []acctest.RepresentationGroup{{RepType: acctest.Required, Group: StackMonitoringMetricExtensionHttpMetricList0Representation}, {RepType: acctest.Required, Group: StackMonitoringMetricExtensionHttpMetricList1Representation}},
+		"name":                   acctest.Representation{RepType: acctest.Required, Create: `ME_GoldenGateIoPerformance`},
+		"query_properties":       acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionHttpQueryPropertiesRepresentation},
+		"resource_type":          acctest.Representation{RepType: acctest.Required, Create: `oracle_goldengate_admin_server`},
+		"description":            acctest.Representation{RepType: acctest.Optional, Create: `Collects IO Performance Data`, Update: `Collects IO Process Performance Data`},
+		"publish_trigger":        acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
+
+	StackMonitoringMetricExtensionHttpMetricList0Representation = map[string]interface{}{
+		"data_type":    acctest.Representation{RepType: acctest.Required, Create: `NUMBER`},
+		"name":         acctest.Representation{RepType: acctest.Required, Create: `IoReadBytes`, Update: `IoProcessReadBytes`},
+		"is_dimension": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_hidden":    acctest.Representation{RepType: acctest.Optional, Create: `true`, Update: `true`},
+	}
+
+	StackMonitoringMetricExtensionHttpMetricList1Representation = map[string]interface{}{
+		"data_type":          acctest.Representation{RepType: acctest.Required, Create: `NUMBER`},
+		"name":               acctest.Representation{RepType: acctest.Required, Create: `IoReadRate`, Update: `IoProcessReadRate`},
+		"compute_expression": acctest.Representation{RepType: acctest.Optional, Create: `(IoReadBytes > 0 ? (__interval == 0 ? 0 : (IoReadBytes > _IoReadBytes ? (((IoReadBytes - _IoReadBytes) / __interval) / (1024 * 1024)) : 0))  : 0)`, Update: `(IoProcessReadBytes > 0 ? (__interval == 0 ? 0 : (IoProcessReadBytes > _IoProcessReadBytes ? (((IoProcessReadBytes - _IoProcessReadBytes) / __interval) / (1024 * 1024)) : 0))  : 0)`},
+		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `IO Read Rate`, Update: `IO Process Read Rate`},
+		"is_dimension":       acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+		"is_hidden":          acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `false`},
+	}
+
+	StackMonitoringMetricExtensionHttpQueryPropertiesRepresentation = map[string]interface{}{
+		"collection_method":     acctest.Representation{RepType: acctest.Required, Create: `HTTP`},
+		"url":                   acctest.Representation{RepType: acctest.Required, Create: `%pm_server_url%/services/v2/mpoints/%api_process_name%/processPerformance`, Update: `url2`},
+		"protocol_type":         acctest.Representation{RepType: acctest.Optional, Create: `HTTPS`, Update: `HTTPS`},
+		"response_content_type": acctest.Representation{RepType: acctest.Required, Create: `APPLICATION_JSON`, Update: `TEXT_HTML`},
+		"script_details":        acctest.RepresentationGroup{RepType: acctest.Required, Group: StackMonitoringMetricExtensionHttpQueryPropertiesScriptDetailsRepresentation},
+	}
+
+	StackMonitoringMetricExtensionHttpQueryPropertiesScriptDetailsRepresentation = map[string]interface{}{
+		"content": acctest.Representation{RepType: acctest.Required, Create: `ZnVuY3Rpb24gcnVuTWV0aG9kKG1ldHJpY09ic2VydmF0aW9uLCBzb3VyY2VQcm9wcykKewogICAgbGV0IHJlc3BvbnNlX3JhdyA9IEpTT04ucGFyc2UobWV0cmljT2JzZXJ2YXRpb24pOwogICAgbGV0IHJlc3BvbnNlID0gcmVzcG9uc2VfcmF3LnJlc3BvbnNlOwogICAgbGV0IGlvUmVhZEJ5dGVzID0gcmVzcG9uc2VbImlvUmVhZEJ5dGVzIl07CiAgICByZXR1cm4gW1tpb1JlYWRCeXRlc11dOwp9`},
+		"name":    acctest.Representation{RepType: acctest.Required, Create: `process_performance.js`},
 	}
 
 	StackMonitoringMetricExtensionResourceDependencies = ""
@@ -217,9 +297,10 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 	resourceNameForPublish := "oci_stack_monitoring_metric_extension.test_metric_extension_for_publish"
 
 	var resId, resId2, resId3, resId4 string
+
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringMetricExtensionResourceDependencies+
-		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionRepresentation), "stackmonitoring", "metricExtension", t)
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionInParamRepresentation), "stackmonitoring", "metricExtension", t)
 
 	acctest.ResourceTest(t, testAccCheckStackMonitoringMetricExtensionDestroy, []resource.TestStep{
 		// verify Create
@@ -237,7 +318,7 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.collection_method", "SQL"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDox"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJw=="),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_type", "STATEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "ebs_instance"),
 				resource.TestCheckResourceAttr(resourceName, "status", "DRAFT"),
@@ -253,25 +334,26 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies,
 		},
+
 		// verify Create with optionals
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionInParamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "collection_method"),
 				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "Collects count of instances in 'UP' status in staging compartments from monitoring table"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Count of Running Instances"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Collects count of instances in 'UP' status in staging compartments from monitoring table"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "CountOfRunningInstances - _CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "CountOfRunningInstances"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "CountOfRunningInstances - _CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.display_name", "Count of Running Instances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_dimension", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.metric_category", "AVAILABILITY"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.unit", "count"),
 				resource.TestCheckResourceAttr(resourceName, "name", "ME_CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
@@ -280,10 +362,11 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_position", "1"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_value", "staging"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_name", "outParamName"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_position", "2"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_type", "SQL_CURSOR"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDox"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDoyIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjE="),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.script_file_name", "No-File"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_type", "STATEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "ebs_instance"),
@@ -306,31 +389,37 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 		{
 			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + StackMonitoringMetricExtensionResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Create,
-					acctest.RepresentationCopyWithNewProperties(StackMonitoringMetricExtensionRepresentation, map[string]interface{}{
+					acctest.RepresentationCopyWithNewProperties(StackMonitoringMetricExtensionInParamRepresentation, map[string]interface{}{
 						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "collection_method"),
 				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=10"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "description", "Collects count of instances in 'UP' status in staging compartments from monitoring table"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "Count of Running Instances"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Collects count of instances in 'UP' status in staging compartments from monitoring table"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "CountOfRunningInstances - _CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "CountOfRunningInstances"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "CountOfRunningInstances - _CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.display_name", "Count of Running Instances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_dimension", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.metric_category", "AVAILABILITY"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.unit", "count"),
 				resource.TestCheckResourceAttr(resourceName, "name", "ME_CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.collection_method", "SQL"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_position", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_value", "staging"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_name", "outParamName"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_position", "2"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_type", "SQL_CURSOR"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDox"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDoyIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjE="),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.script_file_name", "No-File"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_type", "STATEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "ebs_instance"),
@@ -350,22 +439,22 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 		// verify updates to updatable parameters
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionInParamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "collection_method"),
 				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=5"),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "All Server Instances Running Factor"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "(AllServerStatus >= _AllServerStatus) ? 1 : 0"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "AllServerStatus"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.compute_expression", "(AllServerStatus >= _AllServerStatus) ? 1 : 0"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.display_name", "All Server Running Factor"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_dimension", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_hidden", "false"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.metric_category", "UTILIZATION"),
-				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "AllServerStatus"),
 				resource.TestCheckResourceAttr(resourceName, "metric_list.0.unit", " "),
 				resource.TestCheckResourceAttr(resourceName, "name", "ME_CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
@@ -374,10 +463,11 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_position", "2"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.in_param_details.0.in_param_value", "production"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_name", "outParamName2"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_position", "3"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.out_param_details.0.out_param_type", "ARRAY"),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDoy"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDozIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjI="),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_details.0.script_file_name", " "),
 				resource.TestCheckResourceAttr(resourceName, "query_properties.0.sql_type", "STATEMENT"),
 				resource.TestCheckResourceAttr(resourceName, "resource_type", "ebs_instance"),
@@ -387,7 +477,7 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -399,9 +489,10 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_stack_monitoring_metric_extensions", "test_metric_extensions", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionDataSourceRepresentation) +
 				compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionRepresentation),
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionInParamRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(datasourceName, "metric_extension_id"),
 				resource.TestCheckResourceAttr(datasourceName, "name", "ME_CountOfRunningInstances"),
 				resource.TestCheckResourceAttr(datasourceName, "resource_type", "ebs_instance"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
@@ -418,13 +509,12 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				compartmentIdVariableStr + StackMonitoringMetricExtensionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "metric_extension_id"),
-
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "collection_method"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=5"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "All Server Instances Running Factor"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "Gives value 1 when All servers are in 'UP' status in production compartments in monitoring table"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "enabled_on_resources.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "enabled_on_resources_count", "0"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
@@ -444,10 +534,11 @@ func TestStackMonitoringMetricExtensionResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.in_param_details.0.in_param_position", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.in_param_details.0.in_param_value", "production"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.out_param_details.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.out_param_details.0.out_param_name", "outParamName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.out_param_details.0.out_param_position", "3"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.out_param_details.0.out_param_type", "ARRAY"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.sql_details.#", "1"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBGUk9NIG1vbml0b3JpbmdfdGFibGUgV0hFUkUgc3RhdHVzID0gJ1VQJyBBTkQgY29tcGFydG1lbnRfdHlwZSA9IDoy"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.sql_details.0.content", "U0VMRUNUIGNvdW50KGluc3RhbmNlX2lkKSBpbnRvIDozIEZST00gbW9uaXRvcmluZ190YWJsZSBXSEVSRSBzdGF0dXMgPSAnVVAnIEFORCBjb21wYXJ0bWVudF90eXBlID0gOjI="),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.sql_details.0.script_file_name", " "),
 				resource.TestCheckResourceAttr(singularDatasourceName, "query_properties.0.sql_type", "STATEMENT"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "resource_type", "ebs_instance"),
@@ -737,7 +828,7 @@ func TestStackMonitoringMetricExtensionResource_jmx(t *testing.T) {
 				func(s *terraform.State) (err error) {
 					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
 					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
 					}
 					return err
 				},
@@ -754,6 +845,168 @@ func TestStackMonitoringMetricExtensionResource_jmx(t *testing.T) {
 		},
 
 		// delete jmx resource from previous step
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies,
+		},
+	})
+}
+
+func TestStackMonitoringMetricExtensionResource_http(t *testing.T) {
+	httpreplay.SetScenario("TestStackMonitoringMetricExtensionResource_http")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	resourceName := "oci_stack_monitoring_metric_extension.test_metric_extension_http"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+StackMonitoringMetricExtensionResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension_http", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionHttpRepresentation), "stackmonitoring", "metricExtension", t)
+
+	acctest.ResourceTest(t, testAccCheckStackMonitoringMetricExtensionDestroy, []resource.TestStep{
+		// verify Create
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension_http", acctest.Required, acctest.Create, StackMonitoringMetricExtensionHttpRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=10"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "IO Performance"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "IoReadBytes"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.name", "IoReadRate"),
+				resource.TestCheckResourceAttr(resourceName, "name", "ME_GoldenGateIoPerformance"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.collection_method", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.url", "%pm_server_url%/services/v2/mpoints/%api_process_name%/processPerformance"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.response_content_type", "APPLICATION_JSON"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.content", "ZnVuY3Rpb24gcnVuTWV0aG9kKG1ldHJpY09ic2VydmF0aW9uLCBzb3VyY2VQcm9wcykKewogICAgbGV0IHJlc3BvbnNlX3JhdyA9IEpTT04ucGFyc2UobWV0cmljT2JzZXJ2YXRpb24pOwogICAgbGV0IHJlc3BvbnNlID0gcmVzcG9uc2VfcmF3LnJlc3BvbnNlOwogICAgbGV0IGlvUmVhZEJ5dGVzID0gcmVzcG9uc2VbImlvUmVhZEJ5dGVzIl07CiAgICByZXR1cm4gW1tpb1JlYWRCeXRlc11dOwp9"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.name", "process_performance.js"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "oracle_goldengate_admin_server"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DRAFT"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies,
+		},
+		// verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension_http", acctest.Optional, acctest.Create, StackMonitoringMetricExtensionHttpRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "collection_method"),
+				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=10"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "IO Performance"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Collects IO Performance Data"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "IoReadBytes"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_hidden", "true"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_dimension", "false"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.name", "IoReadRate"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.compute_expression", "(IoReadBytes > 0 ? (__interval == 0 ? 0 : (IoReadBytes > _IoReadBytes ? (((IoReadBytes - _IoReadBytes) / __interval) / (1024 * 1024)) : 0))  : 0)"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.display_name", "IO Read Rate"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.is_dimension", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "ME_GoldenGateIoPerformance"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.collection_method", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.url", "%pm_server_url%/services/v2/mpoints/%api_process_name%/processPerformance"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.response_content_type", "APPLICATION_JSON"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.protocol_type", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.content", "ZnVuY3Rpb24gcnVuTWV0aG9kKG1ldHJpY09ic2VydmF0aW9uLCBzb3VyY2VQcm9wcykKewogICAgbGV0IHJlc3BvbnNlX3JhdyA9IEpTT04ucGFyc2UobWV0cmljT2JzZXJ2YXRpb24pOwogICAgbGV0IHJlc3BvbnNlID0gcmVzcG9uc2VfcmF3LnJlc3BvbnNlOwogICAgbGV0IGlvUmVhZEJ5dGVzID0gcmVzcG9uc2VbImlvUmVhZEJ5dGVzIl07CiAgICByZXR1cm4gW1tpb1JlYWRCeXRlc11dOwp9"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.name", "process_performance.js"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "oracle_goldengate_admin_server"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DRAFT"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_stack_monitoring_metric_extension", "test_metric_extension_http", acctest.Optional, acctest.Update, StackMonitoringMetricExtensionHttpRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(resourceName, "collection_method"),
+				resource.TestCheckResourceAttr(resourceName, "collection_recurrences", "FREQ=MINUTELY;INTERVAL=5"),
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "IO Process Performance"),
+				resource.TestCheckResourceAttr(resourceName, "description", "Collects IO Process Performance Data"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.#", "2"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.name", "IoProcessReadBytes"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_hidden", "true"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.0.is_dimension", "false"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.data_type", "NUMBER"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.name", "IoProcessReadRate"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.compute_expression", "(IoProcessReadBytes > 0 ? (__interval == 0 ? 0 : (IoProcessReadBytes > _IoProcessReadBytes ? (((IoProcessReadBytes - _IoProcessReadBytes) / __interval) / (1024 * 1024)) : 0))  : 0)"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.display_name", "IO Process Read Rate"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.is_hidden", "false"),
+				resource.TestCheckResourceAttr(resourceName, "metric_list.1.is_dimension", "false"),
+				resource.TestCheckResourceAttr(resourceName, "name", "ME_GoldenGateIoPerformance"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.collection_method", "HTTP"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.url", "url2"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.response_content_type", "TEXT_HTML"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.protocol_type", "HTTPS"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.content", "ZnVuY3Rpb24gcnVuTWV0aG9kKG1ldHJpY09ic2VydmF0aW9uLCBzb3VyY2VQcm9wcykKewogICAgbGV0IHJlc3BvbnNlX3JhdyA9IEpTT04ucGFyc2UobWV0cmljT2JzZXJ2YXRpb24pOwogICAgbGV0IHJlc3BvbnNlID0gcmVzcG9uc2VfcmF3LnJlc3BvbnNlOwogICAgbGV0IGlvUmVhZEJ5dGVzID0gcmVzcG9uc2VbImlvUmVhZEJ5dGVzIl07CiAgICByZXR1cm4gW1tpb1JlYWRCeXRlc11dOwp9"),
+				resource.TestCheckResourceAttr(resourceName, "query_properties.0.script_details.0.name", "process_performance.js"),
+				resource.TestCheckResourceAttr(resourceName, "resource_type", "oracle_goldengate_admin_server"),
+				resource.TestCheckResourceAttr(resourceName, "status", "DRAFT"),
+				resource.TestCheckResourceAttrSet(resourceName, "status"),
+				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// verify resource import
+		{
+			Config:                  config + StackMonitoringMetricExtensionHttpRequiredOnlyResource,
+			ImportState:             true,
+			ImportStateVerify:       true,
+			ImportStateVerifyIgnore: []string{},
+			ResourceName:            resourceName,
+		},
+
+		// delete http resource from previous step
 		{
 			Config: config + compartmentIdVariableStr + StackMonitoringMetricExtensionResourceDependencies,
 		},
