@@ -173,6 +173,10 @@ func (s *FileStorageReplicationsDataSourceCrud) SetData() error {
 
 		replication["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			replication["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			replication["time_created"] = r.TimeCreated.String()
 		}
