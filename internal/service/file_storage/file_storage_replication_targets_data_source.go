@@ -106,6 +106,11 @@ func FileStorageReplicationTargetsDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
+						},
 						"target_id": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -226,6 +231,10 @@ func (s *FileStorageReplicationTargetsDataSourceCrud) SetData() error {
 		}
 
 		replicationTarget["state"] = r.LifecycleState
+
+		if r.SystemTags != nil {
+			replicationTarget["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
 
 		if r.TimeCreated != nil {
 			replicationTarget["time_created"] = r.TimeCreated.String()

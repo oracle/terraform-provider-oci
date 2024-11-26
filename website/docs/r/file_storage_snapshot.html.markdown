@@ -92,6 +92,7 @@ The following attributes are exported:
 	Example: `2020-08-25T21:10:29.600Z` 
 * `snapshot_type` - Specifies the generation type of the snapshot. 
 * `state` - The current state of the snapshot.
+* `system_tags` - System tags for this resource. System tags are applied to resources by internal Oracle Cloud Infrastructure services. 
 * `time_created` - The date and time the snapshot was created, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts

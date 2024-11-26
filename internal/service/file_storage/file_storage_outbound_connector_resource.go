@@ -165,6 +165,11 @@ func FileStorageOutboundConnectorResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"time_created": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -390,6 +395,10 @@ func (s *FileStorageOutboundConnectorResourceCrud) SetData() error {
 		s.D.Set("locks", locks)
 
 		s.D.Set("state", v.LifecycleState)
+
+		if v.SystemTags != nil {
+			s.D.Set("system_tags", tfresource.SystemTagsToMap(v.SystemTags))
+		}
 
 		if v.TimeCreated != nil {
 			s.D.Set("time_created", v.TimeCreated.String())

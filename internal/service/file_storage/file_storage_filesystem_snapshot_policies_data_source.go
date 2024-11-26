@@ -155,6 +155,10 @@ func (s *FileStorageFilesystemSnapshotPoliciesDataSourceCrud) SetData() error {
 
 		filesystemSnapshotPolicy["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			filesystemSnapshotPolicy["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			filesystemSnapshotPolicy["time_created"] = r.TimeCreated.String()
 		}
