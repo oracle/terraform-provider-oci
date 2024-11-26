@@ -20,9 +20,13 @@ func StackMonitoringMetricExtensionsDataSource() *schema.Resource {
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
 				Type:     schema.TypeString,
-				Required: true,
+				Optional: true,
 			},
 			"enabled_on_resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"metric_extension_id": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -89,6 +93,11 @@ func (s *StackMonitoringMetricExtensionsDataSourceCrud) Get() error {
 	if enabledOnResourceId, ok := s.D.GetOkExists("enabled_on_resource_id"); ok {
 		tmp := enabledOnResourceId.(string)
 		request.EnabledOnResourceId = &tmp
+	}
+
+	if metricExtensionId, ok := s.D.GetOkExists("id"); ok {
+		tmp := metricExtensionId.(string)
+		request.MetricExtensionId = &tmp
 	}
 
 	if name, ok := s.D.GetOkExists("name"); ok {

@@ -111,6 +111,7 @@ func StackMonitoringMetricExtensionResource() *schema.Resource {
 							Required:         true,
 							DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 							ValidateFunc: validation.StringInSlice([]string{
+								"HTTP",
 								"JMX",
 								"OS_COMMAND",
 								"SQL",
@@ -191,6 +192,11 @@ func StackMonitoringMetricExtensionResource() *schema.Resource {
 									// Required
 
 									// Optional
+									"out_param_name": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
 									"out_param_position": {
 										Type:     schema.TypeInt,
 										Required: true,
@@ -203,6 +209,16 @@ func StackMonitoringMetricExtensionResource() *schema.Resource {
 									// Computed
 								},
 							},
+						},
+						"protocol_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"response_content_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
 						},
 						"script_details": {
 							Type:     schema.TypeList,
@@ -259,6 +275,11 @@ func StackMonitoringMetricExtensionResource() *schema.Resource {
 							Computed: true,
 						},
 						"starts_with": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"url": {
 							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
@@ -779,6 +800,52 @@ func EnabledResourceDetailsToMap(obj oci_stack_monitoring.EnabledResourceDetails
 	return result
 }
 
+func (s *StackMonitoringMetricExtensionResourceCrud) mapToHttpScriptFileDetails(fieldKeyFormat string) (oci_stack_monitoring.HttpScriptFileDetails, error) {
+	result := oci_stack_monitoring.HttpScriptFileDetails{}
+
+	if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		tmp := content.(string)
+		result.Content = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *StackMonitoringMetricExtensionResourceCrud) mapToUpdateHttpScriptFileDetails(fieldKeyFormat string) (oci_stack_monitoring.UpdateHttpScriptFileDetails, error) {
+	result := oci_stack_monitoring.UpdateHttpScriptFileDetails{}
+
+	if content, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "content")); ok {
+		tmp := content.(string)
+		result.Content = &tmp
+	}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	return result, nil
+}
+
+func HttpScriptFileDetailsToMap(obj *oci_stack_monitoring.HttpScriptFileDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Content != nil {
+		result["content"] = string(*obj.Content)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
+
+	return result
+}
+
 func (s *StackMonitoringMetricExtensionResourceCrud) mapToMetric(fieldKeyFormat string) (oci_stack_monitoring.Metric, error) {
 	result := oci_stack_monitoring.Metric{}
 
@@ -868,6 +935,29 @@ func (s *StackMonitoringMetricExtensionResourceCrud) mapToMetricExtensionQueryPr
 		collectionMethod = "" // default value
 	}
 	switch strings.ToLower(collectionMethod) {
+	case strings.ToLower("HTTP"):
+		details := oci_stack_monitoring.HttpUpdateQueryProperties{}
+		if protocolType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol_type")); ok {
+			details.ProtocolType = oci_stack_monitoring.HttpProtocolTypesEnum(protocolType.(string))
+		}
+		if responseContentType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_content_type")); ok {
+			details.ResponseContentType = oci_stack_monitoring.HttpResponseContentTypesEnum(responseContentType.(string))
+		}
+		if scriptDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_details")); ok {
+			if tmpList := scriptDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "script_details"), 0)
+				tmp, err := s.mapToUpdateHttpScriptFileDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert script_details, encountered error: %v", err)
+				}
+				details.ScriptDetails = &tmp
+			}
+		}
+		if url, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "url")); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("JMX"):
 		details := oci_stack_monitoring.JmxUpdateQueryProperties{}
 		if autoRowPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_row_prefix")); ok {
@@ -979,6 +1069,29 @@ func (s *StackMonitoringMetricExtensionResourceCrud) mapToMetricExtensionUpdateQ
 		collectionMethod = "" // default value
 	}
 	switch strings.ToLower(collectionMethod) {
+	case strings.ToLower("HTTP"):
+		details := oci_stack_monitoring.HttpUpdateQueryProperties{}
+		if protocolType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "protocol_type")); ok {
+			details.ProtocolType = oci_stack_monitoring.HttpProtocolTypesEnum(protocolType.(string))
+		}
+		if responseContentType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "response_content_type")); ok {
+			details.ResponseContentType = oci_stack_monitoring.HttpResponseContentTypesEnum(responseContentType.(string))
+		}
+		if scriptDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "script_details")); ok {
+			if tmpList := scriptDetails.([]interface{}); len(tmpList) > 0 {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "script_details"), 0)
+				tmp, err := s.mapToUpdateHttpScriptFileDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, fmt.Errorf("unable to convert script_details, encountered error: %v", err)
+				}
+				details.ScriptDetails = &tmp
+			}
+		}
+		if url, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "url")); ok {
+			tmp := url.(string)
+			details.Url = &tmp
+		}
+		baseObject = details
 	case strings.ToLower("JMX"):
 		details := oci_stack_monitoring.JmxUpdateQueryProperties{}
 		if autoRowPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_row_prefix")); ok {
@@ -1082,6 +1195,20 @@ func (s *StackMonitoringMetricExtensionResourceCrud) mapToMetricExtensionUpdateQ
 func MetricExtensionQueryPropertiesToMap(obj *oci_stack_monitoring.MetricExtensionQueryProperties) map[string]interface{} {
 	result := map[string]interface{}{}
 	switch v := (*obj).(type) {
+	case oci_stack_monitoring.HttpQueryProperties:
+		result["collection_method"] = "HTTP"
+
+		result["protocol_type"] = string(v.ProtocolType)
+
+		result["response_content_type"] = string(v.ResponseContentType)
+
+		if v.ScriptDetails != nil {
+			result["script_details"] = []interface{}{HttpScriptFileDetailsToMap(v.ScriptDetails)}
+		}
+
+		if v.Url != nil {
+			result["url"] = string(*v.Url)
+		}
 	case oci_stack_monitoring.JmxQueryProperties:
 		result["collection_method"] = "JMX"
 
@@ -1297,6 +1424,11 @@ func SqlInParamDetailsToMap(obj oci_stack_monitoring.SqlInParamDetails) map[stri
 func (s *StackMonitoringMetricExtensionResourceCrud) mapToSqlOutParamDetails(fieldKeyFormat string) (oci_stack_monitoring.SqlOutParamDetails, error) {
 	result := oci_stack_monitoring.SqlOutParamDetails{}
 
+	if outParamName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "out_param_name")); ok {
+		tmp := outParamName.(string)
+		result.OutParamName = &tmp
+	}
+
 	if outParamPosition, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "out_param_position")); ok {
 		tmp := outParamPosition.(int)
 		result.OutParamPosition = &tmp
@@ -1312,11 +1444,29 @@ func (s *StackMonitoringMetricExtensionResourceCrud) mapToSqlOutParamDetails(fie
 func SqlOutParamDetailsToMap(obj *oci_stack_monitoring.SqlOutParamDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.OutParamName != nil {
+		result["out_param_name"] = string(*obj.OutParamName)
+	}
+
 	if obj.OutParamPosition != nil {
 		result["out_param_position"] = int(*obj.OutParamPosition)
 	}
 
 	result["out_param_type"] = string(obj.OutParamType)
+
+	return result
+}
+
+func UpdateHttpScriptFileDetailsToMap(obj *oci_stack_monitoring.UpdateHttpScriptFileDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.Content != nil {
+		result["content"] = string(*obj.Content)
+	}
+
+	if obj.Name != nil {
+		result["name"] = string(*obj.Name)
+	}
 
 	return result
 }
