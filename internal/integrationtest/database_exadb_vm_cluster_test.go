@@ -53,7 +53,7 @@ var (
 		"display_name":                 acctest.Representation{RepType: acctest.Required, Create: `TFExadbVmCluster`, Update: `TFExadbVmClusterUpdatedName`},
 		"exascale_db_storage_vault_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_exascale_db_storage_vault.test_exascale_db_storage_vault.id}`},
 		"grid_image_id":                acctest.Representation{RepType: acctest.Required, Create: `${var.grid_image_id}`},
-		"hostname":                     acctest.Representation{RepType: acctest.Required, Create: `apollo`},
+		"hostname":                     acctest.Representation{RepType: acctest.Required, Create: `APOLLO`}, // hostname is in UPPERCASE in config and in lowercase in response (hence state) but there will be no diff since hostname is considered case-insensitive
 		"shape":                        acctest.Representation{RepType: acctest.Required, Create: `EXADBXS`},
 		"ssh_public_keys":              acctest.Representation{RepType: acctest.Required, Create: []string{`ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDOuBJgh6lTmQvQJ4BA3RCJdSmxRtmiXAQEEIP68/G4gF3XuZdKEYTFeputacmRq9yO5ZnNXgO9akdUgePpf8+CfFtveQxmN5xo3HVCDKxu/70lbMgeu7+wJzrMOlzj+a4zNq2j0Ww2VWMsisJ6eV3bJTnO/9VLGCOC8M9noaOlcKcLgIYy4aDM724MxFX2lgn7o6rVADHRxkvLEXPVqYT4syvYw+8OVSnNgE4MJLxaw8/2K0qp19YlQyiriIXfQpci3ThxwLjymYRPj+kjU1xIxv6qbFQzHR7ds0pSWp1U06cIoKPfCazU9hGWW8yIe/vzfTbWrt2DK6pLwBn/G0x3 sample`}},
 		"security_attributes":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"oracle-zpr.maxegresscount.value": "42", "oracle-zpr.maxegresscount.mode": "enforce"}, Update: map[string]string{"oracle-zpr.maxegresscount.value": "updatedValue", "oracle-zpr.maxegresscount.mode": "enforce"}},
