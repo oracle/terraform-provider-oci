@@ -170,6 +170,10 @@ func (s *FileStorageOutboundConnectorsDataSourceCrud) SetData() error {
 
 			result["state"] = string(v.LifecycleState)
 
+			if v.SystemTags != nil {
+				result["system_tags"] = tfresource.SystemTagsToMap(v.SystemTags)
+			}
+
 			if v.TimeCreated != nil {
 				result["time_created"] = v.TimeCreated.String()
 			}
