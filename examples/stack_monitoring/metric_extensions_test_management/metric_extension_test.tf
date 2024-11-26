@@ -79,6 +79,7 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource_metr
   display_name = "metricExtensionTestTerraformExample"
   host_name = var.stack_mon_hostname_resource1
   management_agent_id = var.stack_mon_management_agent_id_resource1
+  license = "ENTERPRISE_EDITION"
   properties {
     name = "osName"
     value = "Linux"
@@ -93,7 +94,8 @@ resource "oci_stack_monitoring_monitored_resource" "test_monitored_resource_metr
       credentials,
       properties,
       external_id,
-      defined_tags]
+      defined_tags,
+      system_tags]
   }
 }
 

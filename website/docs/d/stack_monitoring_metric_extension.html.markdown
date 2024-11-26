@@ -67,16 +67,20 @@ The following attributes are exported:
 	* `jmx_attributes` - List of JMX attributes or Metric Service Table columns separated by semi-colon
 	* `managed_bean_query` - JMX Managed Bean Query or Metric Service Table name
 	* `out_param_details` - Position and SQL Type of PL/SQL OUT parameter
-		* `out_param_position` - Position of PL/SQL procedure OUT parameter
-		* `out_param_type` - SQL Type of PL/SQL procedure OUT parameter
-	* `script_details` - Script details applicable to any OS Command based Metric Extension which needs to run a script to collect data
-		* `content` - Content of the script file as base64 encoded string
+		* `out_param_name` - Name of the Out Parameter
+		* `out_param_position` - Position of PL/SQL procedure OUT parameter. The value of this property is ignored during update, if "outParamType" is set to NO_OUT_PARAM value.
+		* `out_param_type` - SQL Type of PL/SQL procedure OUT parameter. During the update, to completely remove the out parameter, use the value NO_OUT_PARAM. In that case, the value of "outParamPosition" will be ignored.
+	* `protocol_type` - Supported protocol of resources to be associated with this metric extension. This is optional and defaults to HTTPS, which uses secure connection to the URL
+	* `response_content_type` - Type of content response given by the http(s) URL
+	* `script_details` - Script details applicable to any OS Command/HTTP based Metric Extension which needs to run a script to collect data. For removing it during OS Command based Metric Extension update, set its "content" property to an empty string. In that case, "name" property value is ignored.
+		* `content` - Content of the script/JavaScript file as base64 encoded string
 		* `name` - Name of the script file
 	* `sql_details` - Details of Sql content which needs to execute to collect Metric Extension data
 		* `content` - Sql statement or script file content as base64 encoded string
 		* `script_file_name` - If a script needs to be executed, then provide file name of the script
 	* `sql_type` - Type of SQL data collection method i.e. either a Statement or SQL Script File
 	* `starts_with` - String prefix used to identify metric output of the OS Command
+	* `url` - Http(s) end point URL
 * `resource_type` - Resource type to which Metric Extension applies
 * `resource_uri` - The URI path that the user can do a GET on to access the metric extension metadata
 * `state` - The current lifecycle state of the metric extension
