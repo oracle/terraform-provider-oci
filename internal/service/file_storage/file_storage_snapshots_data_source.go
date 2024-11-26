@@ -175,6 +175,10 @@ func (s *FileStorageSnapshotsDataSourceCrud) SetData() error {
 
 		snapshot["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			snapshot["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			snapshot["time_created"] = r.TimeCreated.String()
 		}

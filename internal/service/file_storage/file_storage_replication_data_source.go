@@ -123,6 +123,10 @@ func (s *FileStorageReplicationDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TargetId != nil {
 		s.D.Set("target_id", *s.Res.TargetId)
 	}
