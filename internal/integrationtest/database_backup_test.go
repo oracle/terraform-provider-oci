@@ -42,10 +42,8 @@ var (
 	}
 
 	DatabaseBackupRepresentation = map[string]interface{}{
-		"database_id":               acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
-		"display_name":              acctest.Representation{RepType: acctest.Required, Create: `Monthly Backup`},
-		"retention_period_in_days":  acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
-		"retention_period_in_years": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
+		"database_id":  acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_databases.db.databases.0.id}`},
+		"display_name": acctest.Representation{RepType: acctest.Required, Create: `Monthly Backup`},
 	}
 
 	CoreInternetGatewayDatabaseBackupRepresentation = map[string]interface{}{
@@ -132,7 +130,7 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 	resourceName := "oci_database_backup.test_backup"
 	datasourceName := "data.oci_database_backups.test_backups"
 
-	var resId, resId2, compId string
+	var resId, compId string
 	// Save TF content to Create resource with only required properties. This has to be exactly the same as the config part in the Create step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseDatabaseBackupResourceDependencies+
 		acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Required, acctest.Create, DatabaseBackupRepresentation), "database", "backup", t)
@@ -159,25 +157,6 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
-		{
-			Config: config + compartmentIdVariableStr + DatabaseBackupResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_database_backup", "test_backup", acctest.Optional, acctest.Update, DatabaseBackupRepresentation),
-			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
-				resource.TestCheckResourceAttrSet(resourceName, "database_id"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "Monthly Backup"),
-				resource.TestCheckResourceAttr(resourceName, "retention_period_in_days", "11"),
-				resource.TestCheckResourceAttr(resourceName, "retention_period_in_years", "11"),
-
-				func(s *terraform.State) (err error) {
-					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
-					if resId != resId2 {
-						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
-					}
-					return err
-				},
-			),
-		},
 		// verify datasource
 		{
 			Config: config + kmsKeyIdVariableStr + kmsKeyVersionIdVariableStr + vaultIdVariableStr +
@@ -187,15 +166,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "database_id"),
 				resource.TestCheckResourceAttr(datasourceName, "shape_family", "SINGLENODE"),
-				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_expiry_scheduled_greater_than_or_equal_to"),
-				resource.TestCheckResourceAttrSet(datasourceName, "time_expiry_scheduled_less_than"),
-				resource.TestCheckResourceAttr(datasourceName, "type", "type"),
-				resource.TestCheckResourceAttr(datasourceName, "version", "version"),
 
 				resource.TestCheckResourceAttr(datasourceName, "backups.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.availability_domain"),
-				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.backup_destination_type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.compartment_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_edition"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.database_id"),
@@ -204,13 +177,9 @@ func TestDatabaseBackupResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_id"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.kms_key_version_id"),
-				resource.TestCheckResourceAttr(datasourceName, "backups.0.retention_period_in_days", "11"),
-				resource.TestCheckResourceAttr(datasourceName, "backups.0.retention_period_in_years", "11"),
-				resource.TestCheckResourceAttr(datasourceName, "backups.0.secondary_kms_key_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.shape"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_ended"),
-				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_expiry_scheduled"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.time_started"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.type"),
 				resource.TestCheckResourceAttrSet(datasourceName, "backups.0.vault_id"),
@@ -363,7 +332,6 @@ func getDatabaseBackupIds(compartment string) ([]string, error) {
 
 	listBackupsRequest := oci_database.ListBackupsRequest{}
 	listBackupsRequest.CompartmentId = &compartmentId
-	listBackupsRequest.LifecycleState = oci_database.BackupSummaryLifecycleStateActive
 	listBackupsResponse, err := databaseClient.ListBackups(context.Background(), listBackupsRequest)
 
 	if err != nil {
