@@ -30,7 +30,6 @@ var (
 		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation},
 	}
 	instanceConfigurationWithPlatformConfigInstanceDetailsLaunchDetailsRepresentation = acctest.RepresentationCopyWithRemovedProperties(acctest.RepresentationCopyWithNewProperties(CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation, map[string]interface{}{
-		"shape":           acctest.Representation{RepType: acctest.Optional, Create: `BM.DenseIO.E4.128`},
 		"platform_config": acctest.RepresentationGroup{RepType: acctest.Optional, Group: instancePlatformConfigRepresentation},
 	}), []string{
 		"dedicated_vm_host_id",
@@ -68,9 +67,8 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "INTEL_VM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "VM.Standard2.1"),
 			),
 		},
 		// verify datasource
@@ -85,9 +83,8 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "INTEL_VM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "VM.Standard2.1"),
 			),
 		},
 		// verify singular datasource
@@ -102,9 +99,11 @@ func TestAccCoreInstanceConfigurationResource_platformConfig(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.instance_type", "compute"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.#", "1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.numa_nodes_per_socket", "NPS1"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "AMD_MILAN_BM"),
-				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "BM.DenseIO.E4.128"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.is_measured_boot_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.is_secure_boot_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.is_trusted_platform_module_enabled", "true"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.platform_config.0.type", "INTEL_VM"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.shape", "VM.Standard2.1"),
 			),
 		},
 	})
