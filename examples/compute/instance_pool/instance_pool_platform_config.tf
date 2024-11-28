@@ -65,6 +65,9 @@ resource "oci_core_instance_configuration" "test_instance_configuration_platform
       platform_config {
         type = var.instance_configuration_platform_config_type
         numa_nodes_per_socket = var.instance_configuration_platform_config_numa_nodes_per_socket
+        is_secure_boot_enabled = true
+        is_trusted_platform_module_enabled = true
+        is_measured_boot_enabled = true
       }
 
       create_vnic_details {
