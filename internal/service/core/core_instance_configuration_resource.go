@@ -3537,6 +3537,10 @@ func (s *CoreInstanceConfigurationResourceCrud) mapToInstanceConfigurationInstan
 			tmp := imageId.(string)
 			details.ImageId = &tmp
 		}
+		if kmsKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "kms_key_id")); ok {
+			tmp := kmsKeyId.(string)
+			details.KmsKeyId = &tmp
+		}
 		if instanceSourceImageFilterDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details")); ok {
 			if tmpList := instanceSourceImageFilterDetails.([]interface{}); len(tmpList) > 0 {
 				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "instance_source_image_filter_details"), 0)
@@ -4417,6 +4421,22 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		if v.PercentageOfCoresEnabled != nil {
 			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
 		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationAmdMilanBmGpuLaunchInstancePlatformConfig:
 		result["type"] = "AMD_MILAN_BM_GPU"
 
@@ -4440,6 +4460,22 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		}
 
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationAmdRomeBmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_ROME_BM"
 
@@ -4467,6 +4503,22 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		if v.PercentageOfCoresEnabled != nil {
 			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
 		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationAmdRomeBmGpuLaunchInstancePlatformConfig:
 		result["type"] = "AMD_ROME_BM_GPU"
 
@@ -4490,11 +4542,43 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		}
 
 		result["numa_nodes_per_socket"] = string(v.NumaNodesPerSocket)
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationAmdVmLaunchInstancePlatformConfig:
 		result["type"] = "AMD_VM"
 
 		if v.IsSymmetricMultiThreadingEnabled != nil {
 			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
 		}
 	case oci_core.InstanceConfigurationGenericBmLaunchInstancePlatformConfig:
 		result["type"] = "GENERIC_BM"
@@ -4523,6 +4607,22 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		if v.PercentageOfCoresEnabled != nil {
 			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
 		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationIntelIcelakeBmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_ICELAKE_BM"
 
@@ -4541,6 +4641,22 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 
 		if v.PercentageOfCoresEnabled != nil {
 			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
+		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
 		}
 	case oci_core.InstanceConfigurationIntelSkylakeBmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_SKYLAKE_BM"
@@ -4561,11 +4677,43 @@ func InstanceConfigurationLaunchInstancePlatformConfigToMap(obj *oci_core.Instan
 		if v.PercentageOfCoresEnabled != nil {
 			result["percentage_of_cores_enabled"] = int(*v.PercentageOfCoresEnabled)
 		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
+		}
 	case oci_core.InstanceConfigurationIntelVmLaunchInstancePlatformConfig:
 		result["type"] = "INTEL_VM"
 
 		if v.IsSymmetricMultiThreadingEnabled != nil {
 			result["is_symmetric_multi_threading_enabled"] = bool(*v.IsSymmetricMultiThreadingEnabled)
+		}
+
+		if v.IsMeasuredBootEnabled != nil {
+			result["is_measured_boot_enabled"] = bool(*v.IsMeasuredBootEnabled)
+		}
+
+		if v.IsMemoryEncryptionEnabled != nil {
+			result["is_memory_encryption_enabled"] = bool(*v.IsMemoryEncryptionEnabled)
+		}
+
+		if v.IsSecureBootEnabled != nil {
+			result["is_secure_boot_enabled"] = bool(*v.IsSecureBootEnabled)
+		}
+
+		if v.IsTrustedPlatformModuleEnabled != nil {
+			result["is_trusted_platform_module_enabled"] = bool(*v.IsTrustedPlatformModuleEnabled)
 		}
 	default:
 		log.Printf("[WARN] Received 'type' of unknown type %v", *obj)

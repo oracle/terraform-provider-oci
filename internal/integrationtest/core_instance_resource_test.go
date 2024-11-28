@@ -25,9 +25,9 @@ import (
 var (
 	instancePlatformConfigRepresentation = map[string]interface{}{
 		"type":                               acctest.Representation{RepType: acctest.Required, Create: `INTEL_VM`},
-		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `false`},
-		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"is_measured_boot_enabled":           acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_secure_boot_enabled":             acctest.Representation{RepType: acctest.Optional, Create: `true`},
+		"is_trusted_platform_module_enabled": acctest.Representation{RepType: acctest.Optional, Create: `true`},
 	}
 	instanceBMMilanPlatformConfigRepresentation = map[string]interface{}{
 		"type":                                           acctest.Representation{RepType: acctest.Required, Create: `AMD_MILAN_BM`},
