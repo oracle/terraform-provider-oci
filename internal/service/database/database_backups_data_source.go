@@ -5,6 +5,7 @@ package database
 
 import (
 	"context"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -19,6 +20,10 @@ func DatabaseBackupsDataSource() *schema.Resource {
 		Read: readDatabaseBackups,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
+			"backup_destination_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"compartment_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -28,6 +33,26 @@ func DatabaseBackupsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"shape_family": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_expiry_scheduled_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_expiry_scheduled_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"version": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -61,6 +86,11 @@ func (s *DatabaseBackupsDataSourceCrud) VoidState() {
 func (s *DatabaseBackupsDataSourceCrud) Get() error {
 	request := oci_database.ListBackupsRequest{}
 
+	if backupDestinationType, ok := s.D.GetOkExists("backup_destination_type"); ok {
+		tmp := backupDestinationType.(string)
+		request.BackupDestinationType = &tmp
+	}
+
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
@@ -73,6 +103,36 @@ func (s *DatabaseBackupsDataSourceCrud) Get() error {
 
 	if shapeFamily, ok := s.D.GetOkExists("shape_family"); ok {
 		request.ShapeFamily = oci_database.ListBackupsShapeFamilyEnum(shapeFamily.(string))
+	}
+
+	if state, ok := s.D.GetOkExists("state"); ok {
+		request.LifecycleState = oci_database.BackupSummaryLifecycleStateEnum(state.(string))
+	}
+
+	if timeExpiryScheduledGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_expiry_scheduled_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeExpiryScheduledGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeExpiryScheduledGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timeExpiryScheduledLessThan, ok := s.D.GetOkExists("time_expiry_scheduled_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeExpiryScheduledLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeExpiryScheduledLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if type_, ok := s.D.GetOkExists("type"); ok {
+		tmp := type_.(string)
+		request.Type = &tmp
+	}
+
+	if version, ok := s.D.GetOkExists("version"); ok {
+		tmp := version.(string)
+		request.Version = &tmp
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
@@ -113,6 +173,8 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["availability_domain"] = *r.AvailabilityDomain
 		}
 
+		backup["backup_destination_type"] = r.BackupDestinationType
+
 		if r.CompartmentId != nil {
 			backup["compartment_id"] = *r.CompartmentId
 		}
@@ -139,6 +201,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["id"] = *r.Id
 		}
 
+		if r.IsUsingOracleManagedKeys != nil {
+			backup["is_using_oracle_managed_keys"] = *r.IsUsingOracleManagedKeys
+		}
+
 		if r.KeyStoreId != nil {
 			backup["key_store_id"] = *r.KeyStoreId
 		}
@@ -159,6 +225,16 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["lifecycle_details"] = *r.LifecycleDetails
 		}
 
+		if r.RetentionPeriodInDays != nil {
+			backup["retention_period_in_days"] = *r.RetentionPeriodInDays
+		}
+
+		if r.RetentionPeriodInYears != nil {
+			backup["retention_period_in_years"] = *r.RetentionPeriodInYears
+		}
+
+		backup["secondary_kms_key_ids"] = r.SecondaryKmsKeyIds
+
 		if r.Shape != nil {
 			backup["shape"] = *r.Shape
 		}
@@ -167,6 +243,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 
 		if r.TimeEnded != nil {
 			backup["time_ended"] = r.TimeEnded.Format(time.RFC3339Nano)
+		}
+
+		if r.TimeExpiryScheduled != nil {
+			backup["time_expiry_scheduled"] = r.TimeExpiryScheduled.String()
 		}
 
 		if r.TimeStarted != nil {
