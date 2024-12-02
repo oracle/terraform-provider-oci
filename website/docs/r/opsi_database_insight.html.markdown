@@ -64,6 +64,7 @@ resource "oci_opsi_database_insight" "test_database_insight" {
 		user_name = oci_identity_user.test_user.name
 		wallet_secret_id = oci_vault_secret.test_secret.id
 	}
+	database_connector_id = oci_opsi_database_connector.test_database_connector.id
 	dbm_private_endpoint_id = oci_dataflow_private_endpoint.test_private_endpoint.id
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deployment_type = var.database_insight_deployment_type
@@ -106,7 +107,8 @@ The following arguments are supported:
 	* `role` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user role.
 	* `user_name` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) database user name.
 	* `wallet_secret_id` - (Applicable when credential_type=CREDENTIALS_BY_VAULT) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Secret where the database keystore contents are stored. This is used for TCPS support in BM/VM/ExaCS cases.
-* `database_id` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | MDS_MYSQL_DATABASE_SYSTEM | PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
+* `database_connector_id` - (Required when entity_source=EXTERNAL_MYSQL_DATABASE_SYSTEM) (Updatable) The DBM owned database connector [OCID](/iaas/database-management/doc/view-connector-details.html) mapping to the database credentials and connection details.
+* `database_id` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | MDS_MYSQL_DATABASE_SYSTEM | PE_COMANAGED_DATABASE | EXTERNAL_MYSQL_DATABASE_SYSTEM) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `database_resource_type` - (Required when entity_source=AUTONOMOUS_DATABASE | MACS_MANAGED_CLOUD_DATABASE | MACS_MANAGED_EXTERNAL_DATABASE | MDS_MYSQL_DATABASE_SYSTEM | PE_COMANAGED_DATABASE) Oracle Cloud Infrastructure database resource type
 * `dbm_private_endpoint_id` - (Applicable when entity_source=PE_COMANAGED_DATABASE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Database Management private endpoint
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}`
