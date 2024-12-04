@@ -29,6 +29,10 @@ type NextHopEntryDetails struct {
 
 	// For weighted ECMP. Default is 1.
 	Weight *int `mandatory:"false" json:"weight"`
+
+	// Optional and indicates the availabilityDomain for the backend IP.
+	// example: 'phx-ad-1'
+	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
 }
 
 func (m NextHopEntryDetails) String() string {

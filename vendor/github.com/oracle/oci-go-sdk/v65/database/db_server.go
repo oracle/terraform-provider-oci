@@ -82,6 +82,9 @@ type DbServer struct {
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel DbServerComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m DbServer) String() string {
@@ -96,6 +99,9 @@ func (m DbServer) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbServerLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDbServerLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbServerComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbServerComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -158,5 +164,47 @@ func GetDbServerLifecycleStateEnumStringValues() []string {
 // GetMappingDbServerLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbServerLifecycleStateEnum(val string) (DbServerLifecycleStateEnum, bool) {
 	enum, ok := mappingDbServerLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbServerComputeModelEnum Enum with underlying type: string
+type DbServerComputeModelEnum string
+
+// Set of constants representing the allowable values for DbServerComputeModelEnum
+const (
+	DbServerComputeModelEcpu DbServerComputeModelEnum = "ECPU"
+	DbServerComputeModelOcpu DbServerComputeModelEnum = "OCPU"
+)
+
+var mappingDbServerComputeModelEnum = map[string]DbServerComputeModelEnum{
+	"ECPU": DbServerComputeModelEcpu,
+	"OCPU": DbServerComputeModelOcpu,
+}
+
+var mappingDbServerComputeModelEnumLowerCase = map[string]DbServerComputeModelEnum{
+	"ecpu": DbServerComputeModelEcpu,
+	"ocpu": DbServerComputeModelOcpu,
+}
+
+// GetDbServerComputeModelEnumValues Enumerates the set of values for DbServerComputeModelEnum
+func GetDbServerComputeModelEnumValues() []DbServerComputeModelEnum {
+	values := make([]DbServerComputeModelEnum, 0)
+	for _, v := range mappingDbServerComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbServerComputeModelEnumStringValues Enumerates the set of values in String for DbServerComputeModelEnum
+func GetDbServerComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingDbServerComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbServerComputeModelEnum(val string) (DbServerComputeModelEnum, bool) {
+	enum, ok := mappingDbServerComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

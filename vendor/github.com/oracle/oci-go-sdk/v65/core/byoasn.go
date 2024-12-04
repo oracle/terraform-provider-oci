@@ -61,6 +61,10 @@ type Byoasn struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeValidated *common.SDKTime `mandatory:"false" json:"timeValidated"`
 
+	// The date and time the `Byoasn` resource was last updated, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	// Example: `2016-08-25T21:10:29.600Z`
+	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
+
 	// The BYOIP Ranges that has the `Byoasn` as origin.
 	ByoipRanges []ByoasnByoipRange `mandatory:"false" json:"byoipRanges"`
 }

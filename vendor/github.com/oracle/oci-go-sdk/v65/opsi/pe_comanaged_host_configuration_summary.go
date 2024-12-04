@@ -85,6 +85,15 @@ type PeComanagedHostConfigurationSummary struct {
 
 	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
 
+	// Name of the GPU.
+	GpuName *string `mandatory:"false" json:"gpuName"`
+
+	// Vendor of the GPU.
+	GpuVendor *string `mandatory:"false" json:"gpuVendor"`
+
+	// Total GPU(s) allocated in a Host.
+	TotalGpus *int `mandatory:"false" json:"totalGpus"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
@@ -185,6 +194,21 @@ func (m PeComanagedHostConfigurationSummary) GetDefinedTags() map[string]map[str
 // GetFreeformTags returns FreeformTags
 func (m PeComanagedHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetGpuName returns GpuName
+func (m PeComanagedHostConfigurationSummary) GetGpuName() *string {
+	return m.GpuName
+}
+
+// GetGpuVendor returns GpuVendor
+func (m PeComanagedHostConfigurationSummary) GetGpuVendor() *string {
+	return m.GpuVendor
+}
+
+// GetTotalGpus returns TotalGpus
+func (m PeComanagedHostConfigurationSummary) GetTotalGpus() *int {
+	return m.TotalGpus
 }
 
 func (m PeComanagedHostConfigurationSummary) String() string {

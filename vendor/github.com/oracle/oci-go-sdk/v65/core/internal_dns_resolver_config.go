@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// InternalDnsResolverConfig A InternalDnsResolverConfig is config for DnsResolver and it's associated meta-data, like EcmpGroup.
+// InternalDnsResolverConfig An InternalDnsResolverConfig is config for DnsResolver and it's associated meta-data, like EcmpGroup.
 type InternalDnsResolverConfig struct {
 
 	// The DnsResovler's Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)).
@@ -29,6 +29,20 @@ type InternalDnsResolverConfig struct {
 
 	// The EcmpGroup's OCID Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) associated to the given DnsResovler.
 	EcmpGroupId *string `mandatory:"true" json:"ecmpGroupId"`
+
+	// The EcmpGroup's OCID Oracle ID (OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)) associated to the given DnsResovler.
+	VcnId *string `mandatory:"false" json:"vcnId"`
+
+	// List of name servers associated to the DNS resolver
+	NameServers []InternalDnsServer `mandatory:"false" json:"nameServers"`
+
+	// List of recursion servers associated to the DNS resolver
+	RecursionServers []InternalDnsServer `mandatory:"false" json:"recursionServers"`
+
+	TsigKey *InternalTsigKey `mandatory:"false" json:"tsigKey"`
+
+	// The viewId associated to the given DnsResovler.
+	DnsViewId *string `mandatory:"false" json:"dnsViewId"`
 }
 
 func (m InternalDnsResolverConfig) String() string {

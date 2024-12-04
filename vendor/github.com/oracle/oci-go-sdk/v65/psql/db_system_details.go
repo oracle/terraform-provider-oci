@@ -24,6 +24,9 @@ type DbSystemDetails struct {
 
 	// The major and minor versions of the database system software.
 	DbVersion *string `mandatory:"true" json:"dbVersion"`
+
+	// OCID of the configuration that was applied on the source dbSystem at the time when backup was taken.
+	ConfigId *string `mandatory:"false" json:"configId"`
 }
 
 func (m DbSystemDetails) String() string {

@@ -1954,6 +1954,64 @@ func (client DatabaseClient) changeExadbVmClusterCompartment(ctx context.Context
 	return response, err
 }
 
+// ChangeExadbVmClusterSubscription Associate a Exadata VM cluster on Exascale Infrastructure with a different subscription.
+func (client DatabaseClient) ChangeExadbVmClusterSubscription(ctx context.Context, request ChangeExadbVmClusterSubscriptionRequest) (response ChangeExadbVmClusterSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeExadbVmClusterSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeExadbVmClusterSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeExadbVmClusterSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeExadbVmClusterSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeExadbVmClusterSubscriptionResponse")
+	}
+	return
+}
+
+// changeExadbVmClusterSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeExadbVmClusterSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exadbVmClusters/{exadbVmClusterId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeExadbVmClusterSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExadbVmCluster/ChangeExadbVmClusterSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExadbVmClusterSubscription", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeExascaleDbStorageVaultCompartment Moves a Exadata Database Storage Vault to another compartment.
 func (client DatabaseClient) ChangeExascaleDbStorageVaultCompartment(ctx context.Context, request ChangeExascaleDbStorageVaultCompartmentRequest) (response ChangeExascaleDbStorageVaultCompartmentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -2005,6 +2063,64 @@ func (client DatabaseClient) changeExascaleDbStorageVaultCompartment(ctx context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ChangeExascaleDbStorageVaultCompartment"
 		err = common.PostProcessServiceError(err, "Database", "ChangeExascaleDbStorageVaultCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ChangeExascaleDbStorageVaultSubscription Associate a Exadata Database Storage Vault with a different subscription.
+func (client DatabaseClient) ChangeExascaleDbStorageVaultSubscription(ctx context.Context, request ChangeExascaleDbStorageVaultSubscriptionRequest) (response ChangeExascaleDbStorageVaultSubscriptionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeExascaleDbStorageVaultSubscription, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeExascaleDbStorageVaultSubscriptionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeExascaleDbStorageVaultSubscriptionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeExascaleDbStorageVaultSubscriptionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeExascaleDbStorageVaultSubscriptionResponse")
+	}
+	return
+}
+
+// changeExascaleDbStorageVaultSubscription implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeExascaleDbStorageVaultSubscription(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/exascaleDbStorageVaults/{exascaleDbStorageVaultId}/actions/changeSubscription", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeExascaleDbStorageVaultSubscriptionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExascaleDbStorageVault/ChangeExascaleDbStorageVaultSubscription"
+		err = common.PostProcessServiceError(err, "Database", "ChangeExascaleDbStorageVaultSubscription", apiReferenceLink)
 		return response, err
 	}
 
@@ -3060,6 +3176,66 @@ func (client DatabaseClient) convertStandbyAutonomousContainerDatabase(ctx conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabase/ConvertStandbyAutonomousContainerDatabase"
 		err = common.PostProcessServiceError(err, "Database", "ConvertStandbyAutonomousContainerDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConvertStandbyDatabaseType Performs transition from standby database into a snapshot standby and vice versa.
+// The transition performed based on the current role of the database, if the current role is standby then this operation will convert it to snapshot standby and if the current role is snapshot standby then this operation will convert it to standby.
+// This operation should be performed on respective standby/snapshot standby database.
+func (client DatabaseClient) ConvertStandbyDatabaseType(ctx context.Context, request ConvertStandbyDatabaseTypeRequest) (response ConvertStandbyDatabaseTypeResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.convertStandbyDatabaseType, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertStandbyDatabaseTypeResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertStandbyDatabaseTypeResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertStandbyDatabaseTypeResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertStandbyDatabaseTypeResponse")
+	}
+	return
+}
+
+// convertStandbyDatabaseType implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) convertStandbyDatabaseType(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/convertStandbyDatabaseType", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertStandbyDatabaseTypeResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ConvertStandbyDatabaseType"
+		err = common.PostProcessServiceError(err, "Database", "ConvertStandbyDatabaseType", apiReferenceLink)
 		return response, err
 	}
 
@@ -5175,6 +5351,64 @@ func (client DatabaseClient) createPluggableDatabase(ctx context.Context, reques
 	return response, err
 }
 
+// CreatePluggableDatabaseSnapshot Creates a Pluggable Database Snapshot
+func (client DatabaseClient) CreatePluggableDatabaseSnapshot(ctx context.Context, request CreatePluggableDatabaseSnapshotRequest) (response CreatePluggableDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createPluggableDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreatePluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreatePluggableDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreatePluggableDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreatePluggableDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// createPluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) createPluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/pluggableDatabaseSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreatePluggableDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := ""
+		err = common.PostProcessServiceError(err, "Database", "CreatePluggableDatabaseSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateScheduledAction Creates a Scheduled Action resource.
 func (client DatabaseClient) CreateScheduledAction(ctx context.Context, request CreateScheduledActionRequest) (response CreateScheduledActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -7130,6 +7364,59 @@ func (client DatabaseClient) deletePluggableDatabase(ctx context.Context, reques
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/DeletePluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "DeletePluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeletePluggableDatabaseSnapshot Deletes the specified Exadata Pluggable Database Snapshot.
+func (client DatabaseClient) DeletePluggableDatabaseSnapshot(ctx context.Context, request DeletePluggableDatabaseSnapshotRequest) (response DeletePluggableDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deletePluggableDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeletePluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeletePluggableDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeletePluggableDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeletePluggableDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// deletePluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) deletePluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeletePluggableDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/DeletePluggableDatabaseSnapshot"
+		err = common.PostProcessServiceError(err, "Database", "DeletePluggableDatabaseSnapshot", apiReferenceLink)
 		return response, err
 	}
 
@@ -13039,6 +13326,59 @@ func (client DatabaseClient) getPluggableDatabase(ctx context.Context, request c
 	return response, err
 }
 
+// GetPluggableDatabaseSnapshot Gets information about the specified Exadata Pluggable Database Snapshot in the specified compartment.
+func (client DatabaseClient) GetPluggableDatabaseSnapshot(ctx context.Context, request GetPluggableDatabaseSnapshotRequest) (response GetPluggableDatabaseSnapshotResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getPluggableDatabaseSnapshot, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetPluggableDatabaseSnapshotResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetPluggableDatabaseSnapshotResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetPluggableDatabaseSnapshotResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetPluggableDatabaseSnapshotResponse")
+	}
+	return
+}
+
+// getPluggableDatabaseSnapshot implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) getPluggableDatabaseSnapshot(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabaseSnapshots/{pluggableDatabaseSnapshotId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetPluggableDatabaseSnapshotResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/GetPluggableDatabaseSnapshot"
+		err = common.PostProcessServiceError(err, "Database", "GetPluggableDatabaseSnapshot", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetScheduledAction Gets information about the specified Scheduled Action.
 func (client DatabaseClient) GetScheduledAction(ctx context.Context, request GetScheduledActionRequest) (response GetScheduledActionResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -17588,6 +17928,59 @@ func (client DatabaseClient) listPdbConversionHistoryEntries(ctx context.Context
 	return response, err
 }
 
+// ListPluggableDatabaseSnapshots Gets a list of the Exadata Pluggable Database Snapshots in the specified compartment.
+func (client DatabaseClient) ListPluggableDatabaseSnapshots(ctx context.Context, request ListPluggableDatabaseSnapshotsRequest) (response ListPluggableDatabaseSnapshotsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPluggableDatabaseSnapshots, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPluggableDatabaseSnapshotsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPluggableDatabaseSnapshotsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPluggableDatabaseSnapshotsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPluggableDatabaseSnapshotsResponse")
+	}
+	return
+}
+
+// listPluggableDatabaseSnapshots implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) listPluggableDatabaseSnapshots(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/pluggableDatabaseSnapshots", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPluggableDatabaseSnapshotsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabaseSnapshot/ListPluggableDatabaseSnapshots"
+		err = common.PostProcessServiceError(err, "Database", "ListPluggableDatabaseSnapshots", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListPluggableDatabases Gets a list of the pluggable databases in a database or compartment. You must provide either a `databaseId` or `compartmentId` value.
 func (client DatabaseClient) ListPluggableDatabases(ctx context.Context, request ListPluggableDatabasesRequest) (response ListPluggableDatabasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -18902,6 +19295,59 @@ func (client DatabaseClient) moveExecutionActionMember(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ExecutionAction/MoveExecutionActionMember"
 		err = common.PostProcessServiceError(err, "Database", "MoveExecutionActionMember", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// NotifyJobStart This operation should be called by broker team, broker team requests this operation to notify DBaaS CP that there's a job started for this Autonomous Database Serverless database.
+func (client DatabaseClient) NotifyJobStart(ctx context.Context, request NotifyJobStartRequest) (response NotifyJobStartResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.notifyJobStart, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = NotifyJobStartResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = NotifyJobStartResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(NotifyJobStartResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into NotifyJobStartResponse")
+	}
+	return
+}
+
+// notifyJobStart implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) notifyJobStart(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/autonomousDatabases/{autonomousDatabaseId}/actions/notifyJobStart", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response NotifyJobStartResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/NotifyJobStart"
+		err = common.PostProcessServiceError(err, "Database", "NotifyJobStart", apiReferenceLink)
 		return response, err
 	}
 

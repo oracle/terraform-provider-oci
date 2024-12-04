@@ -97,6 +97,15 @@ type EmManagedExternalHostConfigurationSummary struct {
 	// Enterprise Manager Entity Type
 	EnterpriseManagerEntityType *string `mandatory:"true" json:"enterpriseManagerEntityType"`
 
+	// Name of the GPU.
+	GpuName *string `mandatory:"false" json:"gpuName"`
+
+	// Vendor of the GPU.
+	GpuVendor *string `mandatory:"false" json:"gpuVendor"`
+
+	// Total GPU(s) allocated in a Host.
+	TotalGpus *int `mandatory:"false" json:"totalGpus"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
@@ -197,6 +206,21 @@ func (m EmManagedExternalHostConfigurationSummary) GetDefinedTags() map[string]m
 // GetFreeformTags returns FreeformTags
 func (m EmManagedExternalHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetGpuName returns GpuName
+func (m EmManagedExternalHostConfigurationSummary) GetGpuName() *string {
+	return m.GpuName
+}
+
+// GetGpuVendor returns GpuVendor
+func (m EmManagedExternalHostConfigurationSummary) GetGpuVendor() *string {
+	return m.GpuVendor
+}
+
+// GetTotalGpus returns TotalGpus
+func (m EmManagedExternalHostConfigurationSummary) GetTotalGpus() *int {
+	return m.TotalGpus
 }
 
 func (m EmManagedExternalHostConfigurationSummary) String() string {

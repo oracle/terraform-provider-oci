@@ -99,6 +99,9 @@ type CreateInternalVnicAttachmentDetails struct {
 	LaunchType CreateInternalVnicAttachmentDetailsLaunchTypeEnum `mandatory:"false" json:"launchType,omitempty"`
 
 	VnicaasPodConfig *VnicaasPodConfig `mandatory:"false" json:"vnicaasPodConfig"`
+
+	// A list of tags as Service Vnic placement hints when attaching service vnic
+	ServiceVnicPlacementTags []string `mandatory:"false" json:"serviceVnicPlacementTags"`
 }
 
 func (m CreateInternalVnicAttachmentDetails) String() string {

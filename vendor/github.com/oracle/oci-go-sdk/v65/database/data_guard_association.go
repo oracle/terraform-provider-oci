@@ -114,18 +114,21 @@ const (
 	DataGuardAssociationRolePrimary         DataGuardAssociationRoleEnum = "PRIMARY"
 	DataGuardAssociationRoleStandby         DataGuardAssociationRoleEnum = "STANDBY"
 	DataGuardAssociationRoleDisabledStandby DataGuardAssociationRoleEnum = "DISABLED_STANDBY"
+	DataGuardAssociationRoleSnapshotStandby DataGuardAssociationRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingDataGuardAssociationRoleEnum = map[string]DataGuardAssociationRoleEnum{
 	"PRIMARY":          DataGuardAssociationRolePrimary,
 	"STANDBY":          DataGuardAssociationRoleStandby,
 	"DISABLED_STANDBY": DataGuardAssociationRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": DataGuardAssociationRoleSnapshotStandby,
 }
 
 var mappingDataGuardAssociationRoleEnumLowerCase = map[string]DataGuardAssociationRoleEnum{
 	"primary":          DataGuardAssociationRolePrimary,
 	"standby":          DataGuardAssociationRoleStandby,
 	"disabled_standby": DataGuardAssociationRoleDisabledStandby,
+	"snapshot_standby": DataGuardAssociationRoleSnapshotStandby,
 }
 
 // GetDataGuardAssociationRoleEnumValues Enumerates the set of values for DataGuardAssociationRoleEnum
@@ -143,6 +146,7 @@ func GetDataGuardAssociationRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 
@@ -222,18 +226,21 @@ const (
 	DataGuardAssociationPeerRolePrimary         DataGuardAssociationPeerRoleEnum = "PRIMARY"
 	DataGuardAssociationPeerRoleStandby         DataGuardAssociationPeerRoleEnum = "STANDBY"
 	DataGuardAssociationPeerRoleDisabledStandby DataGuardAssociationPeerRoleEnum = "DISABLED_STANDBY"
+	DataGuardAssociationPeerRoleSnapshotStandby DataGuardAssociationPeerRoleEnum = "SNAPSHOT_STANDBY"
 )
 
 var mappingDataGuardAssociationPeerRoleEnum = map[string]DataGuardAssociationPeerRoleEnum{
 	"PRIMARY":          DataGuardAssociationPeerRolePrimary,
 	"STANDBY":          DataGuardAssociationPeerRoleStandby,
 	"DISABLED_STANDBY": DataGuardAssociationPeerRoleDisabledStandby,
+	"SNAPSHOT_STANDBY": DataGuardAssociationPeerRoleSnapshotStandby,
 }
 
 var mappingDataGuardAssociationPeerRoleEnumLowerCase = map[string]DataGuardAssociationPeerRoleEnum{
 	"primary":          DataGuardAssociationPeerRolePrimary,
 	"standby":          DataGuardAssociationPeerRoleStandby,
 	"disabled_standby": DataGuardAssociationPeerRoleDisabledStandby,
+	"snapshot_standby": DataGuardAssociationPeerRoleSnapshotStandby,
 }
 
 // GetDataGuardAssociationPeerRoleEnumValues Enumerates the set of values for DataGuardAssociationPeerRoleEnum
@@ -251,6 +258,7 @@ func GetDataGuardAssociationPeerRoleEnumStringValues() []string {
 		"PRIMARY",
 		"STANDBY",
 		"DISABLED_STANDBY",
+		"SNAPSHOT_STANDBY",
 	}
 }
 

@@ -85,6 +85,15 @@ type MacsManagedCloudDbHostConfigurationSummary struct {
 
 	ExadataDetails *ExadataDetails `mandatory:"true" json:"exadataDetails"`
 
+	// Name of the GPU.
+	GpuName *string `mandatory:"false" json:"gpuName"`
+
+	// Vendor of the GPU.
+	GpuVendor *string `mandatory:"false" json:"gpuVendor"`
+
+	// Total GPU(s) allocated in a Host.
+	TotalGpus *int `mandatory:"false" json:"totalGpus"`
+
 	// Platform type.
 	// Supported platformType(s) for MACS-managed external host insight: [LINUX, SOLARIS, WINDOWS].
 	// Supported platformType(s) for MACS-managed cloud host insight: [LINUX].
@@ -185,6 +194,21 @@ func (m MacsManagedCloudDbHostConfigurationSummary) GetDefinedTags() map[string]
 // GetFreeformTags returns FreeformTags
 func (m MacsManagedCloudDbHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetGpuName returns GpuName
+func (m MacsManagedCloudDbHostConfigurationSummary) GetGpuName() *string {
+	return m.GpuName
+}
+
+// GetGpuVendor returns GpuVendor
+func (m MacsManagedCloudDbHostConfigurationSummary) GetGpuVendor() *string {
+	return m.GpuVendor
+}
+
+// GetTotalGpus returns TotalGpus
+func (m MacsManagedCloudDbHostConfigurationSummary) GetTotalGpus() *int {
+	return m.TotalGpus
 }
 
 func (m MacsManagedCloudDbHostConfigurationSummary) String() string {

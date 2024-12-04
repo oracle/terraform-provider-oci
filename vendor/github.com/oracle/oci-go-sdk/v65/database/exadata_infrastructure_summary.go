@@ -175,6 +175,15 @@ type ExadataInfrastructureSummary struct {
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
 
 	ExascaleConfig *ExascaleConfigDetails `mandatory:"false" json:"exascaleConfig"`
+
+	// The database server type of the Exadata infrastructure.
+	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
+
+	// The storage server type of the Exadata infrastructure.
+	StorageServerType *string `mandatory:"false" json:"storageServerType"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel ExadataInfrastructureSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m ExadataInfrastructureSummary) String() string {
@@ -195,6 +204,9 @@ func (m ExadataInfrastructureSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingExadataInfrastructureSummaryMaintenanceSLOStatusEnum(string(m.MaintenanceSLOStatus)); !ok && m.MaintenanceSLOStatus != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for MaintenanceSLOStatus: %s. Supported values are: %s.", m.MaintenanceSLOStatus, strings.Join(GetExadataInfrastructureSummaryMaintenanceSLOStatusEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingExadataInfrastructureSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetExadataInfrastructureSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -294,6 +306,7 @@ const (
 	ExadataInfrastructureSummaryAdditionalComputeSystemModelX8m  ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = "X8M"
 	ExadataInfrastructureSummaryAdditionalComputeSystemModelX9m  ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = "X9M"
 	ExadataInfrastructureSummaryAdditionalComputeSystemModelX10m ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = "X10M"
+	ExadataInfrastructureSummaryAdditionalComputeSystemModelX11m ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = "X11M"
 )
 
 var mappingExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = map[string]ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum{
@@ -302,6 +315,7 @@ var mappingExadataInfrastructureSummaryAdditionalComputeSystemModelEnum = map[st
 	"X8M":  ExadataInfrastructureSummaryAdditionalComputeSystemModelX8m,
 	"X9M":  ExadataInfrastructureSummaryAdditionalComputeSystemModelX9m,
 	"X10M": ExadataInfrastructureSummaryAdditionalComputeSystemModelX10m,
+	"X11M": ExadataInfrastructureSummaryAdditionalComputeSystemModelX11m,
 }
 
 var mappingExadataInfrastructureSummaryAdditionalComputeSystemModelEnumLowerCase = map[string]ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum{
@@ -310,6 +324,7 @@ var mappingExadataInfrastructureSummaryAdditionalComputeSystemModelEnumLowerCase
 	"x8m":  ExadataInfrastructureSummaryAdditionalComputeSystemModelX8m,
 	"x9m":  ExadataInfrastructureSummaryAdditionalComputeSystemModelX9m,
 	"x10m": ExadataInfrastructureSummaryAdditionalComputeSystemModelX10m,
+	"x11m": ExadataInfrastructureSummaryAdditionalComputeSystemModelX11m,
 }
 
 // GetExadataInfrastructureSummaryAdditionalComputeSystemModelEnumValues Enumerates the set of values for ExadataInfrastructureSummaryAdditionalComputeSystemModelEnum
@@ -329,6 +344,7 @@ func GetExadataInfrastructureSummaryAdditionalComputeSystemModelEnumStringValues
 		"X8M",
 		"X9M",
 		"X10M",
+		"X11M",
 	}
 }
 
@@ -377,5 +393,47 @@ func GetExadataInfrastructureSummaryMaintenanceSLOStatusEnumStringValues() []str
 // GetMappingExadataInfrastructureSummaryMaintenanceSLOStatusEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingExadataInfrastructureSummaryMaintenanceSLOStatusEnum(val string) (ExadataInfrastructureSummaryMaintenanceSLOStatusEnum, bool) {
 	enum, ok := mappingExadataInfrastructureSummaryMaintenanceSLOStatusEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ExadataInfrastructureSummaryComputeModelEnum Enum with underlying type: string
+type ExadataInfrastructureSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for ExadataInfrastructureSummaryComputeModelEnum
+const (
+	ExadataInfrastructureSummaryComputeModelEcpu ExadataInfrastructureSummaryComputeModelEnum = "ECPU"
+	ExadataInfrastructureSummaryComputeModelOcpu ExadataInfrastructureSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingExadataInfrastructureSummaryComputeModelEnum = map[string]ExadataInfrastructureSummaryComputeModelEnum{
+	"ECPU": ExadataInfrastructureSummaryComputeModelEcpu,
+	"OCPU": ExadataInfrastructureSummaryComputeModelOcpu,
+}
+
+var mappingExadataInfrastructureSummaryComputeModelEnumLowerCase = map[string]ExadataInfrastructureSummaryComputeModelEnum{
+	"ecpu": ExadataInfrastructureSummaryComputeModelEcpu,
+	"ocpu": ExadataInfrastructureSummaryComputeModelOcpu,
+}
+
+// GetExadataInfrastructureSummaryComputeModelEnumValues Enumerates the set of values for ExadataInfrastructureSummaryComputeModelEnum
+func GetExadataInfrastructureSummaryComputeModelEnumValues() []ExadataInfrastructureSummaryComputeModelEnum {
+	values := make([]ExadataInfrastructureSummaryComputeModelEnum, 0)
+	for _, v := range mappingExadataInfrastructureSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetExadataInfrastructureSummaryComputeModelEnumStringValues Enumerates the set of values in String for ExadataInfrastructureSummaryComputeModelEnum
+func GetExadataInfrastructureSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingExadataInfrastructureSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingExadataInfrastructureSummaryComputeModelEnum(val string) (ExadataInfrastructureSummaryComputeModelEnum, bool) {
+	enum, ok := mappingExadataInfrastructureSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

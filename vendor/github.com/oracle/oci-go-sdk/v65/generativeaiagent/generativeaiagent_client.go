@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -97,8 +95,7 @@ func (client *GenerativeAiAgentClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// CancelWorkRequest **CancelWorkRequest**
-// Cancels a work request.
+// CancelWorkRequest Cancels a work request.
 // A default retry strategy applies to this operation CancelWorkRequest()
 func (client GenerativeAiAgentClient) CancelWorkRequest(ctx context.Context, request CancelWorkRequestRequest) (response CancelWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -152,8 +149,7 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 	return response, err
 }
 
-// ChangeAgentCompartment **ChangeAgentCompartment**
-// Moves an agent into a different compartment within the same tenancy. For information about moving resources between
+// ChangeAgentCompartment Moves an agent into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeAgentCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentCompartment(ctx context.Context, request ChangeAgentCompartmentRequest) (response ChangeAgentCompartmentResponse, err error) {
@@ -213,8 +209,7 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeAgentEndpointCompartment **ChangeAgentEndpointCompartment**
-// Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
+// ChangeAgentEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeAgentEndpointCompartment()
 func (client GenerativeAiAgentClient) ChangeAgentEndpointCompartment(ctx context.Context, request ChangeAgentEndpointCompartmentRequest) (response ChangeAgentEndpointCompartmentResponse, err error) {
@@ -274,8 +269,7 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 	return response, err
 }
 
-// ChangeKnowledgeBaseCompartment **ChangeKnowledgeBaseCompartment**
-// Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
+// ChangeKnowledgeBaseCompartment Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 // A default retry strategy applies to this operation ChangeKnowledgeBaseCompartment()
 func (client GenerativeAiAgentClient) ChangeKnowledgeBaseCompartment(ctx context.Context, request ChangeKnowledgeBaseCompartmentRequest) (response ChangeKnowledgeBaseCompartmentResponse, err error) {
@@ -335,8 +329,7 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 	return response, err
 }
 
-// CreateAgent **CreateAgent**
-// Creates an agent.
+// CreateAgent Creates an agent.
 // A default retry strategy applies to this operation CreateAgent()
 func (client GenerativeAiAgentClient) CreateAgent(ctx context.Context, request CreateAgentRequest) (response CreateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -395,8 +388,7 @@ func (client GenerativeAiAgentClient) createAgent(ctx context.Context, request c
 	return response, err
 }
 
-// CreateAgentEndpoint **CreateAgentEndpoint**
-// Creates an endpoint.
+// CreateAgentEndpoint Creates an endpoint.
 // A default retry strategy applies to this operation CreateAgentEndpoint()
 func (client GenerativeAiAgentClient) CreateAgentEndpoint(ctx context.Context, request CreateAgentEndpointRequest) (response CreateAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -455,8 +447,7 @@ func (client GenerativeAiAgentClient) createAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// CreateDataIngestionJob **CreateDataIngestionJob**
-// Creates a data ingestion job.
+// CreateDataIngestionJob Creates a data ingestion job.
 // A default retry strategy applies to this operation CreateDataIngestionJob()
 func (client GenerativeAiAgentClient) CreateDataIngestionJob(ctx context.Context, request CreateDataIngestionJobRequest) (response CreateDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -515,8 +506,7 @@ func (client GenerativeAiAgentClient) createDataIngestionJob(ctx context.Context
 	return response, err
 }
 
-// CreateDataSource **CreateDataSource**
-// Creates a data source.
+// CreateDataSource Creates a data source.
 // A default retry strategy applies to this operation CreateDataSource()
 func (client GenerativeAiAgentClient) CreateDataSource(ctx context.Context, request CreateDataSourceRequest) (response CreateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -575,8 +565,7 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// CreateKnowledgeBase **CreateKnowledgeBase**
-// Creates a knowledge base.
+// CreateKnowledgeBase Creates a knowledge base.
 // A default retry strategy applies to this operation CreateKnowledgeBase()
 func (client GenerativeAiAgentClient) CreateKnowledgeBase(ctx context.Context, request CreateKnowledgeBaseRequest) (response CreateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -635,8 +624,7 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 	return response, err
 }
 
-// DeleteAgent **DeleteAgent**
-// Deletes an agent.
+// DeleteAgent Deletes an agent.
 // A default retry strategy applies to this operation DeleteAgent()
 func (client GenerativeAiAgentClient) DeleteAgent(ctx context.Context, request DeleteAgentRequest) (response DeleteAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -690,8 +678,7 @@ func (client GenerativeAiAgentClient) deleteAgent(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteAgentEndpoint **DeleteAgentEndpoint**
-// Deletes an endpoint.
+// DeleteAgentEndpoint Deletes an endpoint.
 // A default retry strategy applies to this operation DeleteAgentEndpoint()
 func (client GenerativeAiAgentClient) DeleteAgentEndpoint(ctx context.Context, request DeleteAgentEndpointRequest) (response DeleteAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -745,8 +732,7 @@ func (client GenerativeAiAgentClient) deleteAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// DeleteDataIngestionJob **DeleteDataIngestionJob**
-// Deletes a data ingestion job.
+// DeleteDataIngestionJob Deletes a data ingestion job.
 // A default retry strategy applies to this operation DeleteDataIngestionJob()
 func (client GenerativeAiAgentClient) DeleteDataIngestionJob(ctx context.Context, request DeleteDataIngestionJobRequest) (response DeleteDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -800,8 +786,7 @@ func (client GenerativeAiAgentClient) deleteDataIngestionJob(ctx context.Context
 	return response, err
 }
 
-// DeleteDataSource **DeleteDataSource**
-// Deletes a data source.
+// DeleteDataSource Deletes a data source.
 // A default retry strategy applies to this operation DeleteDataSource()
 func (client GenerativeAiAgentClient) DeleteDataSource(ctx context.Context, request DeleteDataSourceRequest) (response DeleteDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -855,8 +840,7 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteKnowledgeBase **DeleteKnowledgeBase**
-// Deletes a knowledge base.
+// DeleteKnowledgeBase Deletes a knowledge base.
 // A default retry strategy applies to this operation DeleteKnowledgeBase()
 func (client GenerativeAiAgentClient) DeleteKnowledgeBase(ctx context.Context, request DeleteKnowledgeBaseRequest) (response DeleteKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -910,8 +894,7 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 	return response, err
 }
 
-// GetAgent **GetAgent**
-// Gets information about an agent.
+// GetAgent Gets information about an agent.
 // A default retry strategy applies to this operation GetAgent()
 func (client GenerativeAiAgentClient) GetAgent(ctx context.Context, request GetAgentRequest) (response GetAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -965,8 +948,7 @@ func (client GenerativeAiAgentClient) getAgent(ctx context.Context, request comm
 	return response, err
 }
 
-// GetAgentEndpoint **GetAgentEndpoint**
-// Gets information about an endpoint.
+// GetAgentEndpoint Gets information about an endpoint.
 // A default retry strategy applies to this operation GetAgentEndpoint()
 func (client GenerativeAiAgentClient) GetAgentEndpoint(ctx context.Context, request GetAgentEndpointRequest) (response GetAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1020,8 +1002,7 @@ func (client GenerativeAiAgentClient) getAgentEndpoint(ctx context.Context, requ
 	return response, err
 }
 
-// GetDataIngestionJob **GetDataIngestionJob**
-// Gets information about a data ingestion job.
+// GetDataIngestionJob Gets information about a data ingestion job.
 // A default retry strategy applies to this operation GetDataIngestionJob()
 func (client GenerativeAiAgentClient) GetDataIngestionJob(ctx context.Context, request GetDataIngestionJobRequest) (response GetDataIngestionJobResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1075,8 +1056,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJob(ctx context.Context, r
 	return response, err
 }
 
-// GetDataIngestionJobLogContent **GetDataIngestionJobLogContent**
-// Returns the raw log file for the specified data ingestion job in text format.
+// GetDataIngestionJobLogContent Returns the raw log file for the specified data ingestion job in text format.
 // A default retry strategy applies to this operation GetDataIngestionJobLogContent()
 func (client GenerativeAiAgentClient) GetDataIngestionJobLogContent(ctx context.Context, request GetDataIngestionJobLogContentRequest) (response GetDataIngestionJobLogContentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1129,8 +1109,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJobLogContent(ctx context.
 	return response, err
 }
 
-// GetDataSource **GetDataSource**
-// Gets information about a data source.
+// GetDataSource Gets information about a data source.
 // A default retry strategy applies to this operation GetDataSource()
 func (client GenerativeAiAgentClient) GetDataSource(ctx context.Context, request GetDataSourceRequest) (response GetDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1184,8 +1163,7 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 	return response, err
 }
 
-// GetKnowledgeBase **GetKnowledgeBase**
-// Gets information about a knowledge base.
+// GetKnowledgeBase Gets information about a knowledge base.
 // A default retry strategy applies to this operation GetKnowledgeBase()
 func (client GenerativeAiAgentClient) GetKnowledgeBase(ctx context.Context, request GetKnowledgeBaseRequest) (response GetKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1239,8 +1217,7 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 	return response, err
 }
 
-// GetWorkRequest **GetWorkRequest**
-// Gets the details of a work request.
+// GetWorkRequest Gets the details of a work request.
 // A default retry strategy applies to this operation GetWorkRequest()
 func (client GenerativeAiAgentClient) GetWorkRequest(ctx context.Context, request GetWorkRequestRequest) (response GetWorkRequestResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1294,8 +1271,7 @@ func (client GenerativeAiAgentClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
-// ListAgentEndpoints **ListAgentEndpoints**
-// Gets a list of endpoints.
+// ListAgentEndpoints Gets a list of endpoints.
 // A default retry strategy applies to this operation ListAgentEndpoints()
 func (client GenerativeAiAgentClient) ListAgentEndpoints(ctx context.Context, request ListAgentEndpointsRequest) (response ListAgentEndpointsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1349,8 +1325,7 @@ func (client GenerativeAiAgentClient) listAgentEndpoints(ctx context.Context, re
 	return response, err
 }
 
-// ListAgents **ListAgents**
-// Gets a list of agents.
+// ListAgents Gets a list of agents.
 // A default retry strategy applies to this operation ListAgents()
 func (client GenerativeAiAgentClient) ListAgents(ctx context.Context, request ListAgentsRequest) (response ListAgentsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1404,8 +1379,7 @@ func (client GenerativeAiAgentClient) listAgents(ctx context.Context, request co
 	return response, err
 }
 
-// ListDataIngestionJobs **ListDataIngestionJobs**
-// Gets a list of data ingestion jobs.
+// ListDataIngestionJobs Gets a list of data ingestion jobs.
 // A default retry strategy applies to this operation ListDataIngestionJobs()
 func (client GenerativeAiAgentClient) ListDataIngestionJobs(ctx context.Context, request ListDataIngestionJobsRequest) (response ListDataIngestionJobsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1459,8 +1433,7 @@ func (client GenerativeAiAgentClient) listDataIngestionJobs(ctx context.Context,
 	return response, err
 }
 
-// ListDataSources **ListDataSources**
-// Gets a list of data sources.
+// ListDataSources Gets a list of data sources.
 // A default retry strategy applies to this operation ListDataSources()
 func (client GenerativeAiAgentClient) ListDataSources(ctx context.Context, request ListDataSourcesRequest) (response ListDataSourcesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1514,8 +1487,7 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 	return response, err
 }
 
-// ListKnowledgeBases **ListKnowledgeBases**
-// Gets a list of knowledge bases.
+// ListKnowledgeBases Gets a list of knowledge bases.
 // A default retry strategy applies to this operation ListKnowledgeBases()
 func (client GenerativeAiAgentClient) ListKnowledgeBases(ctx context.Context, request ListKnowledgeBasesRequest) (response ListKnowledgeBasesResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1569,8 +1541,7 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 	return response, err
 }
 
-// ListWorkRequestErrors **ListWorkRequestErrors**
-// Lists the errors for a work request.
+// ListWorkRequestErrors Lists the errors for a work request.
 // A default retry strategy applies to this operation ListWorkRequestErrors()
 func (client GenerativeAiAgentClient) ListWorkRequestErrors(ctx context.Context, request ListWorkRequestErrorsRequest) (response ListWorkRequestErrorsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1624,8 +1595,7 @@ func (client GenerativeAiAgentClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs **ListWorkRequestLogs**
-// Lists the logs for a work request.
+// ListWorkRequestLogs Lists the logs for a work request.
 // A default retry strategy applies to this operation ListWorkRequestLogs()
 func (client GenerativeAiAgentClient) ListWorkRequestLogs(ctx context.Context, request ListWorkRequestLogsRequest) (response ListWorkRequestLogsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1679,8 +1649,7 @@ func (client GenerativeAiAgentClient) listWorkRequestLogs(ctx context.Context, r
 	return response, err
 }
 
-// ListWorkRequests **ListWorkRequests**
-// Lists the work requests in a compartment.
+// ListWorkRequests Lists the work requests in a compartment.
 // A default retry strategy applies to this operation ListWorkRequests()
 func (client GenerativeAiAgentClient) ListWorkRequests(ctx context.Context, request ListWorkRequestsRequest) (response ListWorkRequestsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1734,8 +1703,7 @@ func (client GenerativeAiAgentClient) listWorkRequests(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateAgent **UpdateAgent**
-// Updates an agent.
+// UpdateAgent Updates an agent.
 // A default retry strategy applies to this operation UpdateAgent()
 func (client GenerativeAiAgentClient) UpdateAgent(ctx context.Context, request UpdateAgentRequest) (response UpdateAgentResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1789,8 +1757,7 @@ func (client GenerativeAiAgentClient) updateAgent(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateAgentEndpoint **UpdateAgentEndpoint**
-// Updates an endpoint.
+// UpdateAgentEndpoint Updates an endpoint.
 // A default retry strategy applies to this operation UpdateAgentEndpoint()
 func (client GenerativeAiAgentClient) UpdateAgentEndpoint(ctx context.Context, request UpdateAgentEndpointRequest) (response UpdateAgentEndpointResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1844,8 +1811,7 @@ func (client GenerativeAiAgentClient) updateAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// UpdateDataSource **UpdateDataSource**
-// Updates a data source.
+// UpdateDataSource Updates a data source.
 // A default retry strategy applies to this operation UpdateDataSource()
 func (client GenerativeAiAgentClient) UpdateDataSource(ctx context.Context, request UpdateDataSourceRequest) (response UpdateDataSourceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1899,8 +1865,7 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateKnowledgeBase **UpdateKnowledgeBase**
-// Updates a knowledge base.
+// UpdateKnowledgeBase Updates a knowledge base.
 // A default retry strategy applies to this operation UpdateKnowledgeBase()
 func (client GenerativeAiAgentClient) UpdateKnowledgeBase(ctx context.Context, request UpdateKnowledgeBaseRequest) (response UpdateKnowledgeBaseResponse, err error) {
 	var ociResponse common.OCIResponse

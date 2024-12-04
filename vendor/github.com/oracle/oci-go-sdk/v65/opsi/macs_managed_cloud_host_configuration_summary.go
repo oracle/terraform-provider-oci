@@ -83,6 +83,15 @@ type MacsManagedCloudHostConfigurationSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Management Agent
 	ManagementAgentId *string `mandatory:"true" json:"managementAgentId"`
 
+	// Name of the GPU.
+	GpuName *string `mandatory:"false" json:"gpuName"`
+
+	// Vendor of the GPU.
+	GpuVendor *string `mandatory:"false" json:"gpuVendor"`
+
+	// Total GPU(s) allocated in a Host.
+	TotalGpus *int `mandatory:"false" json:"totalGpus"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of External Database Connector
 	ConnectorId *string `mandatory:"false" json:"connectorId"`
 
@@ -186,6 +195,21 @@ func (m MacsManagedCloudHostConfigurationSummary) GetDefinedTags() map[string]ma
 // GetFreeformTags returns FreeformTags
 func (m MacsManagedCloudHostConfigurationSummary) GetFreeformTags() map[string]string {
 	return m.FreeformTags
+}
+
+// GetGpuName returns GpuName
+func (m MacsManagedCloudHostConfigurationSummary) GetGpuName() *string {
+	return m.GpuName
+}
+
+// GetGpuVendor returns GpuVendor
+func (m MacsManagedCloudHostConfigurationSummary) GetGpuVendor() *string {
+	return m.GpuVendor
+}
+
+// GetTotalGpus returns TotalGpus
+func (m MacsManagedCloudHostConfigurationSummary) GetTotalGpus() *int {
+	return m.TotalGpus
 }
 
 func (m MacsManagedCloudHostConfigurationSummary) String() string {

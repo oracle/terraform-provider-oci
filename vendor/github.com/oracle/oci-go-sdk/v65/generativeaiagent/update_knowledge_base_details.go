@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -22,8 +20,7 @@ import (
 	"strings"
 )
 
-// UpdateKnowledgeBaseDetails **UpdateKnowledgeBaseDetails**
-// The data to update a knowledge base.
+// UpdateKnowledgeBaseDetails The data to update a knowledge base.
 type UpdateKnowledgeBaseDetails struct {
 
 	// A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.

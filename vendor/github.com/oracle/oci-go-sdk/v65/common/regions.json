@@ -514,5 +514,17 @@
         "realmKey": "oc39",
         "regionIdentifier": "us-tukwila-3",
         "realmDomainComponent": "oraclecloud39.com"
+    },
+    {
+        "regionKey": "mez",
+        "realmKey": "oc43",
+        "regionIdentifier": "ap-pathumthani-1",
+        "realmDomainComponent": "oraclecloud43.com"
+    },
+    {
+        "regionKey": "hsg",
+        "realmKey": "oc1",
+        "regionIdentifier": "ap-batam-1",
+        "realmDomainComponent": "oraclecloud.com"
     }
 ]

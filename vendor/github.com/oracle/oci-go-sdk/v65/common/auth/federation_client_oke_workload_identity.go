@@ -125,8 +125,14 @@ func (c *x509FederationClientForOkeWorkloadIdentity) getSecurityToken() (securit
 
 	statusCode := response.StatusCode
 	if statusCode != http.StatusOK {
-		return nil, fmt.Errorf("failed to get a RPST token from Proxymux: URL: %s, Status: %s, Message: %s",
-			c.proxymuxEndpoint, response.Status, body.String())
+		if statusCode == http.StatusForbidden {
+			return nil, fmt.Errorf("please ensure the cluster type is enhanced: Status: %s, Message: %s",
+				response.Status, body.String())
+		} else {
+			return nil, fmt.Errorf("failed to get a RPST token from Proxymux: URL: %s, Status: %s, Message: %s",
+				c.proxymuxEndpoint, response.Status, body.String())
+		}
+
 	}
 
 	if _, err = body.ReadFrom(response.Body); err != nil {

@@ -82,10 +82,22 @@ type HostConfigurationSummary interface {
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
+
+	// Name of the GPU.
+	GetGpuName() *string
+
+	// Vendor of the GPU.
+	GetGpuVendor() *string
+
+	// Total GPU(s) allocated in a Host.
+	GetTotalGpus() *int
 }
 
 type hostconfigurationsummary struct {
 	JsonData                []byte
+	GpuName                 *string                                  `mandatory:"false" json:"gpuName"`
+	GpuVendor               *string                                  `mandatory:"false" json:"gpuVendor"`
+	TotalGpus               *int                                     `mandatory:"false" json:"totalGpus"`
 	HostInsightId           *string                                  `mandatory:"true" json:"hostInsightId"`
 	CompartmentId           *string                                  `mandatory:"true" json:"compartmentId"`
 	HostName                *string                                  `mandatory:"true" json:"hostName"`
@@ -138,6 +150,9 @@ func (m *hostconfigurationsummary) UnmarshalJSON(data []byte) error {
 	m.IsHyperThreadingEnabled = s.Model.IsHyperThreadingEnabled
 	m.DefinedTags = s.Model.DefinedTags
 	m.FreeformTags = s.Model.FreeformTags
+	m.GpuName = s.Model.GpuName
+	m.GpuVendor = s.Model.GpuVendor
+	m.TotalGpus = s.Model.TotalGpus
 	m.EntitySource = s.Model.EntitySource
 
 	return err
@@ -176,6 +191,21 @@ func (m *hostconfigurationsummary) UnmarshalPolymorphicJSON(data []byte) (interf
 		common.Logf("Received unsupported enum value for HostConfigurationSummary: %s.", m.EntitySource)
 		return *m, nil
 	}
+}
+
+// GetGpuName returns GpuName
+func (m hostconfigurationsummary) GetGpuName() *string {
+	return m.GpuName
+}
+
+// GetGpuVendor returns GpuVendor
+func (m hostconfigurationsummary) GetGpuVendor() *string {
+	return m.GpuVendor
+}
+
+// GetTotalGpus returns TotalGpus
+func (m hostconfigurationsummary) GetTotalGpus() *int {
+	return m.TotalGpus
 }
 
 // GetHostInsightId returns HostInsightId

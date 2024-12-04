@@ -29,11 +29,18 @@ type MonthlyBackupPolicy struct {
 
 	// How many days the data should be stored after the database system deletion.
 	RetentionDays *int `mandatory:"false" json:"retentionDays"`
+
+	CopyPolicy *BackupCopyPolicy `mandatory:"false" json:"copyPolicy"`
 }
 
 // GetRetentionDays returns RetentionDays
 func (m MonthlyBackupPolicy) GetRetentionDays() *int {
 	return m.RetentionDays
+}
+
+// GetCopyPolicy returns CopyPolicy
+func (m MonthlyBackupPolicy) GetCopyPolicy() *BackupCopyPolicy {
+	return m.CopyPolicy
 }
 
 func (m MonthlyBackupPolicy) String() string {

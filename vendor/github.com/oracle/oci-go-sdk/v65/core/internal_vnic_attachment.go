@@ -91,6 +91,13 @@ type InternalVnicAttachment struct {
 	CpgId *string `mandatory:"false" json:"cpgId"`
 
 	VnicaasPodConfig *VnicaasPodConfig `mandatory:"false" json:"vnicaasPodConfig"`
+
+	// Id for a group of vnics sharing same resource pool, e.g. a group id could be a site/gateway id for
+	// Ambassador SVNICs under the same site/gateway.
+	GroupId *string `mandatory:"false" json:"groupId"`
+
+	// A list of tags as Service Vnic placement hints when attaching service vnic
+	ServiceVnicPlacementTags []string `mandatory:"false" json:"serviceVnicPlacementTags"`
 }
 
 func (m InternalVnicAttachment) String() string {
