@@ -16,20 +16,25 @@ resource "oci_database_database" "test_db1" {
   source     = "NONE"
 }
 
-resource "oci_database_database" "test_db2" {
-  database {
-    admin_password = var.test_db_password
-    db_name        = "TFDB2"
-  }
-  db_home_id = oci_database_db_home.test_db_home.id
-  source     = "NONE"
-}
+# resource "oci_database_database" "test_db2" {
+#   database {
+#     admin_password = var.test_db_password
+#     db_name        = "TFDB2"
+#   }
+#   db_home_id = oci_database_db_home.test_db_home.id
+#   source     = "NONE"
+# }
 
 resource "oci_database_pluggable_database" "test_db1_pdb" {
   container_database_id = oci_database_database.test_db1.id
   pdb_name              = "DB1PDB"
   pdb_admin_password    = var.test_db_password
   tde_wallet_password   = var.test_db_password
+}
+
+resource "oci_database_pluggable_database_snapshot" "test_db1_pdb_snapshot" {
+  name                  = "DB1PdbSnapshot"
+  pluggable_database_id = oci_database_pluggable_database.test_db1_pdb.id
 }
 
 resource "oci_database_pluggable_database" "test_db1_local_cloned_pdb" {
@@ -40,6 +45,7 @@ resource "oci_database_pluggable_database" "test_db1_local_cloned_pdb" {
   pdb_creation_type_details {
     creation_type = "LOCAL_CLONE_PDB"
     source_pluggable_database_id = oci_database_pluggable_database.test_db1_pdb.id
+    source_pluggable_database_snapshot_id = oci_database_pluggable_database_snapshot.test_db1_pdb_snapshot.id
     is_thin_clone = true
   }
 }
@@ -53,9 +59,19 @@ resource "oci_database_pluggable_database" "test_db1_local_cloned_pdb" {
 #     creation_type = "REMOTE_CLONE_PDB"
 #     source_container_database_admin_password = var.test_db_password
 #     source_pluggable_database_id = oci_database_pluggable_database.test_db1_pdb.id
+#     source_pluggable_database_snapshot_id = oci_database_pluggable_database_snapshot.test_db1_pdb_snapshot.id
 #     is_thin_clone = true
 #   }
 # }
+
+data "oci_database_pluggable_database_snapshots" "test_pdb_snapshots" {
+  compartment_id        = var.compartment_ocid
+  cluster_id            = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.id
+}
+
+data "oci_database_pluggable_database_snapshot" "test_db1_pdb_snapshot" {
+  pluggable_database_snapshot_id = oci_database_pluggable_database_snapshot.test_db1_pdb_snapshot.id
+}
 
 data "oci_database_pluggable_databases" "test_pdbs" {
   compartment_id        = var.compartment_ocid
