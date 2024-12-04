@@ -148,6 +148,12 @@ func DatabasePluggableDatabaseResource() *schema.Resource {
 							ForceNew:  true,
 							Sensitive: true,
 						},
+						"source_pluggable_database_snapshot_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 
 						// Computed
 					},
@@ -805,6 +811,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) mapToCreatePluggableDatabaseCrea
 			tmp := sourcePluggableDatabaseId.(string)
 			details.SourcePluggableDatabaseId = &tmp
 		}
+		if sourcePluggableDatabaseSnapshotId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_pluggable_database_snapshot_id")); ok {
+			tmp := sourcePluggableDatabaseSnapshotId.(string)
+			details.SourcePluggableDatabaseSnapshotId = &tmp
+		}
 		baseObject = details
 	case strings.ToLower("RELOCATE_PDB"):
 		details := oci_database.CreatePluggableDatabaseFromRelocateDetails{}
@@ -857,6 +867,10 @@ func (s *DatabasePluggableDatabaseResourceCrud) mapToCreatePluggableDatabaseCrea
 			tmp := sourcePluggableDatabaseId.(string)
 			details.SourcePluggableDatabaseId = &tmp
 		}
+		if sourcePluggableDatabaseSnapshotId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_pluggable_database_snapshot_id")); ok {
+			tmp := sourcePluggableDatabaseSnapshotId.(string)
+			details.SourcePluggableDatabaseSnapshotId = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown creation_type '%v' was specified", creationType)
@@ -876,6 +890,10 @@ func CreatePluggableDatabaseCreationTypeDetailsToMap(obj *oci_database.CreatePlu
 
 		if v.SourcePluggableDatabaseId != nil {
 			result["source_pluggable_database_id"] = string(*v.SourcePluggableDatabaseId)
+		}
+
+		if v.SourcePluggableDatabaseSnapshotId != nil {
+			result["source_pluggable_database_snapshot_id"] = string(*v.SourcePluggableDatabaseSnapshotId)
 		}
 	case oci_database.CreatePluggableDatabaseFromRelocateDetails:
 		result["creation_type"] = "RELOCATE_PDB"
@@ -920,6 +938,10 @@ func CreatePluggableDatabaseCreationTypeDetailsToMap(obj *oci_database.CreatePlu
 
 		if v.SourcePluggableDatabaseId != nil {
 			result["source_pluggable_database_id"] = string(*v.SourcePluggableDatabaseId)
+		}
+
+		if v.SourcePluggableDatabaseSnapshotId != nil {
+			result["source_pluggable_database_snapshot_id"] = string(*v.SourcePluggableDatabaseSnapshotId)
 		}
 	default:
 		log.Printf("[WARN] Received 'creation_type' of unknown type %v", *obj)

@@ -663,6 +663,7 @@ database
 * oci\_database\_autonomous\_database\_software\_image
 * oci\_database\_autonomous\_container\_database\_snapshot\_standby
 * oci\_database\_autonomous\_container\_database\_add\_standby
+* oci\_database\_pluggable\_database\_snapshot
 
 database_migration
 

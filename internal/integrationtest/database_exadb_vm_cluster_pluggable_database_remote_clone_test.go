@@ -45,7 +45,8 @@ var (
 	ExaDbVmClusterRemoteClonePdbCreationTypeDetailsRepresentation = map[string]interface{}{
 		"creation_type": acctest.Representation{RepType: acctest.Required, Create: `REMOTE_CLONE_PDB`},
 		"source_container_database_admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
-		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.source_pluggable_database_id}`},
+		"source_pluggable_database_id":             acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_pluggable_database_snapshot.source_pdb_snapshot.pluggable_database_id}`},
+		"source_pluggable_database_snapshot_id":    acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_pluggable_database_snapshot.source_pdb_snapshot.id}`},
 		"is_thin_clone":                            acctest.Representation{RepType: acctest.Required, Create: `true`},
 	}
 
@@ -53,10 +54,20 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	// Note: set env variable TF_VAR_source_pluggable_database_id and TF_VAR_destination_database_id before running this test
+	// Note: set env variable TF_VAR_source_pdb_snapshot_id and TF_VAR_destination_database_id before running this test
+	ExaDbVmClusterRemoteCloneSourcePDBSnapshotSingularDataSourceRepresentation = map[string]interface{}{
+		"pluggable_database_snapshot_id": acctest.Representation{RepType: acctest.Required, Create: `${var.source_pdb_snapshot_id}`},
+	}
+
+	ExaDbVmClusterRemoteCloneSourcePDBSingularDataSourceRepresentation = map[string]interface{}{
+		"pluggable_database_id": acctest.Representation{RepType: acctest.Required, Create: `${data.oci_database_pluggable_database_snapshot.source_pdb_snapshot.pluggable_database_id}`},
+	}
+
 	ExaDbVmClusterRemoteClonePdbResourceDependencies = `
-        variable "source_pluggable_database_id" {}
-        variable "destination_database_id" {}`
+        variable "source_pdb_snapshot_id" {}
+        variable "destination_database_id" {}` +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_database_snapshot", "source_pdb_snapshot", acctest.Optional, acctest.Create, ExaDbVmClusterRemoteCloneSourcePDBSnapshotSingularDataSourceRepresentation) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_pluggable_database", "source_pdb", acctest.Optional, acctest.Create, ExaDbVmClusterRemoteCloneSourcePDBSingularDataSourceRepresentation)
 )
 
 // issue-routing-tag: database/ExaCS
@@ -94,6 +105,7 @@ func TestDatabaseExaDbVmClusterPluggableDatabaseResource_remoteThinClone(t *test
 				resource.TestCheckResourceAttr(resourceName, "pdb_creation_type_details.0.creation_type", "REMOTE_CLONE_PDB"),
 				resource.TestCheckResourceAttr(resourceName, "pdb_creation_type_details.0.is_thin_clone", "true"),
 				resource.TestCheckResourceAttrSet(resourceName, "pdb_creation_type_details.0.source_pluggable_database_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "pdb_creation_type_details.0.source_pluggable_database_snapshot_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "pdb_creation_type_details.0.source_container_database_admin_password"),
 			),
 		},
