@@ -110,6 +110,11 @@ func DatascienceModelDeploymentResource() *schema.Resource {
 														},
 													},
 												},
+												"private_endpoint_id": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+												},
 												"subnet_id": {
 													Type:     schema.TypeString,
 													Optional: true,
@@ -1304,6 +1309,13 @@ func (s *DatascienceModelDeploymentResourceCrud) mapToInstanceConfiguration(fiel
 		}
 	}
 
+	if privateEndpointId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "private_endpoint_id")); ok {
+		tmp := privateEndpointId.(string)
+		if tmp != "" {
+			result.PrivateEndpointId = &tmp
+		}
+	}
+
 	if subnetId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subnet_id")); ok {
 		tmp := subnetId.(string)
 		result.SubnetId = &tmp
@@ -1321,6 +1333,14 @@ func InstanceConfigurationToMap(obj *oci_datascience.InstanceConfiguration) map[
 
 	if obj.ModelDeploymentInstanceShapeConfigDetails != nil {
 		result["model_deployment_instance_shape_config_details"] = []interface{}{ModelDeploymentInstanceShapeConfigDetailsToMap(obj.ModelDeploymentInstanceShapeConfigDetails)}
+	}
+
+	if obj.PrivateEndpointId != nil {
+		if *obj.PrivateEndpointId == "" {
+			result["private_endpoint_id"] = nil
+		} else {
+			result["private_endpoint_id"] = string(*obj.PrivateEndpointId)
+		}
 	}
 
 	if obj.SubnetId != nil {
