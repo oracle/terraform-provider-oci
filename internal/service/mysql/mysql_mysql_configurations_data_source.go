@@ -174,6 +174,10 @@ func (s *MysqlMysqlConfigurationsDataSourceCrud) SetData() error {
 
 		mysqlConfiguration["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			mysqlConfiguration["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCreated != nil {
 			mysqlConfiguration["time_created"] = r.TimeCreated.String()
 		}
