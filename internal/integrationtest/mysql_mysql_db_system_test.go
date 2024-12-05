@@ -320,7 +320,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(datasourceName, "is_heat_wave_cluster_attached", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "is_up_to_date", "false"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "db_systems.0.access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttrSet(datasourceName, "db_systems.0.availability_domain"),
@@ -361,7 +360,6 @@ func TestMysqlMysqlDbSystemResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_mysql_channel", "test_channel", acctest.Required, acctest.Create, MysqlChannelRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "db_system_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "access_mode", "UNRESTRICTED"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "backup_policy.#", "1"),

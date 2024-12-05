@@ -198,6 +198,10 @@ func (s *MysqlMysqlBackupsDataSourceCrud) SetData() error {
 
 		mysqlBackup["state"] = r.LifecycleState
 
+		if r.SystemTags != nil {
+			mysqlBackup["system_tags"] = tfresource.SystemTagsToMap(r.SystemTags)
+		}
+
 		if r.TimeCopyCreated != nil {
 			mysqlBackup["time_copy_created"] = r.TimeCopyCreated.String()
 		}
