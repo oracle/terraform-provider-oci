@@ -31,8 +31,17 @@ var (
 	DataSciencePrivateEndpointResourceConfig = DataSciencePrivateEndpointResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_private_endpoint", acctest.Optional, acctest.Update, DataSciencePrivateEndpointRepresentation)
 
+	DataScienceMDPrivateEndpointRequiredOnlyResource = DataSciencePrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Required, acctest.Create, DataScienceMDPrivateEndpointRepresentation)
+
+	DataScienceMDPrivateEndpointResourceConfig = DataSciencePrivateEndpointResourceDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Update, DataScienceMDPrivateEndpointRepresentation)
+
 	DataSciencePrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
 		"data_science_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_private_endpoint.test_data_science_private_endpoint.id}`},
+	}
+	DataScienceMDPrivateEndpointSingularDataSourceRepresentation = map[string]interface{}{
+		"data_science_private_endpoint_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_private_endpoint.test_data_science_md_private_endpoint.id}`},
 	}
 
 	DataSciencePrivateEndpointDataSourceRepresentation = map[string]interface{}{
@@ -43,9 +52,22 @@ var (
 		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DataSciencePrivateEndpointDataSourceFilterRepresentation}}
 
+	DataScienceMDPrivateEndpointDataSourceRepresentation = map[string]interface{}{
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"created_by":                 acctest.Representation{RepType: acctest.Optional, Create: `${var.user_id}`},
+		"data_science_resource_type": acctest.Representation{RepType: acctest.Optional, Create: `MODEL_DEPLOYMENT`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MD_PE`, Update: `Updated_MD_PE`},
+		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DataScienceMDPrivateEndpointDataSourceFilterRepresentation}}
+
 	DataSciencePrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_private_endpoint.test_data_science_private_endpoint.id}`}},
+	}
+
+	DataScienceMDPrivateEndpointDataSourceFilterRepresentation = map[string]interface{}{
+		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
+		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_datascience_private_endpoint.test_data_science_md_private_endpoint.id}`}},
 	}
 
 	DataSciencePrivateEndpointRepresentation = map[string]interface{}{
@@ -55,6 +77,18 @@ var (
 		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
 		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
 		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `pe_1234`, Update: `displayName2`},
+		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"sub_domain":                 acctest.Representation{RepType: acctest.Optional, Create: `subDomain`},
+		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: dataSciencePrivateEndpointIgnoreRepresentation},
+	}
+
+	DataScienceMDPrivateEndpointRepresentation = map[string]interface{}{
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"data_science_resource_type": acctest.Representation{RepType: acctest.Required, Create: `MODEL_DEPLOYMENT`},
+		"subnet_id":                  acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
+		"defined_tags":               acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `MD_PE`, Update: `Updated_MD_PE`},
 		"freeform_tags":              acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"sub_domain":                 acctest.Representation{RepType: acctest.Optional, Create: `subDomain`},
 		"lifecycle":                  acctest.RepresentationGroup{RepType: acctest.Optional, Group: dataSciencePrivateEndpointIgnoreRepresentation},
@@ -256,6 +290,201 @@ func TestDatascienceDataSciencePrivateEndpointResource_basic(t *testing.T) {
 		// verify resource import
 		{
 			Config:            config + DataSciencePrivateEndpointRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"sub_domain",
+			},
+			ResourceName: resourceName,
+		},
+	})
+}
+
+func TestDatascienceDataScienceMDPrivateEndpointResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatascienceDataScienceMDPrivateEndpointResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	compartmentIdU := utils.GetEnvSettingWithDefault("compartment_id_for_update", compartmentId)
+	compartmentIdUVariableStr := fmt.Sprintf("variable \"compartment_id_for_update\" { default = \"%s\" }\n", compartmentIdU)
+
+	userId := utils.GetEnvSettingWithBlankDefault("user_ocid")
+	userIdVariableStr := fmt.Sprintf("variable \"user_id\" { default = \"%s\" }\n", userId)
+
+	resourceName := "oci_datascience_private_endpoint.test_data_science_md_private_endpoint"
+	datasourceName := "data.oci_datascience_private_endpoints.test_data_science_md_private_endpoint"
+	singularDatasourceName := "data.oci_datascience_private_endpoint.test_data_science_md_private_endpoint"
+
+	var resId, resId2 string
+	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DataSciencePrivateEndpointResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Create, DataScienceMDPrivateEndpointRepresentation), "datascience", "dataSciencePrivateEndpoint", t)
+
+	acctest.ResourceTest(t, testAccCheckDatascienceDataSciencePrivateEndpointDestroy, []resource.TestStep{
+		// 0. verify Create
+		{
+			Config: config + compartmentIdVariableStr + DataSciencePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Required, acctest.Create, DataScienceMDPrivateEndpointRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(resourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// 1. delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + DataSciencePrivateEndpointResourceDependencies,
+		},
+		// 2. verify Create with optionals
+		{
+			Config: config + compartmentIdVariableStr + DataSciencePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Create, DataScienceMDPrivateEndpointRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MD_PE"),
+				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "sub_domain", "subDomain"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+
+		// 3. verify Update to the compartment (the compartment will be switched back in the next step)
+		{
+			Config: config + compartmentIdVariableStr + compartmentIdUVariableStr + DataSciencePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Create,
+					acctest.RepresentationCopyWithNewProperties(DataScienceMDPrivateEndpointRepresentation, map[string]interface{}{
+						"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id_for_update}`},
+					})),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "MD_PE"),
+				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "sub_domain", "subDomain"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("resource recreated when it was supposed to be updated")
+					}
+					return err
+				},
+			),
+		},
+
+		// 4. verify updates to updatable parameters
+		{
+			Config: config + compartmentIdVariableStr + DataSciencePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Update, DataScienceMDPrivateEndpointRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "created_by"),
+				resource.TestCheckResourceAttr(resourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "Updated_MD_PE"),
+				resource.TestCheckResourceAttrSet(resourceName, "fqdn"),
+				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(resourceName, "id"),
+				resource.TestCheckResourceAttrSet(resourceName, "state"),
+				resource.TestCheckResourceAttr(resourceName, "sub_domain", "subDomain"),
+				resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					if resId != resId2 {
+						return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+					}
+					return err
+				},
+			),
+		},
+		// 5. verify datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_private_endpoints", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Update, DataScienceMDPrivateEndpointDataSourceRepresentation) +
+				compartmentIdVariableStr + userIdVariableStr + DataSciencePrivateEndpointResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Optional, acctest.Update, DataScienceMDPrivateEndpointRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "Updated_MD_PE"),
+				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
+
+				resource.TestCheckResourceAttr(datasourceName, "data_science_private_endpoints.#", "1"),
+				resource.TestCheckResourceAttr(datasourceName, "data_science_private_endpoints.0.compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "data_science_private_endpoints.0.data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(datasourceName, "data_science_private_endpoints.0.display_name", "Updated_MD_PE"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.fqdn"),
+				resource.TestCheckResourceAttr(datasourceName, "data_science_private_endpoints.0.freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.state"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.subnet_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.time_created"),
+				resource.TestCheckResourceAttrSet(datasourceName, "data_science_private_endpoints.0.time_updated"),
+			),
+		},
+		// 6. verify singular datasource
+		{
+			Config: config +
+				acctest.GenerateDataSourceFromRepresentationMap("oci_datascience_private_endpoint", "test_data_science_md_private_endpoint", acctest.Required, acctest.Create, DataScienceMDPrivateEndpointSingularDataSourceRepresentation) +
+				compartmentIdVariableStr + DataScienceMDPrivateEndpointResourceConfig,
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_science_private_endpoint_id"),
+
+				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+				// resource.TestCheckResourceAttrSet(singularDatasourceName, "created_by"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "data_science_resource_type", "MODEL_DEPLOYMENT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "Updated_MD_PE"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "fqdn"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+			),
+		},
+		// 7. verify resource import
+		{
+			Config:            config + DataScienceMDPrivateEndpointRequiredOnlyResource,
 			ImportState:       true,
 			ImportStateVerify: true,
 			ImportStateVerifyIgnore: []string{
