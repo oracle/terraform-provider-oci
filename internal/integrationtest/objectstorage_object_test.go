@@ -80,6 +80,8 @@ var (
 		"content_language":           acctest.Representation{RepType: acctest.Optional, Create: `en-US`, Update: `en-CA`},
 		"content_md5":                acctest.Representation{RepType: acctest.Optional, Create: `${md5("content")}`, Update: Md5Base64Encoded2},
 		"content_type":               acctest.Representation{RepType: acctest.Optional, Create: `text/plain`, Update: `text/xml`},
+		"opc_checksum_algorithm":     acctest.Representation{RepType: acctest.Optional, Create: `CRC32C`, Update: `CRC32C`},
+		"opc_content_crc32c":         acctest.Representation{RepType: acctest.Optional, Create: Crc32cBase64Encoded, Update: Crc32cBase64Encoded2},
 		"storage_tier":               acctest.Representation{RepType: acctest.Optional, Create: `Standard`, Update: `InfrequentAccess`},
 		"opc_sse_kms_key_id":         acctest.Representation{RepType: acctest.Optional, Create: utils.GetEnvSettingWithBlankDefault("kms_key_ocid")},
 		"delete_all_object_versions": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
@@ -103,7 +105,9 @@ var (
 	ObjectStorageObjectResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_bucket", "test_bucket", acctest.Required, acctest.Create, ObjectStorageBucketRepresentation) +
 		acctest.GenerateDataSourceFromRepresentationMap("oci_objectstorage_namespace", "test_namespace", acctest.Required, acctest.Create, ObjectStorageObjectStorageNamespaceSingularDataSourceRepresentation)
 
-	Md5Base64Encoded2, _ = tfresource.HexToB64(tfresource.GetMd5Hash("<a1>content</a1>"))
+	Md5Base64Encoded2, _    = tfresource.HexToB64(tfresource.GetMd5Hash("<a1>content</a1>"))
+	Crc32cBase64Encoded, _  = tfresource.HexToB64(tfresource.GetCrc32cHash("content"))
+	Crc32cBase64Encoded2, _ = tfresource.HexToB64(tfresource.GetCrc32cHash("<a1>content</a1>"))
 )
 
 // issue-routing-tag: object_storage/default
@@ -127,6 +131,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 	md5sum2 := hex.EncodeToString(hexSum2[:])
 	md5B64Encode, _ := tfresource.HexToB64(md5sum)
 	md5B64Encode2, _ := tfresource.HexToB64(md5sum2)
+	Crc32cBase64Encoded, _ = tfresource.HexToB64(tfresource.GetCrc32cHash("content"))
+	Crc32cBase64Encoded2, _ = tfresource.HexToB64(tfresource.GetCrc32cHash("<a1>content</a1>"))
 
 	// Save TF content to Create resource with optional properties. This has to be exactly the same as the config part in the "Create with optionals" step in the test.
 	acctest.SaveConfigContent(config+compartmentIdVariableStr+ObjectStorageObjectResourceDependencies+
@@ -208,8 +214,9 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/plain"),
 				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
 				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-1"),
+				resource.TestCheckResourceAttr(resourceName, "opc_checksum_algorithm", "CRC32C"),
+				resource.TestCheckResourceAttr(resourceName, "opc_content_crc32c", *Crc32cBase64Encoded),
 				resource.TestCheckResourceAttr(resourceName, "storage_tier", "Standard"),
-				resource.TestCheckResourceAttr(resourceName, "opc_sse_kms_key_id", utils.GetEnvSettingWithBlankDefault("kms_key_ocid")),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
@@ -286,6 +293,40 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				},
 			),
 		},
+
+		// verify either a hex or a base64 equivalent opc_content_crc32c makes no diff
+		{
+			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_objectstorage_object", "test_object", acctest.Optional, acctest.Update,
+					acctest.GetUpdatedRepresentationCopy("opc_content_crc32c", acctest.Representation{RepType: acctest.Optional, Create: Crc32cBase64Encoded, Update: Crc32cBase64Encoded2}, ObjectStorageObjectRepresentation)),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "cache_control", "no-store"),
+				resource.TestCheckResourceAttr(resourceName, "content_disposition", "attachment; filename=\"filename.html\""),
+				resource.TestCheckResourceAttr(resourceName, "content_encoding", "identity"),
+				resource.TestCheckResourceAttr(resourceName, "content_language", "en-CA"),
+				resource.TestCheckResourceAttr(resourceName, "content_length", "16"),
+				resource.TestCheckResourceAttr(resourceName, "content_type", "text/xml"),
+				resource.TestCheckResourceAttr(resourceName, "bucket", testBucketName),
+				resource.TestCheckResourceAttr(resourceName, "delete_all_object_versions", "true"),
+				resource.TestCheckResourceAttrSet(resourceName, "content"),
+				resource.TestCheckResourceAttr(resourceName, "opc_checksum_algorithm", "CRC32C"),
+				resource.TestCheckResourceAttr(resourceName, "opc_content_crc32c", *Crc32cBase64Encoded2),
+				resource.TestCheckResourceAttr(resourceName, "metadata.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "metadata.content-type", "text/xml"),
+				resource.TestCheckResourceAttrSet(resourceName, "namespace"),
+				resource.TestCheckResourceAttr(resourceName, "object", "my-test-object-2"),
+
+				func(s *terraform.State) (err error) {
+					resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+					// @CODEGEN 06/2018: Name is part of the id, and hence id will be updated
+					if resId == resId2 {
+						return fmt.Errorf("Resource updated when it was supposed to be recreated.")
+					}
+					return err
+				},
+			),
+		},
+
 		// verify updates to name alone
 		{
 			Config: config + compartmentIdVariableStr + ObjectStorageObjectResourceDependencies +
@@ -417,6 +458,8 @@ func TestObjectStorageObjectResource_basic(t *testing.T) {
 				"work_request_id",
 				"delete_all_object_versions",
 				"metadata",
+				"opc_checksum_algorithm",
+				"opc_content_crc32c",
 				"storage_tier",
 				"opc_sse_kms_key_id",
 			},
@@ -436,7 +479,6 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
 	var resourceName = "oci_objectstorage_object.test_object"
-	var failObjectName, failBucketName, failNamespaceName string
 
 	resource.Test(t, resource.TestCase{
 		PreCheck: func() { acctest.PreCheck(t) },
@@ -450,15 +492,15 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 						acctest.GetUpdatedRepresentationCopy("object", acctest.Representation{RepType: acctest.Required, Create: `my-test-object-1`, Update: `my-test-object-3`}, ObjectStorageObjectRepresentation)),
 				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 					func(s *terraform.State) (err error) {
-						failObjectName, err = acctest.FromInstanceState(s, resourceName, "object")
+						_, err = acctest.FromInstanceState(s, resourceName, "object")
 						if err != nil {
 							return err
 						}
-						failBucketName, err = acctest.FromInstanceState(s, resourceName, "bucket")
+						_, err = acctest.FromInstanceState(s, resourceName, "bucket")
 						if err != nil {
 							return err
 						}
-						failNamespaceName, err = acctest.FromInstanceState(s, resourceName, "namespace")
+						_, err = acctest.FromInstanceState(s, resourceName, "namespace")
 						return err
 					}),
 			},
@@ -472,25 +514,6 @@ func TestObjectStorageObjectResource_failContentLengthLimit(t *testing.T) {
 			},
 		},
 	})
-
-	//destroy test will be skipped since there is no state after the error in Get
-	if failObjectName != "" && failBucketName != "" && failNamespaceName != "" {
-		client := acctest.TestAccProvider.Meta().(*tf_client.OracleClients).ObjectStorageClient()
-		_, objectErr := client.DeleteObject(context.Background(), oci_object_storage.DeleteObjectRequest{
-			NamespaceName: &failNamespaceName,
-			BucketName:    &failBucketName,
-			ObjectName:    &failObjectName,
-		})
-
-		_, bucketErr := client.DeleteBucket(context.Background(), oci_object_storage.DeleteBucketRequest{
-			NamespaceName: &failNamespaceName,
-			BucketName:    &failBucketName,
-		})
-
-		if objectErr != nil || bucketErr != nil {
-			t.Errorf("failed to delete resources for the test: %v, %v", objectErr, bucketErr)
-		}
-	}
 }
 
 // This test is separated from the above test due to weird behavior from Terraform test framework.
@@ -1191,6 +1214,7 @@ func TestObjectStorageObjectResource_crossRegionCopy(t *testing.T) {
 					"delete_all_object_versions",
 					"storage_tier",
 					"opc_sse_kms_key_id",
+					"opc_checksum_algorithm",
 				},
 				ResourceName: resourceNameCopy,
 			},

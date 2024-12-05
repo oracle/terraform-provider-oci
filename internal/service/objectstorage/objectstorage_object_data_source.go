@@ -108,6 +108,26 @@ func ObjectStorageObjectDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"opc_content_crc32c": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"opc_content_sha256": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"opc_content_sha384": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"opc_multipart_sha256": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"opc_multipart_sha384": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"storage_tier": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -166,6 +186,31 @@ func (s *ObjectStorageObjectDataSourceCrud) Get() error {
 	}
 
 	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
+
+	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
+		tmp := opcContentCrc32c.(string)
+		headObjectResponse.OpcContentCrc32c = &tmp
+	}
+
+	if opcContentSha256, ok := s.D.GetOkExists("opc_content_sha256"); ok {
+		tmp := opcContentSha256.(string)
+		headObjectResponse.OpcContentSha256 = &tmp
+	}
+
+	if opcContentSha384, ok := s.D.GetOkExists("opc_content_sha384"); ok {
+		tmp := opcContentSha384.(string)
+		headObjectResponse.OpcContentSha384 = &tmp
+	}
+
+	if opcMultipartSha256, ok := s.D.GetOkExists("opc_multipart_sha256"); ok {
+		tmp := opcMultipartSha256.(string)
+		headObjectResponse.OpcMultipartSha256 = &tmp
+	}
+
+	if opcMultipartSha384, ok := s.D.GetOkExists("opc_multipart_sha384"); ok {
+		tmp := opcMultipartSha384.(string)
+		headObjectResponse.OpcMultipartSha384 = &tmp
+	}
 	if err != nil {
 		return err
 	}

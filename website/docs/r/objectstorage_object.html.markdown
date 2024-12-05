@@ -38,6 +38,13 @@ resource "oci_objectstorage_object" "test_object" {
 	content_type = var.object_content_type
 	delete_all_object_versions = var.object_delete_all_object_versions
 	metadata = var.object_metadata
+	opc_checksum_algorithm = var.object_opc_checksum_algorithm
+	opc_content_crc32c = var.object_opc_content_crc32c
+	opc_content_sha256 = var.object_opc_content_sha256
+	opc_content_sha384 = var.object_opc_content_sha384
+    opc_multipart_sha256 = var.object_opc_multipart_sha256
+    opc_multipart_sha384 = var.object_opc_multipart_sha384
+	opc_sse_kms_key_id = var.object_opc_sse_kms_key_id
 	storage_tier = var.object_storage_tier
     opc_sse_kms_key_id = var.object_opc_sse_kms_key_id
 }
@@ -63,6 +70,22 @@ The following arguments are supported:
 Note: All specified keys must be in lower case.
 * `namespace` - (Required) The Object Storage namespace used for the request.
 * `object` - (Required) (Updatable) The name of the object. Avoid entering confidential information. Example: `test/object1.log` 
+* `opc_checksum_algorithm` - (Optional) (Updatable) The optional checksum algorithm to use to compute and store the checksum of the body of the HTTP request (or the parts in case of multipart uploads), in addition to the default MD5 checksum. 
+* `opc_content_crc32c` - (Optional) (Updatable) Applicable only if CRC32C is specified in the opc-checksum-algorithm request header.
+
+	The optional header that defines the base64-encoded, 32-bit CRC32C (Castagnoli) checksum of the body. If the optional opc-content-crc32c header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the CRC32C checksum for the body and comparing it to the CRC32C checksum supplied in the header. If the two checksums do not match, the object is rejected and an HTTP-400 Unmatched Content CRC32C error is returned with the message:
+
+	"The computed CRC32C of the request body (ACTUAL_CRC32C) does not match the opc-content-crc32c header (HEADER_CRC32C)" 
+* `opc_content_sha256` - (Optional) (Updatable) Applicable only if SHA256 is specified in the opc-checksum-algorithm request header.
+
+	The optional header that defines the base64-encoded SHA256 hash of the body. If the optional opc-content-sha256 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the SHA256 hash for the body and comparing it to the SHA256 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA256 error is returned with the message:
+
+	"The computed SHA256 of the request body (ACTUAL_SHA256) does not match the opc-content-sha256 header (HEADER_SHA256)" 
+* `opc_content_sha384` - (Optional) (Updatable) Applicable only if SHA384 is specified in the opc-checksum-algorithm request header.
+
+	The optional header that defines the base64-encoded SHA384 hash of the body. If the optional opc-content-sha384 header is present, Object Storage performs an integrity check on the body of the HTTP request by computing the SHA384 hash for the body and comparing it to the SHA384 hash supplied in the header. If the two hashes do not match, the object is rejected and an HTTP-400 Unmatched Content SHA384 error is returned with the message:
+
+	"The computed SHA384 of the request body (ACTUAL_SHA384) does not match the opc-content-sha384 header (HEADER_SHA384)" 
 * `opc_sse_kms_key_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of a master encryption key used to call the Key Management service to generate a data encryption key or to encrypt or decrypt a data encryption key.
 * `storage_tier` - (Optional) (Updatable) The storage tier that the object should be stored in. If not specified, the object will be stored in the same storage tier as the bucket. 
 * `source` - (Optional) An absolute path to a file on the local system. Cannot be defined if `content` or `source_uri_details` is defined.

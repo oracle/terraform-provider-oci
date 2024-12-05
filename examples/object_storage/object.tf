@@ -35,6 +35,32 @@ resource "oci_objectstorage_object" "object_with_content_md5" {
   content_md5 = filemd5("index.html")
 }
 
+resource "oci_objectstorage_object" "object_with_opc_content_sha256" {
+  namespace           = data.oci_objectstorage_namespace.ns.namespace
+  bucket              = oci_objectstorage_bucket.bucket1.name
+  object              = "index1.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content             = file("index1.html")
+  content_disposition = "attachment; filename=\"fiylename.html\""
+  storage_tier        = "InfrequentAccess"
+  opc_sse_kms_key_id  = var.kms_key_ocid
+  opc_content_sha256  = base64sha256(file("index1.html"))
+}
+
+resource "oci_objectstorage_object" "object_with_opc_content_crc32c" {
+  namespace           = data.oci_objectstorage_namespace.ns.namespace
+  bucket              = oci_objectstorage_bucket.bucket1.name
+  object              = "index1.html"
+  content_language    = "en-US"
+  content_type        = "text/html"
+  content             = file("index1.html")
+  content_disposition = "attachment; filename=\"fiylename.html\""
+  storage_tier        = "InfrequentAccess"
+  opc_sse_kms_key_id  = var.kms_key_ocid
+  opc_checksum_algorithm = "CRC32C"
+}
+
 resource "oci_objectstorage_object" "source_object" {
   namespace           = data.oci_objectstorage_namespace.ns.namespace
   bucket              = oci_objectstorage_bucket.bucket1.name
@@ -90,6 +116,18 @@ data "oci_objectstorage_object_head" "object_head1" {
   object    = oci_objectstorage_object.object1.object
 }
 
+data "oci_objectstorage_object_head" "object_head2" {
+  namespace = data.oci_objectstorage_namespace.ns.namespace
+  bucket    = oci_objectstorage_bucket.bucket1.name
+  object    = oci_objectstorage_object.object_with_opc_content_sha256.object
+}
+
+data "oci_objectstorage_object_head" "object_head3" {
+  namespace = data.oci_objectstorage_namespace.ns.namespace
+  bucket    = oci_objectstorage_bucket.bucket1.name
+  object    = oci_objectstorage_object.object_with_opc_content_crc32c.object
+}
+
 data "oci_objectstorage_object_head" "source_object_head" {
   namespace = data.oci_objectstorage_namespace.ns.namespace
   bucket    = oci_objectstorage_bucket.bucket1.name
@@ -124,6 +162,28 @@ output "object-head-data" {
   content-length = ${data.oci_objectstorage_object_head.object_head1.content_length}
   content-type = ${data.oci_objectstorage_object_head.object_head1.content_type}
   storage-tier = ${data.oci_objectstorage_object_head.object_head1.storage_tier}
+EOF
+
+}
+
+output "object-head-data2" {
+  value = <<EOF
+
+  object = ${data.oci_objectstorage_object_head.object_head2.object}
+  content-length = ${data.oci_objectstorage_object_head.object_head2.content_length}
+  content-type = ${data.oci_objectstorage_object_head.object_head2.content_type}
+  storage-tier = ${data.oci_objectstorage_object_head.object_head2.storage_tier}
+EOF
+
+}
+
+output "object-head-dat3" {
+  value = <<EOF
+
+  object = ${data.oci_objectstorage_object_head.object_head3.object}
+  content-length = ${data.oci_objectstorage_object_head.object_head3.content_length}
+  content-type = ${data.oci_objectstorage_object_head.object_head3.content_type}
+  storage-tier = ${data.oci_objectstorage_object_head.object_head3.storage_tier}
 EOF
 
 }

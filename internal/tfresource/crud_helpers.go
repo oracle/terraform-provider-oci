@@ -24,6 +24,7 @@ import (
 	"time"
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
+	"hash/crc32"
 
 	"sync"
 
@@ -1442,6 +1443,20 @@ func GetMd5Hash(source interface{}) string {
 	data := source.(string)
 	hexSum := md5.Sum([]byte(data))
 	return hex.EncodeToString(hexSum[:])
+}
+
+func GetCrc32cHash(source interface{}) string {
+	if source == nil {
+		return ""
+	}
+	data := source.(string)
+	checksum := crc32.Checksum([]byte(data), crc32.MakeTable(crc32.Castagnoli))
+	return hex.EncodeToString([]byte{
+		byte(checksum >> 24),
+		byte(checksum >> 16),
+		byte(checksum >> 8),
+		byte(checksum),
+	})
 }
 
 func ValidateBoolInSlice(valid []bool) schema.SchemaValidateFunc {

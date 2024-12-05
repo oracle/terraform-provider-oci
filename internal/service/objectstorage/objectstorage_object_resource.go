@@ -146,6 +146,36 @@ func ObjectStorageObjectResource() *schema.Resource {
 				ForceNew:     true,
 				ValidateFunc: validateLowerCaseKeysInMetadata,
 			},
+			"opc_checksum_algorithm": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opc_content_crc32c": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opc_content_sha256": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opc_content_sha384": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opc_multipart_sha256": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"opc_multipart_sha384": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"storage_tier": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -646,6 +676,25 @@ func (s *ObjectStorageObjectResourceCrud) createContentObject() error {
 		request.ObjectName = &tmp
 	}
 
+	if opcChecksumAlgorithm, ok := s.D.GetOkExists("opc_checksum_algorithm"); ok {
+		request.OpcChecksumAlgorithm = oci_object_storage.PutObjectOpcChecksumAlgorithmEnum(opcChecksumAlgorithm.(string))
+	}
+
+	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
+		tmp := opcContentCrc32c.(string)
+		request.OpcContentCrc32c = &tmp
+	}
+
+	if opcContentSha256, ok := s.D.GetOkExists("opc_content_sha256"); ok {
+		tmp := opcContentSha256.(string)
+		request.OpcContentSha256 = &tmp
+	}
+
+	if opcContentSha384, ok := s.D.GetOkExists("opc_content_sha384"); ok {
+		tmp := opcContentSha384.(string)
+		request.OpcContentSha384 = &tmp
+	}
+
 	if storageTier, ok := s.D.GetOkExists("storage_tier"); ok {
 		tmp := storageTier.(string)
 		request.StorageTier = PutObjectStorageTierEnumFromString(tmp)
@@ -693,6 +742,32 @@ func (s *ObjectStorageObjectResourceCrud) getObjectHead() error {
 	headObjectRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	headObjectResponse, err := s.Client.HeadObject(context.Background(), *headObjectRequest)
+
+	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
+		tmp := opcContentCrc32c.(string)
+		headObjectResponse.OpcContentCrc32c = &tmp
+	}
+
+	if opcContentSha256, ok := s.D.GetOkExists("opc_content_sha256"); ok {
+		tmp := opcContentSha256.(string)
+		headObjectResponse.OpcContentSha256 = &tmp
+	}
+
+	if opcContentSha384, ok := s.D.GetOkExists("opc_content_sha384"); ok {
+		tmp := opcContentSha384.(string)
+		headObjectResponse.OpcContentSha384 = &tmp
+	}
+
+	if opcMultipartSha256, ok := s.D.GetOkExists("opc_multipart_sha256"); ok {
+		tmp := opcMultipartSha256.(string)
+		headObjectResponse.OpcMultipartSha256 = &tmp
+	}
+
+	if opcMultipartSha384, ok := s.D.GetOkExists("opc_multipart_sha384"); ok {
+		tmp := opcMultipartSha384.(string)
+		headObjectResponse.OpcMultipartSha384 = &tmp
+	}
+
 	if err != nil {
 		return err
 	}
@@ -817,6 +892,32 @@ func (s *ObjectStorageObjectResourceCrud) getObject() error {
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "object_storage")
 
 	response, err := s.Client.GetObject(context.Background(), request)
+
+	if opcContentCrc32c, ok := s.D.GetOkExists("opc_content_crc32c"); ok {
+		tmp := opcContentCrc32c.(string)
+		response.OpcContentCrc32c = &tmp
+	}
+
+	if opcContentSha256, ok := s.D.GetOkExists("opc_content_sha256"); ok {
+		tmp := opcContentSha256.(string)
+		response.OpcContentSha256 = &tmp
+	}
+
+	if opcContentSha384, ok := s.D.GetOkExists("opc_content_sha384"); ok {
+		tmp := opcContentSha384.(string)
+		response.OpcContentSha384 = &tmp
+	}
+
+	if opcMultipartSha256, ok := s.D.GetOkExists("opc_multipart_sha256"); ok {
+		tmp := opcMultipartSha256.(string)
+		response.OpcMultipartSha256 = &tmp
+	}
+
+	if opcMultipartSha384, ok := s.D.GetOkExists("opc_multipart_sha384"); ok {
+		tmp := opcMultipartSha384.(string)
+		response.OpcMultipartSha384 = &tmp
+	}
+
 	if err != nil {
 		return err
 	}
@@ -939,6 +1040,26 @@ func (s *ObjectStorageObjectResourceCrud) setDataObjectHead() error {
 		s.D.Set("content_md5", *response.ContentMd5)
 	}
 
+	if response.OpcContentCrc32c != nil {
+		s.D.Set("opc_content_crc32c", *response.OpcContentCrc32c)
+	}
+
+	if response.OpcContentSha256 != nil {
+		s.D.Set("opc_content_sha256", *response.OpcContentSha256)
+	}
+
+	if response.OpcContentSha384 != nil {
+		s.D.Set("opc_content_sha384", *response.OpcContentSha384)
+	}
+
+	if response.OpcMultipartSha256 != nil {
+		s.D.Set("opc-multipart-sha256", *response.OpcMultipartSha256)
+	}
+
+	if response.OpcMultipartSha384 != nil {
+		s.D.Set("opc-multipart-sha384", *response.OpcMultipartSha384)
+	}
+
 	if response.ContentType != nil {
 		s.D.Set("content_type", *response.ContentType)
 	}
@@ -1021,6 +1142,26 @@ func (s *ObjectStorageObjectResourceCrud) setDataObject() error {
 
 	if s.Res.ObjectResponse.ContentMd5 != nil {
 		s.D.Set("content_md5", *s.Res.ObjectResponse.ContentMd5)
+	}
+
+	if s.Res.ObjectResponse.OpcContentCrc32c != nil {
+		s.D.Set("opc_content_crc32c", *s.Res.ObjectResponse.OpcContentCrc32c)
+	}
+
+	if s.Res.ObjectResponse.OpcContentSha256 != nil {
+		s.D.Set("opc_content_sha256", *s.Res.ObjectResponse.OpcContentSha256)
+	}
+
+	if s.Res.ObjectResponse.OpcContentSha384 != nil {
+		s.D.Set("opc_content_sha384", *s.Res.ObjectResponse.OpcContentSha384)
+	}
+
+	if s.Res.ObjectResponse.OpcMultipartSha256 != nil {
+		s.D.Set("opc-multipart-sha256", *s.Res.ObjectResponse.OpcMultipartSha256)
+	}
+
+	if s.Res.ObjectResponse.OpcMultipartSha384 != nil {
+		s.D.Set("opc-multipart-sha384", *s.Res.ObjectResponse.OpcMultipartSha384)
 	}
 
 	if s.Res.ObjectResponse.ContentType != nil {
