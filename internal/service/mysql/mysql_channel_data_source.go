@@ -104,6 +104,10 @@ func (s *MysqlChannelDataSourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.Target != nil {
 		targetArray := []interface{}{}
 		if targetMap := ChannelTargetToMap(&s.Res.Target); targetMap != nil {

@@ -148,6 +148,7 @@ The following attributes are exported:
 * `retention_in_days` - Number of days to retain this backup.
 * `shape_name` - The shape of the DB System instance used for backup.
 * `state` - The state of the backup.
+* `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_copy_created` - The date and time the DB system backup copy was created, as described by [RFC 3339](https://tools.ietf.org/rfc/rfc3339). 
 * `time_created` - The time the backup record was created.
 * `time_updated` - The time at which the backup was updated.

@@ -108,6 +108,18 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 						// Required
 
 						// Optional
+						"auto_increment_increment": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"auto_increment_offset": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"autocommit": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -121,6 +133,18 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"binlog_expire_logs_seconds": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"binlog_group_commit_sync_delay": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"binlog_group_commit_sync_no_delay_count": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -140,6 +164,24 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 						},
 						"binlog_transaction_compression": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"block_encryption_mode": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"character_set_server": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"collation_server": {
+							Type:     schema.TypeString,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
@@ -184,6 +226,18 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"explain_format": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"explicit_defaults_for_timestamp": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"foreign_key_checks": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -211,6 +265,14 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"group_concat_max_len": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
 						"group_replication_consistency": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -218,6 +280,18 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"information_schema_stats_expiry": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"innodb_adaptive_hash_index": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"innodb_autoinc_lock_mode": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -242,6 +316,12 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"innodb_change_buffering": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"innodb_ddl_buffer_size": {
 							Type:             schema.TypeString,
@@ -321,6 +401,40 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"innodb_numa_interleave": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"innodb_online_alter_log_max_size": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"innodb_redo_log_capacity": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"innodb_rollback_on_timeout": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"innodb_sort_buffer_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"innodb_stats_persistent_sample_pages": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -337,14 +451,40 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
+						"innodb_strict_mode": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"innodb_undo_log_truncate": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"interactive_timeout": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
 						},
+						"join_buffer_size": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
 						"local_infile": {
 							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"long_query_time": {
+							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
@@ -404,6 +544,22 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"max_seeks_for_key": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"max_user_connections": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 						},
 						"mysql_firewall_mode": {
 							Type:     schema.TypeBool,
@@ -529,6 +685,12 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"optimizer_switch": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
 						"parser_max_mem_size": {
 							Type:             schema.TypeString,
 							Optional:         true,
@@ -553,10 +715,56 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"range_optimizer_max_mem_size": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
 							Deprecated:       tfresource.FieldDeprecatedAndAvoidReferences("query_prealloc_size"),
 						},
 						"regexp_time_limit": {
 							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"relay_log_space_limit": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"replica_net_timeout": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"replica_parallel_workers": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"replica_type_conversions": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"require_secure_transport": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"skip_name_resolve": {
+							Type:     schema.TypeBool,
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
@@ -568,6 +776,12 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew:         true,
 							ValidateFunc:     tfresource.ValidateInt64TypeString,
 							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
+						"sql_generate_invisible_primary_key": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
 						},
 						"sql_mode": {
 							Type:     schema.TypeString,
@@ -587,6 +801,26 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"table_definition_cache": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"table_open_cache": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"temptable_max_ram": {
+							Type:             schema.TypeString,
+							Optional:         true,
+							Computed:         true,
+							ForceNew:         true,
+							ValidateFunc:     tfresource.ValidateInt64TypeString,
+							DiffSuppressFunc: tfresource.Int64StringDiffSuppressFunction,
+						},
 						"thread_pool_dedicated_listeners": {
 							Type:     schema.TypeBool,
 							Optional: true,
@@ -594,6 +828,24 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 							ForceNew: true,
 						},
 						"thread_pool_max_transactions_limit": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"thread_pool_query_threads_per_group": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"thread_pool_size": {
+							Type:     schema.TypeInt,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+						"thread_pool_transaction_delay": {
 							Type:     schema.TypeInt,
 							Optional: true,
 							Computed: true,
@@ -635,6 +887,11 @@ func MysqlMysqlConfigurationResource() *schema.Resource {
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
+			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
 			},
 			"time_created": {
 				Type:     schema.TypeString,
@@ -918,6 +1175,10 @@ func (s *MysqlMysqlConfigurationResourceCrud) SetData() error {
 
 	s.D.Set("state", s.Res.LifecycleState)
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -958,6 +1219,16 @@ func parseMysqlConfigurationCompositeId(compositeId string) (configurationId str
 func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldKeyFormat string) (oci_mysql.ConfigurationVariables, error) {
 	result := oci_mysql.ConfigurationVariables{}
 
+	if autoIncrementIncrement, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_increment_increment")); ok {
+		tmp := autoIncrementIncrement.(int)
+		result.AutoIncrementIncrement = &tmp
+	}
+
+	if autoIncrementOffset, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "auto_increment_offset")); ok {
+		tmp := autoIncrementOffset.(int)
+		result.AutoIncrementOffset = &tmp
+	}
+
 	if autocommit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "autocommit")); ok {
 		tmp := autocommit.(bool)
 		result.Autocommit = &tmp
@@ -973,6 +1244,16 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.BinlogExpireLogsSeconds = &tmp
 	}
 
+	if binlogGroupCommitSyncDelay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_group_commit_sync_delay")); ok {
+		tmp := binlogGroupCommitSyncDelay.(int)
+		result.BinlogGroupCommitSyncDelay = &tmp
+	}
+
+	if binlogGroupCommitSyncNoDelayCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_group_commit_sync_no_delay_count")); ok {
+		tmp := binlogGroupCommitSyncNoDelayCount.(int)
+		result.BinlogGroupCommitSyncNoDelayCount = &tmp
+	}
+
 	if binlogRowMetadata, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_row_metadata")); ok {
 		result.BinlogRowMetadata = oci_mysql.ConfigurationVariablesBinlogRowMetadataEnum(binlogRowMetadata.(string))
 	}
@@ -985,6 +1266,19 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 	if binlogTransactionCompression, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "binlog_transaction_compression")); ok {
 		tmp := binlogTransactionCompression.(bool)
 		result.BinlogTransactionCompression = &tmp
+	}
+
+	if blockEncryptionMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "block_encryption_mode")); ok {
+		tmp := blockEncryptionMode.(string)
+		result.BlockEncryptionMode = &tmp
+	}
+
+	if characterSetServer, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "character_set_server")); ok {
+		result.CharacterSetServer = oci_mysql.ConfigurationVariablesCharacterSetServerEnum(characterSetServer.(string))
+	}
+
+	if collationServer, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "collation_server")); ok {
+		result.CollationServer = oci_mysql.ConfigurationVariablesCollationServerEnum(collationServer.(string))
 	}
 
 	if completionType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "completion_type")); ok {
@@ -1023,6 +1317,15 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.DefaultAuthenticationPlugin = oci_mysql.ConfigurationVariablesDefaultAuthenticationPluginEnum(defaultAuthenticationPlugin.(string))
 	}
 
+	if explainFormat, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "explain_format")); ok {
+		result.ExplainFormat = oci_mysql.ConfigurationVariablesExplainFormatEnum(explainFormat.(string))
+	}
+
+	if explicitDefaultsForTimestamp, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "explicit_defaults_for_timestamp")); ok {
+		tmp := explicitDefaultsForTimestamp.(bool)
+		result.ExplicitDefaultsForTimestamp = &tmp
+	}
+
 	if foreignKeyChecks, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "foreign_key_checks")); ok {
 		tmp := foreignKeyChecks.(bool)
 		result.ForeignKeyChecks = &tmp
@@ -1047,6 +1350,15 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.GlobalConnectionMemoryTracking = &tmp
 	}
 
+	if groupConcatMaxLen, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_concat_max_len")); ok {
+		tmp := groupConcatMaxLen.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert groupConcatMaxLen string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.GroupConcatMaxLen = &tmpInt64
+	}
+
 	if groupReplicationConsistency, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "group_replication_consistency")); ok {
 		result.GroupReplicationConsistency = oci_mysql.ConfigurationVariablesGroupReplicationConsistencyEnum(groupReplicationConsistency.(string))
 	}
@@ -1054,6 +1366,16 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 	if informationSchemaStatsExpiry, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "information_schema_stats_expiry")); ok {
 		tmp := informationSchemaStatsExpiry.(int)
 		result.InformationSchemaStatsExpiry = &tmp
+	}
+
+	if innodbAdaptiveHashIndex, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_adaptive_hash_index")); ok {
+		tmp := innodbAdaptiveHashIndex.(bool)
+		result.InnodbAdaptiveHashIndex = &tmp
+	}
+
+	if innodbAutoincLockMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_autoinc_lock_mode")); ok {
+		tmp := innodbAutoincLockMode.(int)
+		result.InnodbAutoincLockMode = &tmp
 	}
 
 	if innodbBufferPoolDumpPct, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_buffer_pool_dump_pct")); ok {
@@ -1073,6 +1395,10 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 			return result, fmt.Errorf("unable to convert innodbBufferPoolSize string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		result.InnodbBufferPoolSize = &tmpInt64
+	}
+
+	if innodbChangeBuffering, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_change_buffering")); ok {
+		result.InnodbChangeBuffering = oci_mysql.ConfigurationVariablesInnodbChangeBufferingEnum(innodbChangeBuffering.(string))
 	}
 
 	if innodbDdlBufferSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_ddl_buffer_size")); ok {
@@ -1147,6 +1473,39 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.InnodbMaxPurgeLagDelay = &tmp
 	}
 
+	if innodbNumaInterleave, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_numa_interleave")); ok {
+		tmp := innodbNumaInterleave.(bool)
+		result.InnodbNumaInterleave = &tmp
+	}
+
+	if innodbOnlineAlterLogMaxSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_online_alter_log_max_size")); ok {
+		tmp := innodbOnlineAlterLogMaxSize.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert innodbOnlineAlterLogMaxSize string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.InnodbOnlineAlterLogMaxSize = &tmpInt64
+	}
+
+	if innodbRedoLogCapacity, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_redo_log_capacity")); ok {
+		tmp := innodbRedoLogCapacity.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert innodbRedoLogCapacity string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.InnodbRedoLogCapacity = &tmpInt64
+	}
+
+	if innodbRollbackOnTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_rollback_on_timeout")); ok {
+		tmp := innodbRollbackOnTimeout.(bool)
+		result.InnodbRollbackOnTimeout = &tmp
+	}
+
+	if innodbSortBufferSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_sort_buffer_size")); ok {
+		tmp := innodbSortBufferSize.(int)
+		result.InnodbSortBufferSize = &tmp
+	}
+
 	if innodbStatsPersistentSamplePages, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_stats_persistent_sample_pages")); ok {
 		tmp := innodbStatsPersistentSamplePages.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -1165,14 +1524,38 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.InnodbStatsTransientSamplePages = &tmpInt64
 	}
 
+	if innodbStrictMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_strict_mode")); ok {
+		tmp := innodbStrictMode.(bool)
+		result.InnodbStrictMode = &tmp
+	}
+
+	if innodbUndoLogTruncate, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "innodb_undo_log_truncate")); ok {
+		tmp := innodbUndoLogTruncate.(bool)
+		result.InnodbUndoLogTruncate = &tmp
+	}
+
 	if interactiveTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "interactive_timeout")); ok {
 		tmp := interactiveTimeout.(int)
 		result.InteractiveTimeout = &tmp
 	}
 
+	if joinBufferSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "join_buffer_size")); ok {
+		tmp := joinBufferSize.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert joinBufferSize string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.JoinBufferSize = &tmpInt64
+	}
+
 	if localInfile, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "local_infile")); ok {
 		tmp := localInfile.(bool)
 		result.LocalInfile = &tmp
+	}
+
+	if longQueryTime, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "long_query_time")); ok {
+		tmp := longQueryTime.(int)
+		result.LongQueryTime = &tmp
 	}
 
 	if mandatoryRoles, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mandatory_roles")); ok {
@@ -1229,6 +1612,24 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 	if maxPreparedStmtCount, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_prepared_stmt_count")); ok {
 		tmp := maxPreparedStmtCount.(int)
 		result.MaxPreparedStmtCount = &tmp
+	}
+
+	if maxSeeksForKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_seeks_for_key")); ok {
+		tmp := maxSeeksForKey.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert maxSeeksForKey string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.MaxSeeksForKey = &tmpInt64
+	}
+
+	if maxUserConnections, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "max_user_connections")); ok {
+		tmp := maxUserConnections.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert maxUserConnections string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.MaxUserConnections = &tmpInt64
 	}
 
 	if mysqlFirewallMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mysql_firewall_mode")); ok {
@@ -1331,6 +1732,11 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.NetWriteTimeout = &tmp
 	}
 
+	if optimizerSwitch, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "optimizer_switch")); ok {
+		tmp := optimizerSwitch.(string)
+		result.OptimizerSwitch = &tmp
+	}
+
 	if parserMaxMemSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "parser_max_mem_size")); ok {
 		tmp := parserMaxMemSize.(string)
 		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
@@ -1358,9 +1764,52 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.QueryPreallocSize = &tmpInt64
 	}
 
+	if rangeOptimizerMaxMemSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "range_optimizer_max_mem_size")); ok {
+		tmp := rangeOptimizerMaxMemSize.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert rangeOptimizerMaxMemSize string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RangeOptimizerMaxMemSize = &tmpInt64
+	}
+
 	if regexpTimeLimit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "regexp_time_limit")); ok {
 		tmp := regexpTimeLimit.(int)
 		result.RegexpTimeLimit = &tmp
+	}
+
+	if relayLogSpaceLimit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "relay_log_space_limit")); ok {
+		tmp := relayLogSpaceLimit.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert relayLogSpaceLimit string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.RelayLogSpaceLimit = &tmpInt64
+	}
+
+	if replicaNetTimeout, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replica_net_timeout")); ok {
+		tmp := replicaNetTimeout.(int)
+		result.ReplicaNetTimeout = &tmp
+	}
+
+	if replicaParallelWorkers, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replica_parallel_workers")); ok {
+		tmp := replicaParallelWorkers.(int)
+		result.ReplicaParallelWorkers = &tmp
+	}
+
+	if replicaTypeConversions, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "replica_type_conversions")); ok {
+		tmp := replicaTypeConversions.(string)
+		result.ReplicaTypeConversions = &tmp
+	}
+
+	if requireSecureTransport, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "require_secure_transport")); ok {
+		tmp := requireSecureTransport.(bool)
+		result.RequireSecureTransport = &tmp
+	}
+
+	if skipNameResolve, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "skip_name_resolve")); ok {
+		tmp := skipNameResolve.(bool)
+		result.SkipNameResolve = &tmp
 	}
 
 	if sortBufferSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sort_buffer_size")); ok {
@@ -1370,6 +1819,11 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 			return result, fmt.Errorf("unable to convert sortBufferSize string: %s to an int64 and encountered error: %v", tmp, err)
 		}
 		result.SortBufferSize = &tmpInt64
+	}
+
+	if sqlGenerateInvisiblePrimaryKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_generate_invisible_primary_key")); ok {
+		tmp := sqlGenerateInvisiblePrimaryKey.(bool)
+		result.SqlGenerateInvisiblePrimaryKey = &tmp
 	}
 
 	if sqlMode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sql_mode")); ok {
@@ -1387,6 +1841,25 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 		result.SqlWarnings = &tmp
 	}
 
+	if tableDefinitionCache, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "table_definition_cache")); ok {
+		tmp := tableDefinitionCache.(int)
+		result.TableDefinitionCache = &tmp
+	}
+
+	if tableOpenCache, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "table_open_cache")); ok {
+		tmp := tableOpenCache.(int)
+		result.TableOpenCache = &tmp
+	}
+
+	if temptableMaxRam, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "temptable_max_ram")); ok {
+		tmp := temptableMaxRam.(string)
+		tmpInt64, err := strconv.ParseInt(tmp, 10, 64)
+		if err != nil {
+			return result, fmt.Errorf("unable to convert temptableMaxRam string: %s to an int64 and encountered error: %v", tmp, err)
+		}
+		result.TemptableMaxRam = &tmpInt64
+	}
+
 	if threadPoolDedicatedListeners, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "thread_pool_dedicated_listeners")); ok {
 		tmp := threadPoolDedicatedListeners.(bool)
 		result.ThreadPoolDedicatedListeners = &tmp
@@ -1395,6 +1868,21 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 	if threadPoolMaxTransactionsLimit, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "thread_pool_max_transactions_limit")); ok {
 		tmp := threadPoolMaxTransactionsLimit.(int)
 		result.ThreadPoolMaxTransactionsLimit = &tmp
+	}
+
+	if threadPoolQueryThreadsPerGroup, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "thread_pool_query_threads_per_group")); ok {
+		tmp := threadPoolQueryThreadsPerGroup.(int)
+		result.ThreadPoolQueryThreadsPerGroup = &tmp
+	}
+
+	if threadPoolSize, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "thread_pool_size")); ok {
+		tmp := threadPoolSize.(int)
+		result.ThreadPoolSize = &tmp
+	}
+
+	if threadPoolTransactionDelay, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "thread_pool_transaction_delay")); ok {
+		tmp := threadPoolTransactionDelay.(int)
+		result.ThreadPoolTransactionDelay = &tmp
 	}
 
 	if timeZone, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "time_zone")); ok {
@@ -1426,6 +1914,14 @@ func (s *MysqlMysqlConfigurationResourceCrud) mapToConfigurationVariables(fieldK
 func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[string]interface{} {
 	result := map[string]interface{}{}
 
+	if obj.AutoIncrementIncrement != nil {
+		result["auto_increment_increment"] = int(*obj.AutoIncrementIncrement)
+	}
+
+	if obj.AutoIncrementOffset != nil {
+		result["auto_increment_offset"] = int(*obj.AutoIncrementOffset)
+	}
+
 	if obj.Autocommit != nil {
 		result["autocommit"] = bool(*obj.Autocommit)
 	}
@@ -1438,6 +1934,14 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["binlog_expire_logs_seconds"] = int(*obj.BinlogExpireLogsSeconds)
 	}
 
+	if obj.BinlogGroupCommitSyncDelay != nil {
+		result["binlog_group_commit_sync_delay"] = int(*obj.BinlogGroupCommitSyncDelay)
+	}
+
+	if obj.BinlogGroupCommitSyncNoDelayCount != nil {
+		result["binlog_group_commit_sync_no_delay_count"] = int(*obj.BinlogGroupCommitSyncNoDelayCount)
+	}
+
 	result["binlog_row_metadata"] = string(obj.BinlogRowMetadata)
 
 	if obj.BinlogRowValueOptions != nil {
@@ -1447,6 +1951,14 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 	if obj.BinlogTransactionCompression != nil {
 		result["binlog_transaction_compression"] = bool(*obj.BinlogTransactionCompression)
 	}
+
+	if obj.BlockEncryptionMode != nil {
+		result["block_encryption_mode"] = string(*obj.BlockEncryptionMode)
+	}
+
+	result["character_set_server"] = string(obj.CharacterSetServer)
+
+	result["collation_server"] = string(obj.CollationServer)
 
 	result["completion_type"] = string(obj.CompletionType)
 
@@ -1468,6 +1980,12 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	result["default_authentication_plugin"] = string(obj.DefaultAuthenticationPlugin)
 
+	result["explain_format"] = string(obj.ExplainFormat)
+
+	if obj.ExplicitDefaultsForTimestamp != nil {
+		result["explicit_defaults_for_timestamp"] = bool(*obj.ExplicitDefaultsForTimestamp)
+	}
+
 	if obj.ForeignKeyChecks != nil {
 		result["foreign_key_checks"] = bool(*obj.ForeignKeyChecks)
 	}
@@ -1484,10 +2002,22 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["global_connection_memory_tracking"] = bool(*obj.GlobalConnectionMemoryTracking)
 	}
 
+	if obj.GroupConcatMaxLen != nil {
+		result["group_concat_max_len"] = strconv.FormatInt(*obj.GroupConcatMaxLen, 10)
+	}
+
 	result["group_replication_consistency"] = string(obj.GroupReplicationConsistency)
 
 	if obj.InformationSchemaStatsExpiry != nil {
 		result["information_schema_stats_expiry"] = int(*obj.InformationSchemaStatsExpiry)
+	}
+
+	if obj.InnodbAdaptiveHashIndex != nil {
+		result["innodb_adaptive_hash_index"] = bool(*obj.InnodbAdaptiveHashIndex)
+	}
+
+	if obj.InnodbAutoincLockMode != nil {
+		result["innodb_autoinc_lock_mode"] = int(*obj.InnodbAutoincLockMode)
 	}
 
 	if obj.InnodbBufferPoolDumpPct != nil {
@@ -1501,6 +2031,8 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 	if obj.InnodbBufferPoolSize != nil {
 		result["innodb_buffer_pool_size"] = strconv.FormatInt(*obj.InnodbBufferPoolSize, 10)
 	}
+
+	result["innodb_change_buffering"] = string(obj.InnodbChangeBuffering)
 
 	if obj.InnodbDdlBufferSize != nil {
 		result["innodb_ddl_buffer_size"] = strconv.FormatInt(*obj.InnodbDdlBufferSize, 10)
@@ -1550,6 +2082,26 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["innodb_max_purge_lag_delay"] = int(*obj.InnodbMaxPurgeLagDelay)
 	}
 
+	if obj.InnodbNumaInterleave != nil {
+		result["innodb_numa_interleave"] = bool(*obj.InnodbNumaInterleave)
+	}
+
+	if obj.InnodbOnlineAlterLogMaxSize != nil {
+		result["innodb_online_alter_log_max_size"] = strconv.FormatInt(*obj.InnodbOnlineAlterLogMaxSize, 10)
+	}
+
+	if obj.InnodbRedoLogCapacity != nil {
+		result["innodb_redo_log_capacity"] = strconv.FormatInt(*obj.InnodbRedoLogCapacity, 10)
+	}
+
+	if obj.InnodbRollbackOnTimeout != nil {
+		result["innodb_rollback_on_timeout"] = bool(*obj.InnodbRollbackOnTimeout)
+	}
+
+	if obj.InnodbSortBufferSize != nil {
+		result["innodb_sort_buffer_size"] = int(*obj.InnodbSortBufferSize)
+	}
+
 	if obj.InnodbStatsPersistentSamplePages != nil {
 		result["innodb_stats_persistent_sample_pages"] = strconv.FormatInt(*obj.InnodbStatsPersistentSamplePages, 10)
 	}
@@ -1558,12 +2110,28 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["innodb_stats_transient_sample_pages"] = strconv.FormatInt(*obj.InnodbStatsTransientSamplePages, 10)
 	}
 
+	if obj.InnodbStrictMode != nil {
+		result["innodb_strict_mode"] = bool(*obj.InnodbStrictMode)
+	}
+
+	if obj.InnodbUndoLogTruncate != nil {
+		result["innodb_undo_log_truncate"] = bool(*obj.InnodbUndoLogTruncate)
+	}
+
 	if obj.InteractiveTimeout != nil {
 		result["interactive_timeout"] = int(*obj.InteractiveTimeout)
 	}
 
+	if obj.JoinBufferSize != nil {
+		result["join_buffer_size"] = strconv.FormatInt(*obj.JoinBufferSize, 10)
+	}
+
 	if obj.LocalInfile != nil {
 		result["local_infile"] = bool(*obj.LocalInfile)
+	}
+
+	if obj.LongQueryTime != nil {
+		result["long_query_time"] = int(*obj.LongQueryTime)
 	}
 
 	if obj.MandatoryRoles != nil {
@@ -1596,6 +2164,14 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 
 	if obj.MaxPreparedStmtCount != nil {
 		result["max_prepared_stmt_count"] = int(*obj.MaxPreparedStmtCount)
+	}
+
+	if obj.MaxSeeksForKey != nil {
+		result["max_seeks_for_key"] = strconv.FormatInt(*obj.MaxSeeksForKey, 10)
+	}
+
+	if obj.MaxUserConnections != nil {
+		result["max_user_connections"] = strconv.FormatInt(*obj.MaxUserConnections, 10)
 	}
 
 	if obj.MysqlFirewallMode != nil {
@@ -1678,6 +2254,10 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["net_write_timeout"] = int(*obj.NetWriteTimeout)
 	}
 
+	if obj.OptimizerSwitch != nil {
+		result["optimizer_switch"] = string(*obj.OptimizerSwitch)
+	}
+
 	if obj.ParserMaxMemSize != nil {
 		result["parser_max_mem_size"] = strconv.FormatInt(*obj.ParserMaxMemSize, 10)
 	}
@@ -1690,12 +2270,44 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["query_prealloc_size"] = strconv.FormatInt(*obj.QueryPreallocSize, 10)
 	}
 
+	if obj.RangeOptimizerMaxMemSize != nil {
+		result["range_optimizer_max_mem_size"] = strconv.FormatInt(*obj.RangeOptimizerMaxMemSize, 10)
+	}
+
 	if obj.RegexpTimeLimit != nil {
 		result["regexp_time_limit"] = int(*obj.RegexpTimeLimit)
 	}
 
+	if obj.RelayLogSpaceLimit != nil {
+		result["relay_log_space_limit"] = strconv.FormatInt(*obj.RelayLogSpaceLimit, 10)
+	}
+
+	if obj.ReplicaNetTimeout != nil {
+		result["replica_net_timeout"] = int(*obj.ReplicaNetTimeout)
+	}
+
+	if obj.ReplicaParallelWorkers != nil {
+		result["replica_parallel_workers"] = int(*obj.ReplicaParallelWorkers)
+	}
+
+	if obj.ReplicaTypeConversions != nil {
+		result["replica_type_conversions"] = string(*obj.ReplicaTypeConversions)
+	}
+
+	if obj.RequireSecureTransport != nil {
+		result["require_secure_transport"] = bool(*obj.RequireSecureTransport)
+	}
+
+	if obj.SkipNameResolve != nil {
+		result["skip_name_resolve"] = bool(*obj.SkipNameResolve)
+	}
+
 	if obj.SortBufferSize != nil {
 		result["sort_buffer_size"] = strconv.FormatInt(*obj.SortBufferSize, 10)
+	}
+
+	if obj.SqlGenerateInvisiblePrimaryKey != nil {
+		result["sql_generate_invisible_primary_key"] = bool(*obj.SqlGenerateInvisiblePrimaryKey)
 	}
 
 	if obj.SqlMode != nil {
@@ -1710,12 +2322,36 @@ func ConfigurationVariablesToMap(obj *oci_mysql.ConfigurationVariables) map[stri
 		result["sql_warnings"] = bool(*obj.SqlWarnings)
 	}
 
+	if obj.TableDefinitionCache != nil {
+		result["table_definition_cache"] = int(*obj.TableDefinitionCache)
+	}
+
+	if obj.TableOpenCache != nil {
+		result["table_open_cache"] = int(*obj.TableOpenCache)
+	}
+
+	if obj.TemptableMaxRam != nil {
+		result["temptable_max_ram"] = strconv.FormatInt(*obj.TemptableMaxRam, 10)
+	}
+
 	if obj.ThreadPoolDedicatedListeners != nil {
 		result["thread_pool_dedicated_listeners"] = bool(*obj.ThreadPoolDedicatedListeners)
 	}
 
 	if obj.ThreadPoolMaxTransactionsLimit != nil {
 		result["thread_pool_max_transactions_limit"] = int(*obj.ThreadPoolMaxTransactionsLimit)
+	}
+
+	if obj.ThreadPoolQueryThreadsPerGroup != nil {
+		result["thread_pool_query_threads_per_group"] = int(*obj.ThreadPoolQueryThreadsPerGroup)
+	}
+
+	if obj.ThreadPoolSize != nil {
+		result["thread_pool_size"] = int(*obj.ThreadPoolSize)
+	}
+
+	if obj.ThreadPoolTransactionDelay != nil {
+		result["thread_pool_transaction_delay"] = int(*obj.ThreadPoolTransactionDelay)
 	}
 
 	if obj.TimeZone != nil {

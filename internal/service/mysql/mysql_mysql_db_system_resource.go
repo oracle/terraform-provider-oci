@@ -276,6 +276,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"system_tags": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"hostname_label": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -469,7 +474,6 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 					string(oci_mysql.InnoDbShutdownModeSlow),
 				}, true),
 			},
-
 			// Computed
 			"channels": {
 				Type:     schema.TypeList,
@@ -597,6 +601,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,
+						},
+						"system_tags": {
+							Type:     schema.TypeMap,
+							Computed: true,
+							Elem:     schema.TypeString,
 						},
 						"target": {
 							Type:     schema.TypeList,
@@ -1540,6 +1549,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 		s.D.Set("subnet_id", *s.Res.SubnetId)
 	}
 
+	if s.Res.SystemTags != nil {
+		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
+	}
+
 	if s.Res.TimeCreated != nil {
 		s.D.Set("time_created", s.Res.TimeCreated.String())
 	}
@@ -1791,6 +1804,10 @@ func ChannelSummaryToMap(obj oci_mysql.ChannelSummary) map[string]interface{} {
 	}
 
 	result["state"] = string(obj.LifecycleState)
+
+	if obj.SystemTags != nil {
+		result["system_tags"] = tfresource.SystemTagsToMap(obj.SystemTags)
+	}
 
 	if obj.Target != nil {
 		targetArray := []interface{}{}
