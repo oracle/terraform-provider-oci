@@ -3,27 +3,21 @@
 
 // These variables would commonly be defined as environment variables or sourced in a .env file
 
-variable "tenancy_ocid" {
-}
-
 variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
 }
 
 variable "region" {
 }
 
+variable config_file_profile {
+}
+
 provider "oci" {
   region           = var.region
-  tenancy_ocid     = var.tenancy_ocid
   user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
+//  version          = "6.19.0"
+  auth             = "SecurityToken"
+  config_file_profile = var.config_file_profile
 }
 
 variable "compartment_ocid" {
@@ -206,6 +200,12 @@ variable "model_deployment_model_deployment_configuration_details_environment_co
 # For Custom Egress
 variable "model_egress_id" {
 }
+
+# Private Networking
+variable "model_deployment_display_name_for_private_network" {
+  default = "terraform-testing-private-model-deployment"
+}
+variable "private_endpoint_id" {}
 
 # A model deployment resource configurations for creating a new model deployment with scaling policy type = FIXED SIZE
 resource "oci_datascience_model_deployment" "tf_model_deployment" {
@@ -489,6 +489,67 @@ resource "oci_datascience_model_deployment" "tf_model_deployment_custom_networki
   # Optional
   description   = var.model_deployment_description
   display_name  = var.model_deployment_display_name
+}
+
+# A model deployment resource configurations for creating a new model deployment with Private Networking
+resource "oci_datascience_model_deployment" "tf_model_deployment_private_networking" {
+  # Required
+  compartment_id = var.compartment_ocid
+  model_deployment_configuration_details {
+    # Required
+    deployment_type = var.model_deployment_model_deployment_configuration_details_deployment_type
+    model_configuration_details {
+      # Required
+      instance_configuration {
+        # Required
+        instance_shape_name = var.shape
+
+        #Optional
+        model_deployment_instance_shape_config_details {
+
+          #Optional
+          cpu_baseline  = var.model_deployment_model_deployment_configuration_details_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_cpu_baseline
+          memory_in_gbs = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_memory_in_gbs
+          ocpus         = var.model_deployment_model_configuration_details_instance_configuration_model_deployment_instance_shape_config_details_ocpus
+        }
+
+        # Required
+        subnet_id = oci_core_subnet.tf_subnet.id
+        private_endpoint_id = var.private_endpoint_id
+      }
+      model_id = var.model_egress_id
+
+      # Optional
+      bandwidth_mbps         = var.model_deployment_model_deployment_configuration_details_model_configuration_details_bandwidth_mbps
+      maximum_bandwidth_mbps = var.model_deployment_model_deployment_configuration_details_model_configuration_details_maximum_bandwidth_mbps
+
+      scaling_policy {
+        # Required
+        instance_count = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_instance_count
+        policy_type    = var.model_deployment_model_deployment_configuration_details_model_configuration_details_scaling_policy_policy_type
+      }
+    }
+  }
+  project_id = var.project_ocid
+
+  # Optional
+  category_log_details {
+
+    # Optional
+    access {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.access_log_id
+    }
+    predict {
+      # Required
+      log_group_id = var.log_group_id
+      log_id       = var.predict_log_id
+    }
+  }
+  # Optional
+  description   = var.model_deployment_description
+  display_name  = var.model_deployment_display_name_for_private_network
 }
 
 # The data resource for a list of model deployments in a specified compartment
