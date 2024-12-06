@@ -181,6 +181,9 @@ type InstanceConfigurationLaunchInstanceDetails struct {
 	AvailabilityConfig *InstanceConfigurationAvailabilityConfig `mandatory:"false" json:"availabilityConfig"`
 
 	PreemptibleInstanceConfig *PreemptibleInstanceConfigDetails `mandatory:"false" json:"preemptibleInstanceConfig"`
+
+	// List of licensing configurations associated with target launch values.
+	LicensingConfigs []LaunchInstanceLicensingConfig `mandatory:"false" json:"licensingConfigs"`
 }
 
 func (m InstanceConfigurationLaunchInstanceDetails) String() string {
@@ -234,6 +237,7 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 		InstanceOptions                *InstanceConfigurationInstanceOptions                                    `json:"instanceOptions"`
 		AvailabilityConfig             *InstanceConfigurationAvailabilityConfig                                 `json:"availabilityConfig"`
 		PreemptibleInstanceConfig      *PreemptibleInstanceConfigDetails                                        `json:"preemptibleInstanceConfig"`
+		LicensingConfigs               []launchinstancelicensingconfig                                          `json:"licensingConfigs"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -309,6 +313,18 @@ func (m *InstanceConfigurationLaunchInstanceDetails) UnmarshalJSON(data []byte) 
 
 	m.PreemptibleInstanceConfig = model.PreemptibleInstanceConfig
 
+	m.LicensingConfigs = make([]LaunchInstanceLicensingConfig, len(model.LicensingConfigs))
+	for i, n := range model.LicensingConfigs {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.LicensingConfigs[i] = nn.(LaunchInstanceLicensingConfig)
+		} else {
+			m.LicensingConfigs[i] = nil
+		}
+	}
 	return
 }
 
