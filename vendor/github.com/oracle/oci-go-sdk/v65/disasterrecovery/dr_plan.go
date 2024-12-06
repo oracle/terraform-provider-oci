@@ -64,6 +64,14 @@ type DrPlan struct {
 	// The current state of the DR plan.
 	LifecycleState DrPlanLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// If this is a cloned DR plan, the OCID of the source DR plan that was used to clone this DR plan.
+	// If this DR plan was not cloned, then the value for this will be `null`.
+	// Example: `ocid1.drplan.oc1..uniqueID`
+	SourcePlanId *string `mandatory:"false" json:"sourcePlanId"`
+
+	// The current state of the DR plan.
+	LifecycleSubState DrPlanLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// A message describing the DR plan's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
 
@@ -96,6 +104,9 @@ func (m DrPlan) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrPlanLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrPlanLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetDrPlanLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -91,6 +91,63 @@ func (client *DataFlowClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
+// CascadingDeleteApplication Deletes an application using an `applicationId` and terminates related runs. This operation will timeout in approximate 30 minutes if any related Runs are not terminated successfully.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/dataflow/CascadingDeleteApplication.go.html to see an example of how to use CascadingDeleteApplication API.
+func (client DataFlowClient) CascadingDeleteApplication(ctx context.Context, request CascadingDeleteApplicationRequest) (response CascadingDeleteApplicationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.cascadingDeleteApplication, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CascadingDeleteApplicationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CascadingDeleteApplicationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CascadingDeleteApplicationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CascadingDeleteApplicationResponse")
+	}
+	return
+}
+
+// cascadingDeleteApplication implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) cascadingDeleteApplication(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/applications/{applicationId}/actions/cascadingDeleteApplication", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CascadingDeleteApplicationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Application/CascadingDeleteApplication"
+		err = common.PostProcessServiceError(err, "DataFlow", "CascadingDeleteApplication", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeApplicationCompartment Moves an application into a different compartment. When provided, If-Match is checked against ETag values of the resource.
 // Associated resources, like runs, will not be automatically moved.
 //

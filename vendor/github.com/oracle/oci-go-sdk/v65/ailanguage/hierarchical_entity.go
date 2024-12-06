@@ -19,6 +19,7 @@ import (
 
 // HierarchicalEntity Hierarchical entity object
 type HierarchicalEntity struct {
+	MetaInfo *MetaInfo `mandatory:"false" json:"metaInfo"`
 
 	// The number of Unicode code points preceding this entity in the submitted text.
 	Offset *int `mandatory:"false" json:"offset"`

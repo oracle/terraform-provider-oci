@@ -11,43 +11,48 @@
 package visualbuilder
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
 )
 
-// IdcsInfoDetails Information for IDCS access
-type IdcsInfoDetails struct {
+// UpdatePrivateEndpointDetails Private endpoint update configuration details.
+type UpdatePrivateEndpointDetails struct {
 
-	// URL for the location of the IDCS Application (used by IDCS APIs)
-	IdcsAppLocationUrl *string `mandatory:"true" json:"idcsAppLocationUrl"`
+	// The subnet OCID for the private endpoint. If provided then a new Private Endpoint will be created and a new Private Endpoint IP may be generated.
+	SubnetId *string `mandatory:"false" json:"subnetId"`
 
-	// The IDCS application display name associated with the instance
-	IdcsAppDisplayName *string `mandatory:"true" json:"idcsAppDisplayName"`
-
-	// The IDCS application ID associated with the instance
-	IdcsAppId *string `mandatory:"true" json:"idcsAppId"`
-
-	// The IDCS application name associated with the instance
-	IdcsAppName *string `mandatory:"true" json:"idcsAppName"`
-
-	// The URL used as the primary audience for visual builder flows in this instance
-	// type: string
-	InstancePrimaryAudienceUrl *string `mandatory:"true" json:"instancePrimaryAudienceUrl"`
+	// Network Security Group OCIDs for the Private Endpoint.
+	NetworkSecurityGroupIds []string `mandatory:"false" json:"networkSecurityGroupIds"`
 }
 
-func (m IdcsInfoDetails) String() string {
+func (m UpdatePrivateEndpointDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m IdcsInfoDetails) ValidateEnumValue() (bool, error) {
+func (m UpdatePrivateEndpointDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// MarshalJSON marshals to json representation
+func (m UpdatePrivateEndpointDetails) MarshalJSON() (buff []byte, e error) {
+	type MarshalTypeUpdatePrivateEndpointDetails UpdatePrivateEndpointDetails
+	s := struct {
+		DiscriminatorParam string `json:"networkEndpointType"`
+		MarshalTypeUpdatePrivateEndpointDetails
+	}{
+		"PRIVATE",
+		(MarshalTypeUpdatePrivateEndpointDetails)(m),
+	}
+
+	return json.Marshal(&s)
 }
