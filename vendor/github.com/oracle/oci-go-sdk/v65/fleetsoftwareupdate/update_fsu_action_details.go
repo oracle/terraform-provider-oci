@@ -68,6 +68,10 @@ func (m *updatefsuactiondetails) UnmarshalPolymorphicJSON(data []byte) (interfac
 
 	var err error
 	switch m.Type {
+	case "ROLLBACK_MAINTENANCE_CYCLE":
+		mm := UpdateRollbackCycleActionDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STAGE":
 		mm := UpdateStageActionDetails{}
 		err = json.Unmarshal(data, &mm)

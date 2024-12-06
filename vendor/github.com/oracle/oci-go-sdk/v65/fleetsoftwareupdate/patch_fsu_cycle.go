@@ -42,6 +42,10 @@ type PatchFsuCycle struct {
 	// In this array all the possible actions will be listed. The first element is the suggested Action.
 	NextActionToExecute []NextActionToExecuteDetails `mandatory:"false" json:"nextActionToExecute"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the latest Action
+	// in the Exadata Fleet Update Cycle.
+	LastCompletedActionId *string `mandatory:"false" json:"lastCompletedActionId"`
+
 	GoalVersionDetails FsuGoalVersionDetails `mandatory:"false" json:"goalVersionDetails"`
 
 	BatchingStrategy BatchingStrategyDetails `mandatory:"false" json:"batchingStrategy"`
@@ -93,6 +97,10 @@ type PatchFsuCycle struct {
 	// Type of Collection this Exadata Fleet Update Cycle belongs to.
 	CollectionType CollectionTypesEnum `mandatory:"false" json:"collectionType,omitempty"`
 
+	// Current rollback cycle state if rollback maintenance cycle action has been attempted.
+	// No value would indicate that the Cycle has not run a rollback maintenance cycle action before.
+	RollbackCycleState RollbackCycleStatesEnum `mandatory:"false" json:"rollbackCycleState,omitempty"`
+
 	// The latest Action type that was completed in the Exadata Fleet Update Cycle.
 	// No value would indicate that the Cycle has not completed any Action yet.
 	LastCompletedAction DetailedActionTypesEnum `mandatory:"false" json:"lastCompletedAction,omitempty"`
@@ -134,6 +142,16 @@ func (m PatchFsuCycle) GetExecutingFsuActionId() *string {
 // GetNextActionToExecute returns NextActionToExecute
 func (m PatchFsuCycle) GetNextActionToExecute() []NextActionToExecuteDetails {
 	return m.NextActionToExecute
+}
+
+// GetLastCompletedActionId returns LastCompletedActionId
+func (m PatchFsuCycle) GetLastCompletedActionId() *string {
+	return m.LastCompletedActionId
+}
+
+// GetRollbackCycleState returns RollbackCycleState
+func (m PatchFsuCycle) GetRollbackCycleState() RollbackCycleStatesEnum {
+	return m.RollbackCycleState
 }
 
 // GetLastCompletedAction returns LastCompletedAction
@@ -219,6 +237,9 @@ func (m PatchFsuCycle) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingCollectionTypesEnum(string(m.CollectionType)); !ok && m.CollectionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CollectionType: %s. Supported values are: %s.", m.CollectionType, strings.Join(GetCollectionTypesEnumStringValues(), ",")))
 	}
+	if _, ok := GetMappingRollbackCycleStatesEnum(string(m.RollbackCycleState)); !ok && m.RollbackCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RollbackCycleState: %s. Supported values are: %s.", m.RollbackCycleState, strings.Join(GetRollbackCycleStatesEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDetailedActionTypesEnum(string(m.LastCompletedAction)); !ok && m.LastCompletedAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastCompletedAction: %s. Supported values are: %s.", m.LastCompletedAction, strings.Join(GetDetailedActionTypesEnumStringValues(), ",")))
 	}
@@ -252,6 +273,8 @@ func (m *PatchFsuCycle) UnmarshalJSON(data []byte) (e error) {
 		CollectionType           CollectionTypesEnum               `json:"collectionType"`
 		ExecutingFsuActionId     *string                           `json:"executingFsuActionId"`
 		NextActionToExecute      []NextActionToExecuteDetails      `json:"nextActionToExecute"`
+		LastCompletedActionId    *string                           `json:"lastCompletedActionId"`
+		RollbackCycleState       RollbackCycleStatesEnum           `json:"rollbackCycleState"`
 		LastCompletedAction      DetailedActionTypesEnum           `json:"lastCompletedAction"`
 		GoalVersionDetails       fsugoalversiondetails             `json:"goalVersionDetails"`
 		BatchingStrategy         batchingstrategydetails           `json:"batchingStrategy"`
@@ -288,6 +311,10 @@ func (m *PatchFsuCycle) UnmarshalJSON(data []byte) (e error) {
 
 	m.NextActionToExecute = make([]NextActionToExecuteDetails, len(model.NextActionToExecute))
 	copy(m.NextActionToExecute, model.NextActionToExecute)
+	m.LastCompletedActionId = model.LastCompletedActionId
+
+	m.RollbackCycleState = model.RollbackCycleState
+
 	m.LastCompletedAction = model.LastCompletedAction
 
 	nn, e = model.GoalVersionDetails.UnmarshalPolymorphicJSON(model.GoalVersionDetails.JsonData)

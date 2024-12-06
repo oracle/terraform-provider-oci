@@ -218,11 +218,12 @@ type ListFsuActionsTypeEnum string
 
 // Set of constants representing the allowable values for ListFsuActionsTypeEnum
 const (
-	ListFsuActionsTypeStage                   ListFsuActionsTypeEnum = "STAGE"
-	ListFsuActionsTypePrecheck                ListFsuActionsTypeEnum = "PRECHECK"
-	ListFsuActionsTypeApply                   ListFsuActionsTypeEnum = "APPLY"
-	ListFsuActionsTypeRollbackAndRemoveTarget ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	ListFsuActionsTypeCleanup                 ListFsuActionsTypeEnum = "CLEANUP"
+	ListFsuActionsTypeStage                    ListFsuActionsTypeEnum = "STAGE"
+	ListFsuActionsTypePrecheck                 ListFsuActionsTypeEnum = "PRECHECK"
+	ListFsuActionsTypeApply                    ListFsuActionsTypeEnum = "APPLY"
+	ListFsuActionsTypeRollbackAndRemoveTarget  ListFsuActionsTypeEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	ListFsuActionsTypeCleanup                  ListFsuActionsTypeEnum = "CLEANUP"
+	ListFsuActionsTypeRollbackMaintenanceCycle ListFsuActionsTypeEnum = "ROLLBACK_MAINTENANCE_CYCLE"
 )
 
 var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
@@ -231,6 +232,7 @@ var mappingListFsuActionsTypeEnum = map[string]ListFsuActionsTypeEnum{
 	"APPLY":                      ListFsuActionsTypeApply,
 	"ROLLBACK_AND_REMOVE_TARGET": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"CLEANUP":                    ListFsuActionsTypeCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": ListFsuActionsTypeRollbackMaintenanceCycle,
 }
 
 var mappingListFsuActionsTypeEnumLowerCase = map[string]ListFsuActionsTypeEnum{
@@ -239,6 +241,7 @@ var mappingListFsuActionsTypeEnumLowerCase = map[string]ListFsuActionsTypeEnum{
 	"apply":                      ListFsuActionsTypeApply,
 	"rollback_and_remove_target": ListFsuActionsTypeRollbackAndRemoveTarget,
 	"cleanup":                    ListFsuActionsTypeCleanup,
+	"rollback_maintenance_cycle": ListFsuActionsTypeRollbackMaintenanceCycle,
 }
 
 // GetListFsuActionsTypeEnumValues Enumerates the set of values for ListFsuActionsTypeEnum
@@ -258,6 +261,7 @@ func GetListFsuActionsTypeEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 	}
 }
 
