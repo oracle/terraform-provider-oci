@@ -23,6 +23,9 @@ type UpdateEndpointDetails struct {
 	// A user-friendly display name for the resource. It should be unique and can be modified. Avoid entering confidential information.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// A short description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 

@@ -24,6 +24,9 @@ type BatchDetectLanguagePiiEntitiesDetails struct {
 	// List of documents to detect personal identification information.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.
 	EndpointId *string `mandatory:"false" json:"endpointId"`
 
@@ -55,6 +58,7 @@ func (m BatchDetectLanguagePiiEntitiesDetails) ValidateEnumValue() (bool, error)
 // UnmarshalJSON unmarshals from json
 func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
+		Alias         *string                     `json:"alias"`
 		EndpointId    *string                     `json:"endpointId"`
 		CompartmentId *string                     `json:"compartmentId"`
 		Masking       map[string]piientitymasking `json:"masking"`
@@ -67,6 +71,8 @@ func (m *BatchDetectLanguagePiiEntitiesDetails) UnmarshalJSON(data []byte) (e er
 		return
 	}
 	var nn interface{}
+	m.Alias = model.Alias
+
 	m.EndpointId = model.EndpointId
 
 	m.CompartmentId = model.CompartmentId

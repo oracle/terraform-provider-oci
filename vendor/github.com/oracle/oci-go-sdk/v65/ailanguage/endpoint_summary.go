@@ -41,6 +41,12 @@ type EndpointSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the model to associate with the endpoint.
 	ModelId *string `mandatory:"true" json:"modelId"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
+	// Compute infra type for endpoint.
+	ComputeType EndpointSummaryComputeTypeEnum `mandatory:"false" json:"computeType,omitempty"`
+
 	// A short description of the endpoint.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -76,8 +82,53 @@ func (m EndpointSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetEndpointLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingEndpointSummaryComputeTypeEnum(string(m.ComputeType)); !ok && m.ComputeType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeType: %s. Supported values are: %s.", m.ComputeType, strings.Join(GetEndpointSummaryComputeTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// EndpointSummaryComputeTypeEnum Enum with underlying type: string
+type EndpointSummaryComputeTypeEnum string
+
+// Set of constants representing the allowable values for EndpointSummaryComputeTypeEnum
+const (
+	EndpointSummaryComputeTypeCpu EndpointSummaryComputeTypeEnum = "CPU"
+	EndpointSummaryComputeTypeGpu EndpointSummaryComputeTypeEnum = "GPU"
+)
+
+var mappingEndpointSummaryComputeTypeEnum = map[string]EndpointSummaryComputeTypeEnum{
+	"CPU": EndpointSummaryComputeTypeCpu,
+	"GPU": EndpointSummaryComputeTypeGpu,
+}
+
+var mappingEndpointSummaryComputeTypeEnumLowerCase = map[string]EndpointSummaryComputeTypeEnum{
+	"cpu": EndpointSummaryComputeTypeCpu,
+	"gpu": EndpointSummaryComputeTypeGpu,
+}
+
+// GetEndpointSummaryComputeTypeEnumValues Enumerates the set of values for EndpointSummaryComputeTypeEnum
+func GetEndpointSummaryComputeTypeEnumValues() []EndpointSummaryComputeTypeEnum {
+	values := make([]EndpointSummaryComputeTypeEnum, 0)
+	for _, v := range mappingEndpointSummaryComputeTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetEndpointSummaryComputeTypeEnumStringValues Enumerates the set of values in String for EndpointSummaryComputeTypeEnum
+func GetEndpointSummaryComputeTypeEnumStringValues() []string {
+	return []string{
+		"CPU",
+		"GPU",
+	}
+}
+
+// GetMappingEndpointSummaryComputeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingEndpointSummaryComputeTypeEnum(val string) (EndpointSummaryComputeTypeEnum, bool) {
+	enum, ok := mappingEndpointSummaryComputeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

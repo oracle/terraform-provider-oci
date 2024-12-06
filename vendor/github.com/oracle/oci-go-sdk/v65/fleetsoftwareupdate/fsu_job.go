@@ -128,6 +128,10 @@ func (m *fsujob) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := ApplyFsuJob{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ROLLBACK_MAINTENANCE_CYCLE":
+		mm := RollbackCycleFsuJob{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STAGE":
 		mm := StageFsuJob{}
 		err = json.Unmarshal(data, &mm)
