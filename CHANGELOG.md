@@ -1,3 +1,19 @@
+## 6.20.0 (Unreleased)
+
+### Added
+- Support for Fleet Application Management Service v1.2
+- Support for BYOK for ADB-D
+- Support for Rollback Maintenance Cycle Feature
+- Support for Data Flow CascadeDeleteApplication API
+- Support for refresh DR Plans
+- Support for Private Access to a VB service instance
+### Bug Fix
+- Fix for the vm network update in place issue
+- Fix Instance Configuration Config Mapping
+- Fix for MySQL Cross Region Copy Backup Destroy
+- Incorporated more workrequest status for createSchedule and updateSchedule workflow
+- Support for Wwether the volumes are preserved when a desktop pool is deleted
+
 ## 6.19.0 (November 21, 2024)
 
 ### Added
