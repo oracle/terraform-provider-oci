@@ -139,6 +139,9 @@ type UpdateInstanceDetails struct {
 	DedicatedVmHostId *string `mandatory:"false" json:"dedicatedVmHostId"`
 
 	PlatformConfig UpdateInstancePlatformConfig `mandatory:"false" json:"platformConfig"`
+
+	// The list of liscensing configurations with target update values.
+	LicensingConfigs []UpdateInstanceLicensingConfig `mandatory:"false" json:"licensingConfigs"`
 }
 
 func (m UpdateInstanceDetails) String() string {
@@ -182,6 +185,7 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		TimeMaintenanceRebootDue  *common.SDKTime                                    `json:"timeMaintenanceRebootDue"`
 		DedicatedVmHostId         *string                                            `json:"dedicatedVmHostId"`
 		PlatformConfig            updateinstanceplatformconfig                       `json:"platformConfig"`
+		LicensingConfigs          []updateinstancelicensingconfig                    `json:"licensingConfigs"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -243,6 +247,18 @@ func (m *UpdateInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		m.PlatformConfig = nil
 	}
 
+	m.LicensingConfigs = make([]UpdateInstanceLicensingConfig, len(model.LicensingConfigs))
+	for i, n := range model.LicensingConfigs {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.LicensingConfigs[i] = nn.(UpdateInstanceLicensingConfig)
+		} else {
+			m.LicensingConfigs[i] = nil
+		}
+	}
 	return
 }
 

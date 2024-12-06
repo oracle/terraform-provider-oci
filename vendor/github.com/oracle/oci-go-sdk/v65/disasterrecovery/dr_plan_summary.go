@@ -63,6 +63,10 @@ type DrPlanSummary struct {
 	// Example: `ACTIVE`
 	LifecycleState DrPlanLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
+	// The current sub state of the DR plan.
+	// Example: `NEEDS_REFRESH`
+	LifecycleSubState DrPlanLifecycleSubStateEnum `mandatory:"false" json:"lifecycleSubState,omitempty"`
+
 	// A message describing the DR plan's current state in more detail.
 	LifeCycleDetails *string `mandatory:"false" json:"lifeCycleDetails"`
 
@@ -95,6 +99,9 @@ func (m DrPlanSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetDrPlanLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrPlanLifecycleSubStateEnum(string(m.LifecycleSubState)); !ok && m.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", m.LifecycleSubState, strings.Join(GetDrPlanLifecycleSubStateEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
