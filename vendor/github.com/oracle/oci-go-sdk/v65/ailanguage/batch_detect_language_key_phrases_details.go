@@ -23,6 +23,9 @@ type BatchDetectLanguageKeyPhrasesDetails struct {
 	// List of Documents for detect keyPhrases.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// The endpoint which have to be used for inferencing. If endpointId and compartmentId is provided, then inference will be served from custom model which is mapped to this Endpoint.
 	EndpointId *string `mandatory:"false" json:"endpointId"`
 

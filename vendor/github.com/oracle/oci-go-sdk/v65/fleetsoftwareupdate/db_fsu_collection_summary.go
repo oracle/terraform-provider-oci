@@ -44,6 +44,9 @@ type DbFsuCollectionSummary struct {
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	LastCompletedFsuCycleId *string `mandatory:"false" json:"lastCompletedFsuCycleId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -116,6 +119,11 @@ func (m DbFsuCollectionSummary) GetLifecycleState() CollectionLifecycleStatesEnu
 // GetLifecycleDetails returns LifecycleDetails
 func (m DbFsuCollectionSummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetLastCompletedFsuCycleId returns LastCompletedFsuCycleId
+func (m DbFsuCollectionSummary) GetLastCompletedFsuCycleId() *string {
+	return m.LastCompletedFsuCycleId
 }
 
 // GetFreeformTags returns FreeformTags

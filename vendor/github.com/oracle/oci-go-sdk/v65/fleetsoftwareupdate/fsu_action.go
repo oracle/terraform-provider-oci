@@ -128,6 +128,10 @@ func (m *fsuaction) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := PrecheckAction{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ROLLBACK_MAINTENANCE_CYCLE":
+		mm := RollbackCycleAction{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "STAGE":
 		mm := StageAction{}
 		err = json.Unmarshal(data, &mm)
