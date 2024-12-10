@@ -708,6 +708,9 @@ datascience
 * oci\_datascience\_schedule
 * oci\_datascience\_model\_defined\_metadata\_artifact
 * oci\_datascience\_model\_custom\_metadata\_artifact
+* oci\_datascience\_ml\_application\_implementation
+* oci\_datascience\_ml\_application\_instance
+* oci\_datascience\_ml\_application
 
 dblm
     
