@@ -161,6 +161,44 @@ var exportDatascienceModelCustomMetadataArtifactHints = &tf_export.TerraformReso
 	ResourceAbbreviation: "model_custom_metadata_artifact",
 }
 
+var exportDatascienceMlApplicationImplementationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_ml_application_implementation",
+	DatasourceClass:        "oci_datascience_ml_application_implementations",
+	DatasourceItemsAttr:    "ml_application_implementation_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "ml_application_implementation",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.MlApplicationImplementationLifecycleStateActive),
+		string(oci_datascience.MlApplicationImplementationLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDatascienceMlApplicationInstanceHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_ml_application_instance",
+	DatasourceClass:        "oci_datascience_ml_application_instances",
+	DatasourceItemsAttr:    "ml_application_instance_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "ml_application_instance",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.MlApplicationInstanceLifecycleStateActive),
+		string(oci_datascience.MlApplicationInstanceLifecycleStateNeedsAttention),
+	},
+}
+
+var exportDatascienceMlApplicationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_datascience_ml_application",
+	DatasourceClass:        "oci_datascience_ml_applications",
+	DatasourceItemsAttr:    "ml_application_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "ml_application",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_datascience.MlApplicationLifecycleStateActive),
+	},
+}
+
 var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatascienceProjectHints},
@@ -175,6 +213,9 @@ var datascienceResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatasciencePipelineHints},
 		{TerraformResourceHints: exportDatascienceDataSciencePrivateEndpointHints},
 		{TerraformResourceHints: exportDatascienceScheduleHints},
+		{TerraformResourceHints: exportDatascienceMlApplicationImplementationHints},
+		{TerraformResourceHints: exportDatascienceMlApplicationInstanceHints},
+		{TerraformResourceHints: exportDatascienceMlApplicationHints},
 	},
 	"oci_datascience_model": {
 		{
