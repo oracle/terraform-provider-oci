@@ -17,35 +17,23 @@ import (
 	"strings"
 )
 
-// ExternalMySqlDatabase External database.
-type ExternalMySqlDatabase struct {
+// DatabaseFleetDataguardMetrics List of databases in a dataguard fleet.
+type DatabaseFleetDataguardMetrics struct {
 
-	// OCID of compartment for the External MySQL Database.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
-	// Display Name of the External MySQL Database.
-	DbName *string `mandatory:"true" json:"dbName"`
-
-	// OCID of External MySQL Database.
-	ExternalDatabaseId *string `mandatory:"false" json:"externalDatabaseId"`
-
-	// Indicates database management state.
-	ManagementState ManagementStateEnum `mandatory:"false" json:"managementState,omitempty"`
+	// A list of databases present in dataguard fleet and their dg usage metrics.
+	DataguardMetrics []DataguardMetrics `mandatory:"true" json:"dataguardMetrics"`
 }
 
-func (m ExternalMySqlDatabase) String() string {
+func (m DatabaseFleetDataguardMetrics) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExternalMySqlDatabase) ValidateEnumValue() (bool, error) {
+func (m DatabaseFleetDataguardMetrics) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingManagementStateEnum(string(m.ManagementState)); !ok && m.ManagementState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementState: %s. Supported values are: %s.", m.ManagementState, strings.Join(GetManagementStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

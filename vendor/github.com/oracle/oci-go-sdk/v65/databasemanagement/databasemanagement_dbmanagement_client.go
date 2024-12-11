@@ -4550,6 +4550,172 @@ func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, requ
 	return response, err
 }
 
+// GetDatabaseFleetBackupMetrics Gets the fleet of database and its backup details with backup metrics in a compartment or in a Managed Database Group.
+// databaseHostedIn required query parameter to list either cloud or external databases(CLOUD, EXTERNAL).
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the backup metrics.
+// A default retry strategy applies to this operation GetDatabaseFleetBackupMetrics()
+func (client DbManagementClient) GetDatabaseFleetBackupMetrics(ctx context.Context, request GetDatabaseFleetBackupMetricsRequest) (response GetDatabaseFleetBackupMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseFleetBackupMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseFleetBackupMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseFleetBackupMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseFleetBackupMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseFleetBackupMetricsResponse")
+	}
+	return
+}
+
+// getDatabaseFleetBackupMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDatabaseFleetBackupMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseFleetBackupMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseFleetBackupMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseFleetBackupMetrics/GetDatabaseFleetBackupMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseFleetBackupMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatabaseFleetDataguardMetrics Gets the fleet of databases with dataguard enabled with dg metrics and its standby databases in a compartment or in a Managed Database Group.
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the dg metrics and databases.
+// A default retry strategy applies to this operation GetDatabaseFleetDataguardMetrics()
+func (client DbManagementClient) GetDatabaseFleetDataguardMetrics(ctx context.Context, request GetDatabaseFleetDataguardMetricsRequest) (response GetDatabaseFleetDataguardMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseFleetDataguardMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseFleetDataguardMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseFleetDataguardMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseFleetDataguardMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseFleetDataguardMetricsResponse")
+	}
+	return
+}
+
+// getDatabaseFleetDataguardMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDatabaseFleetDataguardMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseFleetDataguardMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseFleetDataguardMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseFleetDataguardMetrics/GetDatabaseFleetDataguardMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseFleetDataguardMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatabaseFleetHaOverviewMetrics Gets the fleet of databases (CDB) and there backup and HA usage metrics in a compartment or in a Managed Database Group.
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the health metrics.
+// A default retry strategy applies to this operation GetDatabaseFleetHaOverviewMetrics()
+func (client DbManagementClient) GetDatabaseFleetHaOverviewMetrics(ctx context.Context, request GetDatabaseFleetHaOverviewMetricsRequest) (response GetDatabaseFleetHaOverviewMetricsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseFleetHaOverviewMetrics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseFleetHaOverviewMetricsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseFleetHaOverviewMetricsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseFleetHaOverviewMetricsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseFleetHaOverviewMetricsResponse")
+	}
+	return
+}
+
+// getDatabaseFleetHaOverviewMetrics implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDatabaseFleetHaOverviewMetrics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/databaseFleetHaOverviewMetrics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseFleetHaOverviewMetricsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseFleetHaOverviewMetrics/GetDatabaseFleetHaOverviewMetrics"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseFleetHaOverviewMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDatabaseFleetHealthMetrics Gets the health metrics for a fleet of databases in a compartment or in a Managed Database Group.
 // Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the health metrics.
 func (client DbManagementClient) GetDatabaseFleetHealthMetrics(ctx context.Context, request GetDatabaseFleetHealthMetricsRequest) (response GetDatabaseFleetHealthMetricsResponse, err error) {
@@ -4597,6 +4763,60 @@ func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseFleetHealthMetrics/GetDatabaseFleetHealthMetrics"
 		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseFleetHealthMetrics", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDatabaseHaBackupDetails Gets database ha and backup details with metrics and backup history.
+// A default retry strategy applies to this operation GetDatabaseHaBackupDetails()
+func (client DbManagementClient) GetDatabaseHaBackupDetails(ctx context.Context, request GetDatabaseHaBackupDetailsRequest) (response GetDatabaseHaBackupDetailsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDatabaseHaBackupDetails, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDatabaseHaBackupDetailsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDatabaseHaBackupDetailsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDatabaseHaBackupDetailsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDatabaseHaBackupDetailsResponse")
+	}
+	return
+}
+
+// getDatabaseHaBackupDetails implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) getDatabaseHaBackupDetails(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/managedDatabases/{managedDatabaseId}/haBackupDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDatabaseHaBackupDetailsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/DatabaseHaBackupDetails/GetDatabaseHaBackupDetails"
+		err = common.PostProcessServiceError(err, "DbManagement", "GetDatabaseHaBackupDetails", apiReferenceLink)
 		return response, err
 	}
 

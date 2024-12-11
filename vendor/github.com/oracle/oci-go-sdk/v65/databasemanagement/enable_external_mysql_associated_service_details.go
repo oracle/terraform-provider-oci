@@ -17,35 +17,32 @@ import (
 	"strings"
 )
 
-// ExternalMySqlDatabase External database.
-type ExternalMySqlDatabase struct {
+// EnableExternalMysqlAssociatedServiceDetails Details to enable an eMysql Associated Service.
+type EnableExternalMysqlAssociatedServiceDetails struct {
 
-	// OCID of compartment for the External MySQL Database.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// OCID of the Service Resource.
+	ServiceResourceId *string `mandatory:"true" json:"serviceResourceId"`
 
-	// Display Name of the External MySQL Database.
-	DbName *string `mandatory:"true" json:"dbName"`
+	// OCID of the External MySQL Database connector.
+	ConnectorId *string `mandatory:"true" json:"connectorId"`
 
-	// OCID of External MySQL Database.
-	ExternalDatabaseId *string `mandatory:"false" json:"externalDatabaseId"`
-
-	// Indicates database management state.
-	ManagementState ManagementStateEnum `mandatory:"false" json:"managementState,omitempty"`
+	// Name of the Associated Service.
+	ServiceName ExternalMysqlAssociatedServiceNameEnum `mandatory:"true" json:"serviceName"`
 }
 
-func (m ExternalMySqlDatabase) String() string {
+func (m EnableExternalMysqlAssociatedServiceDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExternalMySqlDatabase) ValidateEnumValue() (bool, error) {
+func (m EnableExternalMysqlAssociatedServiceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
-
-	if _, ok := GetMappingManagementStateEnum(string(m.ManagementState)); !ok && m.ManagementState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementState: %s. Supported values are: %s.", m.ManagementState, strings.Join(GetManagementStateEnumStringValues(), ",")))
+	if _, ok := GetMappingExternalMysqlAssociatedServiceNameEnum(string(m.ServiceName)); !ok && m.ServiceName != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ServiceName: %s. Supported values are: %s.", m.ServiceName, strings.Join(GetExternalMysqlAssociatedServiceNameEnumStringValues(), ",")))
 	}
+
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

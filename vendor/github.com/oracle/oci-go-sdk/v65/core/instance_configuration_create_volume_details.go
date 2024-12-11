@@ -94,6 +94,9 @@ type InstanceConfigurationCreateVolumeDetails struct {
 	// Overview of Vault service (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm) and
 	// Using Keys (https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Tasks/usingkeys.htm).
 	XrcKmsKeyId *string `mandatory:"false" json:"xrcKmsKeyId"`
+
+	// Reservations-enabled is a boolean field that allows to enable PR (Persistent Reservation) on a volume.
+	IsReservationsEnabled *bool `mandatory:"false" json:"isReservationsEnabled"`
 }
 
 func (m InstanceConfigurationCreateVolumeDetails) String() string {
@@ -134,6 +137,7 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 		AutotunePolicies        []instanceconfigurationautotunepolicy            `json:"autotunePolicies"`
 		VolumeScope             VolumeVolumeScopeEnum                            `json:"volumeScope"`
 		XrcKmsKeyId             *string                                          `json:"xrcKmsKeyId"`
+		IsReservationsEnabled   *bool                                            `json:"isReservationsEnabled"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -190,6 +194,8 @@ func (m *InstanceConfigurationCreateVolumeDetails) UnmarshalJSON(data []byte) (e
 	m.VolumeScope = model.VolumeScope
 
 	m.XrcKmsKeyId = model.XrcKmsKeyId
+
+	m.IsReservationsEnabled = model.IsReservationsEnabled
 
 	return
 }

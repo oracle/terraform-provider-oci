@@ -82,6 +82,7 @@ const (
 	AttentionLogSummaryMessageUrgencySoon       AttentionLogSummaryMessageUrgencyEnum = "SOON"
 	AttentionLogSummaryMessageUrgencyDeferrable AttentionLogSummaryMessageUrgencyEnum = "DEFERRABLE"
 	AttentionLogSummaryMessageUrgencyInfo       AttentionLogSummaryMessageUrgencyEnum = "INFO"
+	AttentionLogSummaryMessageUrgencyOther      AttentionLogSummaryMessageUrgencyEnum = "OTHER"
 )
 
 var mappingAttentionLogSummaryMessageUrgencyEnum = map[string]AttentionLogSummaryMessageUrgencyEnum{
@@ -89,6 +90,7 @@ var mappingAttentionLogSummaryMessageUrgencyEnum = map[string]AttentionLogSummar
 	"SOON":       AttentionLogSummaryMessageUrgencySoon,
 	"DEFERRABLE": AttentionLogSummaryMessageUrgencyDeferrable,
 	"INFO":       AttentionLogSummaryMessageUrgencyInfo,
+	"OTHER":      AttentionLogSummaryMessageUrgencyOther,
 }
 
 var mappingAttentionLogSummaryMessageUrgencyEnumLowerCase = map[string]AttentionLogSummaryMessageUrgencyEnum{
@@ -96,6 +98,7 @@ var mappingAttentionLogSummaryMessageUrgencyEnumLowerCase = map[string]Attention
 	"soon":       AttentionLogSummaryMessageUrgencySoon,
 	"deferrable": AttentionLogSummaryMessageUrgencyDeferrable,
 	"info":       AttentionLogSummaryMessageUrgencyInfo,
+	"other":      AttentionLogSummaryMessageUrgencyOther,
 }
 
 // GetAttentionLogSummaryMessageUrgencyEnumValues Enumerates the set of values for AttentionLogSummaryMessageUrgencyEnum
@@ -114,6 +117,7 @@ func GetAttentionLogSummaryMessageUrgencyEnumStringValues() []string {
 		"SOON",
 		"DEFERRABLE",
 		"INFO",
+		"OTHER",
 	}
 }
 
@@ -134,6 +138,7 @@ const (
 	AttentionLogSummaryMessageTypeWarning       AttentionLogSummaryMessageTypeEnum = "WARNING"
 	AttentionLogSummaryMessageTypeNotification  AttentionLogSummaryMessageTypeEnum = "NOTIFICATION"
 	AttentionLogSummaryMessageTypeTrace         AttentionLogSummaryMessageTypeEnum = "TRACE"
+	AttentionLogSummaryMessageTypeOther         AttentionLogSummaryMessageTypeEnum = "OTHER"
 )
 
 var mappingAttentionLogSummaryMessageTypeEnum = map[string]AttentionLogSummaryMessageTypeEnum{
@@ -143,6 +148,7 @@ var mappingAttentionLogSummaryMessageTypeEnum = map[string]AttentionLogSummaryMe
 	"WARNING":        AttentionLogSummaryMessageTypeWarning,
 	"NOTIFICATION":   AttentionLogSummaryMessageTypeNotification,
 	"TRACE":          AttentionLogSummaryMessageTypeTrace,
+	"OTHER":          AttentionLogSummaryMessageTypeOther,
 }
 
 var mappingAttentionLogSummaryMessageTypeEnumLowerCase = map[string]AttentionLogSummaryMessageTypeEnum{
@@ -152,6 +158,7 @@ var mappingAttentionLogSummaryMessageTypeEnumLowerCase = map[string]AttentionLog
 	"warning":        AttentionLogSummaryMessageTypeWarning,
 	"notification":   AttentionLogSummaryMessageTypeNotification,
 	"trace":          AttentionLogSummaryMessageTypeTrace,
+	"other":          AttentionLogSummaryMessageTypeOther,
 }
 
 // GetAttentionLogSummaryMessageTypeEnumValues Enumerates the set of values for AttentionLogSummaryMessageTypeEnum
@@ -172,6 +179,7 @@ func GetAttentionLogSummaryMessageTypeEnumStringValues() []string {
 		"WARNING",
 		"NOTIFICATION",
 		"TRACE",
+		"OTHER",
 	}
 }
 

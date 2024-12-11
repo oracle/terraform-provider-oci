@@ -40,6 +40,8 @@ const (
 	OperationTypeStopMaintenanceWindow     OperationTypeEnum = "STOP_MAINTENANCE_WINDOW"
 	OperationTypeUpdateAgentReceiver       OperationTypeEnum = "UPDATE_AGENT_RECEIVER"
 	OperationTypeUpdateResourceTypeConfigs OperationTypeEnum = "UPDATE_RESOURCE_TYPE_CONFIGS"
+	OperationTypeCreateDiagnosticAction    OperationTypeEnum = "CREATE_DIAGNOSTIC_ACTION"
+	OperationTypeDeleteDiagnosticAction    OperationTypeEnum = "DELETE_DIAGNOSTIC_ACTION"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -65,6 +67,8 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"STOP_MAINTENANCE_WINDOW":      OperationTypeStopMaintenanceWindow,
 	"UPDATE_AGENT_RECEIVER":        OperationTypeUpdateAgentReceiver,
 	"UPDATE_RESOURCE_TYPE_CONFIGS": OperationTypeUpdateResourceTypeConfigs,
+	"CREATE_DIAGNOSTIC_ACTION":     OperationTypeCreateDiagnosticAction,
+	"DELETE_DIAGNOSTIC_ACTION":     OperationTypeDeleteDiagnosticAction,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -90,6 +94,8 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"stop_maintenance_window":      OperationTypeStopMaintenanceWindow,
 	"update_agent_receiver":        OperationTypeUpdateAgentReceiver,
 	"update_resource_type_configs": OperationTypeUpdateResourceTypeConfigs,
+	"create_diagnostic_action":     OperationTypeCreateDiagnosticAction,
+	"delete_diagnostic_action":     OperationTypeDeleteDiagnosticAction,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -126,6 +132,8 @@ func GetOperationTypeEnumStringValues() []string {
 		"STOP_MAINTENANCE_WINDOW",
 		"UPDATE_AGENT_RECEIVER",
 		"UPDATE_RESOURCE_TYPE_CONFIGS",
+		"CREATE_DIAGNOSTIC_ACTION",
+		"DELETE_DIAGNOSTIC_ACTION",
 	}
 }
 

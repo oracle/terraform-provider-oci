@@ -205,7 +205,7 @@ const (
 	ContainerSummaryUsagesFineTune       ContainerSummaryUsagesEnum = "FINE_TUNE"
 	ContainerSummaryUsagesEvaluation     ContainerSummaryUsagesEnum = "EVALUATION"
 	ContainerSummaryUsagesBatchInference ContainerSummaryUsagesEnum = "BATCH_INFERENCE"
-	ContainerSummaryUsagesRunner         ContainerSummaryUsagesEnum = "RUNNER"
+	ContainerSummaryUsagesOther          ContainerSummaryUsagesEnum = "OTHER"
 )
 
 var mappingContainerSummaryUsagesEnum = map[string]ContainerSummaryUsagesEnum{
@@ -213,7 +213,7 @@ var mappingContainerSummaryUsagesEnum = map[string]ContainerSummaryUsagesEnum{
 	"FINE_TUNE":       ContainerSummaryUsagesFineTune,
 	"EVALUATION":      ContainerSummaryUsagesEvaluation,
 	"BATCH_INFERENCE": ContainerSummaryUsagesBatchInference,
-	"RUNNER":          ContainerSummaryUsagesRunner,
+	"OTHER":           ContainerSummaryUsagesOther,
 }
 
 var mappingContainerSummaryUsagesEnumLowerCase = map[string]ContainerSummaryUsagesEnum{
@@ -221,7 +221,7 @@ var mappingContainerSummaryUsagesEnumLowerCase = map[string]ContainerSummaryUsag
 	"fine_tune":       ContainerSummaryUsagesFineTune,
 	"evaluation":      ContainerSummaryUsagesEvaluation,
 	"batch_inference": ContainerSummaryUsagesBatchInference,
-	"runner":          ContainerSummaryUsagesRunner,
+	"other":           ContainerSummaryUsagesOther,
 }
 
 // GetContainerSummaryUsagesEnumValues Enumerates the set of values for ContainerSummaryUsagesEnum
@@ -240,7 +240,7 @@ func GetContainerSummaryUsagesEnumStringValues() []string {
 		"FINE_TUNE",
 		"EVALUATION",
 		"BATCH_INFERENCE",
-		"RUNNER",
+		"OTHER",
 	}
 }
 

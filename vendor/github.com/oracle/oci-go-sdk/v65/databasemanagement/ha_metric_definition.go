@@ -17,35 +17,38 @@ import (
 	"strings"
 )
 
-// ExternalMySqlDatabase External database.
-type ExternalMySqlDatabase struct {
+// HaMetricDefinition The metric definition for backup metrics.
+type HaMetricDefinition struct {
 
-	// OCID of compartment for the External MySQL Database.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
+	// The name of the metric.
+	MetricName *string `mandatory:"true" json:"metricName"`
 
-	// Display Name of the External MySQL Database.
-	DbName *string `mandatory:"true" json:"dbName"`
+	// Qualifiers provided in the definition of the returned metric.
+	// Available metadata vary by metric.
+	Metadata map[string]string `mandatory:"true" json:"metadata"`
 
-	// OCID of External MySQL Database.
-	ExternalDatabaseId *string `mandatory:"false" json:"externalDatabaseId"`
+	// Qualifiers provided in the definition of the returned metric.
+	// Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.
+	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
+	Dimensions map[string]string `mandatory:"true" json:"dimensions"`
 
-	// Indicates database management state.
-	ManagementState ManagementStateEnum `mandatory:"false" json:"managementState,omitempty"`
+	// The data point date and time in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
+	Timestamp *common.SDKTime `mandatory:"true" json:"timestamp"`
+
+	// The target value of the metric.
+	Value *float64 `mandatory:"true" json:"value"`
 }
 
-func (m ExternalMySqlDatabase) String() string {
+func (m HaMetricDefinition) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m ExternalMySqlDatabase) ValidateEnumValue() (bool, error) {
+func (m HaMetricDefinition) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingManagementStateEnum(string(m.ManagementState)); !ok && m.ManagementState != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ManagementState: %s. Supported values are: %s.", m.ManagementState, strings.Join(GetManagementStateEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

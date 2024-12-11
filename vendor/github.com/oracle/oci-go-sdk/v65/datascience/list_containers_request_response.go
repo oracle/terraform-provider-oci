@@ -224,7 +224,7 @@ const (
 	ListContainersUsageQueryParamFineTune       ListContainersUsageQueryParamEnum = "FINE_TUNE"
 	ListContainersUsageQueryParamEvaluation     ListContainersUsageQueryParamEnum = "EVALUATION"
 	ListContainersUsageQueryParamBatchInference ListContainersUsageQueryParamEnum = "BATCH_INFERENCE"
-	ListContainersUsageQueryParamRunner         ListContainersUsageQueryParamEnum = "RUNNER"
+	ListContainersUsageQueryParamOther          ListContainersUsageQueryParamEnum = "OTHER"
 )
 
 var mappingListContainersUsageQueryParamEnum = map[string]ListContainersUsageQueryParamEnum{
@@ -232,7 +232,7 @@ var mappingListContainersUsageQueryParamEnum = map[string]ListContainersUsageQue
 	"FINE_TUNE":       ListContainersUsageQueryParamFineTune,
 	"EVALUATION":      ListContainersUsageQueryParamEvaluation,
 	"BATCH_INFERENCE": ListContainersUsageQueryParamBatchInference,
-	"RUNNER":          ListContainersUsageQueryParamRunner,
+	"OTHER":           ListContainersUsageQueryParamOther,
 }
 
 var mappingListContainersUsageQueryParamEnumLowerCase = map[string]ListContainersUsageQueryParamEnum{
@@ -240,7 +240,7 @@ var mappingListContainersUsageQueryParamEnumLowerCase = map[string]ListContainer
 	"fine_tune":       ListContainersUsageQueryParamFineTune,
 	"evaluation":      ListContainersUsageQueryParamEvaluation,
 	"batch_inference": ListContainersUsageQueryParamBatchInference,
-	"runner":          ListContainersUsageQueryParamRunner,
+	"other":           ListContainersUsageQueryParamOther,
 }
 
 // GetListContainersUsageQueryParamEnumValues Enumerates the set of values for ListContainersUsageQueryParamEnum
@@ -259,7 +259,7 @@ func GetListContainersUsageQueryParamEnumStringValues() []string {
 		"FINE_TUNE",
 		"EVALUATION",
 		"BATCH_INFERENCE",
-		"RUNNER",
+		"OTHER",
 	}
 }
 

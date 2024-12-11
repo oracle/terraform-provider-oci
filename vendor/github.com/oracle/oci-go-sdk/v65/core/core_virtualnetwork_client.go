@@ -6619,6 +6619,138 @@ func (client VirtualNetworkClient) createInternalPublicIp(ctx context.Context, r
 	return response, err
 }
 
+// CreateInternalServiceVnicFleet Creates a new internal service vnic fleet
+// A default retry strategy applies to this operation CreateInternalServiceVnicFleet()
+func (client VirtualNetworkClient) CreateInternalServiceVnicFleet(ctx context.Context, request CreateInternalServiceVnicFleetRequest) (response CreateInternalServiceVnicFleetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalServiceVnicFleet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalServiceVnicFleetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalServiceVnicFleetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalServiceVnicFleetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalServiceVnicFleetResponse")
+	}
+	return
+}
+
+// createInternalServiceVnicFleet implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalServiceVnicFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalServiceVnicConfig/internalServiceVnicFleet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateInternalServiceVnicFleetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicFleet/CreateInternalServiceVnicFleet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalServiceVnicFleet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateInternalServiceVnicShard Creates a new internal service vnic shard
+// A default retry strategy applies to this operation CreateInternalServiceVnicShard()
+func (client VirtualNetworkClient) CreateInternalServiceVnicShard(ctx context.Context, request CreateInternalServiceVnicShardRequest) (response CreateInternalServiceVnicShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createInternalServiceVnicShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateInternalServiceVnicShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateInternalServiceVnicShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateInternalServiceVnicShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateInternalServiceVnicShardResponse")
+	}
+	return
+}
+
+// createInternalServiceVnicShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createInternalServiceVnicShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}/internalServiceVnicShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateInternalServiceVnicShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/CreateInternalServiceVnicShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateInternalServiceVnicShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateInternalVcn Creates a new virtual cloud network (VCN). For more information, see
 // VCNs and Subnets (https://docs.cloud.oracle.com/iaas/Content/Network/Tasks/managingVCNs.htm).
 // For the VCN, you specify a list of one or more IPv4 CIDR blocks that meet the following criteria:
@@ -10804,6 +10936,128 @@ func (client VirtualNetworkClient) deleteInternalPublicIp(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/DeleteInternalPublicIp"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalPublicIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalServiceVnicFleet Deletes internal service vnic fleet
+// A default retry strategy applies to this operation DeleteInternalServiceVnicFleet()
+func (client VirtualNetworkClient) DeleteInternalServiceVnicFleet(ctx context.Context, request DeleteInternalServiceVnicFleetRequest) (response DeleteInternalServiceVnicFleetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalServiceVnicFleet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalServiceVnicFleetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalServiceVnicFleetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalServiceVnicFleetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalServiceVnicFleetResponse")
+	}
+	return
+}
+
+// deleteInternalServiceVnicFleet implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalServiceVnicFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteInternalServiceVnicFleetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicFleet/DeleteInternalServiceVnicFleet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalServiceVnicFleet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteInternalServiceVnicShard Deletes internal service vnic shard
+// A default retry strategy applies to this operation DeleteInternalServiceVnicShard()
+func (client VirtualNetworkClient) DeleteInternalServiceVnicShard(ctx context.Context, request DeleteInternalServiceVnicShardRequest) (response DeleteInternalServiceVnicShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteInternalServiceVnicShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteInternalServiceVnicShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteInternalServiceVnicShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteInternalServiceVnicShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteInternalServiceVnicShardResponse")
+	}
+	return
+}
+
+// deleteInternalServiceVnicShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteInternalServiceVnicShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}/internalServiceVnicShard/{serviceVnicShardName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteInternalServiceVnicShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/DeleteInternalServiceVnicShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteInternalServiceVnicShard", apiReferenceLink)
 		return response, err
 	}
 
@@ -18417,6 +18671,128 @@ func (client VirtualNetworkClient) getInternalPublicIp(ctx context.Context, requ
 	return response, err
 }
 
+// GetInternalServiceVnicFleet Fetches internal service vnic fleet
+// A default retry strategy applies to this operation GetInternalServiceVnicFleet()
+func (client VirtualNetworkClient) GetInternalServiceVnicFleet(ctx context.Context, request GetInternalServiceVnicFleetRequest) (response GetInternalServiceVnicFleetResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalServiceVnicFleet, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalServiceVnicFleetResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalServiceVnicFleetResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalServiceVnicFleetResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalServiceVnicFleetResponse")
+	}
+	return
+}
+
+// getInternalServiceVnicFleet implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalServiceVnicFleet(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInternalServiceVnicFleetResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicFleet/GetInternalServiceVnicFleet"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalServiceVnicFleet", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetInternalServiceVnicShard Fetches internal service vnic shard
+// A default retry strategy applies to this operation GetInternalServiceVnicShard()
+func (client VirtualNetworkClient) GetInternalServiceVnicShard(ctx context.Context, request GetInternalServiceVnicShardRequest) (response GetInternalServiceVnicShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getInternalServiceVnicShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetInternalServiceVnicShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetInternalServiceVnicShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetInternalServiceVnicShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetInternalServiceVnicShardResponse")
+	}
+	return
+}
+
+// getInternalServiceVnicShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getInternalServiceVnicShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}/internalServiceVnicShard/{serviceVnicShardName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetInternalServiceVnicShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/GetInternalServiceVnicShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetInternalServiceVnicShard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetInternalSubnet Gets the specified subnet's information.
 func (client VirtualNetworkClient) GetInternalSubnet(ctx context.Context, request GetInternalSubnetRequest) (response GetInternalSubnetResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -25362,6 +25738,128 @@ func (client VirtualNetworkClient) listInternalPublicIps(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/ListInternalPublicIps"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalPublicIps", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalServiceVnicFleets Lists service vnic fleets
+// A default retry strategy applies to this operation ListInternalServiceVnicFleets()
+func (client VirtualNetworkClient) ListInternalServiceVnicFleets(ctx context.Context, request ListInternalServiceVnicFleetsRequest) (response ListInternalServiceVnicFleetsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalServiceVnicFleets, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalServiceVnicFleetsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalServiceVnicFleetsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalServiceVnicFleetsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalServiceVnicFleetsResponse")
+	}
+	return
+}
+
+// listInternalServiceVnicFleets implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalServiceVnicFleets(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalServiceVnicConfig/internalServiceVnicFleet", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInternalServiceVnicFleetsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicFleet/ListInternalServiceVnicFleets"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalServiceVnicFleets", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListInternalServiceVnicShards Lists service vnic shards
+// A default retry strategy applies to this operation ListInternalServiceVnicShards()
+func (client VirtualNetworkClient) ListInternalServiceVnicShards(ctx context.Context, request ListInternalServiceVnicShardsRequest) (response ListInternalServiceVnicShardsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listInternalServiceVnicShards, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListInternalServiceVnicShardsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListInternalServiceVnicShardsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListInternalServiceVnicShardsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListInternalServiceVnicShardsResponse")
+	}
+	return
+}
+
+// listInternalServiceVnicShards implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listInternalServiceVnicShards(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}/internalServiceVnicShard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListInternalServiceVnicShardsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/ListInternalServiceVnicShards"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListInternalServiceVnicShards", apiReferenceLink)
 		return response, err
 	}
 
@@ -33558,6 +34056,67 @@ func (client VirtualNetworkClient) updateInternalPublicIp(ctx context.Context, r
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/UpdateInternalPublicIp"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalPublicIp", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateInternalServiceVnicShard Updates specified internal service vnic shard
+// A default retry strategy applies to this operation UpdateInternalServiceVnicShard()
+func (client VirtualNetworkClient) UpdateInternalServiceVnicShard(ctx context.Context, request UpdateInternalServiceVnicShardRequest) (response UpdateInternalServiceVnicShardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateInternalServiceVnicShard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateInternalServiceVnicShardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateInternalServiceVnicShardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateInternalServiceVnicShardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateInternalServiceVnicShardResponse")
+	}
+	return
+}
+
+// updateInternalServiceVnicShard implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateInternalServiceVnicShard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/internalServiceVnicConfig/internalServiceVnicFleet/{serviceVnicFleetName}/internalServiceVnicShard/{serviceVnicShardName}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateInternalServiceVnicShardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalServiceVnicShard/UpdateInternalServiceVnicShard"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateInternalServiceVnicShard", apiReferenceLink)
 		return response, err
 	}
 

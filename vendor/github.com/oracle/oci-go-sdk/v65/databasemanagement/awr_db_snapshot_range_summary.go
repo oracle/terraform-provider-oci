@@ -28,6 +28,15 @@ type AwrDbSnapshotRangeSummary struct {
 	// The name of the database.
 	DbName *string `mandatory:"true" json:"dbName"`
 
+	// The unique name of the database.
+	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
+
+	// The internal ID of the database where the AWR snapshot data was collected.
+	SrcDbId *string `mandatory:"false" json:"srcDbId"`
+
+	// The name of the database where the AWR snapshot data was collected.
+	SrcDbName *string `mandatory:"false" json:"srcDbName"`
+
 	// The database instance numbers.
 	InstanceList []int `mandatory:"false" json:"instanceList"`
 

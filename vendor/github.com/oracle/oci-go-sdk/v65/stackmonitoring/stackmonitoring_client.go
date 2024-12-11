@@ -276,6 +276,66 @@ func (client StackMonitoringClient) changeConfigCompartment(ctx context.Context,
 	return response, err
 }
 
+// ChangeDiagnosticActionCompartment Moves a DiagnosticAction resource from one compartment identifier to another. When provided,
+// If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation ChangeDiagnosticActionCompartment()
+func (client StackMonitoringClient) ChangeDiagnosticActionCompartment(ctx context.Context, request ChangeDiagnosticActionCompartmentRequest) (response ChangeDiagnosticActionCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeDiagnosticActionCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeDiagnosticActionCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeDiagnosticActionCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeDiagnosticActionCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeDiagnosticActionCompartmentResponse")
+	}
+	return
+}
+
+// changeDiagnosticActionCompartment implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) changeDiagnosticActionCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/diagnosticActions/{diagnosticActionId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeDiagnosticActionCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/ChangeDiagnosticActionCompartment"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ChangeDiagnosticActionCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeMetricExtensionCompartment Moves a Metric Extension resource from one compartment identifier to another.
 // When provided, If-Match is checked against ETag values of the resource.
 func (client StackMonitoringClient) ChangeMetricExtensionCompartment(ctx context.Context, request ChangeMetricExtensionCompartmentRequest) (response ChangeMetricExtensionCompartmentResponse, err error) {
@@ -691,6 +751,68 @@ func (client StackMonitoringClient) createConfig(ctx context.Context, request co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &config{})
+	return response, err
+}
+
+// CreateDiagnosticAction Create a DiagnosticActions. The Diagnostics component(s) of Stack
+// Monitoring will collect information about monitored resource instances.
+// In order to perform Synthesis of the Collected Information and make
+// the result(s) available for consumption (for display or for processing)
+// A default retry strategy applies to this operation CreateDiagnosticAction()
+func (client StackMonitoringClient) CreateDiagnosticAction(ctx context.Context, request CreateDiagnosticActionRequest) (response CreateDiagnosticActionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDiagnosticAction, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDiagnosticActionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDiagnosticActionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDiagnosticActionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDiagnosticActionResponse")
+	}
+	return
+}
+
+// createDiagnosticAction implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) createDiagnosticAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/diagnosticActions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateDiagnosticActionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/CreateDiagnosticAction"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "CreateDiagnosticAction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &diagnosticaction{})
 	return response, err
 }
 
@@ -1320,6 +1442,60 @@ func (client StackMonitoringClient) deleteConfig(ctx context.Context, request co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/Config/DeleteConfig"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteConfig", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDiagnosticAction Deletes a Diagnostic Action
+// A default retry strategy applies to this operation DeleteDiagnosticAction()
+func (client StackMonitoringClient) DeleteDiagnosticAction(ctx context.Context, request DeleteDiagnosticActionRequest) (response DeleteDiagnosticActionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDiagnosticAction, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDiagnosticActionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDiagnosticActionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDiagnosticActionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDiagnosticActionResponse")
+	}
+	return
+}
+
+// deleteDiagnosticAction implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) deleteDiagnosticAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/diagnosticActions/{diagnosticActionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteDiagnosticActionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/DeleteDiagnosticAction"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "DeleteDiagnosticAction", apiReferenceLink)
 		return response, err
 	}
 
@@ -2274,6 +2450,118 @@ func (client StackMonitoringClient) getConfig(ctx context.Context, request commo
 	return response, err
 }
 
+// GetDiagnosticAction API to get the raw data of a diagnostic run  by identifier.
+// A default retry strategy applies to this operation GetDiagnosticAction()
+func (client StackMonitoringClient) GetDiagnosticAction(ctx context.Context, request GetDiagnosticActionRequest) (response GetDiagnosticActionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDiagnosticAction, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDiagnosticActionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDiagnosticActionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDiagnosticActionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDiagnosticActionResponse")
+	}
+	return
+}
+
+// getDiagnosticAction implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getDiagnosticAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/diagnosticActions/{diagnosticActionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDiagnosticActionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/GetDiagnosticAction"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetDiagnosticAction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &diagnosticaction{})
+	return response, err
+}
+
+// GetDiagnosticActionContent API to get the result of diagnostic action by identifier.
+// A default retry strategy applies to this operation GetDiagnosticActionContent()
+func (client StackMonitoringClient) GetDiagnosticActionContent(ctx context.Context, request GetDiagnosticActionContentRequest) (response GetDiagnosticActionContentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.getDiagnosticActionContent, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDiagnosticActionContentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDiagnosticActionContentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDiagnosticActionContentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDiagnosticActionContentResponse")
+	}
+	return
+}
+
+// getDiagnosticActionContent implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) getDiagnosticActionContent(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/diagnosticActions/{diagnosticActionId}/content", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDiagnosticActionContentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/GetDiagnosticActionContent"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "GetDiagnosticActionContent", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetDiscoveryJob API to get the details of discovery Job by identifier.
 // A default retry strategy applies to this operation GetDiscoveryJob()
 func (client StackMonitoringClient) GetDiscoveryJob(ctx context.Context, request GetDiscoveryJobRequest) (response GetDiscoveryJobResponse, err error) {
@@ -2969,6 +3257,60 @@ func (client StackMonitoringClient) listDefinedMonitoringTemplates(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DefinedMonitoringTemplateSummary/ListDefinedMonitoringTemplates"
 		err = common.PostProcessServiceError(err, "StackMonitoring", "ListDefinedMonitoringTemplates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDiagnosticActions Get a list of configurations in a compartment.
+// A default retry strategy applies to this operation ListDiagnosticActions()
+func (client StackMonitoringClient) ListDiagnosticActions(ctx context.Context, request ListDiagnosticActionsRequest) (response ListDiagnosticActionsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDiagnosticActions, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDiagnosticActionsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDiagnosticActionsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDiagnosticActionsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDiagnosticActionsResponse")
+	}
+	return
+}
+
+// listDiagnosticActions implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) listDiagnosticActions(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/diagnosticActions", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDiagnosticActionsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticActionsCollection/ListDiagnosticActions"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "ListDiagnosticActions", apiReferenceLink)
 		return response, err
 	}
 
@@ -4595,6 +4937,60 @@ func (client StackMonitoringClient) updateConfig(ctx context.Context, request co
 	}
 
 	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &config{})
+	return response, err
+}
+
+// UpdateDiagnosticAction API to update a Diagnostic Action identified by a given ocid.
+// A default retry strategy applies to this operation UpdateDiagnosticAction()
+func (client StackMonitoringClient) UpdateDiagnosticAction(ctx context.Context, request UpdateDiagnosticActionRequest) (response UpdateDiagnosticActionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDiagnosticAction, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDiagnosticActionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDiagnosticActionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDiagnosticActionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDiagnosticActionResponse")
+	}
+	return
+}
+
+// updateDiagnosticAction implements the OCIOperation interface (enables retrying operations)
+func (client StackMonitoringClient) updateDiagnosticAction(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/diagnosticActions/{diagnosticActionId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDiagnosticActionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/stack-monitoring/20210330/DiagnosticAction/UpdateDiagnosticAction"
+		err = common.PostProcessServiceError(err, "StackMonitoring", "UpdateDiagnosticAction", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponseWithPolymorphicBody(httpResponse, &response, &diagnosticaction{})
 	return response, err
 }
 
