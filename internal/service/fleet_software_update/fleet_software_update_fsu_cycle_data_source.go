@@ -146,6 +146,10 @@ func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) SetData() error {
 
 		s.D.Set("last_completed_action", v.LastCompletedAction)
 
+		if v.LastCompletedActionId != nil {
+			s.D.Set("last_completed_action_id", *v.LastCompletedActionId)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -155,6 +159,8 @@ func (s *FleetSoftwareUpdateFsuCycleDataSourceCrud) SetData() error {
 			nextActionToExecute = append(nextActionToExecute, NextActionToExecuteDetailsToMap(item))
 		}
 		s.D.Set("next_action_to_execute", nextActionToExecute)
+
+		s.D.Set("rollback_cycle_state", v.RollbackCycleState)
 
 		if v.StageActionSchedule != nil {
 			stageActionScheduleArray := []interface{}{}

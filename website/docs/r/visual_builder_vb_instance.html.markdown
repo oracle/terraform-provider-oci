@@ -42,6 +42,15 @@ resource "oci_visual_builder_vb_instance" "test_vb_instance" {
 	freeform_tags = {"bar-key"= "value"}
 	idcs_open_id = oci_visual_builder_idcs_open.test_idcs_open.id
 	is_visual_builder_enabled = var.vb_instance_is_visual_builder_enabled
+	network_endpoint_details {
+		#Required
+		network_endpoint_type = var.vb_instance_network_endpoint_details_network_endpoint_type
+		subnet_id = oci_core_subnet.test_subnet.id
+
+		#Optional
+		network_security_group_ids = var.vb_instance_network_endpoint_details_network_security_group_ids
+		private_endpoint_ip = var.vb_instance_network_endpoint_details_private_endpoint_ip
+	}
 }
 ```
 
@@ -62,6 +71,11 @@ The following arguments are supported:
 * `freeform_tags` - (Optional) (Updatable) Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `idcs_open_id` - (Optional) (Updatable) Encrypted IDCS Open ID token. This is required for pre-UCPIS cloud accounts, but not UCPIS, hence not a required parameter
 * `is_visual_builder_enabled` - (Optional) (Updatable) Visual Builder is enabled or not.
+* `network_endpoint_details` - (Optional) (Updatable) Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance. 
+	* `network_endpoint_type` - (Required) (Updatable) The type of network endpoint. 
+	* `network_security_group_ids` - (Optional) (Updatable) Network Security Group OCIDs for the Private Endpoint. 
+	* `private_endpoint_ip` - (Optional) The IP address to be assigned to Private Endpoint
+	* `subnet_id` - (Required) (Updatable) The subnet OCID for the private endpoint. 
 * `node_count` - (Required) (Updatable) The number of Nodes
 
 
@@ -76,16 +90,6 @@ The following attributes are exported:
 	* `certificate_secret_id` - Optional OCID of a vault/secret containing a private SSL certificate bundle to be used for the custom hostname. 
 	* `certificate_secret_version` - The secret version used for the certificate-secret-id (if certificate-secret-id is specified). 
 	* `hostname` - A custom hostname to be used for the vb instance URL, in FQDN format.
-* `attachments` - A list of associated attachments to other services 
-	* `is_implicit` - 
-		* If role == `PARENT`, the attached instance was created by this service instance 
-		* If role == `CHILD`, this instance was created from attached instance on behalf of a user 
-	* `target_id` - The OCID of the target instance (which could be any other Oracle Cloud Infrastructure PaaS/SaaS resource), to which this instance is attached.
-	* `target_instance_url` - The dataplane instance URL of the attached instance
-	* `target_role` - The role of the target attachment. 
-		* `PARENT` - The target instance is the parent of this attachment. 
-		* `CHILD` - The target instance is the child of this attachment. 
-	* `target_service_type` - The type of the target instance, such as "FUSION".
 * `compartment_id` - Compartment Identifier.
 * `consumption_model` - The entitlement used for billing purposes.
 * `custom_endpoint` - Details for a custom endpoint for the vb instance.
@@ -96,16 +100,15 @@ The following attributes are exported:
 * `display_name` - Vb Instance Identifier, can be renamed.
 * `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 * `id` - Unique identifier that is immutable on creation.
-* `idcs_info` - Information for IDCS access
-	* `idcs_app_display_name` - The IDCS application display name associated with the instance
-	* `idcs_app_id` - The IDCS application ID associated with the instance
-	* `idcs_app_location_url` - URL for the location of the IDCS Application (used by IDCS APIs)
-	* `idcs_app_name` - The IDCS application name associated with the instance
-	* `instance_primary_audience_url` - The URL used as the primary audience for visual builder flows in this instance type: string 
 * `instance_url` - The Vb Instance URL.
 * `is_visual_builder_enabled` - Visual Builder is enabled or not.
 * `management_nat_gateway_ip` - The NAT gateway IP address for the VB management VCN
 * `management_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder management VCN
+* `network_endpoint_details` - Base representation of a network endpoint. In input payload to update an Visual Builder instance endpoint details, an empty payload will clear out any existing configuration for Public Visual Builder instance. 
+	* `network_endpoint_type` - The type of network endpoint. 
+	* `network_security_group_ids` - Network Security Group OCIDs for the Private Endpoint. 
+	* `private_endpoint_ip` - The IP address to be assigned to Private Endpoint
+	* `subnet_id` - The subnet OCID for the private endpoint. 
 * `node_count` - The number of Nodes
 * `service_nat_gateway_ip` - The NAT gateway IP address for the VB service VCN
 * `service_vcn_id` - The Oracle Cloud ID (OCID) of the Visual Builder service VCN

@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_announcements
 This data source provides the list of Announcements in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Return a list of AnnouncementSummary items
+Return a list of AnnouncementSummary items.
 
 ## Example Usage
 
@@ -28,7 +28,7 @@ data "oci_fleet_apps_management_announcements" "test_announcements" {
 The following arguments are supported:
 
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `summary_contains` - (Optional) Filter the list with summary contains the given value. 
+* `summary_contains` - (Optional) Filter the list of announcements that contains the given summary value. 
 
 
 ## Attributes Reference
@@ -42,21 +42,21 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `items` - List of AnnouncementSummary items
-	* `announcement_end` - Date to end displaying annonucement to user
-	* `announcement_start` - Date to start displaying announcement to user
+	* `announcement_end` - Announcement end date
+	* `announcement_start` - Announcement start date.
 	* `compartment_id` - Tenancy OCID
 	* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 	* `description` - A user-friendly description. To provide some insight about the resource. Avoid entering confidential information. 
-	* `details` - Details of the announcement
+	* `details` - Announcement Details.
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 	* `freeform_tags` - Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only. Example: `{"bar-key": "value"}` 
 	* `id` - The OCID of the resource.
 	* `resource_region` - Associated region
 	* `state` - The lifecycle state of the announcement.
-	* `summary` - Summary of the announcement
+	* `summary` - Summary of the announcement.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 	* `time_created` - The time this resource was created. An RFC3339 formatted datetime string.
 	* `time_updated` - The time this resource was last updated. An RFC3339 formatted datetime string.
-	* `type` - Type of announcement
-	* `url` - URL to the announcement
+	* `type` - Type of announcement.
+	* `url` - URL to the announcement.
 

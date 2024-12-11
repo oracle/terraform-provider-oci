@@ -7,6 +7,11 @@ import (
 	"context"
 	"fmt"
 	"strconv"
+	"strings"
+	"time"
+
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -273,6 +278,11 @@ func DataflowApplicationResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"terminate_runs_on_deletion": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Default:  false,
+			},
 		},
 	}
 }
@@ -332,7 +342,9 @@ func (s *DataflowApplicationResourceCrud) CreatedTarget() []string {
 }
 
 func (s *DataflowApplicationResourceCrud) DeletedPending() []string {
-	return []string{}
+	return []string{
+		string(oci_dataflow.ApplicationLifecycleStateDeleting),
+	}
 }
 
 func (s *DataflowApplicationResourceCrud) DeletedTarget() []string {
@@ -760,15 +772,144 @@ func (s *DataflowApplicationResourceCrud) Update() error {
 }
 
 func (s *DataflowApplicationResourceCrud) Delete() error {
-	request := oci_dataflow.DeleteApplicationRequest{}
-
 	tmp := s.D.Id()
-	request.ApplicationId = &tmp
 
+	// Execute cascading deletion of application and related runs if terminate_runs_on_deletion flag is set to true
+	if s.D.Get("terminate_runs_on_deletion").(bool) {
+
+		request := oci_dataflow.CascadingDeleteApplicationRequest{}
+		request.ApplicationId = &tmp
+		request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
+
+		response, err := s.Client.CascadingDeleteApplication(context.Background(), request)
+
+		if err != nil {
+			return err
+		}
+
+		workRequestId := response.OpcWorkRequestId
+
+		// Wait until the work-request completes
+		_, delWorkRequestErr := cascadingDeleteApplicationWaitForWorkRequest(workRequestId, "application",
+			oci_dataflow.WorkRequestResourceActionTypeDeleted, s.D.Timeout(schema.TimeoutDelete),
+			s.DisableNotFoundRetries, s.Client)
+
+		return delWorkRequestErr
+	}
+
+	// Normal deletion
+	request := oci_dataflow.DeleteApplicationRequest{}
+	request.ApplicationId = &tmp
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "dataflow")
 
 	_, err := s.Client.DeleteApplication(context.Background(), request)
 	return err
+}
+
+func cascadingDeleteApplicationWaitForWorkRequest(wId *string, entityType string,
+	action oci_dataflow.WorkRequestResourceActionTypeEnum,
+	timeout time.Duration, disableFoundRetries bool, client *oci_dataflow.DataFlowClient) (*string, error) {
+
+	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "dataflow")
+	retryPolicy.ShouldRetryOperation = applicationWorkRequestShouldRetryFunc(timeout)
+
+	response := oci_dataflow.GetWorkRequestResponse{}
+	stateConf := &resource.StateChangeConf{
+		Pending: []string{
+			string(oci_dataflow.WorkRequestStatusInprogress),
+			string(oci_dataflow.WorkRequestStatusAccepted),
+			string(oci_dataflow.WorkRequestStatusCancelling),
+		},
+		Target: []string{
+			string(oci_dataflow.WorkRequestStatusSucceeded),
+			string(oci_dataflow.WorkRequestStatusFailed),
+			string(oci_dataflow.WorkRequestStatusCancelled),
+		},
+		Refresh: func() (interface{}, string, error) {
+			var err error
+			response, err = client.GetWorkRequest(context.Background(),
+				oci_dataflow.GetWorkRequestRequest{
+					WorkRequestId: wId,
+					RequestMetadata: oci_common.RequestMetadata{
+						RetryPolicy: retryPolicy,
+					},
+				})
+			wr := &response.WorkRequest
+			return wr, string(wr.Status), err
+		},
+		Timeout: timeout,
+	}
+	if _, e := stateConf.WaitForState(); e != nil {
+		return nil, e
+	}
+
+	var identifier *string
+	// The work request response contains an array of objects that finished the operation
+	for _, res := range response.Resources {
+		if strings.Contains(strings.ToLower(*res.ResourceType), entityType) {
+			if res.ActionType == action {
+				identifier = res.ResourceId
+				break
+			}
+		}
+	}
+
+	// The workrequest may have failed, check for errors if identifier is not found or work failed or got cancelled
+	if identifier == nil ||
+		response.Status == oci_dataflow.WorkRequestStatusFailed ||
+		response.Status == oci_dataflow.WorkRequestStatusCancelled {
+		return nil, getErrorFromDataflowApplicationWorkRequest(client, wId, retryPolicy, entityType, action)
+	}
+
+	return identifier, nil
+}
+
+func applicationWorkRequestShouldRetryFunc(timeout time.Duration) func(response oci_common.OCIOperationResponse) bool {
+	startTime := time.Now()
+	stopTime := startTime.Add(timeout)
+	return func(response oci_common.OCIOperationResponse) bool {
+
+		// Stop after timeout has elapsed
+		if time.Now().After(stopTime) {
+			return false
+		}
+
+		// Make sure we stop on default rules
+		if tfresource.ShouldRetry(response, false, "dataflow", startTime) {
+			return true
+		}
+
+		// Only stop if the time Finished is set
+		if workRequestResponse, ok := response.Response.(oci_dataflow.GetWorkRequestResponse); ok {
+			return workRequestResponse.TimeFinished == nil
+		}
+		return false
+	}
+}
+
+func getErrorFromDataflowApplicationWorkRequest(client *oci_dataflow.DataFlowClient, workId *string,
+	retryPolicy *oci_common.RetryPolicy, entityType string, action oci_dataflow.WorkRequestResourceActionTypeEnum) error {
+	response, err := client.ListWorkRequestErrors(context.Background(),
+		oci_dataflow.ListWorkRequestErrorsRequest{
+			WorkRequestId: workId,
+			RequestMetadata: oci_common.RequestMetadata{
+				RetryPolicy: retryPolicy,
+			},
+		})
+	if err != nil {
+		return err
+	}
+
+	allErrs := make([]string, 0)
+	for _, wrkErr := range response.Items {
+		allErrs = append(allErrs, *wrkErr.Message)
+	}
+	errorMessage := strings.Join(allErrs, "\n")
+
+	workRequestErr := fmt.Errorf("work request did not succeed, workId: %s, entity: %s, action: %s. Message: %s",
+		*workId, entityType, action, errorMessage)
+
+	return workRequestErr
 }
 
 func (s *DataflowApplicationResourceCrud) SetData() error {

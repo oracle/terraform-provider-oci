@@ -88,6 +88,8 @@ func (s *DisasterRecoveryDrPlanDataSourceCrud) SetData() error {
 		s.D.Set("life_cycle_details", *s.Res.LifeCycleDetails)
 	}
 
+	s.D.Set("lifecycle_sub_state", s.Res.LifecycleSubState)
+
 	if s.Res.PeerDrProtectionGroupId != nil {
 		s.D.Set("peer_dr_protection_group_id", *s.Res.PeerDrProtectionGroupId)
 	}
@@ -101,6 +103,10 @@ func (s *DisasterRecoveryDrPlanDataSourceCrud) SetData() error {
 		planGroups = append(planGroups, DrPlanGroupToMap(item))
 	}
 	s.D.Set("plan_groups", planGroups)
+
+	if s.Res.SourcePlanId != nil {
+		s.D.Set("source_plan_id", *s.Res.SourcePlanId)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 

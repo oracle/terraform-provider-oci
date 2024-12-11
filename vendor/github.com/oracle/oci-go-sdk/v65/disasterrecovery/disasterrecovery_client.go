@@ -1475,6 +1475,69 @@ func (client DisasterRecoveryClient) pauseDrPlanExecution(ctx context.Context, r
 	return response, err
 }
 
+// RefreshDrPlan Refresh DR Plan identified by *drPlanId*.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/RefreshDrPlan.go.html to see an example of how to use RefreshDrPlan API.
+// A default retry strategy applies to this operation RefreshDrPlan()
+func (client DisasterRecoveryClient) RefreshDrPlan(ctx context.Context, request RefreshDrPlanRequest) (response RefreshDrPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.refreshDrPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RefreshDrPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RefreshDrPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RefreshDrPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RefreshDrPlanResponse")
+	}
+	return
+}
+
+// refreshDrPlan implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) refreshDrPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drPlans/{drPlanId}/actions/refresh", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RefreshDrPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/RefreshDrPlan"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "RefreshDrPlan", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ResumeDrPlanExecution Resume the DR plan execution identified by *drPlanExecutionId*.
 //
 // # See also
@@ -1831,6 +1894,69 @@ func (client DisasterRecoveryClient) updateDrProtectionGroupRole(ctx context.Con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrProtectionGroup/UpdateDrProtectionGroupRole"
 		err = common.PostProcessServiceError(err, "DisasterRecovery", "UpdateDrProtectionGroupRole", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// VerifyDrPlan Verify DR Plan identified by *drPlanId*.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/disasterrecovery/VerifyDrPlan.go.html to see an example of how to use VerifyDrPlan API.
+// A default retry strategy applies to this operation VerifyDrPlan()
+func (client DisasterRecoveryClient) VerifyDrPlan(ctx context.Context, request VerifyDrPlanRequest) (response VerifyDrPlanResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.verifyDrPlan, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = VerifyDrPlanResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = VerifyDrPlanResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(VerifyDrPlanResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into VerifyDrPlanResponse")
+	}
+	return
+}
+
+// verifyDrPlan implements the OCIOperation interface (enables retrying operations)
+func (client DisasterRecoveryClient) verifyDrPlan(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/drPlans/{drPlanId}/actions/verify", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response VerifyDrPlanResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/disaster-recovery/20220125/DrPlan/VerifyDrPlan"
+		err = common.PostProcessServiceError(err, "DisasterRecovery", "VerifyDrPlan", apiReferenceLink)
 		return response, err
 	}
 

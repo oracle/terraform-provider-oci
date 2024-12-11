@@ -8,7 +8,7 @@ import (
 )
 
 func (s *MysqlMysqlBackupResourceCrud) createDbBackupClientInRegion(region string) error {
-	if s.DestRegionClient == nil {
+	if s.Client == nil {
 		dbBackupClient, err := oci_mysql.NewDbBackupsClientWithConfigurationProvider(*s.Client.ConfigurationProvider())
 		if err != nil {
 			return fmt.Errorf("cannot Create client for the region: %v", err)
@@ -17,9 +17,9 @@ func (s *MysqlMysqlBackupResourceCrud) createDbBackupClientInRegion(region strin
 		if err != nil {
 			return fmt.Errorf("cannot configure client for the region: %v", err)
 		}
-		s.DestRegionClient = &dbBackupClient
+		s.Client = &dbBackupClient
 	}
-	s.DestRegionClient.SetRegion(region)
+	s.Client.SetRegion(region)
 
 	return nil
 }

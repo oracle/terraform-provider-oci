@@ -638,6 +638,7 @@ func TestFleetSoftwareUpdateFsuCollectionResource_DB_23ai(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TF_TEST_Collection_Updated"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "last_completed_fsu_cycle_id", ""),
 				resource.TestCheckResourceAttr(singularDatasourceName, "service_type", "EXACS"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source_major_version", "DB_23"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

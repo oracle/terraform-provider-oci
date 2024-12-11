@@ -19,18 +19,21 @@ type ApplicationLifecycleStateEnum string
 // Set of constants representing the allowable values for ApplicationLifecycleStateEnum
 const (
 	ApplicationLifecycleStateActive   ApplicationLifecycleStateEnum = "ACTIVE"
+	ApplicationLifecycleStateDeleting ApplicationLifecycleStateEnum = "DELETING"
 	ApplicationLifecycleStateDeleted  ApplicationLifecycleStateEnum = "DELETED"
 	ApplicationLifecycleStateInactive ApplicationLifecycleStateEnum = "INACTIVE"
 )
 
 var mappingApplicationLifecycleStateEnum = map[string]ApplicationLifecycleStateEnum{
 	"ACTIVE":   ApplicationLifecycleStateActive,
+	"DELETING": ApplicationLifecycleStateDeleting,
 	"DELETED":  ApplicationLifecycleStateDeleted,
 	"INACTIVE": ApplicationLifecycleStateInactive,
 }
 
 var mappingApplicationLifecycleStateEnumLowerCase = map[string]ApplicationLifecycleStateEnum{
 	"active":   ApplicationLifecycleStateActive,
+	"deleting": ApplicationLifecycleStateDeleting,
 	"deleted":  ApplicationLifecycleStateDeleted,
 	"inactive": ApplicationLifecycleStateInactive,
 }
@@ -48,6 +51,7 @@ func GetApplicationLifecycleStateEnumValues() []ApplicationLifecycleStateEnum {
 func GetApplicationLifecycleStateEnumStringValues() []string {
 	return []string{
 		"ACTIVE",
+		"DELETING",
 		"DELETED",
 		"INACTIVE",
 	}

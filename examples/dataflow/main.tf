@@ -82,8 +82,19 @@ resource "oci_dataflow_pool" "test_pool" {
   freeform_tags = {
     "Department" = "Finance"
   }
-  configurations = [{shape: "VM.Standard2.1", shapeConfig: {ocpus: 1, memoryInGBs: 15}, min: 0, max: 1}]
-  schedules = [{dayOfWeek: "SUNDAY", startTime: 3}]
+  configurations {
+    shape = "VM.Standard2.1"
+    shape_config {
+      ocpus = 1
+      memory_in_gbs = 15
+    }
+    min = 0
+    max = 1
+  }
+  schedules {
+    day_of_week = "SUNDAY"
+    start_time = 3
+  }
 }
 
 resource "oci_dataflow_application" "tf_application" {
@@ -116,6 +127,7 @@ resource "oci_dataflow_application" "tf_application" {
 
   #warehouse_bucket_uri = var.application_warehouse_bucket_uri}"
   metastore_id = var.metastore_id
+  terminate_runs_on_deletion = true
 }
 
 data "oci_dataflow_applications" "tf_applications" {

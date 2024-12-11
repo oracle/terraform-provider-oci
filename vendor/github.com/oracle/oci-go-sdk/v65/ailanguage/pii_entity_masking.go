@@ -20,11 +20,19 @@ import (
 
 // PiiEntityMasking Mask recognized PII entities with different modes.
 type PiiEntityMasking interface {
+
+	// List of offsets/entities to be removed from anonymization.
+	GetExclude() []string
+
+	// To include excluded entities from masking in detected entities or not.
+	GetShouldDetect() *bool
 }
 
 type piientitymasking struct {
-	JsonData []byte
-	Mode     string `json:"mode"`
+	JsonData     []byte
+	Exclude      []string `mandatory:"false" json:"exclude"`
+	ShouldDetect *bool    `mandatory:"false" json:"shouldDetect"`
+	Mode         string   `json:"mode"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -38,6 +46,8 @@ func (m *piientitymasking) UnmarshalJSON(data []byte) error {
 	if err != nil {
 		return err
 	}
+	m.Exclude = s.Model.Exclude
+	m.ShouldDetect = s.Model.ShouldDetect
 	m.Mode = s.Model.Mode
 
 	return err
@@ -68,6 +78,16 @@ func (m *piientitymasking) UnmarshalPolymorphicJSON(data []byte) (interface{}, e
 		common.Logf("Recieved unsupported enum value for PiiEntityMasking: %s.", m.Mode)
 		return *m, nil
 	}
+}
+
+// GetExclude returns Exclude
+func (m piientitymasking) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m piientitymasking) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m piientitymasking) String() string {

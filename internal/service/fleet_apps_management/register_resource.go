@@ -6,12 +6,17 @@ package fleet_apps_management
 import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterResource() {
+	tfresource.RegisterResource("oci_fleet_apps_management_compliance_policy_rule", FleetAppsManagementCompliancePolicyRuleResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_fleet", FleetAppsManagementFleetResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_fleet_credential", FleetAppsManagementFleetCredentialResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_fleet_property", FleetAppsManagementFleetPropertyResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_fleet_resource", FleetAppsManagementFleetResourceResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_maintenance_window", FleetAppsManagementMaintenanceWindowResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_onboarding", FleetAppsManagementOnboardingResource())
+	tfresource.RegisterResource("oci_fleet_apps_management_patch", FleetAppsManagementPatchResource())
+	tfresource.RegisterResource("oci_fleet_apps_management_platform_configuration", FleetAppsManagementPlatformConfigurationResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_property", FleetAppsManagementPropertyResource())
+	tfresource.RegisterResource("oci_fleet_apps_management_runbook", FleetAppsManagementRunbookResource())
 	tfresource.RegisterResource("oci_fleet_apps_management_scheduler_definition", FleetAppsManagementSchedulerDefinitionResource())
+	tfresource.RegisterResource("oci_fleet_apps_management_task_record", FleetAppsManagementTaskRecordResource())
 }

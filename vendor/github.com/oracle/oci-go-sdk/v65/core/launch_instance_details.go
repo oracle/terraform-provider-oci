@@ -195,6 +195,9 @@ type LaunchInstanceDetails struct {
 
 	// The OCID of the Instance Configuration containing instance launch details. Any other fields supplied in this instance launch request will override the details stored in the Instance Configuration for this instance launch.
 	InstanceConfigurationId *string `mandatory:"false" json:"instanceConfigurationId"`
+
+	// List of licensing configurations associated with target launch values.
+	LicensingConfigs []LaunchInstanceLicensingConfig `mandatory:"false" json:"licensingConfigs"`
 }
 
 func (m LaunchInstanceDetails) String() string {
@@ -244,6 +247,7 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 		IsPvEncryptionInTransitEnabled *bool                                    `json:"isPvEncryptionInTransitEnabled"`
 		PlatformConfig                 launchinstanceplatformconfig             `json:"platformConfig"`
 		InstanceConfigurationId        *string                                  `json:"instanceConfigurationId"`
+		LicensingConfigs               []launchinstancelicensingconfig          `json:"licensingConfigs"`
 		AvailabilityDomain             *string                                  `json:"availabilityDomain"`
 		CompartmentId                  *string                                  `json:"compartmentId"`
 	}{}
@@ -335,6 +339,18 @@ func (m *LaunchInstanceDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.InstanceConfigurationId = model.InstanceConfigurationId
 
+	m.LicensingConfigs = make([]LaunchInstanceLicensingConfig, len(model.LicensingConfigs))
+	for i, n := range model.LicensingConfigs {
+		nn, e = n.UnmarshalPolymorphicJSON(n.JsonData)
+		if e != nil {
+			return e
+		}
+		if nn != nil {
+			m.LicensingConfigs[i] = nn.(LaunchInstanceLicensingConfig)
+		} else {
+			m.LicensingConfigs[i] = nil
+		}
+	}
 	m.AvailabilityDomain = model.AvailabilityDomain
 
 	m.CompartmentId = model.CompartmentId

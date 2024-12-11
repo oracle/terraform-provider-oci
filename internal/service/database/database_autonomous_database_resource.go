@@ -702,6 +702,10 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"key_version_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"available_upgrade_versions": {
 				Type:     schema.TypeList,
 				Computed: true,
@@ -1575,6 +1579,13 @@ func updateDatabaseAutonomousDatabase(d *schema.ResourceData, m interface{}) err
 	}
 
 	if _, ok := sync.D.GetOkExists("rotate_key_trigger"); ok && sync.D.HasChange("rotate_key_trigger") {
+		err := sync.RotateAutonomousDatabaseEncryptionKey()
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, ok := sync.D.GetOkExists("key_version_id"); ok && sync.D.HasChange("key_version_id") {
 		err := sync.RotateAutonomousDatabaseEncryptionKey()
 		if err != nil {
 			return err
@@ -6240,6 +6251,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) RotateAutonomousDatabaseEncrypt
 
 	if isDedicated, ok := s.D.GetOkExists("is_dedicated"); !ok || isDedicated.(bool) == false {
 		return fmt.Errorf("Autonomous database is not dedicated")
+	}
+
+	if keyVersionId, ok := s.D.GetOkExists("key_version_id"); ok {
+		tmp := keyVersionId.(string)
+		request.KeyVersionId = &tmp
 	}
 
 	tmp := s.D.Id()

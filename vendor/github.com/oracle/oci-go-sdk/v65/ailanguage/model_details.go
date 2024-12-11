@@ -61,12 +61,36 @@ func (m *modeldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := PreTrainedKeyPhraseExtractionModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRE_TRAINED_TRANSLATION":
+		mm := PreTrainedTranslationModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "PRE_TRAINED_HEALTH_NLU":
 		mm := PreTrainedHealthNluModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PRE_TRAINED_UNIVERSAL":
 		mm := PreTrainedUniversalModel{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PRE_TRAINED_LANGUAGE_DETECTION":
+		mm := PreTrainedLanguageDetectionModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PRE_TRAINED_SENTIMENT_ANALYSIS":
+		mm := PreTrainedSentimentAnalysisModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "TEXT_CLASSIFICATION":
+		mm := TextClassificationModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "HEALTH_NLU":
+		mm := HealthNluModelDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PRE_TRAINED_SUMMARIZATION":
+		mm := PreTrainedSummarization{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "NAMED_ENTITY_RECOGNITION":
@@ -77,28 +101,12 @@ func (m *modeldetails) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 		mm := PiiModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "PRE_TRAINED_LANGUAGE_DETECTION":
-		mm := PreTrainedLanguageDetectionModelDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "PRE_TRAINED_NAMED_ENTITY_RECOGNITION":
 		mm := PreTrainedNamedEntityRecognitionModelDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "PRE_TRAINED_SENTIMENT_ANALYSIS":
-		mm := PreTrainedSentimentAnalysisModelDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
 	case "PRE_TRAINED_TEXT_CLASSIFICATION":
 		mm := PreTrainedTextClassificationModelDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "TEXT_CLASSIFICATION":
-		mm := TextClassificationModelDetails{}
-		err = json.Unmarshal(data, &mm)
-		return mm, err
-	case "PRE_TRAINED_SUMMARIZATION":
-		mm := PreTrainedSummarization{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "PRE_TRAINED_PII":
@@ -145,11 +153,12 @@ const (
 	ModelDetailsModelTypePreTrainedKeyphraseExtraction    ModelDetailsModelTypeEnum = "PRE_TRAINED_KEYPHRASE_EXTRACTION"
 	ModelDetailsModelTypePreTrainedLanguageDetection      ModelDetailsModelTypeEnum = "PRE_TRAINED_LANGUAGE_DETECTION"
 	ModelDetailsModelTypePreTrainedPii                    ModelDetailsModelTypeEnum = "PRE_TRAINED_PII"
-	ModelDetailsModelTypePreTrainedTranslation            ModelDetailsModelTypeEnum = "PRE_TRAINED_TRANSLATION"
 	ModelDetailsModelTypePreTrainedHealthNlu              ModelDetailsModelTypeEnum = "PRE_TRAINED_HEALTH_NLU"
 	ModelDetailsModelTypePreTrainedSummarization          ModelDetailsModelTypeEnum = "PRE_TRAINED_SUMMARIZATION"
 	ModelDetailsModelTypePreTrainedUniversal              ModelDetailsModelTypeEnum = "PRE_TRAINED_UNIVERSAL"
 	ModelDetailsModelTypePii                              ModelDetailsModelTypeEnum = "PII"
+	ModelDetailsModelTypePreTrainedTranslation            ModelDetailsModelTypeEnum = "PRE_TRAINED_TRANSLATION"
+	ModelDetailsModelTypeHealthNlu                        ModelDetailsModelTypeEnum = "HEALTH_NLU"
 )
 
 var mappingModelDetailsModelTypeEnum = map[string]ModelDetailsModelTypeEnum{
@@ -161,11 +170,12 @@ var mappingModelDetailsModelTypeEnum = map[string]ModelDetailsModelTypeEnum{
 	"PRE_TRAINED_KEYPHRASE_EXTRACTION":     ModelDetailsModelTypePreTrainedKeyphraseExtraction,
 	"PRE_TRAINED_LANGUAGE_DETECTION":       ModelDetailsModelTypePreTrainedLanguageDetection,
 	"PRE_TRAINED_PII":                      ModelDetailsModelTypePreTrainedPii,
-	"PRE_TRAINED_TRANSLATION":              ModelDetailsModelTypePreTrainedTranslation,
 	"PRE_TRAINED_HEALTH_NLU":               ModelDetailsModelTypePreTrainedHealthNlu,
 	"PRE_TRAINED_SUMMARIZATION":            ModelDetailsModelTypePreTrainedSummarization,
 	"PRE_TRAINED_UNIVERSAL":                ModelDetailsModelTypePreTrainedUniversal,
 	"PII":                                  ModelDetailsModelTypePii,
+	"PRE_TRAINED_TRANSLATION":              ModelDetailsModelTypePreTrainedTranslation,
+	"HEALTH_NLU":                           ModelDetailsModelTypeHealthNlu,
 }
 
 var mappingModelDetailsModelTypeEnumLowerCase = map[string]ModelDetailsModelTypeEnum{
@@ -177,11 +187,12 @@ var mappingModelDetailsModelTypeEnumLowerCase = map[string]ModelDetailsModelType
 	"pre_trained_keyphrase_extraction":     ModelDetailsModelTypePreTrainedKeyphraseExtraction,
 	"pre_trained_language_detection":       ModelDetailsModelTypePreTrainedLanguageDetection,
 	"pre_trained_pii":                      ModelDetailsModelTypePreTrainedPii,
-	"pre_trained_translation":              ModelDetailsModelTypePreTrainedTranslation,
 	"pre_trained_health_nlu":               ModelDetailsModelTypePreTrainedHealthNlu,
 	"pre_trained_summarization":            ModelDetailsModelTypePreTrainedSummarization,
 	"pre_trained_universal":                ModelDetailsModelTypePreTrainedUniversal,
 	"pii":                                  ModelDetailsModelTypePii,
+	"pre_trained_translation":              ModelDetailsModelTypePreTrainedTranslation,
+	"health_nlu":                           ModelDetailsModelTypeHealthNlu,
 }
 
 // GetModelDetailsModelTypeEnumValues Enumerates the set of values for ModelDetailsModelTypeEnum
@@ -204,11 +215,12 @@ func GetModelDetailsModelTypeEnumStringValues() []string {
 		"PRE_TRAINED_KEYPHRASE_EXTRACTION",
 		"PRE_TRAINED_LANGUAGE_DETECTION",
 		"PRE_TRAINED_PII",
-		"PRE_TRAINED_TRANSLATION",
 		"PRE_TRAINED_HEALTH_NLU",
 		"PRE_TRAINED_SUMMARIZATION",
 		"PRE_TRAINED_UNIVERSAL",
 		"PII",
+		"PRE_TRAINED_TRANSLATION",
+		"HEALTH_NLU",
 	}
 }
 

@@ -42,6 +42,10 @@ func FleetAppsManagementSchedulerDefinitionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"runbook_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -113,6 +117,11 @@ func (s *FleetAppsManagementSchedulerDefinitionsDataSourceCrud) Get() error {
 	if product, ok := s.D.GetOkExists("product"); ok {
 		tmp := product.(string)
 		request.Product = &tmp
+	}
+
+	if runbookId, ok := s.D.GetOkExists("runbook_id"); ok {
+		tmp := runbookId.(string)
+		request.RunbookId = &tmp
 	}
 
 	if state, ok := s.D.GetOkExists("state"); ok {

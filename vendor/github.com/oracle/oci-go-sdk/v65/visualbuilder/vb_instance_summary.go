@@ -11,6 +11,7 @@
 package visualbuilder
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -68,6 +69,8 @@ type VbInstanceSummary struct {
 	// Usage of system tag keys. These predefined keys are scoped to namespaces.
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m VbInstanceSummary) String() string {
@@ -90,6 +93,78 @@ func (m VbInstanceSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *VbInstanceSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		TimeCreated              *common.SDKTime                       `json:"timeCreated"`
+		TimeUpdated              *common.SDKTime                       `json:"timeUpdated"`
+		StateMessage             *string                               `json:"stateMessage"`
+		IsVisualBuilderEnabled   *bool                                 `json:"isVisualBuilderEnabled"`
+		CustomEndpoint           *CustomEndpointDetails                `json:"customEndpoint"`
+		AlternateCustomEndpoints []CustomEndpointDetails               `json:"alternateCustomEndpoints"`
+		ConsumptionModel         VbInstanceSummaryConsumptionModelEnum `json:"consumptionModel"`
+		FreeformTags             map[string]string                     `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}     `json:"definedTags"`
+		SystemTags               map[string]map[string]interface{}     `json:"systemTags"`
+		NetworkEndpointDetails   networkendpointdetails                `json:"networkEndpointDetails"`
+		Id                       *string                               `json:"id"`
+		DisplayName              *string                               `json:"displayName"`
+		CompartmentId            *string                               `json:"compartmentId"`
+		LifecycleState           VbInstanceSummaryLifecycleStateEnum   `json:"lifecycleState"`
+		InstanceUrl              *string                               `json:"instanceUrl"`
+		NodeCount                *int                                  `json:"nodeCount"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.TimeCreated = model.TimeCreated
+
+	m.TimeUpdated = model.TimeUpdated
+
+	m.StateMessage = model.StateMessage
+
+	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.CustomEndpoint = model.CustomEndpoint
+
+	m.AlternateCustomEndpoints = make([]CustomEndpointDetails, len(model.AlternateCustomEndpoints))
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
+	m.ConsumptionModel = model.ConsumptionModel
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.SystemTags = model.SystemTags
+
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.LifecycleState = model.LifecycleState
+
+	m.InstanceUrl = model.InstanceUrl
+
+	m.NodeCount = model.NodeCount
+
+	return
 }
 
 // VbInstanceSummaryLifecycleStateEnum Enum with underlying type: string

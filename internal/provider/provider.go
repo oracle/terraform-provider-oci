@@ -568,19 +568,27 @@ func (p ResourceDataConfigProvider) PrivateRSAKey() (key *rsa.PrivateKey, err er
 }
 func BuildHttpClient() (httpClient *http.Client) {
 	httpClient = &http.Client{
-		Timeout: globalvar.DefaultRequestTimeout,
+		Timeout: getFromEnvVar(globalvar.HTTPRequestTimeOut, globalvar.DefaultRequestTimeout),
 		Transport: &http.Transport{
 			DialContext: (&net.Dialer{
-				Timeout: globalvar.DefaultConnectionTimeout,
+				Timeout: getFromEnvVar(globalvar.DialContextConnectionTimeout, globalvar.DefaultConnectionTimeout),
 			}).DialContext,
-			TLSHandshakeTimeout: globalvar.DefaultTLSHandshakeTimeout,
+			TLSHandshakeTimeout: getFromEnvVar(globalvar.TLSHandshakeTimeout, globalvar.DefaultTLSHandshakeTimeout),
 			TLSClientConfig:     &tls.Config{MinVersion: tls.VersionTLS12},
 			Proxy:               http.ProxyFromEnvironment,
 		},
 	}
 	return
 }
-
+func getFromEnvVar(varName string, defaultValue time.Duration) time.Duration {
+	valueStr := utils.GetEnvSettingWithDefault(varName, fmt.Sprint(defaultValue))
+	duration, err := time.ParseDuration(valueStr)
+	if err != nil {
+		utils.Debugf("ERROR while parsing env variable %s value: %v", varName, err)
+		return defaultValue
+	}
+	return duration
+}
 func UserAgentFromEnv() string {
 
 	userAgentFromEnv, err := schemaMultiEnvDefaultFuncVar([]string{globalvar.UserAgentProviderNameEnv, globalvar.UserAgentSDKNameEnv, globalvar.UserAgentTerraformNameEnv}, globalvar.DefaultUserAgentProviderName)()

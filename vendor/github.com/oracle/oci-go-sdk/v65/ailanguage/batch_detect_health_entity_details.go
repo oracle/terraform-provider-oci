@@ -26,6 +26,9 @@ type BatchDetectHealthEntityDetails struct {
 	// List of Documents for detect health entities.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// List of NLP health ontologies to be linked
 	LinkOntologies []string `mandatory:"false" json:"linkOntologies"`
 

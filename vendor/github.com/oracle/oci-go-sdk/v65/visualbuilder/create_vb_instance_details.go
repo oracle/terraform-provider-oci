@@ -11,6 +11,7 @@
 package visualbuilder
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -52,6 +53,8 @@ type CreateVbInstanceDetails struct {
 
 	// Optional parameter specifying which entitlement to use for billing purposes. Only required if the account possesses more than one entitlement.
 	ConsumptionModel CreateVbInstanceDetailsConsumptionModelEnum `mandatory:"false" json:"consumptionModel,omitempty"`
+
+	NetworkEndpointDetails NetworkEndpointDetails `mandatory:"false" json:"networkEndpointDetails"`
 }
 
 func (m CreateVbInstanceDetails) String() string {
@@ -71,6 +74,60 @@ func (m CreateVbInstanceDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateVbInstanceDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		FreeformTags             map[string]string                           `json:"freeformTags"`
+		DefinedTags              map[string]map[string]interface{}           `json:"definedTags"`
+		IdcsOpenId               *string                                     `json:"idcsOpenId"`
+		IsVisualBuilderEnabled   *bool                                       `json:"isVisualBuilderEnabled"`
+		CustomEndpoint           *CreateCustomEndpointDetails                `json:"customEndpoint"`
+		AlternateCustomEndpoints []CreateCustomEndpointDetails               `json:"alternateCustomEndpoints"`
+		ConsumptionModel         CreateVbInstanceDetailsConsumptionModelEnum `json:"consumptionModel"`
+		NetworkEndpointDetails   networkendpointdetails                      `json:"networkEndpointDetails"`
+		DisplayName              *string                                     `json:"displayName"`
+		CompartmentId            *string                                     `json:"compartmentId"`
+		NodeCount                *int                                        `json:"nodeCount"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.IdcsOpenId = model.IdcsOpenId
+
+	m.IsVisualBuilderEnabled = model.IsVisualBuilderEnabled
+
+	m.CustomEndpoint = model.CustomEndpoint
+
+	m.AlternateCustomEndpoints = make([]CreateCustomEndpointDetails, len(model.AlternateCustomEndpoints))
+	copy(m.AlternateCustomEndpoints, model.AlternateCustomEndpoints)
+	m.ConsumptionModel = model.ConsumptionModel
+
+	nn, e = model.NetworkEndpointDetails.UnmarshalPolymorphicJSON(model.NetworkEndpointDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.NetworkEndpointDetails = nn.(NetworkEndpointDetails)
+	} else {
+		m.NetworkEndpointDetails = nil
+	}
+
+	m.DisplayName = model.DisplayName
+
+	m.CompartmentId = model.CompartmentId
+
+	m.NodeCount = model.NodeCount
+
+	return
 }
 
 // CreateVbInstanceDetailsConsumptionModelEnum Enum with underlying type: string

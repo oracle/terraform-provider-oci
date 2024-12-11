@@ -21,8 +21,24 @@ import (
 // PiiEntityReplace Replace PII entities with a given sequence of characters.
 type PiiEntityReplace struct {
 
+	// List of offsets/entities to be removed from anonymization.
+	Exclude []string `mandatory:"false" json:"exclude"`
+
+	// To include excluded entities from masking in detected entities or not.
+	ShouldDetect *bool `mandatory:"false" json:"shouldDetect"`
+
 	// Replace entities with given sequence of characters. By default PII entity will be replaced with <ENTITY_TYPE>.
 	ReplaceWith *string `mandatory:"false" json:"replaceWith"`
+}
+
+// GetExclude returns Exclude
+func (m PiiEntityReplace) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m PiiEntityReplace) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m PiiEntityReplace) String() string {

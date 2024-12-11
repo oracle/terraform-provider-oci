@@ -280,6 +280,10 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"last_completed_action_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -304,6 +308,10 @@ func FleetSoftwareUpdateFsuCycleResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"rollback_cycle_state": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"state": {
 				Type:     schema.TypeString,
@@ -698,6 +706,10 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 
 		s.D.Set("last_completed_action", v.LastCompletedAction)
 
+		if v.LastCompletedActionId != nil {
+			s.D.Set("last_completed_action_id", *v.LastCompletedActionId)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -707,6 +719,8 @@ func (s *FleetSoftwareUpdateFsuCycleResourceCrud) SetData() error {
 			nextActionToExecute = append(nextActionToExecute, NextActionToExecuteDetailsToMap(item))
 		}
 		s.D.Set("next_action_to_execute", nextActionToExecute)
+
+		s.D.Set("rollback_cycle_state", v.RollbackCycleState)
 
 		if v.StageActionSchedule != nil {
 			stageActionScheduleArray := []interface{}{}
@@ -994,6 +1008,10 @@ func FsuCycleSummaryToMap(obj oci_fleet_software_update.FsuCycleSummary) map[str
 
 	result["last_completed_action"] = string(obj.LastCompletedAction)
 
+	if obj.LastCompletedActionId != nil {
+		result["last_completed_action_id"] = string(*obj.LastCompletedActionId)
+	}
+
 	if obj.LifecycleDetails != nil {
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
@@ -1003,6 +1021,8 @@ func FsuCycleSummaryToMap(obj oci_fleet_software_update.FsuCycleSummary) map[str
 		nextActionToExecute = append(nextActionToExecute, NextActionToExecuteDetailsToMap(item))
 	}
 	result["next_action_to_execute"] = nextActionToExecute
+
+	result["rollback_cycle_state"] = string(obj.RollbackCycleState)
 
 	result["state"] = string(obj.LifecycleState)
 

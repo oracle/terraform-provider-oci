@@ -32,6 +32,10 @@ type CreateDrPlanDetails struct {
 	// Example: `ocid1.drprotectiongroup.oc1..uniqueID`
 	DrProtectionGroupId *string `mandatory:"true" json:"drProtectionGroupId"`
 
+	// The OCID of the source DR plan that should be cloned.
+	// Example: `ocid1.drplan.oc1..uniqueID`
+	SourcePlanId *string `mandatory:"false" json:"sourcePlanId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"Department": "Finance"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`

@@ -13,22 +13,30 @@ const (
 	ResourcePrincipal                     = "ResourcePrincipal"
 	RequestHeaderOpcOboToken              = "opc-obo-token"
 	RequestHeaderOpcHostSerial            = "opc-host-serial"
-	DefaultRequestTimeout                 = 0
-	DefaultConnectionTimeout              = 10 * time.Second
-	DefaultTLSHandshakeTimeout            = 10 * time.Second
-	DefaultUserAgentProviderName          = "Oracle-TerraformProvider"
-	UnknownTerraformCLIVersion            = "unknown"
-	TestTerraformCLIVersion               = "test"
-	UserAgentFormatter                    = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
-	UserAgentProviderNameEnv              = "USER_AGENT_PROVIDER_NAME"
-	UserAgentTerraformNameEnv             = "TF_APPEND_USER_AGENT"
-	UserAgentSDKNameEnv                   = "OCI_SDK_APPEND_USER_AGENT"
-	DomainNameOverrideEnv                 = "domain_name_override"
-	HasCorrectDomainNameEnv               = "has_correct_domain_name"
-	ClientHostOverridesEnv                = "CLIENT_HOST_OVERRIDES"
-	CustomCertLocationEnv                 = "custom_cert_location"
-	AcceptLocalCerts                      = "accept_local_certs"
-	JobOCID                               = "job-ocid"
+
+	//	HTTPRequestTimeout specifies the maximum duration for completing an HTTP request.
+	HTTPRequestTimeOut    = "HTTP_REQUEST_TIMEOUT"
+	DefaultRequestTimeout = 0
+	// DialContextConnectionTimeout defines the timeout for establishing a connection during a network dial operation.
+	DialContextConnectionTimeout = "DIAL_CONTEXT_CONNECTION_TIMEOUT"
+	DefaultConnectionTimeout     = 10 * time.Second
+	// TLSHandshakeTimeout indicates the maximum time allowed for the TLS handshake process.
+	TLSHandshakeTimeout        = "TLS_HANDSHAKE_TIMEOUT"
+	DefaultTLSHandshakeTimeout = 10 * time.Second
+
+	DefaultUserAgentProviderName = "Oracle-TerraformProvider"
+	UnknownTerraformCLIVersion   = "unknown"
+	TestTerraformCLIVersion      = "test"
+	UserAgentFormatter           = "Oracle-GoSDK/%s (go/%s; %s/%s; terraform/%s; terraform-cli/%s) %s/%s"
+	UserAgentProviderNameEnv     = "USER_AGENT_PROVIDER_NAME"
+	UserAgentTerraformNameEnv    = "TF_APPEND_USER_AGENT"
+	UserAgentSDKNameEnv          = "OCI_SDK_APPEND_USER_AGENT"
+	DomainNameOverrideEnv        = "domain_name_override"
+	HasCorrectDomainNameEnv      = "has_correct_domain_name"
+	ClientHostOverridesEnv       = "CLIENT_HOST_OVERRIDES"
+	CustomCertLocationEnv        = "custom_cert_location"
+	AcceptLocalCerts             = "accept_local_certs"
+	JobOCID                      = "job-ocid"
 
 	AuthAttrName                                = "auth"
 	TenancyOcidAttrName                         = "tenancy_ocid"

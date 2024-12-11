@@ -13,6 +13,18 @@ func init() {
 // Custom overrides for generating composite IDs within the resource discovery framework
 
 // Hints for discovering and exporting this resource to configuration and state files
+var exportFleetAppsManagementTaskRecordHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_task_record",
+	DatasourceClass:        "oci_fleet_apps_management_task_records",
+	DatasourceItemsAttr:    "task_record_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "task_record",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.TaskRecordLifecycleStateActive),
+	},
+}
+
 var exportFleetAppsManagementMaintenanceWindowHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_fleet_apps_management_maintenance_window",
 	DatasourceClass:        "oci_fleet_apps_management_maintenance_windows",
@@ -63,11 +75,65 @@ var exportFleetAppsManagementPropertyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportFleetAppsManagementRunbookHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_runbook",
+	DatasourceClass:        "oci_fleet_apps_management_runbooks",
+	DatasourceItemsAttr:    "runbook_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "runbook",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.RunbookLifecycleStateActive),
+		string(oci_fleet_apps_management.RunbookLifecycleStateInactive),
+	},
+}
+
+var exportFleetAppsManagementPlatformConfigurationHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_platform_configuration",
+	DatasourceClass:        "oci_fleet_apps_management_platform_configurations",
+	DatasourceItemsAttr:    "platform_configuration_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "platform_configuration",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.PlatformConfigurationLifecycleStateActive),
+	},
+}
+
+var exportFleetAppsManagementCompliancePolicyRuleHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_compliance_policy_rule",
+	DatasourceClass:        "oci_fleet_apps_management_compliance_policy_rules",
+	DatasourceItemsAttr:    "compliance_policy_rule_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "compliance_policy_rule",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.CompliancePolicyRuleLifecycleStateActive),
+	},
+}
+
+var exportFleetAppsManagementPatchHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_fleet_apps_management_patch",
+	DatasourceClass:        "oci_fleet_apps_management_patches",
+	DatasourceItemsAttr:    "patch_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "patch",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_fleet_apps_management.PatchLifecycleStateActive),
+	},
+}
+
 var fleetAppsManagementResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
+		{TerraformResourceHints: exportFleetAppsManagementTaskRecordHints},
 		{TerraformResourceHints: exportFleetAppsManagementMaintenanceWindowHints},
 		{TerraformResourceHints: exportFleetAppsManagementFleetHints},
 		{TerraformResourceHints: exportFleetAppsManagementSchedulerDefinitionHints},
 		{TerraformResourceHints: exportFleetAppsManagementPropertyHints},
+		{TerraformResourceHints: exportFleetAppsManagementRunbookHints},
+		{TerraformResourceHints: exportFleetAppsManagementPlatformConfigurationHints},
+		{TerraformResourceHints: exportFleetAppsManagementCompliancePolicyRuleHints},
+		{TerraformResourceHints: exportFleetAppsManagementPatchHints},
 	},
 }

@@ -127,7 +127,7 @@ func (s *FleetAppsManagementOnboardingPoliciesDataSourceCrud) SetData() error {
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, OnboardingPolicySummaryToMap(item))
+		items = append(items, OnboardingPolicySummaryToMap(&item))
 	}
 	onboardingPolicy["items"] = items
 
@@ -144,7 +144,7 @@ func (s *FleetAppsManagementOnboardingPoliciesDataSourceCrud) SetData() error {
 	return nil
 }
 
-func OnboardingPolicySummaryToMap(obj oci_fleet_apps_management.OnboardingPolicySummary) map[string]interface{} {
+func OnboardingPolicySummaryToMap(obj *oci_fleet_apps_management.OnboardingPolicySummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
 	if obj.Id != nil {
