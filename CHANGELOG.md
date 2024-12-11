@@ -1,4 +1,4 @@
-## 6.20.0 (Unreleased)
+## 6.20.0 (December 11, 2024)
 
 ### Added
 - Support for Fleet Application Management Service v1.2
