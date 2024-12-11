@@ -20,6 +20,22 @@ import (
 
 // PiiEntityRemove Remove PII entities from output.
 type PiiEntityRemove struct {
+
+	// List of offsets/entities to be removed from anonymization.
+	Exclude []string `mandatory:"false" json:"exclude"`
+
+	// To include excluded entities from masking in detected entities or not.
+	ShouldDetect *bool `mandatory:"false" json:"shouldDetect"`
+}
+
+// GetExclude returns Exclude
+func (m PiiEntityRemove) GetExclude() []string {
+	return m.Exclude
+}
+
+// GetShouldDetect returns ShouldDetect
+func (m PiiEntityRemove) GetShouldDetect() *bool {
+	return m.ShouldDetect
 }
 
 func (m PiiEntityRemove) String() string {

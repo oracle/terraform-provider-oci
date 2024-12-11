@@ -48,6 +48,14 @@ type FsuCycle interface {
 	// In this array all the possible actions will be listed. The first element is the suggested Action.
 	GetNextActionToExecute() []NextActionToExecuteDetails
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the latest Action
+	// in the Exadata Fleet Update Cycle.
+	GetLastCompletedActionId() *string
+
+	// Current rollback cycle state if rollback maintenance cycle action has been attempted.
+	// No value would indicate that the Cycle has not run a rollback maintenance cycle action before.
+	GetRollbackCycleState() RollbackCycleStatesEnum
+
 	// The latest Action type that was completed in the Exadata Fleet Update Cycle.
 	// No value would indicate that the Cycle has not completed any Action yet.
 	GetLastCompletedAction() DetailedActionTypesEnum
@@ -94,6 +102,8 @@ type fsucycle struct {
 	CollectionType        CollectionTypesEnum               `mandatory:"false" json:"collectionType,omitempty"`
 	ExecutingFsuActionId  *string                           `mandatory:"false" json:"executingFsuActionId"`
 	NextActionToExecute   []NextActionToExecuteDetails      `mandatory:"false" json:"nextActionToExecute"`
+	LastCompletedActionId *string                           `mandatory:"false" json:"lastCompletedActionId"`
+	RollbackCycleState    RollbackCycleStatesEnum           `mandatory:"false" json:"rollbackCycleState,omitempty"`
 	LastCompletedAction   DetailedActionTypesEnum           `mandatory:"false" json:"lastCompletedAction,omitempty"`
 	GoalVersionDetails    fsugoalversiondetails             `mandatory:"false" json:"goalVersionDetails"`
 	BatchingStrategy      batchingstrategydetails           `mandatory:"false" json:"batchingStrategy"`
@@ -134,6 +144,8 @@ func (m *fsucycle) UnmarshalJSON(data []byte) error {
 	m.CollectionType = s.Model.CollectionType
 	m.ExecutingFsuActionId = s.Model.ExecutingFsuActionId
 	m.NextActionToExecute = s.Model.NextActionToExecute
+	m.LastCompletedActionId = s.Model.LastCompletedActionId
+	m.RollbackCycleState = s.Model.RollbackCycleState
 	m.LastCompletedAction = s.Model.LastCompletedAction
 	m.GoalVersionDetails = s.Model.GoalVersionDetails
 	m.BatchingStrategy = s.Model.BatchingStrategy
@@ -188,6 +200,16 @@ func (m fsucycle) GetExecutingFsuActionId() *string {
 // GetNextActionToExecute returns NextActionToExecute
 func (m fsucycle) GetNextActionToExecute() []NextActionToExecuteDetails {
 	return m.NextActionToExecute
+}
+
+// GetLastCompletedActionId returns LastCompletedActionId
+func (m fsucycle) GetLastCompletedActionId() *string {
+	return m.LastCompletedActionId
+}
+
+// GetRollbackCycleState returns RollbackCycleState
+func (m fsucycle) GetRollbackCycleState() RollbackCycleStatesEnum {
+	return m.RollbackCycleState
 }
 
 // GetLastCompletedAction returns LastCompletedAction
@@ -290,6 +312,9 @@ func (m fsucycle) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingCollectionTypesEnum(string(m.CollectionType)); !ok && m.CollectionType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for CollectionType: %s. Supported values are: %s.", m.CollectionType, strings.Join(GetCollectionTypesEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingRollbackCycleStatesEnum(string(m.RollbackCycleState)); !ok && m.RollbackCycleState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RollbackCycleState: %s. Supported values are: %s.", m.RollbackCycleState, strings.Join(GetRollbackCycleStatesEnumStringValues(), ",")))
 	}
 	if _, ok := GetMappingDetailedActionTypesEnum(string(m.LastCompletedAction)); !ok && m.LastCompletedAction != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LastCompletedAction: %s. Supported values are: %s.", m.LastCompletedAction, strings.Join(GetDetailedActionTypesEnumStringValues(), ",")))

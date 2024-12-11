@@ -5,8 +5,11 @@ package fleet_apps_management
 
 import (
 	"context"
+	//"fmt"
+	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -31,6 +34,10 @@ func FleetAppsManagementMaintenanceWindowsDataSource() *schema.Resource {
 				Optional: true,
 			},
 			"state": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_schedule_start_greater_than_or_equal_to": {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
@@ -90,6 +97,14 @@ func (s *FleetAppsManagementMaintenanceWindowsDataSourceCrud) Get() error {
 
 	if state, ok := s.D.GetOkExists("state"); ok {
 		request.LifecycleState = oci_fleet_apps_management.MaintenanceWindowLifecycleStateEnum(state.(string))
+	}
+
+	if timeScheduleStartGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_schedule_start_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timeScheduleStartGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimeScheduleStartGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "fleet_apps_management")

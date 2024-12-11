@@ -621,6 +621,70 @@ func (client VbInstanceClient) listWorkRequests(ctx context.Context, request com
 	return response, err
 }
 
+// ReconfigurePrivateEndpointVbInstance Reconfigures the Private Endpoint associated with the private visual builder instance. Use this action in case the Private Endpoint is not working and needs to be reset.
+// The VB instance has to be in ACTIVE state and should be a private instance to perform this operation.
+// If the previous state is not ACTIVE, then the state of the vbInstance will not be changed and a 409 response returned.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/visualbuilder/ReconfigurePrivateEndpointVbInstance.go.html to see an example of how to use ReconfigurePrivateEndpointVbInstance API.
+func (client VbInstanceClient) ReconfigurePrivateEndpointVbInstance(ctx context.Context, request ReconfigurePrivateEndpointVbInstanceRequest) (response ReconfigurePrivateEndpointVbInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.reconfigurePrivateEndpointVbInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReconfigurePrivateEndpointVbInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReconfigurePrivateEndpointVbInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReconfigurePrivateEndpointVbInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReconfigurePrivateEndpointVbInstanceResponse")
+	}
+	return
+}
+
+// reconfigurePrivateEndpointVbInstance implements the OCIOperation interface (enables retrying operations)
+func (client VbInstanceClient) reconfigurePrivateEndpointVbInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/vbInstances/{vbInstanceId}/actions/reconfigurePrivateEndpoint", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReconfigurePrivateEndpointVbInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/visual-builder/20210601/VbInstance/ReconfigurePrivateEndpointVbInstance"
+		err = common.PostProcessServiceError(err, "VbInstance", "ReconfigurePrivateEndpointVbInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RequestSummarizedApplications Summarizes the applications for a vb instance.
 //
 // # See also

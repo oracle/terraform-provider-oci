@@ -19,12 +19,13 @@ type DetailedActionTypesEnum string
 
 // Set of constants representing the allowable values for DetailedActionTypesEnum
 const (
-	DetailedActionTypesStage                   DetailedActionTypesEnum = "STAGE"
-	DetailedActionTypesPrecheckStage           DetailedActionTypesEnum = "PRECHECK_STAGE"
-	DetailedActionTypesPrecheckApply           DetailedActionTypesEnum = "PRECHECK_APPLY"
-	DetailedActionTypesApply                   DetailedActionTypesEnum = "APPLY"
-	DetailedActionTypesRollbackAndRemoveTarget DetailedActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
-	DetailedActionTypesCleanup                 DetailedActionTypesEnum = "CLEANUP"
+	DetailedActionTypesStage                    DetailedActionTypesEnum = "STAGE"
+	DetailedActionTypesPrecheckStage            DetailedActionTypesEnum = "PRECHECK_STAGE"
+	DetailedActionTypesPrecheckApply            DetailedActionTypesEnum = "PRECHECK_APPLY"
+	DetailedActionTypesApply                    DetailedActionTypesEnum = "APPLY"
+	DetailedActionTypesRollbackAndRemoveTarget  DetailedActionTypesEnum = "ROLLBACK_AND_REMOVE_TARGET"
+	DetailedActionTypesCleanup                  DetailedActionTypesEnum = "CLEANUP"
+	DetailedActionTypesRollbackMaintenanceCycle DetailedActionTypesEnum = "ROLLBACK_MAINTENANCE_CYCLE"
 )
 
 var mappingDetailedActionTypesEnum = map[string]DetailedActionTypesEnum{
@@ -34,6 +35,7 @@ var mappingDetailedActionTypesEnum = map[string]DetailedActionTypesEnum{
 	"APPLY":                      DetailedActionTypesApply,
 	"ROLLBACK_AND_REMOVE_TARGET": DetailedActionTypesRollbackAndRemoveTarget,
 	"CLEANUP":                    DetailedActionTypesCleanup,
+	"ROLLBACK_MAINTENANCE_CYCLE": DetailedActionTypesRollbackMaintenanceCycle,
 }
 
 var mappingDetailedActionTypesEnumLowerCase = map[string]DetailedActionTypesEnum{
@@ -43,6 +45,7 @@ var mappingDetailedActionTypesEnumLowerCase = map[string]DetailedActionTypesEnum
 	"apply":                      DetailedActionTypesApply,
 	"rollback_and_remove_target": DetailedActionTypesRollbackAndRemoveTarget,
 	"cleanup":                    DetailedActionTypesCleanup,
+	"rollback_maintenance_cycle": DetailedActionTypesRollbackMaintenanceCycle,
 }
 
 // GetDetailedActionTypesEnumValues Enumerates the set of values for DetailedActionTypesEnum
@@ -63,6 +66,7 @@ func GetDetailedActionTypesEnumStringValues() []string {
 		"APPLY",
 		"ROLLBACK_AND_REMOVE_TARGET",
 		"CLEANUP",
+		"ROLLBACK_MAINTENANCE_CYCLE",
 	}
 }
 

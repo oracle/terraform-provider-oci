@@ -36,6 +36,10 @@ type DrPlanGroup struct {
 	// The list of steps in the group.
 	Steps []DrPlanStep `mandatory:"true" json:"steps"`
 
+	// The DR plan group refresh status.
+	// Example: `GROUP_MODIFIED`
+	RefreshStatus DrPlanGroupRefreshStatusEnum `mandatory:"false" json:"refreshStatus,omitempty"`
+
 	// A flag indicating whether this group should be enabled for execution.
 	// This flag is only applicable to the `USER_DEFINED_PAUSE` group. The flag should be null for the remaining group types.
 	// Example: `true`
@@ -55,6 +59,9 @@ func (m DrPlanGroup) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Type: %s. Supported values are: %s.", m.Type, strings.Join(GetDrPlanGroupTypeEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDrPlanGroupRefreshStatusEnum(string(m.RefreshStatus)); !ok && m.RefreshStatus != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for RefreshStatus: %s. Supported values are: %s.", m.RefreshStatus, strings.Join(GetDrPlanGroupRefreshStatusEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

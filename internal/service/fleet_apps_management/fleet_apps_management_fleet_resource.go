@@ -6,11 +6,14 @@ package fleet_apps_management
 import (
 	"context"
 	"fmt"
+
+	//"log"
 	"strings"
 	"time"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_fleet_apps_management "github.com/oracle/oci-go-sdk/v65/fleetappsmanagement"
@@ -48,6 +51,223 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				//ForceNew: true,
+			},
+			"credentials": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"compartment_id": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"display_name": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+						"entity_specifics": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"credential_level": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"FLEET",
+											"RESOURCE",
+											"TARGET",
+										}, true),
+									},
+
+									// Optional
+									"resource_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"target": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"variables": {
+										Type:     schema.TypeList,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+												"name": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+												"value": {
+													Type:     schema.TypeString,
+													Optional: true,
+													Computed: true,
+													ForceNew: true,
+												},
+
+												// Computed
+											},
+										},
+									},
+
+									// Computed
+								},
+							},
+						},
+						"password": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"credential_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"KEY_ENCRYPTION",
+											"PLAIN_TEXT",
+											"VAULT_SECRET",
+										}, true),
+									},
+
+									// Optional
+									"key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"key_version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"secret_version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+						"user": {
+							Type:     schema.TypeList,
+							Required: true,
+							ForceNew: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"credential_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										ForceNew:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"KEY_ENCRYPTION",
+											"PLAIN_TEXT",
+											"VAULT_SECRET",
+										}, true),
+									},
+
+									// Optional
+									"key_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"key_version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"secret_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"secret_version": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"value": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+									"vault_id": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+										ForceNew: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
 			},
 			"defined_tags": {
 				Type:             schema.TypeMap,
@@ -230,6 +450,8 @@ func FleetAppsManagementFleetResource() *schema.Resource {
 					},
 				},
 			},
+
+			// Computed
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -339,6 +561,23 @@ func (s *FleetAppsManagementFleetResourceCrud) Create() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if credentials, ok := s.D.GetOkExists("credentials"); ok {
+		interfaces := credentials.([]interface{})
+		tmp := make([]oci_fleet_apps_management.AssociatedFleetCredentialDetails, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "credentials", stateDataIndex)
+			converted, err := s.mapToAssociatedFleetCredentialDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("credentials") {
+			request.Credentials = tmp
+		}
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -739,6 +978,55 @@ func (s *FleetAppsManagementFleetResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *FleetAppsManagementFleetResourceCrud) mapToAssociatedFleetCredentialDetails(fieldKeyFormat string) (oci_fleet_apps_management.AssociatedFleetCredentialDetails, error) {
+	result := oci_fleet_apps_management.AssociatedFleetCredentialDetails{}
+
+	if compartmentId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "compartment_id")); ok {
+		tmp := compartmentId.(string)
+		result.CompartmentId = &tmp
+	}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if entitySpecifics, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "entity_specifics")); ok {
+		if tmpList := entitySpecifics.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "entity_specifics"), 0)
+			tmp, err := s.mapToCredentialEntitySpecificDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert entity_specifics, encountered error: %v", err)
+			}
+			result.EntitySpecifics = tmp
+		}
+	}
+
+	if password, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password")); ok {
+		if tmpList := password.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "password"), 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert password, encountered error: %v", err)
+			}
+			result.Password = tmp
+		}
+	}
+
+	if user, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "user")); ok {
+		if tmpList := user.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "user"), 0)
+			tmp, err := s.mapToCredentialDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert user, encountered error: %v", err)
+			}
+			result.User = tmp
+		}
+	}
+
+	return result, nil
+}
+
 func AssociatedFleetCredentialDetailsToMap(obj oci_fleet_apps_management.AssociatedFleetCredentialDetails) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -886,6 +1174,114 @@ func ConditionToMap(obj oci_fleet_apps_management.Condition) map[string]interfac
 	}
 
 	return result
+}
+
+func (s *FleetAppsManagementFleetResourceCrud) mapToCredentialDetails(fieldKeyFormat string) (oci_fleet_apps_management.CredentialDetails, error) {
+	var baseObject oci_fleet_apps_management.CredentialDetails
+	//discriminator
+	credentialTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_type"))
+	var credentialType string
+	if ok {
+		credentialType = credentialTypeRaw.(string)
+	} else {
+		credentialType = "" // default value
+	}
+	switch strings.ToLower(credentialType) {
+	case strings.ToLower("KEY_ENCRYPTION"):
+		details := oci_fleet_apps_management.KeyEncryptionCredentialDetails{}
+		if keyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_id")); ok {
+			tmp := keyId.(string)
+			details.KeyId = &tmp
+		}
+		if keyVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "key_version")); ok {
+			tmp := keyVersion.(string)
+			details.KeyVersion = &tmp
+		}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			tmp := value.(string)
+			details.Value = &tmp
+		}
+		if vaultId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "vault_id")); ok {
+			tmp := vaultId.(string)
+			details.VaultId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("PLAIN_TEXT"):
+		details := oci_fleet_apps_management.PlainTextCredentialDetails{}
+		if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+			tmp := value.(string)
+			details.Value = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("VAULT_SECRET"):
+		details := oci_fleet_apps_management.VaultSecretCredentialDetails{}
+		if secretId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_id")); ok {
+			tmp := secretId.(string)
+			details.SecretId = &tmp
+		}
+		if secretVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "secret_version")); ok {
+			tmp := secretVersion.(string)
+			details.SecretVersion = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown credential_type '%v' was specified", credentialType)
+	}
+	return baseObject, nil
+}
+
+func (s *FleetAppsManagementFleetResourceCrud) mapToCredentialEntitySpecificDetails(fieldKeyFormat string) (oci_fleet_apps_management.CredentialEntitySpecificDetails, error) {
+	var baseObject oci_fleet_apps_management.CredentialEntitySpecificDetails
+	//discriminator
+	credentialLevelRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "credential_level"))
+	var credentialLevel string
+	if ok {
+		credentialLevel = credentialLevelRaw.(string)
+	} else {
+		credentialLevel = "" // default value
+	}
+	switch strings.ToLower(credentialLevel) {
+	case strings.ToLower("FLEET"):
+		details := oci_fleet_apps_management.FleetCredentialEntitySpecificDetails{}
+		if variables, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "variables")); ok {
+			interfaces := variables.([]interface{})
+			tmp := make([]oci_fleet_apps_management.Variable, len(interfaces))
+			for i := range interfaces {
+				stateDataIndex := i
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "variables"), stateDataIndex)
+				converted, err := s.mapToVariable(fieldKeyFormatNextLevel)
+				if err != nil {
+					return details, err
+				}
+				tmp[i] = converted
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "variables")) {
+				details.Variables = tmp
+			}
+		}
+		baseObject = details
+	case strings.ToLower("RESOURCE"):
+		details := oci_fleet_apps_management.ResourceCredentialEntitySpecificDetails{}
+		if resourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_id")); ok {
+			tmp := resourceId.(string)
+			details.ResourceId = &tmp
+		}
+		baseObject = details
+	case strings.ToLower("TARGET"):
+		details := oci_fleet_apps_management.TargetCredentialEntitySpecificDetails{}
+		if resourceId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "resource_id")); ok {
+			tmp := resourceId.(string)
+			details.ResourceId = &tmp
+		}
+		if target, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "target")); ok {
+			tmp := target.(string)
+			details.Target = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown credential_level '%v' was specified", credentialLevel)
+	}
+	return baseObject, nil
 }
 
 func FleetSummaryToMap(obj oci_fleet_apps_management.FleetSummary) map[string]interface{} {
@@ -1125,4 +1521,20 @@ func SelectionCriteriaToMap(obj *oci_fleet_apps_management.SelectionCriteria) ma
 	result["rules"] = rules
 
 	return result
+}
+
+func (s *FleetAppsManagementFleetResourceCrud) mapToVariable(fieldKeyFormat string) (oci_fleet_apps_management.Variable, error) {
+	result := oci_fleet_apps_management.Variable{}
+
+	if name, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "name")); ok {
+		tmp := name.(string)
+		result.Name = &tmp
+	}
+
+	if value, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "value")); ok {
+		tmp := value.(string)
+		result.Value = &tmp
+	}
+
+	return result, nil
 }

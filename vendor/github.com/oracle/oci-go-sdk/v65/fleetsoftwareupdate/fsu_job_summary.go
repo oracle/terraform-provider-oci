@@ -135,6 +135,10 @@ func (m *fsujobsummary) UnmarshalPolymorphicJSON(data []byte) (interface{}, erro
 		mm := ApplyFsuJobSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "ROLLBACK_MAINTENANCE_CYCLE":
+		mm := RollbackCycleFsuJobSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CLEANUP":
 		mm := CleanupFsuJobSummary{}
 		err = json.Unmarshal(data, &mm)

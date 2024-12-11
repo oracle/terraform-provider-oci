@@ -46,6 +46,9 @@ type DbCollection struct {
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	LastCompletedFsuCycleId *string `mandatory:"false" json:"lastCompletedFsuCycleId"`
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	FreeformTags map[string]string `mandatory:"false" json:"freeformTags"`
@@ -120,6 +123,11 @@ func (m DbCollection) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
 }
 
+// GetLastCompletedFsuCycleId returns LastCompletedFsuCycleId
+func (m DbCollection) GetLastCompletedFsuCycleId() *string {
+	return m.LastCompletedFsuCycleId
+}
+
 // GetFreeformTags returns FreeformTags
 func (m DbCollection) GetFreeformTags() map[string]string {
 	return m.FreeformTags
@@ -177,21 +185,22 @@ func (m DbCollection) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DbCollection) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ActiveFsuCycle     *ActiveCycleDetails               `json:"activeFsuCycle"`
-		TargetCount        *int                              `json:"targetCount"`
-		TimeUpdated        *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails   *string                           `json:"lifecycleDetails"`
-		FreeformTags       map[string]string                 `json:"freeformTags"`
-		DefinedTags        map[string]map[string]interface{} `json:"definedTags"`
-		SystemTags         map[string]map[string]interface{} `json:"systemTags"`
-		Id                 *string                           `json:"id"`
-		DisplayName        *string                           `json:"displayName"`
-		ServiceType        CollectionServiceTypesEnum        `json:"serviceType"`
-		CompartmentId      *string                           `json:"compartmentId"`
-		TimeCreated        *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState     CollectionLifecycleStatesEnum     `json:"lifecycleState"`
-		SourceMajorVersion DbSourceMajorVersionsEnum         `json:"sourceMajorVersion"`
-		FleetDiscovery     dbfleetdiscoverydetails           `json:"fleetDiscovery"`
+		ActiveFsuCycle          *ActiveCycleDetails               `json:"activeFsuCycle"`
+		TargetCount             *int                              `json:"targetCount"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails        *string                           `json:"lifecycleDetails"`
+		LastCompletedFsuCycleId *string                           `json:"lastCompletedFsuCycleId"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		Id                      *string                           `json:"id"`
+		DisplayName             *string                           `json:"displayName"`
+		ServiceType             CollectionServiceTypesEnum        `json:"serviceType"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState          CollectionLifecycleStatesEnum     `json:"lifecycleState"`
+		SourceMajorVersion      DbSourceMajorVersionsEnum         `json:"sourceMajorVersion"`
+		FleetDiscovery          dbfleetdiscoverydetails           `json:"fleetDiscovery"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -206,6 +215,8 @@ func (m *DbCollection) UnmarshalJSON(data []byte) (e error) {
 	m.TimeUpdated = model.TimeUpdated
 
 	m.LifecycleDetails = model.LifecycleDetails
+
+	m.LastCompletedFsuCycleId = model.LastCompletedFsuCycleId
 
 	m.FreeformTags = model.FreeformTags
 

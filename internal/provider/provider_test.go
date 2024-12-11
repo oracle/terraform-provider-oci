@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"crypto/tls"
+	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -874,6 +875,47 @@ func TestUnitUserAgentFromEnv(t *testing.T) {
 				return tt.mock
 			}
 			assert.Equalf(t, tt.want, UserAgentFromEnv(), tt.name)
+		})
+	}
+}
+
+func TestUnitGetFromEnvVar(t *testing.T) {
+	varName := "TEST_ENV_VAR"
+	defaultValue := 5 * time.Second
+
+	tests := []struct {
+		name          string
+		envValue      string
+		expectedValue time.Duration
+	}{
+		{
+			name:          "Valid duration in environment variable",
+			envValue:      "10s",
+			expectedValue: 10 * time.Second,
+		},
+		{
+			name:          "Invalid duration in environment variable",
+			envValue:      "invalid",
+			expectedValue: defaultValue, // Should fall back to default value
+		},
+		{
+			name:          "Empty environment variable",
+			envValue:      "",
+			expectedValue: defaultValue, // Should fall back to default value
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			// Set the environment variable
+			os.Setenv(varName, tt.envValue)
+			defer os.Unsetenv(varName) // Clean up after the test
+
+			// Call the function
+			result := getFromEnvVar(varName, defaultValue)
+
+			// Assert the result
+			assert.Equal(t, tt.expectedValue, result, fmt.Sprintf("Expected %v, but got %v", tt.expectedValue, result))
 		})
 	}
 }
