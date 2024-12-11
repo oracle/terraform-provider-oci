@@ -72,11 +72,11 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 	}
 	s.D.Set("alternate_custom_endpoints", alternateCustomEndpoints)
 
-	attachments := []interface{}{}
-	for _, item := range s.Res.Attachments {
-		attachments = append(attachments, AttachmentDetailsToMap(item))
-	}
-	s.D.Set("attachments", attachments)
+	//attachments := []interface{}{}
+	//for _, item := range s.Res.Attachments {
+	//	attachments = append(attachments, AttachmentDetailsToMap(item))
+	//}
+	//s.D.Set("attachments", attachments)
 
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
@@ -100,11 +100,11 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
-	if s.Res.IdcsInfo != nil {
-		s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
-	} else {
-		s.D.Set("idcs_info", nil)
-	}
+	//if s.Res.IdcsInfo != nil {
+	//	s.D.Set("idcs_info", []interface{}{IdcsInfoDetailsToMap(s.Res.IdcsInfo)})
+	//} else {
+	//	s.D.Set("idcs_info", nil)
+	//}
 
 	if s.Res.InstanceUrl != nil {
 		s.D.Set("instance_url", *s.Res.InstanceUrl)
@@ -120,6 +120,16 @@ func (s *VisualBuilderVbInstanceDataSourceCrud) SetData() error {
 
 	if s.Res.ManagementVcnId != nil {
 		s.D.Set("management_vcn_id", *s.Res.ManagementVcnId)
+	}
+
+	if s.Res.NetworkEndpointDetails != nil {
+		networkEndpointDetailsArray := []interface{}{}
+		if networkEndpointDetailsMap := NetworkEndpointDetailsToMap(&s.Res.NetworkEndpointDetails, true); networkEndpointDetailsMap != nil {
+			networkEndpointDetailsArray = append(networkEndpointDetailsArray, networkEndpointDetailsMap)
+		}
+		s.D.Set("network_endpoint_details", networkEndpointDetailsArray)
+	} else {
+		s.D.Set("network_endpoint_details", nil)
 	}
 
 	if s.Res.NodeCount != nil {

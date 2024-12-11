@@ -262,6 +262,10 @@ func FleetSoftwareUpdateFsuCollectionResource() *schema.Resource {
 					},
 				},
 			},
+			"last_completed_fsu_cycle_id": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -621,6 +625,10 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) SetData() error {
 			s.D.Set("id", *v.Id)
 		}
 
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
+		}
+
 		if v.LifecycleDetails != nil {
 			s.D.Set("lifecycle_details", *v.LifecycleDetails)
 		}
@@ -681,6 +689,10 @@ func (s *FleetSoftwareUpdateFsuCollectionResourceCrud) SetData() error {
 
 		if v.Id != nil {
 			s.D.Set("id", *v.Id)
+		}
+
+		if v.LastCompletedFsuCycleId != nil {
+			s.D.Set("last_completed_fsu_cycle_id", *v.LastCompletedFsuCycleId)
 		}
 
 		if v.LifecycleDetails != nil {

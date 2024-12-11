@@ -61,6 +61,9 @@ type ListDrPlansRequest struct {
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
 
+	// A filter to return only DR plans that match the given lifecycle sub-state.
+	LifecycleSubState ListDrPlansLifecycleSubStateEnum `mandatory:"false" contributesTo:"query" name:"lifecycleSubState" omitEmpty:"true"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata
@@ -108,6 +111,9 @@ func (request ListDrPlansRequest) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingListDrPlansSortByEnum(string(request.SortBy)); !ok && request.SortBy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortBy: %s. Supported values are: %s.", request.SortBy, strings.Join(GetListDrPlansSortByEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingListDrPlansLifecycleSubStateEnum(string(request.LifecycleSubState)); !ok && request.LifecycleSubState != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleSubState: %s. Supported values are: %s.", request.LifecycleSubState, strings.Join(GetListDrPlansLifecycleSubStateEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -340,5 +346,55 @@ func GetListDrPlansSortByEnumStringValues() []string {
 // GetMappingListDrPlansSortByEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingListDrPlansSortByEnum(val string) (ListDrPlansSortByEnum, bool) {
 	enum, ok := mappingListDrPlansSortByEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// ListDrPlansLifecycleSubStateEnum Enum with underlying type: string
+type ListDrPlansLifecycleSubStateEnum string
+
+// Set of constants representing the allowable values for ListDrPlansLifecycleSubStateEnum
+const (
+	ListDrPlansLifecycleSubStateNeedsRefresh      ListDrPlansLifecycleSubStateEnum = "NEEDS_REFRESH"
+	ListDrPlansLifecycleSubStateNeedsVerification ListDrPlansLifecycleSubStateEnum = "NEEDS_VERIFICATION"
+	ListDrPlansLifecycleSubStateRefreshing        ListDrPlansLifecycleSubStateEnum = "REFRESHING"
+	ListDrPlansLifecycleSubStateVerifying         ListDrPlansLifecycleSubStateEnum = "VERIFYING"
+)
+
+var mappingListDrPlansLifecycleSubStateEnum = map[string]ListDrPlansLifecycleSubStateEnum{
+	"NEEDS_REFRESH":      ListDrPlansLifecycleSubStateNeedsRefresh,
+	"NEEDS_VERIFICATION": ListDrPlansLifecycleSubStateNeedsVerification,
+	"REFRESHING":         ListDrPlansLifecycleSubStateRefreshing,
+	"VERIFYING":          ListDrPlansLifecycleSubStateVerifying,
+}
+
+var mappingListDrPlansLifecycleSubStateEnumLowerCase = map[string]ListDrPlansLifecycleSubStateEnum{
+	"needs_refresh":      ListDrPlansLifecycleSubStateNeedsRefresh,
+	"needs_verification": ListDrPlansLifecycleSubStateNeedsVerification,
+	"refreshing":         ListDrPlansLifecycleSubStateRefreshing,
+	"verifying":          ListDrPlansLifecycleSubStateVerifying,
+}
+
+// GetListDrPlansLifecycleSubStateEnumValues Enumerates the set of values for ListDrPlansLifecycleSubStateEnum
+func GetListDrPlansLifecycleSubStateEnumValues() []ListDrPlansLifecycleSubStateEnum {
+	values := make([]ListDrPlansLifecycleSubStateEnum, 0)
+	for _, v := range mappingListDrPlansLifecycleSubStateEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetListDrPlansLifecycleSubStateEnumStringValues Enumerates the set of values in String for ListDrPlansLifecycleSubStateEnum
+func GetListDrPlansLifecycleSubStateEnumStringValues() []string {
+	return []string{
+		"NEEDS_REFRESH",
+		"NEEDS_VERIFICATION",
+		"REFRESHING",
+		"VERIFYING",
+	}
+}
+
+// GetMappingListDrPlansLifecycleSubStateEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingListDrPlansLifecycleSubStateEnum(val string) (ListDrPlansLifecycleSubStateEnum, bool) {
+	enum, ok := mappingListDrPlansLifecycleSubStateEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

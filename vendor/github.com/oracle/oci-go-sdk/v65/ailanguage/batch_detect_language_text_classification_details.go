@@ -23,6 +23,9 @@ type BatchDetectLanguageTextClassificationDetails struct {
 	// List of Documents for detect text classification.
 	Documents []TextDocument `mandatory:"true" json:"documents"`
 
+	// Unique name across user tenancy in a region to identify an endpoint to be used for inferencing.
+	Alias *string `mandatory:"false" json:"alias"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment that calls the API, inference will be served from pre trained model
 	CompartmentId *string `mandatory:"false" json:"compartmentId"`
 

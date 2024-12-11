@@ -50,6 +50,9 @@ type FsuCollectionSummary interface {
 	// For example, can be used to provide actionable information for a resource in Failed state.
 	GetLifecycleDetails() *string
 
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of last completed FSU Cycle.
+	GetLastCompletedFsuCycleId() *string
+
 	// Simple key-value pair that is applied without any predefined name, type or scope. Exists for cross-compatibility only.
 	// Example: `{"bar-key": "value"}`
 	GetFreeformTags() map[string]string
@@ -64,21 +67,22 @@ type FsuCollectionSummary interface {
 }
 
 type fsucollectionsummary struct {
-	JsonData         []byte
-	ActiveFsuCycle   *ActiveCycleDetails               `mandatory:"false" json:"activeFsuCycle"`
-	TargetCount      *int                              `mandatory:"false" json:"targetCount"`
-	TimeUpdated      *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
-	LifecycleDetails *string                           `mandatory:"false" json:"lifecycleDetails"`
-	FreeformTags     map[string]string                 `mandatory:"false" json:"freeformTags"`
-	DefinedTags      map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
-	SystemTags       map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
-	Id               *string                           `mandatory:"true" json:"id"`
-	DisplayName      *string                           `mandatory:"true" json:"displayName"`
-	ServiceType      CollectionServiceTypesEnum        `mandatory:"true" json:"serviceType"`
-	CompartmentId    *string                           `mandatory:"true" json:"compartmentId"`
-	TimeCreated      *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
-	LifecycleState   CollectionLifecycleStatesEnum     `mandatory:"true" json:"lifecycleState"`
-	Type             string                            `json:"type"`
+	JsonData                []byte
+	ActiveFsuCycle          *ActiveCycleDetails               `mandatory:"false" json:"activeFsuCycle"`
+	TargetCount             *int                              `mandatory:"false" json:"targetCount"`
+	TimeUpdated             *common.SDKTime                   `mandatory:"false" json:"timeUpdated"`
+	LifecycleDetails        *string                           `mandatory:"false" json:"lifecycleDetails"`
+	LastCompletedFsuCycleId *string                           `mandatory:"false" json:"lastCompletedFsuCycleId"`
+	FreeformTags            map[string]string                 `mandatory:"false" json:"freeformTags"`
+	DefinedTags             map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
+	SystemTags              map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+	Id                      *string                           `mandatory:"true" json:"id"`
+	DisplayName             *string                           `mandatory:"true" json:"displayName"`
+	ServiceType             CollectionServiceTypesEnum        `mandatory:"true" json:"serviceType"`
+	CompartmentId           *string                           `mandatory:"true" json:"compartmentId"`
+	TimeCreated             *common.SDKTime                   `mandatory:"true" json:"timeCreated"`
+	LifecycleState          CollectionLifecycleStatesEnum     `mandatory:"true" json:"lifecycleState"`
+	Type                    string                            `json:"type"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -102,6 +106,7 @@ func (m *fsucollectionsummary) UnmarshalJSON(data []byte) error {
 	m.TargetCount = s.Model.TargetCount
 	m.TimeUpdated = s.Model.TimeUpdated
 	m.LifecycleDetails = s.Model.LifecycleDetails
+	m.LastCompletedFsuCycleId = s.Model.LastCompletedFsuCycleId
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
 	m.SystemTags = s.Model.SystemTags
@@ -151,6 +156,11 @@ func (m fsucollectionsummary) GetTimeUpdated() *common.SDKTime {
 // GetLifecycleDetails returns LifecycleDetails
 func (m fsucollectionsummary) GetLifecycleDetails() *string {
 	return m.LifecycleDetails
+}
+
+// GetLastCompletedFsuCycleId returns LastCompletedFsuCycleId
+func (m fsucollectionsummary) GetLastCompletedFsuCycleId() *string {
+	return m.LastCompletedFsuCycleId
 }
 
 // GetFreeformTags returns FreeformTags

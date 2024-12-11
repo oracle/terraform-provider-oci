@@ -10,7 +10,7 @@ description: |-
 # Data Source: oci_fleet_apps_management_fleet_products
 This data source provides the list of Fleet Products in Oracle Cloud Infrastructure Fleet Apps Management service.
 
-Returns a list of FleetProducts.
+Returns a list of products associated with the confirmed targets.
 
 
 ## Example Usage
@@ -34,8 +34,8 @@ The following arguments are supported:
 
 * `compartment_id` - (Optional) The ID of the compartment in which to list resources.
 * `display_name` - (Optional) A filter to return only resources that match the entire display name given.
-* `fleet_id` - (Required) unique Fleet identifier
-* `resource_display_name` - (Optional) Resource Display Name
+* `fleet_id` - (Required) Unique Fleet identifier.
+* `resource_display_name` - (Optional) Resource Display Name.
 * `resource_id` - (Optional) Resource Identifier
 
 
@@ -52,9 +52,9 @@ The following attributes are exported:
 * `items` - List of fleetProducts.
 	* `compartment_id` - Root Compartment Id.
 	* `display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
-	* `resource` - Resource Information for the Target
+	* `resource` - Resource Information for the Target.
 		* `resource_display_name` - A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.  Example: `My new resource` 
 		* `resource_id` - The OCID of the resource.
 	* `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
-	* `target_count` - Count of targets associated with the Product
+	* `target_count` - Count of the targets associated with the Product.
 
