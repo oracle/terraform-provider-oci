@@ -167,6 +167,13 @@ func DatabaseMaintenanceRunResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"peer_maintenance_run_ids": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -504,6 +511,8 @@ func (s *DatabaseMaintenanceRunResourceCrud) SetData() error {
 	if s.Res.PeerMaintenanceRunId != nil {
 		s.D.Set("peer_maintenance_run_id", *s.Res.PeerMaintenanceRunId)
 	}
+
+	s.D.Set("peer_maintenance_run_ids", s.Res.PeerMaintenanceRunIds)
 
 	s.D.Set("state", s.Res.LifecycleState)
 

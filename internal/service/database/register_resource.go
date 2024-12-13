@@ -8,7 +8,9 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 func RegisterResource() {
 	tfresource.RegisterResource("oci_database_application_vip", DatabaseApplicationVipResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database", DatabaseAutonomousContainerDatabaseResource())
+	tfresource.RegisterResource("oci_database_autonomous_container_database_add_standby", DatabaseAutonomousContainerDatabaseAddStandbyResource())
 	tfresource.RegisterResource("oci_database_autonomous_container_database_dataguard_association", DatabaseAutonomousContainerDatabaseDataguardAssociationResource())
+	tfresource.RegisterResource("oci_database_autonomous_container_database_snapshot_standby", DatabaseAutonomousContainerDatabaseSnapshotStandbyResource())
 	tfresource.RegisterResource("oci_database_autonomous_database", DatabaseAutonomousDatabaseResource())
 	tfresource.RegisterResource("oci_database_autonomous_database_backup", DatabaseAutonomousDatabaseBackupResource())
 	tfresource.RegisterResource("oci_database_autonomous_database_instance_wallet_management", DatabaseAutonomousDatabaseInstanceWalletManagementResource())

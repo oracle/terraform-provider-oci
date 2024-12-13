@@ -607,6 +607,22 @@ var exportDatabaseExadataInfrastructureConfigureExascaleManagementHints = &tf_ex
 	},
 }
 
+var exportDatabaseAutonomousContainerDatabaseSnapshotStandbyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_autonomous_container_database_snapshot_standby",
+	ResourceAbbreviation: "autonomous_container_database_snapshot_standby",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
+var exportDatabaseAutonomousContainerDatabaseAddStandbyHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_autonomous_container_database_add_standby",
+	ResourceAbbreviation: "autonomous_container_database_add_standby",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.AutonomousContainerDatabaseLifecycleStateAvailable),
+	},
+}
+
 var databaseResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportDatabaseAutonomousContainerDatabaseHints},
