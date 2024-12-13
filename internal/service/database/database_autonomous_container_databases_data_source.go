@@ -203,6 +203,18 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["compute_model"] = r.ComputeModel
 
+		if r.Dataguard != nil {
+			autonomousContainerDatabase["dataguard"] = []interface{}{AutonomousContainerDatabaseDataguardToMap(r.Dataguard)}
+		} else {
+			autonomousContainerDatabase["dataguard"] = nil
+		}
+
+		dataguardGroupMembers := []interface{}{}
+		for _, item := range r.DataguardGroupMembers {
+			dataguardGroupMembers = append(dataguardGroupMembers, AutonomousContainerDatabaseDataguardToMap(&item))
+		}
+		autonomousContainerDatabase["dataguard_group_members"] = dataguardGroupMembers
+
 		if r.DbName != nil {
 			autonomousContainerDatabase["db_name"] = *r.DbName
 		}
@@ -241,8 +253,16 @@ func (s *DatabaseAutonomousContainerDatabasesDataSourceCrud) SetData() error {
 
 		autonomousContainerDatabase["infrastructure_type"] = r.InfrastructureType
 
+		if r.IsDataGuardEnabled != nil {
+			autonomousContainerDatabase["is_data_guard_enabled"] = *r.IsDataGuardEnabled
+		}
+
 		if r.IsDstFileUpdateEnabled != nil {
 			autonomousContainerDatabase["is_dst_file_update_enabled"] = *r.IsDstFileUpdateEnabled
+		}
+
+		if r.IsMultipleStandby != nil {
+			autonomousContainerDatabase["is_multiple_standby"] = *r.IsMultipleStandby
 		}
 
 		keyHistoryEntry := []interface{}{}
