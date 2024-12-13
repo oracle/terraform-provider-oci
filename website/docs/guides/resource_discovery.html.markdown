@@ -648,6 +648,8 @@ database
 * oci\_database\_execution\_window
 * oci\_database\_scheduled\_action
 * oci\_database\_exadata\_infrastructure\_configure\_exascale\_management
+* oci\_database\_autonomous\_container\_database\_snapshot\_standby
+* oci\_database\_autonomous\_container\_database\_add\_standby
 
 database_migration
     
