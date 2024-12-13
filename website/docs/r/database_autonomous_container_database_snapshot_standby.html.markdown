@@ -1,23 +1,30 @@
 ---
 subcategory: "Database"
 layout: "oci"
-page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database"
-sidebar_current: "docs-oci-datasource-database-autonomous_container_database"
+page_title: "Oracle Cloud Infrastructure: oci_database_autonomous_container_database_snapshot_standby"
+sidebar_current: "docs-oci-resource-database-autonomous_container_database_snapshot_standby"
 description: |-
-  Provides details about a specific Autonomous Container Database in Oracle Cloud Infrastructure Database service
+  Provides the Autonomous Container Database Snapshot Standby resource in Oracle Cloud Infrastructure Database service
 ---
 
-# Data Source: oci_database_autonomous_container_database
-This data source provides details about a specific Autonomous Container Database resource in Oracle Cloud Infrastructure Database service.
+# oci_database_autonomous_container_database_snapshot_standby
+This resource provides the Autonomous Container Database Snapshot Standby resource in Oracle Cloud Infrastructure Database service.
 
-Gets information about the specified Autonomous Container Database.
+Convert between and SnapshotStandby Standby Autonomous Container Database .
+For more information about changing Autonomous Container Databases Add Standby, see
+[Convert Standby Autonomous Container Database](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-D3B503F1-0032-4B0D-9F00-ACAE8151AB80) and [Convert Snapshot Standby to Physical Standby](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbcl/index.html#ADBCL-GUID-E8D7E0EE-8244-467D-B33A-1BC6F969A0A4).
+
 
 ## Example Usage
 
 ```hcl
-data "oci_database_autonomous_container_database" "test_autonomous_container_database" {
+resource "oci_database_autonomous_container_database_snapshot_standby" "test_autonomous_container_database_snapshot_standby" {
 	#Required
 	autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database.id
+	role = var.autonomous_container_database_snapshot_standby_role
+
+	#Optional
+	connection_strings_type = var.autonomous_container_database_snapshot_standby_connection_strings_type
 }
 ```
 
@@ -26,27 +33,21 @@ data "oci_database_autonomous_container_database" "test_autonomous_container_dat
 The following arguments are supported:
 
 * `autonomous_container_database_id` - (Required) The Autonomous Container Database [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `connection_strings_type` - (Optional) type of connection strings when converting database to snapshot mode
+* `role` - (Required) The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 
+
+** IMPORTANT **
+Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
 
 ## Attributes Reference
 
 The following attributes are exported:
 
-* `associated_backup_configuration_details` - A backup config object holds information about preferred backup destinations only. This object holds information about the associated backup destinations, such as secondary backup destinations created for local backups or remote replicated backups.
-	* `backup_destination_attach_history` - The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
-	* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
-	* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup destination.
-	* `internet_proxy` - Proxy URL to connect to object store.
-	* `recovery_window_in_days` - Number of days between the current and earliest point of recoverability covered by automatic backups and manual backups, but not long term backups.
-	* `space_utilized_in_gbs` - The total space utilized (in GBs) by this Autonomous Container Database on this backup destination, rounded to the nearest integer.
-	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
-	* `type` - Type of the database backup destination.
-	* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
-	* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 * `autonomous_exadata_infrastructure_id` - **No longer used.** For Autonomous Database on dedicated Exadata infrastructure, the container database is created within a specified `cloudAutonomousVmCluster`. 
 * `autonomous_vm_cluster_id` - The OCID of the Autonomous VM Cluster.
 * `availability_domain` - The availability domain of the Autonomous Container Database.
-* `available_cpus` - Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database.<br> For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details.
+* `available_cpus` - Sum of CPUs available on the Autonomous VM Cluster + Sum of reclaimable CPUs available in the Autonomous Container Database. 
 * `backup_config` - Backup options for the Autonomous Container Database. 
 	* `backup_destination_details` - Backup destination details.
 		* `dbrs_policy_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DBRS policy used for backup.
@@ -56,10 +57,6 @@ The following attributes are exported:
 		* `vpc_password` - For a RECOVERY_APPLIANCE backup destination, the password for the VPC user that is used to access the Recovery Appliance.
 		* `vpc_user` - For a RECOVERY_APPLIANCE backup destination, the Virtual Private Catalog (VPC) user that is used to access the Recovery Appliance.
 	* `recovery_window_in_days` - Number of days between the current and the earliest point of recoverability covered by automatic backups. This value applies to automatic backups. After a new automatic backup has been created, Oracle removes old automatic backups that are created before the window. When the value is updated, it is applied to all existing automatic backups. If the number of specified days is 0 then there will be no backups. 
-* `backup_destination_properties_list` - This list describes the backup destination properties associated with the Autonomous Container Database (ACD) 's preferred backup destination. The object at a given index is associated with the destination present at the same index in the backup destination details list of the ACD Backup Configuration.
-	* `backup_destination_attach_history` - The timestamps at which this backup destination is used as the preferred destination to host the Autonomous Container Database backups.
-	* `space_utilized_in_gbs` - The total space utilized (in GBs) by this Autonomous Container Database on this backup destination, rounded to the nearest integer.
-	* `time_at_which_storage_details_are_updated` - The latest timestamp when the backup destination details, such as 'spaceUtilized,' are updated.
 * `cloud_autonomous_vm_cluster_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cloud Autonomous Exadata VM Cluster.
 * `compartment_id` - The OCID of the compartment.
 * `compute_model` - The compute model of the Autonomous Container Database. For Autonomous Database on Dedicated Exadata Infrastructure, the CPU type (ECPUs or OCPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model. ECPU compute model is the recommended model and OCPU compute model is legacy. See [Compute Models in Autonomous Database on Dedicated Exadata Infrastructure](https://docs.oracle.com/en/cloud/paas/autonomous-database/dedicated/adbak) for more details. 
@@ -98,7 +95,7 @@ The following attributes are exported:
 	* `time_lag_refreshed_on` - Timestamp when the lags were last calculated for a standby.
 	* `time_last_role_changed` - The date and time when the last role change action happened.
 	* `time_last_synced` - The date and time of the last update to the apply lag, apply rate, and transport lag values.
-	* `transport_lag` - The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database, as computed by the reporting database. Example: `7 seconds`
+	* `transport_lag` - The approximate number of seconds of redo data not yet available on the standby Autonomous Container Database, as computed by the reporting database. Example: `7 seconds` 
 * `db_name` - The Database name for the Autonomous Container Database. The name must be unique within the Cloud Autonomous VM Cluster, starting with an alphabetic character, followed by 1 to 7 alphanumeric characters.
 * `db_split_threshold` - The CPU value beyond which an Autonomous Database will be opened across multiple nodes. The default value of this attribute is 16 for OCPUs and 64 for ECPUs.
 * `db_unique_name` - **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail. 
@@ -106,7 +103,7 @@ The following attributes are exported:
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - The user-provided name for the Autonomous Container Database.
 * `distribution_affinity` - Determines whether an Autonomous Database must be opened across the maximum number of nodes or the least number of nodes. By default, Minimum nodes is selected.
-* `dst_file_version` - DST Time-zone File version of the Autonomous Container Database.
+* `dst_file_version` - DST Time-Zone File version of the Autonomous Container Database.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the Autonomous Container Database.
 * `infrastructure_type` - The infrastructure type this resource belongs to.
@@ -120,7 +117,6 @@ The following attributes are exported:
 	* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `key_store_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 * `key_store_wallet_name` - The wallet name for Oracle Key Vault.
-* `key_version_id` - (Optional) The OCID of the key version that is used in rotate key operations.
 * `kms_key_id` - The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
 * `kms_key_version_id` - The OCID of the key container version that is used in database transparent data encryption (TDE) operations KMS Key can have multiple key versions. If none is specified, the current key version (latest) of the Key Id is used for the operation. Autonomous Database Serverless does not use key versions, hence is not applicable for Autonomous Database Serverless instances. 
 * `largest_provisionable_autonomous_database_in_cpus` - The largest Autonomous Database (CPU) that can be created in a new Autonomous Container Database.
@@ -131,8 +127,7 @@ The following attributes are exported:
 	* `custom_action_timeout_in_mins` - Determines the amount of time the system will wait before the start of each database server patching operation. Custom action timeout is in minutes and valid value is between 15 to 120 (inclusive). 
 	* `days_of_week` - Days during the week when maintenance should be performed.
 		* `name` - Name of the day of the week.
-	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are
-		* 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
+	* `hours_of_day` - The window of hours during the day when maintenance should be performed. The window is a 4 hour slot. Valid values are - 0 - represents time slot 0:00 - 3:59 UTC - 4 - represents time slot 4:00 - 7:59 UTC - 8 - represents time slot 8:00 - 11:59 UTC - 12 - represents time slot 12:00 - 15:59 UTC - 16 - represents time slot 16:00 - 19:59 UTC - 20 - represents time slot 20:00 - 23:59 UTC
 	* `is_custom_action_timeout_enabled` - If true, enables the configuration of a custom action timeout (waiting period) between database server patching operations.
 	* `is_monthly_patching_enabled` - If true, enables the monthly patching option.
 	* `lead_time_in_weeks` - Lead time window allows user to set a lead time to prepare for a down time. The lead time is in weeks and valid value is between 1 to 4. 
@@ -152,10 +147,6 @@ The following attributes are exported:
 * `provisionable_cpus` - An array of CPU values that can be used to successfully provision a single Autonomous Database. 
 * `provisioned_cpus` - The number of CPUs provisioned in an Autonomous Container Database.
 * `reclaimable_cpus` - CPUs that continue to be included in the count of CPUs available to the Autonomous Container Database even after one of its Autonomous Database is terminated or scaled down. You can release them to the available CPUs at its parent Autonomous VM Cluster level by restarting the Autonomous Container Database. 
-* `recovery_appliance_details` - Information about the recovery appliance configuration associated with the Autonomous Container Database.
-	* `allocated_storage_size_in_gbs` - The storage size of the backup destination allocated for an Autonomous Container Database to store backups on the recovery appliance, in GBs, rounded to the nearest integer.
-	* `recovery_window_in_days` - Number of days between the current and earliest point of recoverability covered by automatic backups.
-	* `time_recovery_appliance_details_updated` - The time when the recovery appliance details are updated.
 * `reserved_cpus` - The number of CPUs reserved in an Autonomous Container Database.
 * `role` - The Data Guard role of the Autonomous Container Database or Autonomous Database, if Autonomous Data Guard is enabled. 
 * `service_level_agreement_type` - The service level agreement type of the container database. The default is STANDARD.
@@ -164,8 +155,24 @@ The following attributes are exported:
 * `time_created` - The date and time the Autonomous Container Database was created.
 * `time_of_last_backup` - The timestamp of last successful backup. Here NULL value represents either there are no successful backups or backups are not configured for this Autonomous Container Database.
 * `time_snapshot_standby_revert` - The date and time the Autonomous Container Database will be reverted to Standby from Snapshot Standby.
-* `total_cpus` - The number of CPUs allocated to the Autonomous VM cluster.<br> For Autonomous Databases on Dedicated Exadata Infrastructure, the CPU type (OCPUs or ECPUs) is determined by the parent Autonomous Exadata VM Cluster's compute model.
-* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts).
+* `total_cpus` - The number of CPUs allocated to the Autonomous VM cluster. 
+* `vault_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
 * `version_preference` - The next maintenance version preference. 
 * `vm_failover_reservation` - The percentage of CPUs reserved across nodes to support node failover. Allowed values are 0%, 25%, and 50%, with 50% being the default option.
+
+## Timeouts
+
+The `timeouts` block allows you to specify [timeouts](https://registry.terraform.io/providers/oracle/oci/latest/docs/guides/changing_timeouts) for certain operations:
+	* `create` - (Defaults to 20 minutes), when creating the Autonomous Container Database Snapshot Standby
+	* `update` - (Defaults to 20 minutes), when updating the Autonomous Container Database Snapshot Standby
+	* `delete` - (Defaults to 20 minutes), when destroying the Autonomous Container Database Snapshot Standby
+
+
+## Import
+
+AutonomousContainerDatabaseSnapshotStandby can be imported using the `id`, e.g.
+
+```
+$ terraform import oci_database_autonomous_container_database_snapshot_standby.test_autonomous_container_database_snapshot_standby "id"
+```
 

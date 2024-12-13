@@ -428,6 +428,13 @@ func DatabaseMaintenanceRunHistoryDataSource() *schema.Resource {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
+						"peer_maintenance_run_ids": {
+							Type:     schema.TypeList,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"state": {
 							Type:     schema.TypeString,
 							Computed: true,

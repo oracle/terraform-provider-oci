@@ -498,6 +498,7 @@ func TestDatabaseAutonomousContainerDatabaseFromAdsi_basic(t *testing.T) {
 				"maintenance_window_details",
 				"backup_config.0.backup_destination_details.0.vpc_password",
 				"is_automatic_failover_enabled",
+				"state",
 			},
 			ResourceName: resourceName,
 		},
@@ -574,16 +575,7 @@ func TestDatabaseExaccAutonomousContainerDatabase_BackupDestinationUpdate_DG(t *
 		},
 	})
 }
-func getStandbyAcdOcid(resourceName string) resource.ImportStateIdFunc {
-	return func(s *terraform.State) (string, error) {
-		fmt.Printf("MyState: %s", s.RootModule().Resources)
-		rs, ok := s.RootModule().Resources[resourceName]
-		if !ok {
-			return "", fmt.Errorf("not found: %s", resourceName)
-		}
-		return fmt.Sprintf(rs.Primary.Attributes["autonomous_container_database_dataguard_associations.0.peer_autonomous_container_database_id"]), nil
-	}
-}
+
 func TestDatabaseExaccAutonomousContainerDatabase_BackupDestinationUpdate(t *testing.T) {
 	httpreplay.SetScenario("TestDatabaseExaccAutonomousContainerDatabase_BackupDestinationUpdate")
 	defer httpreplay.SaveScenario()

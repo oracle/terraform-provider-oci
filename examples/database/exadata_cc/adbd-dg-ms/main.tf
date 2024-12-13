@@ -277,153 +277,6 @@ resource "oci_database_autonomous_vm_cluster" "standby_autonomous_vm_cluster" {
   }
 }
 
-resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster_primary" {
-  #Required
-  compartment_id                        = var.compartment_ocid
-  display_name                          = "TestAutonomousVmClusterPrimary"
-  exadata_infrastructure_id             = oci_database_exadata_infrastructure.primary_exadata_infrastructure.id
-  vm_cluster_network_id                 = oci_database_vm_cluster_network.primary_vm_cluster_network.id
-  cpu_core_count_per_node               = "20"
-  autonomous_data_storage_size_in_tbs   = "2.0"
-  memory_per_oracle_compute_unit_in_gbs = "5"
-  total_container_databases             = "2"
-  #Optional
-  is_local_backup_enabled               = "false"
-  license_model                         = "LICENSE_INCLUDED"
-  time_zone                             = "US/Pacific"
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "SampleTagValue"
-  }
-
-  freeform_tags = {
-    "Department" = "Finance"
-  }
-
-  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
-  lifecycle {
-    ignore_changes = [
-      autonomous_data_storage_size_in_tbs,
-      db_servers,
-    ]
-  }
-}
-
-resource "oci_database_autonomous_vm_cluster" "test_autonomous_vm_cluster_standby" {
-  #Required
-  compartment_id                        = var.compartment_ocid
-  display_name                          = "TestAutonomousVmClusterStandby"
-  exadata_infrastructure_id             = oci_database_exadata_infrastructure.standby_exadata_infrastructure.id
-  vm_cluster_network_id                 = oci_database_vm_cluster_network.standby_vm_cluster_network.id
-  cpu_core_count_per_node               = "20"
-  autonomous_data_storage_size_in_tbs   = "2.0"
-  memory_per_oracle_compute_unit_in_gbs = "5"
-  total_container_databases             = "2"
-  #Optional
-  is_local_backup_enabled               = "false"
-  license_model                         = "LICENSE_INCLUDED"
-  time_zone                             = "US/Pacific"
-  defined_tags = {
-    "${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}" = "SampleTagValue"
-  }
-
-  freeform_tags = {
-    "Department" = "Finance"
-  }
-
-  //To ignore changes to autonomous_data_storage_size_in_tbs and db_servers
-  lifecycle {
-    ignore_changes = [
-      autonomous_data_storage_size_in_tbs,
-      db_servers,
-    ]
-  }
-}
-
-# DG enabled ACD resource
-resource "oci_database_autonomous_container_database" "dg_autonomous_container_database" {
-  autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.primary_autonomous_vm_cluster.id
-  backup_config {
-    backup_destination_details {
-      type = "LOCAL"
-    }
-    recovery_window_in_days = "7"
-  }
-  compartment_id = var.compartment_ocid
-  #db_unique_name = random_string.db_unique_name.result
-  display_name   = "PRIMARY-ACD-DG"
-  freeform_tags = {
-    "Department" = "Finance"
-  }
-  maintenance_window_details {
-    preference = "NO_PREFERENCE"
-  }
-  patch_model = "RELEASE_UPDATES"
-  peer_autonomous_container_database_backup_config {
-    backup_destination_details {
-      type = "LOCAL"
-    }
-    recovery_window_in_days = "7"
-  }
-  peer_autonomous_container_database_compartment_id = var.compartment_ocid
-  peer_autonomous_container_database_display_name   = "STANDBY-ACD"
-  peer_autonomous_vm_cluster_id                     = oci_database_autonomous_vm_cluster.standby_autonomous_vm_cluster.id
-  protection_mode                                   = "MAXIMUM_PERFORMANCE"
-  service_level_agreement_type                      = "AUTONOMOUS_DATAGUARD"
-}
-
-
-## ADB on DG enabled ACD
-
-resource "random_string" "autonomous_database_admin_password" {
-  length      = 16
-  min_numeric = 1
-  min_lower   = 1
-  min_upper   = 1
-  min_special = 1
-}
-
-resource "oci_database_autonomous_database" "test_autonomous_database" {
-  #Required
-  admin_password           = random_string.autonomous_database_admin_password.result
-  compartment_id           = var.compartment_ocid
-  data_storage_size_in_tbs = "1"
-  compute_count            = 16
-  db_name                  = "atpdb1"
-
-  #Optional
-  autonomous_container_database_id = oci_database_autonomous_container_database.dg_autonomous_container_database.id
-  db_workload                      = "OLTP"
-  display_name                     = "exacc_tf-adb"
-  is_dedicated                     = "true"
-}
-
-# below resource will perform switchover from primary. In ExaCC switchover can be performed on either primary or standby
-resource "oci_database_autonomous_container_database_dataguard_association_operation" "switchover" {
-  operation = "switchover"
-  # "failover" or "reinstate"
-  autonomous_container_database_id                       = oci_database_autonomous_container_database.dg_autonomous_container_database.id
-  autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].id
-  depends_on = [
-  oci_database_autonomous_database.test_autonomous_database]
-}
-
-resource "oci_database_autonomous_container_database_dataguard_association_operation" "failover" {
-  operation                                              = "failover"
-  autonomous_container_database_id                       = oci_database_autonomous_container_database.dg_autonomous_container_database.id
-  autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].id
-  depends_on = [
-  oci_database_autonomous_container_database_dataguard_association_operation.switchover]
-}
-
-resource "oci_database_autonomous_container_database_dataguard_association_operation" "reinstate" {
-  operation                                              = "reinstate"
-  autonomous_container_database_id                       = data.oci_database_autonomous_container_database.standby_autonomous_container_database.id
-  autonomous_container_database_dataguard_association_id = data.oci_database_autonomous_container_database_dataguard_associations.primary_autonomous_dg_associations.autonomous_container_database_dataguard_associations[0].peer_autonomous_container_database_dataguard_association_id
-  depends_on = [
-  oci_database_autonomous_container_database_dataguard_association_operation.failover]
-}
-
-
 data "oci_database_db_servers" "primary_db_servers" {
   #Required
   compartment_id            = var.compartment_ocid
@@ -438,7 +291,7 @@ data "oci_database_db_servers" "standby_db_servers" {
 
 resource "oci_database_autonomous_container_database" "test_autonomous_container_database_primary" {
   #Required
-  autonomous_vm_cluster_id             = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster_primary.id
+  autonomous_vm_cluster_id             = oci_database_autonomous_vm_cluster.primary_autonomous_vm_cluster.id
   display_name                         = "PrimaryACD"
   patch_model                          = "RELEASE_UPDATES"
   db_version                           = "19.25.0.1.0"
@@ -500,33 +353,38 @@ resource "oci_database_autonomous_container_database" "test_autonomous_container
 
 }
 
-resource "oci_database_autonomous_container_database_dataguard_association" "test_autonomous_container_database_dataguard_association" {
-  #Required
-  autonomous_container_database_id                    = oci_database_autonomous_container_database.test_autonomous_container_database_primary.id
-  is_automatic_failover_enabled                       = false
-  protection_mode                                     = "MAXIMUM_AVAILABILITY"
-  peer_autonomous_vm_cluster_id                       = oci_database_autonomous_vm_cluster.test_autonomous_vm_cluster_standby.id
-  peer_autonomous_container_database_display_name     = "StandbyACD"
-  peer_autonomous_container_database_compartment_id   = var.compartment_ocid
+resource "oci_database_autonomous_container_database_add_standby" "test_autonomous_container_database_add_standby" {
+  autonomous_container_database_id = oci_database_autonomous_container_database.test_autonomous_container_database_primary.id
+  fast_start_fail_over_lag_limit_in_seconds = "0"
+  is_automatic_failover_enabled = "true"
   peer_autonomous_container_database_backup_config {
-      backup_destination_details {
-        type = "LOCAL"
-      }
-      recovery_window_in_days = "7"
+    backup_destination_details {
+      type = "LOCAL"
     }
-  #peer_db_unique_name                                 = "Y3Z69J5C_sea1835"
+    recovery_window_in_days = "7"
+  }
+  peer_autonomous_container_database_compartment_id = var.compartment_ocid
+  peer_autonomous_container_database_display_name = "FirstStandby"
+  peer_autonomous_vm_cluster_id = oci_database_autonomous_vm_cluster.standby_autonomous_vm_cluster.id
+  protection_mode = "MAXIMUM_AVAILABILITY"
+  standby_maintenance_buffer_in_days = "7"
+}
+
+resource "oci_database_autonomous_container_database_snapshot_standby" "test_autonomous_container_database_snapshot_standby" {
+  autonomous_container_database_id = oci_database_autonomous_container_database_add_standby.test_autonomous_container_database_add_standby.dataguard_group_members.1.autonomous_container_database_id
+  role = "SNAPSHOT_STANDBY"
+  connection_strings_type="SNAPSHOT_SERVICES"
+  depends_on = [oci_database_autonomous_container_database_add_standby.test_autonomous_container_database_add_standby]
+}
+
+resource "oci_database_autonomous_container_database_snapshot_standby" "test_autonomous_container_database_regular_standby" {
+  autonomous_container_database_id = oci_database_autonomous_container_database_add_standby.test_autonomous_container_database_add_standby.dataguard_group_members.1.autonomous_container_database_id
+  role = "STANDBY"
+  depends_on = [oci_database_autonomous_container_database_snapshot_standby.test_autonomous_container_database_snapshot_standby]
 }
 
 #### End Resources ####
 #######################
-
-
-
-
-# print all infrastructures retrieved earlier by the data source
-# output "all_infrastructures" {
-#   value = data.oci_database_exadata_infrastructures.all_exadata_infrastructures.exadata_infrastructures
-# }
 
 
 

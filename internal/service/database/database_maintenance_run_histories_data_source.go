@@ -462,6 +462,13 @@ func DatabaseMaintenanceRunHistoriesDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"peer_maintenance_run_ids": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Schema{
+											Type: schema.TypeString,
+										},
+									},
 									"state": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -940,6 +947,8 @@ func MaintenanceRunSummaryToMap(obj *oci_database.MaintenanceRunSummary) map[str
 	if obj.PeerMaintenanceRunId != nil {
 		result["peer_maintenance_run_id"] = string(*obj.PeerMaintenanceRunId)
 	}
+
+	result["peer_maintenance_run_ids"] = obj.PeerMaintenanceRunIds
 
 	result["state"] = string(obj.LifecycleState)
 
