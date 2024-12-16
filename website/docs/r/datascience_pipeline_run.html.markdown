@@ -67,6 +67,28 @@ resource "oci_datascience_pipeline_run" "test_pipeline_run" {
 			image_digest = var.pipeline_run_step_override_details_step_container_configuration_details_image_digest
 			image_signature_id = oci_datascience_image_signature.test_image_signature.id
 		}
+		step_dataflow_configuration_details {
+
+			#Optional
+			configuration = var.pipeline_run_step_override_details_step_dataflow_configuration_details_configuration
+			driver_shape = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape
+			driver_shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus
+			}
+			executor_shape = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape
+			executor_shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_run_step_override_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus
+			}
+			logs_bucket_uri = var.pipeline_run_step_override_details_step_dataflow_configuration_details_logs_bucket_uri
+			num_executors = var.pipeline_run_step_override_details_step_dataflow_configuration_details_num_executors
+			warehouse_bucket_uri = var.pipeline_run_step_override_details_step_dataflow_configuration_details_warehouse_bucket_uri
+		}
 	}
 	system_tags = var.pipeline_run_system_tags
 }
@@ -105,6 +127,19 @@ The following arguments are supported:
 		* `image` - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
 		* `image_digest` - (Optional) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `image_signature_id` - (Optional) OCID of the container image signature
+	* `step_dataflow_configuration_details` - (Optional) The configuration details of a Dataflow step.
+		* `configuration` - (Optional) The Spark configuration passed to the running process.
+		* `driver_shape` - (Optional) The VM shape for the driver.
+		* `driver_shape_config_details` - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `executor_shape` - (Optional) The VM shape for the executors.
+		* `executor_shape_config_details` - (Optional) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Optional) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `logs_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
+		* `num_executors` - (Optional) The number of executor VMs requested.
+		* `warehouse_bucket_uri` - (Optional) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_name` - (Required) The name of the step.
 * `system_tags` - (Optional) Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 
@@ -156,8 +191,22 @@ The following attributes are exported:
 		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `image_signature_id` - OCID of the container image signature
+	* `step_dataflow_configuration_details` - The configuration details of a Dataflow step.
+		* `configuration` - The Spark configuration passed to the running process.
+		* `driver_shape` - The VM shape for the driver.
+		* `driver_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `executor_shape` - The VM shape for the executors.
+		* `executor_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
+		* `num_executors` - The number of executor VMs requested.
+		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
+	* `dataflow_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
 	* `job_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.
 	* `lifecycle_details` - Details of the state of the step run.
 	* `state` - The state of the step run.
