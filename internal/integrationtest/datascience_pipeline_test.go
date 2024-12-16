@@ -49,17 +49,18 @@ var (
 	}
 
 	pipelineRepresentation = map[string]interface{}{
-		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"project_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
-		"step_details":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepDetailsRepresentationCS},
-		"configuration_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineConfigurationDetailsRepresentation},
-		"description":                          acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineInfrastructureConfigurationDetailsRepresentation},
-		"log_configuration_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineLogConfigurationDetailsRepresentation},
-		"step_artifact":                        acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepArtifactRepresentation},
-		"delete_related_pipeline_runs":         acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+		"compartment_id":                           acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"project_id":                               acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
+		"step_details":                             acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepDetailsRepresentationCS},
+		"configuration_details":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineConfigurationDetailsRepresentation},
+		"description":                              acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"display_name":                             acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"freeform_tags":                            acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineInfrastructureConfigurationDetailsRepresentation},
+		"log_configuration_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineLogConfigurationDetailsRepresentation},
+		"step_artifact":                            acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepArtifactRepresentation},
+		"storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStorageMountConfigurationDetailsListRepresentation},
+		"delete_related_pipeline_runs":             acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
 	}
 
 	pipelineRepresentationContainer = map[string]interface{}{
@@ -69,6 +70,18 @@ var (
 		"configuration_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineConfigurationDetailsRepresentation},
 		"description":                          acctest.Representation{RepType: acctest.Optional, Create: `descriptionContainerPipeline`, Update: `description2`},
 		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `displayNameContainerPipeline`, Update: `displayName2`},
+		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatasciencePipelineInfrastructureConfigurationDetailsRepresentation},
+		"log_configuration_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineLogConfigurationDetailsRepresentation},
+		"delete_related_pipeline_runs":         acctest.Representation{RepType: acctest.Required, Create: `true`, Update: `true`},
+	}
+	pipelineRepresentationDataflow = map[string]interface{}{
+		"compartment_id":                       acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"project_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_datascience_project.test_project.id}`},
+		"step_details":                         acctest.RepresentationGroup{RepType: acctest.Required, Group: pipelineStepDetailsRepresentationDataflow},
+		"configuration_details":                acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineConfigurationDetailsRepresentationDataflow},
+		"description":                          acctest.Representation{RepType: acctest.Optional, Create: `descriptionDataflowPipeline`, Update: `description2`},
+		"display_name":                         acctest.Representation{RepType: acctest.Optional, Create: `displayNameDataflowPipeline`, Update: `displayName2`},
 		"freeform_tags":                        acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Required, Group: DatasciencePipelineInfrastructureConfigurationDetailsRepresentation},
 		"log_configuration_details":            acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineLogConfigurationDetailsRepresentation},
@@ -92,12 +105,13 @@ var (
 	}
 
 	pipelineStepDetailsRepresentationCS = map[string]interface{}{
-		"step_name":                  acctest.Representation{RepType: acctest.Required, Create: `stepName`},
-		"step_type":                  acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_SCRIPT`},
-		"depends_on":                 acctest.Representation{RepType: acctest.Optional, Create: []string{}},
-		"description":                acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"step_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepConfigurationDetailsRepresentation},
-		"step_infrastructure_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation},
+		"step_name":   acctest.Representation{RepType: acctest.Required, Create: `stepName`},
+		"step_type":   acctest.Representation{RepType: acctest.Required, Create: `CUSTOM_SCRIPT`},
+		"depends_on":  acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"description": acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
+		"step_storage_mount_configuration_details_list": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStorageMountConfigurationDetailsListRepresentation},
+		"step_configuration_details":                    acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepConfigurationDetailsRepresentation},
+		"step_infrastructure_configuration_details":     acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation},
 	}
 
 	pipelineStepDetailsRepresentationContainer = map[string]interface{}{
@@ -110,23 +124,37 @@ var (
 		"step_container_configuration_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepContainerConfigurationDetailsRepresentation},
 	}
 
+	pipelineStepDetailsRepresentationDataflow = map[string]interface{}{
+		"step_name":                           acctest.Representation{RepType: acctest.Required, Create: `stepNameDataflow`},
+		"step_type":                           acctest.Representation{RepType: acctest.Required, Create: `DATAFLOW`},
+		"application_id":                      acctest.Representation{RepType: acctest.Required, Create: `{application_id}`},
+		"depends_on":                          acctest.Representation{RepType: acctest.Optional, Create: []string{}},
+		"description":                         acctest.Representation{RepType: acctest.Optional, Create: `descriptionDataflow`},
+		"step_dataflow_configuration_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsRepresentation},
+	}
+
 	pipelineConfigurationDetailsRepresentation = map[string]interface{}{
 		"type":                       acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
 		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}},
 		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`},
 	}
+	pipelineConfigurationDetailsRepresentationDataflow = map[string]interface{}{
+		"type":                       acctest.Representation{RepType: acctest.Required, Create: `DEFAULT`},
+		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `60`},
+	}
 	DatasciencePipelineInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`, Update: `60`},
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
 		//"shape_config_details":      acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
-		"subnet_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
+		// "subnet_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
 
 	pipelineInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
 	}
 
 	pipelineLogConfigurationDetailsRepresentation = map[string]interface{}{
@@ -134,6 +162,26 @@ var (
 		"enable_logging":           acctest.Representation{RepType: acctest.Optional, Create: `true`},
 		"log_group_id":             acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log_group.terraform_test_custom_log_group.id}`},
 		"log_id":                   acctest.Representation{RepType: acctest.Optional, Create: `${oci_logging_log.terraform_test_custom_log.id}`},
+	}
+	DatasciencePipelineStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
+		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `oss`, Update: `oss1`},
+		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `OBJECT_STORAGE`},
+		"bucket":                     acctest.Representation{RepType: acctest.Optional, Create: `storage-mount-test`},
+		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt`},
+		"namespace":                  acctest.Representation{RepType: acctest.Optional, Create: `idtlxnfdweil`},
+		"prefix":                     acctest.Representation{RepType: acctest.Optional, Create: `prod`},
+	}
+	DatasciencePipelineStorageMountConfigurationDetailsListRepresentationFileStorage = map[string]interface{}{
+		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `oss`, Update: `oss1`},
+		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `FILE_STORAGE`},
+		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `/mnt`, Update: `/mnt`},
+		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_export.test_export.id}`},
+		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+	}
+	DatasciencePipelineStepDetailsStepConfigurationDetailsRepresentation = map[string]interface{}{
+		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`, Update: `commandLineArguments2`},
+		"environment_variables":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"environmentVariables": "environmentVariables"}, Update: map[string]string{"environmentVariables2": "environmentVariables2"}},
+		"maximum_runtime_in_minutes": acctest.Representation{RepType: acctest.Optional, Create: `10`, Update: `11`},
 	}
 	pipelineStepDetailsStepConfigurationDetailsRepresentation = map[string]interface{}{
 		"command_line_arguments":     acctest.Representation{RepType: acctest.Optional, Create: `commandLineArguments`},
@@ -148,12 +196,48 @@ var (
 		"image_digest":       acctest.Representation{RepType: acctest.Optional, Create: ``},
 		"image_signature_id": acctest.Representation{RepType: acctest.Optional, Create: ``},
 	}
+	DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsRepresentation = map[string]interface{}{
+		"configuration":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"dataflow.auth": "3.1.0"}},
+		"driver_shape":                  acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E4.Flex`},
+		"driver_shape_config_details":   acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsDriverShapeConfigDetailsRepresentation},
+		"executor_shape":                acctest.Representation{RepType: acctest.Optional, Create: `VM.Standard.E4.Flex`, Update: `VM.Standard.E4.Flex`},
+		"executor_shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsExecutorShapeConfigDetailsRepresentation},
+		"logs_bucket_uri":               acctest.Representation{RepType: acctest.Optional, Create: `oci://xuejuzha-test@idtlxnfdweil/`},
+		"num_executors":                 acctest.Representation{RepType: acctest.Optional, Create: `1`, Update: `1`},
+		"warehouse_bucket_uri":          acctest.Representation{RepType: acctest.Optional, Create: `oci://xuejuzha-test@idtlxnfdweil/`},
+	}
 	DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `50`},
 		//Applicable when step_type=CUSTOM_SCRIPT Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
 		//"shape_config_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: pipelineStepDetailsStepInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation},
 		"shape_name": acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":  acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"subnet_id":  acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
+	}
+	DatasciencePipelineStepDetailsStepStorageMountConfigurationDetailsListRepresentation = map[string]interface{}{
+		"destination_directory_name": acctest.Representation{RepType: acctest.Required, Create: `destinationDirectoryName`, Update: `destinationDirectoryName2`},
+		"storage_type":               acctest.Representation{RepType: acctest.Required, Create: `FILE_STORAGE`, Update: `OBJECT_STORAGE`},
+		"bucket":                     acctest.Representation{RepType: acctest.Optional, Create: `bucket`, Update: `bucket2`},
+		"destination_path":           acctest.Representation{RepType: acctest.Optional, Create: `destinationPath`, Update: `destinationPath2`},
+		"export_id":                  acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_export.test_export.id}`},
+		"mount_target_id":            acctest.Representation{RepType: acctest.Optional, Create: `${oci_file_storage_mount_target.test_mount_target.id}`},
+		"namespace":                  acctest.Representation{RepType: acctest.Optional, Create: `namespace`, Update: `namespace2`},
+		"prefix":                     acctest.Representation{RepType: acctest.Optional, Create: `prefix`, Update: `prefix2`},
+	}
+	DatasciencePipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+	}
+	DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsDriverShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`, Update: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
+	}
+	DatasciencePipelineStepDetailsStepDataflowConfigurationDetailsExecutorShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `16.0`, Update: `16.0`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `2.0`},
+	}
+	DatasciencePipelineStepDetailsStepInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
+		"memory_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
+		"ocpus":         acctest.Representation{RepType: acctest.Optional, Create: `1.0`, Update: `1.1`},
 	}
 
 	// shape_configuration_details supported and tested but currently not supported by ml_jobs
@@ -161,7 +245,7 @@ var (
 	pipelineStepDetailsStepInfrastructureConfigurationDetailsRepresentation = map[string]interface{}{
 		"block_storage_size_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `50`},
 		"shape_name":                acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
-		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: ``},
+		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `{subnet_id}`},
 	}
 	pipelineInfrastructureConfigurationDetailsShapeConfigDetailsRepresentation = map[string]interface{}{
 		"memory_in_gbs": acctest.Representation{RepType: acctest.Required, Create: `1.0`},
@@ -187,7 +271,15 @@ var (
 
 	PipelineResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_datascience_project", "test_project", acctest.Required, acctest.Create, DatascienceProjectRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_logging_log_group", "terraform_test_custom_log_group", acctest.Required, acctest.Create, pipelineLogGroupRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "terraform_test_custom_log", acctest.Required, acctest.Create, pipelineLogRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_logging_log", "terraform_test_custom_log", acctest.Required, acctest.Create, pipelineLogRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
+		AvailabilityDomainConfig +
+		DefinedTagsDependencies +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export_set", "test_export_set", acctest.Optional, acctest.Create, FileStorageExportSetRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_file_system", "test_file_system", acctest.Required, acctest.Create, FileStorageFileSystemRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_export", "test_export", acctest.Required, acctest.Create, FileStorageExportRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_file_storage_mount_target", "test_mount_target", acctest.Required, acctest.Create, FileStorageMountTargetRepresentation)
 )
 
 // issue-routing-tag: datascience/default
@@ -271,6 +363,11 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.block_storage_size_in_gbs", "50"),
 				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_directory_name", "oss"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_path", "/mnt"),
+				// resource.TestCheckResourceAttrSet(resourceName, "storage_mount_configuration_details_list.0.mount_target_id"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepName"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
@@ -382,6 +479,9 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepName"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_directory_name", "oss1"),
+				resource.TestCheckResourceAttr(resourceName, "storage_mount_configuration_details_list.0.destination_path", "/mnt"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 
 				func(s *terraform.State) (err error) {
@@ -457,6 +557,8 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_config_details.#", "0"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_name", "stepName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "step_details.0.step_type", "CUSTOM_SCRIPT"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_mount_configuration_details_list.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "storage_mount_configuration_details_list.0.storage_type", "OBJECT_STORAGE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
 			),
@@ -501,6 +603,40 @@ func TestDatasciencePipelineResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "step_details.0.step_infrastructure_configuration_details.0.shape_name"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepNameContainer"),
 				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "CONTAINER"),
+
+				func(s *terraform.State) (err error) { // failing figure out why
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					fmt.Printf("ResourceName is %s", resourceName)
+					if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "false")); isEnableExportCompartment {
+						fmt.Printf("CompartmentId:%v, ResourceName is %s", &compartmentId, resourceName)
+						if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+							return errExport
+						}
+					}
+					return err
+				},
+			),
+		},
+		// step 9 - delete before next Create
+		{
+			Config: config + compartmentIdVariableStr + PipelineResourceDependencies,
+		},
+		// step 10 - verify Create with Dataflow Step type
+		{
+			Config: config + compartmentIdVariableStr + PipelineResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_datascience_pipeline", "test_pipeline", acctest.Optional, acctest.Create, pipelineRepresentationDataflow),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttrSet(resourceName, "project_id"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.depends_on.#", "0"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.description", "descriptionDataflow"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_dataflow_configuration_details.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_dataflow_configuration_details.0.driver_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_dataflow_configuration_details.0.executor_shape", "VM.Standard.E4.Flex"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_dataflow_configuration_details.0.num_executors", "1"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_name", "stepNameDataflow"),
+				resource.TestCheckResourceAttr(resourceName, "step_details.0.step_type", "DATAFLOW"),
 
 				func(s *terraform.State) (err error) { // failing figure out why
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
