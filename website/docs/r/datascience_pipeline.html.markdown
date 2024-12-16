@@ -26,6 +26,8 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 		step_type = var.pipeline_step_details_step_type
 
 		#Optional
+
+		application_id = oci_dataflow_application.test_application.id=
 		depends_on = var.pipeline_step_details_depends_on
 		description = var.pipeline_step_details_description
 		is_artifact_uploaded = var.pipeline_step_details_is_artifact_uploaded
@@ -48,6 +50,28 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			image_digest = var.pipeline_step_details_step_container_configuration_details_image_digest
 			image_signature_id = oci_datascience_image_signature.test_image_signature.id
 		}
+		step_dataflow_configuration_details {
+
+			#Optional
+			configuration = var.pipeline_step_details_step_dataflow_configuration_details_configuration
+			driver_shape = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape
+			driver_shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_driver_shape_config_details_ocpus
+			}
+			executor_shape = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape
+			executor_shape_config_details {
+
+				#Optional
+				memory_in_gbs = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_memory_in_gbs
+				ocpus = var.pipeline_step_details_step_dataflow_configuration_details_executor_shape_config_details_ocpus
+			}
+			logs_bucket_uri = var.pipeline_step_details_step_dataflow_configuration_details_logs_bucket_uri
+			num_executors = var.pipeline_step_details_step_dataflow_configuration_details_num_executors
+			warehouse_bucket_uri = var.pipeline_step_details_step_dataflow_configuration_details_warehouse_bucket_uri
+		}
 		step_infrastructure_configuration_details {
 
 			#Optional
@@ -60,6 +84,19 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 			}
 			shape_name = oci_core_shape.test_shape.name
 			subnet_id = oci_core_subnet.test_subnet.id
+		}
+		step_storage_mount_configuration_details_list {
+			#Required
+			destination_directory_name = var.pipeline_step_details_step_storage_mount_configuration_details_list_destination_directory_name
+			storage_type = var.pipeline_step_details_step_storage_mount_configuration_details_list_storage_type
+
+			#Optional
+			bucket = var.pipeline_step_details_step_storage_mount_configuration_details_list_bucket
+			destination_path = var.pipeline_step_details_step_storage_mount_configuration_details_list_destination_path
+			export_id = oci_file_storage_export.test_export.id
+			mount_target_id = oci_file_storage_mount_target.test_mount_target.id
+			namespace = var.pipeline_step_details_step_storage_mount_configuration_details_list_namespace
+			prefix = var.pipeline_step_details_step_storage_mount_configuration_details_list_prefix
 		}
 	}
 
@@ -99,6 +136,19 @@ resource "oci_datascience_pipeline" "test_pipeline" {
 		log_group_id = oci_logging_log_group.test_log_group.id
 		log_id = oci_logging_log.test_log.id
 	}
+	storage_mount_configuration_details_list {
+		#Required
+		destination_directory_name = var.pipeline_storage_mount_configuration_details_list_destination_directory_name
+		storage_type = var.pipeline_storage_mount_configuration_details_list_storage_type
+
+		#Optional
+		bucket = var.pipeline_storage_mount_configuration_details_list_bucket
+		destination_path = var.pipeline_storage_mount_configuration_details_list_destination_path
+		export_id = oci_file_storage_export.test_export.id
+		mount_target_id = oci_file_storage_mount_target.test_mount_target.id
+		namespace = var.pipeline_storage_mount_configuration_details_list_namespace
+		prefix = var.pipeline_storage_mount_configuration_details_list_prefix
+	}
 }
 ```
 
@@ -130,6 +180,8 @@ The following arguments are supported:
 	* `log_id` - (Optional) (Updatable) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the log.
 * `project_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 * `step_details` - (Required) (Updatable) Array of step details for each step.
+
+	* `application_id` - (Required when step_type=DATAFLOW) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow application to be used as a step.
 	* `depends_on` - (Optional) The list of step names this current step depends on for execution.
 	* `description` - (Optional) (Updatable) A short description of the step.
 	* `is_artifact_uploaded` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) A flag to indicate whether the artifact has been uploaded for this step or not.
@@ -145,6 +197,19 @@ The following arguments are supported:
 		* `image` - (Required) The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
 		* `image_digest` - (Optional) The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `image_signature_id` - (Optional) OCID of the container image signature
+	* `step_dataflow_configuration_details` - (Applicable when step_type=DATAFLOW) (Updatable) The configuration details of a Dataflow step.
+		* `configuration` - (Applicable when step_type=DATAFLOW) (Updatable) The Spark configuration passed to the running process.
+		* `driver_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the driver.
+		* `driver_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `executor_shape` - (Applicable when step_type=DATAFLOW) (Updatable) The VM shape for the executors.
+		* `executor_shape_config_details` - (Applicable when step_type=DATAFLOW) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - (Applicable when step_type=DATAFLOW) (Updatable) A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `logs_bucket_uri` - (Applicable when step_type=DATAFLOW) (Updatable) An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
+		* `num_executors` - (Applicable when step_type=DATAFLOW) (Updatable) The number of executor VMs requested.
+		* `warehouse_bucket_uri` - (Applicable when step_type=DATAFLOW) (Updatable) An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_infrastructure_configuration_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
@@ -153,7 +218,25 @@ The following arguments are supported:
 		* `shape_name` - (Required when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The shape used to launch the instance for all step runs in the pipeline.
 		* `subnet_id` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - (Required) (Updatable) The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
+	* `step_storage_mount_configuration_details_list` - (Applicable when step_type=CONTAINER | CUSTOM_SCRIPT) (Updatable) The storage mount details to mount to the instance running the pipeline step.
+		* `bucket` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage bucket
+		* `destination_directory_name` - (Required) (Updatable) The local directory name to be mounted
+		* `destination_path` - (Optional) (Updatable) The local path of the mounted directory, excluding directory name.
+		* `export_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the export
+		* `mount_target_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the mount target
+		* `namespace` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage namespace
+		* `prefix` - (Applicable when storage_type=OBJECT_STORAGE) (Updatable) Prefix in the bucket to mount
+		* `storage_type` - (Required) (Updatable) The type of storage.
 	* `step_type` - (Required) (Updatable) The type of step.
+* `storage_mount_configuration_details_list` - (Optional) (Updatable) The storage mount details to mount to the instance running the pipeline step.
+	* `bucket` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage bucket
+	* `destination_directory_name` - (Required) (Updatable) The local directory name to be mounted
+	* `destination_path` - (Optional) (Updatable) The local path of the mounted directory, excluding directory name.
+	* `export_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the export
+	* `mount_target_id` - (Required when storage_type=FILE_STORAGE) (Updatable) OCID of the mount target
+	* `namespace` - (Required when storage_type=OBJECT_STORAGE) (Updatable) The object storage namespace
+	* `prefix` - (Applicable when storage_type=OBJECT_STORAGE) (Updatable) Prefix in the bucket to mount
+	* `storage_type` - (Required) (Updatable) The type of storage.
 
 
 ** IMPORTANT **
@@ -191,6 +274,7 @@ The following attributes are exported:
 * `project_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the pipeline with.
 * `state` - The current state of the pipeline.
 * `step_details` - Array of step details for each step.
+	* `application_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow application to be used as a step.
 	* `depends_on` - The list of step names this current step depends on for execution.
 	* `description` - A short description of the step.
 	* `is_artifact_uploaded` - A flag to indicate whether the artifact has been uploaded for this step or not.
@@ -206,6 +290,19 @@ The following attributes are exported:
 		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `image_signature_id` - OCID of the container image signature
+	* `step_dataflow_configuration_details` - The configuration details of a Dataflow step.
+		* `configuration` - The Spark configuration passed to the running process.
+		* `driver_shape` - The VM shape for the driver.
+		* `driver_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `executor_shape` - The VM shape for the executors.
+		* `executor_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
+		* `num_executors` - The number of executor VMs requested.
+		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_infrastructure_configuration_details` - The infrastructure configuration details of a pipeline or a step.
 		* `block_storage_size_in_gbs` - The size of the block storage volume to attach to the instance. 
 		* `shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
@@ -214,7 +311,25 @@ The following attributes are exported:
 		* `shape_name` - The shape used to launch the instance for all step runs in the pipeline.
 		* `subnet_id` - The subnet to create a secondary vnic in to attach to the instance running the pipeline step. 
 	* `step_name` - The name of the step. It must be unique within the pipeline. This is used to create the pipeline DAG.
+	* `step_storage_mount_configuration_details_list` - The storage mount details to mount to the instance running the pipeline step.
+		* `bucket` - The object storage bucket
+		* `destination_directory_name` - The local directory name to be mounted
+		* `destination_path` - The local path of the mounted directory, excluding directory name.
+		* `export_id` - OCID of the export
+		* `mount_target_id` - OCID of the mount target
+		* `namespace` - The object storage namespace
+		* `prefix` - Prefix in the bucket to mount
+		* `storage_type` - The type of storage.
 	* `step_type` - The type of step.
+* `storage_mount_configuration_details_list` - The storage mount details to mount to the instance running the pipeline step.
+	* `bucket` - The object storage bucket
+	* `destination_directory_name` - The local directory name to be mounted
+	* `destination_path` - The local path of the mounted directory, excluding directory name.
+	* `export_id` - OCID of the export
+	* `mount_target_id` - OCID of the mount target
+	* `namespace` - The object storage namespace
+	* `prefix` - Prefix in the bucket to mount
+	* `storage_type` - The type of storage.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the resource was created in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2020-08-06T21:10:29.41Z 
 * `time_updated` - The date and time the resource was updated in the timestamp format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). Example: 2020-08-06T21:10:29.41Z 

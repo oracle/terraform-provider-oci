@@ -125,6 +125,12 @@ func (s *DatasciencePipelineDataSourceCrud) SetData() error {
 	}
 	s.D.Set("step_details", stepDetails)
 
+	storageMountConfigurationDetailsList := []interface{}{}
+	for _, item := range s.Res.StorageMountConfigurationDetailsList {
+		storageMountConfigurationDetailsList = append(storageMountConfigurationDetailsList, StorageMountConfigurationDetailsToMap(item))
+	}
+	s.D.Set("storage_mount_configuration_details_list", storageMountConfigurationDetailsList)
+
 	if s.Res.SystemTags != nil {
 		s.D.Set("system_tags", tfresource.SystemTagsToMap(s.Res.SystemTags))
 	}
