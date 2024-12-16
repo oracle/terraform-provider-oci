@@ -73,8 +73,22 @@ The following attributes are exported:
 		* `image` - The full path to the Oracle Container Repository (OCIR) registry, image, and tag in a canonical format. 
 		* `image_digest` - The digest of the container image. For example, `sha256:881303a6b2738834d795a32b4a98eb0e5e3d1cad590a712d1e04f9b2fa90a030` 
 		* `image_signature_id` - OCID of the container image signature
+	* `step_dataflow_configuration_details` - The configuration details of a Dataflow step.
+		* `configuration` - The Spark configuration passed to the running process.
+		* `driver_shape` - The VM shape for the driver.
+		* `driver_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `executor_shape` - The VM shape for the executors.
+		* `executor_shape_config_details` - Details for the pipeline step run shape configuration. Specify only when a flex shape is selected.
+			* `memory_in_gbs` - A pipeline step run instance of type VM.Standard.E3.Flex allows memory to be specified. This specifies the size of the memory in GBs. 
+			* `ocpus` - A pipeline step run instance of type VM.Standard.E3.Flex allows the ocpu count to be specified. 
+		* `logs_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket where the Spark job logs are to be uploaded.
+		* `num_executors` - The number of executor VMs requested.
+		* `warehouse_bucket_uri` - An Oracle Cloud Infrastructure URI of the bucket to be used as default warehouse directory for BATCH SQL runs.
 	* `step_name` - The name of the step.
 * `step_runs` - Array of StepRun object for each step.
+	* `dataflow_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the dataflow run triggered for this step run.
 	* `job_run_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run triggered for this step run.
 	* `lifecycle_details` - Details of the state of the step run.
 	* `state` - The state of the step run.
