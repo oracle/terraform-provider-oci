@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -22,8 +20,7 @@ import (
 	"strings"
 )
 
-// KnowledgeBase **KnowledgeBase**
-// A knowledge base is the base for all the data sources that an agent can use to retrieve information for its responses.
+// KnowledgeBase A knowledge base is the base for all the data sources that an agent can use to retrieve information for its responses.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm).
 type KnowledgeBase struct {
 
@@ -57,6 +54,8 @@ type KnowledgeBase struct {
 
 	// A description of the knowledge base.
 	Description *string `mandatory:"false" json:"description"`
+
+	KnowledgeBaseStatistics *KnowledgeBaseStatistics `mandatory:"false" json:"knowledgeBaseStatistics"`
 
 	// The date and time the knowledge base was updated, in the format defined by RFC 3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
@@ -93,18 +92,19 @@ func (m KnowledgeBase) ValidateEnumValue() (bool, error) {
 // UnmarshalJSON unmarshals from json
 func (m *KnowledgeBase) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		Description      *string                           `json:"description"`
-		TimeUpdated      *common.SDKTime                   `json:"timeUpdated"`
-		LifecycleDetails *string                           `json:"lifecycleDetails"`
-		SystemTags       map[string]map[string]interface{} `json:"systemTags"`
-		Id               *string                           `json:"id"`
-		DisplayName      *string                           `json:"displayName"`
-		CompartmentId    *string                           `json:"compartmentId"`
-		IndexConfig      indexconfig                       `json:"indexConfig"`
-		TimeCreated      *common.SDKTime                   `json:"timeCreated"`
-		LifecycleState   KnowledgeBaseLifecycleStateEnum   `json:"lifecycleState"`
-		FreeformTags     map[string]string                 `json:"freeformTags"`
-		DefinedTags      map[string]map[string]interface{} `json:"definedTags"`
+		Description             *string                           `json:"description"`
+		KnowledgeBaseStatistics *KnowledgeBaseStatistics          `json:"knowledgeBaseStatistics"`
+		TimeUpdated             *common.SDKTime                   `json:"timeUpdated"`
+		LifecycleDetails        *string                           `json:"lifecycleDetails"`
+		SystemTags              map[string]map[string]interface{} `json:"systemTags"`
+		Id                      *string                           `json:"id"`
+		DisplayName             *string                           `json:"displayName"`
+		CompartmentId           *string                           `json:"compartmentId"`
+		IndexConfig             indexconfig                       `json:"indexConfig"`
+		TimeCreated             *common.SDKTime                   `json:"timeCreated"`
+		LifecycleState          KnowledgeBaseLifecycleStateEnum   `json:"lifecycleState"`
+		FreeformTags            map[string]string                 `json:"freeformTags"`
+		DefinedTags             map[string]map[string]interface{} `json:"definedTags"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -113,6 +113,8 @@ func (m *KnowledgeBase) UnmarshalJSON(data []byte) (e error) {
 	}
 	var nn interface{}
 	m.Description = model.Description
+
+	m.KnowledgeBaseStatistics = model.KnowledgeBaseStatistics
 
 	m.TimeUpdated = model.TimeUpdated
 
