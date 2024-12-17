@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -41,6 +39,9 @@ const (
 	OperationTypeMoveKnowledgeBase      OperationTypeEnum = "MOVE_KNOWLEDGE_BASE"
 	OperationTypeCreateDataIngestionJob OperationTypeEnum = "CREATE_DATA_INGESTION_JOB"
 	OperationTypeDeleteDataIngestionJob OperationTypeEnum = "DELETE_DATA_INGESTION_JOB"
+	OperationTypeCreateTool             OperationTypeEnum = "CREATE_TOOL"
+	OperationTypeUpdateTool             OperationTypeEnum = "UPDATE_TOOL"
+	OperationTypeDeleteTool             OperationTypeEnum = "DELETE_TOOL"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -61,6 +62,9 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"MOVE_KNOWLEDGE_BASE":       OperationTypeMoveKnowledgeBase,
 	"CREATE_DATA_INGESTION_JOB": OperationTypeCreateDataIngestionJob,
 	"DELETE_DATA_INGESTION_JOB": OperationTypeDeleteDataIngestionJob,
+	"CREATE_TOOL":               OperationTypeCreateTool,
+	"UPDATE_TOOL":               OperationTypeUpdateTool,
+	"DELETE_TOOL":               OperationTypeDeleteTool,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -81,6 +85,9 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"move_knowledge_base":       OperationTypeMoveKnowledgeBase,
 	"create_data_ingestion_job": OperationTypeCreateDataIngestionJob,
 	"delete_data_ingestion_job": OperationTypeDeleteDataIngestionJob,
+	"create_tool":               OperationTypeCreateTool,
+	"update_tool":               OperationTypeUpdateTool,
+	"delete_tool":               OperationTypeDeleteTool,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -112,6 +119,9 @@ func GetOperationTypeEnumStringValues() []string {
 		"MOVE_KNOWLEDGE_BASE",
 		"CREATE_DATA_INGESTION_JOB",
 		"DELETE_DATA_INGESTION_JOB",
+		"CREATE_TOOL",
+		"UPDATE_TOOL",
+		"DELETE_TOOL",
 	}
 }
 

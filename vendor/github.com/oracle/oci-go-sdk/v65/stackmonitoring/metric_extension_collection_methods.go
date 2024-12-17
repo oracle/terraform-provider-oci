@@ -21,18 +21,21 @@ const (
 	MetricExtensionCollectionMethodsOsCommand MetricExtensionCollectionMethodsEnum = "OS_COMMAND"
 	MetricExtensionCollectionMethodsSql       MetricExtensionCollectionMethodsEnum = "SQL"
 	MetricExtensionCollectionMethodsJmx       MetricExtensionCollectionMethodsEnum = "JMX"
+	MetricExtensionCollectionMethodsHttp      MetricExtensionCollectionMethodsEnum = "HTTP"
 )
 
 var mappingMetricExtensionCollectionMethodsEnum = map[string]MetricExtensionCollectionMethodsEnum{
 	"OS_COMMAND": MetricExtensionCollectionMethodsOsCommand,
 	"SQL":        MetricExtensionCollectionMethodsSql,
 	"JMX":        MetricExtensionCollectionMethodsJmx,
+	"HTTP":       MetricExtensionCollectionMethodsHttp,
 }
 
 var mappingMetricExtensionCollectionMethodsEnumLowerCase = map[string]MetricExtensionCollectionMethodsEnum{
 	"os_command": MetricExtensionCollectionMethodsOsCommand,
 	"sql":        MetricExtensionCollectionMethodsSql,
 	"jmx":        MetricExtensionCollectionMethodsJmx,
+	"http":       MetricExtensionCollectionMethodsHttp,
 }
 
 // GetMetricExtensionCollectionMethodsEnumValues Enumerates the set of values for MetricExtensionCollectionMethodsEnum
@@ -50,6 +53,7 @@ func GetMetricExtensionCollectionMethodsEnumStringValues() []string {
 		"OS_COMMAND",
 		"SQL",
 		"JMX",
+		"HTTP",
 	}
 }
 
