@@ -24,6 +24,9 @@ type BatchingBasedOdhPatchingConfig struct {
 
 	// The wait time between batches in seconds.
 	WaitTimeBetweenBatchInSeconds *int `mandatory:"true" json:"waitTimeBetweenBatchInSeconds"`
+
+	// Acceptable number of failed-to-be-patched nodes in each batch. The maximum number of failed-to-patch nodes cannot exceed 20% of the number of non-utility and non-master nodes.
+	ToleranceThresholdPerBatch *int `mandatory:"false" json:"toleranceThresholdPerBatch"`
 }
 
 func (m BatchingBasedOdhPatchingConfig) String() string {

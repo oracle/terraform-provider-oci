@@ -149,6 +149,9 @@ type AutonomousDatabase struct {
 	// The Autonomous Container Database OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm). Used only by Autonomous Database on Dedicated Exadata Infrastructure.
 	AutonomousContainerDatabaseId *string `mandatory:"false" json:"autonomousContainerDatabaseId"`
 
+	// Indicates if the Autonomous Database is backup retention locked.
+	IsBackupRetentionLocked *bool `mandatory:"false" json:"isBackupRetentionLocked"`
+
 	// The date and time the Autonomous Database was most recently undeleted.
 	TimeUndeleted *common.SDKTime `mandatory:"false" json:"timeUndeleted"`
 
@@ -577,6 +580,7 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 		InfrastructureType                      AutonomousDatabaseInfrastructureTypeEnum                `json:"infrastructureType"`
 		IsDedicated                             *bool                                                   `json:"isDedicated"`
 		AutonomousContainerDatabaseId           *string                                                 `json:"autonomousContainerDatabaseId"`
+		IsBackupRetentionLocked                 *bool                                                   `json:"isBackupRetentionLocked"`
 		TimeUndeleted                           *common.SDKTime                                         `json:"timeUndeleted"`
 		TimeCreated                             *common.SDKTime                                         `json:"timeCreated"`
 		DisplayName                             *string                                                 `json:"displayName"`
@@ -748,6 +752,8 @@ func (m *AutonomousDatabase) UnmarshalJSON(data []byte) (e error) {
 	m.IsDedicated = model.IsDedicated
 
 	m.AutonomousContainerDatabaseId = model.AutonomousContainerDatabaseId
+
+	m.IsBackupRetentionLocked = model.IsBackupRetentionLocked
 
 	m.TimeUndeleted = model.TimeUndeleted
 

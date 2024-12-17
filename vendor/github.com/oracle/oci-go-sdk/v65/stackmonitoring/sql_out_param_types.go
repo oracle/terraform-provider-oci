@@ -18,18 +18,21 @@ type SqlOutParamTypesEnum string
 
 // Set of constants representing the allowable values for SqlOutParamTypesEnum
 const (
-	SqlOutParamTypesSqlCursor SqlOutParamTypesEnum = "SQL_CURSOR"
-	SqlOutParamTypesArray     SqlOutParamTypesEnum = "ARRAY"
+	SqlOutParamTypesSqlCursor  SqlOutParamTypesEnum = "SQL_CURSOR"
+	SqlOutParamTypesArray      SqlOutParamTypesEnum = "ARRAY"
+	SqlOutParamTypesNoOutParam SqlOutParamTypesEnum = "NO_OUT_PARAM"
 )
 
 var mappingSqlOutParamTypesEnum = map[string]SqlOutParamTypesEnum{
-	"SQL_CURSOR": SqlOutParamTypesSqlCursor,
-	"ARRAY":      SqlOutParamTypesArray,
+	"SQL_CURSOR":   SqlOutParamTypesSqlCursor,
+	"ARRAY":        SqlOutParamTypesArray,
+	"NO_OUT_PARAM": SqlOutParamTypesNoOutParam,
 }
 
 var mappingSqlOutParamTypesEnumLowerCase = map[string]SqlOutParamTypesEnum{
-	"sql_cursor": SqlOutParamTypesSqlCursor,
-	"array":      SqlOutParamTypesArray,
+	"sql_cursor":   SqlOutParamTypesSqlCursor,
+	"array":        SqlOutParamTypesArray,
+	"no_out_param": SqlOutParamTypesNoOutParam,
 }
 
 // GetSqlOutParamTypesEnumValues Enumerates the set of values for SqlOutParamTypesEnum
@@ -46,6 +49,7 @@ func GetSqlOutParamTypesEnumStringValues() []string {
 	return []string{
 		"SQL_CURSOR",
 		"ARRAY",
+		"NO_OUT_PARAM",
 	}
 }
 

@@ -67,6 +67,15 @@ const (
 	OperationTypesDeleteResourcePrincipalConfiguration OperationTypesEnum = "DELETE_RESOURCE_PRINCIPAL_CONFIGURATION"
 	OperationTypesUpdateResourcePrincipalConfiguration OperationTypesEnum = "UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION"
 	OperationTypesRefreshResourcePrincipal             OperationTypesEnum = "REFRESH_RESOURCE_PRINCIPAL"
+	OperationTypesCreateIdentityConfig                 OperationTypesEnum = "CREATE_IDENTITY_CONFIG"
+	OperationTypesDeleteIdentityConfig                 OperationTypesEnum = "DELETE_IDENTITY_CONFIG"
+	OperationTypesUpdateIdentityConfig                 OperationTypesEnum = "UPDATE_IDENTITY_CONFIG"
+	OperationTypesActivateUpstConfig                   OperationTypesEnum = "ACTIVATE_UPST_CONFIG"
+	OperationTypesDeactivateUpstConfig                 OperationTypesEnum = "DEACTIVATE_UPST_CONFIG"
+	OperationTypesRefreshConfidentialApplication       OperationTypesEnum = "REFRESH_CONFIDENTIAL_APPLICATION"
+	OperationTypesRefreshTokenExchangeKeytab           OperationTypesEnum = "REFRESH_TOKEN_EXCHANGE_KEYTAB"
+	OperationTypesActivateIamUserSyncConfig            OperationTypesEnum = "ACTIVATE_IAM_USER_SYNC_CONFIG"
+	OperationTypesDeactivateIamUserSyncConfig          OperationTypesEnum = "DEACTIVATE_IAM_USER_SYNC_CONFIG"
 )
 
 var mappingOperationTypesEnum = map[string]OperationTypesEnum{
@@ -119,6 +128,15 @@ var mappingOperationTypesEnum = map[string]OperationTypesEnum{
 	"DELETE_RESOURCE_PRINCIPAL_CONFIGURATION": OperationTypesDeleteResourcePrincipalConfiguration,
 	"UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION": OperationTypesUpdateResourcePrincipalConfiguration,
 	"REFRESH_RESOURCE_PRINCIPAL":              OperationTypesRefreshResourcePrincipal,
+	"CREATE_IDENTITY_CONFIG":                  OperationTypesCreateIdentityConfig,
+	"DELETE_IDENTITY_CONFIG":                  OperationTypesDeleteIdentityConfig,
+	"UPDATE_IDENTITY_CONFIG":                  OperationTypesUpdateIdentityConfig,
+	"ACTIVATE_UPST_CONFIG":                    OperationTypesActivateUpstConfig,
+	"DEACTIVATE_UPST_CONFIG":                  OperationTypesDeactivateUpstConfig,
+	"REFRESH_CONFIDENTIAL_APPLICATION":        OperationTypesRefreshConfidentialApplication,
+	"REFRESH_TOKEN_EXCHANGE_KEYTAB":           OperationTypesRefreshTokenExchangeKeytab,
+	"ACTIVATE_IAM_USER_SYNC_CONFIG":           OperationTypesActivateIamUserSyncConfig,
+	"DEACTIVATE_IAM_USER_SYNC_CONFIG":         OperationTypesDeactivateIamUserSyncConfig,
 }
 
 var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
@@ -171,6 +189,15 @@ var mappingOperationTypesEnumLowerCase = map[string]OperationTypesEnum{
 	"delete_resource_principal_configuration": OperationTypesDeleteResourcePrincipalConfiguration,
 	"update_resource_principal_configuration": OperationTypesUpdateResourcePrincipalConfiguration,
 	"refresh_resource_principal":              OperationTypesRefreshResourcePrincipal,
+	"create_identity_config":                  OperationTypesCreateIdentityConfig,
+	"delete_identity_config":                  OperationTypesDeleteIdentityConfig,
+	"update_identity_config":                  OperationTypesUpdateIdentityConfig,
+	"activate_upst_config":                    OperationTypesActivateUpstConfig,
+	"deactivate_upst_config":                  OperationTypesDeactivateUpstConfig,
+	"refresh_confidential_application":        OperationTypesRefreshConfidentialApplication,
+	"refresh_token_exchange_keytab":           OperationTypesRefreshTokenExchangeKeytab,
+	"activate_iam_user_sync_config":           OperationTypesActivateIamUserSyncConfig,
+	"deactivate_iam_user_sync_config":         OperationTypesDeactivateIamUserSyncConfig,
 }
 
 // GetOperationTypesEnumValues Enumerates the set of values for OperationTypesEnum
@@ -234,6 +261,15 @@ func GetOperationTypesEnumStringValues() []string {
 		"DELETE_RESOURCE_PRINCIPAL_CONFIGURATION",
 		"UPDATE_RESOURCE_PRINCIPAL_CONFIGURATION",
 		"REFRESH_RESOURCE_PRINCIPAL",
+		"CREATE_IDENTITY_CONFIG",
+		"DELETE_IDENTITY_CONFIG",
+		"UPDATE_IDENTITY_CONFIG",
+		"ACTIVATE_UPST_CONFIG",
+		"DEACTIVATE_UPST_CONFIG",
+		"REFRESH_CONFIDENTIAL_APPLICATION",
+		"REFRESH_TOKEN_EXCHANGE_KEYTAB",
+		"ACTIVATE_IAM_USER_SYNC_CONFIG",
+		"DEACTIVATE_IAM_USER_SYNC_CONFIG",
 	}
 }
 
