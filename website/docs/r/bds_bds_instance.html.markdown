@@ -117,6 +117,13 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 	}
 
 	#Optional
+	bds_cluster_version_summary {
+		#Required
+		bds_version = var.bds_instance_bds_cluster_version_summary_bds_version
+
+		#Optional
+		odh_version = var.bds_instance_bds_cluster_version_summary_odh_version
+	}
 	bootstrap_script_url = var.bds_instance_bootstrap_script_url
 	cluster_profile = var.bds_instance_cluster_profile
 	defined_tags = var.bds_instance_defined_tags
@@ -137,6 +144,9 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
 
 The following arguments are supported:
 
+* `bds_cluster_version_summary` - (Optional) Cluster version details including bds and odh version information.
+	* `bds_version` - (Required) BDS version to be used for cluster creation
+	* `odh_version` - (Optional) ODH version to be used for cluster creation
 * `bootstrap_script_url` - (Optional) (Updatable) Pre-authenticated URL of the script in Object Store that is downloaded and executed.
 * `cluster_admin_password` - (Required) Base-64 encoded password for the cluster (and Cloudera Manager) admin user.
 * `cluster_profile` - (Optional) Profile of the Big Data Service cluster.
@@ -154,10 +164,9 @@ The following arguments are supported:
 * `is_secure` - (Required) Boolean flag specifying whether or not the cluster should be setup as secure.
 * `kerberos_realm_name` - (Optional) The user-defined kerberos realm name.
 * `kms_key_id` - (Optional) (Updatable) The OCID of the Key Management master encryption key.
-* `network_config` - (Optional) Additional configuration of the user's network.
-	* `cidr_block` - (Optional) The CIDR IP address block of the VCN.
-	* `is_nat_gateway_required` - (Optional) A boolean flag whether to configure a NAT gateway.
-* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
+* `network_config` - (Optional) (Updatable) Additional configuration of the user's network.
+	* `cidr_block` - (Optional) (Updatable) The CIDR IP address block of the VCN.
+	* `is_nat_gateway_required` - (Optional) (Updatable) A boolean flag whether to configure a NAT gateway.
 * `nodes` - (Required) The list of nodes in the Big Data Service cluster.
 	* `block_volume_size_in_gbs` - (Required) The size of block volume in GB to be attached to a given node. All the details needed for attaching the block volume are managed by service itself. 
 	* `node_type` - (Required) The Big Data Service cluster node type.
@@ -167,7 +176,12 @@ The following arguments are supported:
 		* `nvmes` - (Optional) The number of NVMe drives to be used for storage. A single drive has 6.8 TB available.
 		* `ocpus` - (Optional) The total number of OCPUs available to the node.
 	* `subnet_id` - (Required) The OCID of the subnet in which the node will be created.
-* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`.
+* `state` - (Optional) (Updatable) The target state for the Bds Instance. Could be set to `ACTIVE` or `INACTIVE`. 
+* `execute_bootstrap_script_trigger` - (Optional) (Updatable) An optional property when incremented triggers Execute Bootstrap Script. Could be set to any integer value.
+* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
+* `remove_kafka_trigger` - (Optional) (Updatable) An optional property when incremented triggers Remove Kafka. Could be set to any integer value.
+* `remove_node` - (Optional) (Updatable) An optional property when used triggers Remove Node. Takes the node ocid as input.
+* `install_os_patch_trigger` - (Optional) (Updatable) An optional property when incremented triggers Install Os Patch. Could be set to any integer value.
 * `is_force_stop_jobs` - (Optional) (Updatable) When setting state as `INACTIVE` for stopping a cluster, setting this flag to true forcefully stops the bds instance.
 * `is_kafka_configured` - (Optional) Boolean flag specifying whether or not Kafka should be configured.
 * `os_patch_version`  - (Optional) (Updatable) The version of the patch to be upated.
@@ -229,6 +243,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `bds_cluster_version_summary` - Cluster version details including bds and odh version information.
+	* `bds_version` - BDS version to be used for cluster creation
+	* `odh_version` - ODH version to be used for cluster creation
 * `bootstrap_script_url` - pre-authenticated URL of the bootstrap script in Object Store that can be downloaded and executed.
 * `cloud_sql_details` - The information about added Cloud SQL capability
 	* `block_volume_size_in_gbs` - The size of block volume in GB that needs to be attached to a given node. All the necessary details needed for attachment are managed by service itself. 
