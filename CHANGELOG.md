@@ -1,3 +1,18 @@
+## 6.21.0 (Unreleased)
+
+### Added
+- Support for BDS - Kerb to IAM Automation
+- Support for BDS 3.0.29 Release - Feature Enhancements
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for ADB-S: Backup Retention Lock
+### Bug Fix
+- Fix terraform documentation for oci_database_exadb_vm_cluster resource
+
+
 ## 6.20.0 (Unreleased)
 
 ### Added
