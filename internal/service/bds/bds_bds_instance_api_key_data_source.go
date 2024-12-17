@@ -79,6 +79,10 @@ func (s *BdsBdsInstanceApiKeyDataSourceCrud) SetData() error {
 		s.D.Set("default_region", *s.Res.DefaultRegion)
 	}
 
+	if s.Res.DomainOcid != nil {
+		s.D.Set("domain_ocid", *s.Res.DomainOcid)
+	}
+
 	if s.Res.Fingerprint != nil {
 		s.D.Set("fingerprint", *s.Res.Fingerprint)
 	}
