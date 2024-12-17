@@ -29,6 +29,8 @@ resource "oci_bds_bds_instance_patch_action" "test_bds_instance_patch_action" {
 
 		#Optional
 		batch_size = var.bds_instance_patch_action_patching_config_batch_size
+		tolerance_threshold_per_batch = var.bds_instance_patch_action_patching_config_tolerance_threshold_per_batch
+		tolerance_threshold_per_domain = var.bds_instance_patch_action_patching_config_tolerance_threshold_per_domain
 		wait_time_between_batch_in_seconds = var.bds_instance_patch_action_patching_config_wait_time_between_batch_in_seconds
 		wait_time_between_domain_in_seconds = var.bds_instance_patch_action_patching_config_wait_time_between_domain_in_seconds
 	}
@@ -44,6 +46,8 @@ The following arguments are supported:
 * `patching_config` - (Optional) Detailed configurations for defining the behavior when installing ODH patches. If not provided, nodes will be patched with down time.
 	* `batch_size` - (Required when patching_config_strategy=BATCHING_BASED) How many nodes to be patched in each iteration.
 	* `patching_config_strategy` - (Required) Type of strategy used for detailed patching configuration
+	* `tolerance_threshold_per_batch` - (Applicable when patching_config_strategy=BATCHING_BASED) Acceptable number of failed-to-be-patched nodes in each batch. The maximum number of failed-to-patch nodes cannot exceed 20% of the number of non-utility and non-master nodes.
+	* `tolerance_threshold_per_domain` - (Applicable when patching_config_strategy=DOMAIN_BASED) Acceptable number of failed-to-be-patched nodes in each domain. The maximum number of failed-to-patch nodes cannot exceed 20% of the number of non-utility and non-master nodes.
 	* `wait_time_between_batch_in_seconds` - (Required when patching_config_strategy=BATCHING_BASED) The wait time between batches in seconds.
 	* `wait_time_between_domain_in_seconds` - (Required when patching_config_strategy=DOMAIN_BASED) The wait time between AD/FD in seconds.
 * `version` - (Required) The version of the patch to be installed.

@@ -63,6 +63,12 @@ func BdsBdsInstanceApiKeyResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"domain_ocid": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+			},
 
 			// Computed
 			"fingerprint": {
@@ -168,6 +174,11 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) Create() error {
 	if defaultRegion, ok := s.D.GetOkExists("default_region"); ok {
 		tmp := defaultRegion.(string)
 		request.DefaultRegion = &tmp
+	}
+
+	if domainOcid, ok := s.D.GetOkExists("domain_ocid"); ok {
+		tmp := domainOcid.(string)
+		request.DomainOcid = &tmp
 	}
 
 	if keyAlias, ok := s.D.GetOkExists("key_alias"); ok {
@@ -416,6 +427,10 @@ func (s *BdsBdsInstanceApiKeyResourceCrud) SetData() error {
 
 	if s.Res.DefaultRegion != nil {
 		s.D.Set("default_region", *s.Res.DefaultRegion)
+	}
+
+	if s.Res.DomainOcid != nil {
+		s.D.Set("domain_ocid", *s.Res.DomainOcid)
 	}
 
 	if s.Res.Fingerprint != nil {

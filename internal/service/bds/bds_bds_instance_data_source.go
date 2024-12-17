@@ -66,6 +66,12 @@ func (s *BdsBdsInstanceDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	if s.Res.BdsClusterVersionSummary != nil {
+		s.D.Set("bds_cluster_version_summary", []interface{}{BdsClusterVersionSummaryToMap(s.Res.BdsClusterVersionSummary)})
+	} else {
+		s.D.Set("bds_cluster_version_summary", nil)
+	}
+
 	if s.Res.BootstrapScriptUrl != nil {
 		s.D.Set("bootstrap_script_url", *s.Res.BootstrapScriptUrl)
 	}

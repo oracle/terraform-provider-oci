@@ -7,6 +7,7 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_bds_auto_scaling_configuration", BdsAutoScalingConfigurationDataSource())
+	tfresource.RegisterDatasource("oci_bds_bds_cluster_versions", BdsBdsClusterVersionsDataSource())
 	tfresource.RegisterDatasource("oci_bds_auto_scaling_configurations", BdsAutoScalingConfigurationsDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance", BdsBdsInstanceDataSource())
 	tfresource.RegisterDatasource("oci_bds_bds_instance_api_key", BdsBdsInstanceApiKeyDataSource())

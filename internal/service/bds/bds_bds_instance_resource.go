@@ -72,6 +72,37 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
+			"is_force_remove_enabled": {
+				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"start_cluster_shape_configs": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: false,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						"node_type_shape_configs": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: false,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									"node_type": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+									"shape": {
+										Type:     schema.TypeString,
+										Optional: true,
+									},
+								},
+							},
+						},
+					},
+				},
+			},
 			"master_node": {
 				Type:     schema.TypeList,
 				Required: true,
@@ -537,6 +568,36 @@ func BdsBdsInstanceResource() *schema.Resource {
 					},
 				},
 			},
+
+			// Optional
+			"bds_cluster_version_summary": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"bds_version": {
+							Type:     schema.TypeString,
+							Required: true,
+							ForceNew: true,
+						},
+
+						// Optional
+						"odh_version": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+						},
+
+						// Computed
+					},
+				},
+			},
 			"cluster_profile": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -571,7 +632,6 @@ func BdsBdsInstanceResource() *schema.Resource {
 				Type:     schema.TypeList,
 				Optional: true,
 				Computed: true,
-				ForceNew: true,
 				MaxItems: 1,
 				MinItems: 1,
 				Elem: &schema.Resource{
@@ -606,6 +666,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 			},
 			"is_force_stop_jobs": {
 				Type:     schema.TypeBool,
+				Optional: true,
+			},
+			"remove_node": {
+				Type:     schema.TypeString,
 				Optional: true,
 			},
 			"os_patch_version": {
@@ -702,6 +766,10 @@ func BdsBdsInstanceResource() *schema.Resource {
 					Schema: map[string]*schema.Schema{
 						// Computed
 						"node_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"odh_version": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -925,12 +993,15 @@ func updateBdsBdsInstance(d *schema.ResourceData, m interface{}) error {
 		sync.D.Set("state", oci_bds.BdsInstanceLifecycleStateActive)
 	}
 
-	//if _, ok := sync.D.GetOkExists("os_patch_version"); ok {
-	//	err := sync.InstallOsPatch()
-	//	if err != nil {
-	//		return err
-	//	}
-	//}
+	if removeNode, ok := sync.D.GetOkExists("remove_node"); ok {
+		if removeNode != "" {
+			err := sync.RemoveNode()
+			if err != nil {
+				return err
+			}
+		}
+
+	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
@@ -1005,6 +1076,29 @@ func (s *BdsBdsInstanceResourceCrud) DeletedTarget() []string {
 
 func (s *BdsBdsInstanceResourceCrud) Create() error {
 	request := oci_bds.CreateBdsInstanceRequest{}
+
+	if _, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
+		return fmt.Errorf("[ERROR] start_cluster_shape_configs is not permitted during create bds instance")
+	}
+
+	if _, ok := s.D.GetOkExists("is_force_remove_enabled"); ok {
+		return fmt.Errorf("[ERROR] is_force_remove_enabled is not permitted during create bds instance")
+	}
+
+	if _, ok := s.D.GetOkExists("remove_node"); ok {
+		return fmt.Errorf("[ERROR] remove_node is not permitted during create bds instance")
+	}
+
+	if bdsClusterVersionSummary, ok := s.D.GetOkExists("bds_cluster_version_summary"); ok {
+		if tmpList := bdsClusterVersionSummary.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "bds_cluster_version_summary", 0)
+			tmp, err := s.mapToBdsClusterVersionSummary(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.BdsClusterVersionSummary = &tmp
+		}
+	}
 
 	if bootstrapScriptUrl, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
 		tmp := bootstrapScriptUrl.(string)
@@ -1502,9 +1596,11 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		isKafkaBrokerAdded = isKafkaBrokerAdded1
 	}
 
-	err := s.ExecuteBootstrapScript()
-	if err != nil {
-		return err
+	if _, ok := s.D.GetOkExists("bootstrap_script_url"); ok {
+		err := s.ExecuteBootstrapScript()
+		if err != nil {
+			return err
+		}
 	}
 
 	if compartment, ok := s.D.GetOkExists("compartment_id"); ok && s.D.HasChange("compartment_id") {
@@ -1851,6 +1947,17 @@ func (s *BdsBdsInstanceResourceCrud) Update() error {
 		request.KmsKeyId = &tmp
 	}
 
+	if networkConfig, ok := s.D.GetOkExists("network_config"); ok && s.D.HasChange("network_config") {
+		if tmpList := networkConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "network_config", 0)
+			tmp, err := s.mapToNetworkConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.NetworkConfig = &tmp
+		}
+	}
+
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
 
 	response, err := s.Client.UpdateBdsInstance(context.Background(), request)
@@ -2016,6 +2123,12 @@ func (s *BdsBdsInstanceResourceCrud) Delete() error {
 }
 
 func (s *BdsBdsInstanceResourceCrud) SetData() error {
+	if s.Res.BdsClusterVersionSummary != nil {
+		s.D.Set("bds_cluster_version_summary", []interface{}{BdsClusterVersionSummaryToMap(s.Res.BdsClusterVersionSummary)})
+	} else {
+		s.D.Set("bds_cluster_version_summary", nil)
+	}
+
 	if s.Res.BootstrapScriptUrl != nil {
 		s.D.Set("bootstrap_script_url", *s.Res.BootstrapScriptUrl)
 	}
@@ -2147,6 +2260,17 @@ func (s *BdsBdsInstanceResourceCrud) StartBdsInstance() error {
 	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
 		tmp := clusterAdminPassword.(string)
 		request.ClusterAdminPassword = &tmp
+	}
+
+	if startClusterShapeConfigs, ok := s.D.GetOkExists("start_cluster_shape_configs"); ok {
+		if tmpList := startClusterShapeConfigs.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "start_cluster_shape_configs", 0)
+			tmp, err := s.mapToStartClusterShapeConfigs(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.StartClusterShapeConfigs = &tmp
+		}
 	}
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
@@ -2290,7 +2414,6 @@ func (s *BdsBdsInstanceResourceCrud) deleteShapeConfigIfMissingInInput(node_type
 		}
 	}
 }
-
 func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 	request := oci_bds.RemoveKafkaRequest{}
 
@@ -2315,6 +2438,112 @@ func (s *BdsBdsInstanceResourceCrud) RemoveKafka() error {
 
 	workId := response.OpcWorkRequestId
 	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) RemoveNode() error {
+	request := oci_bds.RemoveNodeRequest{}
+
+	idTmp := s.D.Id()
+	request.BdsInstanceId = &idTmp
+
+	if clusterAdminPassword, ok := s.D.GetOkExists("cluster_admin_password"); ok {
+		tmp := clusterAdminPassword.(string)
+		request.ClusterAdminPassword = &tmp
+	}
+
+	if isForceRemoveEnabled, ok := s.D.GetOkExists("is_force_remove_enabled"); ok {
+		tmp := isForceRemoveEnabled.(bool)
+		request.IsForceRemoveEnabled = &tmp
+	}
+
+	if nodeId, ok := s.D.GetOkExists("remove_node"); ok {
+		tmp := nodeId.(string)
+		request.NodeId = &tmp
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds")
+
+	response, err := s.Client.RemoveNode(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	if err != nil {
+		return err
+	}
+	workId := response.OpcWorkRequestId
+	return s.getBdsInstanceFromWorkRequest(workId, tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "bds"), oci_bds.ActionTypesUpdated, s.D.Timeout(schema.TimeoutUpdate))
+}
+
+func (s *BdsBdsInstanceResourceCrud) mapToBdsClusterVersionSummary(fieldKeyFormat string) (oci_bds.BdsClusterVersionSummary, error) {
+	result := oci_bds.BdsClusterVersionSummary{}
+
+	if bdsVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "bds_version")); ok {
+		tmp := bdsVersion.(string)
+		result.BdsVersion = &tmp
+	}
+
+	if odhVersion, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "odh_version")); ok {
+		tmp := odhVersion.(string)
+		result.OdhVersion = &tmp
+	}
+
+	return result, nil
+}
+
+func (s *BdsBdsInstanceResourceCrud) mapToStartClusterShapeConfigs(fieldKeyFormat string) (oci_bds.StartClusterShapeConfigs, error) {
+	request := oci_bds.StartClusterShapeConfigs{}
+
+	if nodeTypeShapeConfigs, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_type_shape_configs")); ok {
+		interfaces := nodeTypeShapeConfigs.([]interface{})
+		tmp := make([]oci_bds.NodeTypeShapeConfig, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%s.%d.%%s", "start_cluster_shape_configs.0", "node_type_shape_configs", stateDataIndex)
+			converted, err := s.mapToNodeTypeShapeConfig(fieldKeyFormatNextLevel)
+			if err != nil {
+				return request, err
+			}
+			tmp[i] = converted
+
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "node_type_shape_configs")) {
+				request.NodeTypeShapeConfigs = tmp
+			}
+		}
+	}
+	return request, nil
+}
+func (s *BdsBdsInstanceResourceCrud) mapToNodeTypeShapeConfig(fieldKeyFormat string) (oci_bds.NodeTypeShapeConfig, error) {
+	request := oci_bds.NodeTypeShapeConfig{}
+
+	if shape, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "shape")); ok {
+		tmp := shape.(string)
+		request.Shape = &tmp
+	}
+	if nodeType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "node_type")); ok {
+		tmp := oci_bds.NodeNodeTypeEnum(nodeType.(string))
+		request.NodeType = tmp
+	}
+
+	return request, nil
+}
+
+func BdsClusterVersionSummaryToMap(obj *oci_bds.BdsClusterVersionSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.BdsVersion != nil {
+		result["bds_version"] = string(*obj.BdsVersion)
+	}
+
+	if obj.OdhVersion != nil {
+		result["odh_version"] = string(*obj.OdhVersion)
+	}
+
+	return result
 }
 
 func CloudSqlDetailsToMap(obj *oci_bds.CloudSqlDetails) map[string]interface{} {

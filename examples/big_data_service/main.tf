@@ -149,6 +149,16 @@ resource "oci_bds_bds_instance" "test_bds_instance" {
   kms_key_id             = var.kms_key_id
   cluster_profile        = var.cluster_profile
   bootstrap_script_url   = "https://objectstorage.us-ashburn-1.oraclecloud.com/p/Lk5JT9tnUIOG4yLm6S21QVR7m3Rm2uj1RAS2Olx5v14onLU2Y-b0lIc_N0RuUIge/n/idpbwtq1b3ta/b/bucket-20230214-1316/o/execute_bootstrap_script.sh"
+  is_force_stop_jobs = "true"
+  state = "ACTIVE"
+
+  start_cluster_shape_configs{
+        node_type_shape_configs {
+               node_type = "WORKER"
+               shape = "VM.Standard.Generic"
+
+        }
+  }
 
   master_node {
     #Required

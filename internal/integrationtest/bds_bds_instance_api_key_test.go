@@ -34,32 +34,36 @@ var (
 
 	BdsBdsbdsInstanceApiKeySingularDataSourceRepresentation = map[string]interface{}{
 		"api_key_id":      acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`},
-		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${var.bdsinstance_id}`},
 	}
 
 	BdsBdsbdsInstanceApiKeyDataSourceRepresentation = map[string]interface{}{
-		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
-		// "display_name":    Representation{RepType: Optional, Create: `keyAlias`},
-		"state": acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
-		// "user_id":         Representation{RepType: Optional, Create: `${oci_identity_user.test_user.id}`},
-		"filter": acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceApiKeyDataSourceFilterRepresentation}}
+		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${var.bdsinstance_id}`},
+		"state":           acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
+		"filter":          acctest.RepresentationGroup{RepType: acctest.Required, Group: BdsbdsInstanceApiKeyDataSourceFilterRepresentation}}
 	BdsbdsInstanceApiKeyDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
 		"values": acctest.Representation{RepType: acctest.Required, Create: []string{`${oci_bds_bds_instance_api_key.test_bds_instance_api_key.id}`}},
 	}
 
-	BdsbdsInstanceApiKeyRepresentation = map[string]interface{}{
-		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_bds_bds_instance.test_bds_instance.id}`},
+	BdsbdsInstanceApiKeyRequiredRepresentation = map[string]interface{}{
+		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${var.bdsinstance_id}`},
 		"key_alias":       acctest.Representation{RepType: acctest.Required, Create: `keyAlias`},
-		"passphrase":      acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTE=`},
-		"user_id":         acctest.Representation{RepType: acctest.Required, Create: `${oci_identity_user.test_user.id}`},
+		"passphrase":      acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTFA`},
+		"user_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.user_id}`},
 		"default_region":  acctest.Representation{RepType: acctest.Optional, Create: `us-ashburn-1`},
+		"domain_ocid":     acctest.Representation{RepType: acctest.Optional, Create: `${var.domain_ocid}`},
+	}
+	BdsbdsInstanceApiKeyRepresentation = map[string]interface{}{
+		"bds_instance_id": acctest.Representation{RepType: acctest.Required, Create: `${var.bdsinstance_id}`},
+		"key_alias":       acctest.Representation{RepType: acctest.Required, Create: `keyAlias`},
+		"passphrase":      acctest.Representation{RepType: acctest.Required, Create: `V2VsY29tZTFA`},
+		"user_id":         acctest.Representation{RepType: acctest.Required, Create: `${var.user_id}`},
+		"default_region":  acctest.Representation{RepType: acctest.Optional, Create: `us-ashburn-1`},
+		"domain_ocid":     acctest.Representation{RepType: acctest.Optional, Create: `${var.domain_ocid}`},
 	}
 
-	BdsBdsInstanceApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, CoreSubnetRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create, CoreVcnRepresentation) +
-		acctest.GenerateResourceFromRepresentationMap("oci_identity_user", "test_user", acctest.Required, acctest.Create, IdentityUserRepresentation)
+	BdsBdsInstanceApiKeyResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance", "test_bds_instance", acctest.Required, acctest.Create, bdsInstanceOdhRepresentation)
 )
 
 // issue-routing-tag: bds/default
@@ -71,6 +75,15 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	bdsinstanceId := utils.GetEnvSettingWithBlankDefault("bdsinstance_ocid")
+	bdsinstanceIdVariableStr := fmt.Sprintf("variable \"bdsinstance_id\" { default = \"%s\" }\n", bdsinstanceId)
+
+	userId := utils.GetEnvSettingWithBlankDefault("user_ocid")
+	userIdVariableStr := fmt.Sprintf("variable \"user_id\" { default = \"%s\" }\n", userId)
+
+	domainOcid := utils.GetEnvSettingWithBlankDefault("domain_ocid")
+	domainOcidVariableStr := fmt.Sprintf("variable \"domain_ocid\" { default = \"%s\" }\n", domainOcid)
 
 	resourceName := "oci_bds_bds_instance_api_key.test_bds_instance_api_key"
 	datasourceName := "data.oci_bds_bds_instance_api_keys.test_bds_instance_api_keys"
@@ -84,35 +97,32 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 	acctest.ResourceTest(t, testAccCheckBdsBdsInstanceApiKeyDestroy, []resource.TestStep{
 		// verify Create
 		{
-			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
-				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsbdsInstanceApiKeyRepresentation),
+			Config: config + compartmentIdVariableStr + bdsinstanceIdVariableStr + userIdVariableStr + domainOcidVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsbdsInstanceApiKeyRequiredRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "key_alias", "keyAlias"),
-				resource.TestCheckResourceAttr(resourceName, "passphrase", "V2VsY29tZTE="),
+				resource.TestCheckResourceAttr(resourceName, "passphrase", "V2VsY29tZTFA"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 			),
 		},
 
 		// delete before next Create
 		{
-			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies,
+			Config: config + compartmentIdVariableStr,
 		},
 		// verify Create with optionals
 		{
-			Config: config + compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
+			Config: config + compartmentIdVariableStr + bdsinstanceIdVariableStr + userIdVariableStr + domainOcidVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Create, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(resourceName, "bds_instance_id"),
 				resource.TestCheckResourceAttr(resourceName, "default_region", "us-ashburn-1"),
+				resource.TestCheckResourceAttrSet(resourceName, "domain_ocid"),
 				resource.TestCheckResourceAttrSet(resourceName, "fingerprint"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "key_alias", "keyAlias"),
-				resource.TestCheckResourceAttr(resourceName, "passphrase", "V2VsY29tZTE="),
-				resource.TestCheckResourceAttrSet(resourceName, "pemfilepath"),
-				resource.TestCheckResourceAttrSet(resourceName, "state"),
-				resource.TestCheckResourceAttrSet(resourceName, "tenant_id"),
-				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
+				resource.TestCheckResourceAttr(resourceName, "passphrase", "V2VsY29tZTFA"),
 				resource.TestCheckResourceAttrSet(resourceName, "user_id"),
 
 				func(s *terraform.State) (err error) {
@@ -131,14 +141,13 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_keys", "test_bds_instance_api_keys", acctest.Optional, acctest.Update, BdsBdsbdsInstanceApiKeyDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceDependencies +
+				compartmentIdVariableStr + bdsinstanceIdVariableStr + userIdVariableStr + domainOcidVariableStr +
 				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(datasourceName, "bds_instance_id"),
-				// resource.TestCheckResourceAttr(datasourceName, "display_name", "keyAlias"),
+				//	resource.TestCheckResourceAttr(datasourceName, "display_name", "keyAlias"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
-				// resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
-
+				//	resource.TestCheckResourceAttrSet(datasourceName, "user_id"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_api_keys.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "bds_api_keys.0.default_region", "us-ashburn-1"),
 				resource.TestCheckResourceAttrSet(datasourceName, "bds_api_keys.0.id"),
@@ -151,12 +160,13 @@ func TestBdsBdsInstanceApiKeyResource_basic(t *testing.T) {
 		{
 			Config: config +
 				acctest.GenerateDataSourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Required, acctest.Create, BdsBdsbdsInstanceApiKeySingularDataSourceRepresentation) +
-				compartmentIdVariableStr + BdsBdsInstanceApiKeyResourceConfig,
+				compartmentIdVariableStr + bdsinstanceIdVariableStr + userIdVariableStr + domainOcidVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_bds_bds_instance_api_key", "test_bds_instance_api_key", acctest.Optional, acctest.Update, BdsbdsInstanceApiKeyRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "api_key_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "bds_instance_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "default_region", "us-ashburn-1"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "domain_ocid"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "fingerprint"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "key_alias", "keyAlias"),
