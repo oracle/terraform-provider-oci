@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JobSummary Summary information for a Job.
+// JobSummary Summary information for a job.
 type JobSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
