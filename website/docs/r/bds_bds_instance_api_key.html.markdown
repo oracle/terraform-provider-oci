@@ -25,6 +25,7 @@ resource "oci_bds_bds_instance_api_key" "test_bds_instance_api_key" {
 
 	#Optional
 	default_region = var.bds_instance_api_key_default_region
+	domain_ocid = var.bds_instance_api_key_domain_ocid
 }
 ```
 
@@ -33,8 +34,14 @@ resource "oci_bds_bds_instance_api_key" "test_bds_instance_api_key" {
 The following arguments are supported:
 
 * `bds_instance_id` - (Required) The OCID of the cluster.
+<<<<<<< ours
+* `default_region` - (Optional) The name of the region to establish the Object Storage endpoint. See https://docs.oracle.com/en-us/iaas/api/#/en/identity/20160918/Region/ for additional information. 
+* `domain_ocid` - (Optional) Identity domain OCID , where user is present. For default domain , this field will be optional.
+* `key_alias` - (Required) User friendly identifier used to uniquely differentiate between different API keys associated with this Big Data Service cluster. Only ASCII alphanumeric characters with no spaces allowed. 
+=======
 * `default_region` - (Optional) The name of the region to establish the Object Storage endpoint. See https://docs.oracle.com/en-us/iaas/api/#/en/identity/20160918/Region/ for additional information.
 * `key_alias` - (Required) User friendly identifier used to uniquely differentiate between different API keys associated with this Big Data Service cluster. Only ASCII alphanumeric characters with no spaces allowed.
+>>>>>>> theirs
 * `passphrase` - (Required) Base64 passphrase used to secure the private key which will be created on user behalf.
 * `user_id` - (Required) The OCID of the user for whom this new generated API key pair will be created.
 
@@ -46,7 +53,12 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+<<<<<<< ours
+* `default_region` - The name of the region to establish the Object Storage endpoint which was set as part of key creation operation. If no region was provided this will be set to be the same region where the cluster lives. Example us-phoenix-1 . 
+* `domain_ocid` - Identity domain OCID ,where user is present. For default domain ,this field will be optional.
+=======
 * `default_region` - The name of the region to establish the Object Storage endpoint which was set as part of key creation operation. If no region was provided this will be set to be the same region where the cluster lives. Example us-phoenix-1 .
+>>>>>>> theirs
 * `fingerprint` - The fingerprint that corresponds to the public API key requested.
 * `id` - Identifier of the user's API key.
 * `key_alias` - User friendly identifier used to uniquely differentiate between different API keys. Only ASCII alphanumeric characters with no spaces allowed.
