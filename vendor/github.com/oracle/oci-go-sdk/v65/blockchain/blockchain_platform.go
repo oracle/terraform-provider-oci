@@ -30,7 +30,7 @@ type BlockchainPlatform struct {
 	// Role of platform - FOUNDER or PARTICIPANT
 	PlatformRole BlockchainPlatformPlatformRoleEnum `mandatory:"true" json:"platformRole"`
 
-	// Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM
+	// Compute shape - STANDARD or ENTERPRISE_SMALL or ENTERPRISE_MEDIUM or ENTERPRISE_LARGE or ENTERPRISE_EXTRA_LARGE or ENTERPRISE_CUSTOM or DIGITAL_ASSETS_MEDIUM or DIGITAL_ASSETS_LARGE or DIGITAL_ASSETS_EXTRA_LARGE
 	ComputeShape BlockchainPlatformComputeShapeEnum `mandatory:"true" json:"computeShape"`
 
 	// Platform Instance Description
@@ -172,30 +172,39 @@ type BlockchainPlatformComputeShapeEnum string
 
 // Set of constants representing the allowable values for BlockchainPlatformComputeShapeEnum
 const (
-	BlockchainPlatformComputeShapeStandard             BlockchainPlatformComputeShapeEnum = "STANDARD"
-	BlockchainPlatformComputeShapeEnterpriseSmall      BlockchainPlatformComputeShapeEnum = "ENTERPRISE_SMALL"
-	BlockchainPlatformComputeShapeEnterpriseMedium     BlockchainPlatformComputeShapeEnum = "ENTERPRISE_MEDIUM"
-	BlockchainPlatformComputeShapeEnterpriseLarge      BlockchainPlatformComputeShapeEnum = "ENTERPRISE_LARGE"
-	BlockchainPlatformComputeShapeEnterpriseExtraLarge BlockchainPlatformComputeShapeEnum = "ENTERPRISE_EXTRA_LARGE"
-	BlockchainPlatformComputeShapeEnterpriseCustom     BlockchainPlatformComputeShapeEnum = "ENTERPRISE_CUSTOM"
+	BlockchainPlatformComputeShapeStandard                BlockchainPlatformComputeShapeEnum = "STANDARD"
+	BlockchainPlatformComputeShapeEnterpriseSmall         BlockchainPlatformComputeShapeEnum = "ENTERPRISE_SMALL"
+	BlockchainPlatformComputeShapeEnterpriseMedium        BlockchainPlatformComputeShapeEnum = "ENTERPRISE_MEDIUM"
+	BlockchainPlatformComputeShapeEnterpriseLarge         BlockchainPlatformComputeShapeEnum = "ENTERPRISE_LARGE"
+	BlockchainPlatformComputeShapeEnterpriseExtraLarge    BlockchainPlatformComputeShapeEnum = "ENTERPRISE_EXTRA_LARGE"
+	BlockchainPlatformComputeShapeEnterpriseCustom        BlockchainPlatformComputeShapeEnum = "ENTERPRISE_CUSTOM"
+	BlockchainPlatformComputeShapeDigitalAssetsMedium     BlockchainPlatformComputeShapeEnum = "DIGITAL_ASSETS_MEDIUM"
+	BlockchainPlatformComputeShapeDigitalAssetsLarge      BlockchainPlatformComputeShapeEnum = "DIGITAL_ASSETS_LARGE"
+	BlockchainPlatformComputeShapeDigitalAssetsExtraLarge BlockchainPlatformComputeShapeEnum = "DIGITAL_ASSETS_EXTRA_LARGE"
 )
 
 var mappingBlockchainPlatformComputeShapeEnum = map[string]BlockchainPlatformComputeShapeEnum{
-	"STANDARD":               BlockchainPlatformComputeShapeStandard,
-	"ENTERPRISE_SMALL":       BlockchainPlatformComputeShapeEnterpriseSmall,
-	"ENTERPRISE_MEDIUM":      BlockchainPlatformComputeShapeEnterpriseMedium,
-	"ENTERPRISE_LARGE":       BlockchainPlatformComputeShapeEnterpriseLarge,
-	"ENTERPRISE_EXTRA_LARGE": BlockchainPlatformComputeShapeEnterpriseExtraLarge,
-	"ENTERPRISE_CUSTOM":      BlockchainPlatformComputeShapeEnterpriseCustom,
+	"STANDARD":                   BlockchainPlatformComputeShapeStandard,
+	"ENTERPRISE_SMALL":           BlockchainPlatformComputeShapeEnterpriseSmall,
+	"ENTERPRISE_MEDIUM":          BlockchainPlatformComputeShapeEnterpriseMedium,
+	"ENTERPRISE_LARGE":           BlockchainPlatformComputeShapeEnterpriseLarge,
+	"ENTERPRISE_EXTRA_LARGE":     BlockchainPlatformComputeShapeEnterpriseExtraLarge,
+	"ENTERPRISE_CUSTOM":          BlockchainPlatformComputeShapeEnterpriseCustom,
+	"DIGITAL_ASSETS_MEDIUM":      BlockchainPlatformComputeShapeDigitalAssetsMedium,
+	"DIGITAL_ASSETS_LARGE":       BlockchainPlatformComputeShapeDigitalAssetsLarge,
+	"DIGITAL_ASSETS_EXTRA_LARGE": BlockchainPlatformComputeShapeDigitalAssetsExtraLarge,
 }
 
 var mappingBlockchainPlatformComputeShapeEnumLowerCase = map[string]BlockchainPlatformComputeShapeEnum{
-	"standard":               BlockchainPlatformComputeShapeStandard,
-	"enterprise_small":       BlockchainPlatformComputeShapeEnterpriseSmall,
-	"enterprise_medium":      BlockchainPlatformComputeShapeEnterpriseMedium,
-	"enterprise_large":       BlockchainPlatformComputeShapeEnterpriseLarge,
-	"enterprise_extra_large": BlockchainPlatformComputeShapeEnterpriseExtraLarge,
-	"enterprise_custom":      BlockchainPlatformComputeShapeEnterpriseCustom,
+	"standard":                   BlockchainPlatformComputeShapeStandard,
+	"enterprise_small":           BlockchainPlatformComputeShapeEnterpriseSmall,
+	"enterprise_medium":          BlockchainPlatformComputeShapeEnterpriseMedium,
+	"enterprise_large":           BlockchainPlatformComputeShapeEnterpriseLarge,
+	"enterprise_extra_large":     BlockchainPlatformComputeShapeEnterpriseExtraLarge,
+	"enterprise_custom":          BlockchainPlatformComputeShapeEnterpriseCustom,
+	"digital_assets_medium":      BlockchainPlatformComputeShapeDigitalAssetsMedium,
+	"digital_assets_large":       BlockchainPlatformComputeShapeDigitalAssetsLarge,
+	"digital_assets_extra_large": BlockchainPlatformComputeShapeDigitalAssetsExtraLarge,
 }
 
 // GetBlockchainPlatformComputeShapeEnumValues Enumerates the set of values for BlockchainPlatformComputeShapeEnum
@@ -216,6 +225,9 @@ func GetBlockchainPlatformComputeShapeEnumStringValues() []string {
 		"ENTERPRISE_LARGE",
 		"ENTERPRISE_EXTRA_LARGE",
 		"ENTERPRISE_CUSTOM",
+		"DIGITAL_ASSETS_MEDIUM",
+		"DIGITAL_ASSETS_LARGE",
+		"DIGITAL_ASSETS_EXTRA_LARGE",
 	}
 }
 

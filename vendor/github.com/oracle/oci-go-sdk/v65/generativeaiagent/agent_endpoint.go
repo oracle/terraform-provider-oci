@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -21,8 +19,7 @@ import (
 	"strings"
 )
 
-// AgentEndpoint **AgentEndpoint**
-// The endpoint to access a deployed agent.
+// AgentEndpoint The endpoint to access a deployed agent.
 // To use any of the API operations, you must be authorized in an IAM policy. If you're not authorized, talk to an administrator. If you're an administrator who needs to write policies to give users access, see Getting Started with Policies (https://docs.cloud.oracle.com/iaas/Content/Identity/policiesgs/get-started-with-policies.htm).
 type AgentEndpoint struct {
 

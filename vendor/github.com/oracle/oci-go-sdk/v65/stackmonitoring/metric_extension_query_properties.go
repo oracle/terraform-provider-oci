@@ -62,6 +62,10 @@ func (m *metricextensionqueryproperties) UnmarshalPolymorphicJSON(data []byte) (
 		mm := JmxQueryProperties{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HTTP":
+		mm := HttpQueryProperties{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for MetricExtensionQueryProperties: %s.", m.CollectionMethod)
 		return *m, nil

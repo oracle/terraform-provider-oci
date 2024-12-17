@@ -34,6 +34,8 @@ type UpdateBdsInstanceDetails struct {
 
 	// The OCID of the Key Management master encryption key.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
+
+	NetworkConfig *NetworkConfig `mandatory:"false" json:"networkConfig"`
 }
 
 func (m UpdateBdsInstanceDetails) String() string {

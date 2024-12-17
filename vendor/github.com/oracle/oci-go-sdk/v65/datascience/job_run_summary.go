@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// JobRunSummary Summary information for a Job.
+// JobRunSummary Summary information for a job run.
 type JobRunSummary struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.
@@ -27,16 +27,16 @@ type JobRunSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job run.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job with.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job run with.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	JobId *string `mandatory:"true" json:"jobId"`
 
-	// The state of the job.
+	// The state of the job run.
 	LifecycleState JobRunLifecycleStateEnum `mandatory:"true" json:"lifecycleState"`
 
 	// The date and time the job run request was started in the timestamp format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).

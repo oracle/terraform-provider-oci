@@ -28,13 +28,13 @@ type JobRun struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the user who created the job run.
 	CreatedBy *string `mandatory:"true" json:"createdBy"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job with.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the project to associate the job run with.
 	ProjectId *string `mandatory:"true" json:"projectId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment where you want to create the job run.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job run.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the job.
 	JobId *string `mandatory:"true" json:"jobId"`
 
 	JobConfigurationOverrideDetails JobConfigurationDetails `mandatory:"true" json:"jobConfigurationOverrideDetails"`

@@ -18,18 +18,21 @@ type MetricExtensionSortByEnum string
 
 // Set of constants representing the allowable values for MetricExtensionSortByEnum
 const (
-	MetricExtensionSortByName        MetricExtensionSortByEnum = "NAME"
-	MetricExtensionSortByTimeCreated MetricExtensionSortByEnum = "TIME_CREATED"
+	MetricExtensionSortByName                   MetricExtensionSortByEnum = "NAME"
+	MetricExtensionSortByTimeCreated            MetricExtensionSortByEnum = "TIME_CREATED"
+	MetricExtensionSortByEnabledOnResourceCount MetricExtensionSortByEnum = "ENABLED_ON_RESOURCE_COUNT"
 )
 
 var mappingMetricExtensionSortByEnum = map[string]MetricExtensionSortByEnum{
-	"NAME":         MetricExtensionSortByName,
-	"TIME_CREATED": MetricExtensionSortByTimeCreated,
+	"NAME":                      MetricExtensionSortByName,
+	"TIME_CREATED":              MetricExtensionSortByTimeCreated,
+	"ENABLED_ON_RESOURCE_COUNT": MetricExtensionSortByEnabledOnResourceCount,
 }
 
 var mappingMetricExtensionSortByEnumLowerCase = map[string]MetricExtensionSortByEnum{
-	"name":         MetricExtensionSortByName,
-	"time_created": MetricExtensionSortByTimeCreated,
+	"name":                      MetricExtensionSortByName,
+	"time_created":              MetricExtensionSortByTimeCreated,
+	"enabled_on_resource_count": MetricExtensionSortByEnabledOnResourceCount,
 }
 
 // GetMetricExtensionSortByEnumValues Enumerates the set of values for MetricExtensionSortByEnum
@@ -46,6 +49,7 @@ func GetMetricExtensionSortByEnumStringValues() []string {
 	return []string{
 		"NAME",
 		"TIME_CREATED",
+		"ENABLED_ON_RESOURCE_COUNT",
 	}
 }
 
