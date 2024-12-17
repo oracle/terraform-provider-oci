@@ -1421,7 +1421,7 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	// Update shape, shape config, platform config, source details, fault domain and launch options
+	// Update shape, shape config, platform config, source details, fault domain, launch options, and capacity reservation
 	err := s.updateOptionsViaWorkRequest()
 
 	if err != nil {
@@ -1455,10 +1455,6 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
-	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
-		tmp := capacityReservationId.(string)
-		request.CapacityReservationId = &tmp
-	}
 	if dedicatedVmHostId, ok := s.D.GetOkExists("dedicated_vm_host_id"); ok {
 		tmp := dedicatedVmHostId.(string)
 		request.DedicatedVmHostId = &tmp
@@ -3944,6 +3940,11 @@ func (s *CoreInstanceResourceCrud) updateOptionsViaWorkRequest() error {
 			}
 			request.ShapeConfig = &tmp
 		}
+	}
+
+	if capacityReservationId, ok := s.D.GetOkExists("capacity_reservation_id"); ok {
+		tmp := capacityReservationId.(string)
+		request.CapacityReservationId = &tmp
 	}
 
 	if platformConfig, ok := s.D.GetOkExists("platform_config"); ok && s.D.HasChange("platform_config") {
