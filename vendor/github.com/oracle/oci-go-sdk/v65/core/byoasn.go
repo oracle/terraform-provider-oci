@@ -36,7 +36,7 @@ type Byoasn struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the `Byoasn` resource.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The validation token is an internally-generated ASCII string used in the validation process. See Importing a CIDR block (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOIP.htm#import_cidr) for details.
+	// The validation token is an internally-generated ASCII string used in the validation process. See Importing a Byoasn (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm) for details.
 	ValidationToken *string `mandatory:"true" json:"validationToken"`
 
 	// The date and time the `Byoasn` resource was created, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).

@@ -23,6 +23,9 @@ type UpdateAutonomousContainerDatabaseDetails struct {
 
 	NfsStorageDetails *NfsStorageDetails `mandatory:"false" json:"nfsStorageDetails"`
 
+	// Customer Contacts. Setting this to an empty list removes all customer contacts.
+	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
 	// Database Patch model preference.
 	PatchModel UpdateAutonomousContainerDatabaseDetailsPatchModelEnum `mandatory:"false" json:"patchModel,omitempty"`
 

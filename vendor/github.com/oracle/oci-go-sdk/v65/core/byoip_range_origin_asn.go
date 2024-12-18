@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// ByoipRangeOriginAsn Information on 'Byoip range' origin asn.
+// ByoipRangeOriginAsn Information about the origin asn.
 type ByoipRangeOriginAsn struct {
 
 	// The Autonomous System Number (ASN) you are importing to the Oracle cloud.

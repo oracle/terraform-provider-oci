@@ -20,7 +20,7 @@ import (
 type InvoiceProcessorConfig struct {
 	NormalizationFields *NormalizationFields `mandatory:"true" json:"normalizationFields"`
 
-	// The custom model ID.
+	// Unique identifier custom model OCID that should be used for inference.
 	ModelId *string `mandatory:"false" json:"modelId"`
 }
 

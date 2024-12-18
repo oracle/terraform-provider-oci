@@ -26,6 +26,9 @@ type ObjectLocation struct {
 
 	// The Object Storage object name.
 	ObjectName *string `mandatory:"true" json:"objectName"`
+
+	// The page ranges to be analysed.
+	PageRange []string `mandatory:"false" json:"pageRange"`
 }
 
 func (m ObjectLocation) String() string {

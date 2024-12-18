@@ -94,6 +94,10 @@ type DbSystemSummary struct {
 	// Example: `{"foo-namespace": {"bar-key": "value"}}`
 	DefinedTags map[string]map[string]interface{} `mandatory:"false" json:"definedTags"`
 
+	// Usage of system tag keys. These predefined keys are scoped to namespaces.
+	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
+	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
+
 	BackupPolicy *BackupPolicy `mandatory:"false" json:"backupPolicy"`
 
 	// The shape of the primary instances of the DB System. The shape

@@ -21,7 +21,7 @@ import (
 	"strings"
 )
 
-// ByoasnByoipRange Information on 'Byoip range' that has`byoasn` as origin.
+// ByoasnByoipRange Information about 'ByoipRange' that has `byoasn` as origin.
 type ByoasnByoipRange struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource to which the CIDR block belongs.

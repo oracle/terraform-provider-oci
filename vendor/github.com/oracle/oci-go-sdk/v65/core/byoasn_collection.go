@@ -26,9 +26,6 @@ type ByoasnCollection struct {
 
 	// A list of `Byoasn` resource summaries.
 	Items []ByoasnSummary `mandatory:"true" json:"items"`
-
-	// The Autonomous System Number (ASN) for OCI in realm.
-	OracleAsn *int64 `mandatory:"false" json:"oracleAsn"`
 }
 
 func (m ByoasnCollection) String() string {

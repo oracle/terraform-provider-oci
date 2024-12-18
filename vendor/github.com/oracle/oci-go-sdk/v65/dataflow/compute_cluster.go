@@ -82,6 +82,9 @@ type ComputeCluster struct {
 	// The paths to init scripts that will be executed in the order of definition
 	InitScripts []string `mandatory:"false" json:"initScripts"`
 
+	// List of networkConfigurationIds for the cluster
+	NetworkConfigurationIds []string `mandatory:"false" json:"networkConfigurationIds"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -14,7 +14,7 @@ import (
 // DeleteByoasnRequest wrapper for the DeleteByoasn operation
 type DeleteByoasnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource containing the Byoasn resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
 	ByoasnId *string `mandatory:"true" contributesTo:"path" name:"byoasnId"`
 
 	// Unique identifier for the request.
@@ -92,11 +92,6 @@ type DeleteByoasnResponse struct {
 	// Unique Oracle-assigned identifier for the request. If you need to contact
 	// Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `presentIn:"header" name:"opc-request-id"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the work request.
-	// Use GetWorkRequest (https://docs.cloud.oracle.com/api/#/en/workrequests/latest/WorkRequest/GetWorkRequest)
-	// with this ID to track the status of the request.
-	OpcWorkRequestId *string `presentIn:"header" name:"opc-work-request-id"`
 }
 
 func (response DeleteByoasnResponse) String() string {

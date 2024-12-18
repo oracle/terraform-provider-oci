@@ -14,7 +14,7 @@ import (
 // GetByoasnRequest wrapper for the GetByoasn operation
 type GetByoasnRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource containing the Byoasn resource.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `Byoasn` resource.
 	ByoasnId *string `mandatory:"true" contributesTo:"path" name:"byoasnId"`
 
 	// Unique identifier for the request.

@@ -8889,8 +8889,8 @@ func (client VirtualNetworkClient) createVtap(ctx context.Context, request commo
 }
 
 // DeleteByoasn Deletes the specified `Byoasn` resource.
-// The resource must be in one of the following states: CREATING, INACTIVE or FAILED.
-// It must not have any Byoasn or deletion will fail.
+// The resource must be in one of the following states: CREATING, ACTIVE or FAILED.
+// It must not be in use by any of the byoipRanges or deletion will fail.
 // You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 func (client VirtualNetworkClient) DeleteByoasn(ctx context.Context, request DeleteByoasnRequest) (response DeleteByoasnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -30872,7 +30872,7 @@ func (client VirtualNetworkClient) setInternalDrgRouteData(ctx context.Context, 
 	return response, err
 }
 
-// SetOriginAsn Update prefix's origin ASN to byoasn.
+// SetOriginAsn Update BYOIP's origin ASN to byoasn.
 // A default retry strategy applies to this operation SetOriginAsn()
 func (client VirtualNetworkClient) SetOriginAsn(ctx context.Context, request SetOriginAsnRequest) (response SetOriginAsnResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -31444,7 +31444,7 @@ func (client VirtualNetworkClient) unmapInternalPrivateIp(ctx context.Context, r
 	return response, err
 }
 
-// UpdateByoasn Updates the tags or display name associated to the specified BYOASN Resource.
+// UpdateByoasn Updates the tags or display name associated with the specified BYOASN Resource.
 func (client VirtualNetworkClient) UpdateByoasn(ctx context.Context, request UpdateByoasnRequest) (response UpdateByoasnResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -36795,7 +36795,7 @@ func (client VirtualNetworkClient) upsertInternalZprPolicy(ctx context.Context, 
 }
 
 // ValidateByoasn Submits the BYOASN for validation. Please do not submit to Oracle for validation if the information for the BYOASN is not already modified in the Regional Internet Registry.
-// See To import a BYOASN (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm#import_byoasn) for details.
+// See To import a BYOASN (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm) for details.
 // A default retry strategy applies to this operation ValidateByoasn()
 func (client VirtualNetworkClient) ValidateByoasn(ctx context.Context, request ValidateByoasnRequest) (response ValidateByoasnResponse, err error) {
 	var ociResponse common.OCIResponse

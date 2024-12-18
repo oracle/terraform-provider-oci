@@ -27,6 +27,9 @@ type CreateAutonomousContainerDatabaseBase interface {
 
 	GetNfsStorageDetails() *NfsStorageDetails
 
+	// Customer Contacts. Setting this to an empty list removes all customer contacts.
+	GetCustomerContacts() []CustomerContact
+
 	// **Deprecated.** The `DB_UNIQUE_NAME` value is set by Oracle Cloud Infrastructure.  Do not specify a value for this parameter. Specifying a value for this field will cause Terraform operations to fail.
 	GetDbUniqueName() *string
 
@@ -142,6 +145,7 @@ type CreateAutonomousContainerDatabaseBase interface {
 type createautonomouscontainerdatabasebase struct {
 	JsonData                                     []byte
 	NfsStorageDetails                            *NfsStorageDetails                                                 `mandatory:"false" json:"nfsStorageDetails"`
+	CustomerContacts                             []CustomerContact                                                  `mandatory:"false" json:"customerContacts"`
 	DbUniqueName                                 *string                                                            `mandatory:"false" json:"dbUniqueName"`
 	DbName                                       *string                                                            `mandatory:"false" json:"dbName"`
 	ServiceLevelAgreementType                    CreateAutonomousContainerDatabaseBaseServiceLevelAgreementTypeEnum `mandatory:"false" json:"serviceLevelAgreementType,omitempty"`
@@ -196,6 +200,7 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalJSON(data []byte) error
 	m.DisplayName = s.Model.DisplayName
 	m.PatchModel = s.Model.PatchModel
 	m.NfsStorageDetails = s.Model.NfsStorageDetails
+	m.CustomerContacts = s.Model.CustomerContacts
 	m.DbUniqueName = s.Model.DbUniqueName
 	m.DbName = s.Model.DbName
 	m.ServiceLevelAgreementType = s.Model.ServiceLevelAgreementType
@@ -262,6 +267,11 @@ func (m *createautonomouscontainerdatabasebase) UnmarshalPolymorphicJSON(data []
 // GetNfsStorageDetails returns NfsStorageDetails
 func (m createautonomouscontainerdatabasebase) GetNfsStorageDetails() *NfsStorageDetails {
 	return m.NfsStorageDetails
+}
+
+// GetCustomerContacts returns CustomerContacts
+func (m createautonomouscontainerdatabasebase) GetCustomerContacts() []CustomerContact {
+	return m.CustomerContacts
 }
 
 // GetDbUniqueName returns DbUniqueName

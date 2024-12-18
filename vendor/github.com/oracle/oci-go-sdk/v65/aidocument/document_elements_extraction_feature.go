@@ -18,6 +18,9 @@ import (
 
 // DocumentElementsExtractionFeature Extract information from bar code
 type DocumentElementsExtractionFeature struct {
+
+	// Unique identifier custom model OCID that should be used for inference.
+	ModelId *string `mandatory:"false" json:"modelId"`
 }
 
 func (m DocumentElementsExtractionFeature) String() string {
