@@ -1,4 +1,4 @@
-## 6.21.0 (Unreleased)
+## 6.21.0 (December 19, 2024)
 
 ### Added
 - Support for ADB-S: Backup Retention Lock
