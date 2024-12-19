@@ -11,6 +11,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_stack_monitoring_baselineable_metrics_evaluate", StackMonitoringBaselineableMetricsEvaluateDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_config", StackMonitoringConfigDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_configs", StackMonitoringConfigsDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_defined_monitoring_templates", StackMonitoringDefinedMonitoringTemplatesDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_job", StackMonitoringDiscoveryJobDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_job_logs", StackMonitoringDiscoveryJobLogsDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_discovery_jobs", StackMonitoringDiscoveryJobsDataSource())
@@ -24,6 +25,10 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_tasks", StackMonitoringMonitoredResourceTasksDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_type", StackMonitoringMonitoredResourceTypeDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_monitored_resource_types", StackMonitoringMonitoredResourceTypesDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_monitoring_template", StackMonitoringMonitoringTemplateDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_monitoring_templates", StackMonitoringMonitoringTemplatesDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_monitoring_template_alarm_condition", StackMonitoringMonitoringTemplateAlarmConditionDataSource())
+	tfresource.RegisterDatasource("oci_stack_monitoring_monitoring_template_alarm_conditions", StackMonitoringMonitoringTemplateAlarmConditionsDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_process_set", StackMonitoringProcessSetDataSource())
 	tfresource.RegisterDatasource("oci_stack_monitoring_process_sets", StackMonitoringProcessSetsDataSource())
 }

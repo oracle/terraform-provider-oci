@@ -1,16 +1,29 @@
 package stack_monitoring
 
 import (
+	"fmt"
+
 	oci_stack_monitoring "github.com/oracle/oci-go-sdk/v65/stackmonitoring"
 
 	tf_export "github.com/oracle/terraform-provider-oci/internal/commonexport"
 )
 
 func init() {
+	exportStackMonitoringMonitoringTemplateAlarmConditionHints.GetIdFn = getStackMonitoringMonitoringTemplateAlarmConditionId
 	tf_export.RegisterCompartmentGraphs("stack_monitoring", stackMonitoringResourceGraph)
 }
 
 // Custom overrides for generating composite IDs within the resource discovery framework
+
+func getStackMonitoringMonitoringTemplateAlarmConditionId(resource *tf_export.OCIResource) (string, error) {
+
+	alarmConditionId, ok := resource.SourceAttributes["alarm_condition_id"].(string)
+	if !ok {
+		return "", fmt.Errorf("[ERROR] unable to find alarmConditionId for StackMonitoring MonitoringTemplateAlarmCondition")
+	}
+	monitoringTemplateId := resource.Parent.Id
+	return GetMonitoringTemplateAlarmConditionCompositeId(alarmConditionId, monitoringTemplateId), nil
+}
 
 // Hints for discovering and exporting this resource to configuration and state files
 var exportStackMonitoringMonitoredResourceHints = &tf_export.TerraformResourceHints{
@@ -153,6 +166,30 @@ var exportStackMonitoringMaintenanceWindowsStopHints = &tf_export.TerraformResou
 	ResourceAbbreviation: "maintenance_windows_stop",
 }
 
+var exportStackMonitoringMonitoringTemplateAlarmConditionHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_monitoring_template_alarm_condition",
+	DatasourceClass:        "oci_stack_monitoring_monitoring_template_alarm_conditions",
+	DatasourceItemsAttr:    "alarm_condition_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "monitoring_template_alarm_condition",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.AlarmConditionLifeCycleStatesActive),
+	},
+}
+
+var exportStackMonitoringMonitoringTemplateHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_stack_monitoring_monitoring_template",
+	DatasourceClass:        "oci_stack_monitoring_monitoring_templates",
+	DatasourceItemsAttr:    "monitoring_template_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "monitoring_template",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_stack_monitoring.MonitoringTemplateLifeCycleStatesActive),
+	},
+}
+
 var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 	"oci_identity_compartment": {
 		{TerraformResourceHints: exportStackMonitoringDiscoveryJobHints},
@@ -161,6 +198,15 @@ var stackMonitoringResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportStackMonitoringBaselineableMetricHints},
 		{TerraformResourceHints: exportStackMonitoringProcessSetHints},
 		{TerraformResourceHints: exportStackMonitoringMaintenanceWindowHints},
+		{TerraformResourceHints: exportStackMonitoringMonitoringTemplateHints},
+	},
+	"oci_stack_monitoring_monitoring_template": {
+		{
+			TerraformResourceHints: exportStackMonitoringMonitoringTemplateAlarmConditionHints,
+			DatasourceQueryParams: map[string]string{
+				"monitoring_template_id": "id",
+			},
+		},
 	},
 	"oci_stack_monitoring_monitored_resource": {
 		{
