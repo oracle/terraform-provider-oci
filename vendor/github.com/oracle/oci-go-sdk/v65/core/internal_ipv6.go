@@ -81,7 +81,7 @@ type InternalIpv6 struct {
 	// The OCID of the VNIC the IPv6 is assigned to. The VNIC and IPv6 must be in the same subnet.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
-	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
 	IpState InternalIpv6IpStateEnum `mandatory:"false" json:"ipState,omitempty"`
 
 	// Lifetime of the IP address.

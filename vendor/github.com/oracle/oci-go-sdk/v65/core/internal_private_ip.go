@@ -70,7 +70,7 @@ type InternalPrivateIp struct {
 	// The VNIC's OCID.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
-	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
 	IpState InternalPrivateIpIpStateEnum `mandatory:"false" json:"ipState,omitempty"`
 
 	// Lifetime of the IP address.

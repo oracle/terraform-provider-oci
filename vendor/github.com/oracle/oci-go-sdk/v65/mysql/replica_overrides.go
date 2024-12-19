@@ -31,6 +31,9 @@ type ReplicaOverrides struct {
 
 	// The OCID of the Configuration to be used by the read replica.
 	ConfigurationId *string `mandatory:"false" json:"configurationId"`
+
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
 }
 
 func (m ReplicaOverrides) String() string {

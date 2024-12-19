@@ -76,6 +76,23 @@ type CreateMongoDbConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Oracle Autonomous Json Database.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
+	// MongoDb certificate authority file.
+	TlsCaFile *string `mandatory:"false" json:"tlsCaFile"`
+
+	// MongoDb certificate key file.
+	TlsCertificateKeyFile *string `mandatory:"false" json:"tlsCertificateKeyFile"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the certificate key file of the mtls connection.
+	// Note: When provided, 'tlsCertificateKeyFile' field must not be provided.
+	TlsCertificateKeyFileSecretId *string `mandatory:"false" json:"tlsCertificateKeyFileSecretId"`
+
+	// MongoDb certificate key file password.
+	TlsCertificateKeyFilePassword *string `mandatory:"false" json:"tlsCertificateKeyFilePassword"`
+
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the password of the tls certificate key file.
+	// Note: When provided, 'tlsCertificateKeyFilePassword' field must not be provided.
+	TlsCertificateKeyFilePasswordSecretId *string `mandatory:"false" json:"tlsCertificateKeyFilePasswordSecretId"`
+
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.
 	// SHARED_DEPLOYMENT_ENDPOINT: Network traffic flows from the assigned deployment's private endpoint through the deployment's subnet.
@@ -84,6 +101,9 @@ type CreateMongoDbConnectionDetails struct {
 
 	// The MongoDB technology type.
 	TechnologyType MongoDbConnectionTechnologyTypeEnum `mandatory:"true" json:"technologyType"`
+
+	// Security Type for MongoDB.
+	SecurityProtocol MongoDbConnectionSecurityProtocolEnum `mandatory:"false" json:"securityProtocol,omitempty"`
 }
 
 // GetDisplayName returns DisplayName
@@ -161,6 +181,9 @@ func (m CreateMongoDbConnectionDetails) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingMongoDbConnectionTechnologyTypeEnum(string(m.TechnologyType)); !ok && m.TechnologyType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for TechnologyType: %s. Supported values are: %s.", m.TechnologyType, strings.Join(GetMongoDbConnectionTechnologyTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingMongoDbConnectionSecurityProtocolEnum(string(m.SecurityProtocol)); !ok && m.SecurityProtocol != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SecurityProtocol: %s. Supported values are: %s.", m.SecurityProtocol, strings.Join(GetMongoDbConnectionSecurityProtocolEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

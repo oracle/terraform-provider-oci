@@ -35,10 +35,10 @@ type CreateInternalVnicAttachmentDetails struct {
 	// available IP address within the subnet's CIDR. If you don't specify a
 	// value, Oracle automatically assigns a private IP address from the subnet.
 	// This is the VNIC's *primary* private IP address. The value appears in
-	// the `Vnic` object and also the
-	// `PrivateIp` object returned by
-	// `ListPrivateIps` and
-	// `GetPrivateIp`.
+	// the Vnic object and also the
+	// PrivateIp object returned by
+	// ListPrivateIps and
+	// GetPrivateIp.
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 

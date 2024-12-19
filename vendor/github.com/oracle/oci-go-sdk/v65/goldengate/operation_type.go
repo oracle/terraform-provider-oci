@@ -56,6 +56,7 @@ const (
 	OperationTypeGoldengatePipelineUpdate              OperationTypeEnum = "GOLDENGATE_PIPELINE_UPDATE"
 	OperationTypeGoldengatePipelineDelete              OperationTypeEnum = "GOLDENGATE_PIPELINE_DELETE"
 	OperationTypeGoldengatePipelineMove                OperationTypeEnum = "GOLDENGATE_PIPELINE_MOVE"
+	OperationTypeGoldengateSwitchoverDeploymentPeer    OperationTypeEnum = "GOLDENGATE_SWITCHOVER_DEPLOYMENT_PEER"
 )
 
 var mappingOperationTypeEnum = map[string]OperationTypeEnum{
@@ -97,6 +98,7 @@ var mappingOperationTypeEnum = map[string]OperationTypeEnum{
 	"GOLDENGATE_PIPELINE_UPDATE":               OperationTypeGoldengatePipelineUpdate,
 	"GOLDENGATE_PIPELINE_DELETE":               OperationTypeGoldengatePipelineDelete,
 	"GOLDENGATE_PIPELINE_MOVE":                 OperationTypeGoldengatePipelineMove,
+	"GOLDENGATE_SWITCHOVER_DEPLOYMENT_PEER":    OperationTypeGoldengateSwitchoverDeploymentPeer,
 }
 
 var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
@@ -138,6 +140,7 @@ var mappingOperationTypeEnumLowerCase = map[string]OperationTypeEnum{
 	"goldengate_pipeline_update":               OperationTypeGoldengatePipelineUpdate,
 	"goldengate_pipeline_delete":               OperationTypeGoldengatePipelineDelete,
 	"goldengate_pipeline_move":                 OperationTypeGoldengatePipelineMove,
+	"goldengate_switchover_deployment_peer":    OperationTypeGoldengateSwitchoverDeploymentPeer,
 }
 
 // GetOperationTypeEnumValues Enumerates the set of values for OperationTypeEnum
@@ -190,6 +193,7 @@ func GetOperationTypeEnumStringValues() []string {
 		"GOLDENGATE_PIPELINE_UPDATE",
 		"GOLDENGATE_PIPELINE_DELETE",
 		"GOLDENGATE_PIPELINE_MOVE",
+		"GOLDENGATE_SWITCHOVER_DEPLOYMENT_PEER",
 	}
 }
 

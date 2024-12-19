@@ -91,14 +91,14 @@ type CreateInternalVnicDetails struct {
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
 	// The value appears in the `Vnic` object and also the
-	// `PrivateIp` object returned by
-	// `ListPrivateIps` and
-	// `GetPrivateIp`.
+	// PrivateIp object returned by
+	// ListPrivateIps and
+	// GetPrivateIp.
 	// For more information, see
 	// DNS in Your Virtual Cloud Network (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/dns.htm).
 	// When launching an instance, use this `hostnameLabel` instead
 	// of the deprecated `hostnameLabel` in
-	// `LaunchInstanceDetails`.
+	// LaunchInstanceDetails.
 	// If you provide both, the values must match.
 	// Example: `bminstance1`
 	HostnameLabel *string `mandatory:"false" json:"hostnameLabel"`
@@ -153,10 +153,10 @@ type CreateInternalVnicDetails struct {
 	// available IP address within the subnet's CIDR. If you don't specify a
 	// value, Oracle automatically assigns a private IP address from the subnet.
 	// This is the VNIC's *primary* private IP address. The value appears in
-	// the `Vnic` object and also the
-	// `PrivateIp` object returned by
-	// `ListPrivateIps` and
-	// `GetPrivateIp`.
+	// the Vnic object and also the
+	// PrivateIp object returned by
+	// ListPrivateIps and
+	// GetPrivateIp.
 	// Example: `10.0.3.3`
 	PrivateIp *string `mandatory:"false" json:"privateIp"`
 

@@ -50,7 +50,7 @@ type UpdateVnicDetails struct {
 	// Must be unique across all VNICs in the subnet and comply with
 	// RFC 952 (https://tools.ietf.org/html/rfc952) and
 	// RFC 1123 (https://tools.ietf.org/html/rfc1123).
-	// The value appears in the `Vnic` object and also the
+	// The value appears in the Vnic object and also the
 	// PrivateIp object returned by
 	// ListPrivateIps and
 	// GetPrivateIp.
@@ -77,7 +77,8 @@ type UpdateVnicDetails struct {
 	// Example: `true`
 	SkipSourceDestCheck *bool `mandatory:"false" json:"skipSourceDestCheck"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
+	// Source Based Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

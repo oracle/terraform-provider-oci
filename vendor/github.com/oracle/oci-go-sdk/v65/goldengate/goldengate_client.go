@@ -199,6 +199,65 @@ func (client GoldenGateClient) addDeploymentBackupLock(ctx context.Context, requ
 	return response, err
 }
 
+// AddDeploymentLocalPeer Adds a new local peer to the deployment, this will add the given placement to deployment placement attribute. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation AddDeploymentLocalPeer()
+func (client GoldenGateClient) AddDeploymentLocalPeer(ctx context.Context, request AddDeploymentLocalPeerRequest) (response AddDeploymentLocalPeerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.addDeploymentLocalPeer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AddDeploymentLocalPeerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AddDeploymentLocalPeerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AddDeploymentLocalPeerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AddDeploymentLocalPeerResponse")
+	}
+	return
+}
+
+// addDeploymentLocalPeer implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) addDeploymentLocalPeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/addLocalPeer", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AddDeploymentLocalPeerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/AddDeploymentLocalPeer"
+		err = common.PostProcessServiceError(err, "GoldenGate", "AddDeploymentLocalPeer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AddDeploymentLock Adds a lock to a Deployment resource.
 // A default retry strategy applies to this operation AddDeploymentLock()
 func (client GoldenGateClient) AddDeploymentLock(ctx context.Context, request AddDeploymentLockRequest) (response AddDeploymentLockResponse, err error) {
@@ -2695,6 +2754,60 @@ func (client GoldenGateClient) listDeploymentEnvironments(ctx context.Context, r
 	return response, err
 }
 
+// ListDeploymentPeers Lists the local and remote peers in a deployment.
+// A default retry strategy applies to this operation ListDeploymentPeers()
+func (client GoldenGateClient) ListDeploymentPeers(ctx context.Context, request ListDeploymentPeersRequest) (response ListDeploymentPeersResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDeploymentPeers, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDeploymentPeersResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDeploymentPeersResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDeploymentPeersResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDeploymentPeersResponse")
+	}
+	return
+}
+
+// listDeploymentPeers implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) listDeploymentPeers(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/deployments/{deploymentId}/peers", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListDeploymentPeersResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/DeploymentPeerSummary/ListDeploymentPeers"
+		err = common.PostProcessServiceError(err, "GoldenGate", "ListDeploymentPeers", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListDeploymentTypes Returns an array of DeploymentTypeDescriptor
 // A default retry strategy applies to this operation ListDeploymentTypes()
 func (client GoldenGateClient) ListDeploymentTypes(ctx context.Context, request ListDeploymentTypesRequest) (response ListDeploymentTypesResponse, err error) {
@@ -3777,6 +3890,65 @@ func (client GoldenGateClient) removeDeploymentBackupLock(ctx context.Context, r
 	return response, err
 }
 
+// RemoveDeploymentLocalPeer Removes a local peer of the deployment, this will remove the given placement entry from the deployment placement attribute. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation RemoveDeploymentLocalPeer()
+func (client GoldenGateClient) RemoveDeploymentLocalPeer(ctx context.Context, request RemoveDeploymentLocalPeerRequest) (response RemoveDeploymentLocalPeerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.removeDeploymentLocalPeer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RemoveDeploymentLocalPeerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RemoveDeploymentLocalPeerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RemoveDeploymentLocalPeerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RemoveDeploymentLocalPeerResponse")
+	}
+	return
+}
+
+// removeDeploymentLocalPeer implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) removeDeploymentLocalPeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/removeLocalPeer", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RemoveDeploymentLocalPeerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/RemoveDeploymentLocalPeer"
+		err = common.PostProcessServiceError(err, "GoldenGate", "RemoveDeploymentLocalPeer", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveDeploymentLock Removes a lock from a Deployment resource.
 // A default retry strategy applies to this operation RemoveDeploymentLock()
 func (client GoldenGateClient) RemoveDeploymentLock(ctx context.Context, request RemoveDeploymentLockRequest) (response RemoveDeploymentLockResponse, err error) {
@@ -4296,6 +4468,65 @@ func (client GoldenGateClient) stopPipeline(ctx context.Context, request common.
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Pipeline/StopPipeline"
 		err = common.PostProcessServiceError(err, "GoldenGate", "StopPipeline", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SwitchoverDeploymentPeer Switchover to the selected deployment peer, which can be a local placement or a standby deployment in different region. When provided, If-Match is checked against ETag values of the resource.
+// A default retry strategy applies to this operation SwitchoverDeploymentPeer()
+func (client GoldenGateClient) SwitchoverDeploymentPeer(ctx context.Context, request SwitchoverDeploymentPeerRequest) (response SwitchoverDeploymentPeerResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchoverDeploymentPeer, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchoverDeploymentPeerResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchoverDeploymentPeerResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchoverDeploymentPeerResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchoverDeploymentPeerResponse")
+	}
+	return
+}
+
+// switchoverDeploymentPeer implements the OCIOperation interface (enables retrying operations)
+func (client GoldenGateClient) switchoverDeploymentPeer(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/deployments/{deploymentId}/actions/switchover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchoverDeploymentPeerResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/goldengate/20200407/Deployment/SwitchoverDeploymentPeer"
+		err = common.PostProcessServiceError(err, "GoldenGate", "SwitchoverDeploymentPeer", apiReferenceLink)
 		return response, err
 	}
 

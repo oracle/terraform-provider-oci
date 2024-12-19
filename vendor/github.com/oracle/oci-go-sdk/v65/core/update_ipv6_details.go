@@ -45,7 +45,8 @@ type UpdateIpv6Details struct {
 	// The hostname associated with the IPv6 address. Only the hostname label, not the FQDN.
 	Hostname *string `mandatory:"false" json:"hostname"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
+	// Source Based Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// Lifetime of the IP address.

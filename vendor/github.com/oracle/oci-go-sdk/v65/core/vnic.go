@@ -139,7 +139,8 @@ type Vnic struct {
 	// Example: `2001:DB8::`
 	Ipv6Addresses []string `mandatory:"false" json:"ipv6Addresses"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
+	// Source Based Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

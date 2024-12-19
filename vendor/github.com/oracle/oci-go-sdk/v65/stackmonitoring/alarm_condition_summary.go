@@ -24,9 +24,6 @@ type AlarmConditionSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the monitoring template.
 	MonitoringTemplateId *string `mandatory:"true" json:"monitoringTemplateId"`
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" json:"compartmentId"`
-
 	// The stack monitoring service or application emitting the metric that is evaluated by the alarm.
 	Namespace *string `mandatory:"true" json:"namespace"`
 

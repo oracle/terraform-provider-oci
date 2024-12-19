@@ -78,6 +78,9 @@ type UpdateComputeClusterDetails struct {
 	// Optional timeout value in minutes used to auto stop Compute Clusters. A cluster will be auto stopped after inactivity for this amount of time period.
 	// If this value is not set, the cluster will not be auto stopped.
 	IdleComputeClusterTimeoutInMinutes *int `mandatory:"false" json:"idleComputeClusterTimeoutInMinutes"`
+
+	// Async Operation Key for the operation on the cluster.
+	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
 }
 
 func (m UpdateComputeClusterDetails) String() string {

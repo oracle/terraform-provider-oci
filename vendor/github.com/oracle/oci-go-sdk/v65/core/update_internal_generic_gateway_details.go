@@ -30,6 +30,12 @@ type UpdateInternalGenericGatewayDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table associated with the gateway
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
+	// Whether the generic gateway should use Regional PAGW route table for default routes.
+	IsUsingRegionalPrivateAccessGatewayRouteTable *bool `mandatory:"false" json:"isUsingRegionalPrivateAccessGatewayRouteTable"`
+
+	// IP address of the gateway.
+	GatewayIpAddresses []string `mandatory:"false" json:"gatewayIpAddresses"`
+
 	// Defined tags for this resource. Each key is predefined and scoped to a namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Operations": {"CostCenter": "42"}}`

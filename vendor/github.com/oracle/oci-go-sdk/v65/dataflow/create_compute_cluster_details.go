@@ -87,14 +87,11 @@ type CreateComputeClusterDetails struct {
 	// HubProxyEndpoint of the cluster.
 	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
 
-	// List of networkConfigurationIds for the cluster
-	NetworkConfigurationIds []string `mandatory:"false" json:"networkConfigurationIds"`
-
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`
 
 	// Async Operation Key for the operation on the cluster.
-	OperationKey *string `mandatory:"false" json:"operationKey"`
+	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
 }
 
 func (m CreateComputeClusterDetails) String() string {

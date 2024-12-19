@@ -25,10 +25,6 @@ type CreateOracleNosqlConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the compartment being referenced.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The fingerprint of the API Key of the user specified by the userId.
-	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
-	PublicKeyFingerprint *string `mandatory:"true" json:"publicKeyFingerprint"`
-
 	// Metadata about this specific object.
 	Description *string `mandatory:"false" json:"description"`
 
@@ -66,10 +62,12 @@ type CreateOracleNosqlConnectionDetails struct {
 	TenancyId *string `mandatory:"false" json:"tenancyId"`
 
 	// The name of the region. e.g.: us-ashburn-1
+	// If the region is not provided, backend will default to the default region.
 	Region *string `mandatory:"false" json:"region"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the OCI user who will access the Oracle NoSQL database.
 	// The user must have write access to the table they want to connect to.
+	// If the user is not provided, backend will default to the user who is calling the API endpoint.
 	UserId *string `mandatory:"false" json:"userId"`
 
 	// The base64 encoded content of the private key file (PEM file) corresponding to the API key of the fingerprint.
@@ -87,6 +85,13 @@ type CreateOracleNosqlConnectionDetails struct {
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the passphrase of the private key.
 	// Note: When provided, 'privateKeyPassphrase' field must not be provided.
 	PrivateKeyPassphraseSecretId *string `mandatory:"false" json:"privateKeyPassphraseSecretId"`
+
+	// The fingerprint of the API Key of the user specified by the userId.
+	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	PublicKeyFingerprint *string `mandatory:"false" json:"publicKeyFingerprint"`
+
+	// Indicates that the user intents to connect to the instance through resource principal.
+	ShouldUseResourcePrincipal *bool `mandatory:"false" json:"shouldUseResourcePrincipal"`
 
 	// Controls the network traffic direction to the target:
 	// SHARED_SERVICE_ENDPOINT: Traffic flows through the Goldengate Service's network to public hosts. Cannot be used for private targets.

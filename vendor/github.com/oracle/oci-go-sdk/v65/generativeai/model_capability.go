@@ -21,30 +21,45 @@ type ModelCapabilityEnum string
 
 // Set of constants representing the allowable values for ModelCapabilityEnum
 const (
-	ModelCapabilityTextGeneration    ModelCapabilityEnum = "TEXT_GENERATION"
-	ModelCapabilityTextSummarization ModelCapabilityEnum = "TEXT_SUMMARIZATION"
-	ModelCapabilityTextEmbeddings    ModelCapabilityEnum = "TEXT_EMBEDDINGS"
-	ModelCapabilityFineTune          ModelCapabilityEnum = "FINE_TUNE"
-	ModelCapabilityChat              ModelCapabilityEnum = "CHAT"
-	ModelCapabilityTextRerank        ModelCapabilityEnum = "TEXT_RERANK"
+	ModelCapabilityTextGeneration            ModelCapabilityEnum = "TEXT_GENERATION"
+	ModelCapabilityTextSummarization         ModelCapabilityEnum = "TEXT_SUMMARIZATION"
+	ModelCapabilityTextEmbeddings            ModelCapabilityEnum = "TEXT_EMBEDDINGS"
+	ModelCapabilityFineTune                  ModelCapabilityEnum = "FINE_TUNE"
+	ModelCapabilityChat                      ModelCapabilityEnum = "CHAT"
+	ModelCapabilityTextRerank                ModelCapabilityEnum = "TEXT_RERANK"
+	ModelCapabilityTextClassification        ModelCapabilityEnum = "TEXT_CLASSIFICATION"
+	ModelCapabilityTokenClassification       ModelCapabilityEnum = "TOKEN_CLASSIFICATION"
+	ModelCapabilityContentModeration         ModelCapabilityEnum = "CONTENT_MODERATION"
+	ModelCapabilityPiiProtection             ModelCapabilityEnum = "PII_PROTECTION"
+	ModelCapabilityPromptInjectionProtection ModelCapabilityEnum = "PROMPT_INJECTION_PROTECTION"
 )
 
 var mappingModelCapabilityEnum = map[string]ModelCapabilityEnum{
-	"TEXT_GENERATION":    ModelCapabilityTextGeneration,
-	"TEXT_SUMMARIZATION": ModelCapabilityTextSummarization,
-	"TEXT_EMBEDDINGS":    ModelCapabilityTextEmbeddings,
-	"FINE_TUNE":          ModelCapabilityFineTune,
-	"CHAT":               ModelCapabilityChat,
-	"TEXT_RERANK":        ModelCapabilityTextRerank,
+	"TEXT_GENERATION":             ModelCapabilityTextGeneration,
+	"TEXT_SUMMARIZATION":          ModelCapabilityTextSummarization,
+	"TEXT_EMBEDDINGS":             ModelCapabilityTextEmbeddings,
+	"FINE_TUNE":                   ModelCapabilityFineTune,
+	"CHAT":                        ModelCapabilityChat,
+	"TEXT_RERANK":                 ModelCapabilityTextRerank,
+	"TEXT_CLASSIFICATION":         ModelCapabilityTextClassification,
+	"TOKEN_CLASSIFICATION":        ModelCapabilityTokenClassification,
+	"CONTENT_MODERATION":          ModelCapabilityContentModeration,
+	"PII_PROTECTION":              ModelCapabilityPiiProtection,
+	"PROMPT_INJECTION_PROTECTION": ModelCapabilityPromptInjectionProtection,
 }
 
 var mappingModelCapabilityEnumLowerCase = map[string]ModelCapabilityEnum{
-	"text_generation":    ModelCapabilityTextGeneration,
-	"text_summarization": ModelCapabilityTextSummarization,
-	"text_embeddings":    ModelCapabilityTextEmbeddings,
-	"fine_tune":          ModelCapabilityFineTune,
-	"chat":               ModelCapabilityChat,
-	"text_rerank":        ModelCapabilityTextRerank,
+	"text_generation":             ModelCapabilityTextGeneration,
+	"text_summarization":          ModelCapabilityTextSummarization,
+	"text_embeddings":             ModelCapabilityTextEmbeddings,
+	"fine_tune":                   ModelCapabilityFineTune,
+	"chat":                        ModelCapabilityChat,
+	"text_rerank":                 ModelCapabilityTextRerank,
+	"text_classification":         ModelCapabilityTextClassification,
+	"token_classification":        ModelCapabilityTokenClassification,
+	"content_moderation":          ModelCapabilityContentModeration,
+	"pii_protection":              ModelCapabilityPiiProtection,
+	"prompt_injection_protection": ModelCapabilityPromptInjectionProtection,
 }
 
 // GetModelCapabilityEnumValues Enumerates the set of values for ModelCapabilityEnum
@@ -65,6 +80,11 @@ func GetModelCapabilityEnumStringValues() []string {
 		"FINE_TUNE",
 		"CHAT",
 		"TEXT_RERANK",
+		"TEXT_CLASSIFICATION",
+		"TOKEN_CLASSIFICATION",
+		"CONTENT_MODERATION",
+		"PII_PROTECTION",
+		"PROMPT_INJECTION_PROTECTION",
 	}
 }
 

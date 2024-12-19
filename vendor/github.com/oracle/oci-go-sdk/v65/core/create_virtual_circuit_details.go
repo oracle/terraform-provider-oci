@@ -124,7 +124,7 @@ type CreateVirtualCircuitDetails struct {
 	// The Quality of Service (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/qos.htm) (QoS) bandwidth reservation
 	// template to associate with the virtual circuit.
 	// To get a list of the available Quality of Service bandwidth reservation template shapes), use
-	// the  `ListQosBandwidthReservationTemplateShapes` operation.
+	// the  ListQosBandwidthReservationTemplateShapes operation.
 	// Example: `FC_QoS_25_25_25_20`.
 	QosBandwidthReservationTemplateShapeName *string `mandatory:"false" json:"qosBandwidthReservationTemplateShapeName"`
 }

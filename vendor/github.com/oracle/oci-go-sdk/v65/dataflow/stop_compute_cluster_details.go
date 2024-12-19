@@ -25,7 +25,7 @@ type StopComputeClusterDetails struct {
 	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
 
 	// Async Operation Key for the operation on the cluster.
-	OperationKey *string `mandatory:"false" json:"operationKey"`
+	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
 }
 
 func (m StopComputeClusterDetails) String() string {

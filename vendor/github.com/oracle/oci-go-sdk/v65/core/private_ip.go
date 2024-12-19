@@ -41,7 +41,7 @@ import (
 // CreateVnicDetails when calling either
 // LaunchInstance or
 // AttachVnic. To update the hostname
-// for a primary private IP, you use `UpdateVnic`.
+// for a primary private IP, you use UpdateVnic.
 // `PrivateIp` objects that are created for use with the Oracle Cloud VMware Solution are
 // assigned to a VLAN and not a VNIC in a subnet. See the
 // descriptions of the relevant attributes in the `PrivateIp` object. Also see
@@ -120,7 +120,7 @@ type PrivateIp struct {
 	// the Oracle Cloud VMware Solution, the `vnicId` is null.
 	VnicId *string `mandatory:"false" json:"vnicId"`
 
-	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED otherwise AVAILABLE
+	// State of the IP address. If an IP address is assigned to a VNIC it is ASSIGNED, otherwise it is AVAILABLE.
 	IpState PrivateIpIpStateEnum `mandatory:"false" json:"ipState,omitempty"`
 
 	// Lifetime of the IP address.
@@ -129,7 +129,8 @@ type PrivateIp struct {
 	//  - Reserved
 	Lifetime PrivateIpLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
+	// Source Based Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 }
 

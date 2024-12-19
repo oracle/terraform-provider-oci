@@ -91,65 +91,6 @@ func (client *DataFlowClient) ConfigurationProvider() *common.ConfigurationProvi
 	return client.config
 }
 
-// AttachNetworkConfiguration Attach a networkConfiguration to an existing cluster
-// A default retry strategy applies to this operation AttachNetworkConfiguration()
-func (client DataFlowClient) AttachNetworkConfiguration(ctx context.Context, request AttachNetworkConfigurationRequest) (response AttachNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.attachNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = AttachNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = AttachNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(AttachNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into AttachNetworkConfigurationResponse")
-	}
-	return
-}
-
-// attachNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) attachNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkConfiguration/{networkConfigurationId}/actions/attach", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response AttachNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/AttachNetworkConfiguration/AttachNetworkConfiguration"
-		err = common.PostProcessServiceError(err, "DataFlow", "AttachNetworkConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // CascadingDeleteApplication Deletes an application using an `applicationId` and terminates related runs. This operation will timeout in approximate 30 minutes if any related Runs are not terminated successfully.
 func (client DataFlowClient) CascadingDeleteApplication(ctx context.Context, request CascadingDeleteApplicationRequest) (response CascadingDeleteApplicationResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -317,68 +258,6 @@ func (client DataFlowClient) changeComputeClusterCompartment(ctx context.Context
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/Pool/ChangeComputeClusterCompartment"
 		err = common.PostProcessServiceError(err, "DataFlow", "ChangeComputeClusterCompartment", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ChangeNetworkConfigurationCompartment Moves a networkConfiguration into a different compartment. When provided, If-Match is checked against ETag
-// values of the resource. Associated resources, like historical metrics, will not be
-// automatically moved. The NetworkConfiguration must be in a terminal state (ACTIVE, FAILED) in
-// order for it to be moved to a different compartment
-// A default retry strategy applies to this operation ChangeNetworkConfigurationCompartment()
-func (client DataFlowClient) ChangeNetworkConfigurationCompartment(ctx context.Context, request ChangeNetworkConfigurationCompartmentRequest) (response ChangeNetworkConfigurationCompartmentResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.changeNetworkConfigurationCompartment, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ChangeNetworkConfigurationCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ChangeNetworkConfigurationCompartmentResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ChangeNetworkConfigurationCompartmentResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ChangeNetworkConfigurationCompartmentResponse")
-	}
-	return
-}
-
-// changeNetworkConfigurationCompartment implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) changeNetworkConfigurationCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkConfiguration/{networkConfigurationId}/actions/changeCompartment", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response ChangeNetworkConfigurationCompartmentResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/NetworkConfiguration/ChangeNetworkConfigurationCompartment"
-		err = common.PostProcessServiceError(err, "DataFlow", "ChangeNetworkConfigurationCompartment", apiReferenceLink)
 		return response, err
 	}
 
@@ -848,65 +727,6 @@ func (client DataFlowClient) createComputeClusterContext(ctx context.Context, re
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeClusterContext/CreateComputeClusterContext"
 		err = common.PostProcessServiceError(err, "DataFlow", "CreateComputeClusterContext", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// CreateNetworkConfiguration Create a Network Configuration to be used by a workspace
-// A default retry strategy applies to this operation CreateNetworkConfiguration()
-func (client DataFlowClient) CreateNetworkConfiguration(ctx context.Context, request CreateNetworkConfigurationRequest) (response CreateNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.createNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = CreateNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = CreateNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(CreateNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into CreateNetworkConfigurationResponse")
-	}
-	return
-}
-
-// createNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) createNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkConfiguration", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response CreateNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := ""
-		err = common.PostProcessServiceError(err, "DataFlow", "CreateNetworkConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -1412,59 +1232,6 @@ func (client DataFlowClient) deleteComputeClusterContext(ctx context.Context, re
 	return response, err
 }
 
-// DeleteNetworkConfiguration Deletes a network configuration by Id.
-func (client DataFlowClient) DeleteNetworkConfiguration(ctx context.Context, request DeleteNetworkConfigurationRequest) (response DeleteNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.deleteNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DeleteNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DeleteNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DeleteNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DeleteNetworkConfigurationResponse")
-	}
-	return
-}
-
-// deleteNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) deleteNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/networkConfiguration/{networkConfigurationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DeleteNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/NetworkConfiguration/DeleteNetworkConfiguration"
-		err = common.PostProcessServiceError(err, "DataFlow", "DeleteNetworkConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // DeletePool Deletes a pool using a `poolId`.
 func (client DataFlowClient) DeletePool(ctx context.Context, request DeletePoolRequest) (response DeletePoolResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1732,65 +1499,6 @@ func (client DataFlowClient) deleteStatement(ctx context.Context, request common
 	return response, err
 }
 
-// DetachNetworkConfiguration Detach a networkConfiguration from an existing cluster
-// A default retry strategy applies to this operation DetachNetworkConfiguration()
-func (client DataFlowClient) DetachNetworkConfiguration(ctx context.Context, request DetachNetworkConfigurationRequest) (response DetachNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
-	ociResponse, err = common.Retry(ctx, request, client.detachNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = DetachNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = DetachNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(DetachNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into DetachNetworkConfigurationResponse")
-	}
-	return
-}
-
-// detachNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) detachNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPost, "/networkConfiguration/{networkConfigurationId}/actions/detach", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response DetachNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/DetachNetworkConfiguration/DetachNetworkConfiguration"
-		err = common.PostProcessServiceError(err, "DataFlow", "DetachNetworkConfiguration", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
 // GetApplication Retrieves an application using an `applicationId`.
 // A default retry strategy applies to this operation GetApplication()
 func (client DataFlowClient) GetApplication(ctx context.Context, request GetApplicationRequest) (response GetApplicationResponse, err error) {
@@ -2000,60 +1708,6 @@ func (client DataFlowClient) getComputeClusterContext(ctx context.Context, reque
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeClusterContext/GetComputeClusterContext"
 		err = common.PostProcessServiceError(err, "DataFlow", "GetComputeClusterContext", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// GetNetworkConfiguration Retrieves a networkConfiguration by Id.
-// A default retry strategy applies to this operation GetNetworkConfiguration()
-func (client DataFlowClient) GetNetworkConfiguration(ctx context.Context, request GetNetworkConfigurationRequest) (response GetNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.getNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = GetNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = GetNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(GetNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into GetNetworkConfigurationResponse")
-	}
-	return
-}
-
-// getNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) getNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkConfiguration/{networkConfigurationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response GetNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/NetworkConfiguration/GetNetworkConfiguration"
-		err = common.PostProcessServiceError(err, "DataFlow", "GetNetworkConfiguration", apiReferenceLink)
 		return response, err
 	}
 
@@ -3661,59 +3315,6 @@ func (client DataFlowClient) updateComputeCluster(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeCluster/UpdateComputeCluster"
 		err = common.PostProcessServiceError(err, "DataFlow", "UpdateComputeCluster", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// UpdateNetworkConfiguration Updates a networkConfiguration by id.
-func (client DataFlowClient) UpdateNetworkConfiguration(ctx context.Context, request UpdateNetworkConfigurationRequest) (response UpdateNetworkConfigurationResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.NoRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.updateNetworkConfiguration, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = UpdateNetworkConfigurationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = UpdateNetworkConfigurationResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(UpdateNetworkConfigurationResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into UpdateNetworkConfigurationResponse")
-	}
-	return
-}
-
-// updateNetworkConfiguration implements the OCIOperation interface (enables retrying operations)
-func (client DataFlowClient) updateNetworkConfiguration(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodPut, "/networkConfiguration/{networkConfigurationId}", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	var response UpdateNetworkConfigurationResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/NetworkConfiguration/UpdateNetworkConfiguration"
-		err = common.PostProcessServiceError(err, "DataFlow", "UpdateNetworkConfiguration", apiReferenceLink)
 		return response, err
 	}
 

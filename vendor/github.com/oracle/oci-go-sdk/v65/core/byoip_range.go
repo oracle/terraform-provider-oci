@@ -82,6 +82,12 @@ type ByoipRange struct {
 	// The date and time the `ByoipRange` resource was withdrawn from advertisement by BGP to the internet, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeWithdrawn *common.SDKTime `mandatory:"false" json:"timeWithdrawn"`
+
+	// The IP address of the CIDR for Prefix Monitoring.
+	MonitorIp *string `mandatory:"false" json:"monitorIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP Anycast Resource.
+	IpAnycastId *string `mandatory:"false" json:"ipAnycastId"`
 }
 
 func (m ByoipRange) String() string {

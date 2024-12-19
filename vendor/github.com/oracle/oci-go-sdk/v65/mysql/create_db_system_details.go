@@ -65,6 +65,9 @@ type CreateDbSystemDetails struct {
 	// The specific MySQL version identifier.
 	MysqlVersion *string `mandatory:"false" json:"mysqlVersion"`
 
+	// Network Security Group OCIDs used for the VNIC attachment.
+	NsgIds []string `mandatory:"false" json:"nsgIds"`
+
 	// The username for the administrative user.
 	AdminUsername *string `mandatory:"false" json:"adminUsername"`
 
@@ -185,6 +188,7 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 		FaultDomain          *string                           `json:"faultDomain"`
 		ConfigurationId      *string                           `json:"configurationId"`
 		MysqlVersion         *string                           `json:"mysqlVersion"`
+		NsgIds               []string                          `json:"nsgIds"`
 		AdminUsername        *string                           `json:"adminUsername"`
 		AdminPassword        *string                           `json:"adminPassword"`
 		DataStorageSizeInGBs *int                              `json:"dataStorageSizeInGBs"`
@@ -230,6 +234,8 @@ func (m *CreateDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
 
 	m.MysqlVersion = model.MysqlVersion
 
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
 	m.AdminUsername = model.AdminUsername
 
 	m.AdminPassword = model.AdminPassword

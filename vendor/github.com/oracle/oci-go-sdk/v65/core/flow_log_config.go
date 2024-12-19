@@ -24,7 +24,7 @@ import (
 
 // FlowLogConfig *Flow logs* record information about traffic that is either allowed or rejected by the
 // SecurityList that control traffic in and out of a
-// `Vnic`.
+// Vnic.
 // A *flow log configuration* (`FlowLogConfig`) contains information about where to store flow
 // logs (an Object Storage bucket in your tenancy), and the type of logs to store.
 // **Important:** For logs to be placed in the Object Storage bucket listed in the configuration,
@@ -36,8 +36,8 @@ import (
 // `admit dynamic-group FlowLogsDynamicGroup of tenancy VcnFlowLogs to manage objects in tenancy where target.bucket.name='yourbucketname'`
 // To enable flow logs for a subnet: after creating a flow
 // log configuration, attach the flow log configuration to that subnet. See
-// `FlowLogConfigAttachment` and
-// `CreateFlowLogConfigAttachment`.
+// FlowLogConfigAttachment and
+// CreateFlowLogConfigAttachment.
 type FlowLogConfig struct {
 
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment containing the flow

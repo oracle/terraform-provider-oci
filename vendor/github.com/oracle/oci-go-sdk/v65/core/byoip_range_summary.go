@@ -50,6 +50,12 @@ type ByoipRangeSummary struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the `ByoipRange` resource.
 	Id *string `mandatory:"false" json:"id"`
 
+	// The IP address of the CIDR for Prefix Monitoring.
+	MonitorIp *string `mandatory:"false" json:"monitorIp"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the IP Anycast Resource.
+	IpAnycastId *string `mandatory:"false" json:"ipAnycastId"`
+
 	// The IPv6 prefix being imported to the Oracle cloud. This prefix must be /48 or larger, and can  be subdivided into sub-ranges used
 	// across multiple VCNs. A BYOIPv6 prefix can be assigned across multiple VCNs, and each VCN must be /64 or larger. You may specify
 	// a ULA or private IPv6 prefix of /64 or larger to use in the VCN. IPv6-enabled subnets will remain a fixed /64 in size.

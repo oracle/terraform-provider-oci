@@ -59,7 +59,8 @@ type CreateIpv6Details struct {
 	//  - Reserved
 	Lifetime CreateIpv6DetailsLifetimeEnum `mandatory:"false" json:"lifetime,omitempty"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the PrivateIp will use.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the route table the IP address or VNIC will use. For more information, see
+	// Source Based Routing (https://docs.oracle.com/iaas/Content/Network/Tasks/managingroutetables.htm#Overview_of_Routing_for_Your_VCN__source_routing).
 	RouteTableId *string `mandatory:"false" json:"routeTableId"`
 
 	// The IPv6 prefix allocated to the subnet. This is required if more than one IPv6 prefix exists on the subnet.
