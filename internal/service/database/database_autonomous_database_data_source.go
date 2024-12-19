@@ -253,6 +253,10 @@ func (s *DatabaseAutonomousDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("is_auto_scaling_for_storage_enabled", *s.Res.IsAutoScalingForStorageEnabled)
 	}
 
+	if s.Res.IsBackupRetentionLocked != nil {
+		s.D.Set("is_backup_retention_locked", *s.Res.IsBackupRetentionLocked)
+	}
+
 	if s.Res.IsDataGuardEnabled != nil {
 		s.D.Set("is_data_guard_enabled", *s.Res.IsDataGuardEnabled)
 	}

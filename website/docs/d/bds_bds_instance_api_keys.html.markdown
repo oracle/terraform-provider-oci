@@ -34,7 +34,18 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+<<<<<<< ours
+* `bds_api_keys` - The list of bds_api_keys.
+
+### BdsInstanceApiKey Reference
+
+The following attributes are exported:
+
+* `default_region` - The name of the region to establish the Object Storage endpoint which was set as part of key creation operation. If no region was provided this will be set to be the same region where the cluster lives. Example us-phoenix-1 . 
+* `domain_ocid` - Identity domain OCID ,where user is present. For default domain ,this field will be optional.
+=======
 * `default_region` - The name of the region to establish the Object Storage endpoint which was set as part of key creation operation. If no region was provided this will be set to be the same region where the cluster lives. Example us-phoenix-1 .
+>>>>>>> theirs
 * `fingerprint` - The fingerprint that corresponds to the public API key requested.
 * `id` - Identifier of the user's API key.
 * `key_alias` - User friendly identifier used to uniquely differentiate between different API keys. Only ASCII alphanumeric characters with no spaces allowed.

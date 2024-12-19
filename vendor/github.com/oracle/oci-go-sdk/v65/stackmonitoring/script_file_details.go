@@ -15,7 +15,7 @@ import (
 	"strings"
 )
 
-// ScriptFileDetails Script details applicable to any OS Command based Metric Extension which needs to run a script to collect data
+// ScriptFileDetails Script details applicable to any OS Command based Metric Extension which needs to run a script to collect data. For removing it during update, set its "content" property to an empty string. In that case, "name" property value is ignored.
 type ScriptFileDetails struct {
 
 	// Name of the script file

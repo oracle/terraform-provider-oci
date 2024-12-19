@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -97,8 +95,7 @@ func (client *GenerativeAiAgentClient) ConfigurationProvider() *common.Configura
 	return client.config
 }
 
-// CancelWorkRequest **CancelWorkRequest**
-// Cancels a work request.
+// CancelWorkRequest Cancels a work request.
 //
 // # See also
 //
@@ -156,8 +153,7 @@ func (client GenerativeAiAgentClient) cancelWorkRequest(ctx context.Context, req
 	return response, err
 }
 
-// ChangeAgentCompartment **ChangeAgentCompartment**
-// Moves an agent into a different compartment within the same tenancy. For information about moving resources between
+// ChangeAgentCompartment Moves an agent into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
@@ -221,8 +217,7 @@ func (client GenerativeAiAgentClient) changeAgentCompartment(ctx context.Context
 	return response, err
 }
 
-// ChangeAgentEndpointCompartment **ChangeAgentEndpointCompartment**
-// Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
+// ChangeAgentEndpointCompartment Moves an endpoint into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
@@ -286,8 +281,7 @@ func (client GenerativeAiAgentClient) changeAgentEndpointCompartment(ctx context
 	return response, err
 }
 
-// ChangeKnowledgeBaseCompartment **ChangeKnowledgeBaseCompartment**
-// Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
+// ChangeKnowledgeBaseCompartment Moves a knowledge base into a different compartment within the same tenancy. For information about moving resources between
 // compartments, see Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
 //
 // # See also
@@ -351,8 +345,7 @@ func (client GenerativeAiAgentClient) changeKnowledgeBaseCompartment(ctx context
 	return response, err
 }
 
-// CreateAgent **CreateAgent**
-// Creates an agent.
+// CreateAgent Creates an agent.
 //
 // # See also
 //
@@ -415,8 +408,7 @@ func (client GenerativeAiAgentClient) createAgent(ctx context.Context, request c
 	return response, err
 }
 
-// CreateAgentEndpoint **CreateAgentEndpoint**
-// Creates an endpoint.
+// CreateAgentEndpoint Creates an endpoint.
 //
 // # See also
 //
@@ -479,8 +471,7 @@ func (client GenerativeAiAgentClient) createAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// CreateDataIngestionJob **CreateDataIngestionJob**
-// Creates a data ingestion job.
+// CreateDataIngestionJob Creates a data ingestion job.
 //
 // # See also
 //
@@ -543,8 +534,7 @@ func (client GenerativeAiAgentClient) createDataIngestionJob(ctx context.Context
 	return response, err
 }
 
-// CreateDataSource **CreateDataSource**
-// Creates a data source.
+// CreateDataSource Creates a data source.
 //
 // # See also
 //
@@ -607,8 +597,7 @@ func (client GenerativeAiAgentClient) createDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// CreateKnowledgeBase **CreateKnowledgeBase**
-// Creates a knowledge base.
+// CreateKnowledgeBase Creates a knowledge base.
 //
 // # See also
 //
@@ -671,8 +660,7 @@ func (client GenerativeAiAgentClient) createKnowledgeBase(ctx context.Context, r
 	return response, err
 }
 
-// DeleteAgent **DeleteAgent**
-// Deletes an agent.
+// DeleteAgent Deletes an agent.
 //
 // # See also
 //
@@ -730,8 +718,7 @@ func (client GenerativeAiAgentClient) deleteAgent(ctx context.Context, request c
 	return response, err
 }
 
-// DeleteAgentEndpoint **DeleteAgentEndpoint**
-// Deletes an endpoint.
+// DeleteAgentEndpoint Deletes an endpoint.
 //
 // # See also
 //
@@ -789,8 +776,7 @@ func (client GenerativeAiAgentClient) deleteAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// DeleteDataIngestionJob **DeleteDataIngestionJob**
-// Deletes a data ingestion job.
+// DeleteDataIngestionJob Deletes a data ingestion job.
 //
 // # See also
 //
@@ -848,8 +834,7 @@ func (client GenerativeAiAgentClient) deleteDataIngestionJob(ctx context.Context
 	return response, err
 }
 
-// DeleteDataSource **DeleteDataSource**
-// Deletes a data source.
+// DeleteDataSource Deletes a data source.
 //
 // # See also
 //
@@ -907,8 +892,7 @@ func (client GenerativeAiAgentClient) deleteDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// DeleteKnowledgeBase **DeleteKnowledgeBase**
-// Deletes a knowledge base.
+// DeleteKnowledgeBase Deletes a knowledge base.
 //
 // # See also
 //
@@ -966,8 +950,7 @@ func (client GenerativeAiAgentClient) deleteKnowledgeBase(ctx context.Context, r
 	return response, err
 }
 
-// GetAgent **GetAgent**
-// Gets information about an agent.
+// GetAgent Gets information about an agent.
 //
 // # See also
 //
@@ -1025,8 +1008,7 @@ func (client GenerativeAiAgentClient) getAgent(ctx context.Context, request comm
 	return response, err
 }
 
-// GetAgentEndpoint **GetAgentEndpoint**
-// Gets information about an endpoint.
+// GetAgentEndpoint Gets information about an endpoint.
 //
 // # See also
 //
@@ -1084,8 +1066,7 @@ func (client GenerativeAiAgentClient) getAgentEndpoint(ctx context.Context, requ
 	return response, err
 }
 
-// GetDataIngestionJob **GetDataIngestionJob**
-// Gets information about a data ingestion job.
+// GetDataIngestionJob Gets information about a data ingestion job.
 //
 // # See also
 //
@@ -1143,8 +1124,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJob(ctx context.Context, r
 	return response, err
 }
 
-// GetDataIngestionJobLogContent **GetDataIngestionJobLogContent**
-// Returns the raw log file for the specified data ingestion job in text format.
+// GetDataIngestionJobLogContent Returns the raw log file for the specified data ingestion job in text format.
 //
 // # See also
 //
@@ -1201,8 +1181,7 @@ func (client GenerativeAiAgentClient) getDataIngestionJobLogContent(ctx context.
 	return response, err
 }
 
-// GetDataSource **GetDataSource**
-// Gets information about a data source.
+// GetDataSource Gets information about a data source.
 //
 // # See also
 //
@@ -1260,8 +1239,7 @@ func (client GenerativeAiAgentClient) getDataSource(ctx context.Context, request
 	return response, err
 }
 
-// GetKnowledgeBase **GetKnowledgeBase**
-// Gets information about a knowledge base.
+// GetKnowledgeBase Gets information about a knowledge base.
 //
 // # See also
 //
@@ -1319,8 +1297,7 @@ func (client GenerativeAiAgentClient) getKnowledgeBase(ctx context.Context, requ
 	return response, err
 }
 
-// GetWorkRequest **GetWorkRequest**
-// Gets the details of a work request.
+// GetWorkRequest Gets the details of a work request.
 //
 // # See also
 //
@@ -1378,8 +1355,7 @@ func (client GenerativeAiAgentClient) getWorkRequest(ctx context.Context, reques
 	return response, err
 }
 
-// ListAgentEndpoints **ListAgentEndpoints**
-// Gets a list of endpoints.
+// ListAgentEndpoints Gets a list of endpoints.
 //
 // # See also
 //
@@ -1437,8 +1413,7 @@ func (client GenerativeAiAgentClient) listAgentEndpoints(ctx context.Context, re
 	return response, err
 }
 
-// ListAgents **ListAgents**
-// Gets a list of agents.
+// ListAgents Gets a list of agents.
 //
 // # See also
 //
@@ -1496,8 +1471,7 @@ func (client GenerativeAiAgentClient) listAgents(ctx context.Context, request co
 	return response, err
 }
 
-// ListDataIngestionJobs **ListDataIngestionJobs**
-// Gets a list of data ingestion jobs.
+// ListDataIngestionJobs Gets a list of data ingestion jobs.
 //
 // # See also
 //
@@ -1555,8 +1529,7 @@ func (client GenerativeAiAgentClient) listDataIngestionJobs(ctx context.Context,
 	return response, err
 }
 
-// ListDataSources **ListDataSources**
-// Gets a list of data sources.
+// ListDataSources Gets a list of data sources.
 //
 // # See also
 //
@@ -1614,8 +1587,7 @@ func (client GenerativeAiAgentClient) listDataSources(ctx context.Context, reque
 	return response, err
 }
 
-// ListKnowledgeBases **ListKnowledgeBases**
-// Gets a list of knowledge bases.
+// ListKnowledgeBases Gets a list of knowledge bases.
 //
 // # See also
 //
@@ -1673,8 +1645,7 @@ func (client GenerativeAiAgentClient) listKnowledgeBases(ctx context.Context, re
 	return response, err
 }
 
-// ListWorkRequestErrors **ListWorkRequestErrors**
-// Lists the errors for a work request.
+// ListWorkRequestErrors Lists the errors for a work request.
 //
 // # See also
 //
@@ -1732,8 +1703,7 @@ func (client GenerativeAiAgentClient) listWorkRequestErrors(ctx context.Context,
 	return response, err
 }
 
-// ListWorkRequestLogs **ListWorkRequestLogs**
-// Lists the logs for a work request.
+// ListWorkRequestLogs Lists the logs for a work request.
 //
 // # See also
 //
@@ -1791,8 +1761,7 @@ func (client GenerativeAiAgentClient) listWorkRequestLogs(ctx context.Context, r
 	return response, err
 }
 
-// ListWorkRequests **ListWorkRequests**
-// Lists the work requests in a compartment.
+// ListWorkRequests Lists the work requests in a compartment.
 //
 // # See also
 //
@@ -1850,8 +1819,7 @@ func (client GenerativeAiAgentClient) listWorkRequests(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateAgent **UpdateAgent**
-// Updates an agent.
+// UpdateAgent Updates an agent.
 //
 // # See also
 //
@@ -1909,8 +1877,7 @@ func (client GenerativeAiAgentClient) updateAgent(ctx context.Context, request c
 	return response, err
 }
 
-// UpdateAgentEndpoint **UpdateAgentEndpoint**
-// Updates an endpoint.
+// UpdateAgentEndpoint Updates an endpoint.
 //
 // # See also
 //
@@ -1968,8 +1935,7 @@ func (client GenerativeAiAgentClient) updateAgentEndpoint(ctx context.Context, r
 	return response, err
 }
 
-// UpdateDataSource **UpdateDataSource**
-// Updates a data source.
+// UpdateDataSource Updates a data source.
 //
 // # See also
 //
@@ -2027,8 +1993,7 @@ func (client GenerativeAiAgentClient) updateDataSource(ctx context.Context, requ
 	return response, err
 }
 
-// UpdateKnowledgeBase **UpdateKnowledgeBase**
-// Updates a knowledge base.
+// UpdateKnowledgeBase Updates a knowledge base.
 //
 // # See also
 //

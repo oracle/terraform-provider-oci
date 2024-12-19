@@ -363,6 +363,11 @@ func DatabaseAutonomousDatabaseResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 			},
+			"is_backup_retention_locked": {
+				Type:     schema.TypeBool,
+				Optional: true,
+				Computed: true,
+			},
 			"is_data_guard_enabled": {
 				Type:     schema.TypeBool,
 				Optional: true,
@@ -1957,6 +1962,11 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) Update() error {
 		request.IsAutoScalingForStorageEnabled = &tmp
 	}
 
+	if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok && s.D.HasChange("is_backup_retention_locked") {
+		tmp := isBackupRetentionLocked.(bool)
+		request.IsBackupRetentionLocked = &tmp
+	}
+
 	if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok && s.D.HasChange("is_data_guard_enabled") {
 		tmp := isDataGuardEnabled.(bool)
 		request.IsDataGuardEnabled = &tmp
@@ -2399,6 +2409,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) SetData() error {
 
 	if s.Res.IsAutoScalingForStorageEnabled != nil {
 		s.D.Set("is_auto_scaling_for_storage_enabled", *s.Res.IsAutoScalingForStorageEnabled)
+	}
+
+	if s.Res.IsBackupRetentionLocked != nil {
+		s.D.Set("is_backup_retention_locked", *s.Res.IsBackupRetentionLocked)
 	}
 
 	if s.Res.IsDataGuardEnabled != nil {
@@ -3420,6 +3434,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
+		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
 		}
@@ -3721,6 +3739,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
+		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
 		}
@@ -4017,6 +4039,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
+		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
 		}
@@ -4305,6 +4331,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingEnabled.(bool)
 			details.IsAutoScalingEnabled = &tmp
 		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
+		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
 		}
@@ -4585,6 +4615,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
 		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
+		}
 		if isDataGuardEnabled, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			tmp := isDataGuardEnabled.(bool)
 			details.IsDataGuardEnabled = &tmp
@@ -4832,6 +4866,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
+		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
@@ -5112,6 +5150,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
+		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil
@@ -5395,6 +5437,10 @@ func (s *DatabaseAutonomousDatabaseResourceCrud) populateTopLevelPolymorphicCrea
 		if isAutoScalingForStorageEnabled, ok := s.D.GetOkExists("is_auto_scaling_for_storage_enabled"); ok {
 			tmp := isAutoScalingForStorageEnabled.(bool)
 			details.IsAutoScalingForStorageEnabled = &tmp
+		}
+		if isBackupRetentionLocked, ok := s.D.GetOkExists("is_backup_retention_locked"); ok {
+			tmp := isBackupRetentionLocked.(bool)
+			details.IsBackupRetentionLocked = &tmp
 		}
 		if _, ok := s.D.GetOkExists("is_data_guard_enabled"); ok {
 			details.IsDataGuardEnabled = nil

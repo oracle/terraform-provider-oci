@@ -62,6 +62,10 @@ func (m *metricextensionupdatequeryproperties) UnmarshalPolymorphicJSON(data []b
 		mm := OsCommandUpdateQueryProperties{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "HTTP":
+		mm := HttpUpdateQueryProperties{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for MetricExtensionUpdateQueryProperties: %s.", m.CollectionMethod)
 		return *m, nil

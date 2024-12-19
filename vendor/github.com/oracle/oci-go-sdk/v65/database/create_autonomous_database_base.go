@@ -256,6 +256,9 @@ type CreateAutonomousDatabaseBase interface {
 	// This cannot be updated in parallel with any of the following: licenseModel, dbEdition, cpuCoreCount, computeCount, computeModel, whitelistedIps, isMTLSConnectionRequired, openMode, permissionLevel, dbWorkload, privateEndpointLabel, nsgIds, dbVersion, isRefreshable, dbName, scheduledOperations, isLocalDataGuardEnabled, or isFreeTier.
 	GetDbToolsDetails() []DatabaseTool
 
+	// True if the Autonomous Database is backup retention locked.
+	GetIsBackupRetentionLocked() *bool
+
 	// The OCI vault secret [/Content/General/Concepts/identifiers.htm]OCID.
 	// This cannot be used in conjunction with adminPassword.
 	GetSecretId() *string
@@ -315,6 +318,7 @@ type createautonomousdatabasebase struct {
 	IsAutoScalingForStorageEnabled           *bool                                                             `mandatory:"false" json:"isAutoScalingForStorageEnabled"`
 	DatabaseEdition                          AutonomousDatabaseSummaryDatabaseEditionEnum                      `mandatory:"false" json:"databaseEdition,omitempty"`
 	DbToolsDetails                           []DatabaseTool                                                    `mandatory:"false" json:"dbToolsDetails"`
+	IsBackupRetentionLocked                  *bool                                                             `mandatory:"false" json:"isBackupRetentionLocked"`
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
 	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
 	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
@@ -382,6 +386,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsAutoScalingForStorageEnabled = s.Model.IsAutoScalingForStorageEnabled
 	m.DatabaseEdition = s.Model.DatabaseEdition
 	m.DbToolsDetails = s.Model.DbToolsDetails
+	m.IsBackupRetentionLocked = s.Model.IsBackupRetentionLocked
 	m.SecretId = s.Model.SecretId
 	m.SecretVersionNumber = s.Model.SecretVersionNumber
 	m.Source = s.Model.Source
@@ -683,6 +688,11 @@ func (m createautonomousdatabasebase) GetDatabaseEdition() AutonomousDatabaseSum
 // GetDbToolsDetails returns DbToolsDetails
 func (m createautonomousdatabasebase) GetDbToolsDetails() []DatabaseTool {
 	return m.DbToolsDetails
+}
+
+// GetIsBackupRetentionLocked returns IsBackupRetentionLocked
+func (m createautonomousdatabasebase) GetIsBackupRetentionLocked() *bool {
+	return m.IsBackupRetentionLocked
 }
 
 // GetSecretId returns SecretId
