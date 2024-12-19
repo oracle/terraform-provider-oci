@@ -1168,6 +1168,8 @@ stack_monitoring
 * oci\_stack\_monitoring\_metric\_extension
 * oci\_stack\_monitoring\_baselineable\_metric
 * oci\_stack\_monitoring\_process\_set
+* oci\_stack\_monitoring\_monitoring\_template\_alarm\_condition
+* oci\_stack\_monitoring\_monitoring\_template
 
 streaming
     
