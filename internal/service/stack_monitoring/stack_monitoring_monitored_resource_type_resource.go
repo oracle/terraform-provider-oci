@@ -140,6 +140,14 @@ func StackMonitoringMonitoredResourceTypeResource() *schema.Resource {
 							Computed: true,
 							Elem:     schema.TypeString,
 						},
+						"valid_sub_resource_types": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 
 						// Computed
 					},
@@ -162,6 +170,11 @@ func StackMonitoringMonitoredResourceTypeResource() *schema.Resource {
 			},
 
 			// Computed
+			"additional_namespace_map": {
+				Type:     schema.TypeMap,
+				Computed: true,
+				Elem:     schema.TypeString,
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -414,6 +427,8 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) Delete() error {
 }
 
 func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
+	s.D.Set("additional_namespace_map", s.Res.AdditionalNamespaceMap)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}
@@ -473,6 +488,8 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) SetData() error {
 
 func MonitoredResourceTypeSummaryToMap(obj oci_stack_monitoring.MonitoredResourceTypeSummary) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	result["additional_namespace_map"] = obj.AdditionalNamespaceMap
 
 	if obj.CompartmentId != nil {
 		result["compartment_id"] = string(*obj.CompartmentId)
@@ -613,6 +630,18 @@ func (s *StackMonitoringMonitoredResourceTypeResourceCrud) mapToResourceTypeMeta
 		if validPropertyValues, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "valid_property_values")); ok {
 			details.ValidPropertyValues = ObjectMapToStringListMap(validPropertyValues.(map[string]interface{}))
 		}
+		if validSubResourceTypes, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "valid_sub_resource_types")); ok {
+			interfaces := validSubResourceTypes.([]interface{})
+			tmp := make([]string, len(interfaces))
+			for i := range interfaces {
+				if interfaces[i] != nil {
+					tmp[i] = interfaces[i].(string)
+				}
+			}
+			if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "valid_sub_resource_types")) {
+				details.ValidSubResourceTypes = tmp
+			}
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown format '%v' was specified", format)
@@ -641,6 +670,9 @@ func ResourceTypeMetadataDetailsToMap(obj *oci_stack_monitoring.ResourceTypeMeta
 		result["valid_properties_for_update"] = v.ValidPropertiesForUpdate
 
 		result["valid_property_values"] = StringListMapToObjectMap(v.ValidPropertyValues)
+
+		result["valid_sub_resource_types"] = v.ValidSubResourceTypes
+
 	default:
 		log.Printf("[WARN] Received 'format' of unknown type %v", *obj)
 		return nil
