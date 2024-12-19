@@ -63,6 +63,8 @@ type CreateBdsInstanceDetails struct {
 
 	// Profile of the Big Data Service cluster.
 	ClusterProfile BdsInstanceClusterProfileEnum `mandatory:"false" json:"clusterProfile,omitempty"`
+
+	BdsClusterVersionSummary *BdsClusterVersionSummary `mandatory:"false" json:"bdsClusterVersionSummary"`
 }
 
 func (m CreateBdsInstanceDetails) String() string {

@@ -463,6 +463,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.memory_in_gbs", "12"),
 				resource.TestCheckResourceAttr(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "2"),
+
 				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.subnet_id"),
 
 				resource.TestCheckResourceAttrSet(resourceName, "model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
@@ -521,6 +522,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttr(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.memory_in_gbs", "12"),
 				resource.TestCheckResourceAttr(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.model_deployment_instance_shape_config_details.0.ocpus", "2"),
+
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.instance_configuration.0.subnet_id"),
 
 				resource.TestCheckResourceAttrSet(datasourceName, "model_deployments.0.model_deployment_configuration_details.0.model_configuration_details.0.model_id"),
@@ -563,7 +565,7 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.0.instance_count", "2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "model_deployment_configuration_details.0.model_configuration_details.0.scaling_policy.0.policy_type", "FIXED_SIZE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_url"),
-				resource.TestCheckNoResourceAttr(singularDatasourceName, "model_deployment_system_data"),
+				resource.TestCheckNoResourceAttr(singularDatasourceName, "model_deployment_system_data.#"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),

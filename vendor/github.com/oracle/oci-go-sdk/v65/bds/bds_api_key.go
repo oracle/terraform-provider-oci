@@ -46,6 +46,9 @@ type BdsApiKey struct {
 
 	// The time the API key was created, shown as an RFC 3339 formatted datetime string.
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
+
+	// Identity domain OCID ,where user is present. For default domain ,this field will be optional.
+	DomainOcid *string `mandatory:"false" json:"domainOcid"`
 }
 
 func (m BdsApiKey) String() string {

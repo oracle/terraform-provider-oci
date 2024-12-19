@@ -4,8 +4,6 @@
 
 // Generative AI Agents Management API
 //
-// **Generative AI Agents API**
-//
 // OCI Generative AI Agents is a fully managed service that combines the power of large language models (LLMs) with an intelligent retrieval system to create contextually relevant answers by searching your knowledge base, making your AI applications smart and efficient.
 // OCI Generative AI Agents supports several ways to onboard your data and then allows you and your customers to interact with your data using a chat interface or API.
 // Use the Generative AI Agents API to create and manage agents, knowledge bases, data sources, endpoints, data ingestion jobs, and work requests.
@@ -21,8 +19,7 @@ import (
 	"strings"
 )
 
-// WorkRequest **WorkRequest**
-// An asynchronous work request. Work requests help you monitor long-running operations. When you start a long-running operation,
+// WorkRequest An asynchronous work request. Work requests help you monitor long-running operations. When you start a long-running operation,
 // the service creates a work request. A work request is an activity log that lets you track each step in the operation's
 // progress. Each work request has an OCID that lets you interact with it programmatically and use it for automation.
 type WorkRequest struct {

@@ -19,14 +19,17 @@ type DataScienceResourceTypeEnum string
 // Set of constants representing the allowable values for DataScienceResourceTypeEnum
 const (
 	DataScienceResourceTypeNotebookSession DataScienceResourceTypeEnum = "NOTEBOOK_SESSION"
+	DataScienceResourceTypeModelDeployment DataScienceResourceTypeEnum = "MODEL_DEPLOYMENT"
 )
 
 var mappingDataScienceResourceTypeEnum = map[string]DataScienceResourceTypeEnum{
 	"NOTEBOOK_SESSION": DataScienceResourceTypeNotebookSession,
+	"MODEL_DEPLOYMENT": DataScienceResourceTypeModelDeployment,
 }
 
 var mappingDataScienceResourceTypeEnumLowerCase = map[string]DataScienceResourceTypeEnum{
 	"notebook_session": DataScienceResourceTypeNotebookSession,
+	"model_deployment": DataScienceResourceTypeModelDeployment,
 }
 
 // GetDataScienceResourceTypeEnumValues Enumerates the set of values for DataScienceResourceTypeEnum
@@ -42,6 +45,7 @@ func GetDataScienceResourceTypeEnumValues() []DataScienceResourceTypeEnum {
 func GetDataScienceResourceTypeEnumStringValues() []string {
 	return []string{
 		"NOTEBOOK_SESSION",
+		"MODEL_DEPLOYMENT",
 	}
 }
 
