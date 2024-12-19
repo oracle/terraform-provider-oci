@@ -66,6 +66,8 @@ func (s *StackMonitoringMonitoredResourceTypeDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("additional_namespace_map", s.Res.AdditionalNamespaceMap)
+
 	if s.Res.CompartmentId != nil {
 		s.D.Set("compartment_id", *s.Res.CompartmentId)
 	}

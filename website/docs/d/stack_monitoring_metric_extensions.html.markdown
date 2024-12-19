@@ -57,7 +57,7 @@ The following attributes are exported:
 * `created_by` - Created by user
 * `description` - Description of the metric extension.
 * `display_name` - Metric Extension resource display name
-* `enabled_on_resources` - List of resource objects on which this metric extension is enabled.
+* `enabled_on_resources` - List of resource details objects having resourceIds on which this metric extension is enabled.
 	* `resource_id` - The OCID of the resource on which Metric Extension is enabled
 * `enabled_on_resources_count` - Count of resources on which this metric extension is enabled.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of Metric Extension resource

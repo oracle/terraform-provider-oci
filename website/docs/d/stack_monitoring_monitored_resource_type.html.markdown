@@ -32,6 +32,7 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `additional_namespace_map` - Key/Value pair for additional namespaces used by stack monitoring services for SYSTEM (SMB) resource types.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the tenancy containing the resource type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `description` - A friendly description.
@@ -48,6 +49,7 @@ The following attributes are exported:
 	* `valid_properties_for_create` - List of valid properties for resource type while creating the monitored resource.  If resources of this type specifies any other properties during create operation,  the operation will fail. 
 	* `valid_properties_for_update` - List of valid properties for resource type while updating the monitored resource.  If resources of this type specifies any other properties during update operation,  the operation will fail. 
 	* `valid_property_values` - List of valid values for the properties. This is useful when resource type wants to restrict only certain values for some properties. For instance for 'osType' property,  supported values can be restricted to be either Linux or Windows. Example: `{"osType": "Linux,Windows,Solaris", "osVersion": "v6.0,v7.0"}` 
+	* `valid_sub_resource_types` - List of valid sub-resource types for a composite resource type. The sub-resource types will be obtained from the valid association pairs corresponding to the composite resource types. It will be empty for non composite resource types 
 * `metric_namespace` - Metric namespace for resource type.
 * `name` - A unique monitored resource type name. The name must be unique across tenancy.  Name can not be changed. 
 * `resource_category` - Resource Category to indicate the kind of resource type. 
