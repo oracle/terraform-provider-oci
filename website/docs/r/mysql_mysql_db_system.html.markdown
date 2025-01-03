@@ -24,6 +24,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	subnet_id = oci_core_subnet.test_subnet.id
 
 	#Optional
+	access_mode = var.mysql_db_system_access_mode
 	admin_password = var.mysql_db_system_admin_password
 	admin_username = var.mysql_db_system_admin_username
 	backup_policy {
@@ -53,6 +54,7 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 	}
 	data_storage_size_in_gb = var.mysql_db_system_data_storage_size_in_gb
 	database_management = var.mysql_db_system_database_management
+	database_mode = var.mysql_db_system_database_mode
 	defined_tags = {"foo-namespace.bar-key"= "value"}
 	deletion_policy {
 
@@ -104,6 +106,9 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
 
 The following arguments are supported:
 
+* `access_mode` - (Optional) (Updatable) The access mode indicating if the database access will be restricted only to administrators or not:
+	* UNRESTRICTED (default): the access to the database is not restricted;
+	* RESTRICTED: the access will be allowed only to users with specific privileges; RESTRICTED will correspond to setting the MySQL system variable  [offline_mode](https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON. 
 * `admin_password` - (Optional) The password for the administrative user. The password must be between 8 and 32 characters long, and must contain at least 1 numeric character, 1 lowercase character, 1 uppercase character, and 1 special (nonalphanumeric) character. 
 * `admin_username` - (Optional) The username for the administrative user.
 * `availability_domain` - (Required) The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
@@ -145,6 +150,9 @@ The following arguments are supported:
 	* `email` - (Required) (Updatable) The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - (Optional) (Updatable) Initial size of the data volume in GBs that will be created and attached. Keep in mind that this only specifies the size of the database data volume, the log volume for the database will be scaled appropriately with its shape. It is required if you are creating a new database. It cannot be set if you are creating a database from a backup.
 * `database_management` - (Optional) (Updatable) Whether to enable monitoring via the Database Management service. 
+* `database_mode` - (Optional) (Updatable) The database mode indicating the types of statements that will be allowed to run in the DB system. This mode will apply only to statements run by user connections. Replicated write statements will continue  to be allowed regardless of the DatabaseMode.
+	* READ_WRITE (default): allow running read and write statements on the DB system;
+	* READ_ONLY: only allow running read statements on the DB system. 
 * `defined_tags` - (Optional) (Updatable) Usage of predefined tag keys. These predefined keys are scoped to namespaces. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - (Optional) (Updatable) Policy for how the DB System and related resources should be handled at the time of its deletion. 
 	* `automatic_backup_retention` - (Optional) (Updatable) Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
@@ -211,6 +219,9 @@ Any change to a property that does not support update will force the destruction
 
 The following attributes are exported:
 
+* `access_mode` - The access mode indicating if the database access is unrestricted (to all MySQL user accounts),  or restricted (to only certain users with specific privileges):
+	* UNRESTRICTED: the access to the database is not restricted;
+	* RESTRICTED: the access is allowed only to users with specific privileges;  RESTRICTED will correspond to setting the MySQL system variable  [offline_mode](https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON. 
 * `availability_domain` - The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
 
 	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
@@ -303,6 +314,9 @@ The following attributes are exported:
 	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `database_management` - Whether to enable monitoring via the Database Management service. 
+* `database_mode` - The database mode indicating the types of statements that are allowed to run in the the DB system. This mode applies only to statements run by user connections. Replicated write statements continue  to be allowed regardless of the DatabaseMode.
+	* READ_WRITE: allow running read and write statements on the DB system;
+	* READ_ONLY: only allow running read statements on the DB system. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
