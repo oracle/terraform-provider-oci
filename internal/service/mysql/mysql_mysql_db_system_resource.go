@@ -59,6 +59,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 			},
 
 			// Optional
+			"access_mode": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"admin_password": {
 				Type:      schema.TypeString,
 				Optional:  true,
@@ -204,6 +209,11 @@ func MysqlMysqlDbSystemResource() *schema.Resource {
 				Computed: true,
 			},
 			"database_management": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"database_mode": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
@@ -942,6 +952,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) UpdatedTarget() []string {
 func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 	request := oci_mysql.CreateDbSystemRequest{}
 
+	if accessMode, ok := s.D.GetOkExists("access_mode"); ok {
+		request.AccessMode = oci_mysql.DbSystemAccessModeEnum(accessMode.(string))
+	}
+
 	if adminPassword, ok := s.D.GetOkExists("admin_password"); ok {
 		tmp := adminPassword.(string)
 		request.AdminPassword = &tmp
@@ -1021,6 +1035,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Create() error {
 
 	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok {
 		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
+	}
+
+	if databaseMode, ok := s.D.GetOkExists("database_mode"); ok {
+		request.DatabaseMode = oci_mysql.DbSystemDatabaseModeEnum(databaseMode.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
@@ -1176,6 +1194,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Get() error {
 func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 	request := oci_mysql.UpdateDbSystemRequest{}
 
+	if accessMode, ok := s.D.GetOkExists("access_mode"); ok && s.D.HasChange("access_mode") {
+		request.AccessMode = oci_mysql.DbSystemAccessModeEnum(accessMode.(string))
+	}
+
 	if backupPolicy, ok := s.D.GetOkExists("backup_policy"); ok && s.D.HasChange("backup_policy") {
 		if tmpList := backupPolicy.([]interface{}); len(tmpList) > 0 {
 			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "backup_policy", 0)
@@ -1238,6 +1260,10 @@ func (s *MysqlMysqlDbSystemResourceCrud) Update() error {
 
 	if databaseManagement, ok := s.D.GetOkExists("database_management"); ok && s.D.HasChange("database_management") {
 		request.DatabaseManagement = oci_mysql.DatabaseManagementStatusEnum(databaseManagement.(string))
+	}
+
+	if databaseMode, ok := s.D.GetOkExists("database_mode"); ok && s.D.HasChange("database_mode") {
+		request.DatabaseMode = oci_mysql.DbSystemDatabaseModeEnum(databaseMode.(string))
 	}
 
 	if definedTags, ok := s.D.GetOkExists("defined_tags"); ok && s.D.HasChange("defined_tags") {
@@ -1344,6 +1370,8 @@ func (s *MysqlMysqlDbSystemResourceCrud) Delete() error {
 }
 
 func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
+	s.D.Set("access_mode", s.Res.AccessMode)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -1393,6 +1421,8 @@ func (s *MysqlMysqlDbSystemResourceCrud) SetData() error {
 	}
 
 	s.D.Set("database_management", s.Res.DatabaseManagement)
+
+	s.D.Set("database_mode", s.Res.DatabaseMode)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
