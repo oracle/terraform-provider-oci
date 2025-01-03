@@ -66,6 +66,8 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 
 	s.D.SetId(*s.Res.Id)
 
+	s.D.Set("access_mode", s.Res.AccessMode)
+
 	if s.Res.AvailabilityDomain != nil {
 		s.D.Set("availability_domain", *s.Res.AvailabilityDomain)
 	}
@@ -115,6 +117,8 @@ func (s *MysqlMysqlDbSystemDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("database_management", s.Res.DatabaseManagement)
+
+	s.D.Set("database_mode", s.Res.DatabaseMode)
 
 	if s.Res.DefinedTags != nil {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))

@@ -117,6 +117,10 @@ resource "oci_mysql_mysql_db_system" "test_mysql_db_system" {
   }
 
   #Optional
+  access_mode = "UNRESTRICTED"
+  database_mode = "READ_WRITE"
+
+  #Optional
   crash_recovery = "ENABLED"
   database_management = "DISABLED"
   secure_connections {

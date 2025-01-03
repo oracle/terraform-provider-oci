@@ -32,6 +32,9 @@ The following arguments are supported:
 
 The following attributes are exported:
 
+* `access_mode` - The access mode indicating if the database access is unrestricted (to all MySQL user accounts),  or restricted (to only certain users with specific privileges):
+	* UNRESTRICTED: the access to the database is not restricted;
+	* RESTRICTED: the access is allowed only to users with specific privileges;  RESTRICTED will correspond to setting the MySQL system variable  [offline_mode](https://dev.mysql.com/doc/en/server-system-variables.html#sysvar_offline_mode) to ON. 
 * `availability_domain` - The availability domain on which to deploy the Read/Write endpoint. This defines the preferred primary instance.
 
 	In a failover scenario, the Read/Write endpoint is redirected to one of the other availability domains and the MySQL instance in that domain is promoted to the primary instance. This redirection does not affect the IP address of the DB System in any way.
@@ -124,6 +127,9 @@ The following attributes are exported:
 	* `email` - The email address used by Oracle to send notifications regarding the DB System. 
 * `data_storage_size_in_gb` - Initial size of the data volume in GiBs that will be created and attached. 
 * `database_management` - Whether to enable monitoring via the Database Management service. 
+* `database_mode` - The database mode indicating the types of statements that are allowed to run in the the DB system. This mode applies only to statements run by user connections. Replicated write statements continue  to be allowed regardless of the DatabaseMode.
+	* READ_WRITE: allow running read and write statements on the DB system;
+	* READ_ONLY: only allow running read statements on the DB system. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"foo-namespace.bar-key": "value"}` 
 * `deletion_policy` - The Deletion policy for the DB System.
 	* `automatic_backup_retention` - Specifies if any automatic backups created for a DB System should be retained or deleted when the DB System is deleted. 
