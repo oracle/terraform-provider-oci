@@ -156,6 +156,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 				network_type = var.instance_configuration_instance_details_launch_details_launch_options_network_type
 				remote_data_volume_type = var.instance_configuration_instance_details_launch_details_launch_options_remote_data_volume_type
 			}
+			licensing_configs {
+				#Required
+				type = var.instance_configuration_instance_details_launch_details_licensing_configs_type
+
+				#Optional
+				license_type = var.instance_configuration_instance_details_launch_details_licensing_configs_license_type
+			}
 			metadata = var.instance_configuration_instance_details_launch_details_metadata
 			platform_config {
 				#Required
@@ -336,6 +343,13 @@ resource "oci_core_instance_configuration" "test_instance_configuration" {
 					is_pv_encryption_in_transit_enabled = var.instance_configuration_instance_details_options_launch_details_launch_options_is_pv_encryption_in_transit_enabled
 					network_type = var.instance_configuration_instance_details_options_launch_details_launch_options_network_type
 					remote_data_volume_type = var.instance_configuration_instance_details_options_launch_details_launch_options_remote_data_volume_type
+				}
+				licensing_configs {
+					#Required
+					type = var.instance_configuration_instance_details_options_launch_details_licensing_configs_type
+
+					#Optional
+					license_type = var.instance_configuration_instance_details_options_launch_details_licensing_configs_license_type
 				}
 				metadata = var.instance_configuration_instance_details_options_launch_details_metadata
 				platform_config {
@@ -844,7 +858,12 @@ The following arguments are supported:
 					* `SCSI` - Emulated SCSI disk.
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+			* `licensing_configs` - (Applicable when instance_type=instance_options) List of licensing configurations associated with target launch values.
+				* `license_type` - (Optional) License Type for the OS license.
+					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+					* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+				* `type` - (Required) Operating System type of the Configuration.
 			* `metadata` - (Applicable when instance_type=instance_options) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			  A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -1363,7 +1382,12 @@ The following attributes are exported:
 					* `SCSI` - Emulated SCSI disk.
 					* `IDE` - Emulated IDE disk.
 					* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
-					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images.
+					* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+			* `licensing_configs` - List of licensing configurations associated with target launch values.
+				* `license_type` - License Type for the OS license.
+					* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+					* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+				* `type` - Operating System type of the Configuration.
 			* `metadata` - Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 			  A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:

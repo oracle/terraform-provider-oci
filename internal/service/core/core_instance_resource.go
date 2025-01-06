@@ -544,6 +544,35 @@ func CoreInstanceResource() *schema.Resource {
 					},
 				},
 			},
+			"licensing_configs": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"type": {
+							Type:     schema.TypeString,
+							Required: true,
+						},
+
+						// Optional
+						"license_type": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+						"os_version": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"metadata": {
 				Type:     schema.TypeMap,
 				Optional: true,
@@ -1288,6 +1317,23 @@ func (s *CoreInstanceResourceCrud) Create() error {
 		}
 	}
 
+	if licensingConfigs, ok := s.D.GetOkExists("licensing_configs"); ok {
+		interfaces := licensingConfigs.([]interface{})
+		tmp := make([]oci_core.LaunchInstanceLicensingConfig, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "licensing_configs", stateDataIndex)
+			converted, err := s.mapToLaunchInstanceLicensingConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("licensing_configs") {
+			request.LicensingConfigs = tmp
+		}
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1502,6 +1548,23 @@ func (s *CoreInstanceResourceCrud) Update() error {
 		}
 	}
 
+	if licensingConfigs, ok := s.D.GetOkExists("licensing_configs"); ok {
+		interfaces := licensingConfigs.([]interface{})
+		tmp := make([]oci_core.UpdateInstanceLicensingConfig, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "licensing_configs", stateDataIndex)
+			converted, err := s.mapToUpdateInstanceLicensingConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange("licensing_configs") {
+			request.LicensingConfigs = tmp
+		}
+	}
+
 	if metadata, ok := s.D.GetOkExists("metadata"); ok {
 		request.Metadata = tfresource.ObjectMapToStringMap(metadata.(map[string]interface{}))
 	}
@@ -1690,12 +1753,13 @@ func (s *CoreInstanceResourceCrud) SetData() error {
 		s.D.Set("launch_options", nil)
 	}
 
-	if s.Res.Metadata != nil {
-		err := s.D.Set("metadata", s.Res.Metadata)
-		if err != nil {
-			log.Printf("error setting metadata %q", err)
-		}
+	licensingConfigs := []interface{}{}
+	for _, item := range s.Res.LicensingConfigs {
+		licensingConfigs = append(licensingConfigs, LicensingConfigToMap(item))
 	}
+	s.D.Set("licensing_configs", licensingConfigs)
+
+	s.D.Set("metadata", s.Res.Metadata)
 
 	if s.Res.PlatformConfig != nil {
 		platformConfigArray := []interface{}{}
@@ -2725,6 +2789,71 @@ func InstanceAvailabilityConfigToMap(obj *oci_core.InstanceAvailabilityConfig) m
 
 	result["recovery_action"] = string(obj.RecoveryAction)
 
+	return result
+}
+
+func (s *CoreInstanceResourceCrud) mapToLaunchInstanceLicensingConfig(fieldKeyFormat string) (oci_core.LaunchInstanceLicensingConfig, error) {
+	var baseObject oci_core.LaunchInstanceLicensingConfig
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("WINDOWS"):
+		details := oci_core.LaunchInstanceWindowsLicensingConfig{}
+		if licenseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_type")); ok {
+			tmp := licenseType.(string)
+			details.LicenseType = oci_core.LaunchInstanceLicensingConfigLicenseTypeEnum(tmp)
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func (s *CoreInstanceResourceCrud) mapToUpdateInstanceLicensingConfig(fieldKeyFormat string) (oci_core.UpdateInstanceLicensingConfig, error) {
+	var baseObject oci_core.UpdateInstanceLicensingConfig
+	//discriminator
+	typeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "type"))
+	var type_ string
+	if ok {
+		type_ = typeRaw.(string)
+	} else {
+		type_ = "" // default value
+	}
+	switch strings.ToLower(type_) {
+	case strings.ToLower("WINDOWS"):
+		details := oci_core.UpdateInstanceWindowsLicensingConfig{}
+		if licenseType, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "license_type")); ok {
+			tmp := licenseType.(string)
+			details.LicenseType = oci_core.UpdateInstanceLicensingConfigLicenseTypeEnum(tmp)
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown type '%v' was specified", type_)
+	}
+	return baseObject, nil
+}
+
+func LicensingConfigToMap(obj oci_core.LicensingConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	var v interface{} = oci_core.UpdateInstanceWindowsLicensingConfig{}
+	if _, ok := v.(oci_core.UpdateInstanceWindowsLicensingConfig); ok {
+		result["type"] = "WINDOWS"
+		result["license_type"] = string(obj.LicenseType)
+		if obj.OsVersion != nil {
+			result["os_version"] = *obj.OsVersion
+		}
+	} else {
+		log.Printf("[WARN] Received 'type' of unknown type %v", obj)
+		return nil
+	}
 	return result
 }
 

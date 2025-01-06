@@ -132,6 +132,12 @@ The following attributes are exported:
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+* `licensing_configs` - List of licensing configurations associated with the instance.
+	* `license_type` - License Type for the OS license.
+		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+	* `os_version` - The Operating System version of the license config.
+	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
 
 * `platform_config` - The platform configuration for the instance. 

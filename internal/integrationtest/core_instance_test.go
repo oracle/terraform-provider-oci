@@ -343,6 +343,14 @@ var (
 		"kms_key_id":              acctest.Representation{RepType: acctest.Optional, Create: `${lookup(data.oci_kms_keys.test_keys_dependency.keys[0], "id")}`},
 		"boot_volume_size_in_gbs": acctest.Representation{RepType: acctest.Optional, Create: `60`, Update: `70`},
 	}
+	CoreInstanceLicensingConfigsRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
+		"license_type": acctest.Representation{RepType: acctest.Optional, Create: `OCI_PROVIDED`, Update: `BRING_YOUR_OWN_LICENSE`},
+	}
+	CoreInstanceSourceDetailsRepresentationWindows = map[string]interface{}{
+		"source_id":   acctest.Representation{RepType: acctest.Required, Create: `${var.image_id}`},
+		"source_type": acctest.Representation{RepType: acctest.Required, Create: `image`},
+	}
 	CoreInstanceSourceDetailsUpdateBootVolumeIdRepresentation = map[string]interface{}{
 		"source_id":                       acctest.Representation{RepType: acctest.Required, Create: `${oci_core_boot_volume.test_boot_volume_swap.id}`},
 		"source_type":                     acctest.Representation{RepType: acctest.Required, Create: `bootVolume`},
@@ -835,6 +843,19 @@ data "oci_kms_keys" "test_keys_dependency_RSA" {
 		"source_details":                      acctest.RepresentationGroup{RepType: acctest.Optional, Group: InstanceSourceDetailsRepresentationWithImageFilters},
 		"subnet_id":                           acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 		"state":                               acctest.Representation{RepType: acctest.Optional, Create: `STOPPED`, Update: `RUNNING`},
+	}
+
+	// ---- Launch with licensing configs ----
+	InstanceRepresentationWithLicensingConfigs = map[string]interface{}{
+		"availability_domain":         acctest.Representation{RepType: acctest.Required, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
+		"compartment_id":              acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"shape":                       acctest.Representation{RepType: acctest.Required, Create: `VM.Standard2.1`},
+		"update_operation_constraint": acctest.Representation{RepType: acctest.Optional, Create: `ALLOW_DOWNTIME`, Update: `ALLOW_DOWNTIME`},
+		"display_name":                acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"fault_domain":                acctest.Representation{RepType: acctest.Optional, Create: `FAULT-DOMAIN-2`},
+		"source_details":              acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceSourceDetailsRepresentationWindows},
+		"licensing_configs":           acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceLicensingConfigsRepresentation},
+		"subnet_id":                   acctest.Representation{RepType: acctest.Required, Create: `${oci_core_subnet.test_subnet.id}`},
 	}
 	InstanceSourceDetailsRepresentationWithImageFilters = map[string]interface{}{
 		"source_type":                          acctest.Representation{RepType: acctest.Required, Create: `image`},
@@ -1965,6 +1986,113 @@ func TestCoreInstanceResource_clusterPlacementGroup(t *testing.T) {
 	})
 }
 
+func TestAccResourceCoreInstance_UpdateLicensingConfig(t *testing.T) {
+	httpreplay.SetScenario("TestAccResourceCoreInstance_UpdateLicensingConfig")
+	defer httpreplay.SaveScenario()
+	provider := acctest.TestAccProvider
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	// windows imageId
+	imageId := utils.GetEnvSettingWithBlankDefault("image_id")
+	imageIdVariableStr := fmt.Sprintf("variable \"image_id\" { default = \"%s\" }\n", imageId)
+
+	managementEndpoint := utils.GetEnvSettingWithBlankDefault("management_endpoint")
+	managementEndpointStr := fmt.Sprintf("variable \"management_endpoint\" { default = \"%s\" }\n", managementEndpoint)
+	singularDatasourceName := "data.oci_core_instance.test_instance"
+
+	resourceName := "oci_core_instance.test_instance"
+
+	var resId, resId2 string
+
+	resource.Test(t, resource.TestCase{
+		PreCheck: func() { acctest.PreCheck(t) },
+		Providers: map[string]*schema.Provider{
+			"oci": provider,
+		},
+		CheckDestroy: testAccCheckCoreInstanceDestroy,
+		Steps: []resource.TestStep{
+
+			// Step 0 - verify create
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependenciesWithoutDHV +
+					imageIdVariableStr + acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, InstanceRepresentationWithLicensingConfigs),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.license_type", "OCI_PROVIDED"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.type", "WINDOWS"),
+					func(s *terraform.State) (err error) {
+						resId, err = acctest.FromInstanceState(s, resourceName, "id")
+						if isEnableExportCompartment, _ := strconv.ParseBool(utils.GetEnvSettingWithDefault("enable_export_compartment", "true")); isEnableExportCompartment {
+							if errExport := resourcediscovery.TestExportCompartmentWithResourceName(&resId, &compartmentId, resourceName); errExport != nil {
+								return errExport
+							}
+						}
+						return err
+					},
+				),
+			},
+
+			// Step 1 - verify update
+			{
+				Config: config + compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependenciesWithoutDHV + imageIdVariableStr +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithLicensingConfigs),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
+					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "0"),
+					resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.#", "1"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.license_type", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.0.type", "WINDOWS"),
+					func(s *terraform.State) (err error) {
+						resId2, err = acctest.FromInstanceState(s, resourceName, "id")
+						if resId != resId2 {
+							return fmt.Errorf("Resource recreated when it was supposed to be updated.")
+						}
+						return err
+					},
+				),
+			},
+			// Step 2 - verify singular datasource
+			{
+				Config: config +
+					acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Create, CoreCoreInstanceSingularDataSourceRepresentation) +
+					compartmentIdVariableStr + managementEndpointStr + CoreInstanceResourceDependenciesWithoutDHV + imageIdVariableStr +
+					acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Optional, acctest.Update, InstanceRepresentationWithLicensingConfigs),
+				Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_id"),
+					resource.TestCheckResourceAttrSet(singularDatasourceName, "image"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.#", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.ocpus", "1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape_config.0.vcpus", "2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
+					resource.TestCheckResourceAttr(singularDatasourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "platform_config.#", "0"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.#", "1"),
+					resource.TestCheckResourceAttrSet(resourceName, "licensing_configs.0.os_version"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.license_type", "BRING_YOUR_OWN_LICENSE"),
+					resource.TestCheckResourceAttr(singularDatasourceName, "licensing_configs.0.type", "WINDOWS"),
+				),
+			},
+		},
+	})
+}
+
 // issue-routing-tag: core/computeSharedOwnershipVmAndBm
 func TestCoreInstanceResource_capacityReservation(t *testing.T) {
 	httpreplay.SetScenario("TestCoreInstanceResource_capacityReservation")
@@ -2896,6 +3024,7 @@ func TestAccResourceCoreInstance_UpdatePlatformConfig(t *testing.T) {
 
 	config := `
       provider oci {
+		 alias = "update-platform-config"
          test_time_maintenance_reboot_due = "2030-01-01 00:00:00"
       }
    ` + acctest.CommonTestVariables()
@@ -2923,6 +3052,7 @@ func TestAccResourceCoreInstance_UpdatePlatformConfig(t *testing.T) {
 					resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
 					resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 					resource.TestCheckResourceAttr(resourceName, "shape", "VM.Standard2.1"),
+					resource.TestCheckResourceAttr(resourceName, "licensing_configs.#", "0"),
 					resource.TestCheckResourceAttrSet(resourceName, "subnet_id"),
 					resource.TestCheckResourceAttr(resourceName, "platform_config.#", "0"),
 

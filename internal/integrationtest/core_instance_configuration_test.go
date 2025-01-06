@@ -87,8 +87,9 @@ var (
 		"source":         acctest.Representation{RepType: acctest.Optional, Create: `INSTANCE`},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchRepresentation = map[string]interface{}{
-		"instance_type":  acctest.Representation{RepType: acctest.Required, Create: `compute`},
-		"launch_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+		"instance_type":   acctest.Representation{RepType: acctest.Required, Create: `compute`},
+		"launch_details":  acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentation},
+		"secondary_vnics": acctest.RepresentationGroup{RepType: acctest.Required, Group: CoreInstanceConfigurationInstanceDetailsSecondaryVnicsRepresentation},
 	}
 
 	CoreInstanceConfigurationInstanceDetailsLaunchRepresentationWithFilterDetails = map[string]interface{}{
@@ -177,6 +178,7 @@ var (
 		"preferred_maintenance_action":        acctest.Representation{RepType: acctest.Optional, Create: `LIVE_MIGRATE`},
 		"security_attributes":                 acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"shape_config":                        acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceShapeConfigRepresentation},
+		"licensing_configs":                   acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLicensingConfigsRepresentation},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsRepresentationImageFilters = map[string]interface{}{
 		"availability_domain": acctest.Representation{RepType: acctest.Optional, Create: `${data.oci_identity_availability_domains.test_availability_domains.availability_domains.0.name}`},
@@ -281,6 +283,10 @@ var (
 		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"Oracle-DataSecurity-ZPR": map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}}},
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"subnet_id":                 acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_subnet.test_subnet.id}`},
+	}
+	CoreInstanceConfigurationInstanceDetailsOptionsLaunchDetailsLicensingConfigsRepresentation = map[string]interface{}{
+		"type":         acctest.Representation{RepType: acctest.Required, Create: `WINDOWS`},
+		"license_type": acctest.Representation{RepType: acctest.Optional, Create: `OCI_PROVIDED`},
 	}
 	CoreInstanceConfigurationInstanceDetailsLaunchDetailsSourceDetailsRepresentation = map[string]interface{}{
 		"source_type":             acctest.Representation{RepType: acctest.Required, Create: `image`},
@@ -451,6 +457,7 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.nsg_ids.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.#", "0"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.subnet_id"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.source_details.0.instance_source_image_filter_details.#", "1"),
@@ -638,6 +645,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.private_ip", "privateIp"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.create_vnic_details.0.subnet_id"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.0.license_type", "OCI_PROVIDED"),
+				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.licensing_configs.0.type", "WINDOWS"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(resourceName, "instance_details.0.launch_details.0.extended_metadata.%", "1"),
 				//resource.TestCheckResourceAttrSet(resourceName, "instance_details.0.launch_details.0.fault_domain"),
@@ -914,13 +924,15 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 		{
 			Config: config +
 				vaultIdVariableStr + kmsKeyIdVariableStr + acctest.GenerateDataSourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Required, acctest.Create, CoreCoreInstanceConfigurationSingularDataSourceRepresentation) +
-				compartmentIdVariableStr + CoreInstanceConfigurationResourceConfig,
+				compartmentIdVariableStr + CoreInstanceConfigurationResourceDependenciesWithoutKms +
+				acctest.GenerateResourceFromRepresentationMap("oci_core_instance_configuration", "test_instance_configuration", acctest.Optional, acctest.Create,
+					acctest.GetUpdatedRepresentationCopy("instance_details", acctest.RepresentationGroup{RepType: acctest.Optional, Group: CoreInstanceConfigurationInstanceDetailsLaunchRepresentation}, CoreInstanceConfigurationRepresentation)),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "instance_configuration_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "deferred_fields.#", "0"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.#", "1"),
@@ -936,6 +948,9 @@ func TestCoreInstanceConfigurationResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.create_vnic_details.0.skip_source_dest_check", "false"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.display_name", "backend-servers"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.secondary_vnics.0.nic_index", "0"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.0.license_type", "OCI_PROVIDED"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "instance_details.0.launch_details.0.licensing_configs.0.type", "WINDOWS"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 			),
 		},
