@@ -152,6 +152,12 @@ func (s *CoreInstanceDataSourceCrud) SetData() error {
 		s.D.Set("launch_options", nil)
 	}
 
+	licensingConfigs := []interface{}{}
+	for _, item := range s.Res.LicensingConfigs {
+		licensingConfigs = append(licensingConfigs, LicensingConfigToMap(item))
+	}
+	s.D.Set("licensing_configs", licensingConfigs)
+
 	if s.Res.Metadata != nil {
 		err := s.D.Set("metadata", s.Res.Metadata)
 		if err != nil {
