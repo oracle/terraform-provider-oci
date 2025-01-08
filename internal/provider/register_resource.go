@@ -101,7 +101,6 @@ import (
 	tf_opsi "github.com/oracle/terraform-provider-oci/internal/service/opsi"
 	tf_optimizer "github.com/oracle/terraform-provider-oci/internal/service/optimizer"
 	tf_os_management_hub "github.com/oracle/terraform-provider-oci/internal/service/os_management_hub"
-	tf_osmanagement "github.com/oracle/terraform-provider-oci/internal/service/osmanagement"
 	tf_osp_gateway "github.com/oracle/terraform-provider-oci/internal/service/osp_gateway"
 	tf_osub_billing_schedule "github.com/oracle/terraform-provider-oci/internal/service/osub_billing_schedule"
 	tf_osub_organization_subscription "github.com/oracle/terraform-provider-oci/internal/service/osub_organization_subscription"
@@ -425,9 +424,6 @@ func init() {
 	}
 	if common.CheckForEnabledServices("osmanagementhub") {
 		tf_os_management_hub.RegisterResource()
-	}
-	if common.CheckForEnabledServices("osmanagement") {
-		tf_osmanagement.RegisterResource()
 	}
 	if common.CheckForEnabledServices("ospgateway") {
 		tf_osp_gateway.RegisterResource()

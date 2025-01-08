@@ -84,7 +84,15 @@ var (
 	allOCIServiceGatewayServicesRepresentation = map[string]interface{}{
 		"service_id": acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_services.test_services.services[1], "id")}`},
 	}
+	routeTablesRepresentation = map[string]interface{}{
+		"manage_default_resource_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_vcn.test_vcn.default_route_table_id}`},
+		"route_rules":                acctest.RepresentationGroup{RepType: acctest.Required, Group: routeRulesRepresentation},
+	}
 
+	routeRulesRepresentation = map[string]interface{}{
+		"cidr_block":        acctest.Representation{RepType: acctest.Required, Create: `0.0.0.0/0`},
+		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_internet_gateway.test_internet_gateway.id}`},
+	}
 	allOCIServiceRouteTableRouteRulesRepresentationWithServiceCidr = map[string]interface{}{
 		"network_entity_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_core_service_gateway.test_service_gateway.id}`},
 		"destination":       acctest.Representation{RepType: acctest.Required, Create: `${lookup(data.oci_core_services.test_services.services[1], "cidr_block")}`},
