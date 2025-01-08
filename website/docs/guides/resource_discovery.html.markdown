@@ -209,7 +209,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `opsi` - Discovers opsi resources within the specified compartment
     * `optimizer` - Discovers optimizer resources within the specified compartment
     * `os_management_hub` - Discovers os_management_hub resources within the specified compartment
-    * `osmanagement` - Discovers osmanagement resources within the specified compartment
     * `osp_gateway` - Discovers osp_gateway resources within the specified compartment
     * `psql` - Discovers psql resources within the specified compartment
     * `queue` - Discovers queue resources within the specified compartment
@@ -1196,12 +1195,6 @@ os_management_hub
 * oci\_os\_management\_hub\_software\_source\_manifest
 * oci\_os\_management\_hub\_event
 * oci\_os\_management\_hub\_work\_request\_rerun\_management
-
-osmanagement
-    
-* oci\_osmanagement\_managed\_instance
-* oci\_osmanagement\_managed\_instance\_group
-* oci\_osmanagement\_software\_source
 
 osp_gateway
     
