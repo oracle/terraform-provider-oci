@@ -923,7 +923,7 @@ func (s *PsqlDbSystemResourceCrud) Get() error {
 
 func (s *PsqlDbSystemResourceCrud) Update() error {
 
-	if _, ok := s.D.GetOkExists("passwordDetails"); ok && s.D.HasChange("passwordDetails") {
+	if _, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
 		err := s.ResetMasterUserPassword()
 		if err != nil {
 			return err
@@ -1035,6 +1035,12 @@ func (s *PsqlDbSystemResourceCrud) Update() error {
 
 			tmp := configId.(string)
 			configRequest.ConfigId = &tmp
+
+			if applyConfig, ok := s.D.GetOkExists("apply_config"); ok {
+				configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigEnum(applyConfig.(string))
+			} else {
+				configRequest.ApplyConfig = oci_psql.UpdateDbConfigParamsApplyConfigReload
+			}
 			request.DbConfigurationParams = &configRequest
 		}
 	}
@@ -1213,14 +1219,17 @@ func (s *PsqlDbSystemResourceCrud) ResetMasterUserPassword() error {
 	idTmp := s.D.Id()
 	request.DbSystemId = &idTmp
 
-	if passwordDetails, ok := s.D.GetOkExists("password_details"); ok {
-		if tmpList := passwordDetails.([]interface{}); len(tmpList) > 0 {
-			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "password_details", 0)
-			tmp, err := s.mapToPasswordDetails(fieldKeyFormat)
-			if err != nil {
-				return err
+	if credentials, ok := s.D.GetOkExists("credentials"); ok && s.D.HasChange("credentials") {
+		if tmpList := credentials.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "credentials", 0)
+			if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "password_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "password_details")) {
+				fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "password_details"), 0)
+				tmp, err := s.mapToPasswordDetails(fieldKeyFormatNextLevel)
+				if err != nil {
+					return err
+				}
+				request.PasswordDetails = tmp
 			}
-			request.PasswordDetails = tmp
 		}
 	}
 

@@ -267,8 +267,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 			),
 		},
 
-		// verify updates to updatable parameters
 		/*
+			// verify updates to updatable parameters
 			{
 				Config: config + compartmentIdVariableStr + flexConfigIdUVariableStr + subnetIdVariableStr + flexConfigIdVariableStr + PsqlDbSystemResourceDependencies + backupIdVariableStr + nsgIdUVariableStr +
 					acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_flex_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentationFlexShape),
@@ -284,8 +284,8 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 					},
 				),
 			},
-		*/
 
+		*/
 		// delete before next Create
 		{
 			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + flexConfigIdVariableStr + backupIdVariableStr + nsgIdVariableStr,
@@ -313,6 +313,20 @@ func TestPsqlDbSystemResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "storage_details.0.availability_domain"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.is_regionally_durable", "false"),
 				resource.TestCheckResourceAttr(resourceName, "storage_details.0.system_type", "OCI_OPTIMIZED_STORAGE"),
+
+				func(s *terraform.State) (err error) {
+					resId, err = acctest.FromInstanceState(s, resourceName, "id")
+					return err
+				},
+			),
+		},
+
+		// verify update
+		{
+			Config: config + compartmentIdVariableStr + subnetIdVariableStr + PsqlDbSystemResourceDependencies + nsgIdVariableStr +
+				acctest.GenerateResourceFromRepresentationMap("oci_psql_db_system", "test_db_system", acctest.Optional, acctest.Update, PsqlDbSystemRepresentation),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
