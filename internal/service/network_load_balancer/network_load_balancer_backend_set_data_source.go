@@ -75,6 +75,10 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 
 	s.D.SetId(tfresource.GenerateDataSourceHashID("NetworkLoadBalancerBackendSetDataSource-", NetworkLoadBalancerBackendSetDataSource(), s.D))
 
+	if s.Res.AreOperationallyActiveBackendsPreferred != nil {
+		s.D.Set("are_operationally_active_backends_preferred", *s.Res.AreOperationallyActiveBackendsPreferred)
+	}
+
 	backends := []interface{}{}
 	for _, item := range s.Res.Backends {
 		backends = append(backends, NlbBackendToMap(item))
@@ -94,6 +98,10 @@ func (s *NetworkLoadBalancerBackendSetDataSourceCrud) SetData() error {
 
 	if s.Res.IsInstantFailoverEnabled != nil {
 		s.D.Set("is_instant_failover_enabled", *s.Res.IsInstantFailoverEnabled)
+	}
+
+	if s.Res.IsInstantFailoverTcpResetEnabled != nil {
+		s.D.Set("is_instant_failover_tcp_reset_enabled", *s.Res.IsInstantFailoverTcpResetEnabled)
 	}
 
 	if s.Res.IsPreserveSource != nil {
