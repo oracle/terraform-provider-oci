@@ -94,6 +94,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 		}
 
 		#Optional
+		are_operationally_active_backends_preferred = var.network_load_balancer_backend_sets_are_operationally_active_backends_preferred
 		backends {
 			#Required
 			port = var.network_load_balancer_backend_sets_backends_port
@@ -110,6 +111,7 @@ resource "oci_network_load_balancer_network_load_balancer" "test_network_load_ba
 		ip_version = var.network_load_balancer_backend_sets_ip_version
 		is_fail_open = var.network_load_balancer_backend_sets_is_fail_open
 		is_instant_failover_enabled = var.network_load_balancer_backend_sets_is_instant_failover_enabled
+		is_instant_failover_tcp_reset_enabled = var.network_load_balancer_backend_sets_is_instant_failover_tcp_reset_enabled
 		is_preserve_source = var.network_load_balancer_backend_sets_is_preserve_source
 		policy = var.network_load_balancer_backend_sets_policy
 	}
@@ -153,6 +155,7 @@ The following arguments are supported:
 * `assigned_ipv6` - (Optional) (Updatable) IPv6 address to be assigned to the network load balancer being created. This IP address has to be part of one of the prefixes supported by the subnet. Example: "2607:9b80:9a0a:9a7e:abcd:ef01:2345:6789" 
 * `assigned_private_ipv4` - (Optional) Private IP address to be assigned to the network load balancer being created. This IP address has to be in the CIDR range of the subnet where network load balancer is being created Example: "10.0.0.1" 
 * `backend_sets` - (Optional) Backend sets associated with the network load balancer.
+	* `are_operationally_active_backends_preferred` - (Optional) If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy. 
 	* `backends` - (Optional) An array of backends. 
 		* `ip_address` - (Optional) The IP address of the backend server. Example: `10.0.0.3` 
 		* `is_backup` - (Optional) Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
@@ -161,8 +164,8 @@ The following arguments are supported:
 		* `name` - (Optional) A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
 		* `port` - (Required) The communication port for the backend server.  Example: `8080` 
 		* `target_id` - (Optional) The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-		* `weight` - (Optional) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
-	* `health_checker` - (Required) The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
+		* `weight` - (Optional) The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancing policies, see [Network Load Balancer Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies).  Example: `3` 
+	* `health_checker` - (Required) The health check policy configuration. For more information, see [Editing Network Load Balancer Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-management.htm). 
 		* `dns` - (Optional) DNS healthcheck configurations.
 			* `domain_name` - (Required) The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query. 
 			* `query_class` - (Optional) The class the dns health check query to use; either IN or CH.  Example: `IN` 
@@ -181,7 +184,8 @@ The following arguments are supported:
 		* `url_path` - (Optional) The path against which to run the health check.  Example: `/healthcheck` 
 	* `ip_version` - (Optional) IP version associated with the backend set.
 	* `is_fail_open` - (Optional) If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
-	* `is_instant_failover_enabled` - (Optional) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy.
+	* `is_instant_failover_enabled` - (Optional) If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy. 
+	* `is_instant_failover_tcp_reset_enabled` - (Optional) If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled. 
 	* `is_preserve_source` - (Optional) If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 	* `policy` - (Optional) The network load balancer policy for the backend set.  Example: `FIVE_TUPLE`
 
@@ -198,7 +202,7 @@ The following arguments are supported:
 
     If "false", then the service assigns a public IP address to the network load balancer.
 
-  	A public network load balancer is accessible from the internet, depending on the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and private network load balancers, see [How Network Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/Balance/Concepts/balanceoverview.htm#how-network-load-balancing-works). This value is true by default.
+	A public network load balancer is accessible from the internet, depending on the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloud network. For more information about public and private network load balancers, see [Network Load Balancer Types](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#NetworkLoadBalancerTypes). This value is true by default.
 
 	Example: `true` 
 * `is_symmetric_hash_enabled` - (Optional) (Updatable) This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT. 
@@ -248,7 +252,8 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `backend_sets` - Backend sets associated with the network load balancer.
-	* `backends` - Array of backends. 
+	* `are_operationally_active_backends_preferred` - If enabled, NLB supports active-standby backends. The standby backend takes over the traffic when the active node fails, and continues to serve the traffic even when the old active node is back healthy. 
+	* `backends` - An array of backends. 
 		* `ip_address` - The IP address of the backend server. Example: `10.0.0.3` 
 		* `is_backup` - Whether the network load balancer should treat this server as a backup unit. If `true`, then the network load balancer forwards no ingress traffic to this backend server unless all other backend servers not marked as "isBackup" fail the health check policy.  Example: `false` 
 		* `is_drain` - Whether the network load balancer should drain this server. Servers marked "isDrain" receive no incoming traffic.  Example: `false` 
@@ -256,8 +261,8 @@ The following attributes are exported:
 		* `name` - A read-only field showing the IP address/IP OCID and port that uniquely identify this backend server in the backend set.  Example: `10.0.0.3:8080`, or `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>:443` or `10.0.0.3:0` 
 		* `port` - The communication port for the backend server.  Example: `8080` 
 		* `target_id` - The IP OCID/Instance OCID associated with the backend server. Example: `ocid1.privateip..oc1.<var>&lt;unique_ID&gt;</var>` 
-		* `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about load balancing policies, see [How Network Load Balancing Policies Work](https://docs.cloud.oracle.com/iaas/Content/Balance/Reference/lbpolicies.htm).  Example: `3` 
-	* `health_checker` - The health check policy configuration. For more information, see [Editing Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/Balance/Tasks/editinghealthcheck.htm). 
+		* `weight` - The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections as a server weighted '1'. For more information about network load balancing policies, see [Network Load Balancer Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#Policies).  Example: `3` 
+	* `health_checker` - The health check policy configuration. For more information, see [Editing Network Load Balancer Health Check Policies](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/HealthCheckPolicies/update-health-check-management.htm). 
 		* `dns` - DNS healthcheck configurations.
 			* `domain_name` - The absolute fully-qualified domain name to perform periodic DNS queries. If not provided, an extra dot will be added at the end of a domain name during the query. 
 			* `query_class` - The class the dns health check query to use; either IN or CH.  Example: `IN` 
@@ -277,6 +282,7 @@ The following attributes are exported:
 	* `ip_version` - IP version associated with the backend set.
 	* `is_fail_open` - If enabled, the network load balancer will continue to distribute traffic in the configured distribution in the event all backends are unhealthy. The value is false by default. 
 	* `is_instant_failover_enabled` - If enabled existing connections will be forwarded to an alternative healthy backend as soon as current backend becomes unhealthy. 
+	* `is_instant_failover_tcp_reset_enabled` - If enabled along with instant failover, the network load balancer will send TCP RST to the clients for the existing connections instead of failing over to a healthy backend. This only applies when using the instant failover. By default, TCP RST is enabled. 
 	* `is_preserve_source` - If this parameter is enabled, then the network load balancer preserves the source IP of the packet when it is forwarded to backends. Backends see the original source IP. If the isPreserveSourceDestination parameter is enabled for the network load balancer resource, then this parameter cannot be disabled. The value is true by default. 
 	* `name` - A user-friendly name for the backend set that must be unique and cannot be changed.
 
@@ -314,7 +320,7 @@ The following attributes are exported:
 
     If "false", then the service assigns a public IP address to the network load balancer.
 
-	A public network load balancer is accessible from the internet, depending the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and private network load balancers, see [How Network Load Balancing Works](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/overview.htm). This value is true by default.
+	A public network load balancer is accessible from the internet, depending the [security list rules](https://docs.cloud.oracle.com/iaas/Content/network/Concepts/securitylists.htm) for your virtual cloudn network. For more information about public and private network load balancers, see [Network Load Balancer Types](https://docs.cloud.oracle.com/iaas/Content/NetworkLoadBalancer/introduction.htm#NetworkLoadBalancerTypes). This value is true by default.
 
 	Example: `true` 
 * `is_symmetric_hash_enabled` - This can only be enabled when NLB is working in transparent mode with source destination header preservation enabled.  This removes the additional dependency from NLB backends(like Firewalls) to perform SNAT.
