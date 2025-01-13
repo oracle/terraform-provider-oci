@@ -19,17 +19,13 @@ variable "compartment_ocid" {
 variable "region" {
 }
 
-variable "instance_image_ocid" {
-  type = map(string)
-
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-  }
+data "oci_core_images" "test_images" {
+  compartment_id           = var.compartment_ocid
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
+  shape                    = var.instance_shape
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
 }
 
 variable "instance_shape" {
@@ -241,7 +237,7 @@ resource "oci_core_instance" "instance1" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id   = lookup(data.oci_core_images.test_images.images[0], "id")
   }
 }
 
@@ -293,6 +289,11 @@ resource "oci_network_load_balancer_network_load_balancer" "nlb-symmetic" {
 
   is_preserve_source_destination = true
   is_symmetric_hash_enabled = true
+
+  security_attributes = {
+    "secAttriZprNlb.secAttri.mode" = "enforce"
+    "secAttriZprNlb.secAttri.value" = "someVal"
+  }
 }
 
 resource "oci_network_load_balancer_backend_set" "nlb-bes-symmetric" {
@@ -350,6 +351,7 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes1" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   policy                      = "TWO_TUPLE"
   is_instant_failover_enabled = true
+  is_instant_failover_tcp_reset_enabled = true
 
   health_checker {
     port                = "80"
@@ -368,6 +370,7 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes2" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   policy                      = "THREE_TUPLE"
   is_instant_failover_enabled = true
+  is_instant_failover_tcp_reset_enabled = false
   is_fail_open                = true
 
   health_checker {
@@ -390,6 +393,7 @@ resource "oci_network_load_balancer_backend_set" "nlb-bes3" {
   policy                   = "THREE_TUPLE"
   is_fail_open = false
   is_instant_failover_enabled = true
+  are_operationally_active_backends_preferred = true
 
 
   health_checker {
@@ -503,6 +507,29 @@ resource "oci_network_load_balancer_backend" "nlb-be2" {
   depends_on = [oci_network_load_balancer_backend.nlb-be1]
 }
 
+resource "oci_network_load_balancer_backend" "nlb-be3" {
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes3.name
+  ip_address                = "10.1.20.11"
+  port                     = 22
+  is_backup                = false
+  is_drain                 = false
+  is_offline               = false
+  weight                   = 1
+  depends_on = [oci_network_load_balancer_backend.nlb-be2]
+}
+
+resource "oci_network_load_balancer_backend" "nlb-be4" {
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  backend_set_name         = oci_network_load_balancer_backend_set.nlb-bes3.name
+  ip_address                = "10.1.20.12"
+  port                     = 22
+  is_backup                = true
+  is_drain                 = false
+  is_offline               = false
+  weight                   = 1
+  depends_on = [oci_network_load_balancer_backend.nlb-be3]
+}
 
 /* Network Load Balancer IPv6*/
 
