@@ -106,7 +106,7 @@ func (s *NetworkLoadBalancerNetworkLoadBalancerDataSourceCrud) SetData() error {
 	s.D.Set("nlb_ip_version", s.Res.NlbIpVersion)
 
 	if s.Res.SecurityAttributes != nil {
-		s.D.Set("security_attributes", SecurityAttributesToMap(s.Res.SecurityAttributes))
+		s.D.Set("security_attributes", tfresource.SecurityAttributesToMap(s.Res.SecurityAttributes))
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)
