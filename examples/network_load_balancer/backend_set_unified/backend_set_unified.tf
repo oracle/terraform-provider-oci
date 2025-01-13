@@ -228,6 +228,43 @@ resource "oci_network_load_balancer_network_load_balancers_backend_sets_unified"
   depends_on = [oci_network_load_balancer_network_load_balancer.nlb1]
 }
 
+resource "oci_network_load_balancer_network_load_balancers_backend_sets_unified" "nlb-bes2" {
+  name                     = "nlb-bes2"
+  network_load_balancer_id = oci_network_load_balancer_network_load_balancer.nlb1.id
+  policy                   = "TWO_TUPLE"
+  is_instant_failover_enabled = true
+  is_instant_failover_tcp_reset_enabled = true
+  are_operationally_active_backends_preferred = true
+
+  health_checker {
+    port                = "80"
+    protocol            = "TCP"
+    request_data        = "SGVsbG9Xb3JsZA=="
+    response_data       = "SGVsbG9Xb3JsZA=="
+    timeout_in_millis   = 10000
+    interval_in_millis  = 10000
+    retries             = 3
+  }
+
+  backends {
+    ip_address               = "10.0.0.11"
+    port                     = 80
+    is_backup                = true
+    is_drain                 = false
+    is_offline               = false
+  }
+
+  backends {
+    ip_address                = "10.0.0.12"
+    port                     = 80
+    is_backup                = false
+    is_drain                 = false
+    is_offline               = false
+  }
+
+  depends_on = [oci_network_load_balancer_network_load_balancers_backend_sets_unified.nlb-bes1]
+}
+
 resource "oci_network_load_balancer_listener" "nlb-listener1" {
   network_load_balancer_id    = oci_network_load_balancer_network_load_balancer.nlb1.id
   name                        = "tcp_listener"
@@ -235,5 +272,5 @@ resource "oci_network_load_balancer_listener" "nlb-listener1" {
   port                        = 80
   protocol                    = "TCP"
 
-  depends_on = [oci_network_load_balancer_network_load_balancers_backend_sets_unified.nlb-bes1]
+  depends_on = [oci_network_load_balancer_network_load_balancers_backend_sets_unified.nlb-bes2]
 }
