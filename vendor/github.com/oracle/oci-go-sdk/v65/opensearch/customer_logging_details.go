@@ -1,13 +1,13 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
-// Oracle Cloud Bridge API
+// OpenSearch Service API
 //
-// API for Oracle Cloud Bridge service.
+// The OpenSearch service API provides access to OCI Search Service with OpenSearch.
 //
 
-package cloudbridge
+package opensearch
 
 import (
 	"fmt"
@@ -15,24 +15,21 @@ import (
 	"strings"
 )
 
-// InstanceState Describes the current state of an instance.
-type InstanceState struct {
+// CustomerLoggingDetails Customer logging configuration
+type CustomerLoggingDetails struct {
 
-	// The state of the instance as a 16-bit unsigned integer.
-	Code *int `mandatory:"false" json:"code"`
-
-	// The current state of the instance.
-	Name *string `mandatory:"false" json:"name"`
+	// the age of an index after which the index will get deleted by ISM policy
+	LogRetentionDays *int `mandatory:"true" json:"logRetentionDays"`
 }
 
-func (m InstanceState) String() string {
+func (m CustomerLoggingDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m InstanceState) ValidateEnumValue() (bool, error) {
+func (m CustomerLoggingDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {
