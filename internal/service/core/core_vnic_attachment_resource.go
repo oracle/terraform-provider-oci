@@ -150,6 +150,10 @@ func CoreVnicAttachmentResource() *schema.Resource {
 							Computed: true,
 							ForceNew: true,
 						},
+						"route_table_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+						},
 
 						// Computed
 					},
@@ -611,6 +615,11 @@ func (s *CoreVnicAttachmentResourceCrud) mapToUpdateVnicDetails(fieldKeyFormat s
 		result.SecurityAttributes = tfresource.MapToSecurityAttributes(securityAttributes.(map[string]interface{}))
 	}
 
+	if routeTableId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "route_table_id")); ok {
+		tmp := routeTableId.(string)
+		result.RouteTableId = &tmp
+	}
+
 	return result, nil
 }
 
@@ -685,6 +694,10 @@ func VnicDetailsToMap(obj *oci_core.Vnic, createVnicDetails map[string]interface
 
 	if obj.VlanId != nil {
 		result["vlan_id"] = string(*obj.VlanId)
+	}
+
+	if obj.RouteTableId != nil {
+		result["route_table_id"] = string(*obj.RouteTableId)
 	}
 
 	return result

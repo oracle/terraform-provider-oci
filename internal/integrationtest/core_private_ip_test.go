@@ -49,10 +49,12 @@ var (
 		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 		"hostname_label": acctest.Representation{RepType: acctest.Optional, Create: `privateiptestinstance`, Update: `privateiptestinstance2`},
 		"ip_address":     acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
+		"route_table_id": acctest.Representation{RepType: acctest.Optional, Create: `${oci_core_route_table.test_route_table.id}`},
 	}
 
 	CorePrivateIpResourceDependencies = utils.OciImageIdsVariable +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_instance", "test_instance", acctest.Required, acctest.Create, CoreInstanceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_subnet", "test_subnet", acctest.Required, acctest.Create, acctest.RepresentationCopyWithNewProperties(CoreSubnetRepresentation, map[string]interface{}{
 			"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`},
 		})) +
@@ -117,6 +119,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
@@ -140,6 +143,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttr(resourceName, "hostname_label", "privateiptestinstance2"),
 				resource.TestCheckResourceAttr(resourceName, "ip_address", "10.0.0.5"),
+				resource.TestCheckResourceAttrSet(resourceName, "route_table_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "vnic_id"),
 
 				func(s *terraform.State) (err error) {
@@ -168,6 +172,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.id"),
 				resource.TestCheckResourceAttr(datasourceName, "private_ips.0.ip_address", "10.0.0.5"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_primary"),
+				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.route_table_id"),
 				//commenting until service issue resolved
 				//resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.is_reserved"),
 				resource.TestCheckResourceAttrSet(datasourceName, "private_ips.0.subnet_id"),
@@ -192,6 +197,7 @@ func TestCorePrivateIpResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "is_primary"),
 				//resource.TestCheckResourceAttrSet(singularDatasourceName, "is_reserved"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "route_table_id"),
 			),
 		},
 		// verify resource import

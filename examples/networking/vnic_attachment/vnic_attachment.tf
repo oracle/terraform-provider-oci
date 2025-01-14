@@ -23,6 +23,8 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = var.compartment_ocid
+  is_ipv6enabled = true
+  ipv6private_cidr_blocks = ["fc00::/48"]
   display_name   = "exampleVCN"
   dns_label      = "tfexamplevcn"
 }
@@ -30,6 +32,7 @@ resource "oci_core_vcn" "example_vcn" {
 resource "oci_core_subnet" "example_subnet" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.20.0/24"
+  ipv6cidr_blocks     = ["fc00::/64"]
   display_name        = "exampleSubnet"
   dns_label           = "tfexamplesubnet"
   security_list_ids   = [oci_core_vcn.example_vcn.default_security_list_id]
@@ -79,6 +82,15 @@ resource "oci_core_instance" "test_instance1" {
   }
 }
 
+# Update only secondary VNIC with route table id
+resource "oci_core_vnic_attachment" "vnicatt" {
+  instance_id = oci_core_instance.test_instance1.id
+  create_vnic_details {
+    subnet_id              = oci_core_subnet.example_subnet.id
+    # route_table_id         = oci_core_vcn.example_vcn.default_route_table_id
+  }
+}
+
 # Gets a list of VNIC attachments on the instance
 data "oci_core_vnic_attachments" "instance_vnics" {
   compartment_id      = var.compartment_ocid
@@ -87,25 +99,10 @@ data "oci_core_vnic_attachments" "instance_vnics" {
 }
 
 # Gets the OCID of the first (default) VNIC
-data "oci_core_vnic" "instance_vnic" {
+data "oci_core_vnic" "vnic1" {
   vnic_id = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
 }
 
-# Create PrivateIP
-resource "oci_core_private_ip" "private_ip" {
-  vnic_id        = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
-  route_table_id = oci_core_vcn.example_vcn.default_route_table_id
+output "vnic_attachments" {
+  value = [data.oci_core_vnic_attachments.instance_vnics.vnic_attachments]
 }
-
-# List Private IPs
-data "oci_core_private_ips" "private_ip_datasource" {
-  depends_on = [oci_core_private_ip.private_ip]
-  vnic_id    = oci_core_private_ip.private_ip.vnic_id
-}
-
-output "private_ips" {
-  value = [data.oci_core_private_ips.private_ip_datasource.private_ips]
-}
-
