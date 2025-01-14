@@ -62,6 +62,10 @@ func CoreIpv6Resource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 
 			// Computed
 			"compartment_id": {
@@ -182,6 +186,11 @@ func (s *CoreIpv6ResourceCrud) Create() error {
 		request.Ipv6SubnetCidr = &tmp
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
 		tmp := vnicId.(string)
 		request.VnicId = &tmp
@@ -238,6 +247,11 @@ func (s *CoreIpv6ResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.Ipv6Id = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
 		tmp := vnicId.(string)
 		request.VnicId = &tmp
@@ -283,6 +297,10 @@ func (s *CoreIpv6ResourceCrud) SetData() error {
 
 	if s.Res.IpAddress != nil {
 		s.D.Set("ip_address", *s.Res.IpAddress)
+	}
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
 	s.D.Set("state", s.Res.LifecycleState)

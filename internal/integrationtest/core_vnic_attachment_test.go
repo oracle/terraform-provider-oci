@@ -27,7 +27,8 @@ import (
 
 var (
 	CoreVnicAttachmentRequiredOnlyResource = CoreVnicAttachmentResourceDependencies +
-		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, CoreVnicAttachmentRepresentation)
+		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Required, acctest.Create, CoreVnicAttachmentRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation)
 
 	CoreVnicAttachmentResourceConfig = CoreVnicAttachmentResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vnic_attachment", "test_vnic_attachment", acctest.Optional, acctest.Create, CoreVnicAttachmentRepresentation)
@@ -61,6 +62,7 @@ var (
 		"private_ip":                acctest.Representation{RepType: acctest.Optional, Create: `10.0.0.5`},
 		"security_attributes":       acctest.Representation{RepType: acctest.Optional, Create: map[string]any{"MaxEgressCount": map[string]string{"value": "42", "mode": "audit"}}, Update: map[string]any{"MaxEgressCount": map[string]string{"value": "43", "mode": "audit"}}},
 		"skip_source_dest_check":    acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"route_table_id":            acctest.Representation{RepType: acctest.Optional, Update: `${oci_core_route_table.test_route_table.id}`},
 	}
 
 	CoreVnicAttachmentIpv6Representation = map[string]interface{}{
@@ -213,6 +215,7 @@ func TestCoreVnicAttachmentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vlan_tag"),
 				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.vnic_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "vnic_attachments.0.route_table_id"),
 			),
 		},
 		// verify resource import

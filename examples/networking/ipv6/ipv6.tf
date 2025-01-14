@@ -23,6 +23,8 @@ data "oci_identity_availability_domain" "ad" {
 resource "oci_core_vcn" "example_vcn" {
   cidr_block     = "10.1.0.0/16"
   compartment_id = var.compartment_ocid
+  is_ipv6enabled = true
+  ipv6private_cidr_blocks = ["fc00::/48"]
   display_name   = "exampleVCN"
   dns_label      = "tfexamplevcn"
 }
@@ -30,6 +32,7 @@ resource "oci_core_vcn" "example_vcn" {
 resource "oci_core_subnet" "example_subnet" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   cidr_block          = "10.1.20.0/24"
+  ipv6cidr_blocks     = ["fc00::/64"]
   display_name        = "exampleSubnet"
   dns_label           = "tfexamplesubnet"
   security_list_ids   = [oci_core_vcn.example_vcn.default_security_list_id]
@@ -91,21 +94,20 @@ data "oci_core_vnic" "instance_vnic" {
   vnic_id = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
 }
 
-# Create PrivateIP
-resource "oci_core_private_ip" "private_ip" {
+# Create IPv6
+resource "oci_core_ipv6" "test_ipv6" {
   vnic_id        = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
-  display_name   = "someDisplayName"
-  hostname_label = "somehostnamelabel"
+  display_name   = "someIpv6DisplayName"
   route_table_id = oci_core_vcn.example_vcn.default_route_table_id
 }
 
-# List Private IPs
-data "oci_core_private_ips" "private_ip_datasource" {
-  depends_on = [oci_core_private_ip.private_ip]
-  vnic_id    = oci_core_private_ip.private_ip.vnic_id
+# List IPv6s
+data "oci_core_ipv6s" "ipv6_datasource" {
+  depends_on = [oci_core_ipv6.test_ipv6]
+  vnic_id    = oci_core_ipv6.test_ipv6.vnic_id
 }
 
-output "private_ips" {
-  value = [data.oci_core_private_ips.private_ip_datasource.private_ips]
+output "ipv6s" {
+  value = [data.oci_core_ipv6s.ipv6_datasource.ipv6s]
 }
 
