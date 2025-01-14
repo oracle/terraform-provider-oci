@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -20,14 +20,20 @@ import (
 // Note that referential relationships are also managed as part of sensitive columns.
 type CreateReferentialRelationDetails struct {
 
-	// The type of referential relationship the sensitive column has with its parent. NONE indicates that the
-	// sensitive column does not have a parent. DB_DEFINED indicates that the relationship is defined in the database
-	// dictionary. APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.
+	// The type of referential relationship the sensitive column has with its parent.
+	// DB_DEFINED indicates that the relationship is defined in the database dictionary.
+	// APP_DEFINED indicates that the relationship is defined at the application level and not in the database dictionary.
 	RelationType CreateReferentialRelationDetailsRelationTypeEnum `mandatory:"true" json:"relationType"`
 
 	Parent *ColumnsInfo `mandatory:"true" json:"parent"`
 
 	Child *ColumnsInfo `mandatory:"true" json:"child"`
+
+	// Add to sensitive data model if passed true. If false is passed, then the
+	// columns will not be added in the sensitive data model as sensitive columns and
+	// if sensitive type OCIDs are assigned to the columns, then the sensitive type
+	// OCIDs will not be retained.
+	IsSensitive *bool `mandatory:"false" json:"isSensitive"`
 }
 
 func (m CreateReferentialRelationDetails) String() string {

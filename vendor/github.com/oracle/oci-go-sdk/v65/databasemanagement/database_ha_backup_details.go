@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DatabaseHaBackupDetails The database ha and backup details.
+// DatabaseHaBackupDetails The database HA and backup details.
 type DatabaseHaBackupDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -39,7 +39,7 @@ type DatabaseHaBackupDetails struct {
 	// The display name of the Managed Database.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
 
-	// The Database role of the Managed Database.
+	// The database role of the Managed Database.
 	DbRole DbRoleEnum `mandatory:"true" json:"dbRole"`
 
 	// The Oracle Database version.
@@ -48,27 +48,27 @@ type DatabaseHaBackupDetails struct {
 	// The workload type of the Autonomous Database.
 	WorkloadType WorkloadTypeEnum `mandatory:"false" json:"workloadType,omitempty"`
 
-	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	// The database ID of the Managed Database. Every database had its own ID and that value is captured here.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// The Database unique name of the Managed Database.
+	// The database unique name of the Managed Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 
-	// flashBackOn status of a database.
+	// Indicates whether flashback is enabled for the database.
 	FlashBackOn *string `mandatory:"false" json:"flashBackOn"`
 
-	// The oldest flash backup time of the database.
+	// The oldest flashback date and time in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	FlashBackTime *common.SDKTime `mandatory:"false" json:"flashBackTime"`
 
-	// database recovery window goal.
+	// The configured number of days intended to recover a protected database from a backup.
 	RecoveryWindowGoalInDays *int `mandatory:"false" json:"recoveryWindowGoalInDays"`
 
 	LastFullBackupSummary *DatabaseBackupSummary `mandatory:"false" json:"lastFullBackupSummary"`
 
-	// A list of the database backups.
+	// A list of database backups.
 	BackupHistory []DatabaseBackupSummary `mandatory:"false" json:"backupHistory"`
 
-	// A list of the database backup metrics like BackupSize and BackupDuration.
+	// A list of database backup metrics such as BackupSize and BackupDuration.
 	Metrics []HaMetricDefinition `mandatory:"false" json:"metrics"`
 }
 

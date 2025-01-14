@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -11991,6 +11991,60 @@ func (client DataSafeClient) listMaskingPolicyHealthReports(ctx context.Context,
 	return response, err
 }
 
+// ListMaskingPolicyReferentialRelations Gets a list of referential relations present in the specified masking policy based on the specified query parameters.
+// A default retry strategy applies to this operation ListMaskingPolicyReferentialRelations()
+func (client DataSafeClient) ListMaskingPolicyReferentialRelations(ctx context.Context, request ListMaskingPolicyReferentialRelationsRequest) (response ListMaskingPolicyReferentialRelationsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listMaskingPolicyReferentialRelations, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListMaskingPolicyReferentialRelationsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListMaskingPolicyReferentialRelationsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListMaskingPolicyReferentialRelationsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListMaskingPolicyReferentialRelationsResponse")
+	}
+	return
+}
+
+// listMaskingPolicyReferentialRelations implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listMaskingPolicyReferentialRelations(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/maskingPolicies/{maskingPolicyId}/referentialRelations", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListMaskingPolicyReferentialRelationsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/MaskingPolicyReferentialRelationSummary/ListMaskingPolicyReferentialRelations"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListMaskingPolicyReferentialRelations", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ListMaskingReports Gets a list of masking reports based on the specified query parameters.
 // A default retry strategy applies to this operation ListMaskingReports()
 func (client DataSafeClient) ListMaskingReports(ctx context.Context, request ListMaskingReportsRequest) (response ListMaskingReportsResponse, err error) {
@@ -12146,6 +12200,68 @@ func (client DataSafeClient) listOnPremConnectors(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/OnPremConnectorSummary/ListOnPremConnectors"
 		err = common.PostProcessServiceError(err, "DataSafe", "ListOnPremConnectors", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListPasswordExpiryDateAnalytics Gets a list of count of the users with password expiry dates in next 30 days, between next 30-90 days, and beyond 90 days based on specified user assessment.
+// It internally uses the aforementioned userAnalytics api.
+// When you perform the ListPasswordExpiryDateAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has READ
+// permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
+// root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
+// compartmentId, then "Not Authorized" is returned.
+// To use ListPasswordExpiryDateAnalytics to get a full list of all compartments and subcompartments in the tenancy from the root compartment,
+// set the parameter compartmentIdInSubtree to true and accessLevel to ACCESSIBLE.
+// A default retry strategy applies to this operation ListPasswordExpiryDateAnalytics()
+func (client DataSafeClient) ListPasswordExpiryDateAnalytics(ctx context.Context, request ListPasswordExpiryDateAnalyticsRequest) (response ListPasswordExpiryDateAnalyticsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listPasswordExpiryDateAnalytics, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListPasswordExpiryDateAnalyticsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListPasswordExpiryDateAnalyticsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListPasswordExpiryDateAnalyticsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListPasswordExpiryDateAnalyticsResponse")
+	}
+	return
+}
+
+// listPasswordExpiryDateAnalytics implements the OCIOperation interface (enables retrying operations)
+func (client DataSafeClient) listPasswordExpiryDateAnalytics(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/userAssessments/{userAssessmentId}/passwordExpiryDateAnalytics", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListPasswordExpiryDateAnalyticsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-safe/20181201/UserAssessment/ListPasswordExpiryDateAnalytics"
+		err = common.PostProcessServiceError(err, "DataSafe", "ListPasswordExpiryDateAnalytics", apiReferenceLink)
 		return response, err
 	}
 
@@ -14531,7 +14647,7 @@ func (client DataSafeClient) listUserAccessAnalytics(ctx context.Context, reques
 // of database user security.  For example, the user details include how many users have the DBA role and how many users are in
 // the critical category. This data is especially useful content for dashboards or to support analytics.
 // When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
-// parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
+// parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has READ
 // permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 // root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 // compartmentId, then "Not Authorized" is returned.

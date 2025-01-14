@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -213,6 +213,17 @@ type MyOAuth2ClientCredential struct {
 	//  - type: boolean
 	//  - uniqueness: none
 	IsResetSecret *bool `mandatory:"false" json:"isResetSecret"`
+
+	// Secret
+	// **SCIM++ Properties:**
+	//  - caseExact: false
+	//  - type: string
+	//  - mutability: readOnly
+	//  - required: false
+	//  - returned: default
+	//  - idcsScimCompliant: false
+	//  - idcsSensitive: hash_sc
+	Secret *string `mandatory:"false" json:"secret"`
 
 	User *MyOAuth2ClientCredentialUser `mandatory:"false" json:"user"`
 }

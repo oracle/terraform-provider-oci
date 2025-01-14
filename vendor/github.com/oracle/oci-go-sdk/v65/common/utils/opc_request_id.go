@@ -8,11 +8,13 @@ import (
 	"crypto/rand"
 	"encoding/hex"
 	"fmt"
+	"regexp"
+	"strings"
 )
 
 // GenerateOpcRequestID - Reference: https://confluence.oci.oraclecorp.com/display/DEX/Request+IDs
 // Maximum segment length:	32 characters
-// Allowed segment contents: regular expression pattern /^[a-zA-Z0-9]{0,32}$/
+// Allowed segment contents: regular expression pattern /^[a-zA-Z0-9_-]{0,32}$/
 func GenerateOpcRequestID() string {
 	clientId := generateUniqueID()
 	stackId := generateUniqueID()
@@ -21,6 +23,26 @@ func GenerateOpcRequestID() string {
 	opcRequestId := fmt.Sprintf("%s/%s/%s", clientId, stackId, individualId)
 
 	return opcRequestId
+}
+
+func IsValidOpcRequestID(rid *string) error {
+	if rid == nil || *rid == "" {
+		return fmt.Errorf("custom opc-request-id cannot be empty")
+	}
+
+	segments := strings.Split(*rid, "/")
+
+	if len(segments) > 3 {
+		return fmt.Errorf("custom opc-request-id cannot contain more than 3 segments")
+	}
+
+	re := regexp.MustCompile("^[a-zA-Z0-9_-]{0,32}$")
+	for _, segment := range segments {
+		if !re.MatchString(segment) {
+			return fmt.Errorf("custom opc-request-id segments must contain only ASCII alphanumerics plus underscore and dash, and be at most 32 characters")
+		}
+	}
+	return nil
 }
 
 func generateUniqueID() string {

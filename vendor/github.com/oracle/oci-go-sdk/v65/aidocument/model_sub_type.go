@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -50,11 +50,11 @@ func (m *modelsubtype) UnmarshalPolymorphicJSON(data []byte) (interface{}, error
 
 	var err error
 	switch m.ModelType {
-	case "KEY_VALUE_SUB_TYPE":
+	case "PRE_TRAINED_KEY_VALUE_EXTRACTION":
 		mm := KvModelSubType{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
-	case "DOCUMENT_ELEMENTS_SUB_TYPE":
+	case "PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION":
 		mm := DocumentElementsSubType{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err

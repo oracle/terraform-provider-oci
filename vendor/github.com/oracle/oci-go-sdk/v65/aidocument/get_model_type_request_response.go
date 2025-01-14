@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -14,8 +14,14 @@ import (
 // GetModelTypeRequest wrapper for the GetModelType operation
 type GetModelTypeRequest struct {
 
-	// Results like version and model supported info by specifying model type and subtype.
+	// The type of the Document model.
 	ModelType *string `mandatory:"true" contributesTo:"path" name:"modelType"`
+
+	// The ID of the compartment in which to list resources.
+	CompartmentId *string `mandatory:"false" contributesTo:"query" name:"compartmentId"`
+
+	// The sub type based upon model selected.
+	ModelSubType *string `mandatory:"false" contributesTo:"query" name:"modelSubType"`
 
 	// The client request ID for tracing.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`

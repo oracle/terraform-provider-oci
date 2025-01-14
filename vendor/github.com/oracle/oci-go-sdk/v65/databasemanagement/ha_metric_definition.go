@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,17 +17,17 @@ import (
 	"strings"
 )
 
-// HaMetricDefinition The metric definition for backup metrics.
+// HaMetricDefinition The metric definition for HA and backup metrics.
 type HaMetricDefinition struct {
 
 	// The name of the metric.
 	MetricName *string `mandatory:"true" json:"metricName"`
 
-	// Qualifiers provided in the definition of the returned metric.
+	// The metadata qualifiers provided in the definition of the returned metric.
 	// Available metadata vary by metric.
 	Metadata map[string]string `mandatory:"true" json:"metadata"`
 
-	// Qualifiers provided in the definition of the returned metric.
+	// The dimension qualifiers provided in the definition of the returned metric.
 	// Available dimensions vary by metric namespace. Each dimension takes the form of a key-value pair.
 	// Example: `{"resourceId": "ocid1.instance.region1.phx.exampleuniqueID"}`
 	Dimensions map[string]string `mandatory:"true" json:"dimensions"`

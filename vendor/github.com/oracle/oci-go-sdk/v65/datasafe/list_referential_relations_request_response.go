@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -19,6 +19,16 @@ type ListReferentialRelationsRequest struct {
 
 	// A filter to return only items related to specific schema name.
 	SchemaName []string `contributesTo:"query" name:"schemaName" collectionFormat:"multi"`
+
+	// A filter to return only items related to a specific object name.
+	ObjectName []string `contributesTo:"query" name:"objectName" collectionFormat:"multi"`
+
+	// A filter to return only a specific column based on column name.
+	ColumnName []string `contributesTo:"query" name:"columnName" collectionFormat:"multi"`
+
+	// Returns referential relations containing sensitive columns when true.
+	// Returns referential relations containing non sensitive columns when false.
+	IsSensitive *bool `mandatory:"false" contributesTo:"query" name:"isSensitive"`
 
 	// A filter to return sensitive columns based on their relationship with their parent columns. If set to NONE,
 	// it returns the sensitive columns that do not have any parent. The response includes the parent columns as
@@ -221,16 +231,22 @@ type ListReferentialRelationsSortByEnum string
 const (
 	ListReferentialRelationsSortByKey          ListReferentialRelationsSortByEnum = "key"
 	ListReferentialRelationsSortByRelationtype ListReferentialRelationsSortByEnum = "relationType"
+	ListReferentialRelationsSortBySchemaname   ListReferentialRelationsSortByEnum = "schemaName"
+	ListReferentialRelationsSortByTablename    ListReferentialRelationsSortByEnum = "tableName"
 )
 
 var mappingListReferentialRelationsSortByEnum = map[string]ListReferentialRelationsSortByEnum{
 	"key":          ListReferentialRelationsSortByKey,
 	"relationType": ListReferentialRelationsSortByRelationtype,
+	"schemaName":   ListReferentialRelationsSortBySchemaname,
+	"tableName":    ListReferentialRelationsSortByTablename,
 }
 
 var mappingListReferentialRelationsSortByEnumLowerCase = map[string]ListReferentialRelationsSortByEnum{
 	"key":          ListReferentialRelationsSortByKey,
 	"relationtype": ListReferentialRelationsSortByRelationtype,
+	"schemaname":   ListReferentialRelationsSortBySchemaname,
+	"tablename":    ListReferentialRelationsSortByTablename,
 }
 
 // GetListReferentialRelationsSortByEnumValues Enumerates the set of values for ListReferentialRelationsSortByEnum
@@ -247,6 +263,8 @@ func GetListReferentialRelationsSortByEnumStringValues() []string {
 	return []string{
 		"key",
 		"relationType",
+		"schemaName",
+		"tableName",
 	}
 }
 

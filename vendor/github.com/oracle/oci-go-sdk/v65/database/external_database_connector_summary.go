@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -57,6 +57,10 @@ type ExternalDatabaseConnectorSummary interface {
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
 	GetDefinedTags() map[string]map[string]interface{}
 
+	// System tags for this resource. Each key is predefined and scoped to a namespace.
+	// For more information, see Resource Tags (https://docs.cloud.oracle.com/Content/General/Concepts/resourcetags.htm).
+	GetSystemTags() map[string]map[string]interface{}
+
 	// Additional information about the current lifecycle state.
 	GetLifecycleDetails() *string
 }
@@ -65,6 +69,7 @@ type externaldatabaseconnectorsummary struct {
 	JsonData                        []byte
 	FreeformTags                    map[string]string                           `mandatory:"false" json:"freeformTags"`
 	DefinedTags                     map[string]map[string]interface{}           `mandatory:"false" json:"definedTags"`
+	SystemTags                      map[string]map[string]interface{}           `mandatory:"false" json:"systemTags"`
 	LifecycleDetails                *string                                     `mandatory:"false" json:"lifecycleDetails"`
 	CompartmentId                   *string                                     `mandatory:"true" json:"compartmentId"`
 	DisplayName                     *string                                     `mandatory:"true" json:"displayName"`
@@ -98,6 +103,7 @@ func (m *externaldatabaseconnectorsummary) UnmarshalJSON(data []byte) error {
 	m.TimeConnectionStatusLastUpdated = s.Model.TimeConnectionStatusLastUpdated
 	m.FreeformTags = s.Model.FreeformTags
 	m.DefinedTags = s.Model.DefinedTags
+	m.SystemTags = s.Model.SystemTags
 	m.LifecycleDetails = s.Model.LifecycleDetails
 	m.ConnectorType = s.Model.ConnectorType
 
@@ -131,6 +137,11 @@ func (m externaldatabaseconnectorsummary) GetFreeformTags() map[string]string {
 // GetDefinedTags returns DefinedTags
 func (m externaldatabaseconnectorsummary) GetDefinedTags() map[string]map[string]interface{} {
 	return m.DefinedTags
+}
+
+// GetSystemTags returns SystemTags
+func (m externaldatabaseconnectorsummary) GetSystemTags() map[string]map[string]interface{} {
+	return m.SystemTags
 }
 
 // GetLifecycleDetails returns LifecycleDetails

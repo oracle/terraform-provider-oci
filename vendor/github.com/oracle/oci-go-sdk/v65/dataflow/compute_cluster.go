@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -82,6 +82,9 @@ type ComputeCluster struct {
 	// The paths to init scripts that will be executed in the order of definition
 	InitScripts []string `mandatory:"false" json:"initScripts"`
 
+	// List of networkConfigurationIds for the cluster
+	NetworkConfigurationIds []string `mandatory:"false" json:"networkConfigurationIds"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -118,6 +121,9 @@ type ComputeCluster struct {
 
 	// Cluster Key of the cluster.
 	ClusterKey *string `mandatory:"false" json:"clusterKey"`
+
+	// The JDBC URL field. For example, jdbc:spark://{serviceFQDN}:443/default;SparkServerType=DFI
+	JdbcEndpointUrl *string `mandatory:"false" json:"jdbcEndpointUrl"`
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`

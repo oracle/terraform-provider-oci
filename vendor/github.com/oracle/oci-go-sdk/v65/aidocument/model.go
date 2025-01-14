@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -49,7 +49,7 @@ type Model struct {
 	// Applicable to only PRE_TRAINED_KEY_VALUE_EXTRACTION, PRE_TRAINED_DOCUMENT_ELEMENTS_EXTRACTION.
 	ModelSubType ModelSubType `mandatory:"false" json:"modelSubType"`
 
-	// Number of replicas required for this model. As of now only 1 inference unit supported.
+	// Number of replicas required for this model.
 	InferenceUnits *int `mandatory:"false" json:"inferenceUnits"`
 
 	// The tenancy id of the model.

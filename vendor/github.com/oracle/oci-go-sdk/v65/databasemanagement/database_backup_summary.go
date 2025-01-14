@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,13 +17,13 @@ import (
 	"strings"
 )
 
-// DatabaseBackupSummary High Availability backup summary details of a database.
+// DatabaseBackupSummary The summary of the High Availability (HA) and backup for a database.
 type DatabaseBackupSummary struct {
 
 	// The backup status of the database.
 	BackupStatus *string `mandatory:"true" json:"backupStatus"`
 
-	// The backup completionTime of the database.
+	// The database backup completion date and time in UTC in ISO-8601 format, which is "yyyy-MM-dd'T'hh:mm:ss.sss'Z'".
 	TimeBackupCompleted *common.SDKTime `mandatory:"true" json:"timeBackupCompleted"`
 
 	// The backup duration of the database in seconds.
@@ -35,7 +35,7 @@ type DatabaseBackupSummary struct {
 	// The backup destination of the database.
 	BackupDestination DatabaseBackupSummaryBackupDestinationEnum `mandatory:"true" json:"backupDestination"`
 
-	// the backup size of the database.
+	// The backup size of the database.
 	BackupSizeInGBs *float32 `mandatory:"true" json:"backupSizeInGBs"`
 }
 

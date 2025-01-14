@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -38,8 +38,11 @@ type MaskingPolicyHealthReportLogSummary struct {
 	// PRIVILEGE_CHECK checks if the masking user has sufficient privilege to run masking.
 	// TABLESPACE_CHECK checks if the user has sufficient default and TEMP tablespace.
 	// DATABASE_OR_SYSTEM_TRIGGERS_CHECK checks if there exist any database/system triggers available.
+	// UNDO_TABLESPACE_CHECK checks if the AUTOEXTEND feature is enabled for the undo tablespace. If it's not enabled, it further checks if the undo tablespace has any space remaining
 	// STATE_STATS_CHECK checks if all the statistics of the masking table is upto date or not.
-	// OLS_POLICY_CHECK and VPD_POLICY_CHECK checks if the masking tables has Oracle Label Security (OLS) or Virtual Private Database (VPD) policies enabled.
+	// OLS_POLICY_CHECK , VPD_POLICY_CHECK and REDACTION_POLICY_CHECK checks if the masking tables has Oracle Label Security (OLS) or Virtual Private Database (VPD) or Redaction policies enabled.
+	// DV_ENABLE_CHECK checks if database has Database Vault(DV) enabled
+	// DE_COL_SIZE_CHECK checks if any masking column with DETERMINISTIC ENCRYPTION as masking format has average column size greater than 27 or not.
 	// ACTIVE_MASK_JOB_CHECK checks if there is any active masking job running on the target database.
 	// DETERMINISTIC_ENCRYPTION_FORMAT_CHECK checks if any masking column has deterministic encryption masking format.
 	// COLUMN_EXIST_CHECK checks if the masking columns are available in the target database.
@@ -123,9 +126,13 @@ const (
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypePrivilegeCheck                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "PRIVILEGE_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeTablespaceCheck                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "TABLESPACE_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDatabaseOrSystemTriggersCheck      MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DATABASE_OR_SYSTEM_TRIGGERS_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeUndoTablespaceCheck                MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "UNDO_TABLESPACE_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeStateStatsCheck                    MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "STATE_STATS_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeOlsPolicyCheck                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "OLS_POLICY_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeVpdPolicyCheck                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "VPD_POLICY_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDvEnableCheck                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DV_ENABLE_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeColSizeCheck                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DE_COL_SIZE_CHECK"
+	MaskingPolicyHealthReportLogSummaryHealthCheckTypeRedactionPolicyCheck               MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "REDACTION_POLICY_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeActiveMaskJobCheck                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "ACTIVE_MASK_JOB_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck              MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "TARGET_VALIDATION_CHECK"
 	MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck MaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = "DETERMINISTIC_ENCRYPTION_FORMAT_CHECK"
@@ -137,9 +144,13 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnum = map[string]M
 	"PRIVILEGE_CHECK":                       MaskingPolicyHealthReportLogSummaryHealthCheckTypePrivilegeCheck,
 	"TABLESPACE_CHECK":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeTablespaceCheck,
 	"DATABASE_OR_SYSTEM_TRIGGERS_CHECK":     MaskingPolicyHealthReportLogSummaryHealthCheckTypeDatabaseOrSystemTriggersCheck,
+	"UNDO_TABLESPACE_CHECK":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeUndoTablespaceCheck,
 	"STATE_STATS_CHECK":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeStateStatsCheck,
 	"OLS_POLICY_CHECK":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeOlsPolicyCheck,
 	"VPD_POLICY_CHECK":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeVpdPolicyCheck,
+	"DV_ENABLE_CHECK":                       MaskingPolicyHealthReportLogSummaryHealthCheckTypeDvEnableCheck,
+	"DE_COL_SIZE_CHECK":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeColSizeCheck,
+	"REDACTION_POLICY_CHECK":                MaskingPolicyHealthReportLogSummaryHealthCheckTypeRedactionPolicyCheck,
 	"ACTIVE_MASK_JOB_CHECK":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeActiveMaskJobCheck,
 	"TARGET_VALIDATION_CHECK":               MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck,
 	"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
@@ -151,9 +162,13 @@ var mappingMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumLowerCase = map
 	"privilege_check":                       MaskingPolicyHealthReportLogSummaryHealthCheckTypePrivilegeCheck,
 	"tablespace_check":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeTablespaceCheck,
 	"database_or_system_triggers_check":     MaskingPolicyHealthReportLogSummaryHealthCheckTypeDatabaseOrSystemTriggersCheck,
+	"undo_tablespace_check":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeUndoTablespaceCheck,
 	"state_stats_check":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeStateStatsCheck,
 	"ols_policy_check":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeOlsPolicyCheck,
 	"vpd_policy_check":                      MaskingPolicyHealthReportLogSummaryHealthCheckTypeVpdPolicyCheck,
+	"dv_enable_check":                       MaskingPolicyHealthReportLogSummaryHealthCheckTypeDvEnableCheck,
+	"de_col_size_check":                     MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeColSizeCheck,
+	"redaction_policy_check":                MaskingPolicyHealthReportLogSummaryHealthCheckTypeRedactionPolicyCheck,
 	"active_mask_job_check":                 MaskingPolicyHealthReportLogSummaryHealthCheckTypeActiveMaskJobCheck,
 	"target_validation_check":               MaskingPolicyHealthReportLogSummaryHealthCheckTypeTargetValidationCheck,
 	"deterministic_encryption_format_check": MaskingPolicyHealthReportLogSummaryHealthCheckTypeDeterministicEncryptionFormatCheck,
@@ -176,9 +191,13 @@ func GetMaskingPolicyHealthReportLogSummaryHealthCheckTypeEnumStringValues() []s
 		"PRIVILEGE_CHECK",
 		"TABLESPACE_CHECK",
 		"DATABASE_OR_SYSTEM_TRIGGERS_CHECK",
+		"UNDO_TABLESPACE_CHECK",
 		"STATE_STATS_CHECK",
 		"OLS_POLICY_CHECK",
 		"VPD_POLICY_CHECK",
+		"DV_ENABLE_CHECK",
+		"DE_COL_SIZE_CHECK",
+		"REDACTION_POLICY_CHECK",
 		"ACTIVE_MASK_JOB_CHECK",
 		"TARGET_VALIDATION_CHECK",
 		"DETERMINISTIC_ENCRYPTION_FORMAT_CHECK",

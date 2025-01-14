@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -39,7 +39,7 @@ type BaseDatabaseHaDetails struct {
 	// The display name of the Managed Database.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
 
-	// The Database role of the Managed Database.
+	// The database role of the Managed Database.
 	DbRole DbRoleEnum `mandatory:"true" json:"dbRole"`
 
 	// The Oracle Database version.
@@ -48,10 +48,10 @@ type BaseDatabaseHaDetails struct {
 	// The workload type of the Autonomous Database.
 	WorkloadType WorkloadTypeEnum `mandatory:"false" json:"workloadType,omitempty"`
 
-	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	// The database ID of the Managed Database. Every database had its own ID and that value is captured here.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// The Database unique name of the Managed Database.
+	// The database unique name of the Managed Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 }
 

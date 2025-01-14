@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -4550,9 +4550,9 @@ func (client DbManagementClient) getClusterCacheMetric(ctx context.Context, requ
 	return response, err
 }
 
-// GetDatabaseFleetBackupMetrics Gets the fleet of database and its backup details with backup metrics in a compartment or in a Managed Database Group.
-// databaseHostedIn required query parameter to list either cloud or external databases(CLOUD, EXTERNAL).
-// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the backup metrics.
+// GetDatabaseFleetBackupMetrics Gets the fleet of container databases (CDBs) and their backup details and metrics, in a compartment or Database Group.
+// The databaseHostedIn query parameter must be provided to list either cloud or external databases.
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the HA and backup metrics.
 // A default retry strategy applies to this operation GetDatabaseFleetBackupMetrics()
 func (client DbManagementClient) GetDatabaseFleetBackupMetrics(ctx context.Context, request GetDatabaseFleetBackupMetricsRequest) (response GetDatabaseFleetBackupMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4606,8 +4606,8 @@ func (client DbManagementClient) getDatabaseFleetBackupMetrics(ctx context.Conte
 	return response, err
 }
 
-// GetDatabaseFleetDataguardMetrics Gets the fleet of databases with dataguard enabled with dg metrics and its standby databases in a compartment or in a Managed Database Group.
-// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the dg metrics and databases.
+// GetDatabaseFleetDataguardMetrics Gets the fleet of Oracle Data Guard-enabled container databases (CDBs) along with Data Guard metrics and standby databases, in a compartment or Database Group.
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the list of databases and Data Guard metrics.
 // A default retry strategy applies to this operation GetDatabaseFleetDataguardMetrics()
 func (client DbManagementClient) GetDatabaseFleetDataguardMetrics(ctx context.Context, request GetDatabaseFleetDataguardMetricsRequest) (response GetDatabaseFleetDataguardMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4661,8 +4661,8 @@ func (client DbManagementClient) getDatabaseFleetDataguardMetrics(ctx context.Co
 	return response, err
 }
 
-// GetDatabaseFleetHaOverviewMetrics Gets the fleet of databases (CDB) and there backup and HA usage metrics in a compartment or in a Managed Database Group.
-// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the health metrics.
+// GetDatabaseFleetHaOverviewMetrics Gets the fleet of container databases (CDBs) and their HA and backup metrics in a compartment or in a Database Group.
+// Either the CompartmentId or the ManagedDatabaseGroupId query parameters must be provided to retrieve the HA and backup metrics.
 // A default retry strategy applies to this operation GetDatabaseFleetHaOverviewMetrics()
 func (client DbManagementClient) GetDatabaseFleetHaOverviewMetrics(ctx context.Context, request GetDatabaseFleetHaOverviewMetricsRequest) (response GetDatabaseFleetHaOverviewMetricsResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -4770,7 +4770,7 @@ func (client DbManagementClient) getDatabaseFleetHealthMetrics(ctx context.Conte
 	return response, err
 }
 
-// GetDatabaseHaBackupDetails Gets database ha and backup details with metrics and backup history.
+// GetDatabaseHaBackupDetails Gets HA and backup details with metrics and backup history for a single database.
 // A default retry strategy applies to this operation GetDatabaseHaBackupDetails()
 func (client DbManagementClient) GetDatabaseHaBackupDetails(ctx context.Context, request GetDatabaseHaBackupDetailsRequest) (response GetDatabaseHaBackupDetailsResponse, err error) {
 	var ociResponse common.OCIResponse

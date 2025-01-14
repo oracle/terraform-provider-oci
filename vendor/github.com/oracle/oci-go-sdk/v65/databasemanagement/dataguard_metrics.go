@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 // Code generated. DO NOT EDIT.
 
@@ -17,7 +17,7 @@ import (
 	"strings"
 )
 
-// DataguardMetrics The dataguard fleet database details.
+// DataguardMetrics The Data Guard usage metrics for a single database.
 type DataguardMetrics struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Managed Database.
@@ -39,19 +39,19 @@ type DataguardMetrics struct {
 	// The display name of the Managed Database.
 	DatabaseName *string `mandatory:"true" json:"databaseName"`
 
-	// The Database role of the Managed Database.
+	// The database role of the Managed Database.
 	DbRole DbRoleEnum `mandatory:"true" json:"dbRole"`
 
-	// The Fast Start Fail Over Status of the primary Database.
+	// The Fast-Start Failover status of the primary database.
 	FastStartFailOver *string `mandatory:"true" json:"fastStartFailOver"`
 
-	// The Protection Mode of the primary Database.
+	// The protection mode of the primary Database.
 	ProtectionMode *string `mandatory:"true" json:"protectionMode"`
 
-	// A list of primary database metrics.
+	// A list of primary or standby database metrics.
 	Metrics []HaMetricDefinition `mandatory:"true" json:"metrics"`
 
-	// A list of stand by databases and its metrics
+	// A list of standby databases and their metrics
 	StandByDatabases []StandByDatabaseDataguardMetrics `mandatory:"true" json:"standByDatabases"`
 
 	// The Oracle Database version.
@@ -60,10 +60,10 @@ type DataguardMetrics struct {
 	// The workload type of the Autonomous Database.
 	WorkloadType WorkloadTypeEnum `mandatory:"false" json:"workloadType,omitempty"`
 
-	// The Database id of the Managed Database. Every database had its own id and that value is captured here.
+	// The database ID of the Managed Database. Every database had its own ID and that value is captured here.
 	DatabaseId *string `mandatory:"false" json:"databaseId"`
 
-	// The Database unique name of the Managed Database.
+	// The database unique name of the Managed Database.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
 }
 

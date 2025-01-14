@@ -1,4 +1,4 @@
-// Copyright (c) 2016, 2018, 2024, Oracle and/or its affiliates.  All rights reserved.
+// Copyright (c) 2016, 2018, 2025, Oracle and/or its affiliates.  All rights reserved.
 // This software is dual-licensed to you under the Universal Permissive License (UPL) 1.0 as shown at https://oss.oracle.com/licenses/upl or Apache License 2.0 as shown at http://www.apache.org/licenses/LICENSE-2.0. You may choose either license.
 
 // Package common provides supporting functions and structs used by service packages
@@ -26,6 +26,8 @@ import (
 	"sync"
 	"sync/atomic"
 	"time"
+
+	"github.com/oracle/oci-go-sdk/v65/common/utils"
 )
 
 const (
@@ -163,6 +165,10 @@ type CustomClientConfiguration struct {
 	// Set on creation of the client, based on the below flag from the service spec
 	// x-obmcs-endpoint-template-options: dualStack: true/false
 	ServiceUsesDualStackByDefault *bool
+
+	// Allows users to set their own opc-request-id, to be used on
+	// all requests. Enables propagation of request IDs
+	CustomOpcRequestID *string
 }
 
 // BaseClient struct implements all basic operations to call oci web services.
@@ -256,6 +262,21 @@ func (client *BaseClient) IsDualStackEndpointEnabled() bool {
 // IsServiceDualStackEnabledByDefault is used to check if Dual Stack Endpoints enabled by default for the service of the client
 func (client *BaseClient) IsServiceDualStackEnabledByDefault() bool {
 	return client.Configuration.ServiceUsesDualStackByDefault != nil && *client.Configuration.ServiceUsesDualStackByDefault
+}
+
+func (client *BaseClient) UseCustomOpcRequestID(rid *string) error {
+
+	err := utils.IsValidOpcRequestID(rid)
+	if err != nil {
+		return err
+	}
+
+	client.Configuration.CustomOpcRequestID = rid
+	return nil
+}
+
+func (client *BaseClient) UseDefaultOpcRequestID() {
+	client.Configuration.CustomOpcRequestID = nil
 }
 
 func defaultUserAgent() string {
@@ -508,6 +529,11 @@ func (client *BaseClient) prepareRequest(request *http.Request) (err error) {
 		if err != nil {
 			return err
 		}
+	}
+
+	// Set custom opc-request-id header, if specified in the client
+	if client.Configuration.CustomOpcRequestID != nil {
+		request.Header.Set(requestHeaderOpcRequestID, *client.Configuration.CustomOpcRequestID)
 	}
 	return
 }
