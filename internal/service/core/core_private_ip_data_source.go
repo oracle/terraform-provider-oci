@@ -96,6 +96,10 @@ func (s *CorePrivateIpDataSourceCrud) SetData() error {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
 	}
 
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
+	}
+
 	/*if s.Res.IsReserved != nil {
 		s.D.Set("is_reserved", *s.Res.IsReserved)
 	}*/
