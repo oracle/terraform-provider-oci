@@ -1,3 +1,14 @@
+## 6.22.0 (Unreleased)
+
+### Added
+- Source based routing support
+- Support for Windows BYOL for VMs
+- Support for ADB-S: Allow Changing Patch Level Provisioning
+- Support for OpenSearch Cross Cluster Search V2
+### Bug Fix
+- BaseDB CP - Fixing Integration Tests: Database Upgrade & Database Upgrade from Database Software Image
+- ExaDB-XS VM Cluster Getting Replaced due to HostName Case Mismatch
+
 ## 6.21.0 (Unreleased)
 
 ### Added
