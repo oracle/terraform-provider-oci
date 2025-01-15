@@ -1,3 +1,22 @@
+## 6.22.0 (Unreleased)
+
+### Added
+- Source based routing support
+- Support for Windows BYOL for VMs
+- Support for ADB-S: Allow Changing Patch Level Provisioning
+- Support for OpenSearch Cross Cluster Search V2
+- Support for ADB-S: Backup Retention Lock
+- Support for StackMonitoring: Metric Extensions : Advanced Support and Integration
+- Support for Extend OBP cloud service to include new SKUs for Digital Assets editions
+- Support for Data Science: Support Private Endpoint Access for Model Deployment
+- Support for Add ZeroETL as a resource in GoldenGate Cloud Service
+- Support Llama 3.2 unit shape in Generative AI service
+- Support for BDS 3.0.29 Release - Feature Enhancements
+### Bug Fix
+- BaseDB CP - Fixing Integration Tests: Database Upgrade & Database Upgrade from Database Software Image
+- ExaDB-XS VM Cluster Getting Replaced due to HostName Case Mismatch
+
+
 ## 6.21.0 (December 19, 2024)
 
 ### Added
