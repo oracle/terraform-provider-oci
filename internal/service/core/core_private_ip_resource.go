@@ -58,6 +58,10 @@ func CorePrivateIpResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 			},
+			"route_table_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"vlan_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -173,6 +177,11 @@ func (s *CorePrivateIpResourceCrud) Create() error {
 		request.IpAddress = &tmp
 	}
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vlanId, ok := s.D.GetOkExists("vlan_id"); ok {
 		tmp := vlanId.(string)
 		request.VlanId = &tmp
@@ -239,6 +248,11 @@ func (s *CorePrivateIpResourceCrud) Update() error {
 	tmp := s.D.Id()
 	request.PrivateIpId = &tmp
 
+	if routeTableId, ok := s.D.GetOkExists("route_table_id"); ok {
+		tmp := routeTableId.(string)
+		request.RouteTableId = &tmp
+	}
+
 	if vnicId, ok := s.D.GetOkExists("vnic_id"); ok {
 		tmp := vnicId.(string)
 		request.VnicId = &tmp
@@ -296,6 +310,10 @@ func (s *CorePrivateIpResourceCrud) SetData() error {
 
 	if s.Res.IsPrimary != nil {
 		s.D.Set("is_primary", *s.Res.IsPrimary)
+	}
+
+	if s.Res.RouteTableId != nil {
+		s.D.Set("route_table_id", *s.Res.RouteTableId)
 	}
 
 	/*if s.Res.IsReserved != nil {

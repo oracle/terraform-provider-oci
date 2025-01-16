@@ -665,7 +665,6 @@ func (s *DatascienceModelDeploymentResourceCrud) DeletedPending() []string {
 func (s *DatascienceModelDeploymentResourceCrud) DeletedTarget() []string {
 	return []string{
 		string(oci_datascience.ModelDeploymentLifecycleStateDeleted),
-		string(oci_datascience.ModelDeploymentLifecycleStateFailed),
 	}
 }
 

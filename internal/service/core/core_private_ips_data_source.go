@@ -152,6 +152,10 @@ func (s *CorePrivateIpsDataSourceCrud) SetData() error {
 			privateIp["is_primary"] = *r.IsPrimary
 		}
 
+		if r.RouteTableId != nil {
+			privateIp["route_table_id"] = *r.RouteTableId
+		}
+
 		/*		if r.IsReserved != nil {
 				privateIp["is_reserved"] = *r.IsReserved
 			}*/

@@ -4,50 +4,15 @@
 variable "tenancy_ocid" {
 }
 
-variable "user_ocid" {
-}
-
-variable "fingerprint" {
-}
-
-variable "private_key_path" {
-}
-
 variable "region" {
 }
 
 variable "compartment_ocid" {
 }
 
-variable "ssh_public_key" {
-}
-
-variable "ssh_private_key" {
-}
-
-variable "instance_shape" {
-  default = "VM.Standard2.1"
-}
-
-variable "instance_image_ocid" {
-  type = map(string)
-
-  default = {
-    # See https://docs.us-phoenix-1.oraclecloud.com/images/
-    # Oracle-provided image "Oracle-Linux-7.5-2018.10.16-0"
-    us-phoenix-1   = "ocid1.image.oc1.phx.aaaaaaaaoqj42sokaoh42l76wsyhn3k2beuntrh5maj3gmgmzeyr55zzrwwa"
-    us-ashburn-1   = "ocid1.image.oc1.iad.aaaaaaaageeenzyuxgia726xur4ztaoxbxyjlxogdhreu3ngfj2gji3bayda"
-    eu-frankfurt-1 = "ocid1.image.oc1.eu-frankfurt-1.aaaaaaaaitzn6tdyjer7jl34h2ujz74jwy5nkbukbh55ekp6oyzwrtfa4zma"
-    uk-london-1    = "ocid1.image.oc1.uk-london-1.aaaaaaaa32voyikkkzfxyo4xbdmadc2dmvorfxxgdhpnk6dw64fa3l4jh7wa"
-  }
-}
-
 provider "oci" {
-  tenancy_ocid     = var.tenancy_ocid
-  user_ocid        = var.user_ocid
-  fingerprint      = var.fingerprint
-  private_key_path = var.private_key_path
-  region           = var.region
+  auth                = "SecurityToken"
+  config_file_profile = "terraform-federation-test"
 }
 
 data "oci_identity_availability_domain" "ad" {
@@ -74,12 +39,34 @@ resource "oci_core_subnet" "example_subnet" {
   dhcp_options_id     = oci_core_vcn.example_vcn.default_dhcp_options_id
 }
 
+variable "instance_shape" {
+  default = "VM.Standard.E4.Flex"
+}
+
+variable "instance_ocpus" { default = 1 }
+
+variable "instance_shape_config_memory_in_gbs" { default = 6 }
+
+# See https://docs.oracle.com/iaas/images/
+data "oci_core_images" "test_images" {
+  compartment_id           = var.compartment_ocid
+  operating_system         = "Oracle Linux"
+  operating_system_version = "8"
+  sort_by                  = "TIMECREATED"
+  sort_order               = "DESC"
+}
+
 # Create Instance
 resource "oci_core_instance" "test_instance1" {
   availability_domain = data.oci_identity_availability_domain.ad.name
   compartment_id      = var.compartment_ocid
   display_name        = "testInstance"
   shape               = var.instance_shape
+
+  shape_config {
+    ocpus = var.instance_ocpus
+    memory_in_gbs = var.instance_shape_config_memory_in_gbs
+  }
 
   create_vnic_details {
     subnet_id      = oci_core_subnet.example_subnet.id
@@ -88,7 +75,7 @@ resource "oci_core_instance" "test_instance1" {
 
   source_details {
     source_type = "image"
-    source_id   = var.instance_image_ocid[var.region]
+    source_id = lookup(data.oci_core_images.test_images.images[0], "id")
   }
 }
 
@@ -109,6 +96,7 @@ resource "oci_core_private_ip" "private_ip" {
   vnic_id        = data.oci_core_vnic_attachments.instance_vnics.vnic_attachments[0]["vnic_id"]
   display_name   = "someDisplayName"
   hostname_label = "somehostnamelabel"
+  route_table_id = oci_core_vcn.example_vcn.default_route_table_id
 }
 
 # List Private IPs

@@ -163,6 +163,13 @@ resource "oci_core_instance" "test_instance" {
 		use_chap = var.instance_launch_volume_attachments_use_chap
 		volume_id = oci_core_volume.test_volume.id
 	}
+	licensing_configs {
+		#Required
+		type = var.instance_licensing_configs_type
+
+		#Optional
+		license_type = var.instance_licensing_configs_license_type
+	}
 	metadata = var.instance_metadata
 	platform_config {
 		#Required
@@ -400,6 +407,11 @@ The following arguments are supported:
 	* `type` - (Required) The type of volume. Currently, the only supported value is "iscsi".
 	* `use_chap` - (Applicable when type=iscsi) Whether to use CHAP authentication for the volume attachment. Defaults to false. 
 	* `volume_id` - (Optional) The OCID of the volume. If CreateVolumeDetails is specified, this field must be omitted from the request. 
+* `licensing_configs` - (Optional) (Updatable) List of licensing configurations associated with target launch values.
+	* `license_type` - (Optional) (Updatable) License Type for the OS license.
+		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+	* `type` - (Required) (Updatable) Operating System type of the Configuration.
 * `metadata` - (Optional) (Updatable) Custom metadata key/value pairs that you provide, such as the SSH public key required to connect to the instance.
 
 	A metadata service runs on every launched instance. The service is an HTTP endpoint listening on 169.254.169.254. You can use the service to:
@@ -605,6 +617,12 @@ The following attributes are exported:
 		* `IDE` - Emulated IDE disk.
 		* `VFIO` - Direct attached Virtual Function storage. This is the default option for local data volumes on platform images.
 		* `PARAVIRTUALIZED` - Paravirtualized disk. This is the default for boot volumes and remote block storage volumes on platform images. 
+* `licensing_configs` - List of licensing configurations associated with the instance.
+	* `license_type` - License Type for the OS license.
+		* `OCI_PROVIDED` - Oracle Cloud Infrastructure provided license (e.g. metered $/OCPU-hour).
+		* `BRING_YOUR_OWN_LICENSE` - Bring your own license. 
+	* `os_version` - The Operating System version of the license config.
+	* `type` - Operating System type of the Configuration.
 * `metadata` - Custom metadata that you provide.
 
 * `platform_config` - The platform configuration for the instance. 

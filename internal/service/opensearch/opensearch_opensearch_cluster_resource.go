@@ -140,11 +140,119 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed: true,
 				Elem:     schema.TypeString,
 			},
+			"inbound_cluster_ids": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
+			},
+			"maintenance_details": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"notification_email_ids": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
+
+						// Computed
+						"end_time": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"start_time": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"state": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"master_node_host_bare_metal_shape": {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
 				ForceNew: true,
+			},
+			"outbound_cluster_config": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+						"is_enabled": {
+							Type:     schema.TypeBool,
+							Required: true,
+						},
+						"outbound_clusters": {
+							Type:     schema.TypeList,
+							Required: true,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"display_name": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+									"seed_cluster_id": {
+										Type:     schema.TypeString,
+										Required: true,
+									},
+
+									// Optional
+									"is_skip_unavailable": {
+										Type:     schema.TypeBool,
+										Optional: true,
+										Computed: true,
+									},
+									"mode": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+									"ping_schedule": {
+										Type:     schema.TypeString,
+										Optional: true,
+										Computed: true,
+									},
+
+									// Computed
+								},
+							},
+						},
+
+						// Optional
+
+						// Computed
+					},
+				},
+			},
+			"reverse_connection_endpoint_customer_ips": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				Elem: &schema.Schema{
+					Type: schema.TypeString,
+				},
 			},
 			"security_master_user_name": {
 				Type:     schema.TypeString,
@@ -168,6 +276,10 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Computed: true,
 				ForceNew: true,
 				Elem:     schema.TypeString,
+			},
+			"configure_outbound_cluster_trigger": {
+				Type:     schema.TypeInt,
+				Optional: true,
 			},
 
 			// Computed
@@ -202,6 +314,27 @@ func OpensearchOpensearchClusterResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"reverse_connection_endpoints": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"customer_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"nat_ip": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -234,6 +367,13 @@ func createOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) er
 	if e := tfresource.CreateResource(d, sync); e != nil {
 		return e
 	}
+
+	if _, ok := sync.D.GetOkExists("configure_outbound_cluster_trigger"); ok {
+		err := sync.ConfigureOutboundCluster()
+		if err != nil {
+			return err
+		}
+	}
 	return nil
 
 }
@@ -250,6 +390,22 @@ func updateOpensearchOpensearchCluster(d *schema.ResourceData, m interface{}) er
 	sync := &OpensearchOpensearchClusterResourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).OpensearchClusterClient()
+
+	if _, ok := sync.D.GetOkExists("configure_outbound_cluster_trigger"); ok && sync.D.HasChange("configure_outbound_cluster_trigger") {
+		oldRaw, newRaw := sync.D.GetChange("configure_outbound_cluster_trigger")
+		oldValue := oldRaw.(int)
+		newValue := newRaw.(int)
+		if oldValue < newValue {
+			err := sync.ConfigureOutboundCluster()
+
+			if err != nil {
+				return err
+			}
+		} else {
+			sync.D.Set("configure_outbound_cluster_trigger", oldRaw)
+			return fmt.Errorf("new value of trigger should be greater than the old value")
+		}
+	}
 
 	if err := tfresource.UpdateResource(d, sync); err != nil {
 		return err
@@ -356,6 +512,30 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if inboundClusterIds, ok := s.D.GetOkExists("inbound_cluster_ids"); ok {
+		interfaces := inboundClusterIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("inbound_cluster_ids") {
+			request.InboundClusterIds = tmp
+		}
+	}
+
+	if maintenanceDetails, ok := s.D.GetOkExists("maintenance_details"); ok {
+		if tmpList := maintenanceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_details", 0)
+			tmp, err := s.mapToCreateMaintenanceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceDetails = &tmp
+		}
+	}
+
 	if masterNodeCount, ok := s.D.GetOkExists("master_node_count"); ok {
 		tmp := masterNodeCount.(int)
 		request.MasterNodeCount = &tmp
@@ -393,6 +573,30 @@ func (s *OpensearchOpensearchClusterResourceCrud) Create() error {
 	if opendashboardNodeHostOcpuCount, ok := s.D.GetOkExists("opendashboard_node_host_ocpu_count"); ok {
 		tmp := opendashboardNodeHostOcpuCount.(int)
 		request.OpendashboardNodeHostOcpuCount = &tmp
+	}
+
+	if outboundClusterConfig, ok := s.D.GetOkExists("outbound_cluster_config"); ok {
+		if tmpList := outboundClusterConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "outbound_cluster_config", 0)
+			tmp, err := s.mapToOutboundClusterConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OutboundClusterConfig = &tmp
+		}
+	}
+
+	if reverseConnectionEndpointCustomerIps, ok := s.D.GetOkExists("reverse_connection_endpoint_customer_ips"); ok {
+		interfaces := reverseConnectionEndpointCustomerIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("reverse_connection_endpoint_customer_ips") {
+			request.ReverseConnectionEndpointCustomerIps = tmp
+		}
 	}
 
 	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
@@ -668,8 +872,43 @@ func (s *OpensearchOpensearchClusterResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if maintenanceDetails, ok := s.D.GetOkExists("maintenance_details"); ok {
+		if tmpList := maintenanceDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "maintenance_details", 0)
+			tmp, err := s.mapToUpdateMaintenanceDetails(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.MaintenanceDetails = &tmp
+		}
+	}
+
 	tmp := s.D.Id()
 	request.OpensearchClusterId = &tmp
+
+	if outboundClusterConfig, ok := s.D.GetOkExists("outbound_cluster_config"); ok {
+		if tmpList := outboundClusterConfig.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "outbound_cluster_config", 0)
+			tmp, err := s.mapToOutboundClusterConfig(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.OutboundClusterConfig = &tmp
+		}
+	}
+
+	if reverseConnectionEndpointCustomerIps, ok := s.D.GetOkExists("reverse_connection_endpoint_customer_ips"); ok {
+		interfaces := reverseConnectionEndpointCustomerIps.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("reverse_connection_endpoint_customer_ips") {
+			request.ReverseConnectionEndpointCustomerIps = tmp
+		}
+	}
 
 	if securityMasterUserName, ok := s.D.GetOkExists("security_master_user_name"); ok {
 		tmp := securityMasterUserName.(string)
@@ -764,8 +1003,16 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	s.D.Set("inbound_cluster_ids", s.Res.InboundClusterIds)
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
+	if s.Res.MaintenanceDetails != nil {
+		s.D.Set("maintenance_details", []interface{}{MaintenanceDetailsToMap(s.Res.MaintenanceDetails)})
+	} else {
+		s.D.Set("maintenance_details", nil)
 	}
 
 	if s.Res.MasterNodeCount != nil {
@@ -813,6 +1060,20 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	if s.Res.OpensearchPrivateIp != nil {
 		s.D.Set("opensearch_private_ip", *s.Res.OpensearchPrivateIp)
 	}
+
+	if s.Res.OutboundClusterConfig != nil {
+		s.D.Set("outbound_cluster_config", []interface{}{OutboundClusterConfigToMap(s.Res.OutboundClusterConfig)})
+	} else {
+		s.D.Set("outbound_cluster_config", nil)
+	}
+
+	s.D.Set("reverse_connection_endpoint_customer_ips", s.Res.ReverseConnectionEndpointCustomerIps)
+
+	reverseConnectionEndpoints := []interface{}{}
+	for _, item := range s.Res.ReverseConnectionEndpoints {
+		reverseConnectionEndpoints = append(reverseConnectionEndpoints, ReverseConnectionEndpointToMap(item))
+	}
+	s.D.Set("reverse_connection_endpoints", reverseConnectionEndpoints)
 
 	if s.Res.SecurityMasterUserName != nil {
 		s.D.Set("security_master_user_name", *s.Res.SecurityMasterUserName)
@@ -865,6 +1126,42 @@ func (s *OpensearchOpensearchClusterResourceCrud) SetData() error {
 	if s.Res.VcnId != nil {
 		s.D.Set("vcn_id", *s.Res.VcnId)
 	}
+
+	return nil
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) ConfigureOutboundCluster() error {
+	request := oci_opensearch.ConfigureOutboundClusterRequest{}
+
+	if inboundClusterIds, ok := s.D.GetOkExists("inbound_cluster_ids"); ok {
+		interfaces := inboundClusterIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange("inbound_cluster_ids") {
+			request.InboundClusterIds = tmp
+		}
+	}
+
+	idTmp := s.D.Id()
+	request.OpensearchClusterId = &idTmp
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "opensearch")
+
+	_, err := s.Client.ConfigureOutboundCluster(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	val := s.D.Get("configure_outbound_cluster_trigger")
+	s.D.Set("configure_outbound_cluster_trigger", val)
 
 	return nil
 }
@@ -961,6 +1258,62 @@ func (s *OpensearchOpensearchClusterResourceCrud) ResizeOpensearchClusterVertica
 	return nil
 }
 
+func (s *OpensearchOpensearchClusterResourceCrud) mapToCreateMaintenanceDetails(fieldKeyFormat string) (oci_opensearch.CreateMaintenanceDetails, error) {
+	result := oci_opensearch.CreateMaintenanceDetails{}
+
+	if notificationEmailIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notification_email_ids")); ok {
+		interfaces := notificationEmailIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "notification_email_ids")) {
+			result.NotificationEmailIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToUpdateMaintenanceDetails(fieldKeyFormat string) (oci_opensearch.UpdateMaintenanceDetails, error) {
+	result := oci_opensearch.UpdateMaintenanceDetails{}
+
+	if notificationEmailIds, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "notification_email_ids")); ok {
+		interfaces := notificationEmailIds.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "notification_email_ids")) {
+			result.NotificationEmailIds = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func MaintenanceDetailsToMap(obj *oci_opensearch.MaintenanceDetails) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.EndTime != nil {
+		result["end_time"] = obj.EndTime.String()
+	}
+
+	result["notification_email_ids"] = obj.NotificationEmailIds
+
+	if obj.StartTime != nil {
+		result["start_time"] = obj.StartTime.String()
+	}
+
+	result["state"] = string(obj.State)
+
+	return result
+}
+
 func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -988,6 +1341,10 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
+	if obj.OutboundClusterConfig != nil {
+		result["outbound_cluster_config"] = []interface{}{OutboundClusterConfigToMap(obj.OutboundClusterConfig)}
+	}
+
 	result["security_mode"] = string(obj.SecurityMode)
 
 	if obj.SoftwareVersion != nil {
@@ -1010,6 +1367,193 @@ func OpensearchClusterSummaryToMap(obj oci_opensearch.OpensearchClusterSummary) 
 
 	if obj.TotalStorageGB != nil {
 		result["total_storage_gb"] = int(*obj.TotalStorageGB)
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToOutboundClusterConfig(fieldKeyFormat string) (oci_opensearch.OutboundClusterConfig, error) {
+	result := oci_opensearch.OutboundClusterConfig{}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if outboundClusters, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "outbound_clusters")); ok {
+		interfaces := outboundClusters.([]interface{})
+		tmp := make([]oci_opensearch.OutboundClusterSummary, len(interfaces))
+		for i := range interfaces {
+			stateDataIndex := i
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "outbound_clusters"), stateDataIndex)
+			converted, err := s.mapToOutboundClusterSummary(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, err
+			}
+			tmp[i] = converted
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "outbound_clusters")) {
+			result.OutboundClusters = tmp
+		}
+	}
+
+	return result, nil
+}
+
+func OutboundClusterConfigToMap(obj *oci_opensearch.OutboundClusterConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	outboundClusters := []interface{}{}
+	for _, item := range obj.OutboundClusters {
+		outboundClusters = append(outboundClusters, OutboundClusterSummaryToMap(item))
+	}
+	result["outbound_clusters"] = outboundClusters
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToOutboundClusterSummary(fieldKeyFormat string) (oci_opensearch.OutboundClusterSummary, error) {
+	result := oci_opensearch.OutboundClusterSummary{}
+
+	if displayName, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "display_name")); ok {
+		tmp := displayName.(string)
+		result.DisplayName = &tmp
+	}
+
+	if isSkipUnavailable, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_skip_unavailable")); ok {
+		tmp := isSkipUnavailable.(bool)
+		result.IsSkipUnavailable = &tmp
+	}
+
+	if mode, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "mode")); ok {
+		result.Mode = oci_opensearch.CccModeEnum(mode.(string))
+	}
+
+	if pingSchedule, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ping_schedule")); ok {
+		tmp := pingSchedule.(string)
+		result.PingSchedule = &tmp
+	}
+
+	if seedClusterId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "seed_cluster_id")); ok {
+		tmp := seedClusterId.(string)
+		result.SeedClusterId = &tmp
+	}
+
+	return result, nil
+}
+
+func OutboundClusterSummaryToMap(obj oci_opensearch.OutboundClusterSummary) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.DisplayName != nil {
+		result["display_name"] = string(*obj.DisplayName)
+	}
+
+	if obj.IsSkipUnavailable != nil {
+		result["is_skip_unavailable"] = bool(*obj.IsSkipUnavailable)
+	}
+
+	result["mode"] = string(obj.Mode)
+
+	if obj.PingSchedule != nil {
+		result["ping_schedule"] = string(*obj.PingSchedule)
+	}
+
+	if obj.SeedClusterId != nil {
+		result["seed_cluster_id"] = string(*obj.SeedClusterId)
+	}
+
+	return result
+}
+
+func ReverseConnectionEndpointToMap(obj oci_opensearch.ReverseConnectionEndpoint) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.CustomerIp != nil {
+		result["customer_ip"] = string(*obj.CustomerIp)
+	}
+
+	if obj.NatIp != nil {
+		result["nat_ip"] = string(*obj.NatIp)
+	}
+
+	return result
+}
+
+func (s *OpensearchOpensearchClusterResourceCrud) mapToSecuritySamlConfig(fieldKeyFormat string) (oci_opensearch.SecuritySamlConfig, error) {
+	result := oci_opensearch.SecuritySamlConfig{}
+
+	if adminBackendRole, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "admin_backend_role")); ok {
+		tmp := adminBackendRole.(string)
+		result.AdminBackendRole = &tmp
+	}
+
+	if idpEntityId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idp_entity_id")); ok {
+		tmp := idpEntityId.(string)
+		result.IdpEntityId = &tmp
+	}
+
+	if idpMetadataContent, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "idp_metadata_content")); ok {
+		tmp := idpMetadataContent.(string)
+		result.IdpMetadataContent = &tmp
+	}
+
+	if isEnabled, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "is_enabled")); ok {
+		tmp := isEnabled.(bool)
+		result.IsEnabled = &tmp
+	}
+
+	if opendashboardUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "opendashboard_url")); ok {
+		tmp := opendashboardUrl.(string)
+		result.OpendashboardUrl = &tmp
+	}
+
+	if rolesKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "roles_key")); ok {
+		tmp := rolesKey.(string)
+		result.RolesKey = &tmp
+	}
+
+	if subjectKey, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "subject_key")); ok {
+		tmp := subjectKey.(string)
+		result.SubjectKey = &tmp
+	}
+
+	return result, nil
+}
+
+func SecuritySamlConfigToMap(obj *oci_opensearch.SecuritySamlConfig) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AdminBackendRole != nil {
+		result["admin_backend_role"] = string(*obj.AdminBackendRole)
+	}
+
+	if obj.IdpEntityId != nil {
+		result["idp_entity_id"] = string(*obj.IdpEntityId)
+	}
+
+	if obj.IdpMetadataContent != nil {
+		result["idp_metadata_content"] = string(*obj.IdpMetadataContent)
+	}
+
+	if obj.IsEnabled != nil {
+		result["is_enabled"] = bool(*obj.IsEnabled)
+	}
+
+	if obj.OpendashboardUrl != nil {
+		result["opendashboard_url"] = string(*obj.OpendashboardUrl)
+	}
+
+	if obj.RolesKey != nil {
+		result["roles_key"] = string(*obj.RolesKey)
+	}
+
+	if obj.SubjectKey != nil {
+		result["subject_key"] = string(*obj.SubjectKey)
 	}
 
 	return result

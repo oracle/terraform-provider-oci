@@ -543,7 +543,6 @@ func TestDatascienceModelDeploymentResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatascienceModelDeploymentResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "model_deployment_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "category_log_details.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "category_log_details.0.access.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "category_log_details.0.predict.#", "1"),

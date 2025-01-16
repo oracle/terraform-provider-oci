@@ -40,6 +40,7 @@ var (
 			acctest.GetUpdatedRepresentationCopy("cidr_block", acctest.Representation{RepType: acctest.Required, Create: `10.0.1.0/30`}, CoreVlanRepresentation)) +
 		acctest.GenerateResourceFromRepresentationMap("oci_core_vcn", "test_vcn", acctest.Required, acctest.Create,
 			acctest.RepresentationCopyWithNewProperties(CoreVcnRepresentation, map[string]interface{}{"dns_label": acctest.Representation{RepType: acctest.Required, Create: `dnslabel`}})) +
+		acctest.GenerateResourceFromRepresentationMap("oci_core_route_table", "test_route_table", acctest.Required, acctest.Create, CoreRouteTableRepresentation) +
 		AvailabilityDomainConfig
 )
 
@@ -131,6 +132,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 							freeform_tags = { "Department" = "Finance" }
 							nsg_ids = ["${oci_core_network_security_group.test_network_security_group1.id}", "${oci_core_network_security_group.test_network_security_group2.id}"]
 							security_attributes = {"security-attribute-test-1.security-attribute.value" = "somevalue", "security-attribute-test-1.security-attribute.mode" = "enforce"}
+							route_table_id = "${oci_core_route_table.test_route_table.id}"
 						}
 					}
 					data "oci_core_vnic" "v" {
@@ -148,6 +150,7 @@ func (s *ResourceCoreVnicAttachmentTestSuite) TestAccResourceCoreVnicAttachment_
 					resource.TestCheckResourceAttrSet(s.ResourceName, "time_created"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vlan_tag"),
 					resource.TestCheckResourceAttrSet(s.ResourceName, "vnic_id"),
+					resource.TestCheckResourceAttrSet(s.ResourceName, "route_table_id"),
 					resource.TestCheckResourceAttrSet(s.VnicResourceName, "id"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.#", "1"),
 					resource.TestCheckResourceAttr(s.ResourceName, "create_vnic_details.0.freeform_tags.%", "1"),
