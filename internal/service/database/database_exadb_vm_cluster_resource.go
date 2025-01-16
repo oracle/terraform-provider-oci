@@ -68,9 +68,10 @@ func DatabaseExadbVmClusterResource() *schema.Resource {
 				Required: true,
 			},
 			"hostname": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
+				Type:             schema.TypeString,
+				Required:         true,
+				ForceNew:         true,
+				DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
 			},
 			"shape": {
 				Type:     schema.TypeString,

@@ -4,7 +4,7 @@
 resource "oci_database_db_home" "test_db_home" {
   display_name = "ExampleExaDbVmDbHome"
   db_system_id = oci_database_exadb_vm_cluster.test_exadb_vm_cluster.id
-  db_version   = "23.4.0.24.05"
+  db_version   = data.oci_database_gi_version_minor_versions.test_gi_minor_versions.gi_minor_versions[0].version
 }
 
 resource "oci_database_database" "test_db1" {
