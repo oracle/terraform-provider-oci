@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ## 6.22.0 (January 16, 2025)
 
 ### Added
@@ -19,9 +18,6 @@
 
 
 ## 6.21.0 (December 19, 2024)
-=======
-## 6.21.0 (Unreleased)
->>>>>>> 57b36061333 (Finalize changelog and release for version v6.21.0)
 
 ### Added
 - Support for ADB-S: Backup Retention Lock
