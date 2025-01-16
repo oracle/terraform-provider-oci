@@ -1,4 +1,4 @@
-## 6.22.0 (January 16, 2025)
+## 6.22.0 (Unreleased)
 
 ### Added
 - Source based routing support
