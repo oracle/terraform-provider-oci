@@ -169,7 +169,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `functions` - Discovers functions resources within the specified compartment
     * `fusion_apps` - Discovers fusion_apps resources within the specified compartment
     * `generative_ai` - Discovers generative_ai resources within the specified compartment
-    * `generative_ai_agent` - Discovers generative_ai_agent resources within the specified compartment
     * `globally_distributed_database` - Discovers globally_distributed_database resources within the specified compartment
     * `golden_gate` - Discovers golden_gate resources within the specified compartment
     * `health_checks` - Discovers health_checks resources within the specified compartment
@@ -213,7 +212,6 @@ Make sure the `output_path` is empty before running resource discovery
     * `resource_scheduler` - Discovers resource_scheduler resources within the specified compartment
     * `resourcemanager` - Discovers resourcemanager resources within the specified compartment
     * `sch` - Discovers sch resources within the specified compartment
-    * `security_attribute` - Discovers security attribute resources in the tenancy
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
@@ -591,13 +589,6 @@ data_safe
 * oci\_data\_safe\_target\_database\_peer\_target\_database
 * oci\_data\_safe\_calculate\_audit\_volume\_available
 * oci\_data\_safe\_calculate\_audit\_volume\_collected
-* oci\_data\_safe\_generate\_on\_prem\_connector\_configuration
-* oci\_data\_safe\_security\_policy\_deployment
-* oci\_data\_safe\_security\_policy
-* oci\_data\_safe\_database\_security\_config
-* oci\_data\_safe\_sql\_firewall\_policy
-* oci\_data\_safe\_sql\_collection
-* oci\_data\_safe\_target\_database\_peer\_target\_database
 
 database
     
@@ -631,7 +622,6 @@ database
 * oci\_database\_application\_vip
 * oci\_database\_oneoff\_patch
 * oci\_database\_db\_node\_console\_history
-* oci\_database\_autonomous\_database\_software\_image
 * oci\_database\_exascale\_db\_storage\_vault
 * oci\_database\_exadb\_vm\_cluster
 
@@ -728,6 +718,9 @@ dns
 * oci\_dns\_steering\_policy\_attachment
 * oci\_dns\_tsig\_key
 * oci\_dns\_rrset
+* oci\_dns\_resolver
+* oci\_dns\_resolver\_endpoint
+* oci\_dns\_view
 
 email
     
@@ -775,14 +768,6 @@ generative_ai
 * oci\_generative\_ai\_dedicated\_ai\_cluster
 * oci\_generative\_ai\_endpoint
 * oci\_generative\_ai\_model
-
-generative_ai_agent
-    
-* oci\_generative\_ai\_agent\_data\_source
-* oci\_generative\_ai\_agent\_agent
-* oci\_generative\_ai\_agent\_data\_ingestion\_job
-* oci\_generative\_ai\_agent\_knowledge\_base
-* oci\_generative\_ai\_agent\_agent\_endpoint
 
 globally_distributed_database
     
@@ -1148,11 +1133,6 @@ sch
     
 * oci\_sch\_service\_connector
 
-security_attribute
-    
-* oci\_security\_attribute\_security\_attribute\_namespace
-* oci\_security\_attribute\_security\_attribute
-
 service_mesh
     
 * oci\_service\_mesh\_virtual\_service
@@ -1177,9 +1157,6 @@ stack_monitoring
 * oci\_stack\_monitoring\_metric\_extension
 * oci\_stack\_monitoring\_baselineable\_metric
 * oci\_stack\_monitoring\_process\_set
-* oci\_stack\_monitoring\_maintenance\_window
-* oci\_stack\_monitoring\_maintenance\_windows\_retry\_failed\_operation
-* oci\_stack\_monitoring\_maintenance\_windows\_stop
 
 streaming
     
