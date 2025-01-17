@@ -54,6 +54,21 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 			is_backend_set_for_non_movable = var.dr_protection_group_members_backend_set_mappings_is_backend_set_for_non_movable
 			source_backend_set_name = oci_load_balancer_backend_set.test_backend_set.name
 		}
+		backup_config {
+
+			#Optional
+			backup_schedule = var.dr_protection_group_members_backup_config_backup_schedule
+			image_replication_vault_secret_id = oci_vault_secret.test_secret.id
+			max_number_of_backups_retained = var.dr_protection_group_members_backup_config_max_number_of_backups_retained
+			namespaces = var.dr_protection_group_members_backup_config_namespaces
+			replicate_images = var.dr_protection_group_members_backup_config_replicate_images
+		}
+		backup_location {
+
+			#Optional
+			bucket = var.dr_protection_group_members_backup_location_bucket
+			namespace = var.dr_protection_group_members_backup_location_namespace
+		}
 		block_volume_operations {
 
 			#Optional
@@ -103,8 +118,46 @@ resource "oci_disaster_recovery_dr_protection_group" "test_dr_protection_group" 
 		is_movable = var.dr_protection_group_members_is_movable
 		is_retain_fault_domain = var.dr_protection_group_members_is_retain_fault_domain
 		is_start_stop_enabled = var.dr_protection_group_members_is_start_stop_enabled
+		jump_host_id = oci_disaster_recovery_jump_host.test_jump_host.id
+		load_balancer_mappings {
+
+			#Optional
+			destination_load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+			source_load_balancer_id = oci_load_balancer_load_balancer.test_load_balancer.id
+		}
+		managed_node_pool_configs {
+
+			#Optional
+			id = var.dr_protection_group_members_managed_node_pool_configs_id
+			maximum = var.dr_protection_group_members_managed_node_pool_configs_maximum
+			minimum = var.dr_protection_group_members_managed_node_pool_configs_minimum
+		}
 		namespace = var.dr_protection_group_members_namespace
+<<<<<<< ours
+		network_load_balancer_mappings {
+
+			#Optional
+			destination_network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+			source_network_load_balancer_id = oci_network_load_balancer_network_load_balancer.test_network_load_balancer.id
+		}
+		password_vault_secret_id = oci_vault_secret.test_secret.id
+		peer_cluster_id = oci_containerengine_cluster.test_cluster.id
+		vault_mappings {
+
+			#Optional
+			destination_vault_id = oci_kms_vault.test_vault.id
+			source_vault_id = oci_kms_vault.test_vault.id
+		}
+		virtual_node_pool_configs {
+
+			#Optional
+			id = var.dr_protection_group_members_virtual_node_pool_configs_id
+			maximum = var.dr_protection_group_members_virtual_node_pool_configs_maximum
+			minimum = var.dr_protection_group_members_virtual_node_pool_configs_minimum
+		}
+=======
 		password_vault_secret_id = var.password_vault_secret_id
+>>>>>>> theirs
 		vnic_mapping {
 
 			#Optional
@@ -148,6 +201,29 @@ The following arguments are supported:
 		* `destination_backend_set_name` - (Required when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) The name of the destination backend set.  Example: `Destination-BackendSet-1` 
 		* `is_backend_set_for_non_movable` - (Required when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) This flag specifies if this backend set is used for traffic for non-movable compute instances. Backend sets that point to non-movable instances are only enabled or disabled during DR, their contents are not altered. For non-movable instances this flag should be set to 'true'. Backend sets that point to movable instances are emptied and their contents are transferred to the  destination region load balancer.  For movable instances this flag should be set to 'false'.   Example: `true` 
 		* `source_backend_set_name` - (Required when member_type=LOAD_BALANCER | NETWORK_LOAD_BALANCER) (Updatable) The name of the source backend set.  Example: `Source-BackendSet-1` 
+	* `backup_config` - (Applicable when member_type=OKE_CLUSTER) (Updatable) Create backup configuration properties for an OKE member.
+		* `backup_schedule` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The schedule for backing up namespaces to the destination region. If a backup schedule is not specified, only a single backup will be created.  This format of the string specifying the backup schedule must conform with RFC-5545 (see examples below). This schedule will use the UTC timezone. This property applies to the OKE cluster member in primary region.
+
+			The backup frequency can be HOURLY, DAILY, WEEKLY or MONTHLY, and the upper and lower interval bounds are as follows HOURLY
+			* Minimum = 1
+			* Maximum = 24 DAILY
+			* Minimum = 1
+			* Maximum = 30 WEEKLY
+			* Minimum = 1
+			* Maximum = 1 MONTHLY
+			* Minimum = 1
+			* Maximum = 12
+
+			Examples:  FREQ=WEEKLY;BYDAY=MO,WE;BYHOUR=10;INTERVAL=1 -> Run a backup every week on monday and wednesday at 10:00 AM. FREQ=WEEKLY;BYDAY=MO,WE;BYHOUR=10;INTERVAL=2 -> Invalid configuration (can not specify interval of 2).
+
+			FREQ=HOURLY;INTERVAL=25 -> Invalid configuration (can not specify interval of 25). FREQ=HOURLY;INTERVAL=0 -> Invalid configuration (can not specify interval of 0). FREQ=HOURLY;INTERVAL=24 -> Run a backup every 24 hours. FREQ=HOURLY;INTERVAL=1 -> Run a backup every hour. FREQ=HOURLY;BYMINUTE=30;INTERVAL=15 -> Run a backup every 15 hours at the 30th minute. FREQ=DAILY;INTERVAL=31 -> Invalid configuration (can not specify interval of 31). FREQ=DAILY;INTERVAL=0 -> Invalid configuration (can not specify interval of 0). FREQ=DAILY;INTERVAL=30 -> Run a backup every 30 days at 12:00 midnight.  FREQ=DAILY;BYHOUR=17;BYMINUTE=10;INTERVAL=1 -> Run a backup every day at 05:10 PM. 
+		* `image_replication_vault_secret_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the vault secret that stores the image credential. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `max_number_of_backups_retained` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The maximum number of backups that should be retained. This property applies to the OKE cluster member in primary region. 
+		* `namespaces` - (Applicable when member_type=OKE_CLUSTER) (Updatable) A list of namespaces that need to be backed up.  The default value is null. If a list of namespaces is not provided, all namespaces will be backed up. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
+		* `replicate_images` - (Applicable when member_type=OKE_CLUSTER) (Updatable) Controls the behaviour of image replication across regions. Image replication is enabled by default for DR Protection Groups with a primary role. This property applies to the OKE cluster member in primary region. 
+	* `backup_location` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The details for creating the backup location of an OKE Cluster.
+		* `bucket` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The bucket name inside the object storage namespace.  Example: `operation_logs` 
+		* `namespace` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The namespace in the object storage bucket location (Note - this is usually the tenancy name).  Example: `myocitenancy` 
 	* `block_volume_operations` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) A list of operations performed on block volumes used by the compute instance. 
 		* `attachment_details` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The details for creating a block volume attachment. 
 			* `volume_attachment_reference_instance_id` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) The OCID of the reference compute instance from which to obtain the attachment details for the volume. This reference compute instance is from the peer DR protection group.  Example: `ocid1.instance.oc1..uniqueID` 
@@ -176,10 +252,29 @@ The following arguments are supported:
 	* `is_movable` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A flag indicating if the compute instance should be moved during DR operations.  Example: `false` 
 	* `is_retain_fault_domain` - (Applicable when member_type=COMPUTE_INSTANCE_MOVABLE) (Updatable) A flag indicating if the compute instance should be moved to the same fault domain in the destination region.  The compute instance launch will fail if this flag is set to true and capacity is not available in the  specified fault domain in the destination region.  Example: `false` 
 	* `is_start_stop_enabled` - (Applicable when member_type=COMPUTE_INSTANCE_NON_MOVABLE) (Updatable) A flag indicating whether the non-movable compute instance should be started and stopped during DR operations. *Prechecks cannot be executed on stopped instances that are configured to be started.* 
+	* `jump_host_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the compute instance member that is designated as a jump host. This compute instance will be used to perform DR operations on the cluster using Oracle Cloud Agent's Run Command feature.  Example: `ocid1.instance.oc1..uniqueID` 
+	* `load_balancer_mappings` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of source-to-destination load balancer mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the destination Load Balancer.  Example: `ocid1.loadbalancer.oc1..uniqueID` 
+		* `source_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the source Load Balancer. Example: `ocid1.loadbalancer.oc1..uniqueID` 
+	* `managed_node_pool_configs` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of managed node pools with configurations for minimum and maximum node counts. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the managed node pool in OKE cluster. 
+		* `maximum` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The maximum number to which nodes in the managed node pool could be scaled up. 
+		* `minimum` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The minimum number to which nodes in the managed node pool could be scaled down. 
 	* `member_id` - (Required) (Updatable) The OCID of the member.  Example: `ocid1.instance.oc1..uniqueID` 
 	* `member_type` - (Required) (Updatable) The type of the member. 
 	* `namespace` - (Required when member_type=OBJECT_STORAGE_BUCKET) (Updatable) The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
+	* `network_load_balancer_mappings` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of source-to-destination network load balancer mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_network_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
+		* `source_network_load_balancer_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - (Applicable when member_type=AUTONOMOUS_DATABASE | DATABASE) (Updatable) The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+	* `peer_cluster_id` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.   Example: `ocid1.cluster.oc1..uniqueID` 
+	* `vault_mappings` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of source-to-destination vault mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_vault_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the destination Vault.  Example: `ocid1.vault.oc1..uniqueID` 
+		* `source_vault_id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the source Vault.  Example: `ocid1.vault.oc1..uniqueID` 
+	* `virtual_node_pool_configs` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The list of virtual node pools with configurations for minimum and maximum node counts. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `id` - (Required when member_type=OKE_CLUSTER) (Updatable) The OCID of the virtual node pool in OKE cluster. 
+		* `maximum` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The maximum number to which nodes in the virtual node pool could be scaled up. 
+		* `minimum` - (Applicable when member_type=OKE_CLUSTER) (Updatable) The minimum number to which nodes in the virtual node pool could be scaled down. 
 	* `vnic_mapping` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID, ocid1.networksecuritygroup.oc1..uniqueID ]` 
 		* `destination_primary_private_ip_address` - (Applicable when member_type=COMPUTE_INSTANCE) (Updatable) The primary private IP address to be assigned to the VNIC in the destination region.  This address must belong to the destination subnet.  Example: `10.0.3.3` 
@@ -219,6 +314,16 @@ The following attributes are exported:
 		* `destination_backend_set_name` - The name of the destination backend set.  Example: `My_Destination_Backend_Set` 
 		* `is_backend_set_for_non_movable` - This flag specifies if this backend set is used for traffic for non-movable compute instances. Backend sets that point to non-movable instances are only enabled or disabled during DR. For non-movable instances this flag should be set to 'true'. Backend sets that point to movable instances are emptied and their contents are transferred to the destination region network load balancer.  For movable instances this flag should be set to 'false'.   Example: `true` 
 		* `source_backend_set_name` - The name of the source backend set.  Example: `My_Source_Backend_Set` 
+	* `backup_config` - The details of backup performed on OKE Cluster. 
+		* `backup_schedule` - The schedule for backing up namespaces to the destination region. If a backup schedule is not specified, only a single backup will be created. This format of the string specifying the backup schedule must conform with RFC-5545. This schedule will use the UTC timezone. This property applies to the OKE cluster member in primary region.  Example: FREQ=WEEKLY;BYDAY=MO,TU,WE,TH;BYHOUR=10;INTERVAL=1 
+		* `image_replication_vault_secret_id` - The OCID of the vault secret that stores the image credential. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `max_number_of_backups_retained` - The maximum number of backups that should be retained. This property applies to the OKE cluster member in primary region. 
+		* `namespaces` - A list of namespaces that need to be backed up.  The default value is null. If a list of namespaces is not provided, all namespaces will be backed up. This property applies to the OKE cluster member in primary region.  Example: ["default", "pv-nginx"] 
+		* `replicate_images` - Controls the behaviour of image replication across regions. This property applies to the OKE cluster member in primary region. 
+	* `backup_location` - The details for object storage backup location of an OKE Cluster
+		* `bucket` - The bucket name inside the object storage namespace.  Example: `operation_logs` 
+		* `namespace` - The namespace in object storage backup location(Note - this is usually the tenancy name).  Example: `myocitenancy` 
+		* `object` - The object name inside the object storage bucket.  Example: `switchover_plan_executions` 
 	* `block_volume_operations` - Operations performed on a list of block volumes used on the non-movable compute instance. 
 		* `attachment_details` - The details for attaching or detaching a block volume. 
 			* `volume_attachment_reference_instance_id` - The OCID of the reference compute instance from which to obtain the attachment details for the volume. This reference compute instance is from the peer DR protection group.  Example: `ocid1.instance.oc1..uniqueID` 
@@ -247,10 +352,29 @@ The following attributes are exported:
 	* `is_movable` - A flag indicating if the compute instance should be moved during DR operations.  Example: `false` 
 	* `is_retain_fault_domain` - A flag indicating if the compute instance should be moved to the same fault domain in the destination region.  The compute instance launch will fail if this flag is set to true and capacity is not available in the  specified fault domain in the destination region.  Example: `false` 
 	* `is_start_stop_enabled` - A flag indicating whether the non-movable compute instance needs to be started and stopped during DR operations. 
+	* `jump_host_id` - The OCID of the compute instance member that is designated as a jump host. This compute instance will be used to perform DR operations on the cluster using Oracle Cloud Agent's Run Command feature.  Example: `ocid1.instance.oc1..uniqueID` 
+	* `load_balancer_mappings` - The list of source-to-destination load balancer mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_load_balancer_id` - The OCID of the destination Load Balancer.  Example: `ocid1.loadbalancer.oc1..uniqueID` 
+		* `source_load_balancer_id` - The OCID of the source Load Balancer.  Example: `ocid1.loadbalancer.oc1..uniqueID` 
+	* `managed_node_pool_configs` - The list of node pools with configurations for minimum and maximum node counts. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `id` - The OCID of the managed node pool in OKE cluster. 
+		* `maximum` - The maximum number to which nodes in the managed node pool could be scaled up. 
+		* `minimum` - The minimum number to which nodes in the managed node pool could be scaled down. 
 	* `member_id` - The OCID of the member.  Example: `ocid1.instance.oc1..uniqueID` 
 	* `member_type` - The type of the member. 
 	* `namespace` - The namespace in object storage (Note - this is usually the tenancy name).  Example: `myocitenancy` 
+	* `network_load_balancer_mappings` - The list of source-to-destination network load balancer mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_network_load_balancer_id` - The OCID of the destination Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
+		* `source_network_load_balancer_id` - The OCID of the source Network Load Balancer.  Example: `ocid1.networkloadbalancer.oc1..uniqueID` 
 	* `password_vault_secret_id` - The OCID of the vault secret where the database SYSDBA password is stored. This password is required and used for performing database DR Drill operations when using full clone.  Example: `ocid1.vaultsecret.oc1..uniqueID` 
+	* `peer_cluster_id` - The OCID of the peer OKE cluster. This property applies to the OKE cluster member in both the primary and standby region.  Example: `ocid1.cluster.oc1.uniqueID` 
+	* `vault_mappings` - The list of source-to-destination vault mappings required for DR operations. This property applies to the OKE cluster member in primary region. 
+		* `destination_vault_id` - The OCID of the destination Vault.  Example: `ocid1.vault.oc1..uniqueID` 
+		* `source_vault_id` - The OCID of the source Vault.  Example: `ocid1.vault.oc1..uniqueID` 
+	* `virtual_node_pool_configs` - The list of node pools with configurations for minimum and maximum node counts. This property applies to the OKE cluster member in both the primary and standby region. 
+		* `id` - The OCID of the virtual node pool in OKE cluster. 
+		* `maximum` - The maximum number to which nodes in the virtual node pool could be scaled up. 
+		* `minimum` - The minimum number to which nodes in the virtual node pool could be scaled down. 
 	* `vnic_mapping` - A list of compute instance VNIC mappings. 
 		* `destination_nsg_id_list` - A list of OCIDs of network security groups (NSG) in the destination region which should be assigned to the source VNIC.  Example: `[ ocid1.networksecuritygroup.oc1..uniqueID1, ocid1.networksecuritygroup.oc1..uniqueID2 ]` 
 		* `destination_subnet_id` - The OCID of the destination subnet to which the source VNIC should connect.  Example: `ocid1.subnet.oc1..uniqueID` 

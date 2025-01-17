@@ -62,6 +62,7 @@ var (
 	}
 
 	DisasterRecoveryDrPlanExecutionResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+		OKEClusterDependencyConfig +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
 		AvailabilityDomainConfig +

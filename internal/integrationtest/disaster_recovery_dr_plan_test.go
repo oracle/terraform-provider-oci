@@ -97,6 +97,7 @@ var (
 	`
 
 	DisasterRecoveryDrPlanResourceDependencies = acctest.GenerateResourceFromRepresentationMap("oci_disaster_recovery_dr_protection_group", "test_peer", acctest.Optional, acctest.Create, DisasterRecoveryPeerDrProtectionGroupRepresentation) +
+		OKEClusterDependencyConfig +
 		ObjectStorageBucketDependencyConfig +
 		VolumeGroupDependencyConfig +
 		AvailabilityDomainConfig +
@@ -238,7 +239,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
 				//resource.TestCheckResourceAttrSet(resourceName, "source_plan_id"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -271,7 +272,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "peer_dr_protection_group_id"),
 				resource.TestCheckResourceAttrSet(resourceName, "peer_region"),
 				//resource.TestCheckResourceAttrSet(resourceName, "source_plan_id"),
-				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "3"),
+				resource.TestCheckResourceAttr(resourceName, "plan_groups.#", "4"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(resourceName, "time_updated"),
@@ -338,7 +339,7 @@ func TestDisasterRecoveryDrPlanResource_basic(t *testing.T) {
 		},
 		// Disassociate DrProtectionGroup
 		{
-			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanExecutionResourceDependencies +
+			Config: config + compartmentIdVariableStr + DisasterRecoveryDrPlanResourceDependencies +
 				DrProtectionGroupWithDisassociateTriggerConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				func(s *terraform.State) (err error) {
