@@ -930,6 +930,19 @@ var exportCoreComputeCapacityTopologyHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportCoreByoasnHints = &tf_export.TerraformResourceHints{
+	ResourceClass:          "oci_core_byoasn",
+	DatasourceClass:        "oci_core_byoasns",
+	DatasourceItemsAttr:    "byoasn_collection",
+	IsDatasourceCollection: true,
+	ResourceAbbreviation:   "byoasn",
+	RequireResourceRefresh: true,
+	DiscoverableLifecycleStates: []string{
+		string(oci_core.ByoasnLifecycleStateActive),
+		string(oci_core.ByoasnLifecycleStateCreating),
+	},
+}
+
 var exportCoreInstanceMaintenanceEventHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_core_instance_maintenance_event",
 	DatasourceClass:        "oci_core_instance_maintenance_events",
@@ -992,6 +1005,7 @@ var coreResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportCoreComputeClusterHints},
 		{TerraformResourceHints: exportCoreInstanceMaintenanceEventHints},
 		{TerraformResourceHints: exportCoreComputeCapacityTopologyHints},
+		{TerraformResourceHints: exportCoreByoasnHints},
 	},
 	"oci_core_boot_volume": {
 		{
