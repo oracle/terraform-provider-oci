@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -75,6 +76,8 @@ type CreateDatabaseDetails struct {
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	KeyStoreId *string `mandatory:"false" json:"keyStoreId"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m CreateDatabaseDetails) String() string {
@@ -94,6 +97,81 @@ func (m CreateDatabaseDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DbUniqueName                 *string                             `json:"dbUniqueName"`
+		DatabaseSoftwareImageId      *string                             `json:"databaseSoftwareImageId"`
+		PdbName                      *string                             `json:"pdbName"`
+		TdeWalletPassword            *string                             `json:"tdeWalletPassword"`
+		CharacterSet                 *string                             `json:"characterSet"`
+		NcharacterSet                *string                             `json:"ncharacterSet"`
+		DbWorkload                   CreateDatabaseDetailsDbWorkloadEnum `json:"dbWorkload"`
+		DbBackupConfig               *DbBackupConfig                     `json:"dbBackupConfig"`
+		FreeformTags                 map[string]string                   `json:"freeformTags"`
+		DefinedTags                  map[string]map[string]interface{}   `json:"definedTags"`
+		KmsKeyId                     *string                             `json:"kmsKeyId"`
+		KmsKeyVersionId              *string                             `json:"kmsKeyVersionId"`
+		VaultId                      *string                             `json:"vaultId"`
+		SidPrefix                    *string                             `json:"sidPrefix"`
+		KeyStoreId                   *string                             `json:"keyStoreId"`
+		EncryptionKeyLocationDetails encryptionkeylocationdetails        `json:"encryptionKeyLocationDetails"`
+		DbName                       *string                             `json:"dbName"`
+		AdminPassword                *string                             `json:"adminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.PdbName = model.PdbName
+
+	m.TdeWalletPassword = model.TdeWalletPassword
+
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.DbWorkload = model.DbWorkload
+
+	m.DbBackupConfig = model.DbBackupConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.SidPrefix = model.SidPrefix
+
+	m.KeyStoreId = model.KeyStoreId
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.DbName = model.DbName
+
+	m.AdminPassword = model.AdminPassword
+
+	return
 }
 
 // CreateDatabaseDetailsDbWorkloadEnum Enum with underlying type: string
