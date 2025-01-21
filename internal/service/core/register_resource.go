@@ -10,6 +10,7 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_core_app_catalog_subscription", CoreAppCatalogSubscriptionResource())
 	tfresource.RegisterResource("oci_core_boot_volume", CoreBootVolumeResource())
 	tfresource.RegisterResource("oci_core_boot_volume_backup", CoreBootVolumeBackupResource())
+	tfresource.RegisterResource("oci_core_byoasn", CoreByoasnResource())
 	tfresource.RegisterResource("oci_core_capture_filter", CoreCaptureFilterResource())
 	tfresource.RegisterResource("oci_core_cluster_network", CoreClusterNetworkResource())
 	tfresource.RegisterResource("oci_core_compute_capacity_report", CoreComputeCapacityReportResource())
