@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -74,6 +75,8 @@ type Backup struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m Backup) String() string {
@@ -99,6 +102,87 @@ func (m Backup) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *Backup) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		Id                           *string                      `json:"id"`
+		CompartmentId                *string                      `json:"compartmentId"`
+		DatabaseId                   *string                      `json:"databaseId"`
+		DisplayName                  *string                      `json:"displayName"`
+		Type                         BackupTypeEnum               `json:"type"`
+		TimeStarted                  *common.SDKTime              `json:"timeStarted"`
+		TimeEnded                    *common.SDKTime              `json:"timeEnded"`
+		LifecycleDetails             *string                      `json:"lifecycleDetails"`
+		AvailabilityDomain           *string                      `json:"availabilityDomain"`
+		LifecycleState               BackupLifecycleStateEnum     `json:"lifecycleState"`
+		DatabaseEdition              BackupDatabaseEditionEnum    `json:"databaseEdition"`
+		DatabaseSizeInGBs            *float64                     `json:"databaseSizeInGBs"`
+		Shape                        *string                      `json:"shape"`
+		Version                      *string                      `json:"version"`
+		KmsKeyId                     *string                      `json:"kmsKeyId"`
+		KmsKeyVersionId              *string                      `json:"kmsKeyVersionId"`
+		VaultId                      *string                      `json:"vaultId"`
+		KeyStoreId                   *string                      `json:"keyStoreId"`
+		KeyStoreWalletName           *string                      `json:"keyStoreWalletName"`
+		EncryptionKeyLocationDetails encryptionkeylocationdetails `json:"encryptionKeyLocationDetails"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DatabaseId = model.DatabaseId
+
+	m.DisplayName = model.DisplayName
+
+	m.Type = model.Type
+
+	m.TimeStarted = model.TimeStarted
+
+	m.TimeEnded = model.TimeEnded
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.LifecycleState = model.LifecycleState
+
+	m.DatabaseEdition = model.DatabaseEdition
+
+	m.DatabaseSizeInGBs = model.DatabaseSizeInGBs
+
+	m.Shape = model.Shape
+
+	m.Version = model.Version
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	return
 }
 
 // BackupTypeEnum Enum with underlying type: string
