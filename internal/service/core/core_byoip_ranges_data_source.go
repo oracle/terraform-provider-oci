@@ -5,6 +5,7 @@ package core
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
@@ -111,6 +112,31 @@ func CoreByoipRangesDataSource() *schema.Resource {
 									"lifecycle_details": {
 										Type:     schema.TypeString,
 										Computed: true,
+									},
+									"origin_asn": {
+										Type:     schema.TypeList,
+										Computed: true,
+										Elem: &schema.Resource{
+											Schema: map[string]*schema.Schema{
+												// Required
+
+												// Optional
+
+												// Computed
+												"as_path_prepend_length": {
+													Type:     schema.TypeInt,
+													Computed: true,
+												},
+												"asn": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+												"byoasn_id": {
+													Type:     schema.TypeString,
+													Computed: true,
+												},
+											},
+										},
 									},
 									"state": {
 										Type:     schema.TypeString,
@@ -231,6 +257,24 @@ func (s *CoreByoipRangesDataSourceCrud) SetData() error {
 	}
 
 	return nil
+}
+
+func ByoipRangeOriginAsnToMap(obj *oci_core.ByoipRangeOriginAsn) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.AsPathPrependLength != nil {
+		result["as_path_prepend_length"] = int(*obj.AsPathPrependLength)
+	}
+
+	if obj.Asn != nil {
+		result["asn"] = strconv.FormatInt(*obj.Asn, 10)
+	}
+
+	if obj.ByoasnId != nil {
+		result["byoasn_id"] = string(*obj.ByoasnId)
+	}
+
+	return result
 }
 
 func ByoipRangeSummaryToMap(obj oci_core.ByoipRangeSummary) map[string]interface{} {

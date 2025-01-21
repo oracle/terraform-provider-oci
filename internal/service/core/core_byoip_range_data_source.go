@@ -82,6 +82,31 @@ func CoreByoipRangeDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"origin_asn": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"as_path_prepend_length": {
+							Type:     schema.TypeInt,
+							Computed: true,
+						},
+						"asn": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"byoasn_id": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"state": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -183,6 +208,12 @@ func (s *CoreByoipRangeDataSourceCrud) SetData() error {
 	}
 
 	s.D.Set("lifecycle_details", s.Res.LifecycleDetails)
+
+	if s.Res.OriginAsn != nil {
+		s.D.Set("origin_asn", []interface{}{ByoipRangeOriginAsnToMap(s.Res.OriginAsn)})
+	} else {
+		s.D.Set("origin_asn", nil)
+	}
 
 	s.D.Set("state", s.Res.LifecycleState)
 
