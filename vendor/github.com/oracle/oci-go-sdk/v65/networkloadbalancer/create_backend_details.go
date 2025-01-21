@@ -16,7 +16,7 @@ import (
 )
 
 // CreateBackendDetails The configuration of a backend server that is a member of a network load balancer backend set.
-// For more information, see Managing Backend Servers (https://docs.cloud.oracle.com/Content/Balance/Tasks/managingbackendservers.htm).
+// For more information, see Backend Servers for Network Load Balancers (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/BackendServers/backend-server-management.htm).
 type CreateBackendDetails struct {
 
 	// The communication port for the backend server.
@@ -38,8 +38,8 @@ type CreateBackendDetails struct {
 	// The network load balancing policy weight assigned to the server. Backend servers with a higher weight receive a larger
 	// proportion of incoming traffic. For example, a server weighted '3' receives three times the number of new connections
 	// as a server weighted '1'.
-	// For more information about load balancing policies, see
-	// How Network Load Balancing Policies Work (https://docs.cloud.oracle.com/Content/Balance/Reference/lbpolicies.htm).
+	// For more information about network load balancer policies, see
+	// Network Load Balancer Policies (https://docs.cloud.oracle.com/Content/NetworkLoadBalancer/introduction.htm#Policies).
 	// Example: `3`
 	Weight *int `mandatory:"false" json:"weight"`
 

@@ -756,6 +756,64 @@ func (client NetworkLoadBalancerClient) getBackendHealth(ctx context.Context, re
 	return response, err
 }
 
+// GetBackendOperationalStatus Retrieves the current operational status of the specified backend server.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/networkloadbalancer/GetBackendOperationalStatus.go.html to see an example of how to use GetBackendOperationalStatus API.
+// A default retry strategy applies to this operation GetBackendOperationalStatus()
+func (client NetworkLoadBalancerClient) GetBackendOperationalStatus(ctx context.Context, request GetBackendOperationalStatusRequest) (response GetBackendOperationalStatusResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getBackendOperationalStatus, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetBackendOperationalStatusResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetBackendOperationalStatusResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetBackendOperationalStatusResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetBackendOperationalStatusResponse")
+	}
+	return
+}
+
+// getBackendOperationalStatus implements the OCIOperation interface (enables retrying operations)
+func (client NetworkLoadBalancerClient) getBackendOperationalStatus(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/networkLoadBalancers/{networkLoadBalancerId}/backendSets/{backendSetName}/backends/{backendName}/operationalStatus", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetBackendOperationalStatusResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/networkloadbalancer/20200501/BackendOperationalStatus/GetBackendOperationalStatus"
+		err = common.PostProcessServiceError(err, "NetworkLoadBalancer", "GetBackendOperationalStatus", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetBackendSet Retrieves the configuration information for the specified backend set.
 //
 // # See also

@@ -31,6 +31,8 @@ type CreateDataGuardAssociationToExistingVmClusterDetails struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
@@ -73,6 +75,11 @@ func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetDatabaseSoftwar
 // GetDatabaseAdminPassword returns DatabaseAdminPassword
 func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetDatabaseAdminPassword() *string {
 	return m.DatabaseAdminPassword
+}
+
+// GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails
+func (m CreateDataGuardAssociationToExistingVmClusterDetails) GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails {
+	return m.SourceEncryptionKeyLocationDetails
 }
 
 // GetProtectionMode returns ProtectionMode
@@ -134,4 +141,55 @@ func (m CreateDataGuardAssociationToExistingVmClusterDetails) MarshalJSON() (buf
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataGuardAssociationToExistingVmClusterDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DatabaseSoftwareImageId            *string                                             `json:"databaseSoftwareImageId"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                        `json:"sourceEncryptionKeyLocationDetails"`
+		IsActiveDataGuardEnabled           *bool                                               `json:"isActiveDataGuardEnabled"`
+		PeerDbUniqueName                   *string                                             `json:"peerDbUniqueName"`
+		PeerSidPrefix                      *string                                             `json:"peerSidPrefix"`
+		PeerVmClusterId                    *string                                             `json:"peerVmClusterId"`
+		PeerDbHomeId                       *string                                             `json:"peerDbHomeId"`
+		DatabaseAdminPassword              *string                                             `json:"databaseAdminPassword"`
+		ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum `json:"protectionMode"`
+		TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum  `json:"transportType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
+
+	m.PeerDbUniqueName = model.PeerDbUniqueName
+
+	m.PeerSidPrefix = model.PeerSidPrefix
+
+	m.PeerVmClusterId = model.PeerVmClusterId
+
+	m.PeerDbHomeId = model.PeerDbHomeId
+
+	m.DatabaseAdminPassword = model.DatabaseAdminPassword
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.TransportType = model.TransportType
+
+	return
 }

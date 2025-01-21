@@ -48,6 +48,8 @@ type CreateDataGuardAssociationDetails interface {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	GetDatabaseSoftwareImageId() *string
 
+	GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails
+
 	// True if active Data Guard is enabled.
 	GetIsActiveDataGuardEnabled() *bool
 
@@ -59,15 +61,16 @@ type CreateDataGuardAssociationDetails interface {
 }
 
 type createdataguardassociationdetails struct {
-	JsonData                 []byte
-	DatabaseSoftwareImageId  *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
-	IsActiveDataGuardEnabled *bool                                               `mandatory:"false" json:"isActiveDataGuardEnabled"`
-	PeerDbUniqueName         *string                                             `mandatory:"false" json:"peerDbUniqueName"`
-	PeerSidPrefix            *string                                             `mandatory:"false" json:"peerSidPrefix"`
-	DatabaseAdminPassword    *string                                             `mandatory:"true" json:"databaseAdminPassword"`
-	ProtectionMode           CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
-	TransportType            CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
-	CreationType             string                                              `json:"creationType"`
+	JsonData                           []byte
+	DatabaseSoftwareImageId            *string                                             `mandatory:"false" json:"databaseSoftwareImageId"`
+	SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                        `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+	IsActiveDataGuardEnabled           *bool                                               `mandatory:"false" json:"isActiveDataGuardEnabled"`
+	PeerDbUniqueName                   *string                                             `mandatory:"false" json:"peerDbUniqueName"`
+	PeerSidPrefix                      *string                                             `mandatory:"false" json:"peerSidPrefix"`
+	DatabaseAdminPassword              *string                                             `mandatory:"true" json:"databaseAdminPassword"`
+	ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum `mandatory:"true" json:"protectionMode"`
+	TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum  `mandatory:"true" json:"transportType"`
+	CreationType                       string                                              `json:"creationType"`
 }
 
 // UnmarshalJSON unmarshals json
@@ -85,6 +88,7 @@ func (m *createdataguardassociationdetails) UnmarshalJSON(data []byte) error {
 	m.ProtectionMode = s.Model.ProtectionMode
 	m.TransportType = s.Model.TransportType
 	m.DatabaseSoftwareImageId = s.Model.DatabaseSoftwareImageId
+	m.SourceEncryptionKeyLocationDetails = s.Model.SourceEncryptionKeyLocationDetails
 	m.IsActiveDataGuardEnabled = s.Model.IsActiveDataGuardEnabled
 	m.PeerDbUniqueName = s.Model.PeerDbUniqueName
 	m.PeerSidPrefix = s.Model.PeerSidPrefix
@@ -123,6 +127,11 @@ func (m *createdataguardassociationdetails) UnmarshalPolymorphicJSON(data []byte
 // GetDatabaseSoftwareImageId returns DatabaseSoftwareImageId
 func (m createdataguardassociationdetails) GetDatabaseSoftwareImageId() *string {
 	return m.DatabaseSoftwareImageId
+}
+
+// GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails
+func (m createdataguardassociationdetails) GetSourceEncryptionKeyLocationDetails() encryptionkeylocationdetails {
+	return m.SourceEncryptionKeyLocationDetails
 }
 
 // GetIsActiveDataGuardEnabled returns IsActiveDataGuardEnabled

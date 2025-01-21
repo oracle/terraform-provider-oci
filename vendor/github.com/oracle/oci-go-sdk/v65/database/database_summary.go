@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -115,6 +116,10 @@ type DatabaseSummary struct {
 
 	// The wallet name for Oracle Key Vault.
 	KeyStoreWalletName *string `mandatory:"false" json:"keyStoreWalletName"`
+
+	DataGuardGroup *DataGuardGroup `mandatory:"false" json:"dataGuardGroup"`
+
+	EncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"encryptionKeyLocationDetails"`
 }
 
 func (m DatabaseSummary) String() string {
@@ -134,6 +139,126 @@ func (m DatabaseSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *DatabaseSummary) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		CharacterSet                               *string                           `json:"characterSet"`
+		NcharacterSet                              *string                           `json:"ncharacterSet"`
+		DbHomeId                                   *string                           `json:"dbHomeId"`
+		DbSystemId                                 *string                           `json:"dbSystemId"`
+		VmClusterId                                *string                           `json:"vmClusterId"`
+		PdbName                                    *string                           `json:"pdbName"`
+		DbWorkload                                 *string                           `json:"dbWorkload"`
+		LifecycleDetails                           *string                           `json:"lifecycleDetails"`
+		TimeCreated                                *common.SDKTime                   `json:"timeCreated"`
+		LastBackupTimestamp                        *common.SDKTime                   `json:"lastBackupTimestamp"`
+		LastBackupDurationInSeconds                *int                              `json:"lastBackupDurationInSeconds"`
+		LastFailedBackupTimestamp                  *common.SDKTime                   `json:"lastFailedBackupTimestamp"`
+		DbBackupConfig                             *DbBackupConfig                   `json:"dbBackupConfig"`
+		FreeformTags                               map[string]string                 `json:"freeformTags"`
+		DefinedTags                                map[string]map[string]interface{} `json:"definedTags"`
+		ConnectionStrings                          *DatabaseConnectionStrings        `json:"connectionStrings"`
+		KmsKeyId                                   *string                           `json:"kmsKeyId"`
+		KmsKeyVersionId                            *string                           `json:"kmsKeyVersionId"`
+		VaultId                                    *string                           `json:"vaultId"`
+		SourceDatabasePointInTimeRecoveryTimestamp *common.SDKTime                   `json:"sourceDatabasePointInTimeRecoveryTimestamp"`
+		DatabaseSoftwareImageId                    *string                           `json:"databaseSoftwareImageId"`
+		IsCdb                                      *bool                             `json:"isCdb"`
+		DatabaseManagementConfig                   *CloudDatabaseManagementConfig    `json:"databaseManagementConfig"`
+		SidPrefix                                  *string                           `json:"sidPrefix"`
+		KeyStoreId                                 *string                           `json:"keyStoreId"`
+		KeyStoreWalletName                         *string                           `json:"keyStoreWalletName"`
+		DataGuardGroup                             *DataGuardGroup                   `json:"dataGuardGroup"`
+		EncryptionKeyLocationDetails               encryptionkeylocationdetails      `json:"encryptionKeyLocationDetails"`
+		Id                                         *string                           `json:"id"`
+		CompartmentId                              *string                           `json:"compartmentId"`
+		DbName                                     *string                           `json:"dbName"`
+		DbUniqueName                               *string                           `json:"dbUniqueName"`
+		LifecycleState                             DatabaseSummaryLifecycleStateEnum `json:"lifecycleState"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.CharacterSet = model.CharacterSet
+
+	m.NcharacterSet = model.NcharacterSet
+
+	m.DbHomeId = model.DbHomeId
+
+	m.DbSystemId = model.DbSystemId
+
+	m.VmClusterId = model.VmClusterId
+
+	m.PdbName = model.PdbName
+
+	m.DbWorkload = model.DbWorkload
+
+	m.LifecycleDetails = model.LifecycleDetails
+
+	m.TimeCreated = model.TimeCreated
+
+	m.LastBackupTimestamp = model.LastBackupTimestamp
+
+	m.LastBackupDurationInSeconds = model.LastBackupDurationInSeconds
+
+	m.LastFailedBackupTimestamp = model.LastFailedBackupTimestamp
+
+	m.DbBackupConfig = model.DbBackupConfig
+
+	m.FreeformTags = model.FreeformTags
+
+	m.DefinedTags = model.DefinedTags
+
+	m.ConnectionStrings = model.ConnectionStrings
+
+	m.KmsKeyId = model.KmsKeyId
+
+	m.KmsKeyVersionId = model.KmsKeyVersionId
+
+	m.VaultId = model.VaultId
+
+	m.SourceDatabasePointInTimeRecoveryTimestamp = model.SourceDatabasePointInTimeRecoveryTimestamp
+
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	m.IsCdb = model.IsCdb
+
+	m.DatabaseManagementConfig = model.DatabaseManagementConfig
+
+	m.SidPrefix = model.SidPrefix
+
+	m.KeyStoreId = model.KeyStoreId
+
+	m.KeyStoreWalletName = model.KeyStoreWalletName
+
+	m.DataGuardGroup = model.DataGuardGroup
+
+	nn, e = model.EncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.EncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.EncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.EncryptionKeyLocationDetails = nil
+	}
+
+	m.Id = model.Id
+
+	m.CompartmentId = model.CompartmentId
+
+	m.DbName = model.DbName
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.LifecycleState = model.LifecycleState
+
+	return
 }
 
 // DatabaseSummaryLifecycleStateEnum Enum with underlying type: string

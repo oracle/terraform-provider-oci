@@ -32,6 +32,8 @@ type CreateDataGuardAssociationWithNewDbSystemDetails struct {
 	// The database software image OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm)
 	DatabaseSoftwareImageId *string `mandatory:"false" json:"databaseSoftwareImageId"`
 
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
+
 	// True if active Data Guard is enabled.
 	IsActiveDataGuardEnabled *bool `mandatory:"false" json:"isActiveDataGuardEnabled"`
 
@@ -162,6 +164,11 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetDatabaseAdminPasswo
 	return m.DatabaseAdminPassword
 }
 
+// GetSourceEncryptionKeyLocationDetails returns SourceEncryptionKeyLocationDetails
+func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetSourceEncryptionKeyLocationDetails() EncryptionKeyLocationDetails {
+	return m.SourceEncryptionKeyLocationDetails
+}
+
 // GetProtectionMode returns ProtectionMode
 func (m CreateDataGuardAssociationWithNewDbSystemDetails) GetProtectionMode() CreateDataGuardAssociationDetailsProtectionModeEnum {
 	return m.ProtectionMode
@@ -227,6 +234,114 @@ func (m CreateDataGuardAssociationWithNewDbSystemDetails) MarshalJSON() (buff []
 	}
 
 	return json.Marshal(&s)
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDataGuardAssociationWithNewDbSystemDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		DatabaseSoftwareImageId            *string                                                                          `json:"databaseSoftwareImageId"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails                                                     `json:"sourceEncryptionKeyLocationDetails"`
+		IsActiveDataGuardEnabled           *bool                                                                            `json:"isActiveDataGuardEnabled"`
+		PeerDbUniqueName                   *string                                                                          `json:"peerDbUniqueName"`
+		PeerSidPrefix                      *string                                                                          `json:"peerSidPrefix"`
+		DisplayName                        *string                                                                          `json:"displayName"`
+		AvailabilityDomain                 *string                                                                          `json:"availabilityDomain"`
+		Shape                              *string                                                                          `json:"shape"`
+		CpuCoreCount                       *int                                                                             `json:"cpuCoreCount"`
+		StorageVolumePerformanceMode       CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum `json:"storageVolumePerformanceMode"`
+		NodeCount                          *int                                                                             `json:"nodeCount"`
+		SubnetId                           *string                                                                          `json:"subnetId"`
+		NsgIds                             []string                                                                         `json:"nsgIds"`
+		BackupNetworkNsgIds                []string                                                                         `json:"backupNetworkNsgIds"`
+		Hostname                           *string                                                                          `json:"hostname"`
+		Domain                             *string                                                                          `json:"domain"`
+		TimeZone                           *string                                                                          `json:"timeZone"`
+		FaultDomains                       []string                                                                         `json:"faultDomains"`
+		PrivateIp                          *string                                                                          `json:"privateIp"`
+		LicenseModel                       CreateDataGuardAssociationWithNewDbSystemDetailsLicenseModelEnum                 `json:"licenseModel"`
+		DbSystemFreeformTags               map[string]string                                                                `json:"dbSystemFreeformTags"`
+		DbSystemDefinedTags                map[string]map[string]interface{}                                                `json:"dbSystemDefinedTags"`
+		DbSystemSecurityAttributes         map[string]map[string]interface{}                                                `json:"dbSystemSecurityAttributes"`
+		DatabaseFreeformTags               map[string]string                                                                `json:"databaseFreeformTags"`
+		DatabaseDefinedTags                map[string]map[string]interface{}                                                `json:"databaseDefinedTags"`
+		DataCollectionOptions              *DataCollectionOptions                                                           `json:"dataCollectionOptions"`
+		DatabaseAdminPassword              *string                                                                          `json:"databaseAdminPassword"`
+		ProtectionMode                     CreateDataGuardAssociationDetailsProtectionModeEnum                              `json:"protectionMode"`
+		TransportType                      CreateDataGuardAssociationDetailsTransportTypeEnum                               `json:"transportType"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.DatabaseSoftwareImageId = model.DatabaseSoftwareImageId
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.IsActiveDataGuardEnabled = model.IsActiveDataGuardEnabled
+
+	m.PeerDbUniqueName = model.PeerDbUniqueName
+
+	m.PeerSidPrefix = model.PeerSidPrefix
+
+	m.DisplayName = model.DisplayName
+
+	m.AvailabilityDomain = model.AvailabilityDomain
+
+	m.Shape = model.Shape
+
+	m.CpuCoreCount = model.CpuCoreCount
+
+	m.StorageVolumePerformanceMode = model.StorageVolumePerformanceMode
+
+	m.NodeCount = model.NodeCount
+
+	m.SubnetId = model.SubnetId
+
+	m.NsgIds = make([]string, len(model.NsgIds))
+	copy(m.NsgIds, model.NsgIds)
+	m.BackupNetworkNsgIds = make([]string, len(model.BackupNetworkNsgIds))
+	copy(m.BackupNetworkNsgIds, model.BackupNetworkNsgIds)
+	m.Hostname = model.Hostname
+
+	m.Domain = model.Domain
+
+	m.TimeZone = model.TimeZone
+
+	m.FaultDomains = make([]string, len(model.FaultDomains))
+	copy(m.FaultDomains, model.FaultDomains)
+	m.PrivateIp = model.PrivateIp
+
+	m.LicenseModel = model.LicenseModel
+
+	m.DbSystemFreeformTags = model.DbSystemFreeformTags
+
+	m.DbSystemDefinedTags = model.DbSystemDefinedTags
+
+	m.DbSystemSecurityAttributes = model.DbSystemSecurityAttributes
+
+	m.DatabaseFreeformTags = model.DatabaseFreeformTags
+
+	m.DatabaseDefinedTags = model.DatabaseDefinedTags
+
+	m.DataCollectionOptions = model.DataCollectionOptions
+
+	m.DatabaseAdminPassword = model.DatabaseAdminPassword
+
+	m.ProtectionMode = model.ProtectionMode
+
+	m.TransportType = model.TransportType
+
+	return
 }
 
 // CreateDataGuardAssociationWithNewDbSystemDetailsStorageVolumePerformanceModeEnum Enum with underlying type: string

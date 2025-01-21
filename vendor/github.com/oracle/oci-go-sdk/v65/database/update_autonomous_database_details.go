@@ -281,6 +281,10 @@ type UpdateAutonomousDatabaseDetails struct {
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
 	EncryptionKey AutonomousDatabaseEncryptionKeyDetails `mandatory:"false" json:"encryptionKey"`
+
+	// If true, this will disconnect the Autonomous Database from its peer and the Autonomous Database can work permanently as a standalone database.
+	// To disconnect a cross region standby, please also provide the OCID of the standby database in the `peerDbId` parameter.
+	IsDisconnectPeer *bool `mandatory:"false" json:"isDisconnectPeer"`
 }
 
 func (m UpdateAutonomousDatabaseDetails) String() string {
@@ -380,6 +384,7 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		SecretId                             *string                                                              `json:"secretId"`
 		SecretVersionNumber                  *int                                                                 `json:"secretVersionNumber"`
 		EncryptionKey                        autonomousdatabaseencryptionkeydetails                               `json:"encryptionKey"`
+		IsDisconnectPeer                     *bool                                                                `json:"isDisconnectPeer"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -502,6 +507,8 @@ func (m *UpdateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.EncryptionKey = nil
 	}
+
+	m.IsDisconnectPeer = model.IsDisconnectPeer
 
 	return
 }

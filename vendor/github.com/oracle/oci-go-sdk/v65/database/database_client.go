@@ -1650,6 +1650,68 @@ func (client DatabaseClient) changeDisasterRecoveryConfiguration(ctx context.Con
 	return response, err
 }
 
+// ChangeEncryptionKeyLocation Update the encryption key management location for the database
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ChangeEncryptionKeyLocation.go.html to see an example of how to use ChangeEncryptionKeyLocation API.
+func (client DatabaseClient) ChangeEncryptionKeyLocation(ctx context.Context, request ChangeEncryptionKeyLocationRequest) (response ChangeEncryptionKeyLocationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeEncryptionKeyLocation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeEncryptionKeyLocationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeEncryptionKeyLocationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeEncryptionKeyLocationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeEncryptionKeyLocationResponse")
+	}
+	return
+}
+
+// changeEncryptionKeyLocation implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) changeEncryptionKeyLocation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/actions/changeEncryptionKeyLocation", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeEncryptionKeyLocationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ChangeEncryptionKeyLocation"
+		err = common.PostProcessServiceError(err, "Database", "ChangeEncryptionKeyLocation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeExadataInfrastructureCompartment Moves an Exadata infrastructure resource and its dependent resources to another compartment. Applies to Exadata Cloud@Customer instances only.
 // To move an Exadata Cloud Service infrastructure resource to another compartment, use the  ChangeCloudExadataInfrastructureCompartment operation.
 //
@@ -2889,6 +2951,70 @@ func (client DatabaseClient) convertToRegularPluggableDatabase(ctx context.Conte
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/PluggableDatabase/ConvertToRegularPluggableDatabase"
 		err = common.PostProcessServiceError(err, "Database", "ConvertToRegularPluggableDatabase", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ConvertToStandalone Disassociate the standby database identified by the `databaseId` parameter from existing Data Guard group.
+// Convert the standby to a standalone database.
+// This operation should be performed on respective standby database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ConvertToStandalone.go.html to see an example of how to use ConvertToStandalone API.
+func (client DatabaseClient) ConvertToStandalone(ctx context.Context, request ConvertToStandaloneRequest) (response ConvertToStandaloneResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.convertToStandalone, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ConvertToStandaloneResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ConvertToStandaloneResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ConvertToStandaloneResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ConvertToStandaloneResponse")
+	}
+	return
+}
+
+// convertToStandalone implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) convertToStandalone(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/convertToStandalone", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ConvertToStandaloneResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ConvertToStandalone"
+		err = common.PostProcessServiceError(err, "Database", "ConvertToStandalone", apiReferenceLink)
 		return response, err
 	}
 
@@ -9135,6 +9261,72 @@ func (client DatabaseClient) failoverAutonomousContainerDatabaseDataguardAssocia
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/FailoverAutonomousContainerDatabaseDataguardAssociation"
 		err = common.PostProcessServiceError(err, "Database", "FailoverAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// FailoverDataGuard Performs a failover to transition the standby database identified by the `databaseId` path parameter into the
+// primary role after the existing primary database fails or becomes unreachable.
+// A failover might result in data loss depending on the protection mode in effect at the time of the primary
+// database failure.
+// This operation should be performed on respective standby database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/FailoverDataGuard.go.html to see an example of how to use FailoverDataGuard API.
+func (client DatabaseClient) FailoverDataGuard(ctx context.Context, request FailoverDataGuardRequest) (response FailoverDataGuardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.failoverDataGuard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = FailoverDataGuardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = FailoverDataGuardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(FailoverDataGuardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into FailoverDataGuardResponse")
+	}
+	return
+}
+
+// failoverDataGuard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) failoverDataGuard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/failover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response FailoverDataGuardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/FailoverDataGuard"
+		err = common.PostProcessServiceError(err, "Database", "FailoverDataGuard", apiReferenceLink)
 		return response, err
 	}
 
@@ -18274,6 +18466,69 @@ func (client DatabaseClient) localClonePluggableDatabase(ctx context.Context, re
 	return response, err
 }
 
+// MigrateDataGuardAssociationToMultiDataGuards Migrates the existing Data Guard association to new Data Guard model to support multiple standby databases functionality.
+// This operation should always be performed on primary.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/MigrateDataGuardAssociationToMultiDataGuards.go.html to see an example of how to use MigrateDataGuardAssociationToMultiDataGuards API.
+func (client DatabaseClient) MigrateDataGuardAssociationToMultiDataGuards(ctx context.Context, request MigrateDataGuardAssociationToMultiDataGuardsRequest) (response MigrateDataGuardAssociationToMultiDataGuardsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.migrateDataGuardAssociationToMultiDataGuards, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = MigrateDataGuardAssociationToMultiDataGuardsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = MigrateDataGuardAssociationToMultiDataGuardsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(MigrateDataGuardAssociationToMultiDataGuardsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into MigrateDataGuardAssociationToMultiDataGuardsResponse")
+	}
+	return
+}
+
+// migrateDataGuardAssociationToMultiDataGuards implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) migrateDataGuardAssociationToMultiDataGuards(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuardAssociations/{dataGuardAssociationId}/actions/migrate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response MigrateDataGuardAssociationToMultiDataGuardsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/DataGuardAssociation/MigrateDataGuardAssociationToMultiDataGuards"
+		err = common.PostProcessServiceError(err, "Database", "MigrateDataGuardAssociationToMultiDataGuards", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // MigrateExadataDbSystemResourceModel Migrates the Exadata DB system to the new Exadata resource model (https://docs.cloud.oracle.com/iaas/Content/Database/Concepts/exaflexsystem.htm#exaflexsystem_topic-resource_model).
 // All related resources will be migrated.
 //
@@ -18754,6 +19009,69 @@ func (client DatabaseClient) reinstateAutonomousContainerDatabaseDataguardAssoci
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousContainerDatabaseDataguardAssociation/ReinstateAutonomousContainerDatabaseDataguardAssociation"
 		err = common.PostProcessServiceError(err, "Database", "ReinstateAutonomousContainerDatabaseDataguardAssociation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ReinstateDataGuard Reinstates the database identified by the `databaseId` parameter into the standby role in a Data Guard association.
+// This operation should be performed on disabled standby database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/ReinstateDataGuard.go.html to see an example of how to use ReinstateDataGuard API.
+func (client DatabaseClient) ReinstateDataGuard(ctx context.Context, request ReinstateDataGuardRequest) (response ReinstateDataGuardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.reinstateDataGuard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ReinstateDataGuardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ReinstateDataGuardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ReinstateDataGuardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ReinstateDataGuardResponse")
+	}
+	return
+}
+
+// reinstateDataGuard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) reinstateDataGuard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/reinstate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ReinstateDataGuardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/ReinstateDataGuard"
+		err = common.PostProcessServiceError(err, "Database", "ReinstateDataGuard", apiReferenceLink)
 		return response, err
 	}
 
@@ -20704,6 +21022,71 @@ func (client DatabaseClient) stopPluggableDatabase(ctx context.Context, request 
 	return response, err
 }
 
+// SwitchOverDataGuard Performs a switchover to transition primary database of this Data Guard association into a standby role. The
+// standby database associated with the `dataGuardAssociationId` assumes the primary database role.
+// A switchover guarantees no data loss.
+// This operation should be performed on respective standby database.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/SwitchOverDataGuard.go.html to see an example of how to use SwitchOverDataGuard API.
+func (client DatabaseClient) SwitchOverDataGuard(ctx context.Context, request SwitchOverDataGuardRequest) (response SwitchOverDataGuardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.switchOverDataGuard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SwitchOverDataGuardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SwitchOverDataGuardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SwitchOverDataGuardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SwitchOverDataGuardResponse")
+	}
+	return
+}
+
+// switchOverDataGuard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) switchOverDataGuard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/switchover", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SwitchOverDataGuardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/SwitchOverDataGuard"
+		err = common.PostProcessServiceError(err, "Database", "SwitchOverDataGuard", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // SwitchoverAutonomousContainerDatabaseDataguardAssociation Switches over the primary Autonomous Container Database of an Autonomous Data Guard peer association to standby role. The standby Autonomous Container Database associated with autonomousContainerDatabaseDataguardAssociationId assumes the primary Autonomous Container Database role.
 // A switchover incurs no data loss.
 //
@@ -21968,6 +22351,69 @@ func (client DatabaseClient) updateConsoleHistory(ctx context.Context, request c
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/ConsoleHistory/UpdateConsoleHistory"
 		err = common.PostProcessServiceError(err, "Database", "UpdateConsoleHistory", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDataGuard Update an existing Data Guard member. A Data Guard member represents the replication relationship between the
+// specified database and a standby database. For more information, see Using Oracle Data Guard (https://docs.cloud.oracle.com/Content/Database/Tasks/usingdataguard.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/database/UpdateDataGuard.go.html to see an example of how to use UpdateDataGuard API.
+func (client DatabaseClient) UpdateDataGuard(ctx context.Context, request UpdateDataGuardRequest) (response UpdateDataGuardResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.updateDataGuard, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDataGuardResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDataGuardResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDataGuardResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDataGuardResponse")
+	}
+	return
+}
+
+// updateDataGuard implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) updateDataGuard(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databases/{databaseId}/dataGuard/actions/updateDataGuard", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateDataGuardResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/Database/UpdateDataGuard"
+		err = common.PostProcessServiceError(err, "Database", "UpdateDataGuard", apiReferenceLink)
 		return response, err
 	}
 

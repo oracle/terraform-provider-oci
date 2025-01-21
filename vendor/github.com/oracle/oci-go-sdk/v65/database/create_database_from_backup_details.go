@@ -10,6 +10,7 @@
 package database
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/oracle/oci-go-sdk/v65/common"
 	"strings"
@@ -26,6 +27,8 @@ type CreateDatabaseFromBackupDetails struct {
 
 	// The password to open the TDE wallet.
 	BackupTDEPassword *string `mandatory:"false" json:"backupTDEPassword"`
+
+	SourceEncryptionKeyLocationDetails EncryptionKeyLocationDetails `mandatory:"false" json:"sourceEncryptionKeyLocationDetails"`
 
 	// The `DB_UNIQUE_NAME` of the Oracle Database being backed up.
 	DbUniqueName *string `mandatory:"false" json:"dbUniqueName"`
@@ -54,4 +57,49 @@ func (m CreateDatabaseFromBackupDetails) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// UnmarshalJSON unmarshals from json
+func (m *CreateDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (e error) {
+	model := struct {
+		BackupTDEPassword                  *string                      `json:"backupTDEPassword"`
+		SourceEncryptionKeyLocationDetails encryptionkeylocationdetails `json:"sourceEncryptionKeyLocationDetails"`
+		DbUniqueName                       *string                      `json:"dbUniqueName"`
+		DbName                             *string                      `json:"dbName"`
+		SidPrefix                          *string                      `json:"sidPrefix"`
+		PluggableDatabases                 []string                     `json:"pluggableDatabases"`
+		BackupId                           *string                      `json:"backupId"`
+		AdminPassword                      *string                      `json:"adminPassword"`
+	}{}
+
+	e = json.Unmarshal(data, &model)
+	if e != nil {
+		return
+	}
+	var nn interface{}
+	m.BackupTDEPassword = model.BackupTDEPassword
+
+	nn, e = model.SourceEncryptionKeyLocationDetails.UnmarshalPolymorphicJSON(model.SourceEncryptionKeyLocationDetails.JsonData)
+	if e != nil {
+		return
+	}
+	if nn != nil {
+		m.SourceEncryptionKeyLocationDetails = nn.(EncryptionKeyLocationDetails)
+	} else {
+		m.SourceEncryptionKeyLocationDetails = nil
+	}
+
+	m.DbUniqueName = model.DbUniqueName
+
+	m.DbName = model.DbName
+
+	m.SidPrefix = model.SidPrefix
+
+	m.PluggableDatabases = make([]string, len(model.PluggableDatabases))
+	copy(m.PluggableDatabases, model.PluggableDatabases)
+	m.BackupId = model.BackupId
+
+	m.AdminPassword = model.AdminPassword
+
+	return
 }
