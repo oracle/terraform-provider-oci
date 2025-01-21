@@ -77,6 +77,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_db_node_console_histories", DatabaseDbNodeConsoleHistoriesDataSource())
 	tfresource.RegisterDatasource("oci_database_db_node_console_history", DatabaseDbNodeConsoleHistoryDataSource())
 	tfresource.RegisterDatasource("oci_database_db_node_console_history_content", DatabaseDbNodeConsoleHistoryContentDataSource())
+	tfresource.RegisterDatasource("oci_database_db_node_snapshot", DatabaseDbNodeSnapshotDataSource())
+	tfresource.RegisterDatasource("oci_database_db_node_snapshots", DatabaseDbNodeSnapshotsDataSource())
 	tfresource.RegisterDatasource("oci_database_db_nodes", DatabaseDbNodesDataSource())
 	tfresource.RegisterDatasource("oci_database_db_server", DatabaseDbServerDataSource())
 	tfresource.RegisterDatasource("oci_database_db_servers", DatabaseDbServersDataSource())
