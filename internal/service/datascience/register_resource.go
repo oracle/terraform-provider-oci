@@ -19,4 +19,5 @@ func RegisterResource() {
 	tfresource.RegisterResource("oci_datascience_pipeline", DatasciencePipelineResource())
 	tfresource.RegisterResource("oci_datascience_pipeline_run", DatasciencePipelineRunResource())
 	tfresource.RegisterResource("oci_datascience_project", DatascienceProjectResource())
+	tfresource.RegisterResource("oci_datascience_schedule", DatascienceScheduleResource())
 }

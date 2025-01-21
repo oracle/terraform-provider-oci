@@ -32,4 +32,6 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_datascience_pipelines", DatasciencePipelinesDataSource())
 	tfresource.RegisterDatasource("oci_datascience_project", DatascienceProjectDataSource())
 	tfresource.RegisterDatasource("oci_datascience_projects", DatascienceProjectsDataSource())
+	tfresource.RegisterDatasource("oci_datascience_schedule", DatascienceScheduleDataSource())
+	tfresource.RegisterDatasource("oci_datascience_schedules", DatascienceSchedulesDataSource())
 }
