@@ -518,6 +518,16 @@ var exportDatabaseExadbVmClusterHints = &tf_export.TerraformResourceHints{
 	},
 }
 
+var exportDatabaseDbNodeSnapshotHints = &tf_export.TerraformResourceHints{
+	ResourceClass:        "oci_database_db_node_snapshot",
+	DatasourceClass:      "oci_database_db_node_snapshots",
+	DatasourceItemsAttr:  "dbnode_snapshots",
+	ResourceAbbreviation: "db_node_snapshot",
+	DiscoverableLifecycleStates: []string{
+		string(oci_database.DbnodeSnapshotLifecycleStateAvailable),
+	},
+}
+
 var exportDatabaseAutonomousDatabaseSoftwareImageHints = &tf_export.TerraformResourceHints{
 	ResourceClass:          "oci_database_autonomous_database_software_image",
 	DatasourceClass:        "oci_database_autonomous_database_software_images",
@@ -677,6 +687,7 @@ var databaseResourceGraph = tf_export.TerraformResourceGraph{
 		{TerraformResourceHints: exportDatabaseOneoffPatchHints},
 		{TerraformResourceHints: exportDatabaseExascaleDbStorageVaultHints},
 		{TerraformResourceHints: exportDatabaseExadbVmClusterHints},
+		{TerraformResourceHints: exportDatabaseDbNodeSnapshotHints},
 		{TerraformResourceHints: exportDatabaseExecutionWindowHints},
 		{TerraformResourceHints: exportDatabaseSchedulingPlanHints},
 		{TerraformResourceHints: exportDatabaseSchedulingPolicyHints},
