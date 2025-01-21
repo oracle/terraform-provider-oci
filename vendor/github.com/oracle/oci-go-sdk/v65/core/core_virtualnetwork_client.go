@@ -762,6 +762,71 @@ func (client VirtualNetworkClient) bulkDeleteVirtualCircuitPublicPrefixes(ctx co
 	return response, err
 }
 
+// ChangeByoasnCompartment Moves a BYOASN Resource to a different compartment. For information
+// about moving resources between compartments, see
+// Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ChangeByoasnCompartment.go.html to see an example of how to use ChangeByoasnCompartment API.
+// A default retry strategy applies to this operation ChangeByoasnCompartment()
+func (client VirtualNetworkClient) ChangeByoasnCompartment(ctx context.Context, request ChangeByoasnCompartmentRequest) (response ChangeByoasnCompartmentResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeByoasnCompartment, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeByoasnCompartmentResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeByoasnCompartmentResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeByoasnCompartmentResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeByoasnCompartmentResponse")
+	}
+	return
+}
+
+// changeByoasnCompartment implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) changeByoasnCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/byoasns/{byoasnId}/actions/changeCompartment", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeByoasnCompartmentResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/ChangeByoasnCompartment"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ChangeByoasnCompartment", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeByoipRangeCompartment Moves a BYOIP CIDR block to a different compartment. For information
 // about moving resources between compartments, see
 // Moving Resources to a Different Compartment (https://docs.cloud.oracle.com/iaas/Content/Identity/Tasks/managingcompartments.htm#moveRes).
@@ -2361,6 +2426,69 @@ func (client VirtualNetworkClient) connectRemotePeeringConnections(ctx context.C
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RemotePeeringConnection/ConnectRemotePeeringConnections"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ConnectRemotePeeringConnections", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// CreateByoasn Creates a BYOASN Resource
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/CreateByoasn.go.html to see an example of how to use CreateByoasn API.
+// A default retry strategy applies to this operation CreateByoasn()
+func (client VirtualNetworkClient) CreateByoasn(ctx context.Context, request CreateByoasnRequest) (response CreateByoasnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createByoasn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateByoasnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateByoasnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateByoasnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateByoasnResponse")
+	}
+	return
+}
+
+// createByoasn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createByoasn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/byoasns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response CreateByoasnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/CreateByoasn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateByoasn", apiReferenceLink)
 		return response, err
 	}
 
@@ -4342,6 +4470,66 @@ func (client VirtualNetworkClient) createVtap(ctx context.Context, request commo
 	return response, err
 }
 
+// DeleteByoasn Deletes the specified `Byoasn` resource.
+// The resource must be in one of the following states: CREATING, ACTIVE or FAILED.
+// It must not be in use by any of the byoipRanges or deletion will fail.
+// You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/DeleteByoasn.go.html to see an example of how to use DeleteByoasn API.
+func (client VirtualNetworkClient) DeleteByoasn(ctx context.Context, request DeleteByoasnRequest) (response DeleteByoasnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteByoasn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteByoasnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteByoasnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteByoasnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteByoasnResponse")
+	}
+	return
+}
+
+// deleteByoasn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteByoasn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/byoasns/{byoasnId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response DeleteByoasnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/DeleteByoasn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteByoasn", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // DeleteByoipRange Deletes the specified `ByoipRange` resource.
 // The resource must be in one of the following states: CREATING, PROVISIONED, ACTIVE, or FAILED.
 // It must not have any subranges currently allocated to a PublicIpPool object or the deletion will fail.
@@ -6198,6 +6386,64 @@ func (client VirtualNetworkClient) getAllowedIkeIPSecParameters(ctx context.Cont
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/AllowedIkeIPSecParameters/GetAllowedIkeIPSecParameters"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetAllowedIkeIPSecParameters", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetByoasn Gets the `Byoasn` resource. You must specify the OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/GetByoasn.go.html to see an example of how to use GetByoasn API.
+// A default retry strategy applies to this operation GetByoasn()
+func (client VirtualNetworkClient) GetByoasn(ctx context.Context, request GetByoasnRequest) (response GetByoasnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getByoasn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetByoasnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetByoasnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetByoasnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetByoasnResponse")
+	}
+	return
+}
+
+// getByoasn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getByoasn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/byoasns/{byoasnId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetByoasnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/GetByoasn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetByoasn", apiReferenceLink)
 		return response, err
 	}
 
@@ -9569,6 +9815,65 @@ func (client VirtualNetworkClient) listAllowedPeerRegionsForRemotePeering(ctx co
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/PeerRegionForRemotePeering/ListAllowedPeerRegionsForRemotePeering"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListAllowedPeerRegionsForRemotePeering", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListByoasns Lists the `Byoasn` resources in the specified compartment.
+// You can filter the list using query parameters.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ListByoasns.go.html to see an example of how to use ListByoasns API.
+// A default retry strategy applies to this operation ListByoasns()
+func (client VirtualNetworkClient) ListByoasns(ctx context.Context, request ListByoasnsRequest) (response ListByoasnsResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listByoasns, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListByoasnsResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListByoasnsResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListByoasnsResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListByoasnsResponse")
+	}
+	return
+}
+
+// listByoasns implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listByoasns(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/byoasns", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ListByoasnsResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/ListByoasns"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListByoasns", apiReferenceLink)
 		return response, err
 	}
 
@@ -12962,6 +13267,183 @@ func (client VirtualNetworkClient) removeVcnCidr(ctx context.Context, request co
 	return response, err
 }
 
+// SetOriginAsn Update BYOIP's origin ASN to byoasn.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/SetOriginAsn.go.html to see an example of how to use SetOriginAsn API.
+// A default retry strategy applies to this operation SetOriginAsn()
+func (client VirtualNetworkClient) SetOriginAsn(ctx context.Context, request SetOriginAsnRequest) (response SetOriginAsnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.setOriginAsn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetOriginAsnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetOriginAsnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetOriginAsnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetOriginAsnResponse")
+	}
+	return
+}
+
+// setOriginAsn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) setOriginAsn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/byoipRanges/{byoipRangeId}/actions/setOrigin/byoasn", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetOriginAsnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/SetOriginAsn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetOriginAsn", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// SetOriginAsnToOracle Update prefix's origin ASN to OCI
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/SetOriginAsnToOracle.go.html to see an example of how to use SetOriginAsnToOracle API.
+func (client VirtualNetworkClient) SetOriginAsnToOracle(ctx context.Context, request SetOriginAsnToOracleRequest) (response SetOriginAsnToOracleResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.setOriginAsnToOracle, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = SetOriginAsnToOracleResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = SetOriginAsnToOracleResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(SetOriginAsnToOracleResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into SetOriginAsnToOracleResponse")
+	}
+	return
+}
+
+// setOriginAsnToOracle implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) setOriginAsnToOracle(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/byoipRanges/{byoipRangeId}/actions/setOrigin/oracleAsn", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response SetOriginAsnToOracleResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/ByoipRange/SetOriginAsnToOracle"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "SetOriginAsnToOracle", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateByoasn Updates the tags or display name associated with the specified BYOASN Resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/UpdateByoasn.go.html to see an example of how to use UpdateByoasn API.
+func (client VirtualNetworkClient) UpdateByoasn(ctx context.Context, request UpdateByoasnRequest) (response UpdateByoasnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateByoasn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateByoasnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateByoasnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateByoasnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateByoasnResponse")
+	}
+	return
+}
+
+// updateByoasn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateByoasn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/byoasns/{byoasnId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response UpdateByoasnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/UpdateByoasn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateByoasn", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateByoipRange Updates the tags or display name associated to the specified BYOIP CIDR block.
 //
 // # See also
@@ -15130,6 +15612,70 @@ func (client VirtualNetworkClient) upgradeDrg(ctx context.Context, request commo
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/UpgradeDrg"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpgradeDrg", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ValidateByoasn Submits the BYOASN for validation. Please do not submit to Oracle for validation if the information for the BYOASN is not already modified in the Regional Internet Registry.
+// See To import a BYOASN (https://docs.cloud.oracle.com/iaas/Content/Network/Concepts/BYOASN.htm) for details.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/core/ValidateByoasn.go.html to see an example of how to use ValidateByoasn API.
+// A default retry strategy applies to this operation ValidateByoasn()
+func (client VirtualNetworkClient) ValidateByoasn(ctx context.Context, request ValidateByoasnRequest) (response ValidateByoasnResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.validateByoasn, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ValidateByoasnResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ValidateByoasnResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ValidateByoasnResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ValidateByoasnResponse")
+	}
+	return
+}
+
+// validateByoasn implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) validateByoasn(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/byoasns/{byoasnId}/actions/validate", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ValidateByoasnResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Byoasn/ValidateByoasn"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ValidateByoasn", apiReferenceLink)
 		return response, err
 	}
 
