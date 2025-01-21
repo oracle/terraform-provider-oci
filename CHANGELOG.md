@@ -1,3 +1,12 @@
+## 6.23.0 (Unreleased)
+
+### Added
+- Support for VCNIP - BYOASN (Bring Your Own ASN)
+- Create Multiple Standby Databases in DG environment
+- Support for ADB-S: Disconnecting ADG Standby and Backup-Based Peer
+- Support for NLB Active/Standby Purist Mode
+- Go upgrade to 1.21.13
+
 ## 6.22.0 (January 16, 2025)
 
 ### Added
