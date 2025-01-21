@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_on_premise_vantage_point_worker"
 sidebar_current: "docs-oci-resource-apm_synthetics-on_premise_vantage_point_worker"
 description: |-
-  Provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # oci_apm_synthetics_on_premise_vantage_point_worker
-This resource provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This resource provides the On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Registers a new worker.
 
