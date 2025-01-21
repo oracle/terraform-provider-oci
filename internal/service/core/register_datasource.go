@@ -20,6 +20,8 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_core_boot_volume_replica", CoreBootVolumeReplicaDataSource())
 	tfresource.RegisterDatasource("oci_core_boot_volume_replicas", CoreBootVolumeReplicasDataSource())
 	tfresource.RegisterDatasource("oci_core_boot_volumes", CoreBootVolumesDataSource())
+	tfresource.RegisterDatasource("oci_core_byoasn", CoreByoasnDataSource())
+	tfresource.RegisterDatasource("oci_core_byoasns", CoreByoasnsDataSource())
 	tfresource.RegisterDatasource("oci_core_byoip_allocated_ranges", CoreByoipAllocatedRangesDataSource())
 	tfresource.RegisterDatasource("oci_core_byoip_range", CoreByoipRangeDataSource())
 	tfresource.RegisterDatasource("oci_core_byoip_ranges", CoreByoipRangesDataSource())

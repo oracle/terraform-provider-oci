@@ -545,6 +545,7 @@ core
 * oci\_core\_compute\_capacity\_report
 * oci\_core\_instance\_maintenance\_event
 * oci\_core\_compute\_capacity\_topology
+* oci\_core\_byoasn
 
 data_labeling_service
     
