@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_script"
 sidebar_current: "docs-oci-datasource-apm_synthetics-script"
 description: |-
-  Provides details about a specific Script in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides details about a specific Script in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # Data Source: oci_apm_synthetics_script
-This data source provides details about a specific Script resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This data source provides details about a specific Script resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Gets the configuration of the script identified by the OCID.
 
