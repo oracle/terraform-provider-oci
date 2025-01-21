@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_dedicated_vantage_point"
 sidebar_current: "docs-oci-resource-apm_synthetics-dedicated_vantage_point"
 description: |-
-  Provides the Dedicated Vantage Point resource in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides the Dedicated Vantage Point resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # oci_apm_synthetics_dedicated_vantage_point
-This resource provides the Dedicated Vantage Point resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This resource provides the Dedicated Vantage Point resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Registers a new dedicated vantage point.
 

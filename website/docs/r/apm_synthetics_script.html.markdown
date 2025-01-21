@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_script"
 sidebar_current: "docs-oci-resource-apm_synthetics-script"
 description: |-
-  Provides the Script resource in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides the Script resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # oci_apm_synthetics_script
-This resource provides the Script resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This resource provides the Script resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Creates a new script.
 
