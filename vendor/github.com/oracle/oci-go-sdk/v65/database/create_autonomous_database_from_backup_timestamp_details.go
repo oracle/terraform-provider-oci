@@ -240,6 +240,8 @@ type CreateAutonomousDatabaseFromBackupTimestampDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// The timestamp specified for the point-in-time clone of the source Autonomous Database. The timestamp must be in the past.
 	Timestamp *common.SDKTime `mandatory:"false" json:"timestamp"`
 
@@ -548,6 +550,11 @@ func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetSecretVersionNumb
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateAutonomousDatabaseFromBackupTimestampDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateAutonomousDatabaseFromBackupTimestampDetails) String() string {
 	return common.PointerString(m)
 }
@@ -652,6 +659,7 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		Timestamp                                *common.SDKTime                                                   `json:"timestamp"`
 		UseLatestAvailableBackupTimeStamp        *bool                                                             `json:"useLatestAvailableBackupTimeStamp"`
 		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
@@ -778,6 +786,8 @@ func (m *CreateAutonomousDatabaseFromBackupTimestampDetails) UnmarshalJSON(data 
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.Timestamp = model.Timestamp
 

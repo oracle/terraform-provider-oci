@@ -240,6 +240,8 @@ type CreateAutonomousDatabaseFromBackupDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// A list of the source Autonomous Database's table space number(s) used to create this partial clone from the backup.
 	CloneTableSpaceList []int `mandatory:"false" json:"cloneTableSpaceList"`
 
@@ -542,6 +544,11 @@ func (m CreateAutonomousDatabaseFromBackupDetails) GetSecretVersionNumber() *int
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateAutonomousDatabaseFromBackupDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateAutonomousDatabaseFromBackupDetails) String() string {
 	return common.PointerString(m)
 }
@@ -646,6 +653,7 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		CloneTableSpaceList                      []int                                                             `json:"cloneTableSpaceList"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		AutonomousDatabaseBackupId               *string                                                           `json:"autonomousDatabaseBackupId"`
@@ -770,6 +778,8 @@ func (m *CreateAutonomousDatabaseFromBackupDetails) UnmarshalJSON(data []byte) (
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.CloneTableSpaceList = make([]int, len(model.CloneTableSpaceList))
 	copy(m.CloneTableSpaceList, model.CloneTableSpaceList)

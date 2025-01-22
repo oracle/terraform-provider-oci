@@ -66,6 +66,7 @@ type UpdateDb2ConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect the associated DB2 database.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
@@ -78,6 +79,7 @@ type UpdateDb2ConnectionDetails struct {
 	AdditionalAttributes []NameValuePair `mandatory:"false" json:"additionalAttributes"`
 
 	// The base64 encoded keystore file created at the client containing the server certificate / CA root certificate.
+	// Deprecated: This field is deprecated and replaced by "sslClientKeystoredbSecretId". This field will be removed after February 15 2026.
 	SslClientKeystoredb *string `mandatory:"false" json:"sslClientKeystoredb"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the keystore file stored,
@@ -86,6 +88,7 @@ type UpdateDb2ConnectionDetails struct {
 	SslClientKeystoredbSecretId *string `mandatory:"false" json:"sslClientKeystoredbSecretId"`
 
 	// The base64 encoded keystash file which contains the encrypted password to the key database file.
+	// Deprecated: This field is deprecated and replaced by "sslClientKeystashSecretId". This field will be removed after February 15 2026.
 	SslClientKeystash *string `mandatory:"false" json:"sslClientKeystash"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the keystash file is stored,

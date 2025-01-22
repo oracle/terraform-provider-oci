@@ -30,6 +30,9 @@ type CreateNetworkConfigurationRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// User delegation token.
+	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
+
 	// (Optional header param, required for Resource Principal version 3.0+)
 	// Parent resource control plane endpoint used to exchange for upper level resource principal token.
 	OpcParentRptUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-rpt-url"`

@@ -259,6 +259,8 @@ type CreateCrossRegionAutonomousDatabaseDataGuardDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -555,6 +557,11 @@ func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetSecretVersionNum
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateCrossRegionAutonomousDatabaseDataGuardDetails) String() string {
 	return common.PointerString(m)
 }
@@ -656,6 +663,7 @@ func (m *CreateCrossRegionAutonomousDatabaseDataGuardDetails) UnmarshalJSON(data
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
 	}{}
@@ -778,6 +786,8 @@ func (m *CreateCrossRegionAutonomousDatabaseDataGuardDetails) UnmarshalJSON(data
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.CompartmentId = model.CompartmentId
 

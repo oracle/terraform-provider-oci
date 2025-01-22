@@ -35,6 +35,9 @@ type StartComputeClusterRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// User delegation token.
+	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
+
 	// The optional parameter of details for start compute cluster command.
 	StartComputeClusterDetails `contributesTo:"body"`
 

@@ -79,6 +79,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	JndiSecurityPrincipal *string `mandatory:"false" json:"jndiSecurityPrincipal"`
 
 	// The password associated to the principal.
+	// Deprecated: This field is deprecated and replaced by "jndiSecurityCredentialsSecretId". This field will be removed after February 15 2026.
 	JndiSecurityCredentials *string `mandatory:"false" json:"jndiSecurityCredentials"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the security credentials are stored associated to the principal.
@@ -99,6 +100,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	Username *string `mandatory:"false" json:"username"`
 
 	// The password Oracle GoldenGate uses to connect the associated Java Message Service.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored,
@@ -107,6 +109,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The base64 encoded content of the TrustStore file.
+	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the TrustStore file is stored.
@@ -114,6 +117,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
 	// The TrustStore password.
+	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the TrustStore password is stored.
@@ -121,6 +125,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
 
 	// The base64 encoded content of the KeyStore file.
+	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the content of the KeyStore file is stored.
@@ -128,6 +133,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
 	// The KeyStore password.
+	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the KeyStore password is stored.
@@ -136,6 +142,7 @@ type CreateJavaMessageServiceConnectionDetails struct {
 
 	// The password for the cert inside of the KeyStore.
 	// In case it differs from the KeyStore password, it should be provided.
+	// Deprecated: This field is deprecated and replaced by "sslKeyPasswordSecretId". This field will be removed after February 15 2026.
 	SslKeyPassword *string `mandatory:"false" json:"sslKeyPassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored for the cert inside of the Keystore.

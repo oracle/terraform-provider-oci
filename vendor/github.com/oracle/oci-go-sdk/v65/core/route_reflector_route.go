@@ -24,20 +24,35 @@ import (
 // RouteReflectorRoute Disintermediated routes
 type RouteReflectorRoute struct {
 
-	// CIDR.
-	Cidr *int64 `mandatory:"true" json:"cidr"`
+	// Identity of routing prefix.
+	Nlri *string `mandatory:"true" json:"nlri"`
 
-	// The RIB entries.
-	RibEntries []string `mandatory:"true" json:"ribEntries"`
+	// Next-hop IP address for the route.
+	NextHop *string `mandatory:"false" json:"nextHop"`
 
-	// The route Type.
-	RouteType *int64 `mandatory:"true" json:"routeType"`
+	// MPLS label associated with the route.
+	MplsLabel *int `mandatory:"false" json:"mplsLabel"`
 
-	// The infobase
-	Infobase RouteReflectorRouteInfobaseEnum `mandatory:"false" json:"infobase,omitempty"`
+	// BGP Local Preference attribute.
+	LocalPreference *int `mandatory:"false" json:"localPreference"`
 
-	// The vrf label
-	Vrf *int `mandatory:"false" json:"vrf"`
+	// Standard BGP community values.
+	Communities []string `mandatory:"false" json:"communities"`
+
+	// Large community information.
+	LargeCommunityInfo []string `mandatory:"false" json:"largeCommunityInfo"`
+
+	// The common or attachment specific label
+	RouteTarget *string `mandatory:"false" json:"routeTarget"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table assigned to the DRG attachment.
+	DrgRouteTableId *string `mandatory:"false" json:"drgRouteTableId"`
+
+	// Prefix of the route
+	Prefix *string `mandatory:"false" json:"prefix"`
+
+	// Indicates if it is public
+	IsPublic *bool `mandatory:"false" json:"isPublic"`
 }
 
 func (m RouteReflectorRoute) String() string {
@@ -50,53 +65,8 @@ func (m RouteReflectorRoute) String() string {
 func (m RouteReflectorRoute) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
-	if _, ok := GetMappingRouteReflectorRouteInfobaseEnum(string(m.Infobase)); !ok && m.Infobase != "" {
-		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Infobase: %s. Supported values are: %s.", m.Infobase, strings.Join(GetRouteReflectorRouteInfobaseEnumStringValues(), ",")))
-	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
-}
-
-// RouteReflectorRouteInfobaseEnum Enum with underlying type: string
-type RouteReflectorRouteInfobaseEnum string
-
-// Set of constants representing the allowable values for RouteReflectorRouteInfobaseEnum
-const (
-	RouteReflectorRouteInfobaseFib RouteReflectorRouteInfobaseEnum = "FIB"
-	RouteReflectorRouteInfobaseRib RouteReflectorRouteInfobaseEnum = "RIB"
-)
-
-var mappingRouteReflectorRouteInfobaseEnum = map[string]RouteReflectorRouteInfobaseEnum{
-	"FIB": RouteReflectorRouteInfobaseFib,
-	"RIB": RouteReflectorRouteInfobaseRib,
-}
-
-var mappingRouteReflectorRouteInfobaseEnumLowerCase = map[string]RouteReflectorRouteInfobaseEnum{
-	"fib": RouteReflectorRouteInfobaseFib,
-	"rib": RouteReflectorRouteInfobaseRib,
-}
-
-// GetRouteReflectorRouteInfobaseEnumValues Enumerates the set of values for RouteReflectorRouteInfobaseEnum
-func GetRouteReflectorRouteInfobaseEnumValues() []RouteReflectorRouteInfobaseEnum {
-	values := make([]RouteReflectorRouteInfobaseEnum, 0)
-	for _, v := range mappingRouteReflectorRouteInfobaseEnum {
-		values = append(values, v)
-	}
-	return values
-}
-
-// GetRouteReflectorRouteInfobaseEnumStringValues Enumerates the set of values in String for RouteReflectorRouteInfobaseEnum
-func GetRouteReflectorRouteInfobaseEnumStringValues() []string {
-	return []string{
-		"FIB",
-		"RIB",
-	}
-}
-
-// GetMappingRouteReflectorRouteInfobaseEnum performs case Insensitive comparison on enum value and return the desired enum
-func GetMappingRouteReflectorRouteInfobaseEnum(val string) (RouteReflectorRouteInfobaseEnum, bool) {
-	enum, ok := mappingRouteReflectorRouteInfobaseEnumLowerCase[strings.ToLower(val)]
-	return enum, ok
 }

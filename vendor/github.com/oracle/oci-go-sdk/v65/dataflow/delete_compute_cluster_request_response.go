@@ -29,6 +29,9 @@ type DeleteComputeClusterRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// User delegation token.
+	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
+
 	// The optional parameter of details for Delete compute cluster command.
 	DeleteComputeClusterDetails `contributesTo:"body"`
 

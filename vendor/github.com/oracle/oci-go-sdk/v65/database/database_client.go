@@ -14021,6 +14021,64 @@ func (client DatabaseClient) headAutonomousDatabase(ctx context.Context, request
 	return response, err
 }
 
+// ImportTransportableTablespace Imports transportable tablespace for the specified Autonomous Database.
+func (client DatabaseClient) ImportTransportableTablespace(ctx context.Context, request ImportTransportableTablespaceRequest) (response ImportTransportableTablespaceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.importTransportableTablespace, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ImportTransportableTablespaceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ImportTransportableTablespaceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ImportTransportableTablespaceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ImportTransportableTablespaceResponse")
+	}
+	return
+}
+
+// importTransportableTablespace implements the OCIOperation interface (enables retrying operations)
+func (client DatabaseClient) importTransportableTablespace(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/autonomousDatabases/{autonomousDatabaseId}/actions/importTransportableTablespace", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ImportTransportableTablespaceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/AutonomousDatabase/ImportTransportableTablespace"
+		err = common.PostProcessServiceError(err, "Database", "ImportTransportableTablespace", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // LaunchAutonomousExadataInfrastructure **Deprecated** To create a new Autonomous Database system on dedicated Exadata Infrastructure, use the CreateCloudExadataInfrastructure and CreateCloudAutonomousVmCluster operations instead. Note that to create an Autonomous VM cluster, you must have an existing Exadata Infrastructure resource to contain the VM cluster.
 func (client DatabaseClient) LaunchAutonomousExadataInfrastructure(ctx context.Context, request LaunchAutonomousExadataInfrastructureRequest) (response LaunchAutonomousExadataInfrastructureResponse, err error) {
 	var ociResponse common.OCIResponse

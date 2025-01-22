@@ -67,6 +67,7 @@ type CreateMicrosoftFabricConnectionDetails struct {
 	DoesUseSecretIds *bool `mandatory:"false" json:"doesUseSecretIds"`
 
 	// Client secret associated with the client id.
+	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId". This field will be removed after February 15 2026.
 	ClientSecret *string `mandatory:"false" json:"clientSecret"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.

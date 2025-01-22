@@ -100,6 +100,7 @@ type MongoDbConnection struct {
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the certificate key file of the mtls connection.
+	// - The content of a .pem file containing the client private key (for 2-way SSL).
 	// Note: When provided, 'tlsCertificateKeyFile' field must not be provided.
 	TlsCertificateKeyFileSecretId *string `mandatory:"false" json:"tlsCertificateKeyFileSecretId"`
 

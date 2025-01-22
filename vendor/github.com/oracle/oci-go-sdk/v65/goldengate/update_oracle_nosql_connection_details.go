@@ -66,6 +66,7 @@ type UpdateOracleNosqlConnectionDetails struct {
 
 	// The base64 encoded content of the private key file (PEM file) corresponding to the API key of the fingerprint.
 	// See documentation: https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingcredentials.htm
+	// Deprecated: This field is deprecated and replaced by "privateKeyFileSecretId". This field will be removed after February 15 2026.
 	PrivateKeyFile *string `mandatory:"false" json:"privateKeyFile"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the private key file (PEM file) corresponding to the API key of the fingerprint.
@@ -74,6 +75,7 @@ type UpdateOracleNosqlConnectionDetails struct {
 	PrivateKeyFileSecretId *string `mandatory:"false" json:"privateKeyFileSecretId"`
 
 	// The passphrase of the private key.
+	// Deprecated: This field is deprecated and replaced by "privateKeyPassphraseSecretId". This field will be removed after February 15 2026.
 	PrivateKeyPassphrase *string `mandatory:"false" json:"privateKeyPassphrase"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the passphrase of the private key.

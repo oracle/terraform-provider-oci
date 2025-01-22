@@ -58,6 +58,7 @@ type UpdateDatabricksConnectionDetails struct {
 
 	// The password used to connect to Databricks.
 	// Only applicable for authenticationType == PERSONAL_ACCESS_TOKEN.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
@@ -68,6 +69,7 @@ type UpdateDatabricksConnectionDetails struct {
 	ClientId *string `mandatory:"false" json:"clientId"`
 
 	// OAuth client secret, only applicable for authenticationType == OAUTH_M2M
+	// Deprecated: This field is deprecated and replaced by "clientSecretSecretId". This field will be removed after February 15 2026.
 	ClientSecret *string `mandatory:"false" json:"clientSecret"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the client secret is stored.

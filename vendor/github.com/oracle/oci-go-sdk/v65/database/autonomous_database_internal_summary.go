@@ -79,6 +79,7 @@ const (
 	AutonomousDatabaseInternalSummaryLifecycleStateUpgrading               AutonomousDatabaseInternalSummaryLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseInternalSummaryLifecycleStateInaccessible            AutonomousDatabaseInternalSummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseInternalSummaryLifecycleStateStandby                 AutonomousDatabaseInternalSummaryLifecycleStateEnum = "STANDBY"
+	AutonomousDatabaseInternalSummaryLifecycleStateTransporting            AutonomousDatabaseInternalSummaryLifecycleStateEnum = "TRANSPORTING"
 )
 
 var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnum = map[string]AutonomousDatabaseInternalSummaryLifecycleStateEnum{
@@ -103,6 +104,7 @@ var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnum = map[string]Auto
 	"UPGRADING":                 AutonomousDatabaseInternalSummaryLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseInternalSummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseInternalSummaryLifecycleStateStandby,
+	"TRANSPORTING":              AutonomousDatabaseInternalSummaryLifecycleStateTransporting,
 }
 
 var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseInternalSummaryLifecycleStateEnum{
@@ -127,6 +129,7 @@ var mappingAutonomousDatabaseInternalSummaryLifecycleStateEnumLowerCase = map[st
 	"upgrading":                 AutonomousDatabaseInternalSummaryLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseInternalSummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseInternalSummaryLifecycleStateStandby,
+	"transporting":              AutonomousDatabaseInternalSummaryLifecycleStateTransporting,
 }
 
 // GetAutonomousDatabaseInternalSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseInternalSummaryLifecycleStateEnum
@@ -162,6 +165,7 @@ func GetAutonomousDatabaseInternalSummaryLifecycleStateEnumStringValues() []stri
 		"UPGRADING",
 		"INACCESSIBLE",
 		"STANDBY",
+		"TRANSPORTING",
 	}
 }
 

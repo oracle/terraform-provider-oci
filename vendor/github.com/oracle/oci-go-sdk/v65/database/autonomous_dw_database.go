@@ -1025,6 +1025,7 @@ const (
 	AutonomousDwDatabaseLifecycleStateUpgrading               AutonomousDwDatabaseLifecycleStateEnum = "UPGRADING"
 	AutonomousDwDatabaseLifecycleStateInaccessible            AutonomousDwDatabaseLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDwDatabaseLifecycleStateStandby                 AutonomousDwDatabaseLifecycleStateEnum = "STANDBY"
+	AutonomousDwDatabaseLifecycleStateTransporting            AutonomousDwDatabaseLifecycleStateEnum = "TRANSPORTING"
 )
 
 var mappingAutonomousDwDatabaseLifecycleStateEnum = map[string]AutonomousDwDatabaseLifecycleStateEnum{
@@ -1049,6 +1050,7 @@ var mappingAutonomousDwDatabaseLifecycleStateEnum = map[string]AutonomousDwDatab
 	"UPGRADING":                 AutonomousDwDatabaseLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDwDatabaseLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDwDatabaseLifecycleStateStandby,
+	"TRANSPORTING":              AutonomousDwDatabaseLifecycleStateTransporting,
 }
 
 var mappingAutonomousDwDatabaseLifecycleStateEnumLowerCase = map[string]AutonomousDwDatabaseLifecycleStateEnum{
@@ -1073,6 +1075,7 @@ var mappingAutonomousDwDatabaseLifecycleStateEnumLowerCase = map[string]Autonomo
 	"upgrading":                 AutonomousDwDatabaseLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDwDatabaseLifecycleStateInaccessible,
 	"standby":                   AutonomousDwDatabaseLifecycleStateStandby,
+	"transporting":              AutonomousDwDatabaseLifecycleStateTransporting,
 }
 
 // GetAutonomousDwDatabaseLifecycleStateEnumValues Enumerates the set of values for AutonomousDwDatabaseLifecycleStateEnum
@@ -1108,6 +1111,7 @@ func GetAutonomousDwDatabaseLifecycleStateEnumStringValues() []string {
 		"UPGRADING",
 		"INACCESSIBLE",
 		"STANDBY",
+		"TRANSPORTING",
 	}
 }
 

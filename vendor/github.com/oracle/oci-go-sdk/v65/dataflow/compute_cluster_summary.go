@@ -106,6 +106,11 @@ type ComputeClusterSummary struct {
 	// not allowed to be overwritten will cause a 400 status to be returned.
 	SparkAdvancedConfigurations map[string]string `mandatory:"false" json:"sparkAdvancedConfigurations"`
 
+	// The environment variables passed to the running process.
+	// These variables are set inside driver and executor pods for the user application to consume.
+	// Example: { "key1" : "value1", "key2" : "value2" }
+	EnvironmentVariables map[string]string `mandatory:"false" json:"environmentVariables"`
+
 	// Optional timeout value in minutes used to auto stop Compute Clusters. A cluster will be auto stopped after inactivity for this amount of time period.
 	// If this value is not set, the cluster will not be auto stopped.
 	IdleComputeClusterTimeoutInMinutes *int `mandatory:"false" json:"idleComputeClusterTimeoutInMinutes"`

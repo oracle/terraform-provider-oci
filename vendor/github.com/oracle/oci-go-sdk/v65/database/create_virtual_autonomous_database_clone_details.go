@@ -240,6 +240,8 @@ type CreateVirtualAutonomousDatabaseCloneDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -536,6 +538,11 @@ func (m CreateVirtualAutonomousDatabaseCloneDetails) GetSecretVersionNumber() *i
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateVirtualAutonomousDatabaseCloneDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateVirtualAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
@@ -637,6 +644,7 @@ func (m *CreateVirtualAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte)
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
 	}{}
@@ -759,6 +767,8 @@ func (m *CreateVirtualAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte)
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.CompartmentId = model.CompartmentId
 

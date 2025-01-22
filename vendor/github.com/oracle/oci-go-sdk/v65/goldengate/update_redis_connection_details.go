@@ -65,6 +65,7 @@ type UpdateRedisConnectionDetails struct {
 
 	// The password Oracle GoldenGate uses to connect the associated system of the given technology.
 	// It must conform to the specific security requirements including length, case sensitivity, and so on.
+	// Deprecated: This field is deprecated and replaced by "passwordSecretId". This field will be removed after February 15 2026.
 	Password *string `mandatory:"false" json:"password"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the password is stored.
@@ -75,6 +76,7 @@ type UpdateRedisConnectionDetails struct {
 	PasswordSecretId *string `mandatory:"false" json:"passwordSecretId"`
 
 	// The base64 encoded content of the TrustStore file.
+	// Deprecated: This field is deprecated and replaced by "trustStoreSecretId". This field will be removed after February 15 2026.
 	TrustStore *string `mandatory:"false" json:"trustStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the TrustStore file.
@@ -82,6 +84,7 @@ type UpdateRedisConnectionDetails struct {
 	TrustStoreSecretId *string `mandatory:"false" json:"trustStoreSecretId"`
 
 	// The TrustStore password.
+	// Deprecated: This field is deprecated and replaced by "trustStorePasswordSecretId". This field will be removed after February 15 2026.
 	TrustStorePassword *string `mandatory:"false" json:"trustStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the Redis TrustStore password is stored.
@@ -89,6 +92,7 @@ type UpdateRedisConnectionDetails struct {
 	TrustStorePasswordSecretId *string `mandatory:"false" json:"trustStorePasswordSecretId"`
 
 	// The base64 encoded content of the KeyStore file.
+	// Deprecated: This field is deprecated and replaced by "keyStoreSecretId". This field will be removed after February 15 2026.
 	KeyStore *string `mandatory:"false" json:"keyStore"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret that stores the content of the KeyStore file.
@@ -96,6 +100,7 @@ type UpdateRedisConnectionDetails struct {
 	KeyStoreSecretId *string `mandatory:"false" json:"keyStoreSecretId"`
 
 	// The KeyStore password.
+	// Deprecated: This field is deprecated and replaced by "keyStorePasswordSecretId". This field will be removed after February 15 2026.
 	KeyStorePassword *string `mandatory:"false" json:"keyStorePassword"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the Secret where the Redis KeyStore password is stored.

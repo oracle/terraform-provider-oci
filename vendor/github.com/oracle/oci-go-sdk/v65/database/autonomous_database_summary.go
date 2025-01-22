@@ -1027,6 +1027,7 @@ const (
 	AutonomousDatabaseSummaryLifecycleStateUpgrading               AutonomousDatabaseSummaryLifecycleStateEnum = "UPGRADING"
 	AutonomousDatabaseSummaryLifecycleStateInaccessible            AutonomousDatabaseSummaryLifecycleStateEnum = "INACCESSIBLE"
 	AutonomousDatabaseSummaryLifecycleStateStandby                 AutonomousDatabaseSummaryLifecycleStateEnum = "STANDBY"
+	AutonomousDatabaseSummaryLifecycleStateTransporting            AutonomousDatabaseSummaryLifecycleStateEnum = "TRANSPORTING"
 )
 
 var mappingAutonomousDatabaseSummaryLifecycleStateEnum = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
@@ -1051,6 +1052,7 @@ var mappingAutonomousDatabaseSummaryLifecycleStateEnum = map[string]AutonomousDa
 	"UPGRADING":                 AutonomousDatabaseSummaryLifecycleStateUpgrading,
 	"INACCESSIBLE":              AutonomousDatabaseSummaryLifecycleStateInaccessible,
 	"STANDBY":                   AutonomousDatabaseSummaryLifecycleStateStandby,
+	"TRANSPORTING":              AutonomousDatabaseSummaryLifecycleStateTransporting,
 }
 
 var mappingAutonomousDatabaseSummaryLifecycleStateEnumLowerCase = map[string]AutonomousDatabaseSummaryLifecycleStateEnum{
@@ -1075,6 +1077,7 @@ var mappingAutonomousDatabaseSummaryLifecycleStateEnumLowerCase = map[string]Aut
 	"upgrading":                 AutonomousDatabaseSummaryLifecycleStateUpgrading,
 	"inaccessible":              AutonomousDatabaseSummaryLifecycleStateInaccessible,
 	"standby":                   AutonomousDatabaseSummaryLifecycleStateStandby,
+	"transporting":              AutonomousDatabaseSummaryLifecycleStateTransporting,
 }
 
 // GetAutonomousDatabaseSummaryLifecycleStateEnumValues Enumerates the set of values for AutonomousDatabaseSummaryLifecycleStateEnum
@@ -1110,6 +1113,7 @@ func GetAutonomousDatabaseSummaryLifecycleStateEnumStringValues() []string {
 		"UPGRADING",
 		"INACCESSIBLE",
 		"STANDBY",
+		"TRANSPORTING",
 	}
 }
 

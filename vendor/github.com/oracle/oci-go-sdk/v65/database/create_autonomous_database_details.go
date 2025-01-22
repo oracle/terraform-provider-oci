@@ -237,6 +237,8 @@ type CreateAutonomousDatabaseDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// The Oracle Database Edition that applies to the Autonomous databases. This parameter accepts options `STANDARD_EDITION` and `ENTERPRISE_EDITION`.
 	DatabaseEdition AutonomousDatabaseSummaryDatabaseEditionEnum `mandatory:"false" json:"databaseEdition,omitempty"`
 
@@ -533,6 +535,11 @@ func (m CreateAutonomousDatabaseDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateAutonomousDatabaseDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateAutonomousDatabaseDetails) String() string {
 	return common.PointerString(m)
 }
@@ -634,6 +641,7 @@ func (m *CreateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 	}{}
 
@@ -755,6 +763,8 @@ func (m *CreateAutonomousDatabaseDetails) UnmarshalJSON(data []byte) (e error) {
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.CompartmentId = model.CompartmentId
 

@@ -46,6 +46,9 @@ type ListLibrariesRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// User delegation token.
+	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

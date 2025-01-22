@@ -18192,11 +18192,6 @@ func (client VirtualNetworkClient) GetInternalDnsResolverConfig(ctx context.Cont
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.getInternalDnsResolverConfig, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -22224,11 +22219,6 @@ func (client VirtualNetworkClient) GetVcnVirtualCompartment(ctx context.Context,
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.getVcnVirtualCompartment, policy)
 	if err != nil {
 		if ociResponse != nil {
@@ -22252,7 +22242,7 @@ func (client VirtualNetworkClient) GetVcnVirtualCompartment(ctx context.Context,
 // getVcnVirtualCompartment implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) getVcnVirtualCompartment(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcnVirtualCompartment", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/vcnVirtualCompartment/{vcnVirtualCompartmentName}", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -24783,7 +24773,7 @@ func (client VirtualNetworkClient) ListEgressDisintermediatedRoutes(ctx context.
 // listEgressDisintermediatedRoutes implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) listEgressDisintermediatedRoutes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgRouteTables/{drgRouteTableId}/egressDisintermediatedRoutes", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/egressDisintermediatedRoutes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -25358,67 +25348,6 @@ func (client VirtualNetworkClient) listIPSecConnections(ctx context.Context, req
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/IPSecConnection/ListIPSecConnections"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIPSecConnections", apiReferenceLink)
-		return response, err
-	}
-
-	err = common.UnmarshalResponse(httpResponse, &response)
-	return response, err
-}
-
-// ListIngressDisintermediatedRoutes Get ingress disintermediated routes.
-// A default retry strategy applies to this operation ListIngressDisintermediatedRoutes()
-func (client VirtualNetworkClient) ListIngressDisintermediatedRoutes(ctx context.Context, request ListIngressDisintermediatedRoutesRequest) (response ListIngressDisintermediatedRoutesResponse, err error) {
-	var ociResponse common.OCIResponse
-	policy := common.DefaultRetryPolicy()
-	if client.RetryPolicy() != nil {
-		policy = *client.RetryPolicy()
-	}
-	if request.RetryPolicy() != nil {
-		policy = *request.RetryPolicy()
-	}
-	ociResponse, err = common.Retry(ctx, request, client.listIngressDisintermediatedRoutes, policy)
-	if err != nil {
-		if ociResponse != nil {
-			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
-				opcRequestId := httpResponse.Header.Get("opc-request-id")
-				response = ListIngressDisintermediatedRoutesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
-			} else {
-				response = ListIngressDisintermediatedRoutesResponse{}
-			}
-		}
-		return
-	}
-	if convertedResponse, ok := ociResponse.(ListIngressDisintermediatedRoutesResponse); ok {
-		response = convertedResponse
-	} else {
-		err = fmt.Errorf("failed to convert OCIResponse into ListIngressDisintermediatedRoutesResponse")
-	}
-	return
-}
-
-// listIngressDisintermediatedRoutes implements the OCIOperation interface (enables retrying operations)
-func (client VirtualNetworkClient) listIngressDisintermediatedRoutes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
-
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgRouteTables/{drgRouteTableId}/ingressDisintermediatedRoutes", binaryReqBody, extraHeaders)
-	if err != nil {
-		return nil, err
-	}
-
-	host := client.Host
-	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
-	common.SetMissingTemplateParams(&client.BaseClient)
-	defer func() {
-		client.Host = host
-	}()
-
-	var response ListIngressDisintermediatedRoutesResponse
-	var httpResponse *http.Response
-	httpResponse, err = client.Call(ctx, &httpRequest)
-	defer common.CloseBodyIfValid(httpResponse)
-	response.RawResponse = httpResponse
-	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/ListIngressDisintermediatedRoutes"
-		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListIngressDisintermediatedRoutes", apiReferenceLink)
 		return response, err
 	}
 
@@ -27837,7 +27766,7 @@ func (client VirtualNetworkClient) ListRouteReflectorRoutes(ctx context.Context,
 // listRouteReflectorRoutes implements the OCIOperation interface (enables retrying operations)
 func (client VirtualNetworkClient) listRouteReflectorRoutes(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
 
-	httpRequest, err := request.HTTPRequest(http.MethodGet, "/drgRouteTables/{drgRouteTableId}/routeReflectorRoutes", binaryReqBody, extraHeaders)
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/routeReflectorRoutes", binaryReqBody, extraHeaders)
 	if err != nil {
 		return nil, err
 	}
@@ -27855,7 +27784,7 @@ func (client VirtualNetworkClient) listRouteReflectorRoutes(ctx context.Context,
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/ListRouteReflectorRoutes"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/RouteReflectorRoute/ListRouteReflectorRoutes"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListRouteReflectorRoutes", apiReferenceLink)
 		return response, err
 	}
@@ -33867,11 +33796,6 @@ func (client VirtualNetworkClient) UpdateInternalDnsResolverConfig(ctx context.C
 	if request.RetryPolicy() != nil {
 		policy = *request.RetryPolicy()
 	}
-
-	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
-		request.OpcRetryToken = common.String(common.RetryToken())
-	}
-
 	ociResponse, err = common.Retry(ctx, request, client.updateInternalDnsResolverConfig, policy)
 	if err != nil {
 		if ociResponse != nil {

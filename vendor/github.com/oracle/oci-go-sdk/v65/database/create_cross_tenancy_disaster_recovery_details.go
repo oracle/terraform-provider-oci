@@ -263,6 +263,8 @@ type CreateCrossTenancyDisasterRecoveryDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// If true, up to 7 days worth of backups are replicated across regions for Cross-Region ADG or Backup-Based DR between Primary and Standby. If false, the backups taken on the Primary are not replicated to the Standby database.
 	IsReplicateAutomaticBackups *bool `mandatory:"false" json:"isReplicateAutomaticBackups"`
 
@@ -567,6 +569,11 @@ func (m CreateCrossTenancyDisasterRecoveryDetails) GetSecretVersionNumber() *int
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateCrossTenancyDisasterRecoveryDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateCrossTenancyDisasterRecoveryDetails) String() string {
 	return common.PointerString(m)
 }
@@ -671,6 +678,7 @@ func (m *CreateCrossTenancyDisasterRecoveryDetails) UnmarshalJSON(data []byte) (
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		IsReplicateAutomaticBackups              *bool                                                             `json:"isReplicateAutomaticBackups"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
@@ -795,6 +803,8 @@ func (m *CreateCrossTenancyDisasterRecoveryDetails) UnmarshalJSON(data []byte) (
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.IsReplicateAutomaticBackups = model.IsReplicateAutomaticBackups
 

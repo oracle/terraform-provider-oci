@@ -34,6 +34,9 @@ type CreateComputeClusterRequest struct {
 	// Parent resource control plane endpoint used to exchange for upper level resource principal token.
 	OpcParentRptUrl *string `mandatory:"false" contributesTo:"header" name:"opc-parent-rpt-url"`
 
+	// User delegation token.
+	DelegationToken *string `mandatory:"false" contributesTo:"header" name:"delegation-token"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

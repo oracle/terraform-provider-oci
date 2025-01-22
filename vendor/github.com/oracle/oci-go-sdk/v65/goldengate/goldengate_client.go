@@ -4475,7 +4475,7 @@ func (client GoldenGateClient) stopPipeline(ctx context.Context, request common.
 	return response, err
 }
 
-// SwitchoverDeploymentPeer Switchover to the selected deployment peer, which can be a local placement or a standby deployment in different region. When provided, If-Match is checked against ETag values of the resource.
+// SwitchoverDeploymentPeer Switchover to the selected standby peer, which can be a local placement or a standby deployment in different region. When provided, If-Match is checked against ETag values of the resource.
 // A default retry strategy applies to this operation SwitchoverDeploymentPeer()
 func (client GoldenGateClient) SwitchoverDeploymentPeer(ctx context.Context, request SwitchoverDeploymentPeerRequest) (response SwitchoverDeploymentPeerResponse, err error) {
 	var ociResponse common.OCIResponse

@@ -19,10 +19,10 @@ import (
 type SwitchoverDeploymentPeerDetails struct {
 
 	// The availability domain of a placement.
-	AvailabilityDomain *string `mandatory:"false" json:"availabilityDomain"`
+	AvailabilityDomain *string `mandatory:"true" json:"availabilityDomain"`
 
 	// The fault domain of a placement.
-	FaultDomain *string `mandatory:"false" json:"faultDomain"`
+	FaultDomain *string `mandatory:"true" json:"faultDomain"`
 }
 
 func (m SwitchoverDeploymentPeerDetails) String() string {

@@ -268,6 +268,8 @@ type CreateAutonomousDatabaseBase interface {
 
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	GetSecretVersionNumber() *int
+
+	GetTransportableTablespace() *ImportTransportableTablespaceDetails
 }
 
 type createautonomousdatabasebase struct {
@@ -325,6 +327,7 @@ type createautonomousdatabasebase struct {
 	IsBackupRetentionLocked                  *bool                                                             `mandatory:"false" json:"isBackupRetentionLocked"`
 	SecretId                                 *string                                                           `mandatory:"false" json:"secretId"`
 	SecretVersionNumber                      *int                                                              `mandatory:"false" json:"secretVersionNumber"`
+	TransportableTablespace                  *ImportTransportableTablespaceDetails                             `mandatory:"false" json:"transportableTablespace"`
 	CompartmentId                            *string                                                           `mandatory:"true" json:"compartmentId"`
 	Source                                   string                                                            `json:"source"`
 }
@@ -394,6 +397,7 @@ func (m *createautonomousdatabasebase) UnmarshalJSON(data []byte) error {
 	m.IsBackupRetentionLocked = s.Model.IsBackupRetentionLocked
 	m.SecretId = s.Model.SecretId
 	m.SecretVersionNumber = s.Model.SecretVersionNumber
+	m.TransportableTablespace = s.Model.TransportableTablespace
 	m.Source = s.Model.Source
 
 	return err
@@ -721,6 +725,11 @@ func (m createautonomousdatabasebase) GetSecretId() *string {
 // GetSecretVersionNumber returns SecretVersionNumber
 func (m createautonomousdatabasebase) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
+}
+
+// GetTransportableTablespace returns TransportableTablespace
+func (m createautonomousdatabasebase) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
 }
 
 // GetCompartmentId returns CompartmentId

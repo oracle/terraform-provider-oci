@@ -2007,6 +2007,60 @@ func (client DataFlowClient) getComputeClusterContext(ctx context.Context, reque
 	return response, err
 }
 
+// GetDelegationToken Retrieves the user delegation token.
+// A default retry strategy applies to this operation GetDelegationToken()
+func (client DataFlowClient) GetDelegationToken(ctx context.Context, request GetDelegationTokenRequest) (response GetDelegationTokenResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDelegationToken, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDelegationTokenResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDelegationTokenResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDelegationTokenResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDelegationTokenResponse")
+	}
+	return
+}
+
+// getDelegationToken implements the OCIOperation interface (enables retrying operations)
+func (client DataFlowClient) getDelegationToken(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/computeClusters/{computeClusterId}/delegation/token", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response GetDelegationTokenResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/data-flow/20200129/ComputeClusterDelegationToken/GetDelegationToken"
+		err = common.PostProcessServiceError(err, "DataFlow", "GetDelegationToken", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // GetNetworkConfiguration Retrieves a networkConfiguration by Id.
 // A default retry strategy applies to this operation GetNetworkConfiguration()
 func (client DataFlowClient) GetNetworkConfiguration(ctx context.Context, request GetNetworkConfigurationRequest) (response GetNetworkConfigurationResponse, err error) {

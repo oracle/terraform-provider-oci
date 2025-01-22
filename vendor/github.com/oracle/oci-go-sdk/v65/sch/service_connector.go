@@ -55,7 +55,7 @@ type ServiceConnector struct {
 	// information for a resource in a `FAILED` state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
 
-	// *Please note this property is deprecated and will be removed on 10/15/2025.*
+	// *Please note this property is deprecated and will be removed on January 27, 2026. Use `lifecycleDetails` instead.*
 	// A message describing the current state in more detail.
 	// For example, the message might provide actionable
 	// information for a resource in a `FAILED` state.

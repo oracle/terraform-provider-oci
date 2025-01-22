@@ -14,9 +14,6 @@ import (
 // ListEgressDisintermediatedRoutesRequest wrapper for the ListEgressDisintermediatedRoutes operation
 type ListEgressDisintermediatedRoutesRequest struct {
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table.
-	DrgRouteTableId *string `mandatory:"true" contributesTo:"path" name:"drgRouteTableId"`
-
 	// Route table label
 	Label *int `mandatory:"true" contributesTo:"query" name:"label"`
 
@@ -25,6 +22,9 @@ type ListEgressDisintermediatedRoutesRequest struct {
 
 	// shard id
 	ShardId *int `mandatory:"true" contributesTo:"query" name:"shardId"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DRG route table assigned to the DRG attachment.
+	DrgRouteTableId *string `mandatory:"false" contributesTo:"query" name:"drgRouteTableId"`
 
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
@@ -70,16 +70,6 @@ func (request ListEgressDisintermediatedRoutesRequest) BinaryRequestBody() (*com
 // ReplaceMandatoryParamInPath replaces the mandatory parameter in the path with the value provided.
 // Not all services are supporting this feature and this method will be a no-op for those services.
 func (request ListEgressDisintermediatedRoutesRequest) ReplaceMandatoryParamInPath(client *common.BaseClient, mandatoryParamMap map[string][]common.TemplateParamForPerRealmEndpoint) {
-	if mandatoryParamMap["drgRouteTableId"] != nil {
-		templateParam := mandatoryParamMap["drgRouteTableId"]
-		for _, template := range templateParam {
-			replacementParam := *request.DrgRouteTableId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
 }
 
 // RetryPolicy implements the OCIRetryableRequest interface. This retrieves the specified retry policy.

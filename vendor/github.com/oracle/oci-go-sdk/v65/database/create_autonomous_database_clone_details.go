@@ -240,6 +240,8 @@ type CreateAutonomousDatabaseCloneDetails struct {
 	// The version of the vault secret. If no version is specified, the latest version will be used.
 	SecretVersionNumber *int `mandatory:"false" json:"secretVersionNumber"`
 
+	TransportableTablespace *ImportTransportableTablespaceDetails `mandatory:"false" json:"transportableTablespace"`
+
 	// The Autonomous Database clone type.
 	CloneType CreateAutonomousDatabaseCloneDetailsCloneTypeEnum `mandatory:"true" json:"cloneType"`
 
@@ -539,6 +541,11 @@ func (m CreateAutonomousDatabaseCloneDetails) GetSecretVersionNumber() *int {
 	return m.SecretVersionNumber
 }
 
+// GetTransportableTablespace returns TransportableTablespace
+func (m CreateAutonomousDatabaseCloneDetails) GetTransportableTablespace() *ImportTransportableTablespaceDetails {
+	return m.TransportableTablespace
+}
+
 func (m CreateAutonomousDatabaseCloneDetails) String() string {
 	return common.PointerString(m)
 }
@@ -643,6 +650,7 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 		IsBackupRetentionLocked                  *bool                                                             `json:"isBackupRetentionLocked"`
 		SecretId                                 *string                                                           `json:"secretId"`
 		SecretVersionNumber                      *int                                                              `json:"secretVersionNumber"`
+		TransportableTablespace                  *ImportTransportableTablespaceDetails                             `json:"transportableTablespace"`
 		CompartmentId                            *string                                                           `json:"compartmentId"`
 		SourceId                                 *string                                                           `json:"sourceId"`
 		CloneType                                CreateAutonomousDatabaseCloneDetailsCloneTypeEnum                 `json:"cloneType"`
@@ -766,6 +774,8 @@ func (m *CreateAutonomousDatabaseCloneDetails) UnmarshalJSON(data []byte) (e err
 	m.SecretId = model.SecretId
 
 	m.SecretVersionNumber = model.SecretVersionNumber
+
+	m.TransportableTablespace = model.TransportableTablespace
 
 	m.CompartmentId = model.CompartmentId
 
