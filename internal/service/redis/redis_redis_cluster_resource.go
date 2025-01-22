@@ -51,7 +51,6 @@ func RedisRedisClusterResource() *schema.Resource {
 			"software_version": {
 				Type:     schema.TypeString,
 				Required: true,
-				ForceNew: true,
 			},
 			"subnet_id": {
 				Type:     schema.TypeString,
@@ -581,6 +580,16 @@ func (s *RedisRedisClusterResourceCrud) Update() error {
 			return err
 		}
 	}
+
+	if softwareVersion, ok := s.D.GetOkExists("software_version"); ok && s.D.HasChange("software_version") {
+		request := oci_redis.UpdateRedisClusterRequest{}
+		request.SoftwareVersion = oci_redis.RedisClusterSoftwareVersionEnum(softwareVersion.(string))
+		err := s.updateRedisCluster(request)
+		if err != nil {
+			return err
+		}
+	}
+
 	return nil
 }
 

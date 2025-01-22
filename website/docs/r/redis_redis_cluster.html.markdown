@@ -47,7 +47,7 @@ The following arguments are supported:
 * `node_memory_in_gbs` - (Required) (Updatable) The amount of memory allocated to the cluster's nodes, in gigabytes.
 * `nsg_ids` - (Optional) (Updatable) A list of Network Security Group (NSG) [OCIDs](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) associated with this cluster. For more information, see [Using an NSG for Clusters](https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup). 
 * `shard_count` - (Optional) (Updatable) The number of shards in sharded cluster. Only applicable when clusterMode is SHARDED.
-* `software_version` - (Required) The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
+* `software_version` - (Required) (Updatable) The Oracle Cloud Infrastructure Cache engine version that the cluster is running.
 * `subnet_id` - (Required) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm#Oracle) of the cluster's subnet.
 
 
