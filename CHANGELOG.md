@@ -1,4 +1,4 @@
-## 6.23.0 (Unreleased)
+## 6.23.0 (January 22, 2025)
 
 ### Added
 - Support for VCNIP - BYOASN (Bring Your Own ASN)
