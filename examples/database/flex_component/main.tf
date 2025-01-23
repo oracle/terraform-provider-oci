@@ -20,10 +20,15 @@ provider "oci" {
   region           = var.region
 }
 
+variable "flex_component_shape" {
+  default = "shape"
+}
+
 data "oci_database_flex_components" "test_flex_components" {
   #Required
   compartment_id = "${var.compartment_ocid}"
 
   #Optional
   name = var.flex_component_name
+  shape = var.flex_component_shape
 }

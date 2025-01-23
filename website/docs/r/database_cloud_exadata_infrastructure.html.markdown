@@ -31,6 +31,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 		#Optional
 		email = var.cloud_exadata_infrastructure_customer_contacts_email
 	}
+	database_server_type = var.cloud_exadata_infrastructure_database_server_type
 	defined_tags = var.cloud_exadata_infrastructure_defined_tags
 	freeform_tags = {"Department"= "Finance"}
 	maintenance_window {
@@ -54,6 +55,7 @@ resource "oci_database_cloud_exadata_infrastructure" "test_cloud_exadata_infrast
 		weeks_of_month = var.cloud_exadata_infrastructure_maintenance_window_weeks_of_month
 	}
 	storage_count = var.cloud_exadata_infrastructure_storage_count
+	storage_server_type = var.cloud_exadata_infrastructure_storage_server_type
 	subscription_id = var.tenant_subscription_id
 }
 ```
@@ -68,6 +70,7 @@ The following arguments are supported:
 * `compute_count` - (Optional) (Updatable) The number of compute servers for the cloud Exadata infrastructure.
 * `customer_contacts` - (Optional) (Updatable) Customer contacts.
 	* `email` - (Optional) (Updatable) The email address used by Oracle to send notifications regarding databases and infrastructure.
+* `database_server_type` - (Optional) The database server type of the Exadata infrastructure.
 * `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
 * `display_name` - (Required) (Updatable) The user-friendly name for the cloud Exadata infrastructure resource. The name does not need to be unique. 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
@@ -89,6 +92,7 @@ The following arguments are supported:
 	* `weeks_of_month` - (Optional) (Updatable) Weeks during the month when maintenance should be performed. Weeks start on the 1st, 8th, 15th, and 22nd days of the month, and have a duration of 7 days. Weeks start and end based on calendar dates, not days of the week. For example, to allow maintenance during the 2nd week of the month (from the 8th day to the 14th day of the month), use the value 2. Maintenance cannot be scheduled for the fifth week of months that contain more than 28 days. Note that this parameter works in conjunction with the  daysOfWeek and hoursOfDay parameters to allow you to specify specific days of the week and hours that maintenance will be performed. 
 * `shape` - (Required) The shape of the cloud Exadata infrastructure resource. 
 * `storage_count` - (Optional) (Updatable) The number of storage servers for the cloud Exadata infrastructure.
+* `storage_server_type` - (Optional) The storage server type of the Exadata infrastructure.
 * `subscription_id` - (Optional) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 
 
@@ -106,10 +110,12 @@ The following attributes are exported:
 * `cluster_placement_group_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the cluster placement group of the Exadata Infrastructure.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `compute_count` - The number of compute servers for the cloud Exadata infrastructure.
+* `compute_model` - The compute model of the Exadata infrastructure.
 * `cpu_count` - The total number of CPU cores allocated.
 * `customer_contacts` - The list of customer email addresses that receive information from Oracle about the specified Oracle Cloud Infrastructure Database service resource. Oracle uses these email addresses to send notifications about planned and unplanned software maintenance updates, information about system hardware, and other information needed by administrators. Up to 10 email addresses can be added to the customer contacts for a cloud Exadata infrastructure instance. 
 	* `email` - The email address used by Oracle to send notifications regarding databases and infrastructure.
 * `data_storage_size_in_tbs` - Size, in terabytes, of the DATA disk group. 
+* `database_server_type` - The database server type of the Exadata infrastructure.
 * `db_node_storage_size_in_gbs` - The local node storage allocated in GBs.
 * `db_server_version` - The software version of the database servers (dom0) in the cloud Exadata infrastructure. Example: 20.1.15 
 * `defined_file_system_configurations` - Details of the file system configuration of the Exadata infrastructure.
@@ -151,6 +157,7 @@ The following attributes are exported:
 * `shape` - The model name of the cloud Exadata infrastructure resource. 
 * `state` - The current lifecycle state of the cloud Exadata infrastructure resource.
 * `storage_count` - The number of storage servers for the cloud Exadata infrastructure.
+* `storage_server_type` - The storage server type of the Exadata infrastructure.
 * `storage_server_version` - The software version of the storage servers (cells) in the cloud Exadata infrastructure. Example: 20.1.15 
 * `subscription_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the subscription with which resource needs to be associated with.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 

@@ -144,6 +144,8 @@ func (s *DatabaseCloudVmClustersDataSourceCrud) SetData() error {
 			cloudVmCluster["cluster_name"] = *r.ClusterName
 		}
 
+		cloudVmCluster["compute_model"] = r.ComputeModel
+
 		if r.CpuCoreCount != nil {
 			cloudVmCluster["cpu_core_count"] = *r.CpuCoreCount
 		}
