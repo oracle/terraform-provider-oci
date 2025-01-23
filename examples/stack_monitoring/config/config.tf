@@ -34,3 +34,10 @@ resource "oci_stack_monitoring_config" "test_enterprise_extensibility_config" {
   config_type = "LICENSE_ENTERPRISE_EXTENSIBILITY"
   is_enabled = true
 }
+
+resource "oci_stack_monitoring_config" "test_onboard_config" {
+  compartment_id = var.compartment_ocid
+  config_type = "onboard"
+  is_manually_onboarded = true
+  version = "myVersion"
+}
