@@ -65,6 +65,11 @@ resource "oci_database_db_system" "test_db_system" {
 			db_name = var.db_system_db_home_database_db_name
 			db_workload = var.db_system_db_home_database_db_workload
 			defined_tags = var.db_system_db_home_database_defined_tags
+			encryption_key_location_details {
+				#Required
+				hsm_password = var.db_system_db_home_database_encryption_key_location_details_hsm_password
+				provider_type = var.db_system_db_home_database_encryption_key_location_details_provider_type
+			}
 			freeform_tags = var.db_system_db_home_database_freeform_tags
 			key_store_id = oci_database_key_store.test_key_store.id
 			kms_key_id = oci_kms_key.test_key.id
@@ -73,6 +78,11 @@ resource "oci_database_db_system" "test_db_system" {
 			pdb_name = var.db_system_db_home_database_pdb_name
 			pluggable_databases = var.db_system_db_home_database_pluggable_databases
 			sid_prefix = var.db_system_db_home_database_sid_prefix
+			source_encryption_key_location_details {
+				#Required
+				hsm_password = var.db_system_db_home_database_source_encryption_key_location_details_hsm_password
+				provider_type = var.db_system_db_home_database_source_encryption_key_location_details_provider_type
+			}
 			tde_wallet_password = var.db_system_db_home_database_tde_wallet_password
 			time_stamp_for_point_in_time_recovery = var.db_system_db_home_database_time_stamp_for_point_in_time_recovery
 			vault_id = oci_kms_vault.test_vault.id
@@ -218,6 +228,9 @@ The following arguments are supported:
 
 			The database workload type. 
 		* `defined_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+		* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
+			* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 		* `freeform_tags` - (Applicable when source=DB_SYSTEM | NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 		* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 		* `kms_key_id` - (Applicable when source=NONE) The OCID of the key container that is used as the master encryption key in database transparent data encryption (TDE) operations.
@@ -226,6 +239,9 @@ The following arguments are supported:
 		* `pdb_name` - (Applicable when source=NONE) The name of the pluggable database. The name must begin with an alphabetic character and can contain a maximum of thirty alphanumeric characters. Special characters are not permitted. Pluggable database should not be same as database name.
 		* `pluggable_databases` - (Applicable when source=DATABASE | DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
 		* `sid_prefix` - (Applicable when source=DB_BACKUP | NONE) Specifies a prefix for the `Oracle SID` of the database to be created. 
+		* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
+			* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+			* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 		* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
 		* `time_stamp_for_point_in_time_recovery` - (Applicable when source=DATABASE) The point in time of the original database from which the new database is created. If not specifed, the latest backup is used to create the database.
 		* `vault_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the Oracle Cloud Infrastructure [vault](https://docs.cloud.oracle.com/iaas/Content/KeyManagement/Concepts/keyoverview.htm#concepts). This parameter and `secretId` are required for Customer Managed Keys.
