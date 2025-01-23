@@ -187,7 +187,7 @@ resource "oci_database_vm_cluster" "test_vm_cluster" {
   cpu_core_count            = "4"
   display_name              = "testVmCluster"
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
-  gi_version                = data.oci_database_gi_versions.gi_version.gi_versions.0.version
+  gi_version                = "23.0.0.0.0"
   ssh_public_keys           = [var.ssh_public_key]
   vm_cluster_network_id     = oci_database_vm_cluster_network.test_vm_cluster_network.id
   db_servers                = [data.oci_database_db_servers.test_db_servers.db_servers.0.id, data.oci_database_db_servers.test_db_servers.db_servers.1.id]
@@ -269,7 +269,7 @@ data "oci_database_vm_cluster_recommended_network" "test_vm_cluster_recommended_
 resource "oci_database_db_home" "test_db_home_vm_cluster" {
   vm_cluster_id = oci_database_vm_cluster.test_vm_cluster.id
   source       = "VM_CLUSTER_NEW"
-  db_version   = "12.1.0.2"
+  db_version   = "19.0.0.0"
   display_name = "createdDbHome"
 }
 
@@ -294,6 +294,11 @@ resource "oci_database_database" "test_exacc_database"{
         id   = oci_database_backup_destination.test_backup_destination_nfs.id
         type = "NFS"
       }
+    }
+    encryption_key_location_details {
+        #Required
+        hsm_password  = "hsmPassword"
+        provider_type = "EXTERNAL"
     }
   }
   db_home_id = oci_database_db_home.test_db_home_vm_cluster.id
@@ -339,9 +344,9 @@ data "oci_database_vm_clusters" "test_vm_clusters" {
   #Optional
   exadata_infrastructure_id = oci_database_exadata_infrastructure.test_exadata_infrastructure.id
 }
-
+/*
 resource "local_file" "test_vm_cluster_network_downloaded_config_file" {
   content  = data.oci_database_vm_cluster_network_download_config_file.test_vm_cluster_network_download_config_file.content
   filename = "${path.module}/vm_cluster_config.txt"
 }
-
+*/

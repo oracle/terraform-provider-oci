@@ -370,6 +370,78 @@ var (
 		"transport_type":             acctest.Representation{RepType: acctest.Optional, Create: `ASYNC`},
 	}
 
+	dbHomeHsmRepresentation = map[string]interface{}{
+		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseHsmDatabaseRepresentation},
+		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.23.0.0`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_desupported_version": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"source":                 acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
+		"vm_cluster_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDifferenceDbVersion},
+	}
+
+	dbHomeNoHsmRepresentation = map[string]interface{}{
+		"database":               acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseNoHsmDatabaseRepresentation},
+		"db_version":             acctest.Representation{RepType: acctest.Optional, Create: `19.23.0.0`},
+		"display_name":           acctest.Representation{RepType: acctest.Optional, Create: `dbHomeHsm`},
+		"defined_tags":           acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":          acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"is_desupported_version": acctest.Representation{RepType: acctest.Optional, Create: `false`},
+		"source":                 acctest.Representation{RepType: acctest.Required, Create: `VM_CLUSTER_NEW`},
+		"vm_cluster_id":          acctest.Representation{RepType: acctest.Optional, Create: `${oci_database_vm_cluster.test_vm_cluster.id}`},
+		"lifecycle":              acctest.RepresentationGroup{RepType: acctest.Required, Group: ignoreDifferenceDbVersion},
+	}
+
+	ignoreDifferenceDbVersion = map[string]interface{}{
+		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`db_version`}},
+	}
+
+	databaseHsmDatabaseRepresentation = acctest.RepresentationCopyWithNewProperties(databaseNoHsmDatabaseRepresentation, map[string]interface{}{
+		"encryption_key_location_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation},
+	})
+
+	databaseNoHsmDatabaseRepresentation = map[string]interface{}{
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb`},
+		"character_set":  acctest.Representation{RepType: acctest.Required, Create: `AL32UTF8`},
+		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+	}
+
+	DatabaseDatabaseHsmRepresentation2 = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseHsmDatabaseRepresentation2},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_hsm_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	DatabaseDatabaseNoHsmRepresentation2 = map[string]interface{}{
+		"database":   acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseDatabaseNoHsmRepresentation2},
+		"db_home_id": acctest.Representation{RepType: acctest.Required, Create: `${oci_database_db_home.test_hsm_db_home.id}`},
+		"source":     acctest.Representation{RepType: acctest.Required, Create: `NONE`},
+		"lifecycle":  acctest.RepresentationGroup{RepType: acctest.Required, Group: databaseIgnoreDefinedTagsRepresentation},
+	}
+
+	databaseHsmDatabaseRepresentation2 = acctest.RepresentationCopyWithNewProperties(databaseDatabaseNoHsmRepresentation2, map[string]interface{}{
+		"encryption_key_location_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation},
+	})
+
+	databaseDatabaseNoHsmRepresentation2 = map[string]interface{}{
+		"admin_password": acctest.Representation{RepType: acctest.Required, Create: `BEstrO0ng_#11`},
+		"db_name":        acctest.Representation{RepType: acctest.Required, Create: `myHsmDb2`},
+		"character_set":  acctest.Representation{RepType: acctest.Optional, Create: `AL32UTF8`},
+		"db_unique_name": acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb_47`},
+		"db_workload":    acctest.Representation{RepType: acctest.Optional, Create: `OLTP`},
+		"defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
+		"freeform_tags":  acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"freeformTags": "freeformTags"}, Update: map[string]string{"freeformTags2": "freeformTags2"}},
+		"ncharacter_set": acctest.Representation{RepType: acctest.Optional, Create: `AL16UTF16`},
+		"sid_prefix":     acctest.Representation{RepType: acctest.Optional, Create: `myHsmDb2`},
+	}
+
 	databaseDatabaseDbrsRepresentation = acctest.GetMultipleUpdatedRepresenationCopy(
 		[]string{"db_backup_config", "lifecycle", "db_name", "admin_password"},
 		[]interface{}{
@@ -387,6 +459,15 @@ var (
 		"backup_destination_details": acctest.RepresentationGroup{RepType: acctest.Optional, Group: databaseDatabaseDbBackupConfigBackupDestinationDetailsRepresentation},
 		"recovery_window_in_days":    acctest.Representation{RepType: acctest.Optional, Create: `10`},
 		"run_immediate_full_backup":  acctest.Representation{RepType: acctest.Optional, Create: `false`},
+	}
+
+	DatabaseDatabaseDatabaseEncryptionKeyLocationDetailsRepresentation = map[string]interface{}{
+		"hsm_password":  acctest.Representation{RepType: acctest.Required, Create: `hsmPassword`},
+		"provider_type": acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
+	}
+	DatabaseDatabaseDatabaseSourceEncryptionKeyLocationDetailsRepresentation = map[string]interface{}{
+		"hsm_password":  acctest.Representation{RepType: acctest.Required, Create: `hsmPassword`},
+		"provider_type": acctest.Representation{RepType: acctest.Required, Create: `EXTERNAL`},
 	}
 
 	DatabaseDatabaseDatabaseDbBackupConfigDbrsRepresentation = map[string]interface{}{
@@ -462,6 +543,14 @@ var (
 	DatabaseDatabaseDatabaseResourceDbrsDependencies = DatabaseDatabaseResourceDbrsDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_recovery_recovery_service_subnet", "test_recovery_service_subnet", acctest.Required, acctest.Create, exaRecoveryServiceSubnetRepresentation) +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Required, acctest.Create, DatabaseDatabaseDbrsRepresentation2)
+
+	DatabaseExaccHsmDbHomeResourceDependencies = DefinedTagsDependencies + AvailabilityDomainConfig +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_backup_destination", "test_backup_destination", acctest.Optional, acctest.Create, backupDestinationNFSRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_exadata_infrastructure", "test_exadata_infrastructure", acctest.Optional, acctest.Update,
+			acctest.RepresentationCopyWithNewProperties(exadataInfrastructureActivateRepresentation, map[string]interface{}{"activation_file": acctest.Representation{RepType: acctest.Optional, Update: activationFilePath}})) +
+		acctest.GenerateDataSourceFromRepresentationMap("oci_database_db_servers", "test_db_servers", acctest.Required, acctest.Create, DatabaseDatabaseDbServerDataSourceRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster", "test_vm_cluster", acctest.Required, acctest.Create, DatabaseVmClusterRepresentation) +
+		acctest.GenerateResourceFromRepresentationMap("oci_database_vm_cluster_network", "test_vm_cluster_network", acctest.Optional, acctest.Update, vmClusterNetworkValidateRepresentation)
 )
 
 // issue-routing-tag: database/default
@@ -905,6 +994,99 @@ func TestDatabaseDatabaseResource_multipleStandby(t *testing.T) {
 				resource.TestCheckResourceAttrSet(standbyDatabase, "data_guard_group.#"),
 				resource.TestCheckResourceAttr(standbyDatabase, "data_guard_group.#", "0"),
 			),
+		},
+	})
+}
+
+// issue-routing-tag: database/default
+func TestExaccHsmDatabaseResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseDatabaseResource_basic")
+	defer httpreplay.SaveScenario()
+
+	config := acctest.ProviderTestConfig()
+
+	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
+	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
+
+	dbHomeResourceName := "oci_database_db_home.test_hsm_db_home"
+	databaseResourceName := "oci_database_database.test_database"
+
+	// Save TF content to create resource with optional properties. This has to be exactly the same as the config part in the "create with optionals" step in the test.
+	acctest.SaveConfigContent(config+compartmentIdVariableStr+DatabaseExaccHsmDbHomeResourceDependencies+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation)+
+		acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseHsmRepresentation2), "database", "database", t)
+
+	acctest.ResourceTest(t, testAccCheckDatabaseDatabaseDestroy, []resource.TestStep{
+
+		// verify create
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseHsmRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.0.hsm_password", "hsmPassword"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.0.provider_type", "EXTERNAL"),
+				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
+
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.#", "1"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.0.hsm_password", "hsmPassword"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.0.provider_type", "EXTERNAL"),
+			),
+		},
+
+		// delete hsm dbHome and db
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies,
+		},
+		// create dbHome and database with no HSM
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeNoHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseNoHsmRepresentation2),
+		},
+		// test migration
+		{
+			Config: config + compartmentIdVariableStr + DatabaseExaccHsmDbHomeResourceDependencies +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_db_home", "test_hsm_db_home", acctest.Optional, acctest.Create, dbHomeHsmRepresentation) +
+				acctest.GenerateResourceFromRepresentationMap("oci_database_database", "test_database", acctest.Optional, acctest.Create, DatabaseDatabaseHsmRepresentation2),
+			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(databaseResourceName, "database.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.admin_password", "BEstrO0ng_#11"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.db_name", "myHsmDb2"),
+				resource.TestCheckResourceAttrSet(databaseResourceName, "db_home_id"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.#", "1"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.0.hsm_password", "hsmPassword"),
+				resource.TestCheckResourceAttr(databaseResourceName, "database.0.encryption_key_location_details.0.provider_type", "EXTERNAL"),
+				resource.TestCheckResourceAttr(databaseResourceName, "source", "NONE"),
+
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.db_name", "myHsmDb"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.#", "1"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.0.hsm_password", "hsmPassword"),
+				resource.TestCheckResourceAttr(dbHomeResourceName, "database.0.encryption_key_location_details.0.provider_type", "EXTERNAL"),
+			),
+		},
+
+		// verify resource import
+		{
+			Config:            config + DatabaseRequiredOnlyResource,
+			ImportState:       true,
+			ImportStateVerify: true,
+			ImportStateVerifyIgnore: []string{
+				"database",
+				"db_version",
+				"kms_key_migration",
+				"kms_key_rotation",
+				"kms_key_version_id",
+				"key_store_id",
+				"source",
+			},
+			ResourceName: databaseResourceName,
 		},
 	})
 }

@@ -126,6 +126,10 @@ func (s *DatabaseDatabaseDataSourceCrud) SetData() error {
 		s.D.Set("defined_tags", tfresource.DefinedTagsToMap(s.Res.DefinedTags))
 	}
 
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		s.D.Set("encryption_key_location_details", []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")})
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.IsCdb != nil {

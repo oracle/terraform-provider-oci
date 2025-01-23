@@ -131,6 +131,10 @@ func (s *DatabaseBackupsDataSourceCrud) SetData() error {
 			backup["display_name"] = *r.DisplayName
 		}
 
+		if r.EncryptionKeyLocationDetails != nil {
+			backup["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&r.EncryptionKeyLocationDetails, "")}
+		}
+
 		if r.Id != nil {
 			backup["id"] = *r.Id
 		}

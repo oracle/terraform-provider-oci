@@ -206,6 +206,35 @@ func DatabaseDatabaseResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
 						},
+						"encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"provider_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXTERNAL",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
@@ -260,6 +289,35 @@ func DatabaseDatabaseResource() *schema.Resource {
 							Optional: true,
 							Computed: true,
 							ForceNew: true,
+						},
+						"source_encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"provider_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXTERNAL",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
 						},
 						"source_database_id": {
 							Type:             schema.TypeString,
@@ -915,6 +973,37 @@ func (s *DatabaseDatabaseResourceCrud) SetData() error {
 	return nil
 }
 
+func (s *DatabaseDatabaseResourceCrud) ChangeEncryptionKeyLocation(fieldKeyFormat string) error {
+	request := oci_database.ChangeEncryptionKeyLocationRequest{}
+
+	idTmp := s.D.Id()
+	request.DatabaseId = &idTmp
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			request.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeEncryptionKeyLocation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func (s *DatabaseDatabaseResourceCrud) ChangeKeyStoreType() error {
 	if _, ok := s.D.GetOkExists("key_store_id"); ok && s.D.HasChange("key_store_id") {
 		request := oci_database.ChangeKeyStoreTypeRequest{}
@@ -1058,6 +1147,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat
 		result.DefinedTags = tmp
 	}
 
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			result.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
 		result.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
@@ -1149,6 +1249,17 @@ func (s *DatabaseDatabaseResourceCrud) mapToCreateDatabaseFromBackupDetails(fiel
 	if sidPrefix, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "sid_prefix")); ok {
 		tmp := sidPrefix.(string)
 		result.SidPrefix = &tmp
+	}
+
+	if sourceEncryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details")); ok {
+		if tmpList := sourceEncryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "source_encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert source_encryption_key_location_details, encountered error: %v", err)
+			}
+			result.SourceEncryptionKeyLocationDetails = tmp
+		}
 	}
 
 	return result, nil
@@ -1318,6 +1429,45 @@ func (s *DatabaseDatabaseResourceCrud) mapToDbBackupConfig(fieldKeyFormat string
 	}
 
 	return result, nil
+}
+
+func (s *DatabaseDatabaseResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyFormat string) (oci_database.EncryptionKeyLocationDetails, error) {
+	var baseObject oci_database.EncryptionKeyLocationDetails
+	//discriminator
+	providerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provider_type"))
+	var providerType string
+	if ok {
+		providerType = providerTypeRaw.(string)
+	} else {
+		providerType = "" // default value
+	}
+	switch strings.ToLower(providerType) {
+	case strings.ToLower("EXTERNAL"):
+		details := oci_database.ExternalHsmEncryptionDetails{}
+		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
+			tmp := hsmPassword.(string)
+			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
+	}
+	return baseObject, nil
+}
+
+func EncryptionKeyLocationDetailsToMap(obj *oci_database.EncryptionKeyLocationDetails, hsmPassword string) map[string]interface{} {
+	result := map[string]interface{}{}
+	switch (*obj).(type) {
+	case oci_database.ExternalHsmEncryptionDetails:
+		result["provider_type"] = "EXTERNAL"
+		result["hsm_password"] = hsmPassword
+
+	default:
+		log.Printf("[WARN] Received 'provider_type' of unknown type %v", *obj)
+		return nil
+	}
+
+	return result
 }
 
 func (s *DatabaseDatabaseResourceCrud) populateTopLevelPolymorphicCreateDatabaseRequest(request *oci_database.CreateDatabaseRequest) error {
@@ -1503,7 +1653,6 @@ func (s *DatabaseDatabaseResourceCrud) Update() error {
 			return fmt.Errorf("[ERROR] no support for migrate to Oracle now")
 		}
 	}
-
 	errKms := s.setDbKeyVersion(tmp)
 	if errKms != nil {
 		return errKms
@@ -1580,6 +1729,25 @@ func (s *DatabaseDatabaseResourceCrud) mapToUpdateDbBackupConfig(fieldKeyFormat 
 
 func (s *DatabaseDatabaseResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
 	result := oci_database.UpdateDatabaseDetails{}
+
+	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"))
+		oldList := oldRaw.([]interface{})
+		newList := newRaw.([]interface{})
+
+		if len(oldList) > 0 && len(newList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for updating External HSM now")
+		}
+		if len(oldList) == 0 {
+			err := s.ChangeEncryptionKeyLocation(fieldKeyFormat)
+			if err != nil {
+				return result, err
+			}
+		}
+		if len(newList) == 0 && len(oldList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for migrate from External HSM now")
+		}
+	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {
@@ -1679,6 +1847,18 @@ func (s *DatabaseDatabaseResourceCrud) DatabaseToMap(obj *oci_database.Database)
 
 	if obj.SidPrefix != nil {
 		result["sid_prefix"] = string(*obj.SidPrefix)
+	}
+
+	if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
+		if s.Res.EncryptionKeyLocationDetails != nil {
+			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, hsmPassword.(string))}
+		}
+	}
+
+	if sourceHsmPassword, ok := s.D.GetOkExists("database.0.source_encryption_key_location_details.0.hsm_password"); ok && sourceHsmPassword != nil {
+		if s.Res.EncryptionKeyLocationDetails != nil {
+			result["source_encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, sourceHsmPassword.(string))}
+		}
 	}
 
 	return result
