@@ -7,6 +7,6 @@ import "github.com/oracle/terraform-provider-oci/internal/tfresource"
 
 func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_vault_secret", VaultSecretDataSource())
-	tfresource.RegisterDatasource("oci_vault_secret_version", VaultSecretVersionDataSource())
+	tfresource.RegisterDatasource("oci_vault_secret_version_sdk_v2", VaultSecretVersionDataSource())
 	tfresource.RegisterDatasource("oci_vault_secrets", VaultSecretsDataSource())
 }

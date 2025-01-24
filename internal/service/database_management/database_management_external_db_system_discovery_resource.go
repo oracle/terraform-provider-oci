@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -1371,7 +1371,7 @@ func externalDbSystemDiscoveryWaitForWorkRequest(wId *string, entityType string,
 	retryPolicy.ShouldRetryOperation = externalDbSystemDiscoveryWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_database_management.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_database_management.WorkRequestStatusInProgress),
 			string(oci_database_management.WorkRequestStatusAccepted),

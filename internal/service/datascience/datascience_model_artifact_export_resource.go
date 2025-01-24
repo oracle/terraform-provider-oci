@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -180,7 +180,7 @@ func modelArtifactExportWaitForWorkRequest(wId *string, entityType string, actio
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "datascience")
 
 	response := oci_datascience.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_datascience.WorkRequestStatusInProgress),
 			string(oci_datascience.WorkRequestStatusAccepted),

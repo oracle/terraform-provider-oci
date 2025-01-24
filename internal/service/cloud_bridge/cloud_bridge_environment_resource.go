@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_cloud_bridge "github.com/oracle/oci-go-sdk/v65/cloudbridge"
@@ -248,7 +248,7 @@ func environmentWaitForWorkRequest(wId *string, entityType string, action oci_cl
 	retryPolicy.ShouldRetryOperation = environmentWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_cloud_bridge.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_cloud_bridge.OperationStatusInProgress),
 			string(oci_cloud_bridge.OperationStatusAccepted),

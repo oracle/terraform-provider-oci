@@ -10,8 +10,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
-	"github.com/hashicorp/terraform-plugin-sdk/v2/terraform"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/terraform"
 	oci_cluster_placement_groups "github.com/oracle/oci-go-sdk/v65/clusterplacementgroups"
 	"github.com/oracle/oci-go-sdk/v65/common"
 

@@ -13,7 +13,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -307,7 +307,7 @@ func devopsConnectionWaitForWorkRequest(wId *string, entityType string, action o
 	retryPolicy.ShouldRetryOperation = devopsConnectionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_devops.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_devops.OperationStatusInProgress),
 			string(oci_devops.OperationStatusAccepted),

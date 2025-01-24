@@ -14,7 +14,7 @@ import (
 
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -449,7 +449,7 @@ func IdentityTaggingWaitForWorkRequest(workRequestId *string, entityType string,
 	retryPolicy := tfresource.GetRetryPolicy(disableFoundRetries, "identity")
 	retryPolicy.ShouldRetryOperation = identityTagWorkRequestShouldRetryFunc(timeout)
 	response := oci_identity.GetTaggingWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_identity.TaggingWorkRequestStatusInProgress),
 			string(oci_identity.TaggingWorkRequestStatusAccepted),

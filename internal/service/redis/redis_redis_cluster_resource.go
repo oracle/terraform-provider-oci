@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
@@ -396,7 +396,7 @@ func redisClusterWaitForWorkRequest(wId *string, entityType string, action oci_r
 	retryPolicy.ShouldRetryOperation = redisClusterWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_redis.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_redis.OperationStatusInProgress),
 			string(oci_redis.OperationStatusAccepted),

@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_appmgmt_control "github.com/oracle/oci-go-sdk/v65/appmgmtcontrol"
@@ -172,7 +172,7 @@ func monitorPluginManagementWaitForWorkRequest(wId *string, entityType string, a
 	retryPolicy.ShouldRetryOperation = monitorPluginManagementWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_appmgmt_control.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_appmgmt_control.OperationStatusInProgress),
 			string(oci_appmgmt_control.OperationStatusAccepted),

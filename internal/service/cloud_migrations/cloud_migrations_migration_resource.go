@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_cloud_migrations "github.com/oracle/oci-go-sdk/v65/cloudmigrations"
@@ -263,7 +263,7 @@ func migrationWaitForWorkRequest(wId *string, entityType string, action oci_clou
 	retryPolicy.ShouldRetryOperation = migrationWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_cloud_migrations.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_cloud_migrations.OperationStatusInProgress),
 			string(oci_cloud_migrations.OperationStatusAccepted),

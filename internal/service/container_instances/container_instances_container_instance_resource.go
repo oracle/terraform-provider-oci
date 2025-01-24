@@ -14,7 +14,7 @@ import (
 
 	oci_core "github.com/oracle/oci-go-sdk/v65/core"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -1148,7 +1148,7 @@ func containerInstanceWaitForWorkRequest(wId *string, entityType string, action 
 	retryPolicy.ShouldRetryOperation = containerInstanceWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_container_instances.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_container_instances.OperationStatusInProgress),
 			string(oci_container_instances.OperationStatusAccepted),

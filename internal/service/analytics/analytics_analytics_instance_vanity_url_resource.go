@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_analytics "github.com/oracle/oci-go-sdk/v65/analytics"
@@ -300,7 +300,7 @@ func analyticsInstanceVanityUrlWaitForWorkRequest(wId *string, entityType string
 	retryPolicy.ShouldRetryOperation = analyticsInstanceVanityUrlWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_analytics.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_analytics.WorkRequestStatusInProgress),
 			string(oci_analytics.WorkRequestStatusAccepted),

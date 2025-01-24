@@ -212,6 +212,11 @@ func SchemaMap() map[string]*schema.Schema {
 			Optional:    true,
 			Description: descriptions[globalvar.DualStackEndpointEnabled],
 		},
+		// test_time_maintenance_reboot_due is used in few acceptance tests to simulate some scenario
+		globalvar.TestTimeMaintenanceRebootDue: {
+			Type:     schema.TypeString,
+			Optional: true,
+		},
 	}
 }
 

@@ -6,7 +6,6 @@ package releases
 import (
 	"context"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
@@ -37,7 +36,10 @@ type LatestVersion struct {
 	// instead of built-in pubkey to verify signature of downloaded checksums
 	ArmoredPublicKey string
 
-	apiBaseURL    string
+	// ApiBaseURL is an optional field that specifies a custom URL to download the product from.
+	// If ApiBaseURL is set, the product will be downloaded from this base URL instead of the default site.
+	// Note: The directory structure of the custom URL must match the HashiCorp releases site (including the index.json files).
+	ApiBaseURL    string
 	logger        *log.Logger
 	pathsToRemove []string
 }
@@ -89,7 +91,7 @@ func (lv *LatestVersion) Install(ctx context.Context) (string, error) {
 	if dstDir == "" {
 		var err error
 		dirName := fmt.Sprintf("%s_*", lv.Product.Name)
-		dstDir, err = ioutil.TempDir("", dirName)
+		dstDir, err = os.MkdirTemp("", dirName)
 		if err != nil {
 			return "", err
 		}
@@ -99,8 +101,8 @@ func (lv *LatestVersion) Install(ctx context.Context) (string, error) {
 	lv.log().Printf("will install into dir at %s", dstDir)
 
 	rels := rjson.NewReleases()
-	if lv.apiBaseURL != "" {
-		rels.BaseURL = lv.apiBaseURL
+	if lv.ApiBaseURL != "" {
+		rels.BaseURL = lv.ApiBaseURL
 	}
 	rels.SetLogger(lv.log())
 	versions, err := rels.ListProductVersions(ctx, lv.Product.Name)
@@ -126,16 +128,16 @@ func (lv *LatestVersion) Install(ctx context.Context) (string, error) {
 	if lv.ArmoredPublicKey != "" {
 		d.ArmoredPublicKey = lv.ArmoredPublicKey
 	}
-	if lv.apiBaseURL != "" {
-		d.BaseURL = lv.apiBaseURL
+	if lv.ApiBaseURL != "" {
+		d.BaseURL = lv.ApiBaseURL
 	}
 	licenseDir := ""
 	if lv.Enterprise != nil {
 		licenseDir = lv.Enterprise.LicenseDir
 	}
-	zipFilePath, err := d.DownloadAndUnpack(ctx, versionToInstall, dstDir, licenseDir)
-	if zipFilePath != "" {
-		lv.pathsToRemove = append(lv.pathsToRemove, zipFilePath)
+	up, err := d.DownloadAndUnpack(ctx, versionToInstall, dstDir, licenseDir)
+	if up != nil {
+		lv.pathsToRemove = append(lv.pathsToRemove, up.PathsToRemove...)
 	}
 	if err != nil {
 		return "", err

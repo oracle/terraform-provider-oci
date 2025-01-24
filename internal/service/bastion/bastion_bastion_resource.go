@@ -12,7 +12,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_bastion "github.com/oracle/oci-go-sdk/v65/bastion"
@@ -342,7 +342,7 @@ func bastionWaitForWorkRequest(wId *string, entityType string, action oci_bastio
 	retryPolicy.ShouldRetryOperation = bastionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bastion.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_bastion.OperationStatusInProgress),
 			string(oci_bastion.OperationStatusAccepted),

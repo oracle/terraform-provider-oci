@@ -13,7 +13,7 @@ import (
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_identity "github.com/oracle/oci-go-sdk/v65/identity"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-testing/helper/resource"
 
 	utils "github.com/oracle/terraform-provider-oci/internal/utils"
 )

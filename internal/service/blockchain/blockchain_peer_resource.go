@@ -15,7 +15,7 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/client"
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	oci_blockchain "github.com/oracle/oci-go-sdk/v65/blockchain"
@@ -281,7 +281,7 @@ func peerWaitForWorkRequest(wId *string, entityType string, action oci_blockchai
 	retryPolicy.ShouldRetryOperation = peerWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_blockchain.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_blockchain.WorkRequestStatusInProgress),
 			string(oci_blockchain.WorkRequestStatusAccepted),

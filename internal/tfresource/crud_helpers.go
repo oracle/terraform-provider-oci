@@ -27,7 +27,7 @@ import (
 
 	"sync"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_common "github.com/oracle/oci-go-sdk/v65/common"
 	oci_load_balancer "github.com/oracle/oci-go-sdk/v65/loadbalancer"
@@ -146,7 +146,7 @@ type workReqClient interface {
 func waitForStateRefreshForHybridPolling(workRequestClient workReqClient, workRequestIds *string, entityType string, action oci_work_requests.WorkRequestResourceActionTypeEnum,
 	disableFoundRetries bool, sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
 	// TODO: try to move this onto sync
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: pending,
 		Target:  target,
 		Refresh: stateRefreshFuncVar(sync),
@@ -160,14 +160,14 @@ func waitForStateRefreshForHybridPolling(workRequestClient workReqClient, workRe
 
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
-		if _, ok := e.(*resource.UnexpectedStateError); ok {
+		if _, ok := e.(*retry.UnexpectedStateError); ok {
 			retryPolicy := GetRetryPolicy(disableFoundRetries, "work_request")
 			retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 			e = getWorkRequestErrorsVar(workRequestClient, workRequestIds, retryPolicy, entityType, action)
 			return e
 		}
 
-		if _, ok := e.(*resource.TimeoutError); ok {
+		if _, ok := e.(*retry.TimeoutError); ok {
 			e = fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
 		}
 		return e
@@ -426,7 +426,7 @@ func DeleteResource(d schemaResourceData, sync ResourceDeleter, readResource ...
 	return nil
 }
 
-func stateRefreshFunc(sync StatefulResource) resource.StateRefreshFunc {
+func stateRefreshFunc(sync StatefulResource) retry.StateRefreshFunc {
 	return func() (res interface{}, s string, e error) {
 		if e = sync.Get(); e != nil {
 			return nil, "", e
@@ -465,13 +465,13 @@ func WaitForCreatedState(d schemaResourceData, sync ResourceCreator) error {
 	return nil
 }
 
-// WaitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap resource.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.
+// WaitForStateRefresh takes a StatefulResource, a timeout duration, a list of states to treat as Pending, and a list of states to treat as Target. It uses those to wrap retry.StateChangeConf.WaitForState(). If the resource returns a missing status, it will not be treated as an error.
 //
 // sync.D.Id must be set.
 // It does not set state from that refreshed state.
 func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operationName string, pending, target []string) error {
 	// TODO: try to move this onto sync
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: pending,
 		Target:  target,
 		Refresh: stateRefreshFuncVar(sync),
@@ -485,7 +485,7 @@ func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 
 	if _, e := stateConf.WaitForState(); e != nil {
 		handleMissingResourceError(sync, &e)
-		if _, ok := e.(*resource.UnexpectedStateError); ok {
+		if _, ok := e.(*retry.UnexpectedStateError); ok {
 			if len(target) > 0 {
 				e = fmt.Errorf("During %s, Terraform expected the resource to reach state(s): %s, but the service reported unexpected state: %s.", operationName, strings.Join(target, ","), sync.State())
 			} else {
@@ -494,7 +494,7 @@ func WaitForStateRefresh(sync StatefulResource, timeout time.Duration, operation
 			return e
 		}
 
-		if _, ok := e.(*resource.TimeoutError); ok {
+		if _, ok := e.(*retry.TimeoutError); ok {
 			e = fmt.Errorf("%s, you may need to increase the Terraform Operation timeouts for your resource to continue polling for longer", e)
 		}
 		return e
@@ -1008,7 +1008,7 @@ func WaitForWorkRequest(workRequestClient workReqClient, workRequestId *string, 
 	retryPolicy.ShouldRetryOperation = workRequestShouldRetryFunc(timeout)
 
 	response := oci_work_requests.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_work_requests.WorkRequestStatusInProgress),
 			string(oci_work_requests.WorkRequestStatusAccepted),

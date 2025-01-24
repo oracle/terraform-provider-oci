@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 
 	"github.com/oracle/terraform-provider-oci/internal/client"
@@ -218,7 +218,7 @@ func bdsInstanceOSPatchActionWaitForWorkRequest(wId *string, entityType string, 
 	retryPolicy.ShouldRetryOperation = bdsInstanceOSPatchActionWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_bds.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_bds.OperationStatusInProgress),
 			string(oci_bds.OperationStatusAccepted),

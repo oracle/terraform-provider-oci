@@ -10,7 +10,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/resource"
+	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/retry"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/validation"
 
@@ -432,7 +432,7 @@ func clusterPlacementGroupWaitForWorkRequest(wId *string, entityType string, act
 	retryPolicy.ShouldRetryOperation = clusterPlacementGroupWorkRequestShouldRetryFunc(timeout)
 
 	response := oci_cluster_placement_groups.GetWorkRequestResponse{}
-	stateConf := &resource.StateChangeConf{
+	stateConf := &retry.StateChangeConf{
 		Pending: []string{
 			string(oci_cluster_placement_groups.OperationStatusInProgress),
 			string(oci_cluster_placement_groups.OperationStatusAccepted),
