@@ -125,6 +125,7 @@ func RegisterDatasource() {
 	tfresource.RegisterDatasource("oci_database_pluggable_database", DatabasePluggableDatabaseDataSource())
 	tfresource.RegisterDatasource("oci_database_pluggable_databases", DatabasePluggableDatabasesDataSource())
 	tfresource.RegisterDatasource("oci_database_scheduled_action", DatabaseScheduledActionDataSource())
+	tfresource.RegisterDatasource("oci_database_system_version_minor_versions", DatabaseSystemVersionMinorVersionsDataSource())
 	tfresource.RegisterDatasource("oci_database_scheduled_action_params", DatabaseScheduledActionParamsDataSource())
 	tfresource.RegisterDatasource("oci_database_scheduled_actions", DatabaseScheduledActionsDataSource())
 	tfresource.RegisterDatasource("oci_database_scheduling_plan", DatabaseSchedulingPlanDataSource())

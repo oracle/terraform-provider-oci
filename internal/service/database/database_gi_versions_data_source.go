@@ -26,6 +26,10 @@ func DatabaseGiVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
+			"resource_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"shape": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -80,6 +84,11 @@ func (s *DatabaseGiVersionsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
+		tmp := resourceId.(string)
+		request.ResourceId = &tmp
 	}
 
 	if shape, ok := s.D.GetOkExists("shape"); ok {

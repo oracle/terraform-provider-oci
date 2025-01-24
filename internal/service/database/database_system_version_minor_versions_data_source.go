@@ -13,9 +13,9 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/tfresource"
 )
 
-func DatabaseSystemVersionsDataSource() *schema.Resource {
+func DatabaseSystemVersionMinorVersionsDataSource() *schema.Resource {
 	return &schema.Resource{
-		Read: readDatabaseSystemVersions,
+		Read: readDatabaseSystemVersionMinorVersions,
 		Schema: map[string]*schema.Schema{
 			"filter": tfresource.DataSourceFiltersSchema(),
 			"compartment_id": {
@@ -30,6 +30,10 @@ func DatabaseSystemVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeBool,
 				Optional: true,
 			},
+			"major_version": {
+				Type:     schema.TypeString,
+				Required: true,
+			},
 			"resource_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -38,7 +42,7 @@ func DatabaseSystemVersionsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
-			"system_version_collection": {
+			"system_version_minor_version_collection": {
 				Type:     schema.TypeList,
 				Computed: true,
 				Elem: &schema.Resource{
@@ -58,20 +62,9 @@ func DatabaseSystemVersionsDataSource() *schema.Resource {
 									// Optional
 
 									// Computed
-									"gi_version": {
+									"version": {
 										Type:     schema.TypeString,
 										Computed: true,
-									},
-									"shape": {
-										Type:     schema.TypeString,
-										Computed: true,
-									},
-									"system_versions": {
-										Type:     schema.TypeList,
-										Computed: true,
-										Elem: &schema.Schema{
-											Type: schema.TypeString,
-										},
 									},
 								},
 							},
@@ -83,26 +76,26 @@ func DatabaseSystemVersionsDataSource() *schema.Resource {
 	}
 }
 
-func readDatabaseSystemVersions(d *schema.ResourceData, m interface{}) error {
-	sync := &DatabaseSystemVersionsDataSourceCrud{}
+func readDatabaseSystemVersionMinorVersions(d *schema.ResourceData, m interface{}) error {
+	sync := &DatabaseSystemVersionMinorVersionsDataSourceCrud{}
 	sync.D = d
 	sync.Client = m.(*client.OracleClients).DatabaseClient()
 
 	return tfresource.ReadResource(sync)
 }
 
-type DatabaseSystemVersionsDataSourceCrud struct {
+type DatabaseSystemVersionMinorVersionsDataSourceCrud struct {
 	D      *schema.ResourceData
 	Client *oci_database.DatabaseClient
-	Res    *oci_database.ListSystemVersionsResponse
+	Res    *oci_database.ListSystemVersionMinorVersionsResponse
 }
 
-func (s *DatabaseSystemVersionsDataSourceCrud) VoidState() {
+func (s *DatabaseSystemVersionMinorVersionsDataSourceCrud) VoidState() {
 	s.D.SetId("")
 }
 
-func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
-	request := oci_database.ListSystemVersionsRequest{}
+func (s *DatabaseSystemVersionMinorVersionsDataSourceCrud) Get() error {
+	request := oci_database.ListSystemVersionMinorVersionsRequest{}
 
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
@@ -119,6 +112,11 @@ func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
 		request.IsLatest = &tmp
 	}
 
+	if majorVersion, ok := s.D.GetOkExists("major_version"); ok {
+		tmp := majorVersion.(string)
+		request.MajorVersion = &tmp
+	}
+
 	if resourceId, ok := s.D.GetOkExists("resource_id"); ok {
 		tmp := resourceId.(string)
 		request.ResourceId = &tmp
@@ -131,7 +129,7 @@ func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
 
 	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(false, "database")
 
-	response, err := s.Client.ListSystemVersions(context.Background(), request)
+	response, err := s.Client.ListSystemVersionMinorVersions(context.Background(), request)
 	if err != nil {
 		return err
 	}
@@ -140,7 +138,7 @@ func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
 	request.Page = s.Res.OpcNextPage
 
 	for request.Page != nil {
-		listResponse, err := s.Client.ListSystemVersions(context.Background(), request)
+		listResponse, err := s.Client.ListSystemVersionMinorVersions(context.Background(), request)
 		if err != nil {
 			return err
 		}
@@ -152,47 +150,40 @@ func (s *DatabaseSystemVersionsDataSourceCrud) Get() error {
 	return nil
 }
 
-func (s *DatabaseSystemVersionsDataSourceCrud) SetData() error {
+func (s *DatabaseSystemVersionMinorVersionsDataSourceCrud) SetData() error {
 	if s.Res == nil {
 		return nil
 	}
 
-	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseSystemVersionsDataSource-", DatabaseSystemVersionsDataSource(), s.D))
+	s.D.SetId(tfresource.GenerateDataSourceHashID("DatabaseSystemVersionMinorVersionsDataSource-", DatabaseSystemVersionMinorVersionsDataSource(), s.D))
 	resources := []map[string]interface{}{}
-	systemVersion := map[string]interface{}{}
+	systemVersionMinorVersion := map[string]interface{}{}
 
 	items := []interface{}{}
 	for _, item := range s.Res.Items {
-		items = append(items, SystemVersionSummaryToMap(item))
+		items = append(items, SystemVersionMinorVersionSummaryToMap(item))
 	}
-	systemVersion["items"] = items
+	systemVersionMinorVersion["items"] = items
 
 	if f, fOk := s.D.GetOkExists("filter"); fOk {
-		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, DatabaseSystemVersionsDataSource().Schema["system_version_collection"].Elem.(*schema.Resource).Schema)
-		systemVersion["items"] = items
+		items = tfresource.ApplyFiltersInCollection(f.(*schema.Set), items, DatabaseSystemVersionMinorVersionsDataSource().Schema["system_version_minor_version_collection"].Elem.(*schema.Resource).Schema)
+		systemVersionMinorVersion["items"] = items
 	}
 
-	resources = append(resources, systemVersion)
-	if err := s.D.Set("system_version_collection", resources); err != nil {
+	resources = append(resources, systemVersionMinorVersion)
+	if err := s.D.Set("system_version_minor_version_collection", resources); err != nil {
 		return err
 	}
 
 	return nil
 }
 
-func SystemVersionSummaryToMap(obj oci_database.SystemVersionSummary) map[string]interface{} {
+func SystemVersionMinorVersionSummaryToMap(obj oci_database.SystemVersionMinorVersionSummary) map[string]interface{} {
 	result := map[string]interface{}{}
 
-	if obj.GiVersion != nil {
-		result["gi_version"] = string(*obj.GiVersion)
+	if obj.Version != nil {
+		result["version"] = string(*obj.Version)
 	}
-
-	if obj.Shape != nil {
-		result["shape"] = string(*obj.Shape)
-	}
-
-	result["system_versions"] = obj.SystemVersions
-	result["system_versions"] = obj.SystemVersions
 
 	return result
 }
