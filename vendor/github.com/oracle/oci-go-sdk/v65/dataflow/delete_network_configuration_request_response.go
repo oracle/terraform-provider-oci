@@ -29,6 +29,9 @@ type DeleteNetworkConfigurationRequest struct {
 	// DH User Principal details.
 	DhUserPrincipal *string `mandatory:"false" contributesTo:"header" name:"dh-user-principal"`
 
+	// The optional parameter of details for Delete Network Configuration command.
+	DeleteNetworkConfigurationDetails `contributesTo:"body"`
+
 	// Metadata about the request. This information will not be transmitted to the service, but
 	// represents information that the SDK will consume to drive retry behavior.
 	RequestMetadata common.RequestMetadata

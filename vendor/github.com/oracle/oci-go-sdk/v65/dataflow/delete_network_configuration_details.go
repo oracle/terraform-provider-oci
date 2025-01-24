@@ -15,27 +15,21 @@ import (
 	"strings"
 )
 
-// DetachNetworkConfigurationDetails Request payload for detaching network configuration from a given cluster in a workspace
-type DetachNetworkConfigurationDetails struct {
-
-	// WorkspaceKey of the cluster.
-	WorkspaceKey *string `mandatory:"true" json:"workspaceKey"`
-
-	// The OCID of the Compute Cluster.
-	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
+// DeleteNetworkConfigurationDetails Delete Network Configuration optional information.
+type DeleteNetworkConfigurationDetails struct {
 
 	// Async Operation Key for the operation on the cluster.
 	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
 }
 
-func (m DetachNetworkConfigurationDetails) String() string {
+func (m DeleteNetworkConfigurationDetails) String() string {
 	return common.PointerString(m)
 }
 
 // ValidateEnumValue returns an error when providing an unsupported enum value
 // This function is being called during constructing API request process
 // Not recommended for calling this function directly
-func (m DetachNetworkConfigurationDetails) ValidateEnumValue() (bool, error) {
+func (m DeleteNetworkConfigurationDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
 	if len(errMessage) > 0 {

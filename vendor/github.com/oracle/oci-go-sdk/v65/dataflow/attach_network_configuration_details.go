@@ -23,6 +23,9 @@ type AttachNetworkConfigurationDetails struct {
 
 	// The OCID of the Compute Cluster.
 	ComputeClusterId *string `mandatory:"true" json:"computeClusterId"`
+
+	// Async Operation Key for the operation on the cluster.
+	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
 }
 
 func (m AttachNetworkConfigurationDetails) String() string {

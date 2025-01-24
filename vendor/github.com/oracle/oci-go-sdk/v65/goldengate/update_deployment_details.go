@@ -72,6 +72,8 @@ type UpdateDeploymentDetails struct {
 	MaintenanceWindow *UpdateMaintenanceWindowDetails `mandatory:"false" json:"maintenanceWindow"`
 
 	MaintenanceConfiguration *UpdateMaintenanceConfigurationDetails `mandatory:"false" json:"maintenanceConfiguration"`
+
+	BackupSchedule *UpdateBackupScheduleDetails `mandatory:"false" json:"backupSchedule"`
 }
 
 func (m UpdateDeploymentDetails) String() string {

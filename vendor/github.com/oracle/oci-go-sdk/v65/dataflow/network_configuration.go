@@ -67,6 +67,15 @@ type NetworkConfiguration struct {
 
 	// Detailed State of Network Configuration.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
+
+	// Async Operation Key for the operation on the cluster.
+	AsyncOperationKey *string `mandatory:"false" json:"asyncOperationKey"`
+
+	// HubProxyEndpoint of the cluster.
+	HubProxyEndpoint *string `mandatory:"false" json:"hubProxyEndpoint"`
+
+	// The OCID of Hub.
+	HubId *string `mandatory:"false" json:"hubId"`
 }
 
 func (m NetworkConfiguration) String() string {

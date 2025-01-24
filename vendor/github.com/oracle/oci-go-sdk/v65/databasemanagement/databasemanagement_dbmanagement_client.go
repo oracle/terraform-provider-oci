@@ -10025,6 +10025,65 @@ func (client DbManagementClient) modifyDatabaseManagementFeature(ctx context.Con
 	return response, err
 }
 
+// ModifyExternalContainerDatabaseManagementFeature Modifies a Database Management feature for the specified external container database.
+// A default retry strategy applies to this operation ModifyExternalContainerDatabaseManagementFeature()
+func (client DbManagementClient) ModifyExternalContainerDatabaseManagementFeature(ctx context.Context, request ModifyExternalContainerDatabaseManagementFeatureRequest) (response ModifyExternalContainerDatabaseManagementFeatureResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.modifyExternalContainerDatabaseManagementFeature, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ModifyExternalContainerDatabaseManagementFeatureResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ModifyExternalContainerDatabaseManagementFeatureResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ModifyExternalContainerDatabaseManagementFeatureResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ModifyExternalContainerDatabaseManagementFeatureResponse")
+	}
+	return
+}
+
+// modifyExternalContainerDatabaseManagementFeature implements the OCIOperation interface (enables retrying operations)
+func (client DbManagementClient) modifyExternalContainerDatabaseManagementFeature(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/externalcontainerdatabases/{externalContainerDatabaseId}/actions/modifyDatabaseManagement", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ModifyExternalContainerDatabaseManagementFeatureResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database-management/20201101/ManagedDatabase/ModifyExternalContainerDatabaseManagementFeature"
+		err = common.PostProcessServiceError(err, "DbManagement", "ModifyExternalContainerDatabaseManagementFeature", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ModifyPluggableDatabaseManagementFeature Modifies the Database Management feature for the specified Oracle cloud pluggable database.
 // A default retry strategy applies to this operation ModifyPluggableDatabaseManagementFeature()
 func (client DbManagementClient) ModifyPluggableDatabaseManagementFeature(ctx context.Context, request ModifyPluggableDatabaseManagementFeatureRequest) (response ModifyPluggableDatabaseManagementFeatureResponse, err error) {

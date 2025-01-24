@@ -36,7 +36,7 @@ type Script struct {
 	// Examples:
 	// With mandatory param name : `<ORAP><ON>param name</ON></ORAP>`
 	// With parameter name and value : `<ORAP><ON>param name</ON><OV>param value</OV></ORAP>`
-	// Note that the content is valid if it matches the given content type. For example, if the content type is SIDE, then the content should be in Side script format. If the content type is JS, then the content should be in JavaScript format.
+	// Note that the content is valid if it matches the given content type. For example, if the content type is SIDE, then the content should be in Side script format. If the content type is JS, then the content should be in JavaScript format. If the content type is PLAYWRIGHT_TS, then the content should be in TypeScript format.
 	Content *string `mandatory:"false" json:"content"`
 
 	// The time the script was uploaded.

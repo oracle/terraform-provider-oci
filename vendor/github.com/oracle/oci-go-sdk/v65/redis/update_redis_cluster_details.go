@@ -30,6 +30,9 @@ type UpdateRedisClusterDetails struct {
 	// The amount of memory allocated to the cluster's nodes, in gigabytes.
 	NodeMemoryInGBs *float32 `mandatory:"false" json:"nodeMemoryInGBs"`
 
+	// The OCI Cache engine version that the cluster is running.
+	SoftwareVersion RedisClusterSoftwareVersionEnum `mandatory:"false" json:"softwareVersion,omitempty"`
+
 	// A list of Network Security Group (NSG) OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm)
 	// associated with this cluster. For more information,
 	// see Using an NSG for Clusters (https://docs.cloud.oracle.com/iaas/Content/ocicache/connecttocluster.htm#connecttocluster__networksecuritygroup).
@@ -54,6 +57,9 @@ func (m UpdateRedisClusterDetails) String() string {
 func (m UpdateRedisClusterDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingRedisClusterSoftwareVersionEnum(string(m.SoftwareVersion)); !ok && m.SoftwareVersion != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftwareVersion: %s. Supported values are: %s.", m.SoftwareVersion, strings.Join(GetRedisClusterSoftwareVersionEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

@@ -44,6 +44,9 @@ type DeploymentBackupSummary struct {
 	// True if this object is automatically created
 	IsAutomatic *bool `mandatory:"false" json:"isAutomatic"`
 
+	// Possible deployment backup source types.
+	BackupSourceType DeploymentBackupSummaryBackupSourceTypeEnum `mandatory:"false" json:"backupSourceType,omitempty"`
+
 	// Describes the object's current state in detail. For example, it can be used to provide
 	// actionable information for a resource in a Failed state.
 	LifecycleDetails *string `mandatory:"false" json:"lifecycleDetails"`
@@ -117,6 +120,9 @@ func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingDeploymentBackupSummaryBackupSourceTypeEnum(string(m.BackupSourceType)); !ok && m.BackupSourceType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupSourceType: %s. Supported values are: %s.", m.BackupSourceType, strings.Join(GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues(), ",")))
+	}
 	if _, ok := GetMappingDeploymentBackupTypeEnum(string(m.BackupType)); !ok && m.BackupType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for BackupType: %s. Supported values are: %s.", m.BackupType, strings.Join(GetDeploymentBackupTypeEnumStringValues(), ",")))
 	}
@@ -124,4 +130,50 @@ func (m DeploymentBackupSummary) ValidateEnumValue() (bool, error) {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
 	return false, nil
+}
+
+// DeploymentBackupSummaryBackupSourceTypeEnum Enum with underlying type: string
+type DeploymentBackupSummaryBackupSourceTypeEnum string
+
+// Set of constants representing the allowable values for DeploymentBackupSummaryBackupSourceTypeEnum
+const (
+	DeploymentBackupSummaryBackupSourceTypeManual    DeploymentBackupSummaryBackupSourceTypeEnum = "MANUAL"
+	DeploymentBackupSummaryBackupSourceTypeAutomatic DeploymentBackupSummaryBackupSourceTypeEnum = "AUTOMATIC"
+	DeploymentBackupSummaryBackupSourceTypeScheduled DeploymentBackupSummaryBackupSourceTypeEnum = "SCHEDULED"
+)
+
+var mappingDeploymentBackupSummaryBackupSourceTypeEnum = map[string]DeploymentBackupSummaryBackupSourceTypeEnum{
+	"MANUAL":    DeploymentBackupSummaryBackupSourceTypeManual,
+	"AUTOMATIC": DeploymentBackupSummaryBackupSourceTypeAutomatic,
+	"SCHEDULED": DeploymentBackupSummaryBackupSourceTypeScheduled,
+}
+
+var mappingDeploymentBackupSummaryBackupSourceTypeEnumLowerCase = map[string]DeploymentBackupSummaryBackupSourceTypeEnum{
+	"manual":    DeploymentBackupSummaryBackupSourceTypeManual,
+	"automatic": DeploymentBackupSummaryBackupSourceTypeAutomatic,
+	"scheduled": DeploymentBackupSummaryBackupSourceTypeScheduled,
+}
+
+// GetDeploymentBackupSummaryBackupSourceTypeEnumValues Enumerates the set of values for DeploymentBackupSummaryBackupSourceTypeEnum
+func GetDeploymentBackupSummaryBackupSourceTypeEnumValues() []DeploymentBackupSummaryBackupSourceTypeEnum {
+	values := make([]DeploymentBackupSummaryBackupSourceTypeEnum, 0)
+	for _, v := range mappingDeploymentBackupSummaryBackupSourceTypeEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues Enumerates the set of values in String for DeploymentBackupSummaryBackupSourceTypeEnum
+func GetDeploymentBackupSummaryBackupSourceTypeEnumStringValues() []string {
+	return []string{
+		"MANUAL",
+		"AUTOMATIC",
+		"SCHEDULED",
+	}
+}
+
+// GetMappingDeploymentBackupSummaryBackupSourceTypeEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDeploymentBackupSummaryBackupSourceTypeEnum(val string) (DeploymentBackupSummaryBackupSourceTypeEnum, bool) {
+	enum, ok := mappingDeploymentBackupSummaryBackupSourceTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
 }

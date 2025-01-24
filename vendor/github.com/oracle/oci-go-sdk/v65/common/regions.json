@@ -526,5 +526,11 @@
         "realmKey": "oc1",
         "regionIdentifier": "ap-batam-1",
         "realmDomainComponent": "oraclecloud.com"
+    },
+    {
+        "regionKey": "den",
+        "realmKey": "oc46",
+        "regionIdentifier": "uk-london-2",
+        "realmDomainComponent": "oraclecloud46.com"
     }
 ]

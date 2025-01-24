@@ -18,18 +18,21 @@ type ContentTypesEnum string
 
 // Set of constants representing the allowable values for ContentTypesEnum
 const (
-	ContentTypesSide ContentTypesEnum = "SIDE"
-	ContentTypesJs   ContentTypesEnum = "JS"
+	ContentTypesSide         ContentTypesEnum = "SIDE"
+	ContentTypesJs           ContentTypesEnum = "JS"
+	ContentTypesPlaywrightTs ContentTypesEnum = "PLAYWRIGHT_TS"
 )
 
 var mappingContentTypesEnum = map[string]ContentTypesEnum{
-	"SIDE": ContentTypesSide,
-	"JS":   ContentTypesJs,
+	"SIDE":          ContentTypesSide,
+	"JS":            ContentTypesJs,
+	"PLAYWRIGHT_TS": ContentTypesPlaywrightTs,
 }
 
 var mappingContentTypesEnumLowerCase = map[string]ContentTypesEnum{
-	"side": ContentTypesSide,
-	"js":   ContentTypesJs,
+	"side":          ContentTypesSide,
+	"js":            ContentTypesJs,
+	"playwright_ts": ContentTypesPlaywrightTs,
 }
 
 // GetContentTypesEnumValues Enumerates the set of values for ContentTypesEnum
@@ -46,6 +49,7 @@ func GetContentTypesEnumStringValues() []string {
 	return []string{
 		"SIDE",
 		"JS",
+		"PLAYWRIGHT_TS",
 	}
 }
 

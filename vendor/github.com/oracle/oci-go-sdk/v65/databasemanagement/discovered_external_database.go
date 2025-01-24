@@ -65,6 +65,12 @@ type DiscoveredExternalDatabase struct {
 
 	Connector ExternalDbSystemDiscoveryConnector `mandatory:"false" json:"connector"`
 
+	// Indicates whether Diagnostics & Management should be enabled for all the current pluggable databases in the container database.
+	CanEnableAllCurrentPdbs *bool `mandatory:"false" json:"canEnableAllCurrentPdbs"`
+
+	// Indicates whether Diagnostics & Management should be enabled automatically for all the pluggable databases in the container database.
+	IsAutoEnablePluggableDatabase *bool `mandatory:"false" json:"isAutoEnablePluggableDatabase"`
+
 	// The role of the Oracle Database in Oracle Data Guard configuration.
 	DbRole DiscoveredExternalDatabaseDbRoleEnum `mandatory:"false" json:"dbRole,omitempty"`
 
@@ -153,24 +159,26 @@ func (m DiscoveredExternalDatabase) MarshalJSON() (buff []byte, e error) {
 // UnmarshalJSON unmarshals from json
 func (m *DiscoveredExternalDatabase) UnmarshalJSON(data []byte) (e error) {
 	model := struct {
-		ResourceId              *string                                       `json:"resourceId"`
-		IsSelectedForMonitoring *bool                                         `json:"isSelectedForMonitoring"`
-		Status                  DiscoveredExternalDbSystemComponentStatusEnum `json:"status"`
-		AssociatedComponents    []AssociatedComponent                         `json:"associatedComponents"`
-		DbType                  DatabaseSubTypeEnum                           `json:"dbType"`
-		IsCluster               *bool                                         `json:"isCluster"`
-		DbEdition               *string                                       `json:"dbEdition"`
-		DbId                    *string                                       `json:"dbId"`
-		DbPacks                 *string                                       `json:"dbPacks"`
-		DbRole                  DiscoveredExternalDatabaseDbRoleEnum          `json:"dbRole"`
-		DbVersion               *string                                       `json:"dbVersion"`
-		PluggableDatabases      []DiscoveredExternalPluggableDatabase         `json:"pluggableDatabases"`
-		Connector               externaldbsystemdiscoveryconnector            `json:"connector"`
-		ComponentId             *string                                       `json:"componentId"`
-		DisplayName             *string                                       `json:"displayName"`
-		ComponentName           *string                                       `json:"componentName"`
-		CompartmentId           *string                                       `json:"compartmentId"`
-		DbUniqueName            *string                                       `json:"dbUniqueName"`
+		ResourceId                    *string                                       `json:"resourceId"`
+		IsSelectedForMonitoring       *bool                                         `json:"isSelectedForMonitoring"`
+		Status                        DiscoveredExternalDbSystemComponentStatusEnum `json:"status"`
+		AssociatedComponents          []AssociatedComponent                         `json:"associatedComponents"`
+		DbType                        DatabaseSubTypeEnum                           `json:"dbType"`
+		IsCluster                     *bool                                         `json:"isCluster"`
+		DbEdition                     *string                                       `json:"dbEdition"`
+		DbId                          *string                                       `json:"dbId"`
+		DbPacks                       *string                                       `json:"dbPacks"`
+		DbRole                        DiscoveredExternalDatabaseDbRoleEnum          `json:"dbRole"`
+		DbVersion                     *string                                       `json:"dbVersion"`
+		PluggableDatabases            []DiscoveredExternalPluggableDatabase         `json:"pluggableDatabases"`
+		Connector                     externaldbsystemdiscoveryconnector            `json:"connector"`
+		CanEnableAllCurrentPdbs       *bool                                         `json:"canEnableAllCurrentPdbs"`
+		IsAutoEnablePluggableDatabase *bool                                         `json:"isAutoEnablePluggableDatabase"`
+		ComponentId                   *string                                       `json:"componentId"`
+		DisplayName                   *string                                       `json:"displayName"`
+		ComponentName                 *string                                       `json:"componentName"`
+		CompartmentId                 *string                                       `json:"compartmentId"`
+		DbUniqueName                  *string                                       `json:"dbUniqueName"`
 	}{}
 
 	e = json.Unmarshal(data, &model)
@@ -211,6 +219,10 @@ func (m *DiscoveredExternalDatabase) UnmarshalJSON(data []byte) (e error) {
 	} else {
 		m.Connector = nil
 	}
+
+	m.CanEnableAllCurrentPdbs = model.CanEnableAllCurrentPdbs
+
+	m.IsAutoEnablePluggableDatabase = model.IsAutoEnablePluggableDatabase
 
 	m.ComponentId = model.ComponentId
 
