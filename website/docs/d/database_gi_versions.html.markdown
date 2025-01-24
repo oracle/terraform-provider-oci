@@ -21,6 +21,7 @@ data "oci_database_gi_versions" "test_gi_versions" {
 
 	#Optional
 	availability_domain = var.gi_version_availability_domain
+	resource_id = oci_cloud_guard_resource.test_resource.id
 	shape = var.gi_version_shape
 }
 ```
@@ -31,6 +32,7 @@ The following arguments are supported:
 
 * `availability_domain` - (Optional) The target availability domain. Only passed if the limit is AD-specific.
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+* `resource_id` - (Optional) If provided, filters the results for the specified resource Id.
 * `shape` - (Optional) If provided, filters the results for the given shape.
 
 

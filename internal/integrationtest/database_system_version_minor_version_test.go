@@ -16,20 +16,21 @@ import (
 )
 
 var (
-	DatabaseSystemVersionDataSourceRepresentation = map[string]interface{}{
+	DatabaseSystemVersionMinorVersionDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"gi_version":     acctest.Representation{RepType: acctest.Required, Create: `18.0.0.0`},
+		"major_version":  acctest.Representation{RepType: acctest.Required, Create: `23`},
 		"is_latest":      acctest.Representation{RepType: acctest.Optional, Create: `false`},
 		"resource_id":    acctest.Representation{RepType: acctest.Optional, Create: `resource_id`},
 		"shape":          acctest.Representation{RepType: acctest.Required, Create: `Exadata.X9M`},
 	}
 
-	DatabaseSystemVersionResourceConfig = ""
+	DatabaseSystemVersionMinorVersionResourceConfig = ""
 )
 
 // issue-routing-tag: database/default
-func TestDatabaseSystemVersionResource_basic(t *testing.T) {
-	httpreplay.SetScenario("TestDatabaseSystemVersionResource_basic")
+func TestDatabaseSystemVersionMinorVersionResource_basic(t *testing.T) {
+	httpreplay.SetScenario("TestDatabaseSystemVersionMinorVersionResource_basic")
 	defer httpreplay.SaveScenario()
 
 	config := acctest.ProviderTestConfig()
@@ -37,7 +38,7 @@ func TestDatabaseSystemVersionResource_basic(t *testing.T) {
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
-	datasourceName := "data.oci_database_system_versions.test_system_versions"
+	datasourceName := "data.oci_database_system_version_minor_versions.test_system_version_minor_versions"
 
 	acctest.SaveConfigContent("", "", "", t)
 
@@ -45,15 +46,11 @@ func TestDatabaseSystemVersionResource_basic(t *testing.T) {
 		// verify datasource
 		{
 			Config: config +
-				acctest.GenerateDataSourceFromRepresentationMap("oci_database_system_versions", "test_system_versions", acctest.Required, acctest.Create, DatabaseSystemVersionDataSourceRepresentation) +
-				compartmentIdVariableStr + DatabaseSystemVersionResourceConfig,
+				acctest.GenerateDataSourceFromRepresentationMap("oci_database_system_version_minor_versions", "test_system_version_minor_versions", acctest.Required, acctest.Create, DatabaseSystemVersionMinorVersionDataSourceRepresentation) +
+				compartmentIdVariableStr + DatabaseSystemVersionMinorVersionResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "gi_version", "18.0.0.0"),
-				resource.TestCheckResourceAttr(datasourceName, "shape", "Exadata.X9M"),
-
-				resource.TestCheckResourceAttrSet(datasourceName, "system_version_collection.#"),
-				resource.TestCheckResourceAttr(datasourceName, "system_version_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "system_version_minor_version_collection.#"),
 			),
 		},
 	})
