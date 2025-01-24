@@ -19,6 +19,10 @@ data "oci_database_system_versions" "test_system_versions" {
 	#Required
 	compartment_id = var.compartment_id
 	gi_version = var.system_version_gi_version
+
+	#Optional
+	is_latest = var.system_version_is_latest
+	resource_id = oci_cloud_guard_resource.test_resource.id
 	shape = var.system_version_shape
 }
 ```
@@ -29,7 +33,9 @@ The following arguments are supported:
 
 * `compartment_id` - (Required) The compartment [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 * `gi_version` - (Required) Specifies gi version query parameter.
-* `shape` - (Required) Specifies shape query parameter.
+* `is_latest` - (Optional) If provided, return highest versions from each major version family.
+* `resource_id` - (Optional) If provided, filters the results for the specified resource Id.
+* `shape` - (Optional) If provided, filters the results for the given shape.
 
 
 ## Attributes Reference
