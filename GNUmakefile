@@ -165,3 +165,12 @@ check-module-name:
 
 buildpyEnv:
 	cd ./terraform-test-resources/dev_tools/teamcity_scripts/python_script; @echo $(SCRIPT_ARG) ; sh run_python_script.sh
+
+buildpyEnv:
+	@if [ -d "./terraform-test-resources" ]; then \
+		cd ./terraform-test-resources/dev_tools/teamcity_scripts/python_script; \
+		echo $(SCRIPT_ARG); \
+		sh run_python_script.sh; \
+	else \
+		echo "Skipping script execution: terraform-test-resources submodule not found."; \
+	fi
