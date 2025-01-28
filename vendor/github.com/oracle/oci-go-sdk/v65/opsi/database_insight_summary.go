@@ -169,6 +169,10 @@ func (m *databaseinsightsummary) UnmarshalPolymorphicJSON(data []byte) (interfac
 		mm := EmManagedExternalDatabaseInsightSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXTERNAL_MYSQL_DATABASE_SYSTEM":
+		mm := ExternalMysqlDatabaseInsightSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DatabaseInsightSummary: %s.", m.EntitySource)
 		return *m, nil

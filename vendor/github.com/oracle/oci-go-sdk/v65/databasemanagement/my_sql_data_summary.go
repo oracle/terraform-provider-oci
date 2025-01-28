@@ -116,6 +116,15 @@ type MySqlDataSummary struct {
 	// The 99.9th percentile of the query latency.
 	Quantile999 *float32 `mandatory:"true" json:"quantile999"`
 
+	// The maximum amount of controlled memory used by a statement during execution.
+	MaxControlledMemory *int64 `mandatory:"false" json:"maxControlledMemory"`
+
+	// The maximum amount of memory used by a statement during execution.
+	MaxTotalMemory *int64 `mandatory:"false" json:"maxTotalMemory"`
+
+	// The total amount of time spent on CPU for this statement.
+	SumCpuTime *int64 `mandatory:"false" json:"sumCpuTime"`
+
 	// The number of query executions offloaded to HeatWave.
 	HeatWaveOffloaded *float32 `mandatory:"false" json:"heatWaveOffloaded"`
 

@@ -24,6 +24,9 @@ type ListFlexComponentsRequest struct {
 	// A filter to return only resources that match the entire name given. The match is not case sensitive.
 	Name *string `mandatory:"false" contributesTo:"query" name:"name"`
 
+	// A filter to return only resources that belong to the entire shape name given. The match is not case sensitive.
+	Shape *string `mandatory:"false" contributesTo:"query" name:"shape"`
+
 	// The sort order to use, either ascending (`ASC`) or descending (`DESC`).
 	SortOrder ListFlexComponentsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 

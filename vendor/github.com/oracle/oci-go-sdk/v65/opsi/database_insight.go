@@ -141,6 +141,10 @@ func (m *databaseinsight) UnmarshalPolymorphicJSON(data []byte) (interface{}, er
 		mm := MacsManagedCloudDatabaseInsight{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXTERNAL_MYSQL_DATABASE_SYSTEM":
+		mm := ExternalMysqlDatabaseInsight{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := AutonomousDatabaseInsight{}
 		err = json.Unmarshal(data, &mm)
