@@ -5,6 +5,7 @@ package data_safe
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -83,6 +84,10 @@ func DataSafeMaskingPolicyHealthReportsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"error_count": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"freeform_tags": {
 										Type:     schema.TypeMap,
 										Computed: true,
@@ -109,6 +114,10 @@ func DataSafeMaskingPolicyHealthReportsDataSource() *schema.Resource {
 										Computed: true,
 									},
 									"time_updated": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
+									"warning_count": {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
@@ -251,6 +260,10 @@ func MaskingPolicyHealthReportSummaryToMap(obj oci_data_safe.MaskingPolicyHealth
 		result["display_name"] = string(*obj.DisplayName)
 	}
 
+	if obj.ErrorCount != nil {
+		result["error_count"] = strconv.FormatInt(*obj.ErrorCount, 10)
+	}
+
 	result["freeform_tags"] = obj.FreeformTags
 
 	if obj.Id != nil {
@@ -269,6 +282,10 @@ func MaskingPolicyHealthReportSummaryToMap(obj oci_data_safe.MaskingPolicyHealth
 
 	if obj.TimeCreated != nil {
 		result["time_created"] = obj.TimeCreated.String()
+	}
+
+	if obj.WarningCount != nil {
+		result["warning_count"] = strconv.FormatInt(*obj.WarningCount, 10)
 	}
 
 	return result

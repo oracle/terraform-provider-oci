@@ -588,6 +588,8 @@ data_safe
 * oci\_data\_safe\_sql\_firewall\_policy
 * oci\_data\_safe\_sql\_collection
 * oci\_data\_safe\_target\_database\_peer\_target\_database
+* oci\_data\_safe\_sensitive\_types\_export
+* oci\_data\_safe\_sensitive\_data\_model\_referential\_relation
 * oci\_data\_safe\_calculate\_audit\_volume\_available
 * oci\_data\_safe\_calculate\_audit\_volume\_collected
 
