@@ -34,6 +34,8 @@ resource "oci_identity_domains_social_identity_provider" "test_social_identity_p
 	#Optional
 	access_token_url = var.social_identity_provider_access_token_url
 	admin_scope = var.social_identity_provider_admin_scope
+	apple_dev_id = oci_identity_domains_apple_dev.test_apple_dev.id
+	apple_key_id = oci_kms_key.test_key.id
 	authorization = var.social_identity_provider_authorization
 	authz_url = var.social_identity_provider_authz_url
 	auto_redirect_enabled = var.social_identity_provider_auto_redirect_enabled
@@ -103,6 +105,32 @@ The following arguments are supported:
 	* caseExact: true
 	* idcsSearchable: false
 	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `apple_dev_id` - (Optional) (Updatable) Apple Developer ID
+
+	**Added In:** 2311180004
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `apple_key_id` - (Optional) (Updatable) Apple Private Key ID
+
+	**Added In:** 2311180004
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* idcsSearchable: false
+	* multiValued: false
 	* mutability: readWrite
 	* required: false
 	* returned: default
@@ -816,6 +844,32 @@ The following attributes are exported:
 	* caseExact: true
 	* idcsSearchable: false
 	* multiValued: true
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `apple_dev_id` - Apple Developer ID
+
+	**Added In:** 2311180004
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* idcsSearchable: false
+	* multiValued: false
+	* mutability: readWrite
+	* required: false
+	* returned: default
+	* type: string
+	* uniqueness: none
+* `apple_key_id` - Apple Private Key ID
+
+	**Added In:** 2311180004
+
+	**SCIM++ Properties:**
+	* caseExact: true
+	* idcsSearchable: false
+	* multiValued: false
 	* mutability: readWrite
 	* required: false
 	* returned: default

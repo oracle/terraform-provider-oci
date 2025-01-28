@@ -91,6 +91,16 @@ func IdentityDomainsSocialIdentityProviderResource() *schema.Resource {
 					Type: schema.TypeString,
 				},
 			},
+			"apple_dev_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
+			"apple_key_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+			},
 			"authorization": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -500,6 +510,16 @@ func (s *IdentityDomainsSocialIdentityProviderResourceCrud) Create() error {
 		}
 	}
 
+	if appleDevId, ok := s.D.GetOkExists("apple_dev_id"); ok {
+		tmp := appleDevId.(string)
+		request.AppleDevId = &tmp
+	}
+
+	if appleKeyId, ok := s.D.GetOkExists("apple_key_id"); ok {
+		tmp := appleKeyId.(string)
+		request.AppleKeyId = &tmp
+	}
+
 	if authorization, ok := s.D.GetOkExists("authorization"); ok {
 		tmp := authorization.(string)
 		request.Authorization = &tmp
@@ -767,6 +787,16 @@ func (s *IdentityDomainsSocialIdentityProviderResourceCrud) Update() error {
 		}
 	}
 
+	if appleDevId, ok := s.D.GetOkExists("apple_dev_id"); ok {
+		tmp := appleDevId.(string)
+		request.AppleDevId = &tmp
+	}
+
+	if appleKeyId, ok := s.D.GetOkExists("apple_key_id"); ok {
+		tmp := appleKeyId.(string)
+		request.AppleKeyId = &tmp
+	}
+
 	if authorization, ok := s.D.GetOkExists("authorization"); ok {
 		tmp := authorization.(string)
 		request.Authorization = &tmp
@@ -1017,6 +1047,14 @@ func (s *IdentityDomainsSocialIdentityProviderResourceCrud) SetData() error {
 
 	s.D.Set("admin_scope", s.Res.AdminScope)
 
+	if s.Res.AppleDevId != nil {
+		s.D.Set("apple_dev_id", *s.Res.AppleDevId)
+	}
+
+	if s.Res.AppleKeyId != nil {
+		s.D.Set("apple_key_id", *s.Res.AppleKeyId)
+	}
+
 	if s.Res.AuthzUrl != nil {
 		s.D.Set("authz_url", *s.Res.AuthzUrl)
 	}
@@ -1201,6 +1239,14 @@ func SocialIdentityProviderToMap(obj oci_identity_domains.SocialIdentityProvider
 	}
 
 	result["admin_scope"] = obj.AdminScope
+
+	if obj.AppleDevId != nil {
+		result["apple_dev_id"] = string(*obj.AppleDevId)
+	}
+
+	if obj.AppleKeyId != nil {
+		result["apple_key_id"] = string(*obj.AppleKeyId)
+	}
 
 	if obj.AuthzUrl != nil {
 		result["authz_url"] = string(*obj.AuthzUrl)

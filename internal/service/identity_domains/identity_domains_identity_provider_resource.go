@@ -425,6 +425,16 @@ func IdentityDomainsIdentityProviderResource() *schema.Resource {
 								Type: schema.TypeString,
 							},
 						},
+						"apple_dev_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+						"apple_key_id": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
 						"authz_url": {
 							Type:     schema.TypeString,
 							Optional: true,
@@ -1939,6 +1949,16 @@ func (s *IdentityDomainsIdentityProviderResourceCrud) mapToExtensionSocialIdenti
 		}
 	}
 
+	if appleDevId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "apple_dev_id")); ok {
+		tmp := appleDevId.(string)
+		result.AppleDevId = &tmp
+	}
+
+	if appleKeyId, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "apple_key_id")); ok {
+		tmp := appleKeyId.(string)
+		result.AppleKeyId = &tmp
+	}
+
 	if authzUrl, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "authz_url")); ok {
 		tmp := authzUrl.(string)
 		result.AuthzUrl = &tmp
@@ -2058,6 +2078,14 @@ func ExtensionSocialIdentityProviderToMap(obj *oci_identity_domains.ExtensionSoc
 	}
 
 	result["admin_scope"] = obj.AdminScope
+
+	if obj.AppleDevId != nil {
+		result["apple_dev_id"] = string(*obj.AppleDevId)
+	}
+
+	if obj.AppleKeyId != nil {
+		result["apple_key_id"] = string(*obj.AppleKeyId)
+	}
 
 	if obj.AuthzUrl != nil {
 		result["authz_url"] = string(*obj.AuthzUrl)
