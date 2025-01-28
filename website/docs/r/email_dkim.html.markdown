@@ -29,6 +29,7 @@ resource "oci_email_dkim" "test_dkim" {
 	description = var.dkim_description
 	freeform_tags = {"Department"= "Finance"}
 	name = var.dkim_name
+	private_key = var.dkim_private_key
 }
 ```
 
@@ -44,8 +45,8 @@ The following arguments are supported:
 
 	Avoid entering confidential information.
 
-	Example: `mydomain-phx-20210228`
-
+	Example: `mydomain-phx-20210228` 
+* `private_key` - (Optional) The DKIM RSA Private Key in Privacy-Enhanced Mail (PEM) format. It is a text-based representation of the private key used for signing email messages.
 
 ** IMPORTANT **
 Any change to a property that does not support update will force the destruction and recreation of the resource with the new property values
@@ -58,11 +59,13 @@ The following attributes are exported:
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains this DKIM.
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Operations.CostCenter": "42"}`
 * `description` - The description of the DKIM. Avoid entering confidential information.
-* `dns_subdomain_name` - The name of the DNS subdomain that must be provisioned to enable email recipients to verify DKIM signatures. It is usually created with a CNAME record set to the cnameRecordValue
-* `email_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain that this DKIM belongs to.
-* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
-* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DKIM.
-* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource.
+* `dns_subdomain_name` - The name of the DNS subdomain that must be provisioned to enable email recipients to verify DKIM signatures. It is usually created with a CNAME record set to the cnameRecordValue. 
+* `email_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain that this DKIM belongs to. 
+* `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DKIM. 
+* `is_imported` - Indicates whether the DKIM was imported.
+* `key_length` - Length of the RSA key used in the DKIM.
+* `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource. 
 * `name` - The DKIM selector. If the same domain is managed in more than one region, each region must use different selectors.
 * `state` - The current state of the DKIM.
 * `system_tags` - Usage of system tag keys. These predefined keys are scoped to namespaces. Example: `{"orcl-cloud.free-tier-retained": "true"}`
