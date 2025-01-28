@@ -54,6 +54,8 @@ The following attributes are exported:
 * `email_domain_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the email domain that this DKIM belongs to. 
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DKIM. 
+* `is_imported` - Indicates whether the DKIM was imported.
+* `key_length` - Length of the RSA key used in the DKIM.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource. 
 * `name` - The DKIM selector. If the same domain is managed in more than one region, each region must use different selectors. 
 * `state` - The current state of the DKIM.

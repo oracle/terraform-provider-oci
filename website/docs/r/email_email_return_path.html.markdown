@@ -17,7 +17,7 @@ Creates a new email return path. Avoid entering confidential information.
 ```hcl
 resource "oci_email_email_return_path" "test_email_return_path" {
 	#Required
-	parent_resource_id = oci_usage_proxy_resource.test_resource.id
+	parent_resource_id = oci_cloud_guard_resource.test_resource.id
 
 	#Optional
 	defined_tags = {"Operations.CostCenter"= "42"}

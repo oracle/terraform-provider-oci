@@ -92,6 +92,14 @@ func (s *EmailDkimDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.IsImported != nil {
+		s.D.Set("is_imported", *s.Res.IsImported)
+	}
+
+	if s.Res.KeyLength != nil {
+		s.D.Set("key_length", *s.Res.KeyLength)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}
