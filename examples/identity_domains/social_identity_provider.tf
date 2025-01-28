@@ -41,20 +41,12 @@ variable "social_identity_provider_clock_skew_in_seconds" {
   default = 10
 }
 
-variable "social_identity_provider_compartment_ocid" {
-  default = "compartmentOcid"
-}
-
 variable "social_identity_provider_consumer_key" {
   default = "consumerKey"
 }
 
 variable "social_identity_provider_consumer_secret" {
   default = "consumerSecret"
-}
-
-variable "social_identity_provider_delete_in_progress" {
-  default = false
 }
 
 variable "social_identity_provider_description" {
@@ -85,58 +77,6 @@ variable "social_identity_provider_id_attribute" {
   default = "idAttribute"
 }
 
-variable "social_identity_provider_idcs_created_by__ref" {
-  default = "ref"
-}
-
-variable "social_identity_provider_idcs_created_by_display" {
-  default = "display"
-}
-
-variable "social_identity_provider_idcs_created_by_ocid" {
-  default = "ocid"
-}
-
-variable "social_identity_provider_idcs_created_by_type" {
-  default = "User"
-}
-
-variable "social_identity_provider_idcs_created_by_value" {
-  default = "value"
-}
-
-variable "social_identity_provider_idcs_endpoint" {
-  default = "idcsEndpoint"
-}
-
-variable "social_identity_provider_idcs_last_modified_by_ref" {
-  default = "ref"
-}
-
-variable "social_identity_provider_idcs_last_modified_by_display" {
-  default = "display"
-}
-
-variable "social_identity_provider_idcs_last_modified_by_ocid" {
-  default = "ocid"
-}
-
-variable "social_identity_provider_idcs_last_modified_by_type" {
-  default = "User"
-}
-
-variable "social_identity_provider_idcs_last_modified_by_value" {
-  default = "value"
-}
-
-variable "social_identity_provider_idcs_last_upgraded_in_release" {
-  default = "idcsLastUpgradedInRelease"
-}
-
-variable "social_identity_provider_idcs_prevented_operations" {
-  default = []
-}
-
 variable "social_identity_provider_jit_prov_assigned_groups_ref" {
   default = "ref"
 }
@@ -149,36 +89,20 @@ variable "social_identity_provider_jit_prov_assigned_groups_value" {
   default = "value"
 }
 
+variable "social_identity_provider_apple_dev_id" {
+  default = "dev-id-123"
+}
+
+variable "social_identity_provider_apple_key_id" {
+  default = "key-id-123"
+}
+
 variable "social_identity_provider_jit_prov_group_static_list_enabled" {
   default = false
 }
 
-variable "social_identity_provider_meta_created" {
-  default = "created"
-}
-
-variable "social_identity_provider_meta_last_modified" {
-  default = "lastModified"
-}
-
-variable "social_identity_provider_meta_location" {
-  default = "location"
-}
-
-variable "social_identity_provider_meta_resource_type" {
-  default = "resourceType"
-}
-
-variable "social_identity_provider_meta_version" {
-  default = "version"
-}
-
 variable "social_identity_provider_name" {
   default = "name"
-}
-
-variable "social_identity_provider_ocid" {
-  default = "ocid"
 }
 
 variable "social_identity_provider_profile_url" {
@@ -242,11 +166,6 @@ variable "social_identity_provider_tags_value" {
   default = "value"
 }
 
-variable "social_identity_provider_tenancy_ocid" {
-  default = "tenancyOcid"
-}
-
-
 
 # provider "oci" {
 #   tenancy_ocid     = var.tenancy_ocid
@@ -274,6 +193,8 @@ resource "oci_identity_domains_social_identity_provider" "test_social_identity_p
   admin_scope                  = var.social_identity_provider_admin_scope
   authorization                = var.social_identity_provider_authorization
   authz_url                    = var.social_identity_provider_authz_url
+  apple_dev_id                 = var.social_identity_provider_apple_dev_id
+  apple_key_id                 = var.social_identity_provider_apple_key_id
   auto_redirect_enabled        = var.social_identity_provider_auto_redirect_enabled
   client_credential_in_payload = var.social_identity_provider_client_credential_in_payload
   clock_skew_in_seconds        = var.social_identity_provider_clock_skew_in_seconds
@@ -286,7 +207,6 @@ resource "oci_identity_domains_social_identity_provider" "test_social_identity_p
 #     value = var.social_identity_provider_jit_prov_assigned_groups_value
 #   }
   jit_prov_group_static_list_enabled = var.social_identity_provider_jit_prov_group_static_list_enabled
-  ocid                               = var.social_identity_provider_ocid
   profile_url                        = var.social_identity_provider_profile_url
   redirect_url                       = var.social_identity_provider_redirect_url
   refresh_token_url                  = var.social_identity_provider_refresh_token_url
@@ -301,11 +221,6 @@ resource "oci_identity_domains_social_identity_provider" "test_social_identity_p
   scope                           = var.social_identity_provider_scope
   social_jit_provisioning_enabled = var.social_identity_provider_social_jit_provisioning_enabled
   status                          = var.social_identity_provider_status
-  tags {
-    #Required
-    key   = var.social_identity_provider_tags_key
-    value = var.social_identity_provider_tags_value
-  }
 }
 
 data "oci_identity_domains_social_identity_providers" "test_social_identity_providers" {

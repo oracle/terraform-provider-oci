@@ -106,6 +106,14 @@ func (s *IdentityDomainsSocialIdentityProviderDataSourceCrud) SetData() error {
 
 	s.D.Set("admin_scope", s.Res.AdminScope)
 
+	if s.Res.AppleDevId != nil {
+		s.D.Set("apple_dev_id", *s.Res.AppleDevId)
+	}
+
+	if s.Res.AppleKeyId != nil {
+		s.D.Set("apple_key_id", *s.Res.AppleKeyId)
+	}
+
 	if s.Res.AuthzUrl != nil {
 		s.D.Set("authz_url", *s.Res.AuthzUrl)
 	}
