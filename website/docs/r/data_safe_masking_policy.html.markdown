@@ -68,7 +68,7 @@ The following arguments are supported:
 	* `sensitive_data_model_id` - (Required when column_source=SENSITIVE_DATA_MODEL) (Updatable) The OCID of the sensitive data model to be associated as the column source with the masking policy.
 	* `target_id` - (Required when column_source=TARGET) (Updatable) The OCID of the target database to be associated as the column source with the masking policy.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where the masking policy should be created.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the masking policy.
 * `display_name` - (Optional) (Updatable) The display name of the masking policy. The name does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
@@ -95,7 +95,7 @@ The following attributes are exported:
 	* `sensitive_data_model_id` - The OCID of the sensitive data model that's used as the source of masking columns.
 	* `target_id` - The OCID of the target database that's used as the source of masking columns.
 * `compartment_id` - The OCID of the compartment that contains the masking policy.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the masking policy.
 * `display_name` - The display name of the masking policy.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 

@@ -67,7 +67,7 @@ resource "oci_data_safe_library_masking_format" "test_library_masking_format" {
 The following arguments are supported:
 
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where the library masking format should be created.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the library masking format.
 * `display_name` - (Optional) (Updatable) The display name of the library masking format. The name does not have to be unique, and it's changeable.
 * `format_entries` - (Required) (Updatable) An array of format entries. The combined output of all the format entries is used for masking.
@@ -89,7 +89,7 @@ The following arguments are supported:
 		In the case of ASCII characters, if a regular expression is not provided,  Deterministic Encryption can encrypt variable-length column values while  preserving their original format.
 
 		If a regular expression is provided, the column values in all the rows must match  the regular expression. Deterministic Encryption supports a subset of the regular  expression language. It supports encryption of fixed-length strings, and does not  support * or + syntax of regular expressions. The encrypted values also match the  regular expression, which helps to ensure that the original format is preserved.  If an original value does not match the regular expression, Deterministic Encryption  might not produce a one-to-one mapping. All non-confirming values are mapped to a  single encrypted value, thereby producing a many-to-one mapping.  
-	* `replace_with` - (Required when type=REGULAR_EXPRESSION) (Updatable) The value that should be used to replace the data matching the regular  expression. It can be a fixed string, fixed number, null value, or  SQL expression.  
+	* `replace_with` - (Required when type=REGULAR_EXPRESSION) (Updatable) The value that should be used to replace the data matching the regular  expression. It can be a fixed string, fixed number or null value. 
 	* `schema_name` - (Required when type=DETERMINISTIC_SUBSTITUTION | RANDOM_SUBSTITUTION) (Updatable) The name of the schema that contains the substitution column.
 	* `sql_expression` - (Required when type=SQL_EXPRESSION) (Updatable) The SQL expression to be used to generate the masked values. It can  consist of one or more values, operators, and SQL functions that  evaluate to a value. It can also contain substitution columns from  the same table. Specify the substitution columns within percent (%)  symbols.  
 	* `start_date` - (Required when type=DETERMINISTIC_ENCRYPTION_DATE | RANDOM_DATE) (Updatable) The lower bound of the range within which all the original column values fall. The start date must be less than or equal to the end date.  
@@ -111,7 +111,7 @@ Any change to a property that does not support update will force the destruction
 The following attributes are exported:
 
 * `compartment_id` - The OCID of the compartment that contains the library masking format.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the library masking format.
 * `display_name` - The display name of the library masking format.
 * `format_entries` - An array of format entries. The combined output of all the format entries is used for masking.
@@ -133,7 +133,7 @@ The following attributes are exported:
 		In the case of ASCII characters, if a regular expression is not provided,  Deterministic Encryption can encrypt variable-length column values while  preserving their original format.
 
 		If a regular expression is provided, the column values in all the rows must match  the regular expression. Deterministic Encryption supports a subset of the regular  expression language. It supports encryption of fixed-length strings, and does not  support * or + syntax of regular expressions. The encrypted values also match the  regular expression, which helps to ensure that the original format is preserved.  If an original value does not match the regular expression, Deterministic Encryption  might not produce a one-to-one mapping. All non-confirming values are mapped to a  single encrypted value, thereby producing a many-to-one mapping.  
-	* `replace_with` - The value that should be used to replace the data matching the regular  expression. It can be a fixed string, fixed number, null value, or  SQL expression.  
+	* `replace_with` - The value that should be used to replace the data matching the regular  expression. It can be a fixed string, fixed number or null value. 
 	* `schema_name` - The name of the schema that contains the substitution column.
 	* `sql_expression` - The SQL expression to be used to generate the masked values. It can  consist of one or more values, operators, and SQL functions that  evaluate to a value. It can also contain substitution columns from  the same table. Specify the substitution columns within percent (%)  symbols.  
 	* `start_date` - The lower bound of the range within which all the original column values fall. The start date must be less than or equal to the end date.  

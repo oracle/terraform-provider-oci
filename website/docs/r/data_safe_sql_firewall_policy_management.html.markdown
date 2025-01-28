@@ -40,17 +40,17 @@ resource "oci_data_safe_sql_firewall_policy_management" "test_sql_firewall_polic
 
 The following arguments are supported:
 
+* `allowed_client_ips` - (Optional) (Updatable) List of allowed ip addresses for the SQL Firewall policy.
+* `allowed_client_os_usernames` - (Optional) (Updatable) List of allowed operating system user names for the SQL Firewall policy.
+* `allowed_client_programs` - (Optional) (Updatable) List of allowed client programs for the SQL Firewall policy.
+* `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the SQL Firewall policy.
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
+* `description` - (Optional) (Updatable) The description of the SQL Firewall policy.
+* `display_name` - (Optional) (Updatable) The display name of the SQL Firewall policy. The name does not have to be unique, and it is changeable.
+* `enforcement_scope` - (Optional) (Updatable) Specifies the SQL Firewall policy enforcement option.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment containing the SQL collection.
 * `target_id` - (Required) Unique target identifier.
-* `db_user_name` - (Required) The database user name. 
-* `allowed_client_ips` - (Optional) (Updatable) List of allowed ip addresses for the SQL firewall policy.
-* `allowed_client_os_usernames` - (Optional) (Updatable) List of allowed operating system user names for the SQL firewall policy.
-* `allowed_client_programs` - (Optional) (Updatable) List of allowed client programs for the SQL firewall policy.
-* `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the SQL firewall policy.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
-* `description` - (Optional) (Updatable) The description of the SQL firewall policy.
-* `display_name` - (Optional) (Updatable) The display name of the SQL firewall policy. The name does not have to be unique, and it is changeable.
-* `enforcement_scope` - (Optional) (Updatable) Specifies the SQL firewall policy enforcement option.
+* `db_user_name` - (Required) The database user name.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `sql_firewall_policy_id` - (Required) The OCID of the SQL firewall policy resource.
 * `status` - (Optional) (Updatable) Specifies whether the SQL firewall policy is enabled or disabled.
@@ -70,10 +70,10 @@ The following attributes are exported:
 * `allowed_client_programs` - The list of allowed client programs for the SQL firewall policy.
 * `compartment_id` - The OCID of the compartment containing the SQL firewall policy.
 * `db_user_name` - The database user name.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
-* `description` - The description of the SQL firewall policy.
-* `display_name` - The display name of the SQL firewall policy.
-* `enforcement_scope` - Specifies the SQL firewall policy enforcement option.
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
+* `description` - The description of the SQL Firewall policy.
+* `display_name` - The display name of the SQL Firewall policy.
+* `enforcement_scope` - Specifies the SQL Firewall policy enforcement option.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
 * `id` - The OCID of the SQL firewall policy.
 * `lifecycle_details` - Details about the current state of the SQL firewall policy in Data Safe.

@@ -39,11 +39,6 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Required: true,
 			},
-			"target_id": {
-				Type:     schema.TypeString,
-				Required: true,
-				ForceNew: true,
-			},
 
 			// Optional
 			"defined_tags": {
@@ -78,6 +73,12 @@ func DataSafeSecurityAssessmentResource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 				Computed: true,
+			},
+			"target_id": {
+				Type:     schema.TypeString,
+				Optional: true,
+				Computed: true,
+				ForceNew: true,
 			},
 
 			// Computed

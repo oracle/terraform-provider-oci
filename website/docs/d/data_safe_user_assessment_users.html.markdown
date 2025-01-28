@@ -33,6 +33,8 @@ data "oci_data_safe_user_assessment_users" "test_user_assessment_users" {
 	target_id = oci_cloud_guard_target.test_target.id
 	time_last_login_greater_than_or_equal_to = var.user_assessment_user_time_last_login_greater_than_or_equal_to
 	time_last_login_less_than = var.user_assessment_user_time_last_login_less_than
+	time_password_expiry_greater_than_or_equal_to = var.user_assessment_user_time_password_expiry_greater_than_or_equal_to
+	time_password_expiry_less_than = var.user_assessment_user_time_password_expiry_less_than
 	time_password_last_changed_greater_than_or_equal_to = var.user_assessment_user_time_password_last_changed_greater_than_or_equal_to
 	time_password_last_changed_less_than = var.user_assessment_user_time_password_last_changed_less_than
 	time_user_created_greater_than_or_equal_to = var.user_assessment_user_time_user_created_greater_than_or_equal_to
@@ -61,6 +63,8 @@ The following arguments are supported:
 
 	**Example:** 2016-12-19T16:39:57.600Z 
 * `time_last_login_less_than` - (Optional) A filter to return users whose last login time in the database is less than the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
+* `time_password_expiry_greater_than_or_equal_to` - (Optional) A filter to return users whose password expiry date in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
+* `time_password_expiry_less_than` - (Optional) A filter to return users whose password expiry date in the database is less than the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
 * `time_password_last_changed_greater_than_or_equal_to` - (Optional) A filter to return users whose last password change in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
 	**Example:** 2016-12-19T16:39:57.600Z 
@@ -102,6 +106,7 @@ The following attributes are exported:
 * `target_id` - The OCID of the target database.
 * `time_last_login` - The date and time the user last logged in, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_password_changed` - The date and time the user password was last changed, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
+* `time_password_expiry` - The date and time the user's password will expire, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `time_user_created` - The date and time the user was created in the database, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 * `user_category` - The user category based on the privileges and other details of the user.
 * `user_name` - The database user name.

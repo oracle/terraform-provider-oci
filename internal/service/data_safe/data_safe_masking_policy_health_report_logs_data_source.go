@@ -50,6 +50,10 @@ func DataSafeMaskingPolicyHealthReportLogsDataSource() *schema.Resource {
 										Type:     schema.TypeString,
 										Computed: true,
 									},
+									"health_check_type": {
+										Type:     schema.TypeString,
+										Computed: true,
+									},
 									"message": {
 										Type:     schema.TypeString,
 										Computed: true,
@@ -163,6 +167,8 @@ func MaskingPolicyHealthReportLogSummaryToMap(obj oci_data_safe.MaskingPolicyHea
 	if obj.Description != nil {
 		result["description"] = string(*obj.Description)
 	}
+
+	result["health_check_type"] = string(obj.HealthCheckType)
 
 	if obj.Message != nil {
 		result["message"] = string(*obj.Message)

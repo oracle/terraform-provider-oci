@@ -36,7 +36,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains the sensitive type.
 * `data_pattern` - A regular expression to be used by data discovery for matching column data values.
 * `default_masking_format_id` - The OCID of the library masking format that should be used to mask the sensitive columns associated with the sensitive type.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the sensitive type.
 * `display_name` - The display name of the sensitive type.
 * `entity_type` - The entity type. It can be either a sensitive type with regular expressions or a sensitive category used for grouping similar sensitive types. 

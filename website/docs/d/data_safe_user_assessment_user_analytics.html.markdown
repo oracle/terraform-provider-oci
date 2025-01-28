@@ -15,7 +15,7 @@ of database user security.  For example, the user details include how many users
 the critical category. This data is especially useful content for dashboards or to support analytics.
 
 When you perform the ListUserAnalytics operation, if the parameter compartmentIdInSubtree is set to "true," and if the
-parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has INSPECT
+parameter accessLevel is set to ACCESSIBLE, then the operation returns compartments in which the requestor has READ
 permissions on at least one resource, directly or indirectly (in subcompartments). If the operation is performed at the
 root compartment and the requestor does not have access to at least one subcompartment of the compartment specified by
 compartmentId, then "Not Authorized" is returned.
@@ -42,6 +42,8 @@ data "oci_data_safe_user_assessment_user_analytics" "test_user_assessment_user_a
 	target_id = oci_cloud_guard_target.test_target.id
 	time_last_login_greater_than_or_equal_to = var.user_assessment_user_analytic_time_last_login_greater_than_or_equal_to
 	time_last_login_less_than = var.user_assessment_user_analytic_time_last_login_less_than
+	time_password_expiry_greater_than_or_equal_to = var.user_assessment_user_analytic_time_password_expiry_greater_than_or_equal_to
+	time_password_expiry_less_than = var.user_assessment_user_analytic_time_password_expiry_less_than
 	time_password_last_changed_greater_than_or_equal_to = var.user_assessment_user_analytic_time_password_last_changed_greater_than_or_equal_to
 	time_password_last_changed_less_than = var.user_assessment_user_analytic_time_password_last_changed_less_than
 	time_user_created_greater_than_or_equal_to = var.user_assessment_user_analytic_time_user_created_greater_than_or_equal_to
@@ -65,6 +67,8 @@ The following arguments are supported:
 
 	**Example:** 2016-12-19T16:39:57.600Z 
 * `time_last_login_less_than` - (Optional) A filter to return users whose last login time in the database is less than the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
+* `time_password_expiry_greater_than_or_equal_to` - (Optional) A filter to return users whose password expiry date in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
+* `time_password_expiry_less_than` - (Optional) A filter to return users whose password expiry date in the database is less than the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339). **Example:** 2016-12-19T16:39:57.600Z 
 * `time_password_last_changed_greater_than_or_equal_to` - (Optional) A filter to return users whose last password change in the database is greater than or equal to the date and time specified, in the format defined by [RFC3339](https://tools.ietf.org/html/rfc3339).
 
 	**Example:** 2016-12-19T16:39:57.600Z 
@@ -89,5 +93,5 @@ The following attributes are exported:
 
 The following attributes are exported:
 
-* `items` - The array of user aggregation data.
+* `items` - List containing maps as values. Example: `{"Operations": [ {"CostCenter": "42"} ] }` 
 

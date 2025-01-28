@@ -42,7 +42,7 @@ The following arguments are supported:
 * `allowed_client_os_usernames` - (Optional) (Updatable) List of allowed operating system user names for the SQL Firewall policy.
 * `allowed_client_programs` - (Optional) (Updatable) List of allowed client programs for the SQL Firewall policy.
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment containing the SQL Firewall policy.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the SQL Firewall policy.
 * `display_name` - (Optional) (Updatable) The display name of the SQL Firewall policy. The name does not have to be unique, and it is changeable.
 * `enforcement_scope` - (Optional) (Updatable) Specifies the SQL Firewall policy enforcement option.
@@ -65,7 +65,7 @@ The following attributes are exported:
 * `allowed_client_programs` - The list of allowed client programs for the SQL Firewall policy.
 * `compartment_id` - The OCID of the compartment containing the SQL Firewall policy.
 * `db_user_name` - The database user name.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the SQL Firewall policy.
 * `display_name` - The display name of the SQL Firewall policy.
 * `enforcement_scope` - Specifies the SQL Firewall policy enforcement option.

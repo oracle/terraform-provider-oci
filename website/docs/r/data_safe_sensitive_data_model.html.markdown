@@ -51,7 +51,7 @@ The following arguments are supported:
 
 * `app_suite_name` - (Optional) (Updatable) The application suite name identifying a collection of applications. It's useful only if maintaining a sensitive data model for a suite of applications.
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where the sensitive data model should be created.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the sensitive data model.
 * `display_name` - (Optional) (Updatable) The display name of the sensitive data model. The name does not have to be unique, and it's changeable.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 
@@ -76,7 +76,7 @@ The following attributes are exported:
 
 * `app_suite_name` - The application suite name identifying a collection of applications. The default value is GENERIC. It's useful only if maintaining a sensitive data model for a suite of applications. 
 * `compartment_id` - The OCID of the compartment that contains the sensitive data model.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the sensitive data model.
 * `display_name` - The display name of the sensitive data model.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}` 

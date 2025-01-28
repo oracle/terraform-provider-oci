@@ -5,6 +5,7 @@ package data_safe
 
 import (
 	"context"
+	"strconv"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
 	oci_data_safe "github.com/oracle/oci-go-sdk/v65/datasafe"
@@ -39,6 +40,10 @@ func DataSafeMaskingPolicyHealthReportDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
+			"error_count": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"freeform_tags": {
 				Type:     schema.TypeMap,
 				Computed: true,
@@ -61,6 +66,10 @@ func DataSafeMaskingPolicyHealthReportDataSource() *schema.Resource {
 				Computed: true,
 			},
 			"time_updated": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
+			"warning_count": {
 				Type:     schema.TypeString,
 				Computed: true,
 			},
@@ -128,6 +137,10 @@ func (s *DataSafeMaskingPolicyHealthReportDataSourceCrud) SetData() error {
 		s.D.Set("display_name", *s.Res.DisplayName)
 	}
 
+	if s.Res.ErrorCount != nil {
+		s.D.Set("error_count", strconv.FormatInt(*s.Res.ErrorCount, 10))
+	}
+
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
 	if s.Res.MaskingPolicyId != nil {
@@ -146,6 +159,10 @@ func (s *DataSafeMaskingPolicyHealthReportDataSourceCrud) SetData() error {
 
 	if s.Res.TimeUpdated != nil {
 		s.D.Set("time_updated", s.Res.TimeUpdated.String())
+	}
+
+	if s.Res.WarningCount != nil {
+		s.D.Set("warning_count", strconv.FormatInt(*s.Res.WarningCount, 10))
 	}
 
 	return nil
