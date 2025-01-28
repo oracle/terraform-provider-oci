@@ -45,10 +45,22 @@ provider "oci" {
   region           = var.region
 }
 
-resource "oci_datascience_containers" "test_containers" {
+resource "oci_datascience_containers" "test_container" {
 
   #Optional
   container_name    = var.container_name
+  display_name      = var.container_display_name
+  is_latest         = var.container_is_latest
+  state             = var.container_state
+  tag_query_param   = var.container_tag_query_param
+  target_workload   = var.container_target_workload
+  usage_query_param = var.container_usage_query_param
+}
+
+data "oci_datascience_containers" "test_containers" {
+
+  #Optional
+  container_name    = oci_datascience_containers.test_container.display_name
   display_name      = var.container_display_name
   is_latest         = var.container_is_latest
   state             = var.container_state
