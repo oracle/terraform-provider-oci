@@ -46,7 +46,7 @@ The following arguments are supported:
 * `compartment_id` - (Required) (Updatable) The OCID of the compartment where the sensitive type should be created.
 * `data_pattern` - (Applicable when entity_type=SENSITIVE_TYPE) (Updatable) A regular expression to be used by data discovery for matching column data values.
 * `default_masking_format_id` - (Applicable when entity_type=SENSITIVE_TYPE) (Updatable) The OCID of the library masking format that should be used to mask the sensitive columns associated with the sensitive type.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - (Optional) (Updatable) The description of the sensitive type.
 * `display_name` - (Optional) (Updatable) The display name of the sensitive type. The name does not have to be unique, and it's changeable.
 * `entity_type` - (Required) (Updatable) The entity type. It can be either a sensitive type with regular expressions or a sensitive category used for grouping similar sensitive types. 
@@ -68,7 +68,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment that contains the sensitive type.
 * `data_pattern` - A regular expression to be used by data discovery for matching column data values.
 * `default_masking_format_id` - The OCID of the library masking format that should be used to mask the sensitive columns associated with the sensitive type.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - The description of the sensitive type.
 * `display_name` - The display name of the sensitive type.
 * `entity_type` - The entity type. It can be either a sensitive type with regular expressions or a sensitive category used for grouping similar sensitive types. 

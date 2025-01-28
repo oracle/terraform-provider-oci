@@ -52,7 +52,7 @@ The following attributes are exported:
 * `compartment_id` - The OCID of the compartment containing the report definition.
 * `compliance_standards` - The list of the data protection regulations/standards used in the report that will help demonstrate compliance.
 * `data_source` - Specifies the name of a resource that provides data for the report. For example alerts, events.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - A description of the report definition.
 * `display_name` - Name of the report definition.
 * `display_order` - Specifies how the report definitions are ordered in the display.

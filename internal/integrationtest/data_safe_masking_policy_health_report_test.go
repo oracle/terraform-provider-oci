@@ -68,6 +68,11 @@ func TestDataSafeMaskingPolicyHealthReportResource_basic(t *testing.T) {
 				compartmentIdVariableStr,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
+				resource.TestCheckResourceAttr(datasourceName, "masking_policy_health_report_collection.0.items.#", "1"),
+				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_collection.0.items.0.masking_policy_id"),
+				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_collection.0.items.0.display_name"),
+				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_collection.0.items.0.error_count"),
+				resource.TestCheckResourceAttrSet(datasourceName, "masking_policy_health_report_collection.0.items.0.warning_count"),
 			),
 		},
 		// verify singular datasource
@@ -80,10 +85,12 @@ func TestDataSafeMaskingPolicyHealthReportResource_basic(t *testing.T) {
 
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "compartment_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "display_name"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "error_count"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "warning_count"),
 			),
 		},
 	})

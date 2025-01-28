@@ -34,7 +34,7 @@ The following arguments are supported:
 * `alert_id` - (Required) The OCID of alert.
 * `comment` - (Optional) (Updatable) A comment can be entered to track the alert changes done by the user.
 * `compartment_id` - (Optional) (Updatable) The OCID of the compartment that contains the alert.
-* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - (Optional) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Department": "Finance"}`
 * `status` - (Optional) (Updatable) The status of the alert.
 
@@ -51,7 +51,7 @@ The following attributes are exported:
 * `alert_type` - Type of the alert. Indicates the Data Safe feature triggering the alert.
 * `comment` - A comment for the alert. Entered by the user.
 * `compartment_id` - The OCID of the compartment that contains the alert.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}`
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}`
 * `description` - The description of the alert.
 * `display_name` - The display name of the alert.
 * `feature_details` - Map that contains maps of values. Example: `{"Operations": {"CostCenter": "42"}}`

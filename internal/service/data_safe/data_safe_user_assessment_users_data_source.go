@@ -59,6 +59,14 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"time_password_expiry_greater_than_or_equal_to": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
+			"time_password_expiry_less_than": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"time_password_last_changed_greater_than_or_equal_to": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -152,6 +160,10 @@ func DataSafeUserAssessmentUsersDataSource() *schema.Resource {
 							Computed: true,
 						},
 						"time_password_changed": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+						"time_password_expiry": {
 							Type:     schema.TypeString,
 							Computed: true,
 						},
@@ -262,6 +274,22 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) Get() error {
 			return err
 		}
 		request.TimeLastLoginLessThan = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timePasswordExpiryGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_password_expiry_greater_than_or_equal_to"); ok {
+		tmp, err := time.Parse(time.RFC3339, timePasswordExpiryGreaterThanOrEqualTo.(string))
+		if err != nil {
+			return err
+		}
+		request.TimePasswordExpiryGreaterThanOrEqualTo = &oci_common.SDKTime{Time: tmp}
+	}
+
+	if timePasswordExpiryLessThan, ok := s.D.GetOkExists("time_password_expiry_less_than"); ok {
+		tmp, err := time.Parse(time.RFC3339, timePasswordExpiryLessThan.(string))
+		if err != nil {
+			return err
+		}
+		request.TimePasswordExpiryLessThan = &oci_common.SDKTime{Time: tmp}
 	}
 
 	if timePasswordLastChangedGreaterThanOrEqualTo, ok := s.D.GetOkExists("time_password_last_changed_greater_than_or_equal_to"); ok {
@@ -391,6 +419,10 @@ func (s *DataSafeUserAssessmentUsersDataSourceCrud) SetData() error {
 
 		if r.TimePasswordChanged != nil {
 			userAssessmentUser["time_password_changed"] = r.TimePasswordChanged.String()
+		}
+
+		if r.TimePasswordExpiry != nil {
+			userAssessmentUser["time_password_expiry"] = r.TimePasswordExpiry.String()
 		}
 
 		if r.TimeUserCreated != nil {

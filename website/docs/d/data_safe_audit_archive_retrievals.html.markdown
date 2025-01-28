@@ -57,7 +57,7 @@ The following attributes are exported:
 
 * `audit_event_count` - Total count of audit events to be retrieved from the archive for the specified date range.
 * `compartment_id` - The OCID of the compartment that contains archive retrieval.
-* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm)  Example: `{"Operations.CostCenter": "42"}` 
+* `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm) Example: `{"Operations.CostCenter": "42"}` 
 * `description` - Description of the archive retrieval.
 * `display_name` - The display name of the archive retrieval. The name does not have to be unique, and is changeable.
 * `end_date` - End month of the archive retrieval, in the format defined by RFC3339.
