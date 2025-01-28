@@ -745,6 +745,7 @@ email
 * oci\_email\_sender
 * oci\_email\_email\_domain
 * oci\_email\_dkim
+* oci\_email\_email\_return\_path
 
 events
     
