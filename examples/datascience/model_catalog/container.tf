@@ -11,6 +11,10 @@ variable "container_display_name" {
   default = "displayName"
 }
 
+variable "container_name" {
+  default = "displayName"
+}
+
 variable "container_is_latest" {
   default = false
 }
@@ -41,10 +45,10 @@ provider "oci" {
   region           = var.region
 }
 
-data "oci_datascience_containers" "test_containers" {
+resource "oci_datascience_containers" "test_containers" {
 
   #Optional
-  container_name    = oci_datascience_container.test_container.name
+  container_name    = var.container_name
   display_name      = var.container_display_name
   is_latest         = var.container_is_latest
   state             = var.container_state
