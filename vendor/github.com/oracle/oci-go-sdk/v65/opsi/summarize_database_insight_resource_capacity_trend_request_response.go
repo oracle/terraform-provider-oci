@@ -239,6 +239,7 @@ const (
 	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccPdb    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccNoncdb SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeMdsMysql             SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "MDS-MYSQL"
+	SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalMysql        SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = map[string]SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum{
@@ -261,6 +262,7 @@ var mappingSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum = map[s
 	"COMANAGED-EXACC-PDB":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalMysql,
 }
 
 var mappingSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumLowerCase = map[string]SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum{
@@ -283,6 +285,7 @@ var mappingSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumLowerCas
 	"comanaged-exacc-pdb":    SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeMdsMysql,
+	"external-mysql":         SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeExternalMysql,
 }
 
 // GetSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumValues Enumerates the set of values for SummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnum
@@ -316,6 +319,7 @@ func GetSummarizeDatabaseInsightResourceCapacityTrendDatabaseTypeEnumStringValue
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

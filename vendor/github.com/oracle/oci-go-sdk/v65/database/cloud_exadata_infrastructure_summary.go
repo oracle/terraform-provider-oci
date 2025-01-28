@@ -137,6 +137,15 @@ type CloudExadataInfrastructureSummary struct {
 
 	// If true, the infrastructure is using granular maintenance scheduling preference.
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
+
+	// The database server type of the Exadata infrastructure.
+	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
+
+	// The storage server type of the Exadata infrastructure.
+	StorageServerType *string `mandatory:"false" json:"storageServerType"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel CloudExadataInfrastructureSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m CloudExadataInfrastructureSummary) String() string {
@@ -152,6 +161,9 @@ func (m CloudExadataInfrastructureSummary) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCloudExadataInfrastructureSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudExadataInfrastructureSummaryComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -217,5 +229,47 @@ func GetCloudExadataInfrastructureSummaryLifecycleStateEnumStringValues() []stri
 // GetMappingCloudExadataInfrastructureSummaryLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudExadataInfrastructureSummaryLifecycleStateEnum(val string) (CloudExadataInfrastructureSummaryLifecycleStateEnum, bool) {
 	enum, ok := mappingCloudExadataInfrastructureSummaryLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudExadataInfrastructureSummaryComputeModelEnum Enum with underlying type: string
+type CloudExadataInfrastructureSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for CloudExadataInfrastructureSummaryComputeModelEnum
+const (
+	CloudExadataInfrastructureSummaryComputeModelEcpu CloudExadataInfrastructureSummaryComputeModelEnum = "ECPU"
+	CloudExadataInfrastructureSummaryComputeModelOcpu CloudExadataInfrastructureSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingCloudExadataInfrastructureSummaryComputeModelEnum = map[string]CloudExadataInfrastructureSummaryComputeModelEnum{
+	"ECPU": CloudExadataInfrastructureSummaryComputeModelEcpu,
+	"OCPU": CloudExadataInfrastructureSummaryComputeModelOcpu,
+}
+
+var mappingCloudExadataInfrastructureSummaryComputeModelEnumLowerCase = map[string]CloudExadataInfrastructureSummaryComputeModelEnum{
+	"ecpu": CloudExadataInfrastructureSummaryComputeModelEcpu,
+	"ocpu": CloudExadataInfrastructureSummaryComputeModelOcpu,
+}
+
+// GetCloudExadataInfrastructureSummaryComputeModelEnumValues Enumerates the set of values for CloudExadataInfrastructureSummaryComputeModelEnum
+func GetCloudExadataInfrastructureSummaryComputeModelEnumValues() []CloudExadataInfrastructureSummaryComputeModelEnum {
+	values := make([]CloudExadataInfrastructureSummaryComputeModelEnum, 0)
+	for _, v := range mappingCloudExadataInfrastructureSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudExadataInfrastructureSummaryComputeModelEnumStringValues Enumerates the set of values in String for CloudExadataInfrastructureSummaryComputeModelEnum
+func GetCloudExadataInfrastructureSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCloudExadataInfrastructureSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudExadataInfrastructureSummaryComputeModelEnum(val string) (CloudExadataInfrastructureSummaryComputeModelEnum, bool) {
+	enum, ok := mappingCloudExadataInfrastructureSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

@@ -137,6 +137,15 @@ type CloudExadataInfrastructure struct {
 
 	// If true, the infrastructure is using granular maintenance scheduling preference.
 	IsSchedulingPolicyAssociated *bool `mandatory:"false" json:"isSchedulingPolicyAssociated"`
+
+	// The database server type of the Exadata infrastructure.
+	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
+
+	// The storage server type of the Exadata infrastructure.
+	StorageServerType *string `mandatory:"false" json:"storageServerType"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel CloudExadataInfrastructureComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m CloudExadataInfrastructure) String() string {
@@ -152,6 +161,9 @@ func (m CloudExadataInfrastructure) ValidateEnumValue() (bool, error) {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetCloudExadataInfrastructureLifecycleStateEnumStringValues(), ",")))
 	}
 
+	if _, ok := GetMappingCloudExadataInfrastructureComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudExadataInfrastructureComputeModelEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}
@@ -217,5 +229,47 @@ func GetCloudExadataInfrastructureLifecycleStateEnumStringValues() []string {
 // GetMappingCloudExadataInfrastructureLifecycleStateEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudExadataInfrastructureLifecycleStateEnum(val string) (CloudExadataInfrastructureLifecycleStateEnum, bool) {
 	enum, ok := mappingCloudExadataInfrastructureLifecycleStateEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudExadataInfrastructureComputeModelEnum Enum with underlying type: string
+type CloudExadataInfrastructureComputeModelEnum string
+
+// Set of constants representing the allowable values for CloudExadataInfrastructureComputeModelEnum
+const (
+	CloudExadataInfrastructureComputeModelEcpu CloudExadataInfrastructureComputeModelEnum = "ECPU"
+	CloudExadataInfrastructureComputeModelOcpu CloudExadataInfrastructureComputeModelEnum = "OCPU"
+)
+
+var mappingCloudExadataInfrastructureComputeModelEnum = map[string]CloudExadataInfrastructureComputeModelEnum{
+	"ECPU": CloudExadataInfrastructureComputeModelEcpu,
+	"OCPU": CloudExadataInfrastructureComputeModelOcpu,
+}
+
+var mappingCloudExadataInfrastructureComputeModelEnumLowerCase = map[string]CloudExadataInfrastructureComputeModelEnum{
+	"ecpu": CloudExadataInfrastructureComputeModelEcpu,
+	"ocpu": CloudExadataInfrastructureComputeModelOcpu,
+}
+
+// GetCloudExadataInfrastructureComputeModelEnumValues Enumerates the set of values for CloudExadataInfrastructureComputeModelEnum
+func GetCloudExadataInfrastructureComputeModelEnumValues() []CloudExadataInfrastructureComputeModelEnum {
+	values := make([]CloudExadataInfrastructureComputeModelEnum, 0)
+	for _, v := range mappingCloudExadataInfrastructureComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudExadataInfrastructureComputeModelEnumStringValues Enumerates the set of values in String for CloudExadataInfrastructureComputeModelEnum
+func GetCloudExadataInfrastructureComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCloudExadataInfrastructureComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudExadataInfrastructureComputeModelEnum(val string) (CloudExadataInfrastructureComputeModelEnum, bool) {
+	enum, ok := mappingCloudExadataInfrastructureComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }
