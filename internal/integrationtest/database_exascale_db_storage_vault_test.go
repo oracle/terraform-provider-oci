@@ -24,6 +24,10 @@ import (
 	"github.com/oracle/terraform-provider-oci/internal/utils"
 )
 
+/*
+Pre-requisite to run the tests:
+1. create a cluster placement group and set its ocid to env variable TF_VAR_cpg_id
+*/
 var (
 	DatabaseExascaleDbStorageVaultRequiredOnlyResource = DatabaseExascaleDbStorageVaultResourceDependencies +
 		acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Required, acctest.Create, DatabaseExascaleDbStorageVaultRepresentation)
@@ -36,10 +40,11 @@ var (
 	}
 
 	DatabaseExascaleDbStorageVaultDataSourceRepresentation = map[string]interface{}{
-		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `TFExascaleDbStorageVault`, Update: `TFExascaleDbStorageVaultUpdatedName`},
-		"state":          acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
-		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageVaultDataSourceFilterRepresentation}}
+		"compartment_id":             acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
+		"cluster_placement_group_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.cpg_id}`},
+		"display_name":               acctest.Representation{RepType: acctest.Optional, Create: `TFExascaleDbStorageVault`, Update: `TFExascaleDbStorageVaultUpdatedName`},
+		"state":                      acctest.Representation{RepType: acctest.Optional, Create: `AVAILABLE`},
+		"filter":                     acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageVaultDataSourceFilterRepresentation}}
 
 	DatabaseExascaleDbStorageVaultDataSourceFilterRepresentation = map[string]interface{}{
 		"name":   acctest.Representation{RepType: acctest.Required, Create: `id`},
@@ -51,6 +56,7 @@ var (
 		"compartment_id":                    acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"display_name":                      acctest.Representation{RepType: acctest.Required, Create: `TFExascaleDbStorageVault`, Update: `TFExascaleDbStorageVaultUpdatedName`},
 		"high_capacity_database_storage":    acctest.RepresentationGroup{RepType: acctest.Required, Group: DatabaseExascaleDbStorageVaultHighCapacityDatabaseStorageRepresentation},
+		"cluster_placement_group_id":        acctest.Representation{RepType: acctest.Optional, Create: `${var.cpg_id}`},
 		"additional_flash_cache_in_percent": acctest.Representation{RepType: acctest.Optional, Create: `20`, Update: `25`},
 		"description":                       acctest.Representation{RepType: acctest.Optional, Create: `ExaScale DB Storage Vault - description`, Update: `ExaScale DB Storage Vault - updated description`},
 		"time_zone":                         acctest.Representation{RepType: acctest.Optional, Create: `US/Pacific`},
@@ -67,7 +73,8 @@ var (
 		"ignore_changes": acctest.Representation{RepType: acctest.Required, Create: []string{`defined_tags`}},
 	}
 
-	DatabaseExascaleDbStorageVaultResourceDependencies = AvailabilityDomainConfig
+	ClusterPlacementGroupIdDependency                  = `variable "cpg_id" {}`
+	DatabaseExascaleDbStorageVaultResourceDependencies = AvailabilityDomainConfig + ClusterPlacementGroupIdDependency
 )
 
 // issue-routing-tag: database/ExaCS
@@ -77,6 +84,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 
 	config := acctest.ProviderTestConfig()
 
+	cpgId := utils.GetRequiredEnvSetting("cpg_id")
 	compartmentId := utils.GetEnvSettingWithBlankDefault("compartment_ocid")
 	compartmentIdVariableStr := fmt.Sprintf("variable \"compartment_id\" { default = \"%s\" }\n", compartmentId)
 
@@ -123,6 +131,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExascaleDbStorageVault"),
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
@@ -158,6 +167,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExascaleDbStorageVault"),
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
@@ -188,6 +198,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
 				resource.TestCheckResourceAttrSet(resourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(resourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "TFExascaleDbStorageVaultUpdatedName"),
 				//resource.TestCheckResourceAttr(resourceName, "vm_cluster_count", "0"),
@@ -216,6 +227,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				compartmentIdVariableStr + DatabaseExascaleDbStorageVaultResourceDependencies +
 				acctest.GenerateResourceFromRepresentationMap("oci_database_exascale_db_storage_vault", "test_exascale_db_storage_vault", acctest.Optional, acctest.Update, DatabaseExascaleDbStorageVaultRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
+				resource.TestCheckResourceAttr(datasourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "TFExascaleDbStorageVaultUpdatedName"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "AVAILABLE"),
@@ -225,6 +237,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.state"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.time_created"),
 				resource.TestCheckResourceAttrSet(datasourceName, "exascale_db_storage_vaults.0.availability_domain"),
+				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.display_name", "TFExascaleDbStorageVaultUpdatedName"),
 				//resource.TestCheckResourceAttr(datasourceName, "exascale_db_storage_vaults.0.vm_cluster_count", "0"),
@@ -251,6 +264,7 @@ func TestDatabaseExascaleDbStorageVaultResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "availability_domain"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "cluster_placement_group_id", cpgId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TFExascaleDbStorageVaultUpdatedName"),
 				//resource.TestCheckResourceAttr(singularDatasourceName, "vm_cluster_count", "0"),

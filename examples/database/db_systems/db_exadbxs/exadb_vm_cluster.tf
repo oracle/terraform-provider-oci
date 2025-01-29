@@ -14,6 +14,7 @@ resource "oci_database_exadb_vm_cluster" "test_exadb_vm_cluster" {
   shape                        = "EXADBXS"
   ssh_public_keys              = [var.ssh_public_key]
   subnet_id                    = oci_core_subnet.exadbxs_client_subnet.id
+  subscription_id              = var.subscription_id
   backup_subnet_id             = oci_core_subnet.exadbxs_backup_subnet.id
 
   node_config {
