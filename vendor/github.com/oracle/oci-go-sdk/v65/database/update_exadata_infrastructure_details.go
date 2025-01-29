@@ -117,6 +117,7 @@ const (
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X8M"
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X9M"
 	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X10M"
+	UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = "X11M"
 )
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
@@ -125,6 +126,7 @@ var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum = 
 	"X8M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
 	"X9M":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
 	"X10M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
+	"X11M": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m,
 }
 
 var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLowerCase = map[string]UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum{
@@ -133,6 +135,7 @@ var mappingUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumLow
 	"x8m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX8m,
 	"x9m":  UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX9m,
 	"x10m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX10m,
+	"x11m": UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelX11m,
 }
 
 // GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumValues Enumerates the set of values for UpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnum
@@ -152,6 +155,7 @@ func GetUpdateExadataInfrastructureDetailsAdditionalComputeSystemModelEnumString
 		"X8M",
 		"X9M",
 		"X10M",
+		"X11M",
 	}
 }
 

@@ -55,6 +55,12 @@ type CreateCloudExadataInfrastructureDetails struct {
 
 	// Customer contacts.
 	CustomerContacts []CustomerContact `mandatory:"false" json:"customerContacts"`
+
+	// The database server type of the Exadata infrastructure.
+	DatabaseServerType *string `mandatory:"false" json:"databaseServerType"`
+
+	// The storage server type of the Exadata infrastructure.
+	StorageServerType *string `mandatory:"false" json:"storageServerType"`
 }
 
 func (m CreateCloudExadataInfrastructureDetails) String() string {

@@ -193,6 +193,35 @@ func DatabaseDbHomeResource() *schema.Resource {
 							DiffSuppressFunc: tfresource.DefinedTagsDiffSuppressFunction,
 							Elem:             schema.TypeString,
 						},
+						"encryption_key_location_details": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							MaxItems: 1,
+							MinItems: 1,
+							Elem: &schema.Resource{
+								Schema: map[string]*schema.Schema{
+									// Required
+									"hsm_password": {
+										Type:      schema.TypeString,
+										Required:  true,
+										Sensitive: true,
+									},
+									"provider_type": {
+										Type:             schema.TypeString,
+										Required:         true,
+										DiffSuppressFunc: tfresource.EqualIgnoreCaseSuppressDiff,
+										ValidateFunc: validation.StringInSlice([]string{
+											"EXTERNAL",
+										}, true),
+									},
+
+									// Optional
+
+									// Computed
+								},
+							},
+						},
 						"freeform_tags": {
 							Type:     schema.TypeMap,
 							Optional: true,
@@ -602,11 +631,6 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 		updateDbHomeRequest.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
-	errKms := s.setDbKeyVersion(s.Database.Id)
-	if errKms != nil {
-		return errKms
-	}
-
 	updateDbHomeRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
 
 	if oneOffPatches, ok := s.D.GetOkExists("one_off_patches"); ok {
@@ -697,6 +721,11 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 					return fmt.Errorf("could not perform an Update as we could not get the databaseId in the dbHome: %v", err)
 				}
 			}
+			errKms := s.setDbKeyVersion(s.Database.Id)
+			if errKms != nil {
+				return errKms
+			}
+
 			request := oci_database.UpdateDatabaseRequest{}
 
 			request.DatabaseId = s.Database.Id
@@ -781,30 +810,28 @@ func (s *DatabaseDbHomeResourceCrud) Update() error {
 }
 
 func (s *DatabaseDbHomeResourceCrud) setDbKeyVersion(databaseId *string) error {
-	setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
-	setDbKeyVersionRequest.DatabaseId = databaseId
-	setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
-	details := oci_database.OciProviderSetKeyVersionDetails{}
-
 	if kmsKeyVersionId, ok := s.D.GetOkExists("kms_key_version_id"); ok && s.D.HasChange("kms_key_version_id") {
 		oldRaw, newRaw := s.D.GetChange("kms_key_version_id")
 		if oldRaw == "" && newRaw != "" {
+			setDbKeyVersionRequest := oci_database.SetDbKeyVersionRequest{}
+			setDbKeyVersionRequest.DatabaseId = databaseId
+			setDbKeyVersionRequest.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+			details := oci_database.OciProviderSetKeyVersionDetails{}
+
 			temp := kmsKeyVersionId.(string)
 			details.KmsKeyVersionId = &temp
 			setDbKeyVersionRequest.SetKeyVersionDetails = details
-		} else {
-			return nil
-		}
-	}
 
-	response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
-	if err != nil {
-		return err
-	}
-	workId := response.OpcWorkRequestId
-	if workId != nil {
-		_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
-		if err != nil {
+			response, err := s.Client.SetDbKeyVersion(context.Background(), setDbKeyVersionRequest)
+			if err != nil {
+				return err
+			}
+			workId := response.OpcWorkRequestId
+			if workId != nil {
+				_, err = tfresource.WaitForWorkRequestWithErrorHandling(s.WorkRequestClient, workId, "database", oci_work_requests.WorkRequestResourceActionTypeUpdated, s.D.Timeout(schema.TimeoutUpdate), s.DisableNotFoundRetries)
+				if err != nil {
+				}
+			}
 		}
 	}
 	return nil
@@ -982,6 +1009,36 @@ func (s *DatabaseDbHomeResourceCrud) ChangeKeyStoreType() error {
 	return nil
 }
 
+func (s *DatabaseDbHomeResourceCrud) ChangeEncryptionKeyLocation(fieldKeyFormat string) error {
+	request := oci_database.ChangeEncryptionKeyLocationRequest{}
+
+	request.DatabaseId = s.Database.Id
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			request.EncryptionKeyLocationDetails = tmp
+		}
+	}
+
+	request.RequestMetadata.RetryPolicy = tfresource.GetRetryPolicy(s.DisableNotFoundRetries, "database")
+
+	_, err := s.Client.ChangeEncryptionKeyLocation(context.Background(), request)
+	if err != nil {
+		return err
+	}
+
+	if waitErr := tfresource.WaitForUpdatedState(s.D, s); waitErr != nil {
+		return waitErr
+	}
+
+	return nil
+}
+
 func (s *DatabaseDbHomeResourceCrud) mapToBackupDestinationDetails(fieldKeyFormat string) (oci_database.BackupDestinationDetails, error) {
 	result := oci_database.BackupDestinationDetails{}
 
@@ -1077,6 +1134,17 @@ func (s *DatabaseDbHomeResourceCrud) mapToCreateDatabaseDetails(fieldKeyFormat s
 			return result, fmt.Errorf("unable to convert defined_tags, encountered error: %v", err)
 		}
 		result.DefinedTags = tmp
+	}
+
+	if encryptionKeyLocationDetails, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok {
+		if tmpList := encryptionKeyLocationDetails.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormatNextLevel := fmt.Sprintf("%s.%d.%%s", fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"), 0)
+			tmp, err := s.mapToEncryptionKeyLocationDetails(fieldKeyFormatNextLevel)
+			if err != nil {
+				return result, fmt.Errorf("unable to convert encryption_key_location_details, encountered error: %v", err)
+			}
+			result.EncryptionKeyLocationDetails = tmp
+		}
 	}
 
 	if freeformTags, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "freeform_tags")); ok {
@@ -1282,6 +1350,30 @@ func (s *DatabaseDbHomeResourceCrud) mapToDbBackupConfig(fieldKeyFormat string) 
 	}
 
 	return result, nil
+}
+
+func (s *DatabaseDbHomeResourceCrud) mapToEncryptionKeyLocationDetails(fieldKeyFormat string) (oci_database.EncryptionKeyLocationDetails, error) {
+	var baseObject oci_database.EncryptionKeyLocationDetails
+	//discriminator
+	providerTypeRaw, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "provider_type"))
+	var providerType string
+	if ok {
+		providerType = providerTypeRaw.(string)
+	} else {
+		providerType = "" // default value
+	}
+	switch strings.ToLower(providerType) {
+	case strings.ToLower("EXTERNAL"):
+		details := oci_database.ExternalHsmEncryptionDetails{}
+		if hsmPassword, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "hsm_password")); ok {
+			tmp := hsmPassword.(string)
+			details.HsmPassword = &tmp
+		}
+		baseObject = details
+	default:
+		return nil, fmt.Errorf("unknown provider_type '%v' was specified", providerType)
+	}
+	return baseObject, nil
 }
 
 func (s *DatabaseDbHomeResourceCrud) populateTopLevelPolymorphicCreateDbHomeRequest(request *oci_database.CreateDbHomeRequest) error {
@@ -1756,11 +1848,36 @@ func (s *DatabaseDbHomeResourceCrud) DatabaseToMap(obj *oci_database.Database) m
 		result["time_stamp_for_point_in_time_recovery"] = timeStampForPointInTimeRecovery
 	}
 
+	if hsmPassword, ok := s.D.GetOkExists("database.0.encryption_key_location_details.0.hsm_password"); ok && hsmPassword != nil {
+		if obj.EncryptionKeyLocationDetails != nil {
+			result["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&obj.EncryptionKeyLocationDetails, hsmPassword.(string))}
+		}
+	}
+
 	return result
 }
 
 func (s *DatabaseDbHomeResourceCrud) mapToUpdateDatabaseDetails(fieldKeyFormat string) (oci_database.UpdateDatabaseDetails, error) {
 	result := oci_database.UpdateDatabaseDetails{}
+
+	if _, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")); ok && s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details")) {
+		oldRaw, newRaw := s.D.GetChange(fmt.Sprintf(fieldKeyFormat, "encryption_key_location_details"))
+		oldList := oldRaw.([]interface{})
+		newList := newRaw.([]interface{})
+
+		if len(oldList) > 0 && len(newList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for updating External HSM now")
+		}
+		if len(oldList) == 0 {
+			err := s.ChangeEncryptionKeyLocation(fieldKeyFormat)
+			if err != nil {
+				return result, err
+			}
+		}
+		if len(newList) == 0 && len(oldList) > 0 {
+			return result, fmt.Errorf("[ERROR] no support for migrate from External HSM now")
+		}
+	}
 
 	if dbBackupConfig, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "db_backup_config")); ok {
 		if tmpList := dbBackupConfig.([]interface{}); len(tmpList) > 0 {

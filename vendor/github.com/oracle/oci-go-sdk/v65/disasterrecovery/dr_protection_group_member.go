@@ -103,6 +103,10 @@ func (m *drprotectiongroupmember) UnmarshalPolymorphicJSON(data []byte) (interfa
 		mm := DrProtectionGroupMemberDatabase{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_CLUSTER":
+		mm := DrProtectionGroupMemberOkeCluster{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for DrProtectionGroupMember: %s.", m.MemberType)
 		return *m, nil

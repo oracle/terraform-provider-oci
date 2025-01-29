@@ -1299,8 +1299,6 @@ func (s *ApmConfigConfigResourceCrud) populateTopLevelPolymorphicUpdateConfigReq
 			tmp := apmDomainId.(string)
 			request.ApmDomainId = &tmp
 		}
-		tmp := s.D.Id()
-		request.ConfigId = &tmp
 		if definedTags, ok := s.D.GetOkExists("defined_tags"); ok {
 			convertedDefinedTags, err := tfresource.MapToDefinedTags(definedTags.(map[string]interface{}))
 			if err != nil {

@@ -91,6 +91,10 @@ func (m *createdrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := CreateDrProtectionGroupMemberVolumeGroupDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_CLUSTER":
+		mm := CreateDrProtectionGroupMemberOkeClusterDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "FILE_SYSTEM":
 		mm := CreateDrProtectionGroupMemberFileSystemDetails{}
 		err = json.Unmarshal(data, &mm)

@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_monitor"
 sidebar_current: "docs-oci-resource-apm_synthetics-monitor"
 description: |-
-  Provides the Monitor resource in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides the Monitor resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # oci_apm_synthetics_monitor
-This resource provides the Monitor resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This resource provides the Monitor resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Creates a new monitor.
 
