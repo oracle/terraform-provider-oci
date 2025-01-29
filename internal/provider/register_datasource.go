@@ -119,6 +119,7 @@ import (
 	tf_service_mesh "github.com/oracle/terraform-provider-oci/internal/service/service_mesh"
 	tf_stack_monitoring "github.com/oracle/terraform-provider-oci/internal/service/stack_monitoring"
 	tf_streaming "github.com/oracle/terraform-provider-oci/internal/service/streaming"
+	tf_tenantmanagercontrolplane "github.com/oracle/terraform-provider-oci/internal/service/tenantmanagercontrolplane"
 	tf_usage_proxy "github.com/oracle/terraform-provider-oci/internal/service/usage_proxy"
 	tf_vault "github.com/oracle/terraform-provider-oci/internal/service/vault"
 	tf_vbs_inst "github.com/oracle/terraform-provider-oci/internal/service/vbs_inst"
@@ -473,6 +474,9 @@ func init() {
 	}
 	if common.CheckForEnabledServices("streaming") {
 		tf_streaming.RegisterDatasource()
+	}
+	if common.CheckForEnabledServices("tenantmanagercontrolplane") {
+		tf_tenantmanagercontrolplane.RegisterDatasource()
 	}
 	if common.CheckForEnabledServices("usageproxy") {
 		tf_usage_proxy.RegisterDatasource()
