@@ -1,4 +1,15 @@
-## 6.23.0 (Unreleased)
+## 6.24.0 (January 29, 2025)
+
+### Added
+- Support for External HSM Support ExaDB-C@C
+- Support for Ops Insights : Support External MySQL Databases
+- Support for DBM : Support External MySQL Databases
+- Support for OPSI News Reports - Actionable Insights
+- Support DR for cloud native applications running on OKE
+### Bug Fix
+to use the correct Id for updating options config resource
+
+## 6.23.0 (January 29, 2025)
 
 ### Added
 - Support for VCNIP - BYOASN (Bring Your Own ASN)

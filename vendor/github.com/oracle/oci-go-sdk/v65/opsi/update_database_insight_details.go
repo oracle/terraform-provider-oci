@@ -88,6 +88,10 @@ func (m *updatedatabaseinsightdetails) UnmarshalPolymorphicJSON(data []byte) (in
 		mm := UpdateMacsManagedCloudDatabaseInsightDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "EXTERNAL_MYSQL_DATABASE_SYSTEM":
+		mm := UpdateExternalMysqlDatabaseInsightDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Recieved unsupported enum value for UpdateDatabaseInsightDetails: %s.", m.EntitySource)
 		return *m, nil

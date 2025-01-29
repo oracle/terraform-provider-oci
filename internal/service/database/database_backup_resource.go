@@ -62,6 +62,28 @@ func DatabaseBackupResource() *schema.Resource {
 				Type:     schema.TypeFloat,
 				Computed: true,
 			},
+			"encryption_key_location_details": {
+				Type:     schema.TypeList,
+				Computed: true,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+
+						// Computed
+						"hsm_password": {
+							Type:      schema.TypeString,
+							Computed:  true,
+							Sensitive: true,
+						},
+						"provider_type": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
+					},
+				},
+			},
 			"key_store_id": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -259,6 +281,10 @@ func (s *DatabaseBackupResourceCrud) SetData() error {
 
 	if s.Res.DisplayName != nil {
 		s.D.Set("display_name", *s.Res.DisplayName)
+	}
+
+	if s.Res.EncryptionKeyLocationDetails != nil {
+		s.D.Set("encryption_key_location_details", []interface{}{EncryptionKeyLocationDetailsToMap(&s.Res.EncryptionKeyLocationDetails, "")})
 	}
 
 	if s.Res.KeyStoreId != nil {

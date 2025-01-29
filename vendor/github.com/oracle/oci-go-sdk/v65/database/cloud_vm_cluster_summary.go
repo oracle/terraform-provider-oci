@@ -191,6 +191,9 @@ type CloudVmClusterSummary struct {
 	FileSystemConfigurationDetails []FileSystemConfigurationDetail `mandatory:"false" json:"fileSystemConfigurationDetails"`
 
 	CloudAutomationUpdateDetails *CloudAutomationUpdateDetails `mandatory:"false" json:"cloudAutomationUpdateDetails"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel CloudVmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m CloudVmClusterSummary) String() string {
@@ -211,6 +214,9 @@ func (m CloudVmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingCloudVmClusterSummaryDiskRedundancyEnum(string(m.DiskRedundancy)); !ok && m.DiskRedundancy != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for DiskRedundancy: %s. Supported values are: %s.", m.DiskRedundancy, strings.Join(GetCloudVmClusterSummaryDiskRedundancyEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingCloudVmClusterSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetCloudVmClusterSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -361,5 +367,47 @@ func GetCloudVmClusterSummaryDiskRedundancyEnumStringValues() []string {
 // GetMappingCloudVmClusterSummaryDiskRedundancyEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingCloudVmClusterSummaryDiskRedundancyEnum(val string) (CloudVmClusterSummaryDiskRedundancyEnum, bool) {
 	enum, ok := mappingCloudVmClusterSummaryDiskRedundancyEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// CloudVmClusterSummaryComputeModelEnum Enum with underlying type: string
+type CloudVmClusterSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for CloudVmClusterSummaryComputeModelEnum
+const (
+	CloudVmClusterSummaryComputeModelEcpu CloudVmClusterSummaryComputeModelEnum = "ECPU"
+	CloudVmClusterSummaryComputeModelOcpu CloudVmClusterSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingCloudVmClusterSummaryComputeModelEnum = map[string]CloudVmClusterSummaryComputeModelEnum{
+	"ECPU": CloudVmClusterSummaryComputeModelEcpu,
+	"OCPU": CloudVmClusterSummaryComputeModelOcpu,
+}
+
+var mappingCloudVmClusterSummaryComputeModelEnumLowerCase = map[string]CloudVmClusterSummaryComputeModelEnum{
+	"ecpu": CloudVmClusterSummaryComputeModelEcpu,
+	"ocpu": CloudVmClusterSummaryComputeModelOcpu,
+}
+
+// GetCloudVmClusterSummaryComputeModelEnumValues Enumerates the set of values for CloudVmClusterSummaryComputeModelEnum
+func GetCloudVmClusterSummaryComputeModelEnumValues() []CloudVmClusterSummaryComputeModelEnum {
+	values := make([]CloudVmClusterSummaryComputeModelEnum, 0)
+	for _, v := range mappingCloudVmClusterSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetCloudVmClusterSummaryComputeModelEnumStringValues Enumerates the set of values in String for CloudVmClusterSummaryComputeModelEnum
+func GetCloudVmClusterSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingCloudVmClusterSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingCloudVmClusterSummaryComputeModelEnum(val string) (CloudVmClusterSummaryComputeModelEnum, bool) {
+	enum, ok := mappingCloudVmClusterSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

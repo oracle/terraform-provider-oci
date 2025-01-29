@@ -31,6 +31,7 @@ const (
 	DrProtectionGroupMemberTypeLoadBalancer                DrProtectionGroupMemberTypeEnum = "LOAD_BALANCER"
 	DrProtectionGroupMemberTypeNetworkLoadBalancer         DrProtectionGroupMemberTypeEnum = "NETWORK_LOAD_BALANCER"
 	DrProtectionGroupMemberTypeFileSystem                  DrProtectionGroupMemberTypeEnum = "FILE_SYSTEM"
+	DrProtectionGroupMemberTypeOkeCluster                  DrProtectionGroupMemberTypeEnum = "OKE_CLUSTER"
 	DrProtectionGroupMemberTypeObjectStorageBucket         DrProtectionGroupMemberTypeEnum = "OBJECT_STORAGE_BUCKET"
 )
 
@@ -45,6 +46,7 @@ var mappingDrProtectionGroupMemberTypeEnum = map[string]DrProtectionGroupMemberT
 	"LOAD_BALANCER":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"NETWORK_LOAD_BALANCER":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"FILE_SYSTEM":                   DrProtectionGroupMemberTypeFileSystem,
+	"OKE_CLUSTER":                   DrProtectionGroupMemberTypeOkeCluster,
 	"OBJECT_STORAGE_BUCKET":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
@@ -59,6 +61,7 @@ var mappingDrProtectionGroupMemberTypeEnumLowerCase = map[string]DrProtectionGro
 	"load_balancer":                 DrProtectionGroupMemberTypeLoadBalancer,
 	"network_load_balancer":         DrProtectionGroupMemberTypeNetworkLoadBalancer,
 	"file_system":                   DrProtectionGroupMemberTypeFileSystem,
+	"oke_cluster":                   DrProtectionGroupMemberTypeOkeCluster,
 	"object_storage_bucket":         DrProtectionGroupMemberTypeObjectStorageBucket,
 }
 
@@ -84,6 +87,7 @@ func GetDrProtectionGroupMemberTypeEnumStringValues() []string {
 		"LOAD_BALANCER",
 		"NETWORK_LOAD_BALANCER",
 		"FILE_SYSTEM",
+		"OKE_CLUSTER",
 		"OBJECT_STORAGE_BUCKET",
 	}
 }

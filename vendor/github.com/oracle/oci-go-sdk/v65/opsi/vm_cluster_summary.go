@@ -20,16 +20,16 @@ import (
 // VmClusterSummary Partial information about the VM Cluster which includes name, memory allocated etc.
 type VmClusterSummary struct {
 
-	// The name of the vm cluster.
+	// The name of the VM Cluster.
 	VmclusterName *string `mandatory:"true" json:"vmclusterName"`
 
-	// The memory allocated on a vm cluster.
+	// The memory allocated on a VM Cluster.
 	MemoryAllocatedInGBs *int `mandatory:"false" json:"memoryAllocatedInGBs"`
 
-	// The cpu allocated on a vm cluster.
+	// The CPU allocated on a VM Cluster.
 	CpuAllocated *int `mandatory:"false" json:"cpuAllocated"`
 
-	// The number of DB nodes on a vm cluster.
+	// The number of DB nodes on a VM Cluster.
 	DbNodesCount *int `mandatory:"false" json:"dbNodesCount"`
 }
 

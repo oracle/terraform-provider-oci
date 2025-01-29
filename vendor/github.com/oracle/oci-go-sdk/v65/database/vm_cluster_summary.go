@@ -117,6 +117,9 @@ type VmClusterSummary struct {
 
 	// Specifies whether the type of storage management for the VM cluster is ASM or Exascale.
 	StorageManagementType VmClusterSummaryStorageManagementTypeEnum `mandatory:"false" json:"storageManagementType,omitempty"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel VmClusterSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
 }
 
 func (m VmClusterSummary) String() string {
@@ -137,6 +140,9 @@ func (m VmClusterSummary) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingVmClusterSummaryStorageManagementTypeEnum(string(m.StorageManagementType)); !ok && m.StorageManagementType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for StorageManagementType: %s. Supported values are: %s.", m.StorageManagementType, strings.Join(GetVmClusterSummaryStorageManagementTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingVmClusterSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetVmClusterSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -287,5 +293,47 @@ func GetVmClusterSummaryStorageManagementTypeEnumStringValues() []string {
 // GetMappingVmClusterSummaryStorageManagementTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingVmClusterSummaryStorageManagementTypeEnum(val string) (VmClusterSummaryStorageManagementTypeEnum, bool) {
 	enum, ok := mappingVmClusterSummaryStorageManagementTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// VmClusterSummaryComputeModelEnum Enum with underlying type: string
+type VmClusterSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for VmClusterSummaryComputeModelEnum
+const (
+	VmClusterSummaryComputeModelEcpu VmClusterSummaryComputeModelEnum = "ECPU"
+	VmClusterSummaryComputeModelOcpu VmClusterSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingVmClusterSummaryComputeModelEnum = map[string]VmClusterSummaryComputeModelEnum{
+	"ECPU": VmClusterSummaryComputeModelEcpu,
+	"OCPU": VmClusterSummaryComputeModelOcpu,
+}
+
+var mappingVmClusterSummaryComputeModelEnumLowerCase = map[string]VmClusterSummaryComputeModelEnum{
+	"ecpu": VmClusterSummaryComputeModelEcpu,
+	"ocpu": VmClusterSummaryComputeModelOcpu,
+}
+
+// GetVmClusterSummaryComputeModelEnumValues Enumerates the set of values for VmClusterSummaryComputeModelEnum
+func GetVmClusterSummaryComputeModelEnumValues() []VmClusterSummaryComputeModelEnum {
+	values := make([]VmClusterSummaryComputeModelEnum, 0)
+	for _, v := range mappingVmClusterSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetVmClusterSummaryComputeModelEnumStringValues Enumerates the set of values in String for VmClusterSummaryComputeModelEnum
+func GetVmClusterSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingVmClusterSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingVmClusterSummaryComputeModelEnum(val string) (VmClusterSummaryComputeModelEnum, bool) {
+	enum, ok := mappingVmClusterSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

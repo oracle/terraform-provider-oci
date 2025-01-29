@@ -184,6 +184,10 @@ func (s *DatabaseDatabasesDataSourceCrud) SetData() error {
 			database["defined_tags"] = tfresource.DefinedTagsToMap(r.DefinedTags)
 		}
 
+		if r.EncryptionKeyLocationDetails != nil {
+			database["encryption_key_location_details"] = []interface{}{EncryptionKeyLocationDetailsToMap(&r.EncryptionKeyLocationDetails, "")}
+		}
+
 		database["freeform_tags"] = r.FreeformTags
 
 		if r.Id != nil {

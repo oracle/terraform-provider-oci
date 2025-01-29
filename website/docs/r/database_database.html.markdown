@@ -28,7 +28,6 @@ resource "oci_database_database" "test_database" {
 		backup_id = oci_database_backup.test_backup.id
 		backup_tde_password = var.database_database_backup_tde_password
 		character_set = var.database_database_character_set
-		database_admin_password = var.database_database_database_admin_password
 		database_software_image_id = oci_database_database_software_image.test_database_software_image.id
 		db_backup_config {
 
@@ -52,6 +51,11 @@ resource "oci_database_database" "test_database" {
 		db_unique_name = var.database_database_db_unique_name
 		db_workload = var.database_database_db_workload
 		defined_tags = var.database_database_defined_tags
+		encryption_key_location_details {
+			#Required
+			hsm_password = var.database_database_encryption_key_location_details_hsm_password
+			provider_type = var.database_database_encryption_key_location_details_provider_type
+		}
 		freeform_tags = var.database_database_freeform_tags
 		key_store_id = oci_database_key_store.test_key_store.id
 		is_active_data_guard_enabled = var.database_database_is_active_data_guard_enabled
@@ -64,6 +68,11 @@ resource "oci_database_database" "test_database" {
 		sid_prefix = var.database_database_sid_prefix
 		source_database_id = oci_database_database.test_database.id
 		source_tde_wallet_password = var.database_database_source_tde_wallet_password
+		source_encryption_key_location_details {
+			#Required
+			hsm_password = var.database_database_source_encryption_key_location_details_hsm_password
+			provider_type = var.database_database_source_encryption_key_location_details_provider_type
+		}
 		tde_wallet_password = var.database_database_tde_wallet_password
 		transport_type = var.database_database_transport_type
 		vault_id = oci_kms_vault.test_vault.id
@@ -113,6 +122,10 @@ The following arguments are supported:
 
 		The database workload type. 
 	* `defined_tags` - (Applicable when source=NONE) (Updatable) Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+	* `encryption_key_location_details` - (Applicable when source=NONE) Types of providers supported for managing database encryption keys
+		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
+	* `freeform_tags` - (Applicable when source=NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 	* `freeform_tags` - (Applicable when source=NONE) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}`
 	* `key_store_id` - (Applicable when source=NONE) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the key store of Oracle Vault.
 	* `is_active_data_guard_enabled` - (Applicable when source=DATAGUARD) True if active Data Guard is enabled.
@@ -123,6 +136,9 @@ The following arguments are supported:
 	* `pluggable_databases` - (Applicable when source=DB_BACKUP) The list of pluggable databases that needs to be restored into new database.
 	* `protection_mode` - (Required when source=DATAGUARD) The protection mode of this Data Guard. For more information, see [Oracle Data Guard Protection Modes](http://docs.oracle.com/database/122/SBYDB/oracle-data-guard-protection-modes.htm#SBYDB02000) in the Oracle Data Guard documentation. 
 	* `sid_prefix` - (Optional) Specifies a prefix for the `Oracle SID` of the database to be created. 
+	* `source_encryption_key_location_details` - (Applicable when source=DB_BACKUP) Types of providers supported for managing database encryption keys
+		* `hsm_password` - (Required) Provide the HSM password as you would in RDBMS for External HSM.
+		* `provider_type` - (Required) Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 	* `source_database_id` - (Required when source=DATAGUARD) The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the source database.
 	* `source_tde_wallet_password` - (Required when source=DATAGUARD) The TDE wallet password of the source database specified by 'sourceDatabaseId'.
 	* `tde_wallet_password` - (Applicable when source=NONE) The optional password to open the TDE wallet. The password must be at least nine characters and contain at least two uppercase, two lowercase, two numeric, and two special characters. The special characters must be _, \#, or -.
@@ -204,6 +220,9 @@ The following attributes are exported:
 
 	The database workload type. 
 * `defined_tags` - Defined tags for this resource. Each key is predefined and scoped to a namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm). 
+* `encryption_key_location_details` - Types of providers supported for managing database encryption keys
+	* `hsm_password` - Provide the HSM password as you would in RDBMS for External HSM.
+	* `provider_type` - Use 'EXTERNAL' for creating a new database or migrate database key with External HSM.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the database.
 * `is_cdb` - True if the database is a container database.

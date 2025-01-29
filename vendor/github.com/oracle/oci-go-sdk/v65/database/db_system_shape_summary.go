@@ -78,6 +78,15 @@ type DbSystemShapeSummary struct {
 	// The minimum data storage that need be allocated for this shape.
 	MinDataStorageInTBs *int `mandatory:"false" json:"minDataStorageInTBs"`
 
+	// The display name of the shape used for the DB system.
+	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// The compute model of the Autonomous Database. This is required if using the `computeCount` parameter. If using `cpuCoreCount` then it is an error to specify `computeModel` to a non-null value. ECPU compute model is the recommended model and OCPU compute model is legacy.
+	ComputeModel DbSystemShapeSummaryComputeModelEnum `mandatory:"false" json:"computeModel,omitempty"`
+
+	// If true, the shape supports configurable DB and Storage Server types.
+	AreServerTypesSupported *bool `mandatory:"false" json:"areServerTypesSupported"`
+
 	// The minimum number of compute servers available for this shape.
 	MinimumNodeCount *int `mandatory:"false" json:"minimumNodeCount"`
 
@@ -100,6 +109,9 @@ func (m DbSystemShapeSummary) ValidateEnumValue() (bool, error) {
 
 	if _, ok := GetMappingDbSystemShapeSummaryShapeTypeEnum(string(m.ShapeType)); !ok && m.ShapeType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ShapeType: %s. Supported values are: %s.", m.ShapeType, strings.Join(GetDbSystemShapeSummaryShapeTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingDbSystemShapeSummaryComputeModelEnum(string(m.ComputeModel)); !ok && m.ComputeModel != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ComputeModel: %s. Supported values are: %s.", m.ComputeModel, strings.Join(GetDbSystemShapeSummaryComputeModelEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
@@ -154,5 +166,47 @@ func GetDbSystemShapeSummaryShapeTypeEnumStringValues() []string {
 // GetMappingDbSystemShapeSummaryShapeTypeEnum performs case Insensitive comparison on enum value and return the desired enum
 func GetMappingDbSystemShapeSummaryShapeTypeEnum(val string) (DbSystemShapeSummaryShapeTypeEnum, bool) {
 	enum, ok := mappingDbSystemShapeSummaryShapeTypeEnumLowerCase[strings.ToLower(val)]
+	return enum, ok
+}
+
+// DbSystemShapeSummaryComputeModelEnum Enum with underlying type: string
+type DbSystemShapeSummaryComputeModelEnum string
+
+// Set of constants representing the allowable values for DbSystemShapeSummaryComputeModelEnum
+const (
+	DbSystemShapeSummaryComputeModelEcpu DbSystemShapeSummaryComputeModelEnum = "ECPU"
+	DbSystemShapeSummaryComputeModelOcpu DbSystemShapeSummaryComputeModelEnum = "OCPU"
+)
+
+var mappingDbSystemShapeSummaryComputeModelEnum = map[string]DbSystemShapeSummaryComputeModelEnum{
+	"ECPU": DbSystemShapeSummaryComputeModelEcpu,
+	"OCPU": DbSystemShapeSummaryComputeModelOcpu,
+}
+
+var mappingDbSystemShapeSummaryComputeModelEnumLowerCase = map[string]DbSystemShapeSummaryComputeModelEnum{
+	"ecpu": DbSystemShapeSummaryComputeModelEcpu,
+	"ocpu": DbSystemShapeSummaryComputeModelOcpu,
+}
+
+// GetDbSystemShapeSummaryComputeModelEnumValues Enumerates the set of values for DbSystemShapeSummaryComputeModelEnum
+func GetDbSystemShapeSummaryComputeModelEnumValues() []DbSystemShapeSummaryComputeModelEnum {
+	values := make([]DbSystemShapeSummaryComputeModelEnum, 0)
+	for _, v := range mappingDbSystemShapeSummaryComputeModelEnum {
+		values = append(values, v)
+	}
+	return values
+}
+
+// GetDbSystemShapeSummaryComputeModelEnumStringValues Enumerates the set of values in String for DbSystemShapeSummaryComputeModelEnum
+func GetDbSystemShapeSummaryComputeModelEnumStringValues() []string {
+	return []string{
+		"ECPU",
+		"OCPU",
+	}
+}
+
+// GetMappingDbSystemShapeSummaryComputeModelEnum performs case Insensitive comparison on enum value and return the desired enum
+func GetMappingDbSystemShapeSummaryComputeModelEnum(val string) (DbSystemShapeSummaryComputeModelEnum, bool) {
+	enum, ok := mappingDbSystemShapeSummaryComputeModelEnumLowerCase[strings.ToLower(val)]
 	return enum, ok
 }

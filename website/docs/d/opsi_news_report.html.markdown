@@ -35,6 +35,7 @@ The following attributes are exported:
 * `are_child_compartments_included` - A flag to consider the resources within a given compartment and all sub-compartments.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
 * `content_types` - Content types that the news report can handle.
+	* `actionable_insights_resources` - Supported resources for actionable insights content type.
 	* `capacity_planning_resources` - Supported resources for capacity planning content type.
 	* `sql_insights_fleet_analysis_resources` - Supported resources for SQL insights - fleet analysis content type.
 	* `sql_insights_performance_degradation_resources` - Supported resources for SQL insights - performance degradation content type.
@@ -49,12 +50,14 @@ The following attributes are exported:
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the news report resource.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `locale` - Language of the news report.
+* `match_rule` - Match rule used for tag filters.
 * `name` - The news report name.
 * `news_frequency` - News report frequency.
 * `ons_topic_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the ONS topic.
 * `state` - The current state of the news report.
 * `status` - Indicates the status of a news report in Ops Insights.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
+* `tag_filters` - List of tag filters; each filter composed by a namespace, key, and value. Example for defined tags - '<TagNamespace>.<TagKey>=<TagValue>'. Example for freeform tags - '<TagKey>=<TagValue>'. 
 * `time_created` - The time the the news report was first enabled. An RFC3339 formatted datetime string.
 * `time_updated` - The time the news report was updated. An RFC3339 formatted datetime string.
 

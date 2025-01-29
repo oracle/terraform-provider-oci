@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_on_premise_vantage_point_worker"
 sidebar_current: "docs-oci-datasource-apm_synthetics-on_premise_vantage_point_worker"
 description: |-
-  Provides details about a specific On Premise Vantage Point Worker in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides details about a specific On Premise Vantage Point Worker in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # Data Source: oci_apm_synthetics_on_premise_vantage_point_worker
-This data source provides details about a specific On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure Apm Synthetics service.
+This data source provides details about a specific On Premise Vantage Point Worker resource in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Gets the details of the worker identified by the OCID.
 

@@ -205,6 +205,7 @@ const (
 	ListDatabaseConfigurationsDatabaseTypeComanagedExaccPdb    ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACC-PDB"
 	ListDatabaseConfigurationsDatabaseTypeComanagedExaccNoncdb ListDatabaseConfigurationsDatabaseTypeEnum = "COMANAGED-EXACC-NONCDB"
 	ListDatabaseConfigurationsDatabaseTypeMdsMysql             ListDatabaseConfigurationsDatabaseTypeEnum = "MDS-MYSQL"
+	ListDatabaseConfigurationsDatabaseTypeExternalMysql        ListDatabaseConfigurationsDatabaseTypeEnum = "EXTERNAL-MYSQL"
 )
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -227,6 +228,7 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnum = map[string]ListDatabaseC
 	"COMANAGED-EXACC-PDB":    ListDatabaseConfigurationsDatabaseTypeComanagedExaccPdb,
 	"COMANAGED-EXACC-NONCDB": ListDatabaseConfigurationsDatabaseTypeComanagedExaccNoncdb,
 	"MDS-MYSQL":              ListDatabaseConfigurationsDatabaseTypeMdsMysql,
+	"EXTERNAL-MYSQL":         ListDatabaseConfigurationsDatabaseTypeExternalMysql,
 }
 
 var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]ListDatabaseConfigurationsDatabaseTypeEnum{
@@ -249,6 +251,7 @@ var mappingListDatabaseConfigurationsDatabaseTypeEnumLowerCase = map[string]List
 	"comanaged-exacc-pdb":    ListDatabaseConfigurationsDatabaseTypeComanagedExaccPdb,
 	"comanaged-exacc-noncdb": ListDatabaseConfigurationsDatabaseTypeComanagedExaccNoncdb,
 	"mds-mysql":              ListDatabaseConfigurationsDatabaseTypeMdsMysql,
+	"external-mysql":         ListDatabaseConfigurationsDatabaseTypeExternalMysql,
 }
 
 // GetListDatabaseConfigurationsDatabaseTypeEnumValues Enumerates the set of values for ListDatabaseConfigurationsDatabaseTypeEnum
@@ -282,6 +285,7 @@ func GetListDatabaseConfigurationsDatabaseTypeEnumStringValues() []string {
 		"COMANAGED-EXACC-PDB",
 		"COMANAGED-EXACC-NONCDB",
 		"MDS-MYSQL",
+		"EXTERNAL-MYSQL",
 	}
 }
 

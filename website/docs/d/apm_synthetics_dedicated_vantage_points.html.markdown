@@ -4,11 +4,11 @@ layout: "oci"
 page_title: "Oracle Cloud Infrastructure: oci_apm_synthetics_dedicated_vantage_points"
 sidebar_current: "docs-oci-datasource-apm_synthetics-dedicated_vantage_points"
 description: |-
-  Provides the list of Dedicated Vantage Points in Oracle Cloud Infrastructure Apm Synthetics service
+  Provides the list of Dedicated Vantage Points in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service)
 ---
 
 # Data Source: oci_apm_synthetics_dedicated_vantage_points
-This data source provides the list of Dedicated Vantage Points in Oracle Cloud Infrastructure Apm Synthetics service.
+This data source provides the list of Dedicated Vantage Points in Oracle Cloud Infrastructure APM Availability Monitoring service (aka APM Synthetics Service).
 
 Returns a list of dedicated vantage points.
 

@@ -466,6 +466,69 @@ func (client OperationsInsightsClient) changeExadataInsightCompartment(ctx conte
 	return response, err
 }
 
+// ChangeExternalMysqlDatabaseInsightConnection Change the connection details of an External MySQL database insight. When provided, If-Match is checked against ETag values of the resource.
+//
+// # See also
+//
+// Click https://docs.cloud.oracle.com/en-us/iaas/tools/go-sdk-examples/latest/opsi/ChangeExternalMysqlDatabaseInsightConnection.go.html to see an example of how to use ChangeExternalMysqlDatabaseInsightConnection API.
+// A default retry strategy applies to this operation ChangeExternalMysqlDatabaseInsightConnection()
+func (client OperationsInsightsClient) ChangeExternalMysqlDatabaseInsightConnection(ctx context.Context, request ChangeExternalMysqlDatabaseInsightConnectionRequest) (response ChangeExternalMysqlDatabaseInsightConnectionResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.changeExternalMysqlDatabaseInsightConnection, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ChangeExternalMysqlDatabaseInsightConnectionResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ChangeExternalMysqlDatabaseInsightConnectionResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ChangeExternalMysqlDatabaseInsightConnectionResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ChangeExternalMysqlDatabaseInsightConnectionResponse")
+	}
+	return
+}
+
+// changeExternalMysqlDatabaseInsightConnection implements the OCIOperation interface (enables retrying operations)
+func (client OperationsInsightsClient) changeExternalMysqlDatabaseInsightConnection(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/databaseInsights/{databaseInsightId}/actions/changeExternalMysqlDatabaseInsightConnectionDetails", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response ChangeExternalMysqlDatabaseInsightConnectionResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/operations-insights/20200630/DatabaseInsights/ChangeExternalMysqlDatabaseInsightConnection"
+		err = common.PostProcessServiceError(err, "OperationsInsights", "ChangeExternalMysqlDatabaseInsightConnection", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // ChangeHostInsightCompartment Moves a HostInsight resource from one compartment identifier to another. When provided, If-Match is checked against ETag values of the resource.
 //
 // # See also

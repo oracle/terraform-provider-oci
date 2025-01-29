@@ -67,6 +67,10 @@ func (m *updatedrprotectiongroupmemberdetails) UnmarshalPolymorphicJSON(data []b
 		mm := UpdateDrProtectionGroupMemberNetworkLoadBalancerDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "OKE_CLUSTER":
+		mm := UpdateDrProtectionGroupMemberOkeClusterDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "AUTONOMOUS_DATABASE":
 		mm := UpdateDrProtectionGroupMemberAutonomousDatabaseDetails{}
 		err = json.Unmarshal(data, &mm)
