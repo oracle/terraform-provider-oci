@@ -215,6 +215,7 @@ Make sure the `output_path` is empty before running resource discovery
     * `service_mesh` - Discovers service_mesh resources within the specified compartment
     * `stack_monitoring` - Discovers stack_monitoring resources within the specified compartment
     * `streaming` - Discovers streaming resources within the specified compartment
+    * `tenantmanagercontrolplane` - Discovers tenantmanagercontrolplane resources within the specified compartment
     * `usage_proxy` - Discovers usage_proxy resources within the specified compartment
     * `vault` - Discovers vault resources within the specified compartment
     * `vbs_inst` - Discovers vbs_inst resources within the specified compartment
@@ -1176,6 +1177,10 @@ streaming
 * oci\_streaming\_connect\_harness
 * oci\_streaming\_stream\_pool
 * oci\_streaming\_stream
+
+tenantmanagercontrolplane
+    
+* oci\_tenantmanagercontrolplane\_subscription\_mapping
 
 usage_proxy
     
