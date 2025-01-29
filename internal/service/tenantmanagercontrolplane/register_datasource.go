@@ -1,0 +1,32 @@
+// Copyright (c) 2017, 2024, Oracle and/or its affiliates. All rights reserved.
+// Licensed under the Mozilla Public License v2.0
+
+package tenantmanagercontrolplane
+
+import "github.com/oracle/terraform-provider-oci/internal/tfresource"
+
+func RegisterDatasource() {
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscription", TenantmanagercontrolplaneAssignedSubscriptionDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscription_line_items", TenantmanagercontrolplaneAssignedSubscriptionLineItemsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_assigned_subscriptions", TenantmanagercontrolplaneAssignedSubscriptionsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domain", TenantmanagercontrolplaneDomainDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domain_governance", TenantmanagercontrolplaneDomainGovernanceDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domain_governances", TenantmanagercontrolplaneDomainGovernancesDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_domains", TenantmanagercontrolplaneDomainsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_link", TenantmanagercontrolplaneLinkDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_links", TenantmanagercontrolplaneLinksDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organization", TenantmanagercontrolplaneOrganizationDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organization_tenancies", TenantmanagercontrolplaneOrganizationTenanciesDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organization_tenancy", TenantmanagercontrolplaneOrganizationTenancyDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_organizations", TenantmanagercontrolplaneOrganizationsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_recipient_invitation", TenantmanagercontrolplaneRecipientInvitationDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_recipient_invitations", TenantmanagercontrolplaneRecipientInvitationsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_sender_invitation", TenantmanagercontrolplaneSenderInvitationDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_sender_invitations", TenantmanagercontrolplaneSenderInvitationsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscription", TenantmanagercontrolplaneSubscriptionDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscription_available_regions", TenantmanagercontrolplaneSubscriptionAvailableRegionsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscription_line_items", TenantmanagercontrolplaneSubscriptionLineItemsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscription_mapping", TenantmanagercontrolplaneSubscriptionMappingDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscription_mappings", TenantmanagercontrolplaneSubscriptionMappingsDataSource())
+	tfresource.RegisterDatasource("oci_tenantmanagercontrolplane_subscriptions", TenantmanagercontrolplaneSubscriptionsDataSource())
+}
