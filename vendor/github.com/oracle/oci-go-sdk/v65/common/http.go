@@ -526,8 +526,29 @@ func addToHeader(request *http.Request, value reflect.Value, field reflect.Struc
 	}
 
 	//Otherwise get value and set header
-	if headerValue, e = toStringValue(value, field); e != nil {
-		return
+	encoding := strings.ToLower(field.Tag.Get("collectionFormat"))
+	var collectionFormatStringValues []string
+	switch encoding {
+	case "csv", "multi":
+		if value.Kind() != reflect.Slice && value.Kind() != reflect.Array {
+			e = fmt.Errorf("header is tagged as csv or multi yet its type is neither an Array nor a Slice: %s", field.Name)
+			return
+		}
+
+		numOfElements := value.Len()
+		collectionFormatStringValues = make([]string, numOfElements)
+		for i := 0; i < numOfElements; i++ {
+			collectionFormatStringValues[i], e = toStringValue(value.Index(i), field)
+			if e != nil {
+				Debugf("Header element could not be marshalled to a string: %w", e)
+				return
+			}
+		}
+		headerValue = strings.Join(collectionFormatStringValues, ",")
+	default:
+		if headerValue, e = toStringValue(value, field); e != nil {
+			return
+		}
 	}
 
 	if e = setWellKnownHeaders(request, headerName, headerValue, contentLenSpecified); e != nil {
