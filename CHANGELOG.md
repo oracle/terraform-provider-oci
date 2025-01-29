@@ -1,4 +1,4 @@
-## 6.24.0 (Unreleased)
+## 6.24.0 (January 29, 2025)
 
 ### Added
 - Support for External HSM Support ExaDB-C@C
@@ -9,7 +9,7 @@
 ### Bug Fix
 to use the correct Id for updating options config resource
 
-## 6.23.0 (Unreleased)
+## 6.23.0 (January 29, 2025)
 
 ### Added
 - Support for VCNIP - BYOASN (Bring Your Own ASN)
