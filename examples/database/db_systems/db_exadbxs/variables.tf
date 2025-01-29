@@ -20,3 +20,11 @@ variable "db_name" {
 variable "test_db_password" {
   default = "BEstrO0ng_#11"
 }
+
+variable "cpg_id" {
+  default = null
+}
+
+variable "subscription_id" {
+  default = null
+}
