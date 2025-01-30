@@ -155,6 +155,14 @@ func (m *event) UnmarshalPolymorphicJSON(data []byte) (interface{}, error) {
 		mm := KernelCrashEvent{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "SYSADMIN":
+		mm := SysadminEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "REBOOT":
+		mm := RebootEvent{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "EXPLOIT_ATTEMPT":
 		mm := ExploitAttemptEvent{}
 		err = json.Unmarshal(data, &mm)

@@ -84,12 +84,20 @@ func (m *updatesoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := UpdateCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE":
+		mm := UpdatePrivateSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERSIONED":
 		mm := UpdateVersionedCustomSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VENDOR":
 		mm := UpdateVendorSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "THIRD_PARTY":
+		mm := UpdateThirdPartySoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

@@ -68,6 +68,9 @@ type ManagedInstanceSummary struct {
 
 	// Indicates whether Autonomous Linux manages this instance.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The version of osmh-agent running on the managed instance
+	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 }
 
 func (m ManagedInstanceSummary) String() string {

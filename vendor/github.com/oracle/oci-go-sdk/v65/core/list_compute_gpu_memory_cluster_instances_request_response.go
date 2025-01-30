@@ -17,24 +17,9 @@ type ListComputeGpuMemoryClusterInstancesRequest struct {
 	// The OCID of the compute GPU memory cluster.
 	ComputeGpuMemoryClusterId *string `mandatory:"true" contributesTo:"path" name:"computeGpuMemoryClusterId"`
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-	CompartmentId *string `mandatory:"true" contributesTo:"query" name:"compartmentId"`
-
 	// Unique identifier for the request.
 	// If you need to contact Oracle about a particular request, please provide the request ID.
 	OpcRequestId *string `mandatory:"false" contributesTo:"header" name:"opc-request-id"`
-
-	// The name of the availability domain.
-	// Example: `Uocm:PHX-AD-1`
-	AvailabilityDomain *string `mandatory:"false" contributesTo:"query" name:"availabilityDomain"`
-
-	// A filter to return only resources that match the given display name exactly.
-	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
-
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compute cluster.
-	// A compute cluster (https://docs.cloud.oracle.com/iaas/Content/Compute/Tasks/compute-clusters.htm) is a remote direct memory
-	// access (RDMA) network group.
-	ComputeClusterId *string `mandatory:"false" contributesTo:"query" name:"computeClusterId"`
 
 	// For list pagination. The value of the `opc-next-page` response header from the previous "List"
 	// call. For important details about how pagination works, see
@@ -93,16 +78,6 @@ func (request ListComputeGpuMemoryClusterInstancesRequest) ReplaceMandatoryParam
 		templateParam := mandatoryParamMap["computeGpuMemoryClusterId"]
 		for _, template := range templateParam {
 			replacementParam := *request.ComputeGpuMemoryClusterId
-			if template.EndsWithDot {
-				replacementParam = replacementParam + "."
-			}
-			client.Host = strings.Replace(client.Host, template.Template, replacementParam, -1)
-		}
-	}
-	if mandatoryParamMap["compartmentId"] != nil {
-		templateParam := mandatoryParamMap["compartmentId"]
-		for _, template := range templateParam {
-			replacementParam := *request.CompartmentId
 			if template.EndsWithDot {
 				replacementParam = replacementParam + "."
 			}

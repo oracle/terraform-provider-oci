@@ -63,6 +63,9 @@ type CreateVersionedCustomSoftwareSourceDetails struct {
 
 	// A property used for compatibility only. It doesn't provide a complete list of packages. See AddPackagesToSoftwareSourceDetails for providing the list of packages used to create the software source when isCreatedFromPackageList is set to true.
 	Packages []string `mandatory:"false" json:"packages"`
+
+	// The creation type of a software source.
+	SoftwareSourceSubType SoftwareSourceSubTypeEnum `mandatory:"false" json:"softwareSourceSubType,omitempty"`
 }
 
 // GetCompartmentId returns CompartmentId
@@ -100,6 +103,9 @@ func (m CreateVersionedCustomSoftwareSourceDetails) String() string {
 func (m CreateVersionedCustomSoftwareSourceDetails) ValidateEnumValue() (bool, error) {
 	errMessage := []string{}
 
+	if _, ok := GetMappingSoftwareSourceSubTypeEnum(string(m.SoftwareSourceSubType)); !ok && m.SoftwareSourceSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftwareSourceSubType: %s. Supported values are: %s.", m.SoftwareSourceSubType, strings.Join(GetSoftwareSourceSubTypeEnumStringValues(), ",")))
+	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))
 	}

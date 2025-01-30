@@ -60,6 +60,9 @@ type WorkRequestSummary struct {
 
 	// Indicates whether this work request is managed by Autonomous Linux
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 
 func (m WorkRequestSummary) String() string {

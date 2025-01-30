@@ -56,6 +56,7 @@ const (
 	WorkRequestOperationTypeInstallOtherWindowsUpdates       WorkRequestOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
 	WorkRequestOperationTypeRemoveContent                    WorkRequestOperationTypeEnum = "REMOVE_CONTENT"
 	WorkRequestOperationTypeUnregisterManagedInstance        WorkRequestOperationTypeEnum = "UNREGISTER_MANAGED_INSTANCE"
+	WorkRequestOperationTypeReboot                           WorkRequestOperationTypeEnum = "REBOOT"
 )
 
 var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnum{
@@ -96,6 +97,7 @@ var mappingWorkRequestOperationTypeEnum = map[string]WorkRequestOperationTypeEnu
 	"INSTALL_OTHER_WINDOWS_UPDATES":       WorkRequestOperationTypeInstallOtherWindowsUpdates,
 	"REMOVE_CONTENT":                      WorkRequestOperationTypeRemoveContent,
 	"UNREGISTER_MANAGED_INSTANCE":         WorkRequestOperationTypeUnregisterManagedInstance,
+	"REBOOT":                              WorkRequestOperationTypeReboot,
 }
 
 var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperationTypeEnum{
@@ -136,6 +138,7 @@ var mappingWorkRequestOperationTypeEnumLowerCase = map[string]WorkRequestOperati
 	"install_other_windows_updates":       WorkRequestOperationTypeInstallOtherWindowsUpdates,
 	"remove_content":                      WorkRequestOperationTypeRemoveContent,
 	"unregister_managed_instance":         WorkRequestOperationTypeUnregisterManagedInstance,
+	"reboot":                              WorkRequestOperationTypeReboot,
 }
 
 // GetWorkRequestOperationTypeEnumValues Enumerates the set of values for WorkRequestOperationTypeEnum
@@ -187,6 +190,7 @@ func GetWorkRequestOperationTypeEnumStringValues() []string {
 		"INSTALL_OTHER_WINDOWS_UPDATES",
 		"REMOVE_CONTENT",
 		"UNREGISTER_MANAGED_INSTANCE",
+		"REBOOT",
 	}
 }
 

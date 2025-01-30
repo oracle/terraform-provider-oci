@@ -96,8 +96,8 @@ type DisableDisintermediationForDrgAttachmentResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgAttachment instance
-	DrgAttachment `presentIn:"body"`
+	// The DrgAttachmentInternalInfo instance
+	DrgAttachmentInternalInfo `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`

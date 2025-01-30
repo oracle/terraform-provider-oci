@@ -39,6 +39,12 @@ type ListManagementStationsRequest struct {
 	// Example: `3`
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
+	// A filter to return only resources whose location matches the given value.
+	Location []ManagedInstanceLocationEnum `contributesTo:"query" name:"location" omitEmpty:"true" collectionFormat:"multi"`
+
+	// A filter to return only resources whose location does not match the given value.
+	LocationNotEqualTo []ManagedInstanceLocationEnum `contributesTo:"query" name:"locationNotEqualTo" omitEmpty:"true" collectionFormat:"multi"`
+
 	// The sort order to use, either 'ASC' or 'DESC'.
 	SortOrder ListManagementStationsSortOrderEnum `mandatory:"false" contributesTo:"query" name:"sortOrder" omitEmpty:"true"`
 
@@ -90,6 +96,18 @@ func (request ListManagementStationsRequest) ValidateEnumValue() (bool, error) {
 	if _, ok := GetMappingManagementStationLifecycleStateEnum(string(request.LifecycleState)); !ok && request.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", request.LifecycleState, strings.Join(GetManagementStationLifecycleStateEnumStringValues(), ",")))
 	}
+	for _, val := range request.Location {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
+	for _, val := range request.LocationNotEqualTo {
+		if _, ok := GetMappingManagedInstanceLocationEnum(string(val)); !ok && val != "" {
+			errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LocationNotEqualTo: %s. Supported values are: %s.", val, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
+		}
+	}
+
 	if _, ok := GetMappingListManagementStationsSortOrderEnum(string(request.SortOrder)); !ok && request.SortOrder != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SortOrder: %s. Supported values are: %s.", request.SortOrder, strings.Join(GetListManagementStationsSortOrderEnumStringValues(), ",")))
 	}

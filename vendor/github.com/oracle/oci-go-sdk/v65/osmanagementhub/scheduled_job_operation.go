@@ -37,6 +37,9 @@ type ScheduledJobOperation struct {
 	// The software source OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
 	// This parameter only applies when the scheduled job is for attaching or detaching software sources.
 	SoftwareSourceIds []string `mandatory:"false" json:"softwareSourceIds"`
+
+	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 
 func (m ScheduledJobOperation) String() string {

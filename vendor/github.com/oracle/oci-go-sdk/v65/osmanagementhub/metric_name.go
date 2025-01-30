@@ -33,6 +33,8 @@ const (
 	MetricNameInstanceBugfixUpdatesCount                MetricNameEnum = "INSTANCE_BUGFIX_UPDATES_COUNT"
 	MetricNameInstanceSecurityAdvisoryCount             MetricNameEnum = "INSTANCE_SECURITY_ADVISORY_COUNT"
 	MetricNameInstanceBugfixAdvisoryCount               MetricNameEnum = "INSTANCE_BUGFIX_ADVISORY_COUNT"
+	MetricNameRebootingInstanceCount                    MetricNameEnum = "REBOOTING_INSTANCE_COUNT"
+	MetricNameNeedsRebootingInstanceCount               MetricNameEnum = "NEEDS_REBOOTING_INSTANCE_COUNT"
 )
 
 var mappingMetricNameEnum = map[string]MetricNameEnum{
@@ -50,6 +52,8 @@ var mappingMetricNameEnum = map[string]MetricNameEnum{
 	"INSTANCE_BUGFIX_UPDATES_COUNT":                  MetricNameInstanceBugfixUpdatesCount,
 	"INSTANCE_SECURITY_ADVISORY_COUNT":               MetricNameInstanceSecurityAdvisoryCount,
 	"INSTANCE_BUGFIX_ADVISORY_COUNT":                 MetricNameInstanceBugfixAdvisoryCount,
+	"REBOOTING_INSTANCE_COUNT":                       MetricNameRebootingInstanceCount,
+	"NEEDS_REBOOTING_INSTANCE_COUNT":                 MetricNameNeedsRebootingInstanceCount,
 }
 
 var mappingMetricNameEnumLowerCase = map[string]MetricNameEnum{
@@ -67,6 +71,8 @@ var mappingMetricNameEnumLowerCase = map[string]MetricNameEnum{
 	"instance_bugfix_updates_count":                  MetricNameInstanceBugfixUpdatesCount,
 	"instance_security_advisory_count":               MetricNameInstanceSecurityAdvisoryCount,
 	"instance_bugfix_advisory_count":                 MetricNameInstanceBugfixAdvisoryCount,
+	"rebooting_instance_count":                       MetricNameRebootingInstanceCount,
+	"needs_rebooting_instance_count":                 MetricNameNeedsRebootingInstanceCount,
 }
 
 // GetMetricNameEnumValues Enumerates the set of values for MetricNameEnum
@@ -95,6 +101,8 @@ func GetMetricNameEnumStringValues() []string {
 		"INSTANCE_BUGFIX_UPDATES_COUNT",
 		"INSTANCE_SECURITY_ADVISORY_COUNT",
 		"INSTANCE_BUGFIX_ADVISORY_COUNT",
+		"REBOOTING_INSTANCE_COUNT",
+		"NEEDS_REBOOTING_INSTANCE_COUNT",
 	}
 }
 

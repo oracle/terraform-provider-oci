@@ -171,6 +171,7 @@ const (
 	ListManagedInstanceGroupsArchTypeI686    ListManagedInstanceGroupsArchTypeEnum = "I686"
 	ListManagedInstanceGroupsArchTypeNoarch  ListManagedInstanceGroupsArchTypeEnum = "NOARCH"
 	ListManagedInstanceGroupsArchTypeSrc     ListManagedInstanceGroupsArchTypeEnum = "SRC"
+	ListManagedInstanceGroupsArchTypeI386    ListManagedInstanceGroupsArchTypeEnum = "I386"
 )
 
 var mappingListManagedInstanceGroupsArchTypeEnum = map[string]ListManagedInstanceGroupsArchTypeEnum{
@@ -179,6 +180,7 @@ var mappingListManagedInstanceGroupsArchTypeEnum = map[string]ListManagedInstanc
 	"I686":    ListManagedInstanceGroupsArchTypeI686,
 	"NOARCH":  ListManagedInstanceGroupsArchTypeNoarch,
 	"SRC":     ListManagedInstanceGroupsArchTypeSrc,
+	"I386":    ListManagedInstanceGroupsArchTypeI386,
 }
 
 var mappingListManagedInstanceGroupsArchTypeEnumLowerCase = map[string]ListManagedInstanceGroupsArchTypeEnum{
@@ -187,6 +189,7 @@ var mappingListManagedInstanceGroupsArchTypeEnumLowerCase = map[string]ListManag
 	"i686":    ListManagedInstanceGroupsArchTypeI686,
 	"noarch":  ListManagedInstanceGroupsArchTypeNoarch,
 	"src":     ListManagedInstanceGroupsArchTypeSrc,
+	"i386":    ListManagedInstanceGroupsArchTypeI386,
 }
 
 // GetListManagedInstanceGroupsArchTypeEnumValues Enumerates the set of values for ListManagedInstanceGroupsArchTypeEnum
@@ -206,6 +209,7 @@ func GetListManagedInstanceGroupsArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

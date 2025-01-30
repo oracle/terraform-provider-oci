@@ -40,6 +40,12 @@ type LifecycleProfile struct {
 	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
 
+	// The time the registration profile was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeModified *common.SDKTime `mandatory:"false" json:"timeModified"`
+
+	// The version of the profile.
+	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
+
 	// Indicates if the profile is set as the default. There is exactly one default profile for a specified architecture, OS family, registration type, and vendor. When registering an instance with the corresonding characteristics, the default profile is used, unless another profile is specified.
 	IsDefaultProfile *bool `mandatory:"false" json:"isDefaultProfile"`
 
@@ -121,6 +127,16 @@ func (m LifecycleProfile) GetArchType() ArchTypeEnum {
 // GetTimeCreated returns TimeCreated
 func (m LifecycleProfile) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+// GetTimeModified returns TimeModified
+func (m LifecycleProfile) GetTimeModified() *common.SDKTime {
+	return m.TimeModified
+}
+
+// GetProfileVersion returns ProfileVersion
+func (m LifecycleProfile) GetProfileVersion() *string {
+	return m.ProfileVersion
 }
 
 // GetLifecycleState returns LifecycleState

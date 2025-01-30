@@ -211,6 +211,8 @@ const (
 	ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates      ListScheduledJobsOperationTypeEnum = "INSTALL_BUGFIX_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates ListScheduledJobsOperationTypeEnum = "INSTALL_ENHANCEMENT_WINDOWS_UPDATES"
 	ListScheduledJobsOperationTypeInstallOtherWindowsUpdates       ListScheduledJobsOperationTypeEnum = "INSTALL_OTHER_WINDOWS_UPDATES"
+	ListScheduledJobsOperationTypeReboot                           ListScheduledJobsOperationTypeEnum = "REBOOT"
+	ListScheduledJobsOperationTypeRerunWorkRequest                 ListScheduledJobsOperationTypeEnum = "RERUN_WORK_REQUEST"
 )
 
 var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOperationTypeEnum{
@@ -236,6 +238,8 @@ var mappingListScheduledJobsOperationTypeEnum = map[string]ListScheduledJobsOper
 	"INSTALL_BUGFIX_WINDOWS_UPDATES":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
 	"INSTALL_ENHANCEMENT_WINDOWS_UPDATES": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
 	"INSTALL_OTHER_WINDOWS_UPDATES":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
+	"REBOOT":                              ListScheduledJobsOperationTypeReboot,
+	"RERUN_WORK_REQUEST":                  ListScheduledJobsOperationTypeRerunWorkRequest,
 }
 
 var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListScheduledJobsOperationTypeEnum{
@@ -261,6 +265,8 @@ var mappingListScheduledJobsOperationTypeEnumLowerCase = map[string]ListSchedule
 	"install_bugfix_windows_updates":      ListScheduledJobsOperationTypeInstallBugfixWindowsUpdates,
 	"install_enhancement_windows_updates": ListScheduledJobsOperationTypeInstallEnhancementWindowsUpdates,
 	"install_other_windows_updates":       ListScheduledJobsOperationTypeInstallOtherWindowsUpdates,
+	"reboot":                              ListScheduledJobsOperationTypeReboot,
+	"rerun_work_request":                  ListScheduledJobsOperationTypeRerunWorkRequest,
 }
 
 // GetListScheduledJobsOperationTypeEnumValues Enumerates the set of values for ListScheduledJobsOperationTypeEnum
@@ -297,6 +303,8 @@ func GetListScheduledJobsOperationTypeEnumStringValues() []string {
 		"INSTALL_BUGFIX_WINDOWS_UPDATES",
 		"INSTALL_ENHANCEMENT_WINDOWS_UPDATES",
 		"INSTALL_OTHER_WINDOWS_UPDATES",
+		"REBOOT",
+		"RERUN_WORK_REQUEST",
 	}
 }
 

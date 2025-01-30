@@ -44,7 +44,7 @@ type VendorSoftwareSource struct {
 	// Number of packages the software source contains.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
 
-	// URL of the GPG key for this software source.
+	// URI of the GPG key for this software source.
 	GpgKeyUrl *string `mandatory:"false" json:"gpgKeyUrl"`
 
 	// ID of the GPG key for this software source.
@@ -53,7 +53,7 @@ type VendorSoftwareSource struct {
 	// Fingerprint of the GPG key for this software source.
 	GpgKeyFingerprint *string `mandatory:"false" json:"gpgKeyFingerprint"`
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	Size *float64 `mandatory:"false" json:"size"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.

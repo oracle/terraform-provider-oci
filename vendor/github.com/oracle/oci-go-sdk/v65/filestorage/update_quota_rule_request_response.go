@@ -14,7 +14,7 @@ import (
 // UpdateQuotaRuleRequest wrapper for the UpdateQuotaRule operation
 type UpdateQuotaRuleRequest struct {
 
-	// Details for editting a new quota rule.
+	// Details for editing a quota rule.
 	UpdateQuotaRuleDetails `contributesTo:"body"`
 
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.

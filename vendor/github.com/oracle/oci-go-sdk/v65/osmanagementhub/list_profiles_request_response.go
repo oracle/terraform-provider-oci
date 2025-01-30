@@ -44,6 +44,15 @@ type ListProfilesRequest struct {
 	// A filter to return only service-provided profiles.
 	IsServiceProvidedProfile *bool `mandatory:"false" contributesTo:"query" name:"isServiceProvidedProfile"`
 
+	// A multi filter to return only managed instances that match the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStation []string `contributesTo:"query" name:"managementStation" collectionFormat:"multi"`
+
+	// A multi filter to return only managed instances that don't contain the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStationNotEqualTo []string `contributesTo:"query" name:"managementStationNotEqualTo" collectionFormat:"multi"`
+
+	// The version of the registration profile.
+	ProfileVersion *string `mandatory:"false" contributesTo:"query" name:"profileVersion"`
+
 	// A filter to return only resources that match the given vendor name.
 	VendorName ListProfilesVendorNameEnum `mandatory:"false" contributesTo:"query" name:"vendorName" omitEmpty:"true"`
 
@@ -158,6 +167,9 @@ type ListProfilesResponse struct {
 
 	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// The total number of items in the result. Used for pagination of a list of items.
+	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 }
 
 func (response ListProfilesResponse) String() string {
@@ -245,6 +257,7 @@ const (
 	ListProfilesArchTypeI686    ListProfilesArchTypeEnum = "I686"
 	ListProfilesArchTypeNoarch  ListProfilesArchTypeEnum = "NOARCH"
 	ListProfilesArchTypeSrc     ListProfilesArchTypeEnum = "SRC"
+	ListProfilesArchTypeI386    ListProfilesArchTypeEnum = "I386"
 )
 
 var mappingListProfilesArchTypeEnum = map[string]ListProfilesArchTypeEnum{
@@ -253,6 +266,7 @@ var mappingListProfilesArchTypeEnum = map[string]ListProfilesArchTypeEnum{
 	"I686":    ListProfilesArchTypeI686,
 	"NOARCH":  ListProfilesArchTypeNoarch,
 	"SRC":     ListProfilesArchTypeSrc,
+	"I386":    ListProfilesArchTypeI386,
 }
 
 var mappingListProfilesArchTypeEnumLowerCase = map[string]ListProfilesArchTypeEnum{
@@ -261,6 +275,7 @@ var mappingListProfilesArchTypeEnumLowerCase = map[string]ListProfilesArchTypeEn
 	"i686":    ListProfilesArchTypeI686,
 	"noarch":  ListProfilesArchTypeNoarch,
 	"src":     ListProfilesArchTypeSrc,
+	"i386":    ListProfilesArchTypeI386,
 }
 
 // GetListProfilesArchTypeEnumValues Enumerates the set of values for ListProfilesArchTypeEnum
@@ -280,6 +295,7 @@ func GetListProfilesArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

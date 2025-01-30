@@ -19,21 +19,27 @@ type SoftwareSourceTypeEnum string
 
 // Set of constants representing the allowable values for SoftwareSourceTypeEnum
 const (
-	SoftwareSourceTypeVendor    SoftwareSourceTypeEnum = "VENDOR"
-	SoftwareSourceTypeCustom    SoftwareSourceTypeEnum = "CUSTOM"
-	SoftwareSourceTypeVersioned SoftwareSourceTypeEnum = "VERSIONED"
+	SoftwareSourceTypeVendor     SoftwareSourceTypeEnum = "VENDOR"
+	SoftwareSourceTypeCustom     SoftwareSourceTypeEnum = "CUSTOM"
+	SoftwareSourceTypeVersioned  SoftwareSourceTypeEnum = "VERSIONED"
+	SoftwareSourceTypePrivate    SoftwareSourceTypeEnum = "PRIVATE"
+	SoftwareSourceTypeThirdParty SoftwareSourceTypeEnum = "THIRD_PARTY"
 )
 
 var mappingSoftwareSourceTypeEnum = map[string]SoftwareSourceTypeEnum{
-	"VENDOR":    SoftwareSourceTypeVendor,
-	"CUSTOM":    SoftwareSourceTypeCustom,
-	"VERSIONED": SoftwareSourceTypeVersioned,
+	"VENDOR":      SoftwareSourceTypeVendor,
+	"CUSTOM":      SoftwareSourceTypeCustom,
+	"VERSIONED":   SoftwareSourceTypeVersioned,
+	"PRIVATE":     SoftwareSourceTypePrivate,
+	"THIRD_PARTY": SoftwareSourceTypeThirdParty,
 }
 
 var mappingSoftwareSourceTypeEnumLowerCase = map[string]SoftwareSourceTypeEnum{
-	"vendor":    SoftwareSourceTypeVendor,
-	"custom":    SoftwareSourceTypeCustom,
-	"versioned": SoftwareSourceTypeVersioned,
+	"vendor":      SoftwareSourceTypeVendor,
+	"custom":      SoftwareSourceTypeCustom,
+	"versioned":   SoftwareSourceTypeVersioned,
+	"private":     SoftwareSourceTypePrivate,
+	"third_party": SoftwareSourceTypeThirdParty,
 }
 
 // GetSoftwareSourceTypeEnumValues Enumerates the set of values for SoftwareSourceTypeEnum
@@ -51,6 +57,8 @@ func GetSoftwareSourceTypeEnumStringValues() []string {
 		"VENDOR",
 		"CUSTOM",
 		"VERSIONED",
+		"PRIVATE",
+		"THIRD_PARTY",
 	}
 }
 

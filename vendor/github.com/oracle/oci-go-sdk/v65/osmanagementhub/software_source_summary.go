@@ -62,7 +62,7 @@ type SoftwareSourceSummary interface {
 	// The current state of the software source.
 	GetLifecycleState() SoftwareSourceLifecycleStateEnum
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -146,12 +146,20 @@ func (m *softwaresourcesummary) UnmarshalPolymorphicJSON(data []byte) (interface
 
 	var err error
 	switch m.SoftwareSourceType {
+	case "PRIVATE":
+		mm := PrivateSoftwareSourceSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VENDOR":
 		mm := VendorSoftwareSourceSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VERSIONED":
 		mm := VersionedCustomSoftwareSourceSummary{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "THIRD_PARTY":
+		mm := ThirdPartySoftwareSourceSummary{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "CUSTOM":

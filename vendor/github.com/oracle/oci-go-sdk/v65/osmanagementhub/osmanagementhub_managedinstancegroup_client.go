@@ -1252,6 +1252,65 @@ func (client ManagedInstanceGroupClient) manageModuleStreamsOnManagedInstanceGro
 	return response, err
 }
 
+// RebootManagedInstanceGroup Reboots managed instances in a managed instance group.
+// A default retry strategy applies to this operation RebootManagedInstanceGroup()
+func (client ManagedInstanceGroupClient) RebootManagedInstanceGroup(ctx context.Context, request RebootManagedInstanceGroupRequest) (response RebootManagedInstanceGroupResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rebootManagedInstanceGroup, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RebootManagedInstanceGroupResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RebootManagedInstanceGroupResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RebootManagedInstanceGroupResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RebootManagedInstanceGroupResponse")
+	}
+	return
+}
+
+// rebootManagedInstanceGroup implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceGroupClient) rebootManagedInstanceGroup(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstanceGroups/{managedInstanceGroupId}/actions/reboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RebootManagedInstanceGroupResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstanceGroup/RebootManagedInstanceGroup"
+		err = common.PostProcessServiceError(err, "ManagedInstanceGroup", "RebootManagedInstanceGroup", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // RemoveModuleStreamProfileFromManagedInstanceGroup Removes a profile for a module stream that is installed on a managed instance group. Providing the module stream name (without specifying a profile name) removes all profiles that have been installed for the module stream.
 // A default retry strategy applies to this operation RemoveModuleStreamProfileFromManagedInstanceGroup()
 func (client ManagedInstanceGroupClient) RemoveModuleStreamProfileFromManagedInstanceGroup(ctx context.Context, request RemoveModuleStreamProfileFromManagedInstanceGroupRequest) (response RemoveModuleStreamProfileFromManagedInstanceGroupResponse, err error) {

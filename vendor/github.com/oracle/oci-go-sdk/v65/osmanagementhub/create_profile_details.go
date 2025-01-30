@@ -29,7 +29,7 @@ type CreateProfileDetails interface {
 	// User-specified description of the registration profile.
 	GetDescription() *string
 
-	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the management station to associate with an instance once registered. Associating with a management station applies only to non-OCI instances. This is required when creating a profile for non-OCI instances.
 	GetManagementStationId() *string
 
 	// The type of instance to register.
@@ -97,6 +97,10 @@ func (m *createprofiledetails) UnmarshalPolymorphicJSON(data []byte) (interface{
 	switch m.ProfileType {
 	case "GROUP":
 		mm := CreateGroupProfileDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "WINDOWS_STANDALONE":
+		mm := CreateWindowsStandAloneProfileDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "STATION":

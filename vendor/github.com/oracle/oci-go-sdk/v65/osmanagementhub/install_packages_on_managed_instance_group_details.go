@@ -23,6 +23,9 @@ type InstallPackagesOnManagedInstanceGroupDetails struct {
 	PackageNames []string `mandatory:"true" json:"packageNames"`
 
 	WorkRequestDetails *WorkRequestDetails `mandatory:"false" json:"workRequestDetails"`
+
+	// Indicates whether this is the latest package version.
+	IsLatest *bool `mandatory:"false" json:"isLatest"`
 }
 
 func (m InstallPackagesOnManagedInstanceGroupDetails) String() string {

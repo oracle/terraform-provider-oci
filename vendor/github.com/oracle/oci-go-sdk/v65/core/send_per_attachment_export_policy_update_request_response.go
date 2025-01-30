@@ -99,8 +99,8 @@ type SendPerAttachmentExportPolicyUpdateResponse struct {
 	// The underlying http response
 	RawResponse *http.Response
 
-	// The DrgRouteTable instance
-	DrgRouteTable `presentIn:"body"`
+	// The DrgRouteTableInternalInfo instance
+	DrgRouteTableInternalInfo `presentIn:"body"`
 
 	// For optimistic concurrency control. See `if-match`.
 	Etag *string `presentIn:"header" name:"etag"`

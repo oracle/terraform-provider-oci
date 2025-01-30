@@ -107,6 +107,9 @@ type ScheduledJobSummary struct {
 	// initial execution of the job fails, the service waits 2 minutes and then retries. If that fails, the service waits
 	// 5 minutes and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
+
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) for the work request to create a scheduled rerun for.
+	WorkRequestId *string `mandatory:"false" json:"workRequestId"`
 }
 
 func (m ScheduledJobSummary) String() string {

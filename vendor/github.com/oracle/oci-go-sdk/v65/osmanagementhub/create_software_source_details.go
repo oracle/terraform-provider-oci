@@ -88,8 +88,16 @@ func (m *createsoftwaresourcedetails) UnmarshalPolymorphicJSON(data []byte) (int
 		mm := CreateVendorSoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "PRIVATE":
+		mm := CreatePrivateSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "VERSIONED":
 		mm := CreateVersionedCustomSoftwareSourceDetails{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "THIRD_PARTY":
+		mm := CreateThirdPartySoftwareSourceDetails{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:

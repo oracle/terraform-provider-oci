@@ -19,26 +19,26 @@ import (
 // QuotaRuleSummary Summary information for a principal's usage and quota rule.
 type QuotaRuleSummary struct {
 
-	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file System.
+	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the file system.
 	FileSystemId *string `mandatory:"true" json:"fileSystemId"`
 
 	// The type of the owner of this quota rule and usage.
 	PrincipalType QuotaRuleSummaryPrincipalTypeEnum `mandatory:"true" json:"principalType"`
 
-	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
+	// An identifier for the user or the group associated with quota rule and usage. UNIX-like operating systems use this integer value to
 	// identify a user or group to manage access control.
 	PrincipalId *int `mandatory:"true" json:"principalId"`
 
-	// The usage value corresponds to this principal. The unit is Byte.
+	// The usage value corresponding to this principal in bytes.
 	UsageInBytes *int64 `mandatory:"true" json:"usageInBytes"`
 
 	// The identifier of the quota rule. It is the base64 encoded string of the tuple <principalId, principalType, isHardQuota>.
 	Id *string `mandatory:"false" json:"id"`
 
-	// The flag is an identifier to tell whether the quota rule will be enforced.
-	// If `isHardQuota` is false, the quota rule will be enforced so the usage cannot exceed the hard quota limit.
-	// If `isHardQuota` is true, usage can exceed the soft quota limit. An alarm or notification will be sent to
-	// the customer, if the specific usage exceeds.
+	// Whether the quota rule will be enforced.
+	// If `isHardQuota` is true, the quota rule is enforced so that the write is blocked if usage
+	// exceeds the hard quota limit.
+	// If `isHardQuota` is false, writes succeed even if usage exceeds the soft quota limit, but the quota rule is violated.
 	IsHardQuota *bool `mandatory:"false" json:"isHardQuota"`
 
 	// A user-friendly name. It does not have to be unique, and it is changeable.
@@ -46,10 +46,10 @@ type QuotaRuleSummary struct {
 	// Example: `UserXYZ's quota`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The value of the quota rule. The unit is Gigabyte.
+	// The value of the quota rule in gigabytes.
 	QuotaLimitInGigabytes *int `mandatory:"false" json:"quotaLimitInGigabytes"`
 
-	// The date and time the quota rule was started, expressed in
+	// The date and time the quota rule was created, expressed in
 	// RFC 3339 (https://tools.ietf.org/rfc/rfc3339) timestamp format.
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeCreated *common.SDKTime `mandatory:"false" json:"timeCreated"`
@@ -59,9 +59,9 @@ type QuotaRuleSummary struct {
 	// Example: `2016-08-25T21:10:29.600Z`
 	TimeUpdated *common.SDKTime `mandatory:"false" json:"timeUpdated"`
 
-	// An option to only display the users or groups that violate their quota rules.
-	// If `areViolatorsOnly` is false, the list result will display all the quota and usage report.
-	// If `areViolatorsOnly` is true, the list result will only display the quota and usage report for
+	// An option to display only the users or groups that violate their quota rules.
+	// If `areViolatorsOnly` is false, results report all the quota and usage.
+	// If `areViolatorsOnly` is true, results only report the quota and usage for
 	// the users or groups that violate their quota rules.
 	AreViolatorsOnly *bool `mandatory:"false" json:"areViolatorsOnly"`
 }

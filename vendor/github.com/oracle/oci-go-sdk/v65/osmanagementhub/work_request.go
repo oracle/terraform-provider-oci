@@ -95,11 +95,20 @@ type WorkRequest struct {
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original work request that is being retried.
 	RetryOfId *string `mandatory:"false" json:"retryOfId"`
 
-	// Indicates whether this work request is managed by the Autonomous Linux service.
+	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the original work request that is being rerun.
+	RerunOfId *string `mandatory:"false" json:"rerunOfId"`
+
+	// The amount of time in minutes to wait until retrying the work request. If set, the service will automatically retry
+	// a failed work request after the interval. For example, An interval set to [2,5,10]. If the initial
+	// execution of the work request fails, the service waits 2 minutes and then retries. If that fails, the service waits 5 minutes
+	// and then retries. If that fails, the service waits 10 minutes and then retries.
 	RetryIntervals []int `mandatory:"false" json:"retryIntervals"`
 
 	// Indicates whether this work request is managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The number of minutes to wait before considering that a reboot has failed on a managed instance.
+	RebootTimeoutInMins *int `mandatory:"false" json:"rebootTimeoutInMins"`
 }
 
 func (m WorkRequest) String() string {

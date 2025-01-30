@@ -26,11 +26,6 @@ type ComputeGpuMemoryClusterCollection struct {
 
 	// The list of compute GPU memory clusters.
 	Items []ComputeGpuMemoryClusterSummary `mandatory:"true" json:"items"`
-
-	// Defined tags for this resource. Each key is predefined and scoped to a
-	// namespace. For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
-	// Example: `{"Operations": {"CostCenter": "42"}}`
-	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 }
 
 func (m ComputeGpuMemoryClusterCollection) String() string {

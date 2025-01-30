@@ -8172,7 +8172,7 @@ func (client DevopsClient) syncRepository(ctx context.Context, request common.OC
 	return response, err
 }
 
-// TriggerDeploymentDryRun Sends a request to trigger a dry run, passing a HelmDiffArgumentCollection
+// TriggerDeploymentDryRun Sends a request to trigger a dry run, passing a HelmDiffArgumentCollection This is an internal-only endpoint, access to this endpoint is restricted.  Any request from non-internal tenancies will receive 403 Forbidden response.
 // A default retry strategy applies to this operation TriggerDeploymentDryRun()
 func (client DevopsClient) TriggerDeploymentDryRun(ctx context.Context, request TriggerDeploymentDryRunRequest) (response TriggerDeploymentDryRunResponse, err error) {
 	var ociResponse common.OCIResponse

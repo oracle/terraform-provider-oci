@@ -24,7 +24,7 @@ type UpdateQuotaRuleDetails struct {
 	// Example: `UserXYZ's quota`
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
-	// The value of the quota rule that will be updated to. The unit is Gigabyte.
+	// An updated value of the quota rule in gigabytes.
 	QuotaLimitInGigabytes *int `mandatory:"false" json:"quotaLimitInGigabytes"`
 }
 

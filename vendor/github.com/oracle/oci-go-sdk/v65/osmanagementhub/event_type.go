@@ -27,6 +27,8 @@ const (
 	EventTypeSoftwareSource    EventTypeEnum = "SOFTWARE_SOURCE"
 	EventTypeAgent             EventTypeEnum = "AGENT"
 	EventTypeManagementStation EventTypeEnum = "MANAGEMENT_STATION"
+	EventTypeSysadmin          EventTypeEnum = "SYSADMIN"
+	EventTypeReboot            EventTypeEnum = "REBOOT"
 )
 
 var mappingEventTypeEnum = map[string]EventTypeEnum{
@@ -38,6 +40,8 @@ var mappingEventTypeEnum = map[string]EventTypeEnum{
 	"SOFTWARE_SOURCE":    EventTypeSoftwareSource,
 	"AGENT":              EventTypeAgent,
 	"MANAGEMENT_STATION": EventTypeManagementStation,
+	"SYSADMIN":           EventTypeSysadmin,
+	"REBOOT":             EventTypeReboot,
 }
 
 var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
@@ -49,6 +53,8 @@ var mappingEventTypeEnumLowerCase = map[string]EventTypeEnum{
 	"software_source":    EventTypeSoftwareSource,
 	"agent":              EventTypeAgent,
 	"management_station": EventTypeManagementStation,
+	"sysadmin":           EventTypeSysadmin,
+	"reboot":             EventTypeReboot,
 }
 
 // GetEventTypeEnumValues Enumerates the set of values for EventTypeEnum
@@ -71,6 +77,8 @@ func GetEventTypeEnumStringValues() []string {
 		"SOFTWARE_SOURCE",
 		"AGENT",
 		"MANAGEMENT_STATION",
+		"SYSADMIN",
+		"REBOOT",
 	}
 }
 

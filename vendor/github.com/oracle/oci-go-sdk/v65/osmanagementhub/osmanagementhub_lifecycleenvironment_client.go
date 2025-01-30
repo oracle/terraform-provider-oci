@@ -715,6 +715,65 @@ func (client LifecycleEnvironmentClient) promoteSoftwareSourceToLifecycleStage(c
 	return response, err
 }
 
+// RebootLifecycleStage Reboots managed instances in a lifecycle stage.
+// A default retry strategy applies to this operation RebootLifecycleStage()
+func (client LifecycleEnvironmentClient) RebootLifecycleStage(ctx context.Context, request RebootLifecycleStageRequest) (response RebootLifecycleStageResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rebootLifecycleStage, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RebootLifecycleStageResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RebootLifecycleStageResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RebootLifecycleStageResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RebootLifecycleStageResponse")
+	}
+	return
+}
+
+// rebootLifecycleStage implements the OCIOperation interface (enables retrying operations)
+func (client LifecycleEnvironmentClient) rebootLifecycleStage(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/lifecycleStages/{lifecycleStageId}/actions/reboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RebootLifecycleStageResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/LifecycleStage/RebootLifecycleStage"
+		err = common.PostProcessServiceError(err, "LifecycleEnvironment", "RebootLifecycleStage", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // UpdateLifecycleEnvironment Updates the specified lifecycle environment's name, description, stages, or tags.
 // A default retry strategy applies to this operation UpdateLifecycleEnvironment()
 func (client LifecycleEnvironmentClient) UpdateLifecycleEnvironment(ctx context.Context, request UpdateLifecycleEnvironmentRequest) (response UpdateLifecycleEnvironmentResponse, err error) {

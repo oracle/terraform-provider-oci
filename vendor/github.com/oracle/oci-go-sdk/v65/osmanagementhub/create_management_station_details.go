@@ -35,6 +35,9 @@ type CreateManagementStationDetails struct {
 	// User-specified description of the management station. Avoid entering confidential information.
 	Description *string `mandatory:"false" json:"description"`
 
+	// When enabled, the station setup script automatically runs to configure the firewall and SELinux settings on the station.
+	IsAutoConfigEnabled *bool `mandatory:"false" json:"isAutoConfigEnabled"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`

@@ -30,6 +30,9 @@ type UpdateMirrorConfigurationDetails struct {
 
 	// Path to the SSL cerfificate.
 	Sslcert *string `mandatory:"false" json:"sslcert"`
+
+	// When enabled, the SSL certificate is verified whenever an instance installs or updates a package from a software source that is mirrored on the management station.
+	IsSslverifyEnabled *bool `mandatory:"false" json:"isSslverifyEnabled"`
 }
 
 func (m UpdateMirrorConfigurationDetails) String() string {

@@ -67,6 +67,9 @@ type FileSystemSummary struct {
 	// System tags are applied to resources by internal OCI services.
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
+	// Specifies the total number of replications for which this file system is a source.
+	ReplicationSourceCount *int `mandatory:"false" json:"replicationSourceCount"`
+
 	// The OCID (https://docs.cloud.oracle.com/Content/General/Concepts/identifiers.htm) of the KMS key used to encrypt the encryption keys associated with this file system.
 	KmsKeyId *string `mandatory:"false" json:"kmsKeyId"`
 

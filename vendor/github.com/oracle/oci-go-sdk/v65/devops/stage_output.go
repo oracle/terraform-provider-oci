@@ -68,6 +68,10 @@ func (m *stageoutput) UnmarshalPolymorphicJSON(data []byte) (interface{}, error)
 		mm := GenericArtifacts{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "COVERAGE_REPORT":
+		mm := CoverageReportOutput{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	default:
 		common.Logf("Received unsupported enum value for StageOutput: %s.", m.OutputType)
 		return *m, nil
@@ -105,18 +109,21 @@ type StageOutputOutputTypeEnum string
 
 // Set of constants representing the allowable values for StageOutputOutputTypeEnum
 const (
-	StageOutputOutputTypeArtifact   StageOutputOutputTypeEnum = "ARTIFACT"
-	StageOutputOutputTypeTestReport StageOutputOutputTypeEnum = "TEST_REPORT"
+	StageOutputOutputTypeArtifact       StageOutputOutputTypeEnum = "ARTIFACT"
+	StageOutputOutputTypeTestReport     StageOutputOutputTypeEnum = "TEST_REPORT"
+	StageOutputOutputTypeCoverageReport StageOutputOutputTypeEnum = "COVERAGE_REPORT"
 )
 
 var mappingStageOutputOutputTypeEnum = map[string]StageOutputOutputTypeEnum{
-	"ARTIFACT":    StageOutputOutputTypeArtifact,
-	"TEST_REPORT": StageOutputOutputTypeTestReport,
+	"ARTIFACT":        StageOutputOutputTypeArtifact,
+	"TEST_REPORT":     StageOutputOutputTypeTestReport,
+	"COVERAGE_REPORT": StageOutputOutputTypeCoverageReport,
 }
 
 var mappingStageOutputOutputTypeEnumLowerCase = map[string]StageOutputOutputTypeEnum{
-	"artifact":    StageOutputOutputTypeArtifact,
-	"test_report": StageOutputOutputTypeTestReport,
+	"artifact":        StageOutputOutputTypeArtifact,
+	"test_report":     StageOutputOutputTypeTestReport,
+	"coverage_report": StageOutputOutputTypeCoverageReport,
 }
 
 // GetStageOutputOutputTypeEnumValues Enumerates the set of values for StageOutputOutputTypeEnum
@@ -133,6 +140,7 @@ func GetStageOutputOutputTypeEnumStringValues() []string {
 	return []string{
 		"ARTIFACT",
 		"TEST_REPORT",
+		"COVERAGE_REPORT",
 	}
 }
 

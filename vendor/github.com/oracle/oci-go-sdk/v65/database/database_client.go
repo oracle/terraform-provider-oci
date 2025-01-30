@@ -10974,7 +10974,7 @@ func (client DatabaseClient) getCloudExadataInfrastructureUnallocatedResources(c
 	defer common.CloseBodyIfValid(httpResponse)
 	response.RawResponse = httpResponse
 	if err != nil {
-		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructureUnallocatedResources/GetCloudExadataInfrastructureUnallocatedResources"
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/database/20160918/CloudExadataInfrastructure/GetCloudExadataInfrastructureUnallocatedResources"
 		err = common.PostProcessServiceError(err, "Database", "GetCloudExadataInfrastructureUnallocatedResources", apiReferenceLink)
 		return response, err
 	}

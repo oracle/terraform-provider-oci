@@ -117,6 +117,9 @@ type FileSystem struct {
 
 	// Displays the state of enforcement of quota rules on the file system.
 	QuotaEnforcementState FileSystemQuotaEnforcementStateEnum `mandatory:"false" json:"quotaEnforcementState,omitempty"`
+
+	// Specifies the total number of replications for which this file system is a source.
+	ReplicationSourceCount *int `mandatory:"false" json:"replicationSourceCount"`
 }
 
 func (m FileSystem) String() string {

@@ -19,18 +19,21 @@ type HealthStateEnum string
 
 // Set of constants representing the allowable values for HealthStateEnum
 const (
-	HealthStateHealthy   HealthStateEnum = "HEALTHY"
-	HealthStateUnhealthy HealthStateEnum = "UNHEALTHY"
+	HealthStateHealthy     HealthStateEnum = "HEALTHY"
+	HealthStateUnhealthy   HealthStateEnum = "UNHEALTHY"
+	HealthStateUnavailable HealthStateEnum = "UNAVAILABLE"
 )
 
 var mappingHealthStateEnum = map[string]HealthStateEnum{
-	"HEALTHY":   HealthStateHealthy,
-	"UNHEALTHY": HealthStateUnhealthy,
+	"HEALTHY":     HealthStateHealthy,
+	"UNHEALTHY":   HealthStateUnhealthy,
+	"UNAVAILABLE": HealthStateUnavailable,
 }
 
 var mappingHealthStateEnumLowerCase = map[string]HealthStateEnum{
-	"healthy":   HealthStateHealthy,
-	"unhealthy": HealthStateUnhealthy,
+	"healthy":     HealthStateHealthy,
+	"unhealthy":   HealthStateUnhealthy,
+	"unavailable": HealthStateUnavailable,
 }
 
 // GetHealthStateEnumValues Enumerates the set of values for HealthStateEnum
@@ -47,6 +50,7 @@ func GetHealthStateEnumStringValues() []string {
 	return []string{
 		"HEALTHY",
 		"UNHEALTHY",
+		"UNAVAILABLE",
 	}
 }
 

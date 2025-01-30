@@ -18,7 +18,7 @@ import (
 
 // AttachManagedInstancesToLifecycleStageDetails The managed instances to attach to the lifecycle stage.
 type AttachManagedInstancesToLifecycleStageDetails struct {
-	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"false" json:"managedInstanceDetails"`
+	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"true" json:"managedInstanceDetails"`
 }
 
 func (m AttachManagedInstancesToLifecycleStageDetails) String() string {

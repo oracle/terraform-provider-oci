@@ -53,7 +53,7 @@ type VersionedCustomSoftwareSourceSummary struct {
 	// Number of packages the software source contains.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	Size *float64 `mandatory:"false" json:"size"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -84,6 +84,9 @@ type VersionedCustomSoftwareSourceSummary struct {
 
 	// The architecture type supported by the software source.
 	ArchType ArchTypeEnum `mandatory:"true" json:"archType"`
+
+	// The creation type of a software source.
+	SoftwareSourceSubType SoftwareSourceSubTypeEnum `mandatory:"false" json:"softwareSourceSubType,omitempty"`
 }
 
 // GetId returns Id
@@ -200,6 +203,9 @@ func (m VersionedCustomSoftwareSourceSummary) ValidateEnumValue() (bool, error) 
 	}
 	if _, ok := GetMappingArchTypeEnum(string(m.ArchType)); !ok && m.ArchType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ArchType: %s. Supported values are: %s.", m.ArchType, strings.Join(GetArchTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSoftwareSourceSubTypeEnum(string(m.SoftwareSourceSubType)); !ok && m.SoftwareSourceSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftwareSourceSubType: %s. Supported values are: %s.", m.SoftwareSourceSubType, strings.Join(GetSoftwareSourceSubTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

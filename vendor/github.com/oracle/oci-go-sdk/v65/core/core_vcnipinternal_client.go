@@ -163,7 +163,7 @@ func (client VcnipInternalClient) byoipRangeLock(ctx context.Context, request co
 	return response, err
 }
 
-// ByoipRangeUnlock Lock ByoipRange
+// ByoipRangeUnlock Unlock ByoipRange
 func (client VcnipInternalClient) ByoipRangeUnlock(ctx context.Context, request ByoipRangeUnlockRequest) (response ByoipRangeUnlockResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

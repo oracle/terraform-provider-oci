@@ -48,6 +48,11 @@ type InstanceAgentCommand struct {
 	// The amount of time that Oracle Cloud Agent is given to run the command on the instance before timing
 	// out. The timer starts when Oracle Cloud Agent starts the command. Zero means no timeout.
 	ExecutionTimeOutInSeconds *int `mandatory:"false" json:"executionTimeOutInSeconds"`
+
+	// Command String is a fully formed command that runcommand executes.
+	// Example: main.sh is stored in object storage and user provides the following command with parameters to execute
+	// /bin/sh main.sh abc 10 foo.sh
+	CommandString *string `mandatory:"false" json:"commandString"`
 }
 
 func (m InstanceAgentCommand) String() string {

@@ -24,6 +24,7 @@ const (
 	ArchTypeI686    ArchTypeEnum = "I686"
 	ArchTypeNoarch  ArchTypeEnum = "NOARCH"
 	ArchTypeSrc     ArchTypeEnum = "SRC"
+	ArchTypeI386    ArchTypeEnum = "I386"
 )
 
 var mappingArchTypeEnum = map[string]ArchTypeEnum{
@@ -32,6 +33,7 @@ var mappingArchTypeEnum = map[string]ArchTypeEnum{
 	"I686":    ArchTypeI686,
 	"NOARCH":  ArchTypeNoarch,
 	"SRC":     ArchTypeSrc,
+	"I386":    ArchTypeI386,
 }
 
 var mappingArchTypeEnumLowerCase = map[string]ArchTypeEnum{
@@ -40,6 +42,7 @@ var mappingArchTypeEnumLowerCase = map[string]ArchTypeEnum{
 	"i686":    ArchTypeI686,
 	"noarch":  ArchTypeNoarch,
 	"src":     ArchTypeSrc,
+	"i386":    ArchTypeI386,
 }
 
 // GetArchTypeEnumValues Enumerates the set of values for ArchTypeEnum
@@ -59,6 +62,7 @@ func GetArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

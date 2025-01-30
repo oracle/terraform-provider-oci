@@ -34,13 +34,13 @@ type ListQuotaRulesRequest struct {
 	// see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	Page *string `mandatory:"false" contributesTo:"query" name:"page"`
 
-	// An identifier for the owner of this usage and quota rule. Unix-like operating systems use this integer value to
+	// An identifier for the user or the group associated with quota rule and usage. UNIX-like operating systems use this integer value to
 	// identify a user or group to manage access control.
 	PrincipalId *int `mandatory:"false" contributesTo:"query" name:"principalId"`
 
-	// An option to only display the users or groups that violate their quota rules.
-	// If `areViolatorsOnly` is false, the list result will display all the quota and usage report.
-	// If `areViolatorsOnly` is true, the list result will only display the quota and usage report for
+	// An option to display only the users or groups that violate their quota rules.
+	// If `areViolatorsOnly` is false, results report all the quota and usage.
+	// If `areViolatorsOnly` is true, results only report the quota and usage for
 	// the users or groups that violate their quota rules.
 	AreViolatorsOnly *bool `mandatory:"false" contributesTo:"query" name:"areViolatorsOnly"`
 

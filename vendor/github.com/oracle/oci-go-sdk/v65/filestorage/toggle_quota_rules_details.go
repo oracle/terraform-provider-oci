@@ -16,7 +16,7 @@ import (
 	"strings"
 )
 
-// ToggleQuotaRulesDetails Details for toggling quota enforcement in the file system.
+// ToggleQuotaRulesDetails Details for enabling or disabling quota enforcement in the file system.
 type ToggleQuotaRulesDetails struct {
 
 	// Specifies the enforcement of quota rules on the file system.

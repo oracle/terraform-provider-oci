@@ -44,6 +44,9 @@ type ListSoftwareSourcesRequest struct {
 	// Indicates whether the software source is mandatory for the Autonomous Linux service.
 	IsMandatoryForAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isMandatoryForAutonomousLinux"`
 
+	// A filter to return software sources which are synced or disabled from syncing to the management station.
+	IsMirrorSyncAllowed *bool `mandatory:"false" contributesTo:"query" name:"isMirrorSyncAllowed"`
+
 	// A filter to return resources that match the given user-friendly name.
 	DisplayName *string `mandatory:"false" contributesTo:"query" name:"displayName"`
 

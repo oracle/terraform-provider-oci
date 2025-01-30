@@ -92,6 +92,65 @@ func (client *ManagedInstanceClient) ConfigurationProvider() *common.Configurati
 	return client.config
 }
 
+// AssociateManagedInstancesWithManagementStation Associates managed instances to the specified management station
+// A default retry strategy applies to this operation AssociateManagedInstancesWithManagementStation()
+func (client ManagedInstanceClient) AssociateManagedInstancesWithManagementStation(ctx context.Context, request AssociateManagedInstancesWithManagementStationRequest) (response AssociateManagedInstancesWithManagementStationResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.associateManagedInstancesWithManagementStation, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = AssociateManagedInstancesWithManagementStationResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = AssociateManagedInstancesWithManagementStationResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(AssociateManagedInstancesWithManagementStationResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into AssociateManagedInstancesWithManagementStationResponse")
+	}
+	return
+}
+
+// associateManagedInstancesWithManagementStation implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) associateManagedInstancesWithManagementStation(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managementStations/{managementStationId}/actions/associateManagedInstances", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response AssociateManagedInstancesWithManagementStationResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/AssociateManagedInstancesWithManagementStation"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "AssociateManagedInstancesWithManagementStation", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // AttachProfileToManagedInstance Adds profile to a managed instance. After the profile has been added,
 // the instance can be registered as a managed instance.
 // A default retry strategy applies to this operation AttachProfileToManagedInstance()
@@ -1453,6 +1512,65 @@ func (client ManagedInstanceClient) manageModuleStreamsOnManagedInstance(ctx con
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/ManageModuleStreamsOnManagedInstance"
 		err = common.PostProcessServiceError(err, "ManagedInstance", "ManageModuleStreamsOnManagedInstance", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// RebootManagedInstance Reboots a managed instance.
+// A default retry strategy applies to this operation RebootManagedInstance()
+func (client ManagedInstanceClient) RebootManagedInstance(ctx context.Context, request RebootManagedInstanceRequest) (response RebootManagedInstanceResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.rebootManagedInstance, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = RebootManagedInstanceResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = RebootManagedInstanceResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(RebootManagedInstanceResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into RebootManagedInstanceResponse")
+	}
+	return
+}
+
+// rebootManagedInstance implements the OCIOperation interface (enables retrying operations)
+func (client ManagedInstanceClient) rebootManagedInstance(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/managedInstances/{managedInstanceId}/actions/reboot", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	var response RebootManagedInstanceResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/osmh/20220901/ManagedInstance/RebootManagedInstance"
+		err = common.PostProcessServiceError(err, "ManagedInstance", "RebootManagedInstance", apiReferenceLink)
 		return response, err
 	}
 

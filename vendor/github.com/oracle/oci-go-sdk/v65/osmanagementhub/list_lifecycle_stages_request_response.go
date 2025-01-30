@@ -169,6 +169,7 @@ const (
 	ListLifecycleStagesArchTypeI686    ListLifecycleStagesArchTypeEnum = "I686"
 	ListLifecycleStagesArchTypeNoarch  ListLifecycleStagesArchTypeEnum = "NOARCH"
 	ListLifecycleStagesArchTypeSrc     ListLifecycleStagesArchTypeEnum = "SRC"
+	ListLifecycleStagesArchTypeI386    ListLifecycleStagesArchTypeEnum = "I386"
 )
 
 var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchTypeEnum{
@@ -177,6 +178,7 @@ var mappingListLifecycleStagesArchTypeEnum = map[string]ListLifecycleStagesArchT
 	"I686":    ListLifecycleStagesArchTypeI686,
 	"NOARCH":  ListLifecycleStagesArchTypeNoarch,
 	"SRC":     ListLifecycleStagesArchTypeSrc,
+	"I386":    ListLifecycleStagesArchTypeI386,
 }
 
 var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleStagesArchTypeEnum{
@@ -185,6 +187,7 @@ var mappingListLifecycleStagesArchTypeEnumLowerCase = map[string]ListLifecycleSt
 	"i686":    ListLifecycleStagesArchTypeI686,
 	"noarch":  ListLifecycleStagesArchTypeNoarch,
 	"src":     ListLifecycleStagesArchTypeSrc,
+	"i386":    ListLifecycleStagesArchTypeI386,
 }
 
 // GetListLifecycleStagesArchTypeEnumValues Enumerates the set of values for ListLifecycleStagesArchTypeEnum
@@ -204,6 +207,7 @@ func GetListLifecycleStagesArchTypeEnumStringValues() []string {
 		"I686",
 		"NOARCH",
 		"SRC",
+		"I386",
 	}
 }
 

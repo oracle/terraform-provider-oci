@@ -62,7 +62,7 @@ type SoftwareSource interface {
 	// The yum repository checksum type used by this software source.
 	GetChecksumType() ChecksumTypeEnum
 
-	// URL of the GPG key for this software source.
+	// URI of the GPG key for this software source.
 	GetGpgKeyUrl() *string
 
 	// ID of the GPG key for this software source.
@@ -71,7 +71,7 @@ type SoftwareSource interface {
 	// Fingerprint of the GPG key for this software source.
 	GetGpgKeyFingerprint() *string
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	GetSize() *float64
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -165,12 +165,20 @@ func (m *softwaresource) UnmarshalPolymorphicJSON(data []byte) (interface{}, err
 		mm := VendorSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
+	case "THIRD_PARTY":
+		mm := ThirdPartySoftwareSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
 	case "CUSTOM":
 		mm := CustomSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	case "VERSIONED":
 		mm := VersionedCustomSoftwareSource{}
+		err = json.Unmarshal(data, &mm)
+		return mm, err
+	case "PRIVATE":
+		mm := PrivateSoftwareSource{}
 		err = json.Unmarshal(data, &mm)
 		return mm, err
 	default:
@@ -323,33 +331,36 @@ type SoftwareSourceLifecycleStateEnum string
 
 // Set of constants representing the allowable values for SoftwareSourceLifecycleStateEnum
 const (
-	SoftwareSourceLifecycleStateCreating SoftwareSourceLifecycleStateEnum = "CREATING"
-	SoftwareSourceLifecycleStateUpdating SoftwareSourceLifecycleStateEnum = "UPDATING"
-	SoftwareSourceLifecycleStateActive   SoftwareSourceLifecycleStateEnum = "ACTIVE"
-	SoftwareSourceLifecycleStateInactive SoftwareSourceLifecycleStateEnum = "INACTIVE"
-	SoftwareSourceLifecycleStateDeleting SoftwareSourceLifecycleStateEnum = "DELETING"
-	SoftwareSourceLifecycleStateDeleted  SoftwareSourceLifecycleStateEnum = "DELETED"
-	SoftwareSourceLifecycleStateFailed   SoftwareSourceLifecycleStateEnum = "FAILED"
+	SoftwareSourceLifecycleStateCreating       SoftwareSourceLifecycleStateEnum = "CREATING"
+	SoftwareSourceLifecycleStateUpdating       SoftwareSourceLifecycleStateEnum = "UPDATING"
+	SoftwareSourceLifecycleStateActive         SoftwareSourceLifecycleStateEnum = "ACTIVE"
+	SoftwareSourceLifecycleStateInactive       SoftwareSourceLifecycleStateEnum = "INACTIVE"
+	SoftwareSourceLifecycleStateDeleting       SoftwareSourceLifecycleStateEnum = "DELETING"
+	SoftwareSourceLifecycleStateDeleted        SoftwareSourceLifecycleStateEnum = "DELETED"
+	SoftwareSourceLifecycleStateFailed         SoftwareSourceLifecycleStateEnum = "FAILED"
+	SoftwareSourceLifecycleStateNeedsAttention SoftwareSourceLifecycleStateEnum = "NEEDS_ATTENTION"
 )
 
 var mappingSoftwareSourceLifecycleStateEnum = map[string]SoftwareSourceLifecycleStateEnum{
-	"CREATING": SoftwareSourceLifecycleStateCreating,
-	"UPDATING": SoftwareSourceLifecycleStateUpdating,
-	"ACTIVE":   SoftwareSourceLifecycleStateActive,
-	"INACTIVE": SoftwareSourceLifecycleStateInactive,
-	"DELETING": SoftwareSourceLifecycleStateDeleting,
-	"DELETED":  SoftwareSourceLifecycleStateDeleted,
-	"FAILED":   SoftwareSourceLifecycleStateFailed,
+	"CREATING":        SoftwareSourceLifecycleStateCreating,
+	"UPDATING":        SoftwareSourceLifecycleStateUpdating,
+	"ACTIVE":          SoftwareSourceLifecycleStateActive,
+	"INACTIVE":        SoftwareSourceLifecycleStateInactive,
+	"DELETING":        SoftwareSourceLifecycleStateDeleting,
+	"DELETED":         SoftwareSourceLifecycleStateDeleted,
+	"FAILED":          SoftwareSourceLifecycleStateFailed,
+	"NEEDS_ATTENTION": SoftwareSourceLifecycleStateNeedsAttention,
 }
 
 var mappingSoftwareSourceLifecycleStateEnumLowerCase = map[string]SoftwareSourceLifecycleStateEnum{
-	"creating": SoftwareSourceLifecycleStateCreating,
-	"updating": SoftwareSourceLifecycleStateUpdating,
-	"active":   SoftwareSourceLifecycleStateActive,
-	"inactive": SoftwareSourceLifecycleStateInactive,
-	"deleting": SoftwareSourceLifecycleStateDeleting,
-	"deleted":  SoftwareSourceLifecycleStateDeleted,
-	"failed":   SoftwareSourceLifecycleStateFailed,
+	"creating":        SoftwareSourceLifecycleStateCreating,
+	"updating":        SoftwareSourceLifecycleStateUpdating,
+	"active":          SoftwareSourceLifecycleStateActive,
+	"inactive":        SoftwareSourceLifecycleStateInactive,
+	"deleting":        SoftwareSourceLifecycleStateDeleting,
+	"deleted":         SoftwareSourceLifecycleStateDeleted,
+	"failed":          SoftwareSourceLifecycleStateFailed,
+	"needs_attention": SoftwareSourceLifecycleStateNeedsAttention,
 }
 
 // GetSoftwareSourceLifecycleStateEnumValues Enumerates the set of values for SoftwareSourceLifecycleStateEnum
@@ -371,6 +382,7 @@ func GetSoftwareSourceLifecycleStateEnumStringValues() []string {
 		"DELETING",
 		"DELETED",
 		"FAILED",
+		"NEEDS_ATTENTION",
 	}
 }
 

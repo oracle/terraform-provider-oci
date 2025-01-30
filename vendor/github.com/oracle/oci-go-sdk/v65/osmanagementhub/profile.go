@@ -47,6 +47,12 @@ type Profile interface {
 	// The time the registration profile was created (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
 	GetTimeCreated() *common.SDKTime
 
+	// The time the registration profile was last modified (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	GetTimeModified() *common.SDKTime
+
+	// The version of the profile.
+	GetProfileVersion() *string
+
 	// The current state of the registration profile.
 	GetLifecycleState() ProfileLifecycleStateEnum
 
@@ -79,6 +85,8 @@ type profile struct {
 	Description              *string                           `mandatory:"false" json:"description"`
 	ManagementStationId      *string                           `mandatory:"false" json:"managementStationId"`
 	TimeCreated              *common.SDKTime                   `mandatory:"false" json:"timeCreated"`
+	TimeModified             *common.SDKTime                   `mandatory:"false" json:"timeModified"`
+	ProfileVersion           *string                           `mandatory:"false" json:"profileVersion"`
 	LifecycleState           ProfileLifecycleStateEnum         `mandatory:"false" json:"lifecycleState,omitempty"`
 	RegistrationType         ProfileRegistrationTypeEnum       `mandatory:"false" json:"registrationType,omitempty"`
 	IsDefaultProfile         *bool                             `mandatory:"false" json:"isDefaultProfile"`
@@ -115,6 +123,8 @@ func (m *profile) UnmarshalJSON(data []byte) error {
 	m.Description = s.Model.Description
 	m.ManagementStationId = s.Model.ManagementStationId
 	m.TimeCreated = s.Model.TimeCreated
+	m.TimeModified = s.Model.TimeModified
+	m.ProfileVersion = s.Model.ProfileVersion
 	m.LifecycleState = s.Model.LifecycleState
 	m.RegistrationType = s.Model.RegistrationType
 	m.IsDefaultProfile = s.Model.IsDefaultProfile
@@ -175,6 +185,16 @@ func (m profile) GetManagementStationId() *string {
 // GetTimeCreated returns TimeCreated
 func (m profile) GetTimeCreated() *common.SDKTime {
 	return m.TimeCreated
+}
+
+// GetTimeModified returns TimeModified
+func (m profile) GetTimeModified() *common.SDKTime {
+	return m.TimeModified
+}
+
+// GetProfileVersion returns ProfileVersion
+func (m profile) GetProfileVersion() *string {
+	return m.ProfileVersion
 }
 
 // GetLifecycleState returns LifecycleState
@@ -281,6 +301,7 @@ const (
 	ProfileLifecycleStateCreating ProfileLifecycleStateEnum = "CREATING"
 	ProfileLifecycleStateUpdating ProfileLifecycleStateEnum = "UPDATING"
 	ProfileLifecycleStateActive   ProfileLifecycleStateEnum = "ACTIVE"
+	ProfileLifecycleStateInactive ProfileLifecycleStateEnum = "INACTIVE"
 	ProfileLifecycleStateDeleting ProfileLifecycleStateEnum = "DELETING"
 	ProfileLifecycleStateDeleted  ProfileLifecycleStateEnum = "DELETED"
 	ProfileLifecycleStateFailed   ProfileLifecycleStateEnum = "FAILED"
@@ -290,6 +311,7 @@ var mappingProfileLifecycleStateEnum = map[string]ProfileLifecycleStateEnum{
 	"CREATING": ProfileLifecycleStateCreating,
 	"UPDATING": ProfileLifecycleStateUpdating,
 	"ACTIVE":   ProfileLifecycleStateActive,
+	"INACTIVE": ProfileLifecycleStateInactive,
 	"DELETING": ProfileLifecycleStateDeleting,
 	"DELETED":  ProfileLifecycleStateDeleted,
 	"FAILED":   ProfileLifecycleStateFailed,
@@ -299,6 +321,7 @@ var mappingProfileLifecycleStateEnumLowerCase = map[string]ProfileLifecycleState
 	"creating": ProfileLifecycleStateCreating,
 	"updating": ProfileLifecycleStateUpdating,
 	"active":   ProfileLifecycleStateActive,
+	"inactive": ProfileLifecycleStateInactive,
 	"deleting": ProfileLifecycleStateDeleting,
 	"deleted":  ProfileLifecycleStateDeleted,
 	"failed":   ProfileLifecycleStateFailed,
@@ -319,6 +342,7 @@ func GetProfileLifecycleStateEnumStringValues() []string {
 		"CREATING",
 		"UPDATING",
 		"ACTIVE",
+		"INACTIVE",
 		"DELETING",
 		"DELETED",
 		"FAILED",

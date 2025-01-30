@@ -1397,7 +1397,7 @@ func (client FileStorageClient) createOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
-// CreateQuotaRule Create an FS level, user or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
+// CreateQuotaRule Create a file system, user, or group quota rule given the `fileSystemId`, `principalId`, `principalType` and
 // `isHardQuota` parameters.
 func (client FileStorageClient) CreateQuotaRule(ctx context.Context, request CreateQuotaRuleRequest) (response CreateQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -1986,7 +1986,7 @@ func (client FileStorageClient) deleteOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
-// DeleteQuotaRule Remove an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+// DeleteQuotaRule Remove a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) DeleteQuotaRule(ctx context.Context, request DeleteQuotaRuleRequest) (response DeleteQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -2769,7 +2769,7 @@ func (client FileStorageClient) getOutboundConnector(ctx context.Context, reques
 	return response, err
 }
 
-// GetQuotaRule Get an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+// GetQuotaRule Get a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) GetQuotaRule(ctx context.Context, request GetQuotaRuleRequest) (response GetQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()
@@ -5768,7 +5768,7 @@ func (client FileStorageClient) updateOutboundConnector(ctx context.Context, req
 	return response, err
 }
 
-// UpdateQuotaRule Edit an FS level, user or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
+// UpdateQuotaRule Edit a file system, user, or group quota rule given the `fileSystemId` and `quotaRuleId` parameters.
 func (client FileStorageClient) UpdateQuotaRule(ctx context.Context, request UpdateQuotaRuleRequest) (response UpdateQuotaRuleResponse, err error) {
 	var ociResponse common.OCIResponse
 	policy := common.NoRetryPolicy()

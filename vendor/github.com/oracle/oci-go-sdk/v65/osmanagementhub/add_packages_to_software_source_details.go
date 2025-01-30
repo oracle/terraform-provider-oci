@@ -19,8 +19,11 @@ import (
 // AddPackagesToSoftwareSourceDetails Provides the list of packages to add to a software source.
 type AddPackagesToSoftwareSourceDetails struct {
 
-	// List of packages specified by the full package name (NEVRA.rpm).
+	// List of packages specified by the name of the package (N) or the full package name (NVRA).
 	Packages []string `mandatory:"true" json:"packages"`
+
+	// Indicates whether the service should continue adding packages to the repository in presence of missing packages (best attempt)
+	IsContinueOnMissingPackages *bool `mandatory:"false" json:"isContinueOnMissingPackages"`
 }
 
 func (m AddPackagesToSoftwareSourceDetails) String() string {

@@ -67,6 +67,9 @@ type ManagedInstance struct {
 	// The profile that was used to register this instance with the service.
 	Profile *string `mandatory:"false" json:"profile"`
 
+	// The profile version that was used to register this instance with the service.
+	ProfileVersion *string `mandatory:"false" json:"profileVersion"`
+
 	// Indicates whether this managed instance is acting as an on-premises management station.
 	IsManagementStation *bool `mandatory:"false" json:"isManagementStation"`
 
@@ -128,6 +131,9 @@ type ManagedInstance struct {
 
 	// Indicates whether the Autonomous Linux service manages the instance.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" json:"isManagedByAutonomousLinux"`
+
+	// The version of osmh-agent running on the managed instance
+	AgentVersion *string `mandatory:"false" json:"agentVersion"`
 }
 
 func (m ManagedInstance) String() string {

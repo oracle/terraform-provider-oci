@@ -81,10 +81,10 @@ type PatchFsuCycle struct {
 	// Example: `{"orcl-cloud": {"free-tier-retained": "true"}}`
 	SystemTags map[string]map[string]interface{} `mandatory:"false" json:"systemTags"`
 
-	// Ignore all patches between the source and target homes during patching.
+	// Ignore patch conflicts or missing patches between the source and goal homes.
 	IsIgnorePatches *bool `mandatory:"false" json:"isIgnorePatches"`
 
-	// List of bug numbers to ignore.
+	// List of identifiers of patches to ignore.
 	IsIgnoreMissingPatches []string `mandatory:"false" json:"isIgnoreMissingPatches"`
 
 	// Service drain timeout specified in seconds.

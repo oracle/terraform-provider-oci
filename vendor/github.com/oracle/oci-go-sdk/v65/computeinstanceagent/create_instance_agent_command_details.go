@@ -36,6 +36,11 @@ type CreateInstanceAgentCommandDetails struct {
 	// Avoid entering confidential information.
 	// Example: `Database Backup Script`
 	DisplayName *string `mandatory:"false" json:"displayName"`
+
+	// Command String is a fully formed command that runcommand executes.
+	// Example: main.sh is stored in object storage and user provides the following command with parameters to execute
+	// /bin/sh main.sh abc 10 foo.sh
+	CommandString *string `mandatory:"false" json:"commandString"`
 }
 
 func (m CreateInstanceAgentCommandDetails) String() string {

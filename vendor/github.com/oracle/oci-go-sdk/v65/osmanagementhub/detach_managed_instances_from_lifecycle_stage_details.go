@@ -18,7 +18,7 @@ import (
 
 // DetachManagedInstancesFromLifecycleStageDetails The managed instances to detach from the lifecycle stage.
 type DetachManagedInstancesFromLifecycleStageDetails struct {
-	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"false" json:"managedInstanceDetails"`
+	ManagedInstanceDetails *ManagedInstancesDetails `mandatory:"true" json:"managedInstanceDetails"`
 }
 
 func (m DetachManagedInstancesFromLifecycleStageDetails) String() string {

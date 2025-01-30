@@ -34,6 +34,12 @@ type MirrorSummary struct {
 	// The current log from the management station plugin.
 	Log *string `mandatory:"true" json:"log"`
 
+	// The number of packages within the mirrored software source.
+	PackageCount *int `mandatory:"true" json:"packageCount"`
+
+	// The size the mirrored software source in bytes.
+	Size *int64 `mandatory:"true" json:"size"`
+
 	// Display name of the mirror
 	DisplayName *string `mandatory:"false" json:"displayName"`
 

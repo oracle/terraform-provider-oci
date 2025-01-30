@@ -19,21 +19,27 @@ type MirrorTypeEnum string
 
 // Set of constants representing the allowable values for MirrorTypeEnum
 const (
-	MirrorTypeCustom    MirrorTypeEnum = "CUSTOM"
-	MirrorTypeVendor    MirrorTypeEnum = "VENDOR"
-	MirrorTypeVersioned MirrorTypeEnum = "VERSIONED"
+	MirrorTypeCustom     MirrorTypeEnum = "CUSTOM"
+	MirrorTypeVendor     MirrorTypeEnum = "VENDOR"
+	MirrorTypeVersioned  MirrorTypeEnum = "VERSIONED"
+	MirrorTypePrivate    MirrorTypeEnum = "PRIVATE"
+	MirrorTypeThirdParty MirrorTypeEnum = "THIRD_PARTY"
 )
 
 var mappingMirrorTypeEnum = map[string]MirrorTypeEnum{
-	"CUSTOM":    MirrorTypeCustom,
-	"VENDOR":    MirrorTypeVendor,
-	"VERSIONED": MirrorTypeVersioned,
+	"CUSTOM":      MirrorTypeCustom,
+	"VENDOR":      MirrorTypeVendor,
+	"VERSIONED":   MirrorTypeVersioned,
+	"PRIVATE":     MirrorTypePrivate,
+	"THIRD_PARTY": MirrorTypeThirdParty,
 }
 
 var mappingMirrorTypeEnumLowerCase = map[string]MirrorTypeEnum{
-	"custom":    MirrorTypeCustom,
-	"vendor":    MirrorTypeVendor,
-	"versioned": MirrorTypeVersioned,
+	"custom":      MirrorTypeCustom,
+	"vendor":      MirrorTypeVendor,
+	"versioned":   MirrorTypeVersioned,
+	"private":     MirrorTypePrivate,
+	"third_party": MirrorTypeThirdParty,
 }
 
 // GetMirrorTypeEnumValues Enumerates the set of values for MirrorTypeEnum
@@ -51,6 +57,8 @@ func GetMirrorTypeEnumStringValues() []string {
 		"CUSTOM",
 		"VENDOR",
 		"VERSIONED",
+		"PRIVATE",
+		"THIRD_PARTY",
 	}
 }
 

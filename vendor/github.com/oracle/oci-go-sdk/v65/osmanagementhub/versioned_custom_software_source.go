@@ -50,7 +50,7 @@ type VersionedCustomSoftwareSource struct {
 	// Number of packages the software source contains.
 	PackageCount *int64 `mandatory:"false" json:"packageCount"`
 
-	// URL of the GPG key for this software source.
+	// URI of the GPG key for this software source.
 	GpgKeyUrl *string `mandatory:"false" json:"gpgKeyUrl"`
 
 	// ID of the GPG key for this software source.
@@ -59,7 +59,7 @@ type VersionedCustomSoftwareSource struct {
 	// Fingerprint of the GPG key for this software source.
 	GpgKeyFingerprint *string `mandatory:"false" json:"gpgKeyFingerprint"`
 
-	// The size of the software source in gigabytes (GB).
+	// The size of the software source in bytes (B).
 	Size *float64 `mandatory:"false" json:"size"`
 
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
@@ -95,6 +95,9 @@ type VersionedCustomSoftwareSource struct {
 	// The packages in the software source.
 	Packages []string `mandatory:"false" json:"packages"`
 
+	// The date and time the metadata for this software source was last updated (in RFC 3339 (https://tools.ietf.org/rfc/rfc3339) format).
+	TimeMetadataUpdated *common.SDKTime `mandatory:"false" json:"timeMetadataUpdated"`
+
 	// Availability of the software source (for non-OCI environments).
 	Availability AvailabilityEnum `mandatory:"true" json:"availability"`
 
@@ -112,6 +115,9 @@ type VersionedCustomSoftwareSource struct {
 
 	// The yum repository checksum type used by this software source.
 	ChecksumType ChecksumTypeEnum `mandatory:"false" json:"checksumType,omitempty"`
+
+	// The creation type of a software source.
+	SoftwareSourceSubType SoftwareSourceSubTypeEnum `mandatory:"false" json:"softwareSourceSubType,omitempty"`
 }
 
 // GetId returns Id
@@ -246,6 +252,9 @@ func (m VersionedCustomSoftwareSource) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingChecksumTypeEnum(string(m.ChecksumType)); !ok && m.ChecksumType != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for ChecksumType: %s. Supported values are: %s.", m.ChecksumType, strings.Join(GetChecksumTypeEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingSoftwareSourceSubTypeEnum(string(m.SoftwareSourceSubType)); !ok && m.SoftwareSourceSubType != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for SoftwareSourceSubType: %s. Supported values are: %s.", m.SoftwareSourceSubType, strings.Join(GetSoftwareSourceSubTypeEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

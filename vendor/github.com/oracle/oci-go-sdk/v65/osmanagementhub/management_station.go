@@ -35,6 +35,9 @@ type ManagementStation struct {
 
 	Mirror *MirrorConfiguration `mandatory:"true" json:"mirror"`
 
+	// A list of other management stations that are behind the same load balancer within a high availability configuration. Stations are identified as peers if they have the same hostname and compartment.
+	PeerManagementStations []PeerManagementStation `mandatory:"true" json:"peerManagementStations"`
+
 	// The OCID (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the instance that is acting as the management station.
 	ManagedInstanceId *string `mandatory:"false" json:"managedInstanceId"`
 
@@ -66,6 +69,27 @@ type ManagementStation struct {
 	// The current state of the management station.
 	LifecycleState ManagementStationLifecycleStateEnum `mandatory:"false" json:"lifecycleState,omitempty"`
 
+	// When enabled, the station setup script automatically runs to configure the firewall and SELinux settings on the station.
+	IsAutoConfigEnabled *bool `mandatory:"false" json:"isAutoConfigEnabled"`
+
+	// The location of the instance that is acting as the management station.
+	Location ManagedInstanceLocationEnum `mandatory:"false" json:"location,omitempty"`
+
+	// Amount of available mirror storage in bytes.
+	MirrorStorageAvailableSize *int64 `mandatory:"false" json:"mirrorStorageAvailableSize"`
+
+	// Total mirror storage size in bytes.
+	MirrorStorageSize *int64 `mandatory:"false" json:"mirrorStorageSize"`
+
+	// The total size of all software source mirrors in bytes.
+	MirrorSize *int64 `mandatory:"false" json:"mirrorSize"`
+
+	// The total number of unique packages within the mirrored software sources on the station. Each package is counted only once, regardless of how many versions it has.
+	MirrorUniquePackageCount *int `mandatory:"false" json:"mirrorUniquePackageCount"`
+
+	// The total number of all packages within the mirrored software sources.
+	MirrorPackageCount *int `mandatory:"false" json:"mirrorPackageCount"`
+
 	// Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace.
 	// For more information, see Resource Tags (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).
 	// Example: `{"Department": "Finance"}`
@@ -96,6 +120,9 @@ func (m ManagementStation) ValidateEnumValue() (bool, error) {
 	}
 	if _, ok := GetMappingManagementStationLifecycleStateEnum(string(m.LifecycleState)); !ok && m.LifecycleState != "" {
 		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for LifecycleState: %s. Supported values are: %s.", m.LifecycleState, strings.Join(GetManagementStationLifecycleStateEnumStringValues(), ",")))
+	}
+	if _, ok := GetMappingManagedInstanceLocationEnum(string(m.Location)); !ok && m.Location != "" {
+		errMessage = append(errMessage, fmt.Sprintf("unsupported enum value for Location: %s. Supported values are: %s.", m.Location, strings.Join(GetManagedInstanceLocationEnumStringValues(), ",")))
 	}
 	if len(errMessage) > 0 {
 		return true, fmt.Errorf(strings.Join(errMessage, "\n"))

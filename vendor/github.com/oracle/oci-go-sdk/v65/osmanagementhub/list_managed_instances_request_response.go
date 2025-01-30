@@ -84,6 +84,18 @@ type ListManagedInstancesRequest struct {
 	// Indicates whether to list only resources managed by the Autonomous Linux service.
 	IsManagedByAutonomousLinux *bool `mandatory:"false" contributesTo:"query" name:"isManagedByAutonomousLinux"`
 
+	// A filter to return only managed instances with the specified version of osmh-agent running.
+	AgentVersion *string `mandatory:"false" contributesTo:"query" name:"agentVersion"`
+
+	// A multi filter to return only managed instances that match the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStation []string `contributesTo:"query" name:"managementStation" collectionFormat:"multi"`
+
+	// A multi filter to return only managed instances that don't contain the given management stations OCIDs (https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm).
+	ManagementStationNotEqualTo []string `contributesTo:"query" name:"managementStationNotEqualTo" collectionFormat:"multi"`
+
+	// A filter to return only managed instances that needs rebooting.
+	IsRebootRequired *bool `mandatory:"false" contributesTo:"query" name:"isRebootRequired"`
+
 	// For list pagination. The maximum number of results per page, or items to return in a paginated "List" call.
 	// For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	// Example: `50`
@@ -196,6 +208,9 @@ type ListManagedInstancesResponse struct {
 
 	// For list pagination. When this header appears in the response, additional pages of results remain. For important details about how pagination works, see List Pagination (https://docs.cloud.oracle.com/iaas/Content/API/Concepts/usingapi.htm#nine).
 	OpcNextPage *string `presentIn:"header" name:"opc-next-page"`
+
+	// The total number of items in the result. Used for pagination of a list of items.
+	OpcTotalItems *int `presentIn:"header" name:"opc-total-items"`
 }
 
 func (response ListManagedInstancesResponse) String() string {

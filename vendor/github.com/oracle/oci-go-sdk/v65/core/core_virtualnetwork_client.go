@@ -5637,6 +5637,72 @@ func (client VirtualNetworkClient) createDrgRouteTable(ctx context.Context, requ
 	return response, err
 }
 
+// CreateDscpOverride Creates a DscpOverride. There can be only one DscpOverride for a tenancy.
+// A default retry strategy applies to this operation CreateDscpOverride()
+func (client VirtualNetworkClient) CreateDscpOverride(ctx context.Context, request CreateDscpOverrideRequest) (response CreateDscpOverrideResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+
+	if !(request.OpcRetryToken != nil && *request.OpcRetryToken != "") {
+		request.OpcRetryToken = common.String(common.RetryToken())
+	}
+
+	ociResponse, err = common.Retry(ctx, request, client.createDscpOverride, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = CreateDscpOverrideResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = CreateDscpOverrideResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(CreateDscpOverrideResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into CreateDscpOverrideResponse")
+	}
+	return
+}
+
+// createDscpOverride implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) createDscpOverride(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPost, "/dscpOverrides", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response CreateDscpOverrideResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/CreateDscpOverride"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "CreateDscpOverride", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
 // CreateEndpointService Creates an endpoint service in the specified service VCN and specified compartment.
 func (client VirtualNetworkClient) CreateEndpointService(ctx context.Context, request CreateEndpointServiceRequest) (response CreateEndpointServiceResponse, err error) {
 	var ociResponse common.OCIResponse
@@ -10195,6 +10261,66 @@ func (client VirtualNetworkClient) deleteDrgRouteTable(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/InternalPublicIp/DeleteDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// DeleteDscpOverride A DscpOverride is deleted and no longer appears in the results of a `ListDscpOverride` operation and can't be used in a `GetDscpOverride` operation.
+func (client VirtualNetworkClient) DeleteDscpOverride(ctx context.Context, request DeleteDscpOverrideRequest) (response DeleteDscpOverrideResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.NoRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.deleteDscpOverride, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = DeleteDscpOverrideResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = DeleteDscpOverrideResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(DeleteDscpOverrideResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into DeleteDscpOverrideResponse")
+	}
+	return
+}
+
+// deleteDscpOverride implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) deleteDscpOverride(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodDelete, "/dscpOverrides/{dscpOverrideId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response DeleteDscpOverrideResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/DeleteDscpOverride"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "DeleteDscpOverride", apiReferenceLink)
 		return response, err
 	}
 
@@ -17125,6 +17251,67 @@ func (client VirtualNetworkClient) getDrgRouteTable(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/GetDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// GetDscpOverride Gets information for a specified DscpOverride.
+// A default retry strategy applies to this operation GetDscpOverride()
+func (client VirtualNetworkClient) GetDscpOverride(ctx context.Context, request GetDscpOverrideRequest) (response GetDscpOverrideResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.getDscpOverride, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = GetDscpOverrideResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = GetDscpOverrideResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(GetDscpOverrideResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into GetDscpOverrideResponse")
+	}
+	return
+}
+
+// getDscpOverride implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) getDscpOverride(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dscpOverrides/{dscpOverrideId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response GetDscpOverrideResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/GetDscpOverride"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "GetDscpOverride", apiReferenceLink)
 		return response, err
 	}
 
@@ -24732,6 +24919,67 @@ func (client VirtualNetworkClient) listDrgsByStates(ctx context.Context, request
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/Drg/ListDrgsByStates"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDrgsByStates", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// ListDscpOverrides Lists the DscpOverride in the specified compartment.
+// A default retry strategy applies to this operation ListDscpOverrides()
+func (client VirtualNetworkClient) ListDscpOverrides(ctx context.Context, request ListDscpOverridesRequest) (response ListDscpOverridesResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.listDscpOverrides, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = ListDscpOverridesResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = ListDscpOverridesResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(ListDscpOverridesResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into ListDscpOverridesResponse")
+	}
+	return
+}
+
+// listDscpOverrides implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) listDscpOverrides(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodGet, "/dscpOverrides", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response ListDscpOverridesResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/ListDscpOverrides"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "ListDscpOverrides", apiReferenceLink)
 		return response, err
 	}
 
@@ -33151,6 +33399,67 @@ func (client VirtualNetworkClient) updateDrgRouteTable(ctx context.Context, requ
 	if err != nil {
 		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DrgRouteTable/UpdateDrgRouteTable"
 		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDrgRouteTable", apiReferenceLink)
+		return response, err
+	}
+
+	err = common.UnmarshalResponse(httpResponse, &response)
+	return response, err
+}
+
+// UpdateDscpOverride Updates the specified `DscpOverride`'s display name, `definedTags`, `freeformTags`, or `DscpOverrides`. Avoid entering confidential information. Note that the `DscpOverrides` object you provide replaces the entire existing set of `DscpOverrides`.
+// A default retry strategy applies to this operation UpdateDscpOverride()
+func (client VirtualNetworkClient) UpdateDscpOverride(ctx context.Context, request UpdateDscpOverrideRequest) (response UpdateDscpOverrideResponse, err error) {
+	var ociResponse common.OCIResponse
+	policy := common.DefaultRetryPolicy()
+	if client.RetryPolicy() != nil {
+		policy = *client.RetryPolicy()
+	}
+	if request.RetryPolicy() != nil {
+		policy = *request.RetryPolicy()
+	}
+	ociResponse, err = common.Retry(ctx, request, client.updateDscpOverride, policy)
+	if err != nil {
+		if ociResponse != nil {
+			if httpResponse := ociResponse.HTTPResponse(); httpResponse != nil {
+				opcRequestId := httpResponse.Header.Get("opc-request-id")
+				response = UpdateDscpOverrideResponse{RawResponse: httpResponse, OpcRequestId: &opcRequestId}
+			} else {
+				response = UpdateDscpOverrideResponse{}
+			}
+		}
+		return
+	}
+	if convertedResponse, ok := ociResponse.(UpdateDscpOverrideResponse); ok {
+		response = convertedResponse
+	} else {
+		err = fmt.Errorf("failed to convert OCIResponse into UpdateDscpOverrideResponse")
+	}
+	return
+}
+
+// updateDscpOverride implements the OCIOperation interface (enables retrying operations)
+func (client VirtualNetworkClient) updateDscpOverride(ctx context.Context, request common.OCIRequest, binaryReqBody *common.OCIReadSeekCloser, extraHeaders map[string]string) (common.OCIResponse, error) {
+
+	httpRequest, err := request.HTTPRequest(http.MethodPut, "/dscpOverrides/{dscpOverrideId}", binaryReqBody, extraHeaders)
+	if err != nil {
+		return nil, err
+	}
+
+	host := client.Host
+	common.UpdateEndpointTemplateForOptions(&client.BaseClient)
+	common.SetMissingTemplateParams(&client.BaseClient)
+	defer func() {
+		client.Host = host
+	}()
+
+	var response UpdateDscpOverrideResponse
+	var httpResponse *http.Response
+	httpResponse, err = client.Call(ctx, &httpRequest)
+	defer common.CloseBodyIfValid(httpResponse)
+	response.RawResponse = httpResponse
+	if err != nil {
+		apiReferenceLink := "https://docs.oracle.com/iaas/api/#/en/iaas/20160918/DscpOverride/UpdateDscpOverride"
+		err = common.PostProcessServiceError(err, "VirtualNetwork", "UpdateDscpOverride", apiReferenceLink)
 		return response, err
 	}
 
