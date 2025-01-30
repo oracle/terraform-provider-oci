@@ -454,6 +454,10 @@ func SchServiceConnectorResource() *schema.Resource {
 			},
 
 			// Computed
+			"lifecycle_details": {
+				Type:     schema.TypeString,
+				Computed: true,
+			},
 			"lifecyle_details": {
 				Type:     schema.TypeString,
 				Computed: true,
@@ -948,6 +952,10 @@ func (s *SchServiceConnectorResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.LifecycleDetails != nil {
+		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
+	}
+
 	if s.Res.LifecyleDetails != nil {
 		s.D.Set("lifecyle_details", *s.Res.LifecyleDetails)
 	}
@@ -1323,6 +1331,7 @@ func ServiceConnectorSummaryToMap(obj oci_sch.ServiceConnectorSummary) map[strin
 
 	if obj.LifecycleDetails != nil {
 		result["lifecyle_details"] = string(*obj.LifecycleDetails)
+		result["lifecycle_details"] = string(*obj.LifecycleDetails)
 	}
 
 	result["state"] = string(obj.LifecycleState)

@@ -80,9 +80,8 @@ var (
 	functionTargetBatchRepresentation = map[string]interface{}{
 		"kind":              acctest.Representation{RepType: acctest.Required, Create: `functions`},
 		"function_id":       acctest.Representation{RepType: acctest.Required, Create: `${oci_functions_function.test_function.id}`},
-		"batch_size_in_kbs": acctest.Representation{RepType: acctest.Optional, Create: `5000`},
-		"batch_size_in_num": acctest.Representation{RepType: acctest.Optional, Create: `10`},
-		"batch_time_in_sec": acctest.Representation{RepType: acctest.Optional, Create: `5`},
+		"batch_size_in_kbs": acctest.Representation{RepType: acctest.Required, Create: `5000`},
+		"batch_time_in_sec": acctest.Representation{RepType: acctest.Required, Create: `60`},
 	}
 
 	objectStorageTargetRepresentation = map[string]interface{}{
