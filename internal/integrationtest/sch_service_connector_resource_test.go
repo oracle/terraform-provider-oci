@@ -146,6 +146,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_details", ""),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "LATEST"),
@@ -173,6 +174,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "My_Service_Connector"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_details", ""),
 				resource.TestCheckResourceAttr(resourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "LATEST"),
@@ -206,6 +208,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "lifecycle_details", ""),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.kind", "streaming"),
 				resource.TestCheckResourceAttr(resourceName, "source.0.cursor.0.kind", "TRIM_HORIZON"),
@@ -250,6 +253,7 @@ func TestSchServiceConnectorResource_streamingAnalytics(t *testing.T) {
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "lifecycle_details", ""),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "source.0.kind", "streaming"),
