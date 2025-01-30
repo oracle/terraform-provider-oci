@@ -22,6 +22,10 @@ func PsqlConfigurationsDataSource() *schema.Resource {
 				Type:     schema.TypeString,
 				Optional: true,
 			},
+			"config_type": {
+				Type:     schema.TypeString,
+				Optional: true,
+			},
 			"configuration_id": {
 				Type:     schema.TypeString,
 				Optional: true,
@@ -84,6 +88,10 @@ func (s *PsqlConfigurationsDataSourceCrud) Get() error {
 	if compartmentId, ok := s.D.GetOkExists("compartment_id"); ok {
 		tmp := compartmentId.(string)
 		request.CompartmentId = &tmp
+	}
+
+	if configType, ok := s.D.GetOkExists("config_type"); ok {
+		request.ConfigType = oci_psql.ConfigurationConfigTypeEnum(configType.(string))
 	}
 
 	if configurationId, ok := s.D.GetOkExists("configuration_id"); ok {
