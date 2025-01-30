@@ -34,11 +34,11 @@ variable "image" {
   default = ""
 }
 
-variable "queue_id" {
+variable "queue_ocid" {
   default = ""
 }
 
-variable "function_id" {
+variable "function_ocid" {
   default = ""
 }
 
@@ -233,7 +233,7 @@ resource "oci_sch_service_connector" "test_connector_plugins" {
   source {
     kind        = "plugin"
     plugin_name = "QueueSource"
-    config_map = "{\"queueId\": \"${var.queue_id}\"}"
+    config_map = "{\"queueId\": \"${var.queue_ocid}\"}"
   }
   // If using the functions target
   target {
