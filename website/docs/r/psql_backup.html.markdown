@@ -52,7 +52,13 @@ The following attributes are exported:
 
 * `backup_size` - The size of the backup, in gigabytes.
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment that contains the backup.
+* `copy_status` - List of status for Backup Copy
+	* `backup_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup in the source region
+	* `region` - Region name of the remote region
+	* `state` - Copy States
+	* `state_details` - A message describing the current state of copy in more detail
 * `db_system_details` - Information about the database system associated with a backup.
+	* `config_id` - OCID of the configuration that was applied on the source dbSystem at the time when backup was taken.
 	* `db_version` - The major and minor versions of the database system software.
 	* `system_type` - Type of the database system.
 * `db_system_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the backup's source database system.
@@ -65,10 +71,14 @@ The following attributes are exported:
 * `last_completed_request_token` - lastCompletedRequestToken from MP.
 * `lifecycle_details` - A message describing the current state in more detail. For example, can be used to provide actionable information for a resource in Failed state.
 * `retention_period` - Backup retention period in days.
-* `source_type` - Specifies whether the backup was created manually, or by a management policy.
+* `source_backup_details` - Information about the Source Backup associated with a backup.
+	* `source_backup_id` - Backup ID of the COPY source type.
+	* `source_region` - Backup Region of the COPY source type.
+* `source_type` - Specifies whether the backup was created manually, taken on schedule defined in the a backup policy, or copied from the remote location.
 * `state` - The current state of the backup.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace. Example: `{"orcl-cloud.free-tier-retained": "true"}` 
 * `time_created` - The date and time the backup request was received, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
+* `time_created_precise` - The date and time the backup was created. This is the time the actual point-in-time data snapshot was taken, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 * `time_updated` - The date and time the backup was updated, expressed in [RFC 3339](https://tools.ietf.org/rfc/rfc3339) timestamp format.  Example: `2016-08-25T21:10:29.600Z` 
 
 ## Timeouts
