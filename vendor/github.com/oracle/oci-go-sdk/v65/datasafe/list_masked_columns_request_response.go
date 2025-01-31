@@ -185,18 +185,24 @@ type ListMaskedColumnsSortByEnum string
 
 // Set of constants representing the allowable values for ListMaskedColumnsSortByEnum
 const (
-	ListMaskedColumnsSortBySchemaname ListMaskedColumnsSortByEnum = "schemaName"
-	ListMaskedColumnsSortByObjectname ListMaskedColumnsSortByEnum = "objectName"
+	ListMaskedColumnsSortBySchemaname           ListMaskedColumnsSortByEnum = "schemaName"
+	ListMaskedColumnsSortByObjectname           ListMaskedColumnsSortByEnum = "objectName"
+	ListMaskedColumnsSortBySensitivetypeid      ListMaskedColumnsSortByEnum = "sensitiveTypeId"
+	ListMaskedColumnsSortByMaskingcolumngroupid ListMaskedColumnsSortByEnum = "maskingColumnGroupId"
 )
 
 var mappingListMaskedColumnsSortByEnum = map[string]ListMaskedColumnsSortByEnum{
-	"schemaName": ListMaskedColumnsSortBySchemaname,
-	"objectName": ListMaskedColumnsSortByObjectname,
+	"schemaName":           ListMaskedColumnsSortBySchemaname,
+	"objectName":           ListMaskedColumnsSortByObjectname,
+	"sensitiveTypeId":      ListMaskedColumnsSortBySensitivetypeid,
+	"maskingColumnGroupId": ListMaskedColumnsSortByMaskingcolumngroupid,
 }
 
 var mappingListMaskedColumnsSortByEnumLowerCase = map[string]ListMaskedColumnsSortByEnum{
-	"schemaname": ListMaskedColumnsSortBySchemaname,
-	"objectname": ListMaskedColumnsSortByObjectname,
+	"schemaname":           ListMaskedColumnsSortBySchemaname,
+	"objectname":           ListMaskedColumnsSortByObjectname,
+	"sensitivetypeid":      ListMaskedColumnsSortBySensitivetypeid,
+	"maskingcolumngroupid": ListMaskedColumnsSortByMaskingcolumngroupid,
 }
 
 // GetListMaskedColumnsSortByEnumValues Enumerates the set of values for ListMaskedColumnsSortByEnum
@@ -213,6 +219,8 @@ func GetListMaskedColumnsSortByEnumStringValues() []string {
 	return []string{
 		"schemaName",
 		"objectName",
+		"sensitiveTypeId",
+		"maskingColumnGroupId",
 	}
 }
 

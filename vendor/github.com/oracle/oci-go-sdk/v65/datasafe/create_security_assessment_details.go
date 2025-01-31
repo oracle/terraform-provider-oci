@@ -21,14 +21,14 @@ type CreateSecurityAssessmentDetails struct {
 	// The OCID of the compartment that contains the security assessment.
 	CompartmentId *string `mandatory:"true" json:"compartmentId"`
 
-	// The OCID of the target database on which security assessment is to be run.
-	TargetId *string `mandatory:"true" json:"targetId"`
-
 	// The display name of the security assessment.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Description of the security assessment.
 	Description *string `mandatory:"false" json:"description"`
+
+	// The OCID of the target database on which security assessment is to be run.
+	TargetId *string `mandatory:"false" json:"targetId"`
 
 	// Indicates whether the assessment is scheduled to run.
 	IsAssessmentScheduled *bool `mandatory:"false" json:"isAssessmentScheduled"`

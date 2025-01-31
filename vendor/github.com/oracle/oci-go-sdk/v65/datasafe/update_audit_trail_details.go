@@ -21,7 +21,7 @@ type UpdateAuditTrailDetails struct {
 	// The description of the audit trail.
 	Description *string `mandatory:"false" json:"description"`
 
-	// The display name of the audit trail. The name does not have to be unique, and it's changeable.
+	// The display name of the audit trail. The name does not have to be unique, and it's updatable.
 	DisplayName *string `mandatory:"false" json:"displayName"`
 
 	// Indicates if auto purge is enabled on the target database, which helps delete audit data in the

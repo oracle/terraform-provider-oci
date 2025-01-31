@@ -171,18 +171,21 @@ const (
 	DbSystemEndpointResourceTypeDbsystem     DbSystemEndpointResourceTypeEnum = "DBSYSTEM"
 	DbSystemEndpointResourceTypeReadReplica  DbSystemEndpointResourceTypeEnum = "READ_REPLICA"
 	DbSystemEndpointResourceTypeLoadBalancer DbSystemEndpointResourceTypeEnum = "LOAD_BALANCER"
+	DbSystemEndpointResourceTypeReadEndpoint DbSystemEndpointResourceTypeEnum = "READ_ENDPOINT"
 )
 
 var mappingDbSystemEndpointResourceTypeEnum = map[string]DbSystemEndpointResourceTypeEnum{
 	"DBSYSTEM":      DbSystemEndpointResourceTypeDbsystem,
 	"READ_REPLICA":  DbSystemEndpointResourceTypeReadReplica,
 	"LOAD_BALANCER": DbSystemEndpointResourceTypeLoadBalancer,
+	"READ_ENDPOINT": DbSystemEndpointResourceTypeReadEndpoint,
 }
 
 var mappingDbSystemEndpointResourceTypeEnumLowerCase = map[string]DbSystemEndpointResourceTypeEnum{
 	"dbsystem":      DbSystemEndpointResourceTypeDbsystem,
 	"read_replica":  DbSystemEndpointResourceTypeReadReplica,
 	"load_balancer": DbSystemEndpointResourceTypeLoadBalancer,
+	"read_endpoint": DbSystemEndpointResourceTypeReadEndpoint,
 }
 
 // GetDbSystemEndpointResourceTypeEnumValues Enumerates the set of values for DbSystemEndpointResourceTypeEnum
@@ -200,6 +203,7 @@ func GetDbSystemEndpointResourceTypeEnumStringValues() []string {
 		"DBSYSTEM",
 		"READ_REPLICA",
 		"LOAD_BALANCER",
+		"READ_ENDPOINT",
 	}
 }
 
