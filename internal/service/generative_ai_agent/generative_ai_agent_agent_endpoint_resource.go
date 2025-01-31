@@ -26,9 +26,9 @@ func GenerativeAiAgentAgentEndpointResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("40m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("60m"),
+			Update: tfresource.GetTimeoutDuration("40m"),
+			Delete: tfresource.GetTimeoutDuration("50m"),
 		},
 		Create: createGenerativeAiAgentAgentEndpoint,
 		Read:   readGenerativeAiAgentAgentEndpoint,

@@ -10,8 +10,6 @@ description: |-
 # Data Source: oci_generative_ai_agent_agent_endpoints
 This data source provides the list of Agent Endpoints in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**ListAgentEndpoints**
-
 Gets a list of endpoints.
 
 
@@ -59,9 +57,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 * `lifecycle_details` - A message that describes the current state of the endpoint in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
-* `session_config` - **SessionConfig**
-
-	Session Configuration on AgentEndpoint. 
+* `session_config` - Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - The session will become inactive after this timeout.
 * `should_enable_citation` - Whether to show citations in the chat result.
 * `should_enable_session` - Whether or not to enable Session-based chat.

@@ -10,8 +10,6 @@ description: |-
 # Data Source: oci_generative_ai_agent_agents
 This data source provides the list of Agents in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**ListAgents** 
-
 Gets a list of agents.
 
 
@@ -51,6 +49,8 @@ The following attributes are exported:
 * `description` - Description about the agent.
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
+* `generation_llm_customization` - Configuration to customize LLM. 
+	* `preamble_override` - If specified, the default preamble is replaced with provided preamble.
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the agent.
 * `knowledge_base_ids` - List of [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the knowledgeBases associated with agent.
 * `lifecycle_details` - A message that describes the current state of the agent in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 

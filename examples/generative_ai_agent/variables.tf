@@ -86,3 +86,11 @@ variable "test_freeform_tags" {
     "bar-key" = "value"
   }
 }
+
+variable "should_enable_multi_modality"{
+   default = "true"
+}
+
+variable "preamble_override" {
+  default = "please generate response in json format"
+}

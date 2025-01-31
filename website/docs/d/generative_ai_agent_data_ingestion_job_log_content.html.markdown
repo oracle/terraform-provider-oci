@@ -10,8 +10,6 @@ description: |-
 # Data Source: oci_generative_ai_agent_data_ingestion_job_log_content
 This data source provides details about a specific Data Ingestion Job Log Content resource in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**GetDataIngestionJobLogContent**
-
 Returns the raw log file for the specified data ingestion job in text format.
 
 

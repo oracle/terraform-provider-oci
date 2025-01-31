@@ -26,9 +26,9 @@ func GenerativeAiAgentDataIngestionJobResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("40m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("50m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
+			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createGenerativeAiAgentDataIngestionJob,
 		Read:   readGenerativeAiAgentDataIngestionJob,
@@ -100,6 +100,10 @@ func GenerativeAiAgentDataIngestionJobResource() *schema.Resource {
 						},
 					},
 				},
+			},
+			"knowledge_base_id": {
+				Type:     schema.TypeString,
+				Computed: true,
 			},
 			"lifecycle_details": {
 				Type:     schema.TypeString,
@@ -429,6 +433,10 @@ func (s *GenerativeAiAgentDataIngestionJobResourceCrud) SetData() error {
 	}
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
+
+	if s.Res.KnowledgeBaseId != nil {
+		s.D.Set("knowledge_base_id", *s.Res.KnowledgeBaseId)
+	}
 
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)

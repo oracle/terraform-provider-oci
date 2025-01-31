@@ -37,7 +37,7 @@ var (
 
 	GenerativeAiAgentAgentDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `terraformTestAgent`, Update: `TerraformTestUpdatedAgent`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentAgentDataSourceFilterRepresentation}}
 	GenerativeAiAgentAgentDataSourceFilterRepresentation = map[string]interface{}{
@@ -48,13 +48,17 @@ var (
 	GenerativeAiAgentAgentRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		// "defined_tags":       acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":        acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":       acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
-		"freeform_tags":      acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
-		"knowledge_base_ids": acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.knowledgeBaseId_env}`}},
-		"welcome_message":    acctest.Representation{RepType: acctest.Optional, Create: `welcomeMessage`, Update: `welcomeMessage2`},
+		"description":                  acctest.Representation{RepType: acctest.Optional, Create: `terraform test description`, Update: `terraform test description updated`},
+		"display_name":                 acctest.Representation{RepType: acctest.Optional, Create: `terraformTestAgent`, Update: `TerraformTestUpdatedAgent`},
+		"freeform_tags":                acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
+		"generation_llm_customization": acctest.RepresentationGroup{RepType: acctest.Optional, Group: GenerativeAiAgentAgentGenerationLlmCustomizationRepresentation},
+		"knowledge_base_ids":           acctest.Representation{RepType: acctest.Optional, Create: []string{`${var.knowledgeBaseId_env}`}},
+		"welcome_message":              acctest.Representation{RepType: acctest.Optional, Create: `welcomeMessage`, Update: `welcomeMessage2`},
 	}
 
+	GenerativeAiAgentAgentGenerationLlmCustomizationRepresentation = map[string]interface{}{
+		"preamble_override": acctest.Representation{RepType: acctest.Optional, Create: `generate response in json format`, Update: `generate response in plain text`},
+	}
 	GenerativeAiAgentAgentResourceDependencies = `` //Cannot test from home region, commented out - DefinedTagsDependencies
 )
 
@@ -108,9 +112,11 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent", "test_agent", acctest.Optional, acctest.Create, GenerativeAiAgentAgentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "description", "terraform test description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformTestAgent"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.0.preamble_override", "generate response in json format"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "knowledge_base_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -138,9 +144,11 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 					})),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
-				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "description", "terraform test description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraformTestAgent"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.0.preamble_override", "generate response in json format"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "knowledge_base_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -163,9 +171,11 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent", "test_agent", acctest.Optional, acctest.Update, GenerativeAiAgentAgentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "description", "terraform test description updated"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TerraformTestUpdatedAgent"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.#", "1"),
+				resource.TestCheckResourceAttr(resourceName, "generation_llm_customization.0.preamble_override", "generate response in plain text"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "knowledge_base_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "state"),
@@ -189,7 +199,7 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_agent", "test_agent", acctest.Optional, acctest.Update, GenerativeAiAgentAgentRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "TerraformTestUpdatedAgent"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 
 				resource.TestCheckResourceAttr(datasourceName, "agent_collection.#", "1"),
@@ -205,9 +215,11 @@ func TestGenerativeAiAgentAgentResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "agent_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "terraform test description updated"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "TerraformTestUpdatedAgent"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "generation_llm_customization.#", "1"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "generation_llm_customization.0.preamble_override", "generate response in plain text"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "knowledge_base_ids.#", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),

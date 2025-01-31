@@ -84,6 +84,12 @@ func (s *GenerativeAiAgentAgentDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GenerationLlmCustomization != nil {
+		s.D.Set("generation_llm_customization", []interface{}{LlmCustomizationToMap(s.Res.GenerationLlmCustomization)})
+	} else {
+		s.D.Set("generation_llm_customization", nil)
+	}
+
 	s.D.Set("knowledge_base_ids", s.Res.KnowledgeBaseIds)
 
 	if s.Res.LifecycleDetails != nil {

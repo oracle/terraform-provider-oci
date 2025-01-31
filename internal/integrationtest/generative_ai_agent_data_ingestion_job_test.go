@@ -134,7 +134,6 @@ func TestGenerativeAiAgentDataIngestionJobResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(datasourceName, "data_source_id"),
 				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "SUCCEEDED"),
-
 				resource.TestCheckResourceAttr(datasourceName, "data_ingestion_job_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "data_ingestion_job_collection.0.items.#", "1"),
 			),
@@ -146,13 +145,13 @@ func TestGenerativeAiAgentDataIngestionJobResource_basic(t *testing.T) {
 				compartmentIdVariableStr + dataSourceIdVariableStr + GenerativeAiAgentDataIngestionJobResourceConfig,
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "data_ingestion_job_id"),
-
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(singularDatasourceName, "data_ingestion_job_statistics.#", "1"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
+				resource.TestCheckResourceAttrSet(singularDatasourceName, "knowledge_base_id"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "state"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_created"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "time_updated"),

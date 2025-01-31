@@ -27,9 +27,9 @@ func GenerativeAiAgentDataSourceResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("40m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("50m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
+			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createGenerativeAiAgentDataSource,
 		Read:   readGenerativeAiAgentDataSource,
@@ -72,22 +72,21 @@ func GenerativeAiAgentDataSourceResource() *schema.Resource {
 										Type:     schema.TypeString,
 										Required: true,
 									},
-
 									// Optional
 									"prefix": {
 										Type:     schema.TypeString,
 										Optional: true,
 										Computed: true,
 									},
-
-									// Computed
 								},
 							},
 						},
-
 						// Optional
-
-						// Computed
+						"should_enable_multi_modality": {
+							Type:     schema.TypeBool,
+							Optional: true,
+							Computed: true,
+						},
 					},
 				},
 			},
@@ -575,6 +574,10 @@ func (s *GenerativeAiAgentDataSourceResourceCrud) mapToDataSourceConfig(fieldKey
 				details.ObjectStoragePrefixes = tmp
 			}
 		}
+		if shouldEnableMultiModality, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "should_enable_multi_modality")); ok {
+			tmp := shouldEnableMultiModality.(bool)
+			details.ShouldEnableMultiModality = &tmp
+		}
 		baseObject = details
 	default:
 		return nil, fmt.Errorf("unknown data_source_config_type '%v' was specified", dataSourceConfigType)
@@ -593,6 +596,10 @@ func DataSourceConfigToMap(obj *oci_generative_ai_agent.DataSourceConfig) map[st
 			objectStoragePrefixes = append(objectStoragePrefixes, ObjectStoragePrefixToMap(item))
 		}
 		result["object_storage_prefixes"] = objectStoragePrefixes
+
+		if v.ShouldEnableMultiModality != nil {
+			result["should_enable_multi_modality"] = bool(*v.ShouldEnableMultiModality)
+		}
 	default:
 		log.Printf("[WARN] Received 'data_source_config_type' of unknown type %v", *obj)
 		return nil

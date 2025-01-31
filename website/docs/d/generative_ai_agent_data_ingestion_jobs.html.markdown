@@ -10,8 +10,6 @@ description: |-
 # Data Source: oci_generative_ai_agent_data_ingestion_jobs
 This data source provides the list of Data Ingestion Jobs in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**ListDataIngestionJobs**
-
 Gets a list of data ingestion jobs.
 
 
@@ -49,9 +47,7 @@ The following attributes are exported:
 The following attributes are exported:
 
 * `compartment_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the compartment.
-* `data_ingestion_job_statistics` - **DataIngestionJobStatistics**
-
-	The statistics of data ingestion job. 
+* `data_ingestion_job_statistics` - The statistics of data ingestion job. 
 	* `duration_in_seconds` - The duration of this ingestion job.
 	* `number_of_failed_files` - The number of files that have failed during the ingestion.
 	* `number_of_ingested_files` - The number of files that have been successfully ingested during the ingestion.
@@ -61,6 +57,7 @@ The following attributes are exported:
 * `display_name` - A user-friendly name. Does not have to be unique, and it's changeable.
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the DataIngestionJob.
+* `knowledge_base_id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the parent KnowledgeBase.
 * `lifecycle_details` - A message that describes the current state of the data ingestion job in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
 * `state` - The current state of the data ingestion job.
 * `system_tags` - System tags for this resource. Each key is predefined and scoped to a namespace.  Example: `{"orcl-cloud.free-tier-retained": "true"}` 

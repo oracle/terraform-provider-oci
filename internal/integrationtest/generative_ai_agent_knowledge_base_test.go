@@ -37,7 +37,7 @@ var (
 
 	GenerativeAiAgentKnowledgeBaseDataSourceRepresentation = map[string]interface{}{
 		"compartment_id": acctest.Representation{RepType: acctest.Optional, Create: `${var.compartment_id}`},
-		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"display_name":   acctest.Representation{RepType: acctest.Optional, Create: `TF-test-kb`, Update: `terraform-test-kb-updated`},
 		"state":          acctest.Representation{RepType: acctest.Optional, Create: `ACTIVE`},
 		"filter":         acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentKnowledgeBaseDataSourceFilterRepresentation}}
 	GenerativeAiAgentKnowledgeBaseDataSourceFilterRepresentation = map[string]interface{}{
@@ -49,8 +49,8 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"index_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentKnowledgeBaseDefaultIndexConfigRepresentation},
 		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `updated description`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `TF-test-kb`, Update: `terraform-test-kb-updated`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
@@ -58,8 +58,8 @@ var (
 		"compartment_id": acctest.Representation{RepType: acctest.Required, Create: `${var.compartment_id}`},
 		"index_config":   acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentKnowledgeBaseBYOIndexConfigRepresentation},
 		// "defined_tags":   acctest.Representation{RepType: acctest.Optional, Create: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "value")}`, Update: `${map("${oci_identity_tag_namespace.tag-namespace1.name}.${oci_identity_tag.tag1.name}", "updatedValue")}`},
-		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `description2`},
-		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `displayName`, Update: `displayName2`},
+		"description":   acctest.Representation{RepType: acctest.Optional, Create: `description`, Update: `updated description`},
+		"display_name":  acctest.Representation{RepType: acctest.Optional, Create: `TF-test-kb`, Update: `terraform-test-kb-updated`},
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 
@@ -153,7 +153,7 @@ func TestGenerativeAiAgentKnowledgeBaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF-test-kb"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "index_config.#", "1"),
@@ -184,7 +184,7 @@ func TestGenerativeAiAgentKnowledgeBaseResource_basic(t *testing.T) {
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentIdU),
 				resource.TestCheckResourceAttr(resourceName, "description", "description"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "TF-test-kb"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "index_config.#", "1"),
@@ -209,8 +209,8 @@ func TestGenerativeAiAgentKnowledgeBaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Update, GenerativeAiAgentServiceManagedKnowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(resourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(resourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(resourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(resourceName, "description", "updated description"),
+				resource.TestCheckResourceAttr(resourceName, "display_name", "terraform-test-kb-updated"),
 				resource.TestCheckResourceAttr(resourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(resourceName, "id"),
 				resource.TestCheckResourceAttr(resourceName, "index_config.#", "1"),
@@ -236,7 +236,7 @@ func TestGenerativeAiAgentKnowledgeBaseResource_basic(t *testing.T) {
 				acctest.GenerateResourceFromRepresentationMap("oci_generative_ai_agent_knowledge_base", "test_knowledge_base", acctest.Optional, acctest.Update, GenerativeAiAgentServiceManagedKnowledgeBaseRepresentation),
 			Check: acctest.ComposeAggregateTestCheckFuncWrapper(
 				resource.TestCheckResourceAttr(datasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(datasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(datasourceName, "display_name", "terraform-test-kb-updated"),
 				resource.TestCheckResourceAttr(datasourceName, "state", "ACTIVE"),
 				resource.TestCheckResourceAttr(datasourceName, "knowledge_base_collection.#", "1"),
 				resource.TestCheckResourceAttr(datasourceName, "knowledge_base_collection.0.items.#", "1"),
@@ -251,8 +251,8 @@ func TestGenerativeAiAgentKnowledgeBaseResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "knowledge_base_id"),
 
 				resource.TestCheckResourceAttr(singularDatasourceName, "compartment_id", compartmentId),
-				resource.TestCheckResourceAttr(singularDatasourceName, "description", "description2"),
-				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "displayName2"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "description", "updated description"),
+				resource.TestCheckResourceAttr(singularDatasourceName, "display_name", "terraform-test-kb-updated"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "freeform_tags.%", "1"),
 				resource.TestCheckResourceAttrSet(singularDatasourceName, "id"),
 				resource.TestCheckResourceAttr(singularDatasourceName, "index_config.#", "1"),

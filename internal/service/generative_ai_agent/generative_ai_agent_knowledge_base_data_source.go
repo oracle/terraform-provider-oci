@@ -94,6 +94,12 @@ func (s *GenerativeAiAgentKnowledgeBaseDataSourceCrud) SetData() error {
 		s.D.Set("index_config", nil)
 	}
 
+	if s.Res.KnowledgeBaseStatistics != nil {
+		s.D.Set("knowledge_base_statistics", []interface{}{KnowledgeBaseStatisticsToMap(s.Res.KnowledgeBaseStatistics)})
+	} else {
+		s.D.Set("knowledge_base_statistics", nil)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

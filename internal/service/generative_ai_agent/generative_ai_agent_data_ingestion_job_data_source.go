@@ -94,6 +94,10 @@ func (s *GenerativeAiAgentDataIngestionJobDataSourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.KnowledgeBaseId != nil {
+		s.D.Set("knowledge_base_id", *s.Res.KnowledgeBaseId)
+	}
+
 	if s.Res.LifecycleDetails != nil {
 		s.D.Set("lifecycle_details", *s.Res.LifecycleDetails)
 	}

@@ -26,9 +26,9 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 			State: schema.ImportStatePassthrough,
 		},
 		Timeouts: &schema.ResourceTimeout{
-			Create: tfresource.GetTimeoutDuration("40m"),
-			Update: tfresource.GetTimeoutDuration("20m"),
-			Delete: tfresource.GetTimeoutDuration("20m"),
+			Create: tfresource.GetTimeoutDuration("50m"),
+			Update: tfresource.GetTimeoutDuration("30m"),
+			Delete: tfresource.GetTimeoutDuration("30m"),
 		},
 		Create: createGenerativeAiAgentAgent,
 		Read:   readGenerativeAiAgentAgent,
@@ -64,6 +64,27 @@ func GenerativeAiAgentAgentResource() *schema.Resource {
 				Optional: true,
 				Computed: true,
 				Elem:     schema.TypeString,
+			},
+			"generation_llm_customization": {
+				Type:     schema.TypeList,
+				Optional: true,
+				Computed: true,
+				MaxItems: 1,
+				MinItems: 1,
+				Elem: &schema.Resource{
+					Schema: map[string]*schema.Schema{
+						// Required
+
+						// Optional
+						"preamble_override": {
+							Type:     schema.TypeString,
+							Optional: true,
+							Computed: true,
+						},
+
+						// Computed
+					},
+				},
 			},
 			"knowledge_base_ids": {
 				Type:     schema.TypeList,
@@ -201,6 +222,17 @@ func (s *GenerativeAiAgentAgentResourceCrud) Create() error {
 
 	if freeformTags, ok := s.D.GetOkExists("freeform_tags"); ok {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
+	}
+
+	if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
+		if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
+			tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GenerationLlmCustomization = &tmp
+		}
 	}
 
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
@@ -418,6 +450,17 @@ func (s *GenerativeAiAgentAgentResourceCrud) Update() error {
 		request.FreeformTags = tfresource.ObjectMapToStringMap(freeformTags.(map[string]interface{}))
 	}
 
+	if generationLlmCustomization, ok := s.D.GetOkExists("generation_llm_customization"); ok {
+		if tmpList := generationLlmCustomization.([]interface{}); len(tmpList) > 0 {
+			fieldKeyFormat := fmt.Sprintf("%s.%d.%%s", "generation_llm_customization", 0)
+			tmp, err := s.mapToLlmCustomization(fieldKeyFormat)
+			if err != nil {
+				return err
+			}
+			request.GenerationLlmCustomization = &tmp
+		}
+	}
+
 	if knowledgeBaseIds, ok := s.D.GetOkExists("knowledge_base_ids"); ok {
 		interfaces := knowledgeBaseIds.([]interface{})
 		tmp := make([]string, len(interfaces))
@@ -486,6 +529,12 @@ func (s *GenerativeAiAgentAgentResourceCrud) SetData() error {
 
 	s.D.Set("freeform_tags", s.Res.FreeformTags)
 
+	if s.Res.GenerationLlmCustomization != nil {
+		s.D.Set("generation_llm_customization", []interface{}{LlmCustomizationToMap(s.Res.GenerationLlmCustomization)})
+	} else {
+		s.D.Set("generation_llm_customization", nil)
+	}
+
 	s.D.Set("knowledge_base_ids", s.Res.KnowledgeBaseIds)
 
 	if s.Res.LifecycleDetails != nil {
@@ -534,6 +583,10 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 
 	result["freeform_tags"] = obj.FreeformTags
 
+	if obj.GenerationLlmCustomization != nil {
+		result["generation_llm_customization"] = []interface{}{LlmCustomizationToMap(obj.GenerationLlmCustomization)}
+	}
+
 	if obj.Id != nil {
 		result["id"] = string(*obj.Id)
 	}
@@ -560,6 +613,27 @@ func AgentSummaryToMap(obj oci_generative_ai_agent.AgentSummary) map[string]inte
 
 	if obj.WelcomeMessage != nil {
 		result["welcome_message"] = string(*obj.WelcomeMessage)
+	}
+
+	return result
+}
+
+func (s *GenerativeAiAgentAgentResourceCrud) mapToLlmCustomization(fieldKeyFormat string) (oci_generative_ai_agent.LlmCustomization, error) {
+	result := oci_generative_ai_agent.LlmCustomization{}
+
+	if preambleOverride, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "preamble_override")); ok {
+		tmp := preambleOverride.(string)
+		result.PreambleOverride = &tmp
+	}
+
+	return result, nil
+}
+
+func LlmCustomizationToMap(obj *oci_generative_ai_agent.LlmCustomization) map[string]interface{} {
+	result := map[string]interface{}{}
+
+	if obj.PreambleOverride != nil {
+		result["preamble_override"] = string(*obj.PreambleOverride)
 	}
 
 	return result

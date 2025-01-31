@@ -56,8 +56,9 @@ var (
 		"freeform_tags": acctest.Representation{RepType: acctest.Optional, Create: map[string]string{"Department": "Finance"}, Update: map[string]string{"Department": "Accounting"}},
 	}
 	GenerativeAiAgentDataSourceDataSourceConfigRepresentation = map[string]interface{}{
-		"data_source_config_type": acctest.Representation{RepType: acctest.Required, Create: `OCI_OBJECT_STORAGE`},
-		"object_storage_prefixes": acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentDataSourceDataSourceConfigObjectStoragePrefixesRepresentation},
+		"data_source_config_type":      acctest.Representation{RepType: acctest.Required, Create: `OCI_OBJECT_STORAGE`},
+		"object_storage_prefixes":      acctest.RepresentationGroup{RepType: acctest.Required, Group: GenerativeAiAgentDataSourceDataSourceConfigObjectStoragePrefixesRepresentation},
+		"should_enable_multi_modality": acctest.Representation{RepType: acctest.Optional, Create: `false`, Update: `true`},
 	}
 	GenerativeAiAgentDataSourceDataSourceConfigObjectStoragePrefixesRepresentation = map[string]interface{}{
 		"bucket":    acctest.Representation{RepType: acctest.Required, Create: `${var.bucket_env}`},
@@ -112,7 +113,6 @@ func TestGenerativeAiAgentDataSourceResource_basic(t *testing.T) {
 				resource.TestCheckResourceAttr(resourceName, "data_source_config.0.object_storage_prefixes.0.bucket", bucketName),
 				resource.TestCheckResourceAttr(resourceName, "data_source_config.0.object_storage_prefixes.0.namespace", bucketNamespace),
 				resource.TestCheckResourceAttrSet(resourceName, "knowledge_base_id"),
-
 				func(s *terraform.State) (err error) {
 					resId, err = acctest.FromInstanceState(s, resourceName, "id")
 					return err

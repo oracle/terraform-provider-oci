@@ -10,8 +10,6 @@ description: |-
 # oci_generative_ai_agent_agent_endpoint
 This resource provides the Agent Endpoint resource in Oracle Cloud Infrastructure Generative Ai Agent service.
 
-**CreateAgentEndpoint**
-
 Creates an endpoint.
 
 
@@ -58,9 +56,7 @@ The following arguments are supported:
 * `description` - (Optional) (Updatable) An optional description of the endpoint.
 * `display_name` - (Optional) (Updatable) A user-friendly name. Does not have to be unique, and it's changeable. Avoid entering confidential information.
 * `freeform_tags` - (Optional) (Updatable) Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
-* `session_config` - (Optional) (Updatable) **SessionConfig**
-
-	Session Configuration on AgentEndpoint. 
+* `session_config` - (Optional) (Updatable) Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - (Optional) (Updatable) The session will become inactive after this timeout.
 * `should_enable_citation` - (Optional) (Updatable) Whether to show citations in the chat result.
 * `should_enable_session` - (Optional) Whether or not to enable Session-based chat.
@@ -85,9 +81,7 @@ The following attributes are exported:
 * `freeform_tags` - Free-form tags for this resource. Each tag is a simple key-value pair with no predefined name, type, or namespace. For more information, see [Resource Tags](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/resourcetags.htm).  Example: `{"Department": "Finance"}` 
 * `id` - The [OCID](https://docs.cloud.oracle.com/iaas/Content/General/Concepts/identifiers.htm) of the endpoint.
 * `lifecycle_details` - A message that describes the current state of the endpoint in more detail. For example, can be used to provide actionable information for a resource in the Failed state. 
-* `session_config` - **SessionConfig**
-
-	Session Configuration on AgentEndpoint. 
+* `session_config` - Session Configuration on AgentEndpoint. 
 	* `idle_timeout_in_seconds` - The session will become inactive after this timeout.
 * `should_enable_citation` - Whether to show citations in the chat result.
 * `should_enable_session` - Whether or not to enable Session-based chat.
