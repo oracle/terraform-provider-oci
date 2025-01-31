@@ -19,7 +19,7 @@ import (
 type ChangeRetentionDetails struct {
 
 	// Indicates the number of months the audit records will be stored online in Oracle Data Safe audit repository for
-	// immediate reporting and analysis. Minimum: 1; Maximum:12 months
+	// immediate reporting and analysis. Minimum: 1; Maximum: 12 months
 	OnlineMonths *int `mandatory:"false" json:"onlineMonths"`
 
 	// Indicates the number of months the audit records will be stored offline in the Data Safe audit archive.

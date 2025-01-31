@@ -21,7 +21,7 @@ type MaskingAnalyticsDimensions struct {
 	// The OCID of the target database.
 	TargetId *string `mandatory:"false" json:"targetId"`
 
-	// The OCID of the masking policy..
+	// The OCID of the masking policy.
 	PolicyId *string `mandatory:"false" json:"policyId"`
 }
 

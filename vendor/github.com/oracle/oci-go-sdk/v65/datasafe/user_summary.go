@@ -16,7 +16,8 @@ import (
 )
 
 // UserSummary The summary of information about the database user. It includes details such as user type, account status,
-// last login time, user creation time, authentication type, user profile, and time and date of the last password change.
+// last login time, user creation time, authentication type, user profile, and time and date of the last password change and
+// the date and time of the expiration of the password.
 // It also contains the user category derived from these user details, as well as granted privileges.
 type UserSummary struct {
 
@@ -49,6 +50,9 @@ type UserSummary struct {
 
 	// The date and time the user password was last changed, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
 	TimePasswordChanged *common.SDKTime `mandatory:"false" json:"timePasswordChanged"`
+
+	// The date and time the user's password will expire, in the format defined by RFC3339 (https://tools.ietf.org/html/rfc3339).
+	TimePasswordExpiry *common.SDKTime `mandatory:"false" json:"timePasswordExpiry"`
 
 	// The user type, which can be a combination of the following:
 	// 'Admin Privileged': The user has administrative privileges.
