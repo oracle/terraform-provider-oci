@@ -54,6 +54,7 @@ The following attributes are exported:
 	* `nsg_ids` - A list of the OCIDs of the network security groups (NSGs) to apply to the cluster endpoint. For more information about NSGs, see [NetworkSecurityGroup](https://docs.cloud.oracle.com/iaas/api/#/en/iaas/20160918/NetworkSecurityGroup/). 
 	* `subnet_id` - The OCID of the regional subnet in which to place the Cluster endpoint.
 * `endpoints` - Endpoints served up by the cluster masters.
+	* `ipv6endpoint` - The IPv6 networking Kubernetes API server endpoint.
 	* `kubernetes` - The non-native networking Kubernetes API server endpoint.
 	* `private_endpoint` - The private native networking Kubernetes API server endpoint.
 	* `public_endpoint` - The public native networking Kubernetes API server endpoint, if one was requested.
@@ -86,6 +87,7 @@ The following attributes are exported:
 		* `is_tiller_enabled` - Whether or not to enable the Tiller add-on.
 	* `admission_controller_options` - Configurable cluster admission controllers
 		* `is_pod_security_policy_enabled` - Whether or not to enable the Pod Security Policy admission controller.
+	* `ip_families` - IP family to use for single stack or define the order of IP families for dual-stack
 	* `kubernetes_network_config` - Network configuration for Kubernetes.
 		* `pods_cidr` - The CIDR block for Kubernetes pods. Optional, defaults to 10.244.0.0/16.
 		* `services_cidr` - The CIDR block for Kubernetes services. Optional, defaults to 10.96.0.0/16.

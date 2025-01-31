@@ -230,6 +230,15 @@ func ContainerengineClusterResource() *schema.Resource {
 								},
 							},
 						},
+						"ip_families": {
+							Type:     schema.TypeList,
+							Optional: true,
+							Computed: true,
+							ForceNew: true,
+							Elem: &schema.Schema{
+								Type: schema.TypeString,
+							},
+						},
 						"kubernetes_network_config": {
 							Type:     schema.TypeList,
 							Optional: true,
@@ -463,6 +472,10 @@ func ContainerengineClusterResource() *schema.Resource {
 						// Optional
 
 						// Computed
+						"ipv6endpoint": {
+							Type:     schema.TypeString,
+							Computed: true,
+						},
 						"kubernetes": {
 							Type:     schema.TypeString,
 							Computed: true,
@@ -1194,6 +1207,15 @@ func (s *ContainerengineClusterResourceCrud) mapToAddOnOptions(fieldKeyFormat st
 	return result, nil
 }
 
+// Helper function to convert []string to []containerengine.ClusterCreateOptionsIpFamiliesEnum
+func convertToClusterCreateOptionsIpFamiliesEnum(input []string) []oci_containerengine.ClusterCreateOptionsIpFamiliesEnum {
+	output := make([]oci_containerengine.ClusterCreateOptionsIpFamiliesEnum, len(input))
+	for i, v := range input {
+		output[i] = oci_containerengine.ClusterCreateOptionsIpFamiliesEnum(v)
+	}
+	return output
+}
+
 func AddOnOptionsToMap(obj *oci_containerengine.AddOnOptions) map[string]interface{} {
 	result := map[string]interface{}{}
 
@@ -1251,6 +1273,19 @@ func (s *ContainerengineClusterResourceCrud) mapToClusterCreateOptions(fieldKeyF
 				return result, fmt.Errorf("unable to convert admission_controller_options, encountered error: %v", err)
 			}
 			result.AdmissionControllerOptions = &tmp
+		}
+	}
+
+	if ipFamilies, ok := s.D.GetOkExists(fmt.Sprintf(fieldKeyFormat, "ip_families")); ok {
+		interfaces := ipFamilies.([]interface{})
+		tmp := make([]string, len(interfaces))
+		for i := range interfaces {
+			if interfaces[i] != nil {
+				tmp[i] = interfaces[i].(string)
+			}
+		}
+		if len(tmp) != 0 || s.D.HasChange(fmt.Sprintf(fieldKeyFormat, "ip_families")) {
+			result.IpFamilies = convertToClusterCreateOptionsIpFamiliesEnum(tmp)
 		}
 	}
 
@@ -1397,6 +1432,8 @@ func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) ma
 		result["admission_controller_options"] = []interface{}{AdmissionControllerOptionsToMap(obj.AdmissionControllerOptions)}
 	}
 
+	result["ip_families"] = obj.IpFamilies
+
 	if obj.KubernetesNetworkConfig != nil {
 		result["kubernetes_network_config"] = []interface{}{KubernetesNetworkConfigToMap(obj.KubernetesNetworkConfig)}
 	}
@@ -1424,6 +1461,10 @@ func ClusterCreateOptionsToMap(obj *oci_containerengine.ClusterCreateOptions) ma
 
 func ClusterEndpointsToMap(obj *oci_containerengine.ClusterEndpoints) map[string]interface{} {
 	result := map[string]interface{}{}
+
+	if obj.Ipv6Endpoint != nil {
+		result["ipv6endpoint"] = string(*obj.Ipv6Endpoint)
+	}
 
 	if obj.Kubernetes != nil {
 		result["kubernetes"] = string(*obj.Kubernetes)
